@@ -153,9 +153,15 @@ final readonly class ManifestValidator
         $path = $this->projectDir.$reference;
         $real = realpath($path);
         $root = realpath($this->projectDir);
-        if (false === $real || false === $root || (!str_starts_with($real, $root.'/') && $real !== $root)) {
+        if (false === $real || false === $root) {
             throw new ValidationException(sprintf('Artifact cannot be resolved: %s.', $reference));
         }
+
+        $rootPrefix = rtrim($root, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+        if (!str_starts_with($real, $rootPrefix) && $real !== $root) {
+            throw new ValidationException(sprintf('Artifact cannot be resolved: %s.', $reference));
+        }
+
         return $real;
     }
 
