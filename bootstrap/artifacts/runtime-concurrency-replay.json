@@ -1,0 +1,1 @@
+{"schema":"imperium.runtime-concurrency-replay/v1","version":"1.0.0","locking":"exclusive-instance-file-lock","commit":"atomic-rename","idempotency":"transition-and-identical-input","generation":"monotonic"}

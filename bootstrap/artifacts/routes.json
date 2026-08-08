@@ -1,0 +1,1 @@
+{"schema":"imperium.primordial-routes/v1","version":"1.0.0","charter_generation":"charter-development-1","routes":[{"from":"secretariat.secretary","to":"castellan.rector"},{"from":"castellan.rector","to":"secretariat.secretary"}],"default":"closed"}
