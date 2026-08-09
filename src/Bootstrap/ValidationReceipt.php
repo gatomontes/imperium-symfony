@@ -12,6 +12,7 @@ final readonly class ValidationReceipt
         public string $artifactSetDigest,
         public string $launcherDigest,
         public string $masterMasonDigest,
+        public array $successionCommission,
         public array $manifest,
     ) {
     }
