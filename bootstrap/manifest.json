@@ -1,6 +1,6 @@
 {
   "schema": "imperium.bootstrap-manifest/v1",
-  "manifest_id": "5b5a4f4b56f167d536901e4bf7053957ca9a3f91273d89f852ac4995fb327dff",
+  "manifest_id": "6665170ff8a24a76e3ece5e3c9934a8c6385eff74bf19f2ebda72642d864ba40",
   "unsigned_payload": {
     "charter_generation": "charter-development-1",
     "instance_class": "development",
@@ -11,8 +11,8 @@
       "accepted_signers": [
         {
           "key_id": "imperator-development-root-1",
-          "public_key": "7lGTUGdxL1AdnuQFt/w5yxl5N/aKiF9ofA/Z2VOdRyE=",
-          "public_key_digest": "ed339a09fedcd9bc077cb034d6f5a7b1287189794593aaefb78cffbdf1d19520"
+          "public_key": "1AkBJ/9z0WvjuTAOYqQowQxnEXVDz+nbcV7WL3fN92o=",
+          "public_key_digest": "31cbbff2f38262a7bda92aaecee865c2a1668efb5b980f47895630b7e6739edf"
         }
       ],
       "revocation_snapshot": {
@@ -66,6 +66,16 @@
       }
     },
     "primordial": {
+      "constitutional_doctrine": {
+        "artifact": "/imperium-doctrine.md",
+        "version": "1.0.0",
+        "digest": "a64ef4e6e66667aff35ac3600d71d5832f3484f4eb1ce034e08951391d8bace8"
+      },
+      "mission_planning_contract": {
+        "artifact": "/contracts/mission-planning.md",
+        "version": "1.0.0",
+        "digest": "6875934bdbbdba0814bcde44781dc828e4a2042bb34f889c14f0a3c4d07d4be6"
+      },
       "charter": {
         "artifact": "/bootstrap/artifacts/charter.json",
         "version": "1.0.0",
@@ -97,12 +107,12 @@
         "secretariat": {
           "artifact": "/offices/secretariat/doctrine.md",
           "version": "1.0.0",
-          "digest": "992bafd33165771606897c1fe336c08077e8364769a4058fe1b4819a3afce61c"
+          "digest": "885852f90c64d86cd3eb156f315a8c2173f19d8e01854d399d3f54ef76eae062"
         },
         "castellan": {
           "artifact": "/offices/castellan/doctrine.md",
           "version": "1.0.0",
-          "digest": "88a3159fd7975e3b52ae5d082c037fdb67a292d19ec2c1dd2bbfbf011e1006ca"
+          "digest": "5bf383f56c4b5a46489359596806a3db4eb1994f7fa12fcee84524d83e4ad1b9"
         }
       },
       "seats": {
@@ -267,8 +277,8 @@
     {
       "key_id": "imperator-development-root-1",
       "algorithm": "ed25519",
-      "signed_payload_digest": "5b5a4f4b56f167d536901e4bf7053957ca9a3f91273d89f852ac4995fb327dff",
-      "signature": "oWyweBh/FIFTSXwiQVQbVwjiqpr2aUgCyFJbnhhpI+xiEo6uD01GdeNSXc3JdOf6FKFDlaySsAl/U7Xq0MFhCQ=="
+      "signed_payload_digest": "6665170ff8a24a76e3ece5e3c9934a8c6385eff74bf19f2ebda72642d864ba40",
+      "signature": "DxWrv0ddmR3VTuUBxY1sgswsmMayA9LxPTVn3N24E7RYFeZd8BRYPnGmNT8CLshH5sY/LYyhiLnWdZSAGJkQCQ=="
     }
   ]
 }

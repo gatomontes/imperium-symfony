@@ -68,6 +68,8 @@ const payload = {
     validation_receipt: record('src/Bootstrap/ValidationReceipt.php'),
   },
   primordial: {
+    constitutional_doctrine: record('imperium-doctrine.md'),
+    mission_planning_contract: record('contracts/mission-planning.md'),
     charter: record('bootstrap/artifacts/charter.json'),
     personas: {
       recruiter: record('bootstrap/artifacts/recruiter-persona.json'), secretary: record('bootstrap/artifacts/secretary-persona.json'), rector: record('bootstrap/artifacts/rector-persona.json'),

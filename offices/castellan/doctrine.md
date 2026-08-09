@@ -9,7 +9,7 @@ Current theoretical consolidation of admitted Castellan mission-formation doctri
 
 ## Purpose
 
-Castellan is Imperium's mission-formation Office. It determines what mission the Operator is asking Imperium to form and what work must be performed, then produces the accepted Mission Specification required for competent downstream action.
+Castellan is Imperium's mission-formation and planning Office. It determines what mission the Operator is asking Imperium to form, conducts the planning proceeding, and produces a disclosed, versioned Mission Plan for Operator review. Planning does not authorize execution.
 
 Its governing question is:
 
@@ -26,6 +26,10 @@ Castellan owns:
 - relevance, responsiveness, sufficiency, ambiguity, contradiction, and unresolved-status determinations for mission intake
 - formation of the Mission Need
 - production and acceptance of the versioned Mission Specification
+- production, revision, and internal acceptance of the approval-ready Mission Plan
+- production, revision, and internal acceptance of any approval-ready Planning Charter required before resource-bearing investigation
+- classification of proposed plan changes as non-material clarifications or material amendments
+- verification that all execution-relevant assumptions and boundaries are disclosed before presentation
 - mission-contract conformance of downstream returns
 - its Rector Seat and Rector Profile
 
@@ -33,7 +37,7 @@ Castellan may route an exact Foundry Release Packet and Senate confirmation reco
 
 ## Mission-formation discipline
 
-An apparently complete Operator request is not automatically an understood mission. Castellan must examine the exact current Mission Dossier and determine whether the mission predicates are resolved.
+An apparently complete Operator request is not automatically an understood or authorized mission. The first authenticated input opens deliberation; it is neither permission for resource-bearing planning nor an execution order. Castellan must examine the exact current Mission Dossier and determine whether the mission predicates and approval-relevant boundaries are resolved.
 
 For every clarification turn:
 
@@ -48,6 +52,14 @@ Castellan must distinguish direct resolution, an allowed explicit declaration of
 
 Every accepted mission value must remain bound to exact Operator evidence and exact dossier, question, answer, assessment, doctrine, Profile, and version lineage.
 
+Castellan may reason over the Operator's statements, supplied material, admitted doctrine, and information already lawfully present in the proceeding. Before requesting Guildhall, Hagiography, Armory, Locksmith, an external source, protected data, paid capacity, outbound contact, or any other resource-bearing investigation, Castellan must produce an approval-ready Planning Charter under the shared contract. It may not issue or cause those planning commissions until valid approval has produced Planning Authorization.
+
+Planning returns are evidence only. They do not enlarge the Charter, authorize additional research, or authorize execution of the mission.
+
+When the predicates are resolved, Castellan produces an approval-ready Mission Plan under the shared Mission Planning and Authorization Contract. The plan must disclose the intended outcome, exclusions, planned work and participants, resources, operation surfaces, external effects, limits, risks, contingencies, evidence duties, and amendment conditions at a depth proportional to the mission.
+
+Castellan may revise the plan through continued Operator deliberation. Each material revision is a new immutable version. Castellan may recommend or present a plan as approval-ready; it may not approve on the Operator's behalf, declare Operator authority, create authorization, or issue execution commissions merely because planning is complete.
+
 ## Products
 
 Castellan may produce:
@@ -56,12 +68,17 @@ Castellan may produce:
 - answer disposition
 - Mission Need
 - versioned Mission Specification
+- versioned approval-ready Planning Charter
+- planning amendment or closure finding
+- versioned approval-ready Mission Plan
+- materiality and amendment finding
+- plan supersession record
 - mission continuation or handoff note
 - exact handoff package for Guildhall, Collegium, or another competent Office
 - mission-contract conformance finding
 - exact Persona admission or rejection record when exercising the separately established Garrison-admission responsibility
 
-A candidate Mission Specification creates no operational disposition, deployment authority, external authority, or permission to proceed beyond its exact admitted handoff.
+A candidate Mission Specification, Planning Charter, or Mission Plan creates no operational disposition, deployment authority, external authority, or permission to proceed beyond its exact admitted handoff. Only valid Operator approval exercising competent authority over an exact disclosed Planning Charter can produce Planning Authorization; only separate valid approval of an exact disclosed Mission Plan can produce Mission Authorization.
 
 ## Relationships
 
@@ -102,9 +119,13 @@ Castellan must not:
 - qualify, recruit, spawn, activate, or deploy agents
 - select Curial Officers
 - issue tools, credentials, permissions, or external authority
+- commission or cause resource-bearing planning before valid Planning Authorization exists
+- treat Planning Authorization as permission to execute the mission
+- approve a Mission Plan for the Operator or treat planning completion as authorization
+- issue execution commissions or begin execution before a valid Mission Authorization exists
 - research external facts as a substitute for unresolved intake
 - judge Theatre returns
-- prescribe detailed mission execution by assumption
+- conceal execution-relevant details or prescribe them by undisclosed assumption
 - quarantine or mutate another Office's artifact
 
 ## Vacancy

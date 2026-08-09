@@ -56,6 +56,27 @@ Possessing cognition, information, a Profile, a Persona, a tool, a credential, a
 
 Vacancy, missing evidence, silence, technical success, and unresolved review grant no authority.
 
+#### Authority, approval, and authorization remain distinct
+
+```text
+Authority      = legitimate power already held within an exact jurisdiction
+Approval       = an attributable decision concerning an exact object
+Authorization  = bounded permission produced when valid approval exercises
+                 competent authority over that object
+```
+
+Approval does not create authority. Authority does not imply approval. An approval has authorizing effect only when the approver is authenticated, holds competent authority over the exact object and scope, and explicitly exercises that authority under the applicable contract.
+
+Operator intent opens deliberation; it authorizes neither resource-bearing planning nor mission execution. Imperium may clarify against material already lawfully present in the proceeding. Before planning consumes resources, invokes restricted tools, releases credentials, accesses protected data, queries external systems, commissions other Offices, spends money, or creates external effects, the competent Operator must validly approve the exact disclosed Planning Charter version. That produces Planning Authorization only.
+
+A Mission Plan becomes authorized only when the competent Operator separately approves its exact disclosed version. That produces Mission Authorization only. Each authorization is bound to its own version, declared scope, limits, resources, destinations, cost and time bounds, contingencies, evidence obligations, and expiry or revocation conditions. Planning Authorization never leaks, merges, or rolls forward into Mission Authorization.
+
+Planning authority is not execution authority. A charter or plan author, reviewer, custodian, presenter, or approver does not thereby become an investigator or executor. An authorized Charter or Plan does not itself act: Runtime may derive exact, least-necessary commissions from it only through the competent path for its phase.
+
+Delegation cannot enlarge its source. Every derived commission must cite exactly one applicable authorization object and approval, identify one holder and bounded purpose, expose only necessary resources and destinations, declare the expected payload and termination conditions, and expire or be consumed as specified. A planning commission cannot execute the mission. Evidence and payload may return without carrying the operative's authority with them.
+
+A material amendment creates a new authorization-object version. Approval of one version never floats to another object, version, or phase. Affected planning or execution pauses until the new version receives valid approval from competent authority; unaffected work may continue only when the governing Charter or Plan explicitly permits that separation.
+
 #### Runtime identity and governance binding
 
 The operative's identity does not contain, originate, or interpret governance. Governance is not a personality trait and may not be entrusted to the operative's self-compliance.
@@ -129,6 +150,8 @@ Every disposition must identify the exact version, governing authority, and supp
 A material change to doctrine, purpose, data, cognition, Profile, Persona, tools, credentials, permissions, intended use, implementation, or operating conditions must identify the previously admitted authority affected.
 
 Previous authority does not automatically survive reassessment. Competent authority must explicitly determine the interim and resulting disposition, such as continuation, restriction, interruption, reauthorization, replacement, or retirement.
+
+For a Planning Charter or Mission Plan, any change to inquiry, outcome, scope, Offices, resources, tools, credentials, data, recipients, destinations, cost or time bounds, contingencies, evidence obligations, or material assumptions requires an explicit materiality determination. A material change requires a distinct version and fresh valid approval before affected planning or execution resumes.
 
 ### XII. Failure is bounded
 
