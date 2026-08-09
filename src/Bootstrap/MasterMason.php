@@ -10,7 +10,7 @@ final readonly class MasterMason
     {
     }
 
-    public function executeThroughOfficeActivation(ValidationReceipt $receipt, string $instanceId): array
+    public function executeThroughOfficerBinding(ValidationReceipt $receipt, string $instanceId): array
     {
         return $this->store->locked(function () use ($receipt, $instanceId): array {
             $record = $this->store->read();
@@ -49,9 +49,96 @@ final readonly class MasterMason
             if (BootstrapState::TriadAssembled === BootstrapState::from($record['state'])) {
                 $record = $this->activatePrimordialOffices($record, $receipt, $instanceId);
             }
+            if (BootstrapState::OfficesActive === BootstrapState::from($record['state'])) {
+                $record = $this->bindPrimordialOfficers($record, $instanceId);
+            }
 
             return $record;
         });
+    }
+
+    private function bindPrimordialOfficers(array $record, string $instanceId): array
+    {
+        $t05 = $this->lastSuccessfulOutput($record, 'T05');
+        $t06 = $this->lastSuccessfulOutput($record, 'T06');
+        $packets = $t05['delivery_packets'] ?? null;
+        $reservations = $t05['seat_reservations'] ?? null;
+        $runtimes = $t06['runtimes'] ?? null;
+        if (!is_array($packets)
+            || !is_array($reservations)
+            || !is_array($runtimes)
+            || true !== ($t05['atomic_pair'] ?? null)
+            || true !== ($t06['activation_atomic'] ?? null)
+        ) {
+            throw new \RuntimeException('B60_BINDING_INPUT_MISMATCH: atomic T05/T06 inputs are absent.');
+        }
+
+        $specifications = [
+            'secretary' => ['seat' => 'secretariat.secretary', 'office' => 'secretariat'],
+            'rector' => ['seat' => 'castellan.rector', 'office' => 'castellan'],
+        ];
+        $bindings = [];
+        $boundRuntimes = $runtimes;
+        foreach ($specifications as $role => $specification) {
+            $packet = $packets[$role] ?? null;
+            $reservation = $reservations[$role] ?? null;
+            $runtime = $runtimes[$specification['office']] ?? null;
+            if (!is_array($packet)
+                || !is_array($reservation)
+                || !is_array($runtime)
+                || true !== ($packet['sealed'] ?? null)
+                || 'qualified-unbound' !== ($packet['candidate']['status'] ?? null)
+                || $specification['seat'] !== ($packet['candidate']['target_seat'] ?? null)
+                || 1 !== ($packet['candidate']['target_occupancy_generation'] ?? null)
+                || $specification['seat'] !== ($reservation['seat'] ?? null)
+                || 0 !== ($reservation['expected_generation'] ?? null)
+                || 'HELD' !== ($reservation['status'] ?? null)
+                || $instanceId.'.office.'.$specification['office'] !== ($runtime['runtime_id'] ?? null)
+                || 'active-but-unavailable' !== ($runtime['mode'] ?? null)
+                || false !== ($runtime['addressable'] ?? null)
+                || $specification['seat'] !== ($runtime['resident_seat'] ?? null)
+                || !array_key_exists('occupant', $runtime)
+                || null !== $runtime['occupant']
+            ) {
+                throw new \RuntimeException('B61_BINDING_PRECONDITION_FAILED: '.$role.' binding inputs are invalid.');
+            }
+
+            $packetDigest = $packet['packet_digest'] ?? null;
+            $digestiblePacket = $packet;
+            unset($digestiblePacket['packet_digest']);
+            if (!is_string($packetDigest)
+                || !hash_equals($packetDigest, hash('sha256', CanonicalJson::encode($digestiblePacket)))
+                || !hash_equals($packetDigest, (string) ($t06['delivery_packets_preserved'][$role] ?? ''))
+            ) {
+                throw new \RuntimeException('B62_PACKET_SEAL_INVALID: '.$role.' packet is not the preserved T05 packet.');
+            }
+
+            $occupant = [
+                'manifestation_id' => $packet['candidate']['manifestation_id'],
+                'seat' => $specification['seat'],
+                'occupancy_generation' => 1,
+                'status' => 'bound-inactive',
+                'source_packet_digest' => $packetDigest,
+            ];
+            $boundRuntimes[$specification['office']]['occupant'] = $occupant;
+            $boundRuntimes[$specification['office']]['mode'] = 'active-with-inactive-occupant';
+            $boundRuntimes[$specification['office']]['addressable'] = false;
+            $bindings[$role] = [
+                'seat' => $specification['seat'],
+                'prior_occupancy_generation' => 0,
+                'occupancy_generation' => 1,
+                'occupant' => $occupant,
+                'packet_disposition' => 'consumed-by-binding',
+            ];
+        }
+
+        return $this->transition($record, 'T07', BootstrapState::TriadBoundInactive, [
+            'bindings' => $bindings,
+            'runtimes' => $boundRuntimes,
+            'binding_atomic' => true,
+            'officers_active' => false,
+            'offices_addressable' => false,
+        ]);
     }
 
     private function activatePrimordialOffices(array $record, ValidationReceipt $receipt, string $instanceId): array
