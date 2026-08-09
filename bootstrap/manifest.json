@@ -1,6 +1,6 @@
 {
   "schema": "imperium.bootstrap-manifest/v1",
-  "manifest_id": "313142a0cb99daa676dda8f89be9abc5d5087c6dc8a1f8b8685df7690c7d70d1",
+  "manifest_id": "39cd958097043d02c3ef6257b2fd7567f1b43df61f347cb494a47002804bfee3",
   "unsigned_payload": {
     "charter_generation": "charter-development-1",
     "instance_class": "development",
@@ -11,8 +11,8 @@
       "accepted_signers": [
         {
           "key_id": "imperator-development-root-1",
-          "public_key": "N7P7fSjAvcOknzqLS31lecUwjiirMucFckISR5P6FdA=",
-          "public_key_digest": "82b3372bd8dc7210044ebf77ac5b302395456618ffa01287ccdc76f3742bc6e0"
+          "public_key": "+YZwuEFEhgxDZwBdCT3kF7RYKQmSyIy8m46ZobOhoIs=",
+          "public_key_digest": "750fb0ff4a4666cece97529101623556a9858da8698d46d5642d89efd90793de"
         }
       ],
       "revocation_snapshot": {
@@ -25,19 +25,19 @@
     "launcher": {
       "artifact": "/src/Bootstrap/Launcher.php",
       "version": "1.0.0",
-      "digest": "bc2a1d5648ecf6828552bca62c0a397b38a81af0cc64c2bcb655d23bbafc0809"
+      "digest": "29b984d56558b314f71e008c384624ec7da0b019c343042a0796bb6bc81967ef"
     },
     "mastermason": {
       "artifact": "/src/Bootstrap/MasterMason.php",
       "version": "1.0.0",
-      "digest": "882d883786f59728210f7a26ff00adf6c59f223489ac2e01aff8da23a4c82b1d",
+      "digest": "3dae0b28dc0a0327ee8939fac320b9ecf2b8d97d383838f0b512ef19686b35cc",
       "compatible_charter_generation": "charter-development-1"
     },
     "runtime": {
       "bootstrap_state": {
         "artifact": "/src/Bootstrap/BootstrapState.php",
         "version": "1.0.0",
-        "digest": "3cf472a81ac4f94a08462103174f7bac23f597d8a5de078dfc4ceca5906b83c4"
+        "digest": "8d2c5e0b24c243bf866e8bb2786175d97705ef69de295ac14c96e919e3c2fb51"
       },
       "canonical_json": {
         "artifact": "/src/Bootstrap/CanonicalJson.php",
@@ -267,8 +267,8 @@
     {
       "key_id": "imperator-development-root-1",
       "algorithm": "ed25519",
-      "signed_payload_digest": "313142a0cb99daa676dda8f89be9abc5d5087c6dc8a1f8b8685df7690c7d70d1",
-      "signature": "ZXUdoSXyrMFjFsGwcaG0BtH6H7YlmnoGqH8ZcP4of3Ru1JB8mrrXMBQeFTCGL7+h89rWL5lsJPxMNDbgqDkhDA=="
+      "signed_payload_digest": "39cd958097043d02c3ef6257b2fd7567f1b43df61f347cb494a47002804bfee3",
+      "signature": "Ts3+tfCMJVeJnDLMgX6EMhceAX95fwsm4LxJMj5kTE33MYvV7iWOsM8YqzqMtqrLk+lXP8f3oDrF6liN/gCqAw=="
     }
   ]
 }
