@@ -14,4 +14,5 @@ enum BootstrapState: string
     case TriadAssembled = 'TRIAD_ASSEMBLED';
     case OfficesActive = 'OFFICES_ACTIVE';
     case TriadBoundInactive = 'TRIAD_BOUND_INACTIVE';
+    case RoutesVerified = 'ROUTES_VERIFIED';
 }
