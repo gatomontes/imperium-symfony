@@ -4,6 +4,11 @@ This directory defines machine-readable exchange contracts shared by Offices.
 The contracts do not create cognitive authority. They make the identity,
 lineage, state, and evidence required by doctrine structurally explicit.
 
+- [`mission-planning.md`](mission-planning.md) converts Operator intent into
+  separately disclosed and approved Planning Charter and Mission Plan phases;
+  it defines Planning Authorization, Mission Authorization, their distinct
+  commissions, amendment, and closure.
+
 - [`profile-artifact.md`](profile-artifact.md) defines the constitutional
   Profile artifact and lifecycle.
 - [`profile-artifact.schema.json`](profile-artifact.schema.json) validates the

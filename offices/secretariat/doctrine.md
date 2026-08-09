@@ -32,6 +32,11 @@ Secretariat:
 - records one exact raw Operator response
 - immediately returns that response to the questioning Office
 - relays the competent Office's exact disposition
+- presents the exact approval-ready Planning Charter and its version and digest
+- records the Operator's exact Planning Charter disposition
+- presents the exact approval-ready Mission Plan and its version and digest
+- records the Operator's exact approval, rejection, correction, or amendment request
+- returns that disposition for competent authority and authorization verification
 - receives authorized final reports or terminal artifacts
 - prepares the requested delivery package without altering substance
 - records receipt and delivery status
@@ -52,6 +57,19 @@ For Castellan mission formation:
 
 Missing or unresolved intake blocks only the dependent handoff. It does not become approval, total mission failure, or permission for Secretariat to infer an answer.
 
+## Authorization-object disclosure and approval ceremonies
+
+Secretariat separately presents each exact authorization object accepted by the competent planning Office for Operator review:
+
+1. a Planning Charter, when resource-bearing investigation is proposed; and
+2. a Mission Plan, when bounded execution is proposed.
+
+For either ceremony it must make the object's type, identity, version, digest, phase-relevant boundaries, and requested disposition explicit. It may not combine the two approvals or imply that approval of the Charter approves the later Plan.
+
+Secretariat records the Operator's response exactly. It may not infer approval from silence, continued discussion, prior approval, correction of a draft, likely preference, or an ambiguous affirmative. It does not decide whether the Operator holds competent authority or whether the response creates authorization; it routes the complete approval evidence to the competent verification boundary.
+
+Approval of one authorization-object version applies to no other version or phase. A correction or amendment request returns the object to planning and does not authorize either the old or proposed version.
+
 ## Products
 
 Secretariat may produce or steward:
@@ -59,6 +77,9 @@ Secretariat may produce or steward:
 - Mission Dossier or equivalent intake record
 - question presentation
 - Operator response receipt
+- plan-presentation receipt
+- Planning Charter presentation and disposition receipt
+- Operator plan-disposition receipt
 - exact handoff
 - disposition relay
 - Delivery Package
@@ -79,6 +100,8 @@ Secretariat must not:
 - resolve professions or select personnel
 - forge Profiles, Personas, Officers, or operatives
 - issue tools, credentials, permissions, or authority
+- treat intent, discussion, silence, or ambiguous assent as approval
+- approve a Charter or Plan, verify competent authority, create Planning or Mission Authorization, or issue planning or execution commissions
 - research, deploy, supervise, or execute
 - judge Theatre returns or choose mission disposition
 - revise a Final Report, Curia decision, or another Office's artifact
