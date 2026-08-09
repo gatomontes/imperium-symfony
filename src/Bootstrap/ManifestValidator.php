@@ -35,6 +35,7 @@ final readonly class ManifestValidator
 
         $artifacts = $this->flattenArtifacts($payload);
         $observed = [];
+        $successionCommission = null;
         foreach ($artifacts as $identity => $record) {
             $this->validateArtifactRecord($identity, $record);
             $absolutePath = $this->resolve((string) $record['artifact']);
@@ -43,11 +44,17 @@ final readonly class ManifestValidator
                 throw new ValidationException(sprintf('Artifact digest mismatch: %s.', $identity));
             }
             $observed[$identity] = $digest;
+            if ('primordial.succession_commission' === $identity) {
+                $successionCommission = $this->decode($this->read($absolutePath), 'succession commission');
+            }
         }
         ksort($observed, SORT_STRING);
 
         $launcher = $payload['launcher'];
         $masterMason = $payload['mastermason'];
+        if (!is_array($successionCommission)) {
+            throw new ValidationException('Manifest is missing the Recruiter succession commission.');
+        }
 
         return new ValidationReceipt(
             $manifestId,
@@ -55,6 +62,7 @@ final readonly class ManifestValidator
             hash('sha256', CanonicalJson::encode($observed)),
             (string) $launcher['digest'],
             (string) $masterMason['digest'],
+            $successionCommission,
             $manifest,
         );
     }
@@ -102,7 +110,7 @@ final readonly class ManifestValidator
 
     private function flattenArtifacts(array $payload): array
     {
-        $required = ['launcher', 'mastermason', 'primordial', 'compatibility'];
+        $required = ['launcher', 'mastermason', 'runtime', 'primordial', 'compatibility'];
         foreach ($required as $key) {
             if (!array_key_exists($key, $payload)) {
                 throw new ValidationException(sprintf('Manifest is missing %s.', $key));
@@ -127,6 +135,7 @@ final readonly class ManifestValidator
                 $walk($value, $prefix.'.'.$key);
             }
         };
+        $walk($payload['runtime'], 'runtime');
         $walk($payload['primordial'], 'primordial');
         $walk($payload['compatibility'], 'compatibility');
 

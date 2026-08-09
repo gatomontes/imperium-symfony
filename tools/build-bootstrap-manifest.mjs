@@ -59,6 +59,14 @@ const payload = {
   },
   launcher: record('src/Bootstrap/Launcher.php'),
   mastermason: { ...record('src/Bootstrap/MasterMason.php'), compatible_charter_generation: 'charter-development-1' },
+  runtime: {
+    bootstrap_state: record('src/Bootstrap/BootstrapState.php'),
+    canonical_json: record('src/Bootstrap/CanonicalJson.php'),
+    manifest_validator: record('src/Bootstrap/ManifestValidator.php'),
+    state_store: record('src/Bootstrap/StateStore.php'),
+    validation_exception: record('src/Bootstrap/ValidationException.php'),
+    validation_receipt: record('src/Bootstrap/ValidationReceipt.php'),
+  },
   primordial: {
     charter: record('bootstrap/artifacts/charter.json'),
     personas: {
@@ -83,6 +91,7 @@ const payload = {
       provisional_recruiter: record('bootstrap/artifacts/provisional-recruiter-substrate.json'), ordinary_recruiter: record('bootstrap/artifacts/ordinary-recruiter-substrate.json'),
       secretary: record('bootstrap/artifacts/secretary-substrate.json'), rector: record('bootstrap/artifacts/rector-substrate.json'),
     },
+    succession_commission: record('bootstrap/artifacts/recruiter-succession-commission.json'),
     routes: record('bootstrap/artifacts/routes.json'),
     bootstrap_machine: record('bootstrap/artifacts/bootstrap-machine.json'),
     bootstrap_recovery_machine: record('bootstrap/artifacts/bootstrap-recovery-machine.json'),
