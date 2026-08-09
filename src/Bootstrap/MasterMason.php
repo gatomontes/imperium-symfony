@@ -10,7 +10,7 @@ final readonly class MasterMason
     {
     }
 
-    public function executeThroughOrdinaryRecruiter(ValidationReceipt $receipt, string $instanceId): array
+    public function executeThroughTriadAssembly(ValidationReceipt $receipt, string $instanceId): array
     {
         return $this->store->locked(function () use ($receipt, $instanceId): array {
             $record = $this->store->read();
@@ -43,9 +43,113 @@ final readonly class MasterMason
             if (BootstrapState::ProvisionalRecruiterBound === BootstrapState::from($record['state'])) {
                 $record = $this->installOrdinaryRecruiter($record, $receipt, $instanceId);
             }
+            if (BootstrapState::OrdinaryRecruiterBound === BootstrapState::from($record['state'])) {
+                $record = $this->assembleSecretaryAndRector($record, $receipt, $instanceId);
+            }
 
             return $record;
         });
+    }
+
+    private function assembleSecretaryAndRector(array $record, ValidationReceipt $receipt, string $instanceId): array
+    {
+        $t04 = $this->lastSuccessfulOutput($record, 'T04');
+        $recruiter = $t04['successor'] ?? null;
+        if (!is_array($recruiter)
+            || ($recruiter['seat'] ?? null) !== 'conscription.recruiter'
+            || ($recruiter['authority'] ?? null) !== 'ordinary-recruiter'
+            || ($recruiter['occupancy_generation'] ?? null) !== 2
+        ) {
+            throw new \RuntimeException('B40_RECRUITER_CHANGED: T04 occupancy no longer matches its receipt.');
+        }
+
+        $manifestCommissions = $receipt->manifest['unsigned_payload']['primordial']['assembly_commissions'] ?? null;
+        if (!is_array($manifestCommissions)) {
+            throw new \RuntimeException('B41_COMMISSION_MISMATCH: no pinned assembly commissions are present.');
+        }
+
+        $specifications = [
+            'secretary' => [
+                'commission' => $receipt->secretaryCommission,
+                'id' => 'primordial.secretary-assembly.1',
+                'seat' => 'secretariat.secretary',
+                'profile' => 'secretariat.secretary@1.0.0',
+                'substrate' => 'generic-officer.secretary@1.0.0',
+                'qualification' => 'qualification.secretariat.secretary.v1',
+            ],
+            'rector' => [
+                'commission' => $receipt->rectorCommission,
+                'id' => 'primordial.rector-assembly.1',
+                'seat' => 'castellan.rector',
+                'profile' => 'castellan.rector@1.0.0',
+                'substrate' => 'generic-officer.rector@1.0.0',
+                'qualification' => 'qualification.castellan.rector.v1',
+            ],
+        ];
+
+        $packets = [];
+        foreach ($specifications as $role => $specification) {
+            $commission = $specification['commission'];
+            $observed = [
+                $commission['id'] ?? null,
+                $commission['single_use'] ?? null,
+                $commission['charter_generation'] ?? null,
+                $commission['issuer']['seat'] ?? null,
+                $commission['issuer']['source_transition'] ?? null,
+                $commission['issuer']['occupancy_generation'] ?? null,
+                $commission['target']['seat'] ?? null,
+                $commission['target']['profile'] ?? null,
+                $commission['target']['substrate'] ?? null,
+                $commission['target']['qualification_contract'] ?? null,
+                $commission['constraints']['expected_occupancy_generation'] ?? null,
+                $commission['constraints']['paired_commission'] ?? null,
+                $commission['constraints']['same_attempt_required'] ?? null,
+            ];
+            $expected = [
+                $specification['id'], true, 'charter-development-1', 'conscription.recruiter',
+                'T04.successor', 2, $specification['seat'], $specification['profile'],
+                $specification['substrate'], $specification['qualification'], 0,
+                'secretary' === $role ? 'primordial.rector-assembly.1' : 'primordial.secretary-assembly.1', true,
+            ];
+            if ($observed !== $expected || !isset($manifestCommissions[$role]['digest'])) {
+                throw new \RuntimeException('B41_COMMISSION_MISMATCH: pinned '.$role.' commission contents are invalid.');
+            }
+
+            $candidateId = $instanceId.'.officer.'.$role.'.1';
+            $qualification = [
+                'commission_id' => $specification['id'],
+                'commission_digest' => $manifestCommissions[$role]['digest'],
+                'candidate_id' => $candidateId,
+                'profile' => $specification['profile'],
+                'substrate' => $specification['substrate'],
+                'qualification_contract' => $specification['qualification'],
+                'checks' => [
+                    'exact_profile_installation' => true,
+                    'declared_authority_restraint' => true,
+                    'version_and_provenance_preservation' => true,
+                ],
+            ];
+            $packet = [
+                'commission' => ['id' => $specification['id'], 'digest' => $manifestCommissions[$role]['digest'], 'consumed' => true],
+                'candidate' => ['manifestation_id' => $candidateId, 'target_seat' => $specification['seat'], 'target_occupancy_generation' => 1, 'status' => 'qualified-unbound'],
+                'qualification' => $qualification,
+                'qualification_digest' => hash('sha256', CanonicalJson::encode($qualification)),
+                'sealed' => true,
+            ];
+            $packet['packet_digest'] = hash('sha256', CanonicalJson::encode($packet));
+            $packets[$role] = $packet;
+        }
+
+        return $this->transition($record, 'T05', BootstrapState::TriadAssembled, [
+            'recruiter_manifestation_id' => $recruiter['manifestation_id'],
+            'assembly_attempt' => 1,
+            'seat_reservations' => [
+                'secretary' => ['seat' => 'secretariat.secretary', 'expected_generation' => 0, 'status' => 'HELD'],
+                'rector' => ['seat' => 'castellan.rector', 'expected_generation' => 0, 'status' => 'HELD'],
+            ],
+            'delivery_packets' => $packets,
+            'atomic_pair' => true,
+        ]);
     }
 
     private function installOrdinaryRecruiter(array $record, ValidationReceipt $receipt, string $instanceId): array

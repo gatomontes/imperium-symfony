@@ -92,6 +92,10 @@ const payload = {
       secretary: record('bootstrap/artifacts/secretary-substrate.json'), rector: record('bootstrap/artifacts/rector-substrate.json'),
     },
     succession_commission: record('bootstrap/artifacts/recruiter-succession-commission.json'),
+    assembly_commissions: {
+      secretary: record('bootstrap/artifacts/secretary-assembly-commission.json'),
+      rector: record('bootstrap/artifacts/rector-assembly-commission.json'),
+    },
     routes: record('bootstrap/artifacts/routes.json'),
     bootstrap_machine: record('bootstrap/artifacts/bootstrap-machine.json'),
     bootstrap_recovery_machine: record('bootstrap/artifacts/bootstrap-recovery-machine.json'),
