@@ -10,7 +10,7 @@ final readonly class MasterMason
     {
     }
 
-    public function executeThroughRouteVerification(ValidationReceipt $receipt, string $instanceId): array
+    public function executeThroughReadiness(ValidationReceipt $receipt, string $instanceId): array
     {
         return $this->store->locked(function () use ($receipt, $instanceId): array {
             $record = $this->store->read();
@@ -55,9 +55,115 @@ final readonly class MasterMason
             if (BootstrapState::TriadBoundInactive === BootstrapState::from($record['state'])) {
                 $record = $this->verifyPrimordialRoutes($record, $receipt, $instanceId);
             }
+            if (BootstrapState::RoutesVerified === BootstrapState::from($record['state'])) {
+                $record = $this->establishReadiness($record, $instanceId);
+            }
 
             return $record;
         });
+    }
+
+    private function establishReadiness(array $record, string $instanceId): array
+    {
+        $t07 = $this->lastSuccessfulOutput($record, 'T07');
+        $t08 = $this->lastSuccessfulOutput($record, 'T08');
+        $configuration = $t08['route_configuration'] ?? null;
+        $routes = is_array($configuration) ? ($configuration['routes'] ?? null) : null;
+        $runtimes = $t07['runtimes'] ?? null;
+        $expectedRoutes = [
+            ['from' => 'secretariat.secretary', 'to' => 'castellan.rector', 'enabled' => false],
+            ['from' => 'castellan.rector', 'to' => 'secretariat.secretary', 'enabled' => false],
+        ];
+        if (!is_array($configuration)
+            || !is_array($runtimes)
+            || 'verified-disabled' !== ($configuration['status'] ?? null)
+            || 'closed' !== ($configuration['default'] ?? null)
+            || $expectedRoutes !== $routes
+            || !is_string($t08['route_configuration_digest'] ?? null)
+            || !hash_equals($t08['route_configuration_digest'], hash('sha256', CanonicalJson::encode($configuration)))
+            || true !== ($t08['all_probes_passed'] ?? null)
+            || false !== ($t08['work_delivered'] ?? null)
+            || false !== ($t08['routes_enabled'] ?? null)
+            || false !== ($t08['officers_active'] ?? null)
+            || false !== ($t08['offices_addressable'] ?? null)
+        ) {
+            throw new \RuntimeException('B80_ROUTE_PROOF_INVALID: exact verified-disabled T08 route proof is absent.');
+        }
+
+        $probes = $t08['probes'] ?? null;
+        if (!is_array($probes) || 2 !== count($probes)) {
+            throw new \RuntimeException('B80_ROUTE_PROOF_INVALID: both primordial route probes are required.');
+        }
+        foreach ($probes as $index => $probe) {
+            $route = $expectedRoutes[$index];
+            if ('PASS' !== ($probe['result'] ?? null)
+                || false !== ($probe['work_delivered'] ?? null)
+                || $route['from'] !== ($probe['from'] ?? null)
+                || $route['to'] !== ($probe['to'] ?? null)
+                || [
+                    'exact-endpoint-resolution' => true,
+                    'bound-occupancy-generation' => true,
+                    'no-office-work-delivery' => true,
+                ] !== ($probe['checks'] ?? null)
+            ) {
+                throw new \RuntimeException('B80_ROUTE_PROOF_INVALID: primordial route probe does not authorize enablement.');
+            }
+        }
+
+        $readyRuntimes = $runtimes;
+        $verifiedEndpoints = $t08['endpoint_bindings'] ?? null;
+        if (!is_array($verifiedEndpoints)) {
+            throw new \RuntimeException('B80_ROUTE_PROOF_INVALID: verified endpoint bindings are absent.');
+        }
+        $specifications = [
+            'secretariat' => ['seat' => 'secretariat.secretary', 'public' => true],
+            'castellan' => ['seat' => 'castellan.rector', 'public' => false],
+        ];
+        foreach ($specifications as $office => $specification) {
+            $runtime = $readyRuntimes[$office] ?? null;
+            $occupant = is_array($runtime) ? ($runtime['occupant'] ?? null) : null;
+            if (!is_array($runtime)
+                || !is_array($occupant)
+                || $instanceId.'.office.'.$office !== ($runtime['runtime_id'] ?? null)
+                || 'active-with-inactive-occupant' !== ($runtime['mode'] ?? null)
+                || false !== ($runtime['addressable'] ?? null)
+                || $specification['seat'] !== ($runtime['resident_seat'] ?? null)
+                || $specification['seat'] !== ($occupant['seat'] ?? null)
+                || 1 !== ($occupant['occupancy_generation'] ?? null)
+                || 'bound-inactive' !== ($occupant['status'] ?? null)
+                || [
+                    'runtime_id' => $runtime['runtime_id'],
+                    'manifestation_id' => $occupant['manifestation_id'] ?? null,
+                    'occupancy_generation' => $occupant['occupancy_generation'],
+                    'status' => $occupant['status'],
+                ] !== ($verifiedEndpoints[$specification['seat']] ?? null)
+            ) {
+                throw new \RuntimeException('B81_ACTIVATION_PRECONDITION_FAILED: '.$office.' is not the exact inactive T07 runtime.');
+            }
+            $readyRuntimes[$office]['occupant']['status'] = 'active';
+            $readyRuntimes[$office]['mode'] = $specification['public'] ? 'operator-facing' : 'internal-active';
+            $readyRuntimes[$office]['addressable'] = $specification['public'];
+        }
+
+        $enabledRoutes = array_map(
+            static fn (array $route): array => ['from' => $route['from'], 'to' => $route['to'], 'enabled' => true],
+            $expectedRoutes,
+        );
+        $enabledConfiguration = $configuration;
+        $enabledConfiguration['status'] = 'enabled';
+        $enabledConfiguration['routes'] = $enabledRoutes;
+
+        return $this->transition($record, 'T09', BootstrapState::Ready, [
+            'route_configuration' => $enabledConfiguration,
+            'route_configuration_digest' => hash('sha256', CanonicalJson::encode($enabledConfiguration)),
+            'runtimes' => $readyRuntimes,
+            'routes_enabled' => true,
+            'officers_active' => true,
+            'operator_entrypoint' => 'secretariat.secretary',
+            'secretariat_addressable' => true,
+            'castellan_addressable' => false,
+            'activation_atomic' => true,
+        ]);
     }
 
     private function verifyPrimordialRoutes(array $record, ValidationReceipt $receipt, string $instanceId): array
