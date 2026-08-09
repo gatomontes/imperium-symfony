@@ -12,4 +12,5 @@ enum BootstrapState: string
     case ProvisionalRecruiterBound = 'PROVISIONAL_RECRUITER_BOUND';
     case OrdinaryRecruiterBound = 'ORDINARY_RECRUITER_BOUND';
     case TriadAssembled = 'TRIAD_ASSEMBLED';
+    case OfficesActive = 'OFFICES_ACTIVE';
 }

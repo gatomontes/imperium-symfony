@@ -18,6 +18,6 @@ final readonly class Launcher
     public function activate(string $instanceId): array
     {
         $receipt = $this->validate();
-        return $this->masterMason->executeThroughTriadAssembly($receipt, $instanceId);
+        return $this->masterMason->executeThroughOfficeActivation($receipt, $instanceId);
     }
 }

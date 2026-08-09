@@ -10,7 +10,7 @@ final readonly class MasterMason
     {
     }
 
-    public function executeThroughTriadAssembly(ValidationReceipt $receipt, string $instanceId): array
+    public function executeThroughOfficeActivation(ValidationReceipt $receipt, string $instanceId): array
     {
         return $this->store->locked(function () use ($receipt, $instanceId): array {
             $record = $this->store->read();
@@ -46,9 +46,114 @@ final readonly class MasterMason
             if (BootstrapState::OrdinaryRecruiterBound === BootstrapState::from($record['state'])) {
                 $record = $this->assembleSecretaryAndRector($record, $receipt, $instanceId);
             }
+            if (BootstrapState::TriadAssembled === BootstrapState::from($record['state'])) {
+                $record = $this->activatePrimordialOffices($record, $receipt, $instanceId);
+            }
 
             return $record;
         });
+    }
+
+    private function activatePrimordialOffices(array $record, ValidationReceipt $receipt, string $instanceId): array
+    {
+        $t05 = $this->lastSuccessfulOutput($record, 'T05');
+        $packets = $t05['delivery_packets'] ?? null;
+        $reservations = $t05['seat_reservations'] ?? null;
+        if (!is_array($packets) || !is_array($reservations) || true !== ($t05['atomic_pair'] ?? null)) {
+            throw new \RuntimeException('B51_PACKET_STALE: T05 did not produce an atomic delivery pair.');
+        }
+
+        $specifications = [
+            'secretary' => ['seat' => 'secretariat.secretary', 'office' => 'secretariat'],
+            'rector' => ['seat' => 'castellan.rector', 'office' => 'castellan'],
+        ];
+        foreach ($specifications as $role => $specification) {
+            $packet = $packets[$role] ?? null;
+            $reservation = $reservations[$role] ?? null;
+            if (!is_array($packet)
+                || !is_array($reservation)
+                || true !== ($packet['sealed'] ?? null)
+                || 'qualified-unbound' !== ($packet['candidate']['status'] ?? null)
+                || $specification['seat'] !== ($packet['candidate']['target_seat'] ?? null)
+                || 1 !== ($packet['candidate']['target_occupancy_generation'] ?? null)
+                || $specification['seat'] !== ($reservation['seat'] ?? null)
+                || 0 !== ($reservation['expected_generation'] ?? null)
+                || 'HELD' !== ($reservation['status'] ?? null)
+            ) {
+                throw new \RuntimeException('B51_PACKET_STALE: '.$role.' packet or Seat reservation is invalid.');
+            }
+
+            $packetDigest = $packet['packet_digest'] ?? null;
+            $digestiblePacket = $packet;
+            unset($digestiblePacket['packet_digest']);
+            if (!is_string($packetDigest)
+                || !hash_equals($packetDigest, hash('sha256', CanonicalJson::encode($digestiblePacket)))
+            ) {
+                throw new \RuntimeException('B51_PACKET_STALE: '.$role.' packet seal is invalid.');
+            }
+        }
+
+        $manifestOffices = $receipt->manifest['unsigned_payload']['primordial']['offices'] ?? null;
+        if (!is_array($manifestOffices)) {
+            throw new \RuntimeException('B50_OFFICE_MISMATCH: pinned Office definitions are absent.');
+        }
+
+        $runtimes = [];
+        foreach ($specifications as $specification) {
+            $office = $specification['office'];
+            $definition = $manifestOffices[$office] ?? null;
+            if (!is_array($definition)
+                || !isset($definition['artifact'], $definition['version'], $definition['digest'])
+            ) {
+                throw new \RuntimeException('B50_OFFICE_MISMATCH: pinned '.$office.' definition is invalid.');
+            }
+            $runtimeId = $instanceId.'.office.'.$office;
+            if ($this->outputContainsRuntime($record, $runtimeId)) {
+                throw new \RuntimeException('B52_OFFICE_EXISTS: '.$office.' runtime already exists.');
+            }
+            $runtimes[$office] = [
+                'runtime_id' => $runtimeId,
+                'definition' => [
+                    'artifact' => $definition['artifact'],
+                    'version' => $definition['version'],
+                    'digest' => $definition['digest'],
+                ],
+                'charter_generation' => $receipt->charterGeneration,
+                'mode' => 'active-but-unavailable',
+                'addressable' => false,
+                'resident_seat' => $specification['seat'],
+                'occupant' => null,
+            ];
+        }
+
+        return $this->transition($record, 'T06', BootstrapState::OfficesActive, [
+            'runtimes' => $runtimes,
+            'activation_atomic' => true,
+            'delivery_packets_preserved' => [
+                'secretary' => $packets['secretary']['packet_digest'],
+                'rector' => $packets['rector']['packet_digest'],
+            ],
+        ]);
+    }
+
+    private function outputContainsRuntime(array $record, string $runtimeId): bool
+    {
+        $contains = function (mixed $value) use (&$contains, $runtimeId): bool {
+            if (!is_array($value)) {
+                return false;
+            }
+            if (($value['runtime_id'] ?? null) === $runtimeId) {
+                return true;
+            }
+            foreach ($value as $nested) {
+                if ($contains($nested)) {
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        return $contains($record['events'] ?? []);
     }
 
     private function assembleSecretaryAndRector(array $record, ValidationReceipt $receipt, string $instanceId): array
