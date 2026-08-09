@@ -36,6 +36,8 @@ final readonly class ManifestValidator
         $artifacts = $this->flattenArtifacts($payload);
         $observed = [];
         $successionCommission = null;
+        $secretaryCommission = null;
+        $rectorCommission = null;
         foreach ($artifacts as $identity => $record) {
             $this->validateArtifactRecord($identity, $record);
             $absolutePath = $this->resolve((string) $record['artifact']);
@@ -47,6 +49,12 @@ final readonly class ManifestValidator
             if ('primordial.succession_commission' === $identity) {
                 $successionCommission = $this->decode($this->read($absolutePath), 'succession commission');
             }
+            if ('primordial.assembly_commissions.secretary' === $identity) {
+                $secretaryCommission = $this->decode($this->read($absolutePath), 'Secretary assembly commission');
+            }
+            if ('primordial.assembly_commissions.rector' === $identity) {
+                $rectorCommission = $this->decode($this->read($absolutePath), 'Rector assembly commission');
+            }
         }
         ksort($observed, SORT_STRING);
 
@@ -54,6 +62,9 @@ final readonly class ManifestValidator
         $masterMason = $payload['mastermason'];
         if (!is_array($successionCommission)) {
             throw new ValidationException('Manifest is missing the Recruiter succession commission.');
+        }
+        if (!is_array($secretaryCommission) || !is_array($rectorCommission)) {
+            throw new ValidationException('Manifest is missing one or both triad assembly commissions.');
         }
 
         return new ValidationReceipt(
@@ -63,6 +74,8 @@ final readonly class ManifestValidator
             (string) $launcher['digest'],
             (string) $masterMason['digest'],
             $successionCommission,
+            $secretaryCommission,
+            $rectorCommission,
             $manifest,
         );
     }
