@@ -10,4 +10,5 @@ enum BootstrapState: string
     case ManifestBound = 'MANIFEST_BOUND';
     case ConscriptionActive = 'CONSCRIPTION_ACTIVE';
     case ProvisionalRecruiterBound = 'PROVISIONAL_RECRUITER_BOUND';
+    case OrdinaryRecruiterBound = 'ORDINARY_RECRUITER_BOUND';
 }
