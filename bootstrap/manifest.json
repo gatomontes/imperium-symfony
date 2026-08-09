@@ -1,6 +1,6 @@
 {
   "schema": "imperium.bootstrap-manifest/v1",
-  "manifest_id": "54a4c2e1951f0c2cffd50fa9cb5b130744432c908095906d7f4a15433d526082",
+  "manifest_id": "2c6b195dc6782b3c45f6859935e41fcbcfa91e6011e6a81bfda415f195ca8576",
   "unsigned_payload": {
     "charter_generation": "charter-development-1",
     "instance_class": "development",
@@ -11,8 +11,8 @@
       "accepted_signers": [
         {
           "key_id": "imperator-development-root-1",
-          "public_key": "q6m23vgmQ9DOP/rV5cWEOIIHboYnTuGpy59YS43PJP0=",
-          "public_key_digest": "da53b666dcf11fc86dbfa995a59eede3950993651b5c5a249845e76aa16e9236"
+          "public_key": "Aqfz4qg8FJzAN5VY6o7kXdco0ye/fhYDHzlvCyB/cUU=",
+          "public_key_digest": "e7dcd97a0ac88b533dab9d4fe0f6ff8a13095f93caf067c123473728e78d8fd4"
         }
       ],
       "revocation_snapshot": {
@@ -25,13 +25,45 @@
     "launcher": {
       "artifact": "/src/Bootstrap/Launcher.php",
       "version": "1.0.0",
-      "digest": "978a7c6eb9adfcd366bc8ddc4f7136342c33d00eb042b1f87d75809d9ccac0b9"
+      "digest": "d8cea62fea168fccba39bb83c6255efe08a901eeee511c6d0441e510ed7aab76"
     },
     "mastermason": {
       "artifact": "/src/Bootstrap/MasterMason.php",
       "version": "1.0.0",
-      "digest": "e6eaea1c36b2617befabdd80e43121fcb180c0514209fca5393fd700dd99f8f2",
+      "digest": "9c9d4a939d30b7b69513e3536cb5ee06b281dada98f1a9c0a3fbe7fb2dbb084c",
       "compatible_charter_generation": "charter-development-1"
+    },
+    "runtime": {
+      "bootstrap_state": {
+        "artifact": "/src/Bootstrap/BootstrapState.php",
+        "version": "1.0.0",
+        "digest": "0479a11d78f1d52009d0c0825aac9651e52db2e8bd696bcc3798701c5d9f462f"
+      },
+      "canonical_json": {
+        "artifact": "/src/Bootstrap/CanonicalJson.php",
+        "version": "1.0.0",
+        "digest": "839a106922f9182706d5de7b59258013f2b78be683567703841b449de1805034"
+      },
+      "manifest_validator": {
+        "artifact": "/src/Bootstrap/ManifestValidator.php",
+        "version": "1.0.0",
+        "digest": "b5ee5c36bdf3708f539a6fad76197dd01a3dd001df5327f3468cdd1561ca6286"
+      },
+      "state_store": {
+        "artifact": "/src/Bootstrap/StateStore.php",
+        "version": "1.0.0",
+        "digest": "b35ef18b4908fa8d80fac6a9239450abafcae56c2b348aeb1853835aebe23e11"
+      },
+      "validation_exception": {
+        "artifact": "/src/Bootstrap/ValidationException.php",
+        "version": "1.0.0",
+        "digest": "ec0a78048b780b847d4f7727922f096168f3f5b0049955f73ff058157b9176af"
+      },
+      "validation_receipt": {
+        "artifact": "/src/Bootstrap/ValidationReceipt.php",
+        "version": "1.0.0",
+        "digest": "0d4dbb5e6a6b33e2658f9c2f4963209b00440e2a4cdc00f10974ad9fd816a4d3"
+      }
     },
     "primordial": {
       "charter": {
@@ -187,6 +219,11 @@
           "digest": "7bb4489bed9836fec474604fe53cb955ac8d8df22c596a0a99f953577a61e91f"
         }
       },
+      "succession_commission": {
+        "artifact": "/bootstrap/artifacts/recruiter-succession-commission.json",
+        "version": "1.0.0",
+        "digest": "dbfb593e1fa8fbba9985388417e2865304c14b247846c68e28a0b2fcc24f1001"
+      },
       "routes": {
         "artifact": "/bootstrap/artifacts/routes.json",
         "version": "1.0.0",
@@ -218,8 +255,8 @@
     {
       "key_id": "imperator-development-root-1",
       "algorithm": "ed25519",
-      "signed_payload_digest": "54a4c2e1951f0c2cffd50fa9cb5b130744432c908095906d7f4a15433d526082",
-      "signature": "j5haPgCeNrAeZvqsc+Fyiq6sltSqLSfYdFrJSkbMKJEJF7N2jhczYmCLV6eTTFK0yJFvQ2yw0XeXZoYALOudAg=="
+      "signed_payload_digest": "2c6b195dc6782b3c45f6859935e41fcbcfa91e6011e6a81bfda415f195ca8576",
+      "signature": "ejOPX7S2m6NcrBCwM+6E4aYBBidtlBkZSBQhSAn2l8MbyE7muG3fWsKWh+vGCgrRXSy9m8iSHdmet4AupiW6Ag=="
     }
   ]
 }
