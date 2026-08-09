@@ -2,8 +2,8 @@
 
 This directory contains the immutable development composition consumed by the
 CLI-first Launcher. `manifest.json` pins the exact artifact bytes and is signed
-under the development Charter root. It authorizes only the currently implemented
-bootstrap checkpoint; no intermediate state means `READY`.
+under the development Charter root. It authorizes the complete T01-T09 primordial
+bootstrap sequence; only the terminal T09 state means `READY`.
 
 Regenerate the manifest only after an intentional artifact change:
 
