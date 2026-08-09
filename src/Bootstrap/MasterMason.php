@@ -10,7 +10,7 @@ final readonly class MasterMason
     {
     }
 
-    public function executeThroughOfficerBinding(ValidationReceipt $receipt, string $instanceId): array
+    public function executeThroughRouteVerification(ValidationReceipt $receipt, string $instanceId): array
     {
         return $this->store->locked(function () use ($receipt, $instanceId): array {
             $record = $this->store->read();
@@ -52,9 +52,163 @@ final readonly class MasterMason
             if (BootstrapState::OfficesActive === BootstrapState::from($record['state'])) {
                 $record = $this->bindPrimordialOfficers($record, $instanceId);
             }
+            if (BootstrapState::TriadBoundInactive === BootstrapState::from($record['state'])) {
+                $record = $this->verifyPrimordialRoutes($record, $receipt, $instanceId);
+            }
 
             return $record;
         });
+    }
+
+    private function verifyPrimordialRoutes(array $record, ValidationReceipt $receipt, string $instanceId): array
+    {
+        $t07 = $this->lastSuccessfulOutput($record, 'T07');
+        $bindings = $t07['bindings'] ?? null;
+        $runtimes = $t07['runtimes'] ?? null;
+        if (!is_array($bindings)
+            || !is_array($runtimes)
+            || true !== ($t07['binding_atomic'] ?? null)
+            || false !== ($t07['officers_active'] ?? null)
+            || false !== ($t07['offices_addressable'] ?? null)
+        ) {
+            throw new \RuntimeException('B71_ENDPOINT_MISMATCH: atomic T07 bindings are absent.');
+        }
+
+        $endpoints = [
+            'secretariat.secretary' => ['role' => 'secretary', 'office' => 'secretariat'],
+            'castellan.rector' => ['role' => 'rector', 'office' => 'castellan'],
+        ];
+        $resolved = [];
+        foreach ($endpoints as $endpoint => $specification) {
+            $binding = $bindings[$specification['role']] ?? null;
+            $runtime = $runtimes[$specification['office']] ?? null;
+            $occupant = is_array($runtime) ? ($runtime['occupant'] ?? null) : null;
+            if (!is_array($binding)
+                || !is_array($runtime)
+                || !is_array($occupant)
+                || $endpoint !== ($binding['seat'] ?? null)
+                || 1 !== ($binding['occupancy_generation'] ?? null)
+                || $instanceId.'.office.'.$specification['office'] !== ($runtime['runtime_id'] ?? null)
+                || 'active-with-inactive-occupant' !== ($runtime['mode'] ?? null)
+                || false !== ($runtime['addressable'] ?? null)
+                || $endpoint !== ($runtime['resident_seat'] ?? null)
+                || $endpoint !== ($occupant['seat'] ?? null)
+                || 1 !== ($occupant['occupancy_generation'] ?? null)
+                || 'bound-inactive' !== ($occupant['status'] ?? null)
+                || $occupant !== ($binding['occupant'] ?? null)
+            ) {
+                throw new \RuntimeException('B71_ENDPOINT_MISMATCH: '.$endpoint.' does not resolve to its exact inactive T07 occupant.');
+            }
+            $resolved[$endpoint] = [
+                'runtime_id' => $runtime['runtime_id'],
+                'manifestation_id' => $occupant['manifestation_id'],
+                'occupancy_generation' => $occupant['occupancy_generation'],
+                'status' => $occupant['status'],
+            ];
+        }
+
+        $routeRecord = $receipt->manifest['unsigned_payload']['primordial']['routes'] ?? null;
+        $routeArtifact = $receipt->routes;
+        $expectedRoutes = [
+            ['from' => 'secretariat.secretary', 'to' => 'castellan.rector'],
+            ['from' => 'castellan.rector', 'to' => 'secretariat.secretary'],
+        ];
+        $expectedProbeChecks = [
+            'exact-endpoint-resolution',
+            'bound-occupancy-generation',
+            'no-office-work-delivery',
+        ];
+        $routeArtifactKeys = array_keys($routeArtifact);
+        sort($routeArtifactKeys, SORT_STRING);
+        $expectedRouteArtifactKeys = ['charter_generation', 'default', 'probe_checks', 'routes', 'schema', 'version'];
+        if (!is_array($routeRecord)
+            || !isset($routeRecord['version'], $routeRecord['digest'])
+            || '1.0.0' !== $routeRecord['version']
+            || 'imperium.primordial-routes/v1' !== ($routeArtifact['schema'] ?? null)
+            || '1.0.0' !== ($routeArtifact['version'] ?? null)
+            || $receipt->charterGeneration !== ($routeArtifact['charter_generation'] ?? null)
+            || 'closed' !== ($routeArtifact['default'] ?? null)
+            || $expectedRoutes !== ($routeArtifact['routes'] ?? null)
+            || $expectedProbeChecks !== ($routeArtifact['probe_checks'] ?? null)
+            || $expectedRouteArtifactKeys !== $routeArtifactKeys
+        ) {
+            throw new \RuntimeException('B70_ROUTE_MISMATCH: pinned primordial route declaration is invalid.');
+        }
+        if ($this->containsEnabledRoute($record)) {
+            throw new \RuntimeException('B72_UNDECLARED_ROUTE: a route is already open before T08.');
+        }
+
+        $configuredRoutes = [];
+        $probes = [];
+        foreach ($expectedRoutes as $index => $route) {
+            $source = $resolved[$route['from']] ?? null;
+            $target = $resolved[$route['to']] ?? null;
+            if (!is_array($source) || !is_array($target)) {
+                throw new \RuntimeException('B73_ROUTE_PROBE_FAILED: a declared endpoint could not be probed.');
+            }
+            $configuredRoutes[] = [
+                'from' => $route['from'],
+                'to' => $route['to'],
+                'enabled' => false,
+            ];
+            $probes[] = [
+                'probe_id' => 'primordial-route-probe.'.($index + 1),
+                'from' => $route['from'],
+                'to' => $route['to'],
+                'source_manifestation_id' => $source['manifestation_id'],
+                'source_occupancy_generation' => $source['occupancy_generation'],
+                'target_manifestation_id' => $target['manifestation_id'],
+                'target_occupancy_generation' => $target['occupancy_generation'],
+                'checks' => [
+                    'exact-endpoint-resolution' => true,
+                    'bound-occupancy-generation' => true,
+                    'no-office-work-delivery' => true,
+                ],
+                'work_delivered' => false,
+                'result' => 'PASS',
+            ];
+        }
+
+        $configuration = [
+            'artifact_version' => $routeRecord['version'],
+            'artifact_digest' => $routeRecord['digest'],
+            'default' => 'closed',
+            'status' => 'verified-disabled',
+            'routes' => $configuredRoutes,
+        ];
+
+        return $this->transition($record, 'T08', BootstrapState::RoutesVerified, [
+            'route_configuration' => $configuration,
+            'route_configuration_digest' => hash('sha256', CanonicalJson::encode($configuration)),
+            'endpoint_bindings' => $resolved,
+            'probes' => $probes,
+            'all_probes_passed' => true,
+            'work_delivered' => false,
+            'routes_enabled' => false,
+            'officers_active' => false,
+            'offices_addressable' => false,
+        ]);
+    }
+
+    private function containsEnabledRoute(array $record): bool
+    {
+        $contains = function (mixed $value) use (&$contains): bool {
+            if (!is_array($value)) {
+                return false;
+            }
+            if (true === ($value['enabled'] ?? null)) {
+                return true;
+            }
+            foreach ($value as $nested) {
+                if ($contains($nested)) {
+                    return true;
+                }
+            }
+
+            return false;
+        };
+
+        return $contains($record['events'] ?? []);
     }
 
     private function bindPrimordialOfficers(array $record, string $instanceId): array

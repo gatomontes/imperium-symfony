@@ -38,6 +38,7 @@ final readonly class ManifestValidator
         $successionCommission = null;
         $secretaryCommission = null;
         $rectorCommission = null;
+        $routes = null;
         foreach ($artifacts as $identity => $record) {
             $this->validateArtifactRecord($identity, $record);
             $absolutePath = $this->resolve((string) $record['artifact']);
@@ -55,6 +56,9 @@ final readonly class ManifestValidator
             if ('primordial.assembly_commissions.rector' === $identity) {
                 $rectorCommission = $this->decode($this->read($absolutePath), 'Rector assembly commission');
             }
+            if ('primordial.routes' === $identity) {
+                $routes = $this->decode($this->read($absolutePath), 'primordial routes');
+            }
         }
         ksort($observed, SORT_STRING);
 
@@ -66,6 +70,9 @@ final readonly class ManifestValidator
         if (!is_array($secretaryCommission) || !is_array($rectorCommission)) {
             throw new ValidationException('Manifest is missing one or both triad assembly commissions.');
         }
+        if (!is_array($routes)) {
+            throw new ValidationException('Manifest is missing the primordial route artifact.');
+        }
 
         return new ValidationReceipt(
             $manifestId,
@@ -76,6 +83,7 @@ final readonly class ManifestValidator
             $successionCommission,
             $secretaryCommission,
             $rectorCommission,
+            $routes,
             $manifest,
         );
     }

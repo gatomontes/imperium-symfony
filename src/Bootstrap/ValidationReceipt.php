@@ -15,6 +15,7 @@ final readonly class ValidationReceipt
         public array $successionCommission,
         public array $secretaryCommission,
         public array $rectorCommission,
+        public array $routes,
         public array $manifest,
     ) {
     }
