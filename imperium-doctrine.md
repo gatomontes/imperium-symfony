@@ -73,6 +73,14 @@ Runtime and the competent institutional boundaries enforce the authorization aro
 
 > **Every operative manifestation has a cryptographically verifiable identity, and every permission, action, and result is bound to that identity. Governance is enforced by Imperium around the operative, not trusted to the operative itself.**
 
+#### Collective action and causal composition
+
+The lawful action of one Officer or operative does not authorize a subsequent action by another. A result, observation, recommendation, event, state change, or other payload produced under one bounded authority remains evidence or input; it does not become a mandate, delegation, or new source of authority merely because another constituent can receive or act upon it.
+
+Every consequential transition in a multi-operative or cross-system chain must remain bound to the governing mission, identify the competent authority for the next action, and be evaluated against the intended collective outcome. Individually permitted actions do not establish that their composition, cascade, or accumulated effect is authorized.
+
+> **No operative's lawful action automatically authorizes the next action. Payload is not mandate.**
+
 ### V. Ownership, stewardship, and custody are not interchangeable
 
 Every governed constituent and artifact must identify its owner. Stewardship, custody, production, transport, verification, approval, and use are separate relationships unless doctrine expressly combines them.
