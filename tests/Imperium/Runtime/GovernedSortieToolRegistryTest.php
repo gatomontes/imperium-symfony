@@ -35,8 +35,8 @@ final class GovernedSortieToolRegistryTest extends TestCase
     {
         $first = $this->createMock(SortieToolExecutor::class);
         $second = $this->createMock(SortieToolExecutor::class);
-        $first->method('supports')->with('http.get')->willReturn(true);
-        $second->method('supports')->with('http.get')->willReturn(true);
+        $first->expects(self::once())->method('supports')->with('http.get')->willReturn(true);
+        $second->expects(self::once())->method('supports')->with('http.get')->willReturn(true);
 
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('SORTIE_TOOL_AMBIGUOUS');

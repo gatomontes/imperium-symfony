@@ -56,10 +56,12 @@ final class SymfonyAiSortieCognitionGatewayTest extends TestCase
     {
         $manifest = $this->manifest(['http.get'], ['cap-http-1']);
         $tool = $this->createMock(SortieToolExecutor::class);
-        $tool->method('supports')->with('http.get')->willReturn(true);
-        $tool->method('execute')->willReturn($this->evidence());
+        $tool->expects(self::once())->method('supports')->with('http.get')->willReturn(true);
+        $tool->expects(self::once())->method('execute')->with($manifest)->willReturn($this->evidence());
         $agent = $this->createMock(AgentInterface::class);
-        $agent->method('call')->willReturn(new TextResult('{"page_title":"Example Domain","provenance":{"sha256":"invented"},"artifact_id":"fake","nested":{"source_id":"fake","claim":"keep me"}}'));
+        $agent->expects(self::once())
+            ->method('call')
+            ->willReturn(new TextResult('{"page_title":"Example Domain","provenance":{"sha256":"invented"},"artifact_id":"fake","nested":{"source_id":"fake","claim":"keep me"}}'));
 
         $result = (new SymfonyAiSortieCognitionGateway($agent, new GovernedSortieToolRegistry([$tool])))->execute($manifest);
         $outer = json_decode($result->content, true, 512, JSON_THROW_ON_ERROR);
