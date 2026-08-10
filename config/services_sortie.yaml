@@ -3,6 +3,17 @@ services:
         autowire: true
         autoconfigure: true
 
+    Symfony\AI\Platform\Bridge\Generic\ModelCatalog:
+        arguments:
+            $models:
+                deepseek-v4-flash:
+                    class: 'Symfony\AI\Platform\Bridge\Generic\CompletionsModel'
+                    capabilities:
+                        - !php/const 'Symfony\AI\Platform\Capability::INPUT_MESSAGES'
+                        - !php/const 'Symfony\AI\Platform\Capability::OUTPUT_TEXT'
+                        - !php/const 'Symfony\AI\Platform\Capability::OUTPUT_STREAMING'
+                        - !php/const 'Symfony\AI\Platform\Capability::OUTPUT_STRUCTURED'
+
     App\Command\SortieRunCommand: ~
 
     App\Imperium\Runtime\Sortie\SymfonyAiSortieCognitionGateway:
