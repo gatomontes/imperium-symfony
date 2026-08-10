@@ -28,6 +28,7 @@ final class IronGate
         $sortieId = 'sortie.'.bin2hex(random_bytes(12));
         $manifestationId = $sortieId.'.manifestation.1';
         $manifest = new SortieManifest(
+            $executionId,
             $sortieId,
             $manifestationId,
             $request->commissionId,

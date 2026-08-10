@@ -12,6 +12,7 @@ final readonly class SortieManifest
      * @param list<string> $capabilityIds
      */
     public function __construct(
+        public string $executionId,
         public string $sortieId,
         public string $manifestationId,
         public string $commissionId,
@@ -24,8 +25,10 @@ final readonly class SortieManifest
         public string $expectedReturnContract,
         public \DateTimeImmutable $expiresAt,
     ) {
-        if ('' === trim($sortieId) || '' === trim($manifestationId) || '' === trim($commissionId) || '' === trim($authorizationId)) {
-            throw new \InvalidArgumentException('Sortie identity and authority lineage are mandatory.');
+        foreach ([$executionId, $sortieId, $manifestationId, $commissionId, $authorizationId, $objective, $contextDigest, $expectedReturnContract] as $value) {
+            if ('' === trim($value)) {
+                throw new \InvalidArgumentException('Sortie execution, identity, authority, objective, context, and return-contract lineage are mandatory.');
+            }
         }
     }
 }
