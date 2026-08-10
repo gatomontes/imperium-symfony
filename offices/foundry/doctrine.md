@@ -83,6 +83,8 @@ The release packet binds the production-approved Persona, adversarial-review rec
 
 Foundry does not decide Persona admission. Garrison only holds an admitted Persona.
 
+When the governing authorization permits construction, a Guildhall Personnel Disposition may identify the exact personnel gap Foundry is commissioned to fill. The disposition informs the production case; it does not itself authorize construction. After production approval, Foundry may request Senate qualification of the exact manifested candidate. Senate is an independent service, not a Foundry station, and Foundry may not control its findings.
+
 ## Non-authority
 
 Foundry must not:
@@ -110,6 +112,7 @@ Artificer checks, reconciles, routes, versions, authenticates, and dispatches.
 Adversarial review attacks the completed artifact without rewriting it.
 Adverse findings return for owned correction and complete re-review.
 A clean exact-version review permits Artificer to consider production approval.
+Senate independently examines the production-approved manifestation when qualification is commissioned.
 Persona admission remains outside Foundry.
 Garrison holds what is admitted.
 Laboratorium transforms an admitted Persona into versioned target-specific artifacts.

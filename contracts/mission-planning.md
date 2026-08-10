@@ -64,6 +64,8 @@ Resource-bearing planning may proceed only through exact, least-necessary planni
 
 Armory possession does not authorize tool use. Locksmith custody does not authorize credential release. Guildhall, Hagiography, or another Office's institutional jurisdiction does not authorize its participation in a particular planning proceeding. Each requires a valid derived planning commission and Runtime enforcement at the relevant boundary.
 
+When personnel requirements are material, Curia commissions Guildhall to determine the required professions and reconcile them against exact Garrison inventory facts. Guildhall returns a versioned Personnel Disposition identifying suitable admitted Personas available or unavailable, personnel gaps requiring Foundry construction, and the estimated cost, effort, dependencies, and uncertainty of filling those gaps. Garrison reports inventory facts; Guildhall determines suitability. The disposition informs planning and disclosure but authorizes neither construction nor deployment.
+
 Planning Authorization closes upon completion, failure, revocation, expiry, Operator termination, or issuance of the terminal planning disposition declared by its Charter. It does not merge into, survive as, or supplement Mission Authorization.
 
 ## Approval-ready Mission Plan
@@ -73,7 +75,7 @@ Every proposed Mission Plan must have a stable identity, version, digest, status
 - requested outcome and success, failure, and completion conditions;
 - included and excluded scope;
 - material facts, assumptions, unknowns, and dependencies;
-- Offices, roles, and planned sorties;
+- Offices, roles, planned sorties, suitable personnel already available, and personnel gaps requiring construction;
 - tools, credentials, data, and other resources;
 - recipients, operation surfaces, ingress and egress points, and external effects;
 - cost, time, retention, and resource limits;
@@ -123,6 +125,8 @@ A proposed change must be classified as either non-material clarification or mat
 A material amendment creates a new immutable Planning Charter or Mission Plan version and invalidates authorization for every affected portion until competent authority validly approves that version. Planning or execution encountering an unplanned material need must stop at the smallest dependent boundary and request amendment; it may not treat necessity, convenience, lower cost, or likely Operator preference as authorization.
 
 Declared contingencies may proceed without amendment only within their own phase and only when their triggers, bounds, and consequences were disclosed and authorized in the exact approved version.
+
+A disclosed suspicion contingency may authorize Curia to suspend the smallest affected commission and place an exact operative before Senate for independent examination. Senate's hearing record informs competent action but does not itself authorize restriction, repair, replacement, retirement, or resumed deployment. If no applicable authorized contingency exists, Curia must stop at the affected boundary and seek the authorization required for the hearing and any consequential response.
 
 ## Closure
 

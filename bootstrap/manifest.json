@@ -1,6 +1,6 @@
 {
   "schema": "imperium.bootstrap-manifest/v1",
-  "manifest_id": "6665170ff8a24a76e3ece5e3c9934a8c6385eff74bf19f2ebda72642d864ba40",
+  "manifest_id": "d7767a880fa4e7e0b2fbc7dfffda33b041194b15127ac8dab47d1a158f438588",
   "unsigned_payload": {
     "charter_generation": "charter-development-1",
     "instance_class": "development",
@@ -11,8 +11,8 @@
       "accepted_signers": [
         {
           "key_id": "imperator-development-root-1",
-          "public_key": "1AkBJ/9z0WvjuTAOYqQowQxnEXVDz+nbcV7WL3fN92o=",
-          "public_key_digest": "31cbbff2f38262a7bda92aaecee865c2a1668efb5b980f47895630b7e6739edf"
+          "public_key": "BA99SNUzlldem2eTHxsDl8EEh8lJ+i0sHQT2yb8JQrg=",
+          "public_key_digest": "809182eee7c20a0340109730cd0f9bda928eff94cd0a23a5e8b470eb14a2a6f1"
         }
       ],
       "revocation_snapshot": {
@@ -74,7 +74,7 @@
       "mission_planning_contract": {
         "artifact": "/contracts/mission-planning.md",
         "version": "1.0.0",
-        "digest": "6875934bdbbdba0814bcde44781dc828e4a2042bb34f889c14f0a3c4d07d4be6"
+        "digest": "a70d2abc46f320b0080062774ab625cd7066b7965ae56bce3e510da15c7f143b"
       },
       "charter": {
         "artifact": "/bootstrap/artifacts/charter.json",
@@ -277,8 +277,8 @@
     {
       "key_id": "imperator-development-root-1",
       "algorithm": "ed25519",
-      "signed_payload_digest": "6665170ff8a24a76e3ece5e3c9934a8c6385eff74bf19f2ebda72642d864ba40",
-      "signature": "DxWrv0ddmR3VTuUBxY1sgswsmMayA9LxPTVn3N24E7RYFeZd8BRYPnGmNT8CLshH5sY/LYyhiLnWdZSAGJkQCQ=="
+      "signed_payload_digest": "d7767a880fa4e7e0b2fbc7dfffda33b041194b15127ac8dab47d1a158f438588",
+      "signature": "c/Fy75+Nt8yTg7YSE3Iz/hsX/kjLr2OmiiSO3Y6sbvZZTM7csxxdyViiJ5nSoIcFDOmpegd12kKp21A1FRrJBQ=="
     }
   ]
 }

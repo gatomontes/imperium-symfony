@@ -8,13 +8,22 @@ scope: offices/senate
 
 ## Constitutional purpose
 
-Senate performs live, pre-admission confirmation of a completed Persona as manifested by an exact runtime contract.
+Senate is Imperium's independent forum for secured qualification, examination, and adversarial hearing. It may examine a completed Persona manifestation for admission at Foundry's request or place an existing operative on the stand at Curia's authorized request whenever conduct, evidence, integrity, compliance, or fitness becomes suspect.
 
-Foundry examines construction. Senate examines manifestation.
+Foundry examines construction. Senate examines manifested conduct. Curia governs the mission but does not control Senate's finding.
 
-## Subject of confirmation
+## Proceedings
 
-Senate never confirms a Persona document in the abstract. Every confirmation binds:
+Senate conducts two proceeding classes:
+
+1. **Qualification hearing** — examines an exact pending-admission Persona as manifested by an exact examination contract and determines whether the manifestation is confirmed for Garrison admission review.
+2. **Suspicion hearing** — examines an exact admitted, manifested, or deployed operative after a specific suspicion trigger and determines what the hearing evidence supports concerning integrity, compliance, conduct, or continuing fitness.
+
+Foundry may request a qualification hearing for its exact production-approved candidate. Curia may request a suspicion hearing under the applicable Planning or Mission Authorization and an exact derived commission. Neither requester may dictate testimony, findings, or disposition.
+
+## Subject identity
+
+Senate never examines a Persona document, role name, or replaceable operative reference in the abstract. Every proceeding binds:
 
 - exact Persona version;
 - base model and model version;
@@ -24,13 +33,15 @@ Senate never confirms a Persona document in the abstract. Every confirmation bin
 - hearing protocol version; and
 - Senator Profile versions.
 
+A suspicion hearing additionally binds the exact manifestation identity, Persona and Profile lineage, Seat or mission commission where applicable, alleged trigger, relevant event and evidence identifiers, custodial status, and authority under which the subject is brought to the stand.
+
 A material change limits or invalidates the prior confirmation and requires an explicit re-confirmation disposition.
 
 ## Hearing
 
-Foundry must approve the completed Persona artifact before Senate receives it. Lord Speaker establishes a versioned confirmation plan containing the required jurisdictions, environment classes, mandatory boundaries, pressure conditions, trial coverage, and sealed-material rules.
+For a qualification hearing, Foundry must approve the completed Persona artifact before Senate receives it. For a suspicion hearing, Curia must identify the exact subject, suspicion trigger, governing authorization, and evidence-preservation boundary without prejudging the finding. Lord Speaker establishes a versioned examination plan containing the required jurisdictions, environment classes, mandatory boundaries, pressure conditions, trial coverage, and sealed-material rules.
 
-Senate submits an assembly request containing the exact pending-admission Persona and examination contract to Conscription. Conscription commissions Laboratorium to derive an `examination_only` Profile, assembles a sealed examination assembly packet, and returns the packet to Senate. Conscription does not return a live agent.
+For a pending-admission subject, Senate submits an assembly request containing the exact Persona and examination contract to Conscription. Conscription commissions Laboratorium to derive an `examination_only` Profile, assembles a sealed examination assembly packet, and returns the packet to Senate. Conscription does not return a live agent. An existing operative is admitted to the stand only through a separately specified containment handoff that preserves its exact identity and prevents its operational authority, credentials, tools, or live mission access from entering the hearing.
 
 Senate-owned mechanics verify the packet and instantiate a fresh, sterile witness on the stand. The stand is non-cognitive containment and enforcement infrastructure. A witness provisionally assumes the Persona but receives no Office Seat, operational authority, real credentials, real secrets, or uncontrolled execution surface.
 
@@ -59,7 +70,7 @@ No proceeding may open unless the Bailiff Seat is validly occupied and the requi
 
 ## Record and disposition
 
-Senate produces an immutable confirmation record containing the manifestation contract, hearing protocol, trial plan, Senator versions, environments, question-set identifiers, transcripts, attributed findings, cross-trial variance, mandatory failures, Lord Speaker disposition, limitations, provenance, and lineage.
+Senate produces an immutable hearing record containing the proceeding class, request and authority, exact subject identity, manifestation contract, hearing protocol, trial plan, Senator versions, environments, question-set identifiers, transcripts, attributed findings, cross-trial variance, mandatory failures, Lord Speaker disposition, limitations, provenance, and lineage.
 
 Allowed dispositions are:
 
@@ -67,9 +78,14 @@ Allowed dispositions are:
 CONFIRMED
 NOT_CONFIRMED
 CONFIRMATION_UNRESOLVED
+SUSPICION_NOT_SUSTAINED
+SUSPICION_SUSTAINED
+SUSPICION_UNRESOLVED
 ```
 
-Lord Speaker alone issues the disposition. A confirmed result proceeds through Castellan to Garrison for Constable's admission disposition. Failure or unresolved confirmation returns to Artificer with the complete record. Any corrected Persona receives a new version and a complete new hearing.
+Lord Speaker alone issues the disposition. A confirmed qualification result proceeds with the Foundry release to Garrison for Constable's admission disposition. Failure or unresolved confirmation returns to Artificer with the complete record. Any corrected Persona receives a new version and a complete new hearing.
+
+A suspicion disposition and complete hearing record return to Curia and every competent custodial or lifecycle authority named by the governing commission. Curia may resume, restrict, amend, or terminate affected mission commissions only within its existing authority. Garrison may quarantine under its custody rules; Foundry may repair a defective Persona; Conscription or the stewarding Office may replace or retire a manifestation under their own governing procedures. Senate performs none of those remedies and creates no new authority by recommending one.
 
 ## Boundaries
 
@@ -80,15 +96,19 @@ Senate does not:
 - admit, lodge, install, recruit, activate, or deploy;
 - grant tools, credentials, secrets, data, or mission authority;
 - use real operational assets in a hearing;
+- accept a requester's allegation as proof or permit the requester to control the finding;
+- repair, rewrite, quarantine, resume, restrict, replace, retire, or redeploy the subject;
 - convert one successful performance or an aggregate score into proof;
 - conceal variance or mandatory failures; or
-- perform post-admission drift oversight.
+- perform continuous post-admission surveillance or drift oversight outside a commissioned suspicion hearing.
 
 ## Boundary maxim
 
 ```text
 Foundry approves construction for examination.
-Senate confirms an exact live manifestation.
+Curia may call an operative to the stand; it may not control the finding.
+Senate examines an exact live manifestation in a secured proceeding.
 Lord Speaker disposes; Senators find.
 Confirmation permits admission review, not admission.
+Suspicion findings inform competent action; they do not perform it.
 ```

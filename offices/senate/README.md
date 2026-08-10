@@ -1,6 +1,6 @@
 # Senate
 
-Senate is Imperium's Office for live, pre-admission confirmation of completed Persona manifestations.
+Senate is Imperium's independent Office for secured qualification, examination, and adversarial hearing. Foundry may request pre-admission confirmation of a completed Persona manifestation; Curia may put an existing operative on the stand when conduct, evidence, integrity, compliance, or fitness becomes suspect.
 
 ## Constituents
 
@@ -25,4 +25,4 @@ Senate is Imperium's Office for live, pre-admission confirmation of completed Pe
 Senate ≠ Lord Speaker ≠ Senator ≠ witness ≠ confirmation record ≠ admission
 ```
 
-Senators conduct attributable questioning within separate jurisdictions. Lord Speaker alone issues Senate's disposition. Bailiff secures the proceeding without judging the Persona. A passing confirmation permits routing through Castellan to Garrison admission review; it does not admit the Persona.
+Senators conduct attributable questioning within separate jurisdictions. Lord Speaker alone issues Senate's disposition. Bailiff secures the proceeding without judging the subject. A passing qualification hearing permits Garrison admission review; it does not admit the Persona. A suspicion hearing returns evidence and findings to Curia and the competent lifecycle authorities; Senate does not itself repair, restrict, replace, retire, or redeploy the subject.
