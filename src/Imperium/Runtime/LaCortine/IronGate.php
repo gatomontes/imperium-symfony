@@ -16,7 +16,11 @@ final class IronGate
                 $executionId,
                 $request->requestId,
                 $request->commissionId,
+                $request->authorizationId,
                 $request->mode,
+                $request->toolIds,
+                $request->capabilityIds,
+                $request->expectedReturnContract,
                 null,
             );
         }
@@ -41,7 +45,11 @@ final class IronGate
             $executionId,
             $request->requestId,
             $request->commissionId,
+            $request->authorizationId,
             $request->mode,
+            $request->toolIds,
+            $request->capabilityIds,
+            $request->expectedReturnContract,
             $manifest,
         );
     }
