@@ -25,11 +25,14 @@ final class AgentMailEmailTransport implements DeterministicTransport
         }
 
         $url = parse_url($destination);
-        $path = (string) ($url['path'] ?? '');
+        $path = is_array($url) ? (string) ($url['path'] ?? '') : '';
         if (!is_array($url)
             || 'https' !== strtolower((string) ($url['scheme'] ?? ''))
             || 'api.agentmail.to' !== strtolower((string) ($url['host'] ?? ''))
-            || isset($url['user'], $url['pass'], $url['query'], $url['fragment'])
+            || isset($url['user'])
+            || isset($url['pass'])
+            || isset($url['query'])
+            || isset($url['fragment'])
             || 1 !== preg_match('#^/v0/inboxes/[^/]+/messages/send$#', $path)
         ) {
             throw new \RuntimeException('AGENTMAIL_DESTINATION_REJECTED: email.send requires an exact AgentMail inbox send endpoint.');
