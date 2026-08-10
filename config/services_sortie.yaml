@@ -16,6 +16,11 @@ services:
 
     App\Command\SortieRunCommand: ~
 
+    App\Imperium\Runtime\Sortie\HttpGetSortieToolExecutor: ~
+
+    App\Imperium\Runtime\Sortie\SortieToolExecutor:
+        alias: App\Imperium\Runtime\Sortie\HttpGetSortieToolExecutor
+
     App\Imperium\Runtime\Sortie\SymfonyAiSortieCognitionGateway:
         arguments:
             $agent: '@ai.agent.sortie'
