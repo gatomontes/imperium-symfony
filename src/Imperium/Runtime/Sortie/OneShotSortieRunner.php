@@ -41,7 +41,7 @@ final class OneShotSortieRunner
 
             return new RawExternalPayload(
                 $payloadId,
-                'sortie-execution.'.$manifest->sortieId,
+                $manifest->executionId,
                 $manifest->commissionId,
                 $manifest->authorizationId,
                 $manifest->sortieId,
