@@ -54,6 +54,8 @@ Every proposed Planning Charter must have a stable identity, version, digest, st
 - stop conditions, amendment triggers, expiry, revocation, and closure conditions; and
 - the express prohibition against using Planning Authorization for mission execution.
 
+For every planned external operation, the Charter must classify the work as either deterministic boundary execution or external-cognition sortie under `/contracts/la-cortine-boundary.md`. A tool call alone does not justify a sortie. When cognition must occur in the untrusted environment, the Charter must disclose the sortie's bounded purpose, minimum context, tools/capabilities, destinations, expected raw return payload, and termination conditions.
+
 Proportional detail is permitted, but no undisclosed resource or effect acquires permission through approval of the visible Charter.
 
 ## Planning Authorization and commissions
@@ -63,6 +65,8 @@ Valid approval of the exact Planning Charter produces a Planning Authorization r
 Resource-bearing planning may proceed only through exact, least-necessary planning commissions derived from that record. Each commission must satisfy the commission requirements below and must be labeled planning-only. It may investigate, retrieve evidence, or estimate execution requirements within its exact bounds; it may not perform, rehearse through real effects, or silently begin the proposed mission.
 
 Armory possession does not authorize tool use. Locksmith custody does not authorize credential release. Guildhall, Hagiography, or another Office's institutional jurisdiction does not authorize its participation in a particular planning proceeding. Each requires a valid derived planning commission and Runtime enforcement at the relevant boundary.
+
+Any external planning operation must cross La Cortine through Iron Gate and return through Lazaretto. Internal cognition does not continue inside a sortie. No raw external payload may be delivered directly into Curia or another internal cognitive proceeding.
 
 When personnel requirements are material, Curia commissions Guildhall to determine the required professions and reconcile them against exact Garrison inventory facts. Guildhall returns a versioned Personnel Disposition identifying suitable admitted Personas available or unavailable, personnel gaps requiring Foundry construction, and the estimated cost, effort, dependencies, and uncertainty of filling those gaps. Garrison reports inventory facts; Guildhall determines suitability. The disposition informs planning and disclosure but authorizes neither construction nor deployment.
 
@@ -78,9 +82,10 @@ Every proposed Mission Plan must have a stable identity, version, digest, status
 - Offices, roles, planned sorties, suitable personnel already available, and personnel gaps requiring construction;
 - tools, credentials, data, and other resources;
 - recipients, operation surfaces, ingress and egress points, and external effects;
+- classification of each external operation as deterministic boundary execution or external-cognition sortie;
 - cost, time, retention, and resource limits;
 - risks, stop conditions, contingencies, and amendment triggers;
-- required return payload, evidence, provenance, and reporting; and
+- required raw return payloads, Lazaretto admission requirements, evidence, provenance, and reporting; and
 - expiry, revocation, interruption, and reauthorization conditions.
 
 Disclosure must be understandable enough for the Operator to know what is being approved. Hidden execution-relevant terms cannot acquire authorization through approval of the visible plan.
@@ -109,14 +114,23 @@ Authorization grants no unlisted tool, credential, data, recipient, destination,
 Any authorized work may begin only through exact commissions issued under the applicable authorization object. Each commission must:
 
 - cite the Planning Authorization and Charter digest or the Mission Authorization and plan digest, never an ambiguous combination;
-- name one authorized manifestation or exact qualification target;
+- name one authorized manifestation, deterministic boundary executor, or exact qualification target;
 - define one bounded task and purpose;
 - expose only the necessary resources and destinations;
-- define its expected payload, evidence, and return path;
+- define whether external work is deterministic execution or requires an external-cognition sortie;
+- define its expected payload, evidence, Lazaretto return path, and provenance obligations;
 - state start, stop, expiry, consumption, and failure conditions; and
 - prohibit delegation unless an exact delegation path is itself authorized.
 
 A commission cannot delegate more authority than its source, and receipt of its payload does not transfer its authority.
+
+A sortie commission must bind the exact sortie manifestation identity once created and must terminate with that sortie. A deterministic external-execution commission must bind the exact boundary executor and operation attempt. Neither may bypass Iron Gate outbound enforcement or Lazaretto inbound admission.
+
+## Credential-use rule
+
+A commission may authorize use of a credential without exposing or transferring the secret itself. Locksmith retains custody. La Cortine should prefer credential brokering or short-lived scoped capabilities; direct injection of long-lived secrets into cognition is prohibited.
+
+An authenticated external API operation may still be a single external request. Internal credential retrieval, brokering, or attachment at the boundary does not create a second external authorization step unless the provider protocol itself requires one.
 
 ## Amendment and deviation
 
@@ -132,6 +146,8 @@ A disclosed suspicion contingency may authorize Curia to suspend the smallest af
 
 Completion, failure, revocation, expiry, or Operator termination closes the applicable authorization and every dependent unconsumed commission. Returned evidence remains evidence; it does not preserve dormant planning or execution authority.
 
+External-cognition sorties are retired at the boundary on completion, failure, revocation, expiry, or consumption. Their raw payloads may remain preserved as evidence, but neither the sortie nor its authority may enter or persist inside Imperium Runtime.
+
 ## Governing maxim
 
-> **Intent opens deliberation. Planning Authorization permits bounded investigation. Mission Authorization permits bounded execution. Both arise only from valid approval exercising competent authority over an exact disclosed version, and both act only through exact derived commissions.**
+> **Intent opens deliberation. Planning Authorization permits bounded investigation. Mission Authorization permits bounded execution. Both arise only from valid approval exercising competent authority over an exact disclosed version, and both act only through exact derived commissions. External work crosses La Cortine: deterministic execution when the operation is fully specified, or a disposable sortie only when cognition must occur outside the trust boundary.**

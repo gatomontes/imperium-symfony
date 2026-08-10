@@ -94,6 +94,20 @@ Runtime and the competent institutional boundaries enforce the authorization aro
 
 > **Every operative manifestation has a cryptographically verifiable identity, and every permission, action, and result is bound to that identity. Governance is enforced by Imperium around the operative, not trusted to the operative itself.**
 
+#### External cognition and trust boundaries
+
+Internal cognition must not be extended across the external trust boundary merely because an external tool or system is required.
+
+When an external operation is fully specified, Runtime should execute it deterministically at the competent boundary. When observation, interpretation, adaptive choice, or iterative reasoning must occur in the untrusted environment, Runtime may create a disposable external-cognition sortie under an exact authorized commission.
+
+A sortie is never a trusted internal continuation. It must be created outside Imperium Runtime, receive only least-necessary context and capabilities, return only raw material through the competent inbound boundary, and terminate without entering or persisting inside Imperium Runtime.
+
+Raw external material is evidence, not admitted internal state. It must cross the competent inbound boundary with preserved provenance and transformation lineage before internal cognition may consume it.
+
+Credentials remain infrastructure secrets. Authorization to cause an authenticated action does not by itself transfer or expose the underlying credential to cognition.
+
+> **Internal cognition does not cross outward. External cognition does not cross inward. A tool call does not justify a sortie; external cognition does.**
+
 ### V. Ownership, stewardship, and custody are not interchangeable
 
 Every governed constituent and artifact must identify its owner. Stewardship, custody, production, transport, verification, approval, and use are separate relationships unless doctrine expressly combines them.
