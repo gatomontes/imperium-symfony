@@ -1,0 +1,1 @@
+Expected successful smoke markers: `ADMITTED`, `DETERMINISTIC_ROUND_TRIP_OK`, `operation=email.send`, and `sortie=NONE`. The smoke uses a local fake provider transport deliberately: it proves the boundary and credential semantics without sending a real message.
