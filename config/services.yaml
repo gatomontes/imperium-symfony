@@ -17,6 +17,7 @@ services:
             - '../src/Command/SortieRunCommand.php'
             - '../src/Imperium/Runtime/Sortie/SymfonyAiSortieCognitionGateway.php'
             - '../src/Imperium/Runtime/Sortie/HttpGetSortieToolExecutor.php'
+            - '../src/Imperium/Runtime/Sortie/GovernedSortieToolRegistry.php'
 
     App\Bootstrap\ManifestValidator:
         arguments:
