@@ -118,7 +118,7 @@ Conscription does not retrieve Officer Profiles from Garrison. It receives an ex
 
 ### Guildhall and other suitability authorities
 
-Garrison supplies exact roster and availability facts. It does not determine professional fit, compose professions, or convert inventory facts into a suitability judgment.
+Under an exact authorized request, Garrison supplies Guildhall with exact roster, custody-state, and availability facts effective at a declared time. Guildhall may use those facts to determine professional fit and prepare a Personnel Disposition for mission planning. Garrison does not compose professions, determine suitability, estimate construction needs, or convert inventory facts into permission to reserve, retrieve, build, or deploy.
 
 ## Products
 

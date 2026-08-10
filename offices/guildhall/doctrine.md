@@ -9,7 +9,7 @@ Current theoretical consolidation of the admitted Guildhall profession-resolutio
 
 ## Purpose
 
-Guildhall determines which established profession or professions an approved Work Specification requires, why each is necessary, where their boundaries lie, and in what order they must be resolved.
+Guildhall is Imperium's profession-resolution and personnel-disposition Office. It determines which established profession or professions an approved Work Specification requires, why each is necessary, where their boundaries lie, and in what order they must be resolved. During authorized planning it also reconciles those requirements against exact Garrison inventory facts and reports what suitable personnel is available and what gaps require construction. Curia owns mission planning; Guildhall answers the commissioned personnel question.
 
 ## Core question
 
@@ -23,6 +23,8 @@ why is each required, where are their boundaries, and in what order must they be
 - Mission Need
 - approved Work Specification
 - Operator constraints relevant to professional fit
+- the exact Planning Authorization and derived Guildhall commission when the work belongs to a mission-planning proceeding
+- exact Garrison inventory and availability facts returned under that commission
 
 Guildhall does not repair or reinterpret mission intent.
 
@@ -48,9 +50,14 @@ Guildhall:
 - identifies overlap, dependencies, collaboration mode, and resolution order
 - exposes category errors, omissions, vague or fabricated titles, and mission-language drift
 - distinguishes professions from skills, tools, credentials, data access, and execution tasks
+- requests exact roster and availability facts from Garrison without transferring suitability judgment to Garrison
+- evaluates admitted Personas against the determined professional requirements and Operator constraints
+- distinguishes suitable available inventory, suitable but unavailable inventory, and personnel gaps
+- estimates the planning-relevant cost, effort, dependencies, and uncertainty of filling each gap
 - records each committee member's contribution and the Guildmaster's disposition
 - produces a versioned Profession Determination Packet
-- returns the admitted packet to Castellan
+- produces a versioned Personnel Disposition for the mission-planning authority
+- returns both products to the commissioning mission-planning authority
 
 ## Product
 
@@ -64,6 +71,16 @@ The Profession Determination Packet contains:
 - unresolved professional-fit questions
 - exact committee contribution and Guildmaster adjudication lineage
 
+The Personnel Disposition binds that determination to:
+
+- exact Garrison inventory facts and their effective time
+- suitable admitted Personas currently available
+- suitable admitted Personas currently unavailable, with the reported custodial reason
+- each unresolved personnel gap requiring Foundry construction
+- estimated construction cost, effort, dependencies, and uncertainty
+- the exact Planning Authorization and Guildhall commission under which the inquiry occurred
+- an explicit statement that the disposition neither authorizes construction nor selects anyone for deployment
+
 ## Non-authority
 
 Guildhall must not:
@@ -76,27 +93,31 @@ Guildhall must not:
 - author Persona Governance Doctrine
 - canonize human traits
 - forge, test, recruit, or deploy a persona or operative
-- search Garrison
-- select people, Personas, operatives, or Officers
+- access Garrison except through an exact authorized inventory request and returned facts
+- admit, reserve, retrieve, construct, recruit, manifest, commission, or deploy a Persona, operative, or Officer
+- treat personnel suitability or availability as permission to build or use personnel
 - choose mission tools, credentials, access, or execution tactics
 
 ## Handoff
 
 ```text
-Castellan → approved Work Specification → Guildhall committee
+mission-planning authority → approved Work Specification + planning commission → Guildhall committee
 committee members → attributable recommendations → Guildmaster
-Guildmaster → admitted Profession Determination Packet → Castellan
+Guildhall ↔ exact inventory request/facts ↔ Garrison
+Guildmaster → Profession Determination + Personnel Disposition → mission-planning authority
 ```
 
 ## Boundary maxim
 
 ```text
-Castellan specifies the work.
+The mission-planning authority specifies the work and commissions the inquiry.
 The committee challenges professional possibilities.
 The Guildmaster alone determines profession suitability and order.
-Guildhall returns the admitted determination.
+Garrison reports inventory; Guildhall determines personnel fit.
+Guildhall reports what is available and what must be built.
+The report authorizes neither construction nor deployment.
 ```
 
 ## Revision conditions
 
-Review this doctrine when committee perspectives overlap, a member exercises Guildmaster authority, professional resolution drifts into mission planning or persona construction, committee attribution is lost, or the Castellan/Guildhall handoff changes.
+Review this doctrine when committee perspectives overlap, a member exercises Guildmaster authority, professional resolution drifts into mission orchestration or persona construction, inventory facts are mistaken for suitability or authorization, committee attribution is lost, or the mission-planning-authority/Guildhall handoff changes.
