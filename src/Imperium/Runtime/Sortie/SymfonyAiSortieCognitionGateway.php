@@ -34,7 +34,7 @@ final readonly class SymfonyAiSortieCognitionGateway implements SortieCognitionG
 
     public function __construct(
         private AgentInterface $agent,
-        private SortieToolExecutor $toolExecutor,
+        private GovernedSortieToolRegistry $toolRegistry,
     ) {
     }
 
@@ -49,11 +49,8 @@ final readonly class SymfonyAiSortieCognitionGateway implements SortieCognitionG
         }
 
         $toolId = $manifest->toolIds[0];
-        if (!$this->toolExecutor->supports($toolId)) {
-            throw new \RuntimeException('SORTIE_AI_TOOL_UNSUPPORTED: no governed sortie executor is bound for '.$toolId.'.');
-        }
-
-        $evidence = $this->toolExecutor->execute($manifest);
+        $toolExecutor = $this->toolRegistry->resolve($toolId);
+        $evidence = $toolExecutor->execute($manifest);
         $message = new MessageBag(
             Message::ofUser($this->taskMessage($manifest, $evidence)),
         );

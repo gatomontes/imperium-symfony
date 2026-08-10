@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Imperium\Runtime;
 
 use App\Imperium\Runtime\LaCortine\SortieManifest;
+use App\Imperium\Runtime\Sortie\GovernedSortieToolRegistry;
 use App\Imperium\Runtime\Sortie\SortieToolEvidence;
 use App\Imperium\Runtime\Sortie\SortieToolExecutor;
 use App\Imperium\Runtime\Sortie\SymfonyAiSortieCognitionGateway;
@@ -20,11 +21,8 @@ final class SymfonyAiSortieCognitionGatewayTest extends TestCase
         $agent->expects(self::once())
             ->method('call')
             ->willReturn(new TextResult('external cognition result'));
-        $tool = $this->createMock(SortieToolExecutor::class);
-        $tool->expects(self::never())->method('supports');
-        $tool->expects(self::never())->method('execute');
 
-        $gateway = new SymfonyAiSortieCognitionGateway($agent, $tool);
+        $gateway = new SymfonyAiSortieCognitionGateway($agent, new GovernedSortieToolRegistry([]));
         $result = $gateway->execute($this->manifest());
 
         self::assertSame('external cognition result', $result->content);
@@ -36,22 +34,14 @@ final class SymfonyAiSortieCognitionGatewayTest extends TestCase
     public function testToolBearingSortieCapturesRawEvidenceSeparatelyFromInterpretation(): void
     {
         $manifest = $this->manifest(['http.get'], ['cap-http-1']);
-        $evidence = new SortieToolEvidence(
-            'RAW_EXTERNAL_BYTES',
-            hash('sha256', 'RAW_EXTERNAL_BYTES'),
-            'https://example.test',
-            'http.get',
-            'cap-http-1',
-            new \DateTimeImmutable('2026-08-10T12:00:00+00:00'),
-        );
-
+        $evidence = $this->evidence();
         $tool = $this->createMock(SortieToolExecutor::class);
         $tool->expects(self::once())->method('supports')->with('http.get')->willReturn(true);
         $tool->expects(self::once())->method('execute')->with($manifest)->willReturn($evidence);
         $agent = $this->createMock(AgentInterface::class);
         $agent->expects(self::once())->method('call')->willReturn(new TextResult('interpreted result'));
 
-        $result = (new SymfonyAiSortieCognitionGateway($agent, $tool))->execute($manifest);
+        $result = (new SymfonyAiSortieCognitionGateway($agent, new GovernedSortieToolRegistry([$tool])))->execute($manifest);
         $decoded = json_decode($result->content, true, 512, JSON_THROW_ON_ERROR);
 
         self::assertSame('RAW_EXTERNAL_BYTES', $decoded['evidence']['content']);
@@ -65,21 +55,13 @@ final class SymfonyAiSortieCognitionGatewayTest extends TestCase
     public function testModelCannotManufactureRuntimeProvenanceInsideInterpretation(): void
     {
         $manifest = $this->manifest(['http.get'], ['cap-http-1']);
-        $evidence = new SortieToolEvidence(
-            'RAW_EXTERNAL_BYTES',
-            hash('sha256', 'RAW_EXTERNAL_BYTES'),
-            'https://example.test',
-            'http.get',
-            'cap-http-1',
-            new \DateTimeImmutable('2026-08-10T12:00:00+00:00'),
-        );
         $tool = $this->createMock(SortieToolExecutor::class);
         $tool->method('supports')->with('http.get')->willReturn(true);
-        $tool->method('execute')->willReturn($evidence);
+        $tool->method('execute')->willReturn($this->evidence());
         $agent = $this->createMock(AgentInterface::class);
         $agent->method('call')->willReturn(new TextResult('{"page_title":"Example Domain","provenance":{"sha256":"invented"},"artifact_id":"fake","nested":{"source_id":"fake","claim":"keep me"}}'));
 
-        $result = (new SymfonyAiSortieCognitionGateway($agent, $tool))->execute($manifest);
+        $result = (new SymfonyAiSortieCognitionGateway($agent, new GovernedSortieToolRegistry([$tool])))->execute($manifest);
         $outer = json_decode($result->content, true, 512, JSON_THROW_ON_ERROR);
         $interpretation = json_decode($outer['interpretation'], true, 512, JSON_THROW_ON_ERROR);
 
@@ -91,35 +73,47 @@ final class SymfonyAiSortieCognitionGatewayTest extends TestCase
         self::assertSame(hash('sha256', 'RAW_EXTERNAL_BYTES'), $outer['evidence']['sha256']);
     }
 
-    public function testRefusesUnsupportedGovernedToolBeforeCognition(): void
+    public function testRefusesUnavailableGovernedToolBeforeCognition(): void
     {
         $agent = $this->createMock(AgentInterface::class);
         $agent->expects(self::never())->method('call');
         $tool = $this->createMock(SortieToolExecutor::class);
         $tool->expects(self::once())->method('supports')->with('http.post')->willReturn(false);
         $tool->expects(self::never())->method('execute');
-        $gateway = new SymfonyAiSortieCognitionGateway($agent, $tool);
+        $gateway = new SymfonyAiSortieCognitionGateway($agent, new GovernedSortieToolRegistry([$tool]));
 
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('SORTIE_AI_TOOL_UNSUPPORTED');
+        $this->expectExceptionMessage('SORTIE_TOOL_UNAVAILABLE');
         $gateway->execute($this->manifest(['http.post'], ['cap-http-1']));
     }
 
-    public function testRefusesMultipleToolScopeBeforeDispatch(): void
+    public function testRefusesMultipleToolScopeBeforeRegistryDispatch(): void
     {
         $agent = $this->createMock(AgentInterface::class);
         $agent->expects(self::never())->method('call');
-        $tool = $this->createMock(SortieToolExecutor::class);
-        $tool->expects(self::never())->method('supports');
-        $tool->expects(self::never())->method('execute');
-        $gateway = new SymfonyAiSortieCognitionGateway($agent, $tool);
+        $gateway = new SymfonyAiSortieCognitionGateway($agent, new GovernedSortieToolRegistry([]));
 
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('SORTIE_AI_TOOL_SCOPE_UNSUPPORTED');
         $gateway->execute($this->manifest(['http.get', 'other.tool'], ['cap-http-1']));
     }
 
-    /** @param list<string> $toolIds @param list<string> $capabilityIds */
+    private function evidence(): SortieToolEvidence
+    {
+        return new SortieToolEvidence(
+            'RAW_EXTERNAL_BYTES',
+            hash('sha256', 'RAW_EXTERNAL_BYTES'),
+            'https://example.test',
+            'http.get',
+            'cap-http-1',
+            new \DateTimeImmutable('2026-08-10T12:00:00+00:00'),
+        );
+    }
+
+    /**
+     * @param list<string> $toolIds
+     * @param list<string> $capabilityIds
+     */
     private function manifest(array $toolIds = [], array $capabilityIds = []): SortieManifest
     {
         return new SortieManifest(
