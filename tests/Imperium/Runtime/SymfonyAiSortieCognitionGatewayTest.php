@@ -21,6 +21,7 @@ final class SymfonyAiSortieCognitionGatewayTest extends TestCase
             ->method('call')
             ->willReturn(new TextResult('external cognition result'));
         $tool = $this->createMock(SortieToolExecutor::class);
+        $tool->expects(self::never())->method('supports');
         $tool->expects(self::never())->method('execute');
 
         $gateway = new SymfonyAiSortieCognitionGateway($agent, $tool);
@@ -45,6 +46,7 @@ final class SymfonyAiSortieCognitionGatewayTest extends TestCase
         );
 
         $tool = $this->createMock(SortieToolExecutor::class);
+        $tool->expects(self::once())->method('supports')->with('http.get')->willReturn(true);
         $tool->expects(self::once())->method('execute')->with($manifest)->willReturn($evidence);
         $agent = $this->createMock(AgentInterface::class);
         $agent->expects(self::once())->method('call')->willReturn(new TextResult('interpreted result'));
@@ -60,17 +62,61 @@ final class SymfonyAiSortieCognitionGatewayTest extends TestCase
         self::assertSame(['cap-http-1'], $result->capabilityIds);
     }
 
-    public function testRefusesUnsupportedToolScopeBeforeCognition(): void
+    public function testModelCannotManufactureRuntimeProvenanceInsideInterpretation(): void
+    {
+        $manifest = $this->manifest(['http.get'], ['cap-http-1']);
+        $evidence = new SortieToolEvidence(
+            'RAW_EXTERNAL_BYTES',
+            hash('sha256', 'RAW_EXTERNAL_BYTES'),
+            'https://example.test',
+            'http.get',
+            'cap-http-1',
+            new \DateTimeImmutable('2026-08-10T12:00:00+00:00'),
+        );
+        $tool = $this->createMock(SortieToolExecutor::class);
+        $tool->method('supports')->with('http.get')->willReturn(true);
+        $tool->method('execute')->willReturn($evidence);
+        $agent = $this->createMock(AgentInterface::class);
+        $agent->method('call')->willReturn(new TextResult('{"page_title":"Example Domain","provenance":{"sha256":"invented"},"artifact_id":"fake","nested":{"source_id":"fake","claim":"keep me"}}'));
+
+        $result = (new SymfonyAiSortieCognitionGateway($agent, $tool))->execute($manifest);
+        $outer = json_decode($result->content, true, 512, JSON_THROW_ON_ERROR);
+        $interpretation = json_decode($outer['interpretation'], true, 512, JSON_THROW_ON_ERROR);
+
+        self::assertSame('Example Domain', $interpretation['page_title']);
+        self::assertSame('keep me', $interpretation['nested']['claim']);
+        self::assertArrayNotHasKey('provenance', $interpretation);
+        self::assertArrayNotHasKey('artifact_id', $interpretation);
+        self::assertArrayNotHasKey('source_id', $interpretation['nested']);
+        self::assertSame(hash('sha256', 'RAW_EXTERNAL_BYTES'), $outer['evidence']['sha256']);
+    }
+
+    public function testRefusesUnsupportedGovernedToolBeforeCognition(): void
     {
         $agent = $this->createMock(AgentInterface::class);
         $agent->expects(self::never())->method('call');
         $tool = $this->createMock(SortieToolExecutor::class);
+        $tool->expects(self::once())->method('supports')->with('http.post')->willReturn(false);
+        $tool->expects(self::never())->method('execute');
+        $gateway = new SymfonyAiSortieCognitionGateway($agent, $tool);
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('SORTIE_AI_TOOL_UNSUPPORTED');
+        $gateway->execute($this->manifest(['http.post'], ['cap-http-1']));
+    }
+
+    public function testRefusesMultipleToolScopeBeforeDispatch(): void
+    {
+        $agent = $this->createMock(AgentInterface::class);
+        $agent->expects(self::never())->method('call');
+        $tool = $this->createMock(SortieToolExecutor::class);
+        $tool->expects(self::never())->method('supports');
         $tool->expects(self::never())->method('execute');
         $gateway = new SymfonyAiSortieCognitionGateway($agent, $tool);
 
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('SORTIE_AI_TOOL_SCOPE_UNSUPPORTED');
-        $gateway->execute($this->manifest(['http.post'], ['cap-http-1']));
+        $gateway->execute($this->manifest(['http.get', 'other.tool'], ['cap-http-1']));
     }
 
     /** @param list<string> $toolIds @param list<string> $capabilityIds */
