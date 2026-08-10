@@ -23,7 +23,7 @@ final class SymfonyAiSortieCognitionGatewayTest extends TestCase
         $result = $gateway->execute($this->manifest());
 
         self::assertSame('external cognition result', $result->content);
-        self::assertSame(['ai.platform.openai'], $result->sourceIds);
+        self::assertSame(['ai.platform.generic.deepseek'], $result->sourceIds);
         self::assertSame([], $result->toolIds);
         self::assertSame([], $result->capabilityIds);
     }
@@ -43,9 +43,9 @@ final class SymfonyAiSortieCognitionGatewayTest extends TestCase
     private function manifest(array $toolIds = []): SortieManifest
     {
         return new SortieManifest(
+            'execution-1',
             'sortie-1',
             'manifestation-1',
-            'execution-1',
             'commission-1',
             'authorization-1',
             'Summarize the supplied external observation.',
