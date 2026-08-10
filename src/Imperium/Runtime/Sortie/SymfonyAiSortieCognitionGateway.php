@@ -33,7 +33,7 @@ final readonly class SymfonyAiSortieCognitionGateway implements SortieCognitionG
 
         return new SortieCognitionResult(
             $content,
-            ['ai.platform.openai'],
+            ['ai.platform.generic.deepseek'],
             [],
             [],
             new \DateTimeImmutable(),
