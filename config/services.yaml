@@ -25,6 +25,10 @@ services:
         arguments:
             $projectDir: '%kernel.project_dir%'
 
+    App\Imperium\Runtime\LaCortine\SortieProcessLauncher:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
     App\Imperium\Runtime\LaCortine\CredentialBroker:
         alias: App\Imperium\Runtime\LaCortine\EnvironmentCredentialBroker
 
