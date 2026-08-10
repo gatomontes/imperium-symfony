@@ -16,6 +16,7 @@ services:
         exclude:
             - '../src/Command/SortieRunCommand.php'
             - '../src/Imperium/Runtime/Sortie/SymfonyAiSortieCognitionGateway.php'
+            - '../src/Imperium/Runtime/Sortie/HttpGetSortieToolExecutor.php'
 
     App\Bootstrap\ManifestValidator:
         arguments:
