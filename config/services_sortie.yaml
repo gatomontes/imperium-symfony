@@ -24,6 +24,7 @@ services:
     App\Imperium\Runtime\Sortie\SymfonyAiSortieCognitionGateway:
         arguments:
             $agent: '@ai.agent.sortie'
+            $toolExecutor: '@App\Imperium\Runtime\Sortie\SortieToolExecutor'
 
     App\Imperium\Runtime\Sortie\SortieCognitionGateway:
         alias: App\Imperium\Runtime\Sortie\SymfonyAiSortieCognitionGateway
