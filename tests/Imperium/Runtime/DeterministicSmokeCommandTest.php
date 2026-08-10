@@ -20,6 +20,7 @@ final class DeterministicSmokeCommandTest extends TestCase
         self::assertStringContainsString('DETERMINISTIC_ROUND_TRIP_OK', $display);
         self::assertStringContainsString('operation=email.send', $display);
         self::assertStringContainsString('sortie=NONE', $display);
+        self::assertMatchesRegularExpression('/receipt\.sha256=[a-f0-9]{64}/', $display);
         self::assertStringNotContainsString('smoke-secret-', $display);
     }
 }
