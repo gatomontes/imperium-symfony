@@ -51,6 +51,7 @@ final class SortieManifestCodec
 
         $m = $document['manifest'];
         $manifest = new SortieManifest(
+            $this->string($m, 'execution_id'),
             $this->string($m, 'sortie_id'),
             $this->string($m, 'manifestation_id'),
             $this->string($m, 'commission_id'),
@@ -70,6 +71,7 @@ final class SortieManifestCodec
     private function manifestPayload(SortieManifest $manifest): array
     {
         return [
+            'execution_id' => $manifest->executionId,
             'sortie_id' => $manifest->sortieId,
             'manifestation_id' => $manifest->manifestationId,
             'commission_id' => $manifest->commissionId,
