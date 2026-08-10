@@ -10,12 +10,17 @@ final class HttpGetSortieToolExecutor implements SortieToolExecutor
 {
     private bool $consumed = false;
 
+    public function supports(string $toolId): bool
+    {
+        return 'http.get' === $toolId;
+    }
+
     public function execute(SortieManifest $manifest): SortieToolEvidence
     {
         if ($this->consumed) {
             throw new \RuntimeException('SORTIE_TOOL_CAPABILITY_CONSUMED: the one-use HTTP GET capability has already been consumed.');
         }
-        if (['http.get'] !== array_values($manifest->toolIds)) {
+        if (1 !== count($manifest->toolIds) || !$this->supports($manifest->toolIds[0])) {
             throw new \RuntimeException('SORTIE_TOOL_SCOPE_INVALID: this executor requires exactly one declared http.get tool.');
         }
         if (1 !== count($manifest->capabilityIds)) {
@@ -31,7 +36,6 @@ final class HttpGetSortieToolExecutor implements SortieToolExecutor
             throw new \RuntimeException('SORTIE_TOOL_DESTINATION_REJECTED: http.get requires an exact HTTPS destination.');
         }
 
-        // Consume before external execution so failure cannot be replayed in this one-shot runtime.
         $this->consumed = true;
 
         $context = stream_context_create([
