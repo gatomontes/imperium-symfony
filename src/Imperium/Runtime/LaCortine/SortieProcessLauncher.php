@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\LaCortine;
 
 use App\Imperium\Runtime\Sortie\SortieManifestCodec;
-use Symfony\Component\Process\Process;
 
 final class SortieProcessLauncher
 {
@@ -37,7 +36,7 @@ final class SortieProcessLauncher
                 throw new \RuntimeException('SORTIE_MANIFEST_WRITE_FAILED: sealed manifest could not be staged.');
             }
 
-            $process = new Process([
+            [$exitCode, $stdout, $stderr] = $this->runChild([
                 PHP_BINARY,
                 $this->projectDir.DIRECTORY_SEPARATOR.'bin'.DIRECTORY_SEPARATOR.'console',
                 'imperium:sortie:run',
@@ -46,12 +45,10 @@ final class SortieProcessLauncher
                 $outputFile,
                 '--env=sortie',
                 '--no-debug',
-            ], $this->projectDir, $this->sortieEnvironment());
-            $process->setTimeout(120);
-            $process->run();
+            ]);
 
-            if (!$process->isSuccessful()) {
-                throw new \RuntimeException('SORTIE_PROCESS_REFUSED: '.trim($process->getErrorOutput().' '.$process->getOutput()));
+            if (0 !== $exitCode) {
+                throw new \RuntimeException('SORTIE_PROCESS_REFUSED: '.trim($stderr.' '.$stdout));
             }
             if (!is_file($outputFile) || !is_readable($outputFile)) {
                 throw new \RuntimeException('SORTIE_RETURN_MISSING: child process returned no raw payload artifact.');
@@ -75,6 +72,41 @@ final class SortieProcessLauncher
         }
     }
 
+    /**
+     * @param list<string> $command
+     * @return array{0:int,1:string,2:string}
+     */
+    private function runChild(array $command): array
+    {
+        if (!function_exists('proc_open')) {
+            throw new \RuntimeException('SORTIE_PROCESS_UNAVAILABLE: proc_open is unavailable in this PHP runtime.');
+        }
+
+        $descriptors = [
+            0 => ['pipe', 'r'],
+            1 => ['pipe', 'w'],
+            2 => ['pipe', 'w'],
+        ];
+        $pipes = [];
+        $process = proc_open($command, $descriptors, $pipes, $this->projectDir, $this->sortieEnvironment());
+        if (!is_resource($process)) {
+            throw new \RuntimeException('SORTIE_PROCESS_START_FAILED: child runtime could not be created.');
+        }
+
+        fclose($pipes[0]);
+        $stdout = stream_get_contents($pipes[1]);
+        $stderr = stream_get_contents($pipes[2]);
+        fclose($pipes[1]);
+        fclose($pipes[2]);
+        $exitCode = proc_close($process);
+
+        return [
+            is_int($exitCode) ? $exitCode : 1,
+            false === $stdout ? '' : $stdout,
+            false === $stderr ? '' : $stderr,
+        ];
+    }
+
     /** @return array<string, string> */
     private function sortieEnvironment(): array
     {
@@ -88,6 +120,12 @@ final class SortieProcessLauncher
         $deepSeekKey = $_SERVER['DEEPSEEK_API_KEY'] ?? $_ENV['DEEPSEEK_API_KEY'] ?? getenv('DEEPSEEK_API_KEY');
         if (is_string($deepSeekKey) && '' !== $deepSeekKey) {
             $environment['DEEPSEEK_API_KEY'] = $deepSeekKey;
+        }
+
+        // Windows needs its system root to initialize child processes reliably.
+        $systemRoot = $_SERVER['SystemRoot'] ?? $_ENV['SystemRoot'] ?? getenv('SystemRoot');
+        if (is_string($systemRoot) && '' !== $systemRoot) {
+            $environment['SystemRoot'] = $systemRoot;
         }
 
         return $environment;
