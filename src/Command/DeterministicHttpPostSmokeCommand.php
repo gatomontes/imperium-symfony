@@ -90,7 +90,7 @@ final class DeterministicHttpPostSmokeCommand extends Command
         $output->writeln('capability='.$credential->capabilityId);
         $output->writeln('artifact='.$artifact->artifactId);
         $output->writeln('sortie=NONE');
-        $output->writeln('receipt.sha256='.$artifact->contentDigest);
+        $output->writeln('receipt.sha256='.$artifact->rawPayloadDigest);
 
         return Command::SUCCESS;
     }
