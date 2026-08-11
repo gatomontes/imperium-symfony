@@ -7,6 +7,7 @@ namespace App\Tests\Imperium\Runtime;
 use App\Bootstrap\CanonicalJson;
 use App\Bootstrap\StateStore;
 use App\Imperium\Runtime\Curia\ProceedingStore;
+use App\Imperium\Runtime\Conscription\GenericOfficerSubstrateRegistry;
 use App\Imperium\Runtime\Guildhall\CanonicalGuildhallStaffRegistry;
 use App\Imperium\Runtime\Guildhall\GuildhallActivationDemandService;
 use App\Imperium\Runtime\Guildhall\GuildhallProvisioningCaseService;
@@ -73,7 +74,7 @@ final class GuildhallSummonsServiceTest extends TestCase
         try {
             $demand = (new GuildhallActivationDemandService($root, $definitions))->demand($commissionId);
             $case = (new GuildhallProvisioningCaseService($root, $definitions, $staff))->open($demand['demand_id']);
-            $service = new GuildhallSummonsService($root, $bootstrap, $proceedings, $staff);
+            $service = new GuildhallSummonsService($root, $bootstrap, $proceedings, $staff, new GenericOfficerSubstrateRegistry($project));
             $result = $service->summon($case['case_id']);
 
             self::assertSame($result, $service->summon($case['case_id']));

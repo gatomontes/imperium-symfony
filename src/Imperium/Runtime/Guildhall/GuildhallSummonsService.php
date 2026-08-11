@@ -8,6 +8,7 @@ use App\Bootstrap\BootstrapState;
 use App\Bootstrap\CanonicalJson;
 use App\Bootstrap\StateStore;
 use App\Imperium\Runtime\Curia\ProceedingStore;
+use App\Imperium\Runtime\Conscription\GenericOfficerSubstrateRegistry;
 
 final readonly class GuildhallSummonsService
 {
@@ -22,6 +23,7 @@ final readonly class GuildhallSummonsService
         private StateStore $bootstrap,
         private ProceedingStore $proceedings,
         private CanonicalGuildhallStaffRegistry $staff,
+        private GenericOfficerSubstrateRegistry $substrate,
     ) {
         $this->caseDirectory = $projectDir.'/var/imperium/mastermason/activation-cases';
         $this->demandDirectory = $projectDir.'/var/imperium/mastermason/spawning-requests';
@@ -96,7 +98,8 @@ final readonly class GuildhallSummonsService
             throw new \RuntimeException('M48_CURIAL_OCCUPANCY_CHANGED: Seneschal or Chamberlain no longer matches the proceeding.');
         }
 
-        $identity = [$caseId, $case['record_digest'], $commissionId, $commission['record_digest'], $seneschal, $chamberlain];
+        $substrate = $this->substrate->current();
+        $identity = [$caseId, $case['record_digest'], $commissionId, $commission['record_digest'], $seneschal, $chamberlain, $substrate];
         $summonsId = 'guildhall-summons-'.substr(hash('sha256', CanonicalJson::encode($identity)), 0, 20);
         $summons = [
             'schema' => 'imperium.guildhall-summons/v1',
@@ -112,6 +115,7 @@ final readonly class GuildhallSummonsService
             'chamberlain' => ['disposition' => 'GUILDHALL_SUMMONS_RECORDED_AND_ROUTED', 'occupant' => $chamberlain],
             'mastermason' => ['disposition' => 'EXACT_SUMMONS_VALIDATED', 'charter_route' => 'curia.seneschal→curia.chamberlain→mastermason→conscription'],
             'canonical_staff_package' => $this->staff->current(),
+            'generic_officer_substrate' => $substrate,
             'spawning_authority' => true,
             'spawning_authority_scope' => 'four exact Guildhall manifestations for this provisioning case only',
             'recipient_acceptance' => false,
@@ -135,7 +139,7 @@ final readonly class GuildhallSummonsService
                 'persona' => $member['persona'],
                 'profile' => $member['profile'],
                 'qualification_contract' => $member['qualification_contract'],
-                'substrate' => 'generic-officer@1.0.0',
+                'substrate' => $substrate,
                 'status' => 'ISSUED_PENDING_CONSCRIPTION',
                 'spawning_authority' => true,
                 'authority_scope' => 'instantiate and qualify one manifestation for the exact target Seat',

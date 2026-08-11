@@ -36,6 +36,8 @@ Bind a successful qualification record to the constructed manifestation and its 
 ## deliver-qualified-manifestation
 Transmit the qualified manifestation and exact construction record to MasterMason for verification and the separately authorized runtime transition; record delivery or bounded failure.
 
+For a validated Guildhall summons, the ordinary Recruiter consumes exactly four MasterMason construction commissions, instantiates the shared immutable generic Officer substrate once per target, installs each exact canonical Guildhall Profile, verifies its Persona and lifecycle lineage, applies its qualification contract, and returns four sealed `QUALIFIED_UNBOUND` packets. These packets grant no Seat binding, Guildhall acceptance, mission work, or execution authority.
+
 ## bootstrap-recruiter
 When and only when MasterMason invokes the exact Charter-declared bootstrap transition and the resident Recruiter Seat is vacant, mechanically validate the exact Charter-recognized current/active Recruiter Profile and authorized generic substrate, instantiate the substrate, install that Profile, prepare the resulting Recruiter exclusively for the Recruiter Seat, and record its mechanical origin. MasterMason then verifies, binds, and activates Recruiter in the resident Recruiter Seat.
 
