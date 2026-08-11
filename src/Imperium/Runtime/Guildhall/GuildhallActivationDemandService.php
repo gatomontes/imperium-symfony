@@ -11,8 +11,10 @@ final readonly class GuildhallActivationDemandService
     private string $guildhallInbox;
     private string $demandDirectory;
 
-    public function __construct(string $projectDir)
-    {
+    public function __construct(
+        string $projectDir,
+        private ProfileDefinitionRegistry $definitions,
+    ) {
         $this->guildhallInbox = $projectDir.'/var/imperium/offices/guildhall/inbox';
         $this->demandDirectory = $projectDir.'/var/imperium/mastermason/spawning-requests';
     }
@@ -43,13 +45,16 @@ final readonly class GuildhallActivationDemandService
             throw new \RuntimeException('G12_ACTIVATION_DELIVERY_INVALID: exact unaccepted Guildhall delivery is required.');
         }
 
-        $seats = [
-            ['seat' => 'guildhall.guildmaster', 'profile' => 'guildhall.guildmaster', 'profile_source' => 'offices/guildhall/profile-guildmaster.md'],
-            ['seat' => 'guildhall.committee.disciplinary-fit', 'profile' => 'guildhall.committee.disciplinary-fit', 'profile_source' => 'offices/guildhall/profile-committee-disciplinary-fit.md'],
-            ['seat' => 'guildhall.committee.composition', 'profile' => 'guildhall.committee.composition', 'profile_source' => 'offices/guildhall/profile-committee-composition.md'],
-            ['seat' => 'guildhall.committee.boundary-challenge', 'profile' => 'guildhall.committee.boundary-challenge', 'profile_source' => 'offices/guildhall/profile-committee-boundary-challenge.md'],
-        ];
-        $identity = [$commissionId, $envelope['record_digest'] ?? null, array_column($seats, 'seat')];
+        $seats = [];
+        foreach ([
+            ['guildmaster', 'guildhall.guildmaster'],
+            ['committee-disciplinary-fit', 'guildhall.committee.disciplinary-fit'],
+            ['committee-composition', 'guildhall.committee.composition'],
+            ['committee-boundary-challenge', 'guildhall.committee.boundary-challenge'],
+        ] as [$name, $seat]) {
+            $seats[] = ['seat' => $seat, 'profile_definition' => $this->definitions->current($name, $seat)];
+        }
+        $identity = [$commissionId, $envelope['record_digest'] ?? null, $seats];
         $demandId = 'guildhall-activation-'.substr(hash('sha256', CanonicalJson::encode($identity)), 0, 20);
         $demand = [
             'schema' => 'imperium.office-activation-demand/v1',
@@ -62,13 +67,13 @@ final readonly class GuildhallActivationDemandService
             'delivery_digest' => $envelope['record_digest'] ?? null,
             'required_seats' => $seats,
             'missing_prerequisites' => [
-                'immutable Profile artifacts for all required Seats',
-                'current/active Profile attestations and approval chains',
+                'admitted Persona selections for all required Seats',
+                'Laboratorium-derived immutable Profile artifacts and lifecycle attestations',
                 'MasterMason spawning authorization',
                 'Conscription qualification packets',
                 'atomic Seat bindings',
             ],
-            'status' => 'BLOCKED_PROFILE_ARTIFACTS',
+            'status' => 'PROFILE_DEFINITIONS_READY',
             'spawning_authority' => false,
             'recipient_acceptance' => false,
             'execution_authority' => false,

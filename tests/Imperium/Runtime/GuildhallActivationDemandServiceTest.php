@@ -6,6 +6,7 @@ namespace App\Tests\Imperium\Runtime;
 
 use App\Bootstrap\CanonicalJson;
 use App\Imperium\Runtime\Guildhall\GuildhallActivationDemandService;
+use App\Imperium\Runtime\Guildhall\ProfileDefinitionRegistry;
 use PHPUnit\Framework\TestCase;
 
 final class GuildhallActivationDemandServiceTest extends TestCase
@@ -33,11 +34,12 @@ final class GuildhallActivationDemandServiceTest extends TestCase
         file_put_contents($directory.'/'.$commissionId.'.json', json_encode($envelope, JSON_THROW_ON_ERROR));
 
         try {
-            $service = new GuildhallActivationDemandService($root);
+            $service = new GuildhallActivationDemandService($root, new ProfileDefinitionRegistry(dirname(__DIR__, 3)));
             $demand = $service->demand($commissionId);
             self::assertSame($demand, $service->demand($commissionId));
-            self::assertSame('BLOCKED_PROFILE_ARTIFACTS', $demand['status']);
+            self::assertSame('PROFILE_DEFINITIONS_READY', $demand['status']);
             self::assertCount(4, $demand['required_seats']);
+            self::assertSame('1.0.0', $demand['required_seats'][0]['profile_definition']['definition_version']);
             self::assertFalse($demand['spawning_authority']);
             self::assertFalse($demand['recipient_acceptance']);
             self::assertFalse($demand['execution_authority']);
