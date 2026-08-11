@@ -74,6 +74,10 @@ From one commissioning-ready structured Mission Plan, mechanically seal the exac
 
 Storage and ordinary drafting support remain mechanical allocations rather than cognitive Office commissions. Issuance records each packet as `ISSUED_PENDING_RECIPIENT` while the target Office runtime is unavailable. Issuance grants no construction, recruitment, deployment, tool activation, target access, credential use, assessment work, or execution authority.
 
+### `deliver-planning-commissions`
+
+Route each exact sealed planning commission into its declared Office inbox. Delivery records `DELIVERED_PENDING_RECIPIENT`; it neither speaks for the recipient nor records acceptance. Curia cannot accept its own commission on Guildhall's or Armory's behalf. Recipient acceptance requires the exact target Office runtime and an attributable authorized occupant or service. Delivery remains planning-only and grants no execution authority.
+
 ## `track-dependency`
 
 Maintain mechanical state for authorized commissions, Office dependencies, pending returns, deadlines, stop conditions, and unresolved blockers.
