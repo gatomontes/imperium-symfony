@@ -39,4 +39,26 @@ final class SymfonyAiSeneschalCognitionGatewayTest extends TestCase
         $this->expectExceptionMessage('C11_SENESCHAL_CONTRACT_INVALID');
         (new SymfonyAiSeneschalCognitionGateway($agent))->decide('Do it.', []);
     }
+
+    public function testDraftPlanMayCarryUnresolvedAuthorizationDemand(): void
+    {
+        $agent = $this->createStub(AgentInterface::class);
+        $agent->method('call')->willReturn(new TextResult(json_encode([
+            'disposition' => 'MISSION_PLAN_DRAFTED',
+            'decision' => 'Draft a passive assessment, pending authorization for external research.',
+            'question' => null,
+            'resource_demands' => ['external research'],
+            'authorization_required' => true,
+        ], JSON_THROW_ON_ERROR)));
+
+        $decision = (new SymfonyAiSeneschalCognitionGateway($agent))->advance(
+            ['imperator_request' => ['content' => 'Prepare a cybersecurity assessment mission.']],
+            [],
+            'Draft the plan but do not begin research.',
+            ['proceeding_id' => 'proceeding-test'],
+        );
+
+        self::assertSame('MISSION_PLAN_DRAFTED', $decision['disposition']);
+        self::assertTrue($decision['authorization_required']);
+    }
 }
