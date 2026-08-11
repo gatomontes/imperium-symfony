@@ -45,6 +45,7 @@ final class InboundLazaretto
             'inbound-artifact.'.hash('sha256', $payload->payloadId.'|'.$payload->contentDigest.'|'.$admittedAt->format(DATE_ATOM)),
             $payload->payloadId,
             $payload->contentDigest,
+            $payload->content,
             $normalized,
             $provenance,
             $admittedAt,
