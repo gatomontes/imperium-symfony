@@ -79,6 +79,63 @@ final readonly class ProceedingStore
         return null;
     }
 
+    public function turn(string $proceedingId, int $sequence): ?array
+    {
+        foreach ($this->turns($proceedingId) as $turn) {
+            if ($sequence === ($turn['sequence'] ?? null)) {
+                return $turn;
+            }
+        }
+
+        return null;
+    }
+
+    public function acts(string $proceedingId): array
+    {
+        $paths = glob($this->directory.'/'.$proceedingId.'.act.*.json') ?: [];
+        sort($paths, SORT_STRING);
+
+        return array_map(
+            static fn (string $path): array => json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR),
+            $paths,
+        );
+    }
+
+    public function persistAct(string $proceedingId, string $actId, array $act): array
+    {
+        if (!preg_match('/^[a-zA-Z0-9._-]{8,80}$/', $actId)) {
+            throw new \InvalidArgumentException('Act identity must contain 8–80 safe identifier characters.');
+        }
+        $handle = fopen($this->directory.'/'.$proceedingId.'.lock', 'c+');
+        if (false === $handle || !flock($handle, LOCK_EX)) {
+            throw new \RuntimeException('Curian proceeding lock cannot be acquired.');
+        }
+        try {
+            $path = $this->directory.'/'.$proceedingId.'.act.'.$actId.'.json';
+            $act['act_id'] = $actId;
+            $act['record_digest'] = hash('sha256', CanonicalJson::encode($act));
+            if (is_file($path)) {
+                $existing = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+                if (CanonicalJson::encode($existing) !== CanonicalJson::encode($act)) {
+                    throw new \RuntimeException('C30_ACT_REPLAY_CONFLICT: Imperator act identity is already bound differently.');
+                }
+
+                return $existing;
+            }
+            $temporary = $path.'.tmp.'.bin2hex(random_bytes(6));
+            $json = json_encode($act, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)."\n";
+            if (false === file_put_contents($temporary, $json, LOCK_EX) || !rename($temporary, $path)) {
+                @unlink($temporary);
+                throw new \RuntimeException('Imperator act cannot be committed atomically.');
+            }
+
+            return $act;
+        } finally {
+            flock($handle, LOCK_UN);
+            fclose($handle);
+        }
+    }
+
     public function appendTurn(string $proceedingId, string $responseId, int $expectedSequence, array $turn): array
     {
         $lockPath = $this->directory.'/'.$proceedingId.'.lock';

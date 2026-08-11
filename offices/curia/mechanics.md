@@ -53,6 +53,16 @@ Bind a Curialis submission to its author, Seat, mandate, evidence, uncertainty, 
 
 Preserve an already-rendered Seneschal disposition, its evidence basis, dissent, mandate, affected objects, and required next institutional path.
 
+## `record-imperator-plan-approval`
+
+Bind one explicit Imperator approval to the exact drafted-plan turn and record digest. Approval grants neither resource nor execution authority.
+
+## `record-imperator-resource-authorization`
+
+Bind one explicit Imperator authorization to an exact subset of the resource demands declared by the referenced drafted-plan turn. Undeclared resources are refused. Authorization does not approve the plan and does not itself authorize execution.
+
+Curia becomes commissioning-ready only when the exact plan is approved and all its declared resource demands are covered by valid authorization records. Commissioning readiness permits Curia to prepare the next governed execution step; it is not execution authority.
+
 ## `track-dependency`
 
 Maintain mechanical state for authorized commissions, Office dependencies, pending returns, deadlines, stop conditions, and unresolved blockers.
