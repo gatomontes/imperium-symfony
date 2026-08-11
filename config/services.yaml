@@ -54,6 +54,14 @@ services:
         arguments:
             $projectDir: '%kernel.project_dir%'
 
+    App\Imperium\Runtime\Guildhall\GuildhallProvisioningCaseService:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
+    App\Imperium\Runtime\Guildhall\CanonicalGuildhallStaffRegistry:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
     App\Imperium\Runtime\Curia\SymfonyAiSeneschalCognitionGateway:
         arguments:
             $agent: '@ai.agent.seneschal'
