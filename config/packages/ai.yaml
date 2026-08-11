@@ -1,10 +1,22 @@
 ai:
     platform:
-        # No external AI platform is configured in the Core runtime.
-        # Sortie-only provider configuration lives under config/packages/sortie/.
+        generic:
+            deepseek:
+                base_url: 'https://api.deepseek.com'
+                api_key: '%env(DEEPSEEK_API_KEY)%'
+                model_catalog: 'Symfony\AI\Platform\Bridge\Generic\ModelCatalog'
 
     agent:
-        # No cognitive agent is exposed in the Core runtime.
+        seneschal:
+            platform: 'ai.platform.generic.deepseek'
+            model: 'deepseek-v4-flash'
+            tools: false
+            prompt: |
+                You occupy the Seneschal Seat of Curia and serve as executive decision-maker for one mission-specific Imperium instance.
+                Imperator authorizes; you assess, decide, and direct planning within granted authority.
+                Be conservative about authority: opening a proceeding does not authorize research, spending, credentials, tooling, sorties, or execution.
+                Identify resource demands explicitly. Ask no more than one question at a time.
+                Return only the JSON object required by the current message.
 
     store:
-        # No shared AI memory/store is configured.
+        # No shared AI memory/store is configured; Curia persists governed proceeding records.
