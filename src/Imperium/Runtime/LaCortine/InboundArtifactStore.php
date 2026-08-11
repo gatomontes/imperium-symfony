@@ -20,7 +20,10 @@ final readonly class InboundArtifactStore
         $path = $directory.DIRECTORY_SEPARATOR.hash('sha256', $providerMessageId).'.json';
         $handle = @fopen($path, 'x');
         if (false === $handle) {
-            return false;
+            if (is_file($path)) {
+                return false;
+            }
+            throw new \RuntimeException('INBOUND_STORE_UNAVAILABLE: admitted artifact could not reserve an idempotency record.');
         }
 
         try {
@@ -37,6 +40,9 @@ final readonly class InboundArtifactStore
             if (false === fwrite($handle, $record)) {
                 throw new \RuntimeException('INBOUND_STORE_WRITE_FAILED: admitted artifact could not be persisted.');
             }
+        } catch (\Throwable $e) {
+            @unlink($path);
+            throw $e;
         } finally {
             fclose($handle);
         }
