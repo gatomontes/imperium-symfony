@@ -11,7 +11,11 @@ final readonly class GuildhallProvisioningCaseService
     private string $demandDirectory;
     private string $caseDirectory;
 
-    public function __construct(string $projectDir, private ProfileDefinitionRegistry $definitions)
+    public function __construct(
+        string $projectDir,
+        private ProfileDefinitionRegistry $definitions,
+        private CanonicalGuildhallStaffRegistry $staff,
+    )
     {
         $this->demandDirectory = $projectDir.'/var/imperium/mastermason/spawning-requests';
         $this->caseDirectory = $projectDir.'/var/imperium/mastermason/activation-cases';
@@ -75,7 +79,12 @@ final readonly class GuildhallProvisioningCaseService
             throw new \RuntimeException('M33_ACTIVATION_SEATS_INVALID: all four exact Guildhall Seats are required once.');
         }
 
-        $caseId = 'guildhall-provisioning-'.substr(hash('sha256', CanonicalJson::encode([$demandId, $demand['record_digest'], $lanes])), 0, 20);
+        $staffPackage = $this->staff->current();
+        foreach ($lanes as &$lane) {
+            $lane['canonical_staff_requirement']['status'] = 'CANONICAL_STAFF_READY';
+        }
+        unset($lane);
+        $caseId = 'guildhall-provisioning-'.substr(hash('sha256', CanonicalJson::encode([$demandId, $demand['record_digest'], $staffPackage, $lanes])), 0, 20);
         $case = [
             'schema' => 'imperium.office-provisioning-case/v1',
             'case_id' => $caseId,
@@ -90,8 +99,9 @@ final readonly class GuildhallProvisioningCaseService
                 'runtime_executor' => 'mastermason',
                 'manifestation_constructor' => 'conscription',
             ],
+            'canonical_staff_package' => $staffPackage,
             'lanes' => $lanes,
-            'status' => 'CANONICAL_STAFF_ARTIFACTS_REQUIRED',
+            'status' => 'CANONICAL_STAFF_READY',
             'mission_persona_selection_required' => false,
             'per_mission_profile_derivation_required' => false,
             'activation_request_recorded' => false,

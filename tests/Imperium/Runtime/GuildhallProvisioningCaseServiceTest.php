@@ -6,6 +6,7 @@ namespace App\Tests\Imperium\Runtime;
 
 use App\Bootstrap\CanonicalJson;
 use App\Imperium\Runtime\Guildhall\GuildhallProvisioningCaseService;
+use App\Imperium\Runtime\Guildhall\CanonicalGuildhallStaffRegistry;
 use App\Imperium\Runtime\Guildhall\ProfileDefinitionRegistry;
 use PHPUnit\Framework\TestCase;
 
@@ -42,14 +43,15 @@ final class GuildhallProvisioningCaseServiceTest extends TestCase
         file_put_contents($directory.'/'.$demandId.'.json', json_encode($demand, JSON_THROW_ON_ERROR));
 
         try {
-            $service = new GuildhallProvisioningCaseService($root, $definitions);
+            $service = new GuildhallProvisioningCaseService($root, $definitions, new CanonicalGuildhallStaffRegistry(dirname(__DIR__, 3), $definitions));
             $case = $service->open($demandId);
             self::assertSame($case, $service->open($demandId));
-            self::assertSame('CANONICAL_STAFF_ARTIFACTS_REQUIRED', $case['status']);
+            self::assertSame('CANONICAL_STAFF_READY', $case['status']);
             self::assertCount(4, $case['lanes']);
             self::assertFalse($case['lanes'][0]['canonical_staff_requirement']['mission_persona_selection']);
             self::assertSame('admitted', $case['lanes'][0]['canonical_staff_requirement']['persona_admission_state']);
-            self::assertSame('BLOCKED_PENDING_CANONICAL_STAFF_ARTIFACTS', $case['lanes'][0]['canonical_staff_requirement']['status']);
+            self::assertSame('CANONICAL_STAFF_READY', $case['lanes'][0]['canonical_staff_requirement']['status']);
+            self::assertSame('guildhall.canonical-staff', $case['canonical_staff_package']['package_id']);
             self::assertSame('curia.seneschal', $case['summoning_rule']['requester']);
             self::assertSame('curia.chamberlain', $case['summoning_rule']['router']);
             self::assertSame('mastermason', $case['summoning_rule']['runtime_executor']);

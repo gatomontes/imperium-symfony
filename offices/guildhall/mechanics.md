@@ -17,6 +17,8 @@ When the personnel question arises in Curia, the Seneschal requests Guildhall ac
 
 Opening a provisioning case records this summoning rule and any missing canonical staff artifacts. It grants no spawning, acceptance, or execution authority.
 
+The canonical staff package binds four exact Garrison-admitted Persona versions, their Laboratorium-derived Officer Profiles, competent approval attestations, Guildhall current/active designations, and immutable file digests. The package is versioned institutional material, not a live staff body. A summons still requires fresh Conscription manifestations, qualification, and MasterMason Seat bindings for the current Imperium instance.
+
 ## open-resolution-case
 Preserve exact Curia inputs, versions, provenance, authority, and correlation in a resolution-case record.
 
