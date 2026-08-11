@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'imperium:activate', description: 'Validate and advance primordial bootstrap through T08')]
+#[AsCommand(name: 'imperium:activate', description: 'Validate and advance primordial bootstrap through CURIA_READY')]
 final class ActivateCommand extends Command
 {
     public function __construct(private readonly Launcher $launcher)

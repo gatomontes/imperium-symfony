@@ -1,6 +1,6 @@
 ---
 title: Curia Mechanics
-status: approved-target
+status: current-theoretical-contract
 scope: office-mechanics
 inherits:
   - /imperium-doctrine.md
@@ -14,6 +14,18 @@ These mechanics preserve, correlate, version, and route Curia's work. They do no
 ## `open-planning-proceeding`
 
 Create the immutable proceeding identity and bind the authenticated Imperator, instance, initial intent, supplied material, and provenance.
+
+The development CLI authority surface is fixed to `imperator-development-root`; it does not accept a caller-selected Imperator identity. An identical instance, Manifest, Curian occupancy set, authority, and request deterministically replay the same proceeding identity. A Seneschal succession therefore cannot silently inherit or overwrite the predecessor's disposition for a replayed request.
+
+Opening performs the following bounded sequence:
+
+1. prove `CURIA_READY` and active Seneschal, Chamberlain, and Secretary occupancies;
+2. have Chamberlain open the proceeding mechanically;
+3. have Isolde preserve the exact Imperator request;
+4. obtain one contract-valid Seneschal cognition result;
+5. atomically persist the complete proceeding record.
+
+The Seneschal result may admit planning, ask exactly one clarification question, or refuse. It must enumerate immediate resource demands and whether they require Imperator authorization. It cannot itself claim that authorization has been granted.
 
 ## `version-mission-dossier`
 
