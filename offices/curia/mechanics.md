@@ -65,6 +65,15 @@ Bind one explicit Imperator authorization to an exact subset of the resource dem
 
 Curia becomes commissioning-ready only when the exact plan is approved and all its declared resource demands are covered by valid authorization records. Commissioning readiness permits Curia to prepare the next governed execution step; it is not execution authority.
 
+## `issue-planning-commissions`
+
+From one commissioning-ready structured Mission Plan, mechanically seal the exact planning-only commissions declared by the plan and covered by its approval and resource-authorization records. The current vertical slice issues:
+
+- a Guildhall commission for profession determination, personnel disposition, and its bounded Garrison inventory inquiry; and
+- an Armory commission for passive-methodology, checklist, and tooling disposition.
+
+Storage and ordinary drafting support remain mechanical allocations rather than cognitive Office commissions. Issuance records each packet as `ISSUED_PENDING_RECIPIENT` while the target Office runtime is unavailable. Issuance grants no construction, recruitment, deployment, tool activation, target access, credential use, assessment work, or execution authority.
+
 ## `track-dependency`
 
 Maintain mechanical state for authorized commissions, Office dependencies, pending returns, deadlines, stop conditions, and unresolved blockers.
