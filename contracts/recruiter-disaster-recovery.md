@@ -6,7 +6,7 @@ Current deterministic contract for restoring ordinary Conscription authority aft
 
 ## Jurisdiction
 
-This procedure is not initial bootstrap, orderly Recruiter succession, or ordinary spawning. It may begin only after Imperium has reached `READY` and MasterMason has mechanically established that the resident Recruiter Seat has no recoverable incumbent.
+This procedure is not initial bootstrap, orderly Recruiter succession, or ordinary spawning. It may begin only after Imperium has reached `CURIA_READY` and MasterMason has mechanically established that the resident Recruiter Seat has no recoverable incumbent.
 
 The retired provisional Recruiter is never reactivated. Recovery creates a fresh recovery Recruiter with a new manifestation identity and explicit recovery provenance.
 
@@ -39,7 +39,7 @@ RECOVERY_UNREQUESTED
 → RECOVERY_COMPLETE
 ```
 
-1. `LOSS_CONFIRMED`: verify `READY`, authoritative vacancy, incumbent irrecoverability, last occupancy lineage, Charter generation, and recovery authorization.
+1. `LOSS_CONFIRMED`: verify `CURIA_READY`, authoritative vacancy, incumbent irrecoverability, last occupancy lineage, Charter generation, and recovery authorization.
 2. `RECOVERY_SEAT_RESERVED`: atomically reserve the Recruiter Seat at its expected generation and bar all ordinary Recruiter succession or competing recovery.
 3. `RECOVERY_RECRUITER_BOUND`: mechanically instantiate a fresh recovery Recruiter from the exact authorized composition and bind it inactive except for one successor qualification commission.
 4. `SUCCESSOR_QUALIFIED`: the recovery Recruiter assembles and qualifies one distinct ordinary Recruiter; MasterMason verifies the single-use commission and returned succession packet.
@@ -58,7 +58,7 @@ The recovery Recruiter may:
 
 It may not:
 
-- qualify Secretary, Rector, another Officer, or an operative
+- qualify a Curian officer, another Officer, or an operative
 - accept ordinary Conscription work
 - occupy another Seat
 - survive successful succession

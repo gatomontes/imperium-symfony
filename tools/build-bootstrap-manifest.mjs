@@ -14,8 +14,9 @@ const canonical = value => {
 const profileDefinitions = {
   'provisional-recruiter': { persona: 'recruiter', id: 'conscription.recruiter.provisional', steward: 'conscription', seat: 'conscription.recruiter', source: 'offices/conscription/profile-recruiter.md', limitations: ['succession-only', 'one ordinary Recruiter successor'] },
   'ordinary-recruiter': { persona: 'recruiter', id: 'conscription.recruiter.ordinary', steward: 'conscription', seat: 'conscription.recruiter', source: 'offices/conscription/profile-recruiter.md', limitations: [] },
-  secretary: { persona: 'secretary', id: 'secretariat.secretary', steward: 'secretariat', seat: 'secretariat.secretary', source: 'offices/secretariat/profile-secretary.md', limitations: [] },
-  rector: { persona: 'rector', id: 'castellan.rector', steward: 'castellan', seat: 'castellan.rector', source: 'offices/castellan/profile-rector.md', limitations: [] },
+  seneschal: { persona: 'seneschal', id: 'curia.seneschal', steward: 'curia', seat: 'curia.seneschal', source: 'offices/curia/profile-seneschal.md', limitations: [] },
+  chamberlain: { persona: 'chamberlain', id: 'curia.chamberlain', steward: 'curia', seat: 'curia.chamberlain', source: 'offices/curia/profile-chamberlain.md', limitations: [] },
+  secretary: { persona: 'isolde', id: 'curia.secretary', steward: 'curia', seat: 'curia.secretary', source: 'offices/curia/profile-secretary.md', limitations: ['provisional-curial-assignment'] },
 };
 for (const [name, definition] of Object.entries(profileDefinitions)) {
   const personaPath = `bootstrap/artifacts/${definition.persona}-persona.json`;
@@ -72,31 +73,39 @@ const payload = {
     mission_planning_contract: record('contracts/mission-planning.md'),
     charter: record('bootstrap/artifacts/charter.json'),
     personas: {
-      recruiter: record('bootstrap/artifacts/recruiter-persona.json'), secretary: record('bootstrap/artifacts/secretary-persona.json'), rector: record('bootstrap/artifacts/rector-persona.json'),
+      recruiter: record('bootstrap/artifacts/recruiter-persona.json'),
+      seneschal: record('bootstrap/artifacts/seneschal-persona.json'),
+      chamberlain: record('bootstrap/artifacts/chamberlain-persona.json'),
+      isolde: record('bootstrap/artifacts/isolde-persona.json'),
     },
     offices: {
       conscription: record('offices/conscription/doctrine.md'),
-      secretariat: record('offices/secretariat/doctrine.md'),
-      castellan: record('offices/castellan/doctrine.md'),
+      curia: record('offices/curia/doctrine.md'),
     },
     seats: {
       provisional_recruiter: record('bootstrap/artifacts/provisional-recruiter-seat.json'), ordinary_recruiter: record('bootstrap/artifacts/ordinary-recruiter-seat.json'),
-      secretary: record('bootstrap/artifacts/secretary-seat.json'), rector: record('bootstrap/artifacts/rector-seat.json'),
+      seneschal: record('bootstrap/artifacts/seneschal-seat.json'),
+      chamberlain: record('bootstrap/artifacts/chamberlain-seat.json'),
+      secretary: record('bootstrap/artifacts/secretary-seat.json'),
     },
     profiles: {
       provisional_recruiter: { ...record('bootstrap/artifacts/provisional-recruiter-profile.json'), attestations: { approval: record('bootstrap/artifacts/provisional-recruiter-profile-approved.json'), current_active: record('bootstrap/artifacts/provisional-recruiter-profile-current-active.json') } },
       ordinary_recruiter: { ...record('bootstrap/artifacts/ordinary-recruiter-profile.json'), attestations: { approval: record('bootstrap/artifacts/ordinary-recruiter-profile-approved.json'), current_active: record('bootstrap/artifacts/ordinary-recruiter-profile-current-active.json') } },
+      seneschal: { ...record('bootstrap/artifacts/seneschal-profile.json'), attestations: { approval: record('bootstrap/artifacts/seneschal-profile-approved.json'), current_active: record('bootstrap/artifacts/seneschal-profile-current-active.json') } },
+      chamberlain: { ...record('bootstrap/artifacts/chamberlain-profile.json'), attestations: { approval: record('bootstrap/artifacts/chamberlain-profile-approved.json'), current_active: record('bootstrap/artifacts/chamberlain-profile-current-active.json') } },
       secretary: { ...record('bootstrap/artifacts/secretary-profile.json'), attestations: { approval: record('bootstrap/artifacts/secretary-profile-approved.json'), current_active: record('bootstrap/artifacts/secretary-profile-current-active.json') } },
-      rector: { ...record('bootstrap/artifacts/rector-profile.json'), attestations: { approval: record('bootstrap/artifacts/rector-profile-approved.json'), current_active: record('bootstrap/artifacts/rector-profile-current-active.json') } },
     },
     substrates: {
       provisional_recruiter: record('bootstrap/artifacts/provisional-recruiter-substrate.json'), ordinary_recruiter: record('bootstrap/artifacts/ordinary-recruiter-substrate.json'),
-      secretary: record('bootstrap/artifacts/secretary-substrate.json'), rector: record('bootstrap/artifacts/rector-substrate.json'),
+      seneschal: record('bootstrap/artifacts/seneschal-substrate.json'),
+      chamberlain: record('bootstrap/artifacts/chamberlain-substrate.json'),
+      secretary: record('bootstrap/artifacts/secretary-substrate.json'),
     },
     succession_commission: record('bootstrap/artifacts/recruiter-succession-commission.json'),
     assembly_commissions: {
+      seneschal: record('bootstrap/artifacts/seneschal-assembly-commission.json'),
+      chamberlain: record('bootstrap/artifacts/chamberlain-assembly-commission.json'),
       secretary: record('bootstrap/artifacts/secretary-assembly-commission.json'),
-      rector: record('bootstrap/artifacts/rector-assembly-commission.json'),
     },
     routes: record('bootstrap/artifacts/routes.json'),
     bootstrap_machine: record('bootstrap/artifacts/bootstrap-machine.json'),
