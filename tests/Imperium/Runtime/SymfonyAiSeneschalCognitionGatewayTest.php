@@ -33,7 +33,7 @@ final class SymfonyAiSeneschalCognitionGatewayTest extends TestCase
 
     public function testRefusesMalformedDisposition(): void
     {
-        $agent = $this->createMock(AgentInterface::class);
+        $agent = $this->createStub(AgentInterface::class);
         $agent->method('call')->willReturn(new TextResult('{"decision":"do it"}'));
 
         $this->expectExceptionMessage('C11_SENESCHAL_CONTRACT_INVALID');
