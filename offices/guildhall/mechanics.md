@@ -9,6 +9,14 @@ These functions support Guildhall cognition. They do not determine professions, 
 
 When an exact planning commission has reached Guildhall's inbox but the four resident Seats are unavailable, preserve a deterministic activation demand to MasterMason. The demand names the Guildmaster, Disciplinary-Fit, Composition, and Boundary-Challenge Seats and their Guildhall-owned Profile Definitions. Guildhall's profile-registry mechanic verifies each exact immutable definition version, source digest, Imperator approval, and current designation. Definitions remain non-installable inputs: missing admitted Persona selections, Laboratorium-derived Profile artifacts and lifecycle attestations, Conscription qualification packets, or Seat bindings remain explicit blockers. The demand grants no spawning, qualification, binding, acceptance, or execution authority.
 
+## open-provisioning-case
+
+MasterMason may mechanically validate that exact activation demand and open one deterministic provisioning lane per required Seat. Guildhall is the standing Office; its Guildmaster and committee members are canonical institutional staff whose work does not vary by mission. Their admitted Personas, current Profiles, and qualification chains are prepared and versioned institutionally rather than selected or derived anew for each mission.
+
+When the personnel question arises in Curia, the Seneschal requests Guildhall activation and the Chamberlain records and routes that summons. MasterMason validates the request, commissions Conscription to instantiate the exact current qualified Guildmaster and committee manifestations, and binds them to the four Guildhall Seats. The Guildmaster may accept the waiting commission only after valid occupancy. Neither the Seneschal nor Chamberlain selects Guildhall occupants, constructs manifestations, or acquires Guildhall jurisdiction; MasterMason performs no cognition and Conscription performs no personnel selection.
+
+Opening a provisioning case records this summoning rule and any missing canonical staff artifacts. It grants no spawning, acceptance, or execution authority.
+
 ## open-resolution-case
 Preserve exact Curia inputs, versions, provenance, authority, and correlation in a resolution-case record.
 
