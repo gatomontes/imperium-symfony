@@ -44,7 +44,7 @@ final class GuildhallDemandActivationCommand extends Command
 
         $output->writeln('<info>GUILDHALL_ACTIVATION_REQUIRED</info> '.$demand['demand_id']);
         foreach ($demand['required_seats'] as $seat) {
-            $output->writeln('- '.$seat['seat'].' '.$seat['profile']);
+            $output->writeln('- '.$seat['seat'].' '.$seat['profile_definition']['definition_id'].'@'.$seat['profile_definition']['definition_version']);
         }
         $output->writeln('Status: '.$demand['status']);
         $output->writeln('Spawning authority: NOT GRANTED');

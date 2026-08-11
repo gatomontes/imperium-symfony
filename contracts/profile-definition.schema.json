@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://imperium.invalid/contracts/profile-definition.schema.json",
+  "title": "Imperium Profile Definition",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version", "definition_id", "definition_version", "artifact_class",
+    "steward", "target", "source", "qualification_contract", "limitations",
+    "digest_spec", "content_digest"
+  ],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "definition_id": { "$ref": "#/$defs/nonempty" },
+    "definition_version": { "$ref": "#/$defs/semver" },
+    "artifact_class": { "const": "officer_profile_definition" },
+    "steward": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "id"],
+      "properties": { "kind": { "const": "office" }, "id": { "$ref": "#/$defs/nonempty" } }
+    },
+    "target": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "id"],
+      "properties": { "kind": { "const": "seat" }, "id": { "$ref": "#/$defs/nonempty" } }
+    },
+    "source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "content_digest"],
+      "properties": { "path": { "$ref": "#/$defs/nonempty" }, "content_digest": { "$ref": "#/$defs/digest" } }
+    },
+    "qualification_contract": {
+      "type": "object", "additionalProperties": false,
+      "required": ["contract_id", "criteria"],
+      "properties": {
+        "contract_id": { "$ref": "#/$defs/nonempty" },
+        "criteria": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/nonempty" } }
+      }
+    },
+    "limitations": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/nonempty" } },
+    "digest_spec": {
+      "type": "object", "additionalProperties": false,
+      "required": ["algorithm", "canonicalization", "omitted_fields"],
+      "properties": {
+        "algorithm": { "const": "sha256" },
+        "canonicalization": { "const": "rfc8785" },
+        "omitted_fields": { "const": ["content_digest"] }
+      }
+    },
+    "content_digest": { "$ref": "#/$defs/digest" }
+  },
+  "$defs": {
+    "nonempty": { "type": "string", "minLength": 1 },
+    "semver": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }
+  }
+}
