@@ -86,6 +86,35 @@ final readonly class CanonicalGuildhallStaffRegistry
         return ['package_id' => $package['package_id'], 'package_version' => $package['package_version'], 'record_digest' => $package['record_digest']];
     }
 
+    public function members(): array
+    {
+        $this->current();
+        $package = $this->read($this->directory.'/package.json');
+
+        return array_map(function (array $member): array {
+            $persona = $this->read($this->projectDir.'/'.$member['persona']['path']);
+            $profile = $this->read($this->projectDir.'/'.$member['profile']['path']);
+
+            return [
+                'seat' => $member['seat'],
+                'persona' => [
+                    'persona_id' => $persona['persona_id'],
+                    'persona_version' => $persona['persona_version'],
+                    'persona_digest' => $member['persona']['content_digest'],
+                    'admission_record' => $persona['admission']['evidence_record'],
+                ],
+                'profile' => [
+                    'profile_id' => $profile['profile_id'],
+                    'profile_version' => $profile['profile_version'],
+                    'content_digest' => $profile['content_digest'],
+                    'approval_attestation' => $member['approval'],
+                    'current_active_attestation' => $member['current_active'],
+                ],
+                'qualification_contract' => $profile['qualification_contract'],
+            ];
+        }, $package['members']);
+    }
+
     private function verifyFile(mixed $reference): void
     {
         if (!is_array($reference) || !is_string($reference['path'] ?? null) || !is_string($reference['content_digest'] ?? null)) {
