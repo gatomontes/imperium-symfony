@@ -109,6 +109,11 @@ final class CurianAudienceTest extends TestCase
                     'authorization_required' => false,
                 ];
             }
+
+            public function advance(array $proceeding, array $priorTurns, string $imperatorResponse, array $context): array
+            {
+                throw new \LogicException('Audience test does not advance proceedings.');
+            }
         };
     }
 

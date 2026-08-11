@@ -16,7 +16,7 @@ final readonly class SymfonyAiSeneschalCognitionGateway implements SeneschalCogn
 
     public function decide(string $request, array $context): array
     {
-        $message = new MessageBag(Message::ofUser(implode("\n", [
+        return $this->invoke(implode("\n", [
             'Imperator request: '.$request,
             'Instance: '.($context['instance_id'] ?? 'unknown'),
             'Proceeding: '.($context['proceeding_id'] ?? 'unknown'),
@@ -28,7 +28,31 @@ final readonly class SymfonyAiSeneschalCognitionGateway implements SeneschalCogn
             'resource_demands: an array of explicitly identified planning resource categories',
             'authorization_required: boolean; true only when a listed resource demand requires Imperator authorization now',
             'Do not claim that any resource, mission, tool, credential, research, or execution has been authorized.',
-        ])));
+        ]), ['ADMITTED_FOR_PLANNING', 'CLARIFICATION_REQUIRED', 'REFUSED']);
+    }
+
+    public function advance(array $proceeding, array $priorTurns, string $imperatorResponse, array $context): array
+    {
+        return $this->invoke(implode("\n", [
+            'Proceeding: '.($context['proceeding_id'] ?? 'unknown'),
+            'Original Imperator request: '.($proceeding['imperator_request']['content'] ?? 'unknown'),
+            'Prior Curian turns: '.json_encode($priorTurns, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR),
+            'New Imperator response: '.$imperatorResponse,
+            '',
+            'Advance this exact planning proceeding. Return one JSON object with exactly these keys:',
+            'disposition: PLANNING_CONTINUES or CLARIFICATION_REQUIRED or AUTHORIZATION_REQUIRED or MISSION_PLAN_DRAFTED or REFUSED',
+            'decision: a concise executive disposition',
+            'question: null or exactly one question',
+            'resource_demands: an array of explicitly identified resource categories',
+            'authorization_required: boolean',
+            'A Mission Plan may be described in decision, but it remains a draft until Imperator approval.',
+            'Do not claim that approval, authorization, research, tooling, or execution occurred.',
+        ]), ['PLANNING_CONTINUES', 'CLARIFICATION_REQUIRED', 'AUTHORIZATION_REQUIRED', 'MISSION_PLAN_DRAFTED', 'REFUSED']);
+    }
+
+    private function invoke(string $prompt, array $allowedDispositions): array
+    {
+        $message = new MessageBag(Message::ofUser($prompt));
         $result = $this->agent->call($message)->getContent();
         if (!is_string($result) || '' === trim($result)) {
             throw new \RuntimeException('C10_SENESCHAL_EMPTY: cognition returned no disposition.');
@@ -45,7 +69,7 @@ final readonly class SymfonyAiSeneschalCognitionGateway implements SeneschalCogn
         $keys = array_keys($decision);
         sort($keys, SORT_STRING);
         if (['authorization_required', 'decision', 'disposition', 'question', 'resource_demands'] !== $keys
-            || !in_array($decision['disposition'] ?? null, ['ADMITTED_FOR_PLANNING', 'CLARIFICATION_REQUIRED', 'REFUSED'], true)
+            || !in_array($decision['disposition'] ?? null, $allowedDispositions, true)
             || !is_string($decision['decision'] ?? null)
             || '' === trim($decision['decision'])
             || !(null === ($decision['question'] ?? null) || is_string($decision['question']))
@@ -59,6 +83,12 @@ final readonly class SymfonyAiSeneschalCognitionGateway implements SeneschalCogn
         }
         if ('CLARIFICATION_REQUIRED' !== $decision['disposition'] && null !== $decision['question']) {
             throw new \RuntimeException('C11_SENESCHAL_CONTRACT_INVALID: only clarification may include a question.');
+        }
+        if ($decision['authorization_required'] && 'AUTHORIZATION_REQUIRED' !== $decision['disposition']) {
+            throw new \RuntimeException('C11_SENESCHAL_CONTRACT_INVALID: an authorization demand requires its exact disposition.');
+        }
+        if ('AUTHORIZATION_REQUIRED' === $decision['disposition'] && !$decision['authorization_required']) {
+            throw new \RuntimeException('C11_SENESCHAL_CONTRACT_INVALID: authorization disposition must declare the requirement.');
         }
         foreach ($decision['resource_demands'] as $demand) {
             if (!is_string($demand) || '' === trim($demand)) {

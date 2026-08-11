@@ -39,6 +39,12 @@ Bind one Seneschal-authorized question to the proceeding, dossier version, quest
 
 Preserve the exact answer, provenance, correlation, and response disposition without interpreting its substance.
 
+The development command `imperium:curia:respond` restores an existing proceeding and appends one immutable turn. Each turn contains the exact Imperator response, Isolde's recording disposition, Chamberlain's restoration disposition, the Seneschal's next bounded disposition, declared resource demands, and authorization status.
+
+Turns are append-only and monotonically sequenced. A stable `response_id` is an idempotency identity: replay returns the existing turn without invoking cognition again. A concurrent intervening turn invalidates a stale deliberation result rather than silently reordering the minutes.
+
+The Seneschal may continue planning, ask exactly one question, request authorization, draft a Mission Plan, or refuse. An authorization request is not authorization, and a drafted Mission Plan is not approval.
+
 ## `register-curial-submission`
 
 Bind a Curialis submission to its author, Seat, mandate, evidence, uncertainty, dossier version, and active deliberation.
