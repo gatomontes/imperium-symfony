@@ -32,6 +32,7 @@ final readonly class InboundArtifactStore
                 'artifact_id' => $artifact->artifactId,
                 'raw_payload_id' => $artifact->rawPayloadId,
                 'raw_payload_digest' => $artifact->rawPayloadDigest,
+                'raw_content' => $artifact->rawContent,
                 'content' => $artifact->content,
                 'provenance' => $artifact->provenance,
                 'admitted_at' => $artifact->admittedAt->format(DATE_ATOM),
