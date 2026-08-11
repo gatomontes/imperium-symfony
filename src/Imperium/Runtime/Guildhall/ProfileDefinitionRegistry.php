@@ -42,7 +42,9 @@ final readonly class ProfileDefinitionRegistry
             'definition_version' => $definition['definition_version'] ?? null,
             'content_digest' => $definition['content_digest'] ?? null,
         ];
-        if ($reference !== ($approval['definition_ref'] ?? null) || $reference !== ($current['definition_ref'] ?? null)) {
+        if (!$this->sameReference($reference, $approval['definition_ref'] ?? null)
+            || !$this->sameReference($reference, $current['definition_ref'] ?? null)
+        ) {
             throw new \RuntimeException('G20_PROFILE_DEFINITION_INVALID: '.$seat.' attestations reference another definition.');
         }
         $sourcePath = $definition['source']['path'] ?? null;
@@ -76,5 +78,10 @@ final readonly class ProfileDefinitionRegistry
         unset($record[$field]);
 
         return is_string($digest) && hash_equals($digest, 'sha256:'.hash('sha256', CanonicalJson::encode($record)));
+    }
+
+    private function sameReference(array $expected, mixed $actual): bool
+    {
+        return is_array($actual) && CanonicalJson::encode($expected) === CanonicalJson::encode($actual);
     }
 }
