@@ -14,13 +14,13 @@ Foundry transforms an admitted profession determination and its governed support
 
 Foundry owns:
 
-- the Persona production case and profession queue received through Castellan;
+- the Persona production case and profession queue received through Curia under an exact authorized construction commission;
 - the exact versioned Persona Template used for construction;
 - assembly, reconciliation, versioning, provenance, and dispatch of the Persona Candidate;
 - final adversarial review of the completed Persona artifact;
 - correction coordination after an adverse review; and
 - production approval after a clean adversarial review; and
-- assembly of the Foundry Release Packet for Castellan.
+- assembly of the Foundry Release Packet for its exact authorized destination.
 
 The Artificer governs this work through the occupied Artificer Seat.
 
@@ -28,7 +28,7 @@ The Artificer governs this work through the occupied Artificer Seat.
 
 Foundry may receive:
 
-- Castellan's Foundry entry packet and Work Specification;
+- Curia's exact construction commission, Work Specification, and destination contract;
 - the exact Guildmaster-admitted Profession Determination Packet and order;
 - operator requirements and relevant mission context;
 - a Sanctographer-authenticated Hagiography Research Packet;
@@ -46,7 +46,7 @@ The Persona Candidate is assembled in one tagged, versioned template while autho
 - Notary writes and authenticates doctrine-derived sections.
 - Artificer verifies authorship, completeness, schema, identity, provenance, and coherence; routes the artifact; and performs only the synthesis permitted by the admitted inputs.
 
-Artificer must not impersonate Sanctographer, Notary, Guildmaster, Rector, or Adversarial Reviewer.
+Artificer must not impersonate Sanctographer, Notary, Guildmaster, Seneschal, Curialis, or Adversarial Reviewer.
 
 ## Functional stations
 
@@ -105,7 +105,7 @@ Foundry must not:
 
 ```text
 Guildhall determines professions and order.
-Castellan delivers the admitted production packet.
+Curia delivers the exact authorized production packet.
 Sanctographer writes evidence-derived sections.
 Notary writes doctrine-derived sections.
 Artificer checks, reconciles, routes, versions, authenticates, and dispatches.

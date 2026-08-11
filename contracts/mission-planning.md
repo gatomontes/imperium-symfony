@@ -35,11 +35,11 @@ authorization ≠ commission ≠ action
 
 ## Planning proceeding
 
-The first Operator input opens a planning proceeding but authorizes no resource use and no mission execution. Castellan, through Secretariat, may clarify intent one question at a time and reason over the Operator's supplied material, admitted doctrine, and information already lawfully present in the proceeding. It preserves every accepted value against exact Operator evidence.
+The first Operator input opens a Curial planning proceeding but authorizes no resource use and no mission execution. Curia may clarify intent one question at a time and reason over the Operator's supplied material, admitted doctrine, and information already lawfully present in the proceeding. Isolde or another qualified Curial Secretary may present the exact active question and preserve the exact answer; the Seneschal determines whether that answer resolves the question; the Chamberlain maintains the versioned mission dossier and planning state. Curia preserves every accepted value against exact Operator evidence.
 
 Before Imperium commissions another Office, invokes a restricted tool, releases a credential, accesses protected data, queries an external system, consumes money or metered capacity, performs outbound contact, or creates any other external effect for planning, it must disclose an exact Planning Charter and obtain valid approval from competent Operator authority.
 
-Planning continues until Castellan can either produce an approval-ready plan, identify an exact unresolved blocker, or return a bounded refusal or impossibility disposition.
+Planning continues until the Seneschal, acting through Curia, can either declare an exact Planning Charter or Mission Plan approval-ready, identify an exact unresolved blocker, or return a bounded refusal or impossibility disposition. The Seneschal's readiness disposition is not Operator approval and creates no authorization.
 
 ## Approval-ready Planning Charter
 
@@ -69,6 +69,10 @@ Armory possession does not authorize tool use. Locksmith custody does not author
 Any external planning operation must cross La Cortine through Iron Gate and return through Lazaretto. Internal cognition does not continue inside a sortie. No raw external payload may be delivered directly into Curia or another internal cognitive proceeding.
 
 When personnel requirements are material, Curia commissions Guildhall to determine the required professions and reconcile them against exact Garrison inventory facts. Guildhall returns a versioned Personnel Disposition identifying suitable admitted Personas available or unavailable, personnel gaps requiring Foundry construction, and the estimated cost, effort, dependencies, and uncertainty of filling those gaps. Garrison reports inventory facts; Guildhall determines suitability. The disposition informs planning and disclosure but authorizes neither construction nor deployment.
+
+When the mission may require a non-standard executive disposition, Curia produces an exact Seneschal Suitability Demand under [`seneschal-suitability.md`](seneschal-suitability.md). Guildhall evaluates the standard Seneschal first unless the demand validly states otherwise, compares admitted Persona versions against the demand, and returns `standard_suitable`, `admitted_candidate_suitable`, `construction_required`, or `unresolved`. Formulating the demand from material lawfully present inside Curia consumes no external resource by itself. Guildhall evaluation, protected inventory access, candidate examination, research, or Persona construction requires the applicable Planning Authorization and exact derived commissions.
+
+When the demand arises from an Imperator succession directive, its executive requirements must remain bound to that directive. The incumbent Seneschal may contribute attributable evidence but may not authoritatively narrow, delay, veto, or rewrite the demand or Guildhall commission.
 
 Planning Authorization closes upon completion, failure, revocation, expiry, Operator termination, or issuance of the terminal planning disposition declared by its Charter. It does not merge into, survive as, or supplement Mission Authorization.
 
