@@ -107,6 +107,7 @@ final class CurianAudienceTest extends TestCase
                     'question' => null,
                     'resource_demands' => [],
                     'authorization_required' => false,
+                    'mission_plan' => null,
                 ];
             }
 

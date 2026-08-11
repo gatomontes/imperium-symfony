@@ -70,6 +70,7 @@ final readonly class CurianDeliberation
                 'disposition' => $decision['disposition'],
                 'decision' => $decision['decision'],
                 'question' => $decision['question'],
+                'mission_plan' => $decision['mission_plan'],
             ],
             'resource_demands' => $decision['resource_demands'],
             'authorization_required' => $decision['authorization_required'],

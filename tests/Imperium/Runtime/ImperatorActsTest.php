@@ -24,7 +24,7 @@ final class ImperatorActsTest extends TestCase
             'schema' => 'imperium.curian-turn/v1',
             'proceeding_id' => 'proceeding-test-acts',
             'response_id' => 'response-test-plan',
-            'seneschal' => ['disposition' => 'MISSION_PLAN_DRAFTED'],
+            'seneschal' => ['disposition' => 'MISSION_PLAN_DRAFTED', 'mission_plan' => $this->missionPlan()],
             'resource_demands' => ['passive assessment tooling', 'secure document storage'],
         ]);
         $acts = new ImperatorActs($store);
@@ -61,7 +61,7 @@ final class ImperatorActsTest extends TestCase
         $store = new ProceedingStore($root);
         $store->persist(['proceeding_id' => 'proceeding-test-refusal', 'instance_id' => 'imperium-test']);
         $store->appendTurn('proceeding-test-refusal', 'response-test-plan', 1, [
-            'seneschal' => ['disposition' => 'MISSION_PLAN_DRAFTED'],
+            'seneschal' => ['disposition' => 'MISSION_PLAN_DRAFTED', 'mission_plan' => $this->missionPlan()],
             'resource_demands' => ['declared resource'],
         ]);
         $acts = new ImperatorActs($store);
@@ -87,5 +87,21 @@ final class ImperatorActsTest extends TestCase
             is_dir($child) ? $this->removeTree($child) : @unlink($child);
         }
         @rmdir($path);
+    }
+
+    private function missionPlan(): array
+    {
+        return [
+            'objective' => 'Assess a public web application.',
+            'scope' => ['Supplied public URLs'],
+            'deliverables' => ['Risk report'],
+            'constraints' => ['Passive only'],
+            'required_inputs' => ['Target URL'],
+            'personnel_requirements' => ['Security assessor'],
+            'tool_requirements' => ['Passive checklist'],
+            'data_requirements' => ['Public responses'],
+            'office_participation' => ['Guildhall', 'Armory'],
+            'stop_conditions' => ['Authentication required'],
+        ];
     }
 }

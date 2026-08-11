@@ -45,6 +45,8 @@ Turns are append-only and monotonically sequenced. A stable `response_id` is an 
 
 The Seneschal may continue planning, ask exactly one question, request authorization, draft a Mission Plan, or refuse. The primary disposition and authorization flag are orthogonal: a draft or continuing-planning disposition may identify unresolved authorization demands. `AUTHORIZATION_REQUIRED` is used when the demand itself is the controlling disposition. An authorization request is not authorization, and a drafted Mission Plan is not approval.
 
+A `MISSION_PLAN_DRAFTED` disposition must carry a structured Mission Plan containing objective, scope, deliverables, constraints, required inputs, personnel requirements, tool requirements, data requirements, Office participation, and stop conditions. Prose alone is not commissionable. Approval and authorization records against a legacy or incomplete prose draft remain preserved evidence but cannot produce commissioning readiness.
+
 ## `register-curial-submission`
 
 Bind a Curialis submission to its author, Seat, mandate, evidence, uncertainty, dossier version, and active deliberation.

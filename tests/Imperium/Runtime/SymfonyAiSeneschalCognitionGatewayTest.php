@@ -20,6 +20,7 @@ final class SymfonyAiSeneschalCognitionGatewayTest extends TestCase
             'question' => 'What exact artifact must this mission deliver?',
             'resource_demands' => [],
             'authorization_required' => false,
+            'mission_plan' => null,
         ], JSON_THROW_ON_ERROR)));
 
         $decision = (new SymfonyAiSeneschalCognitionGateway($agent))->decide('Assess security.', [
@@ -49,6 +50,7 @@ final class SymfonyAiSeneschalCognitionGatewayTest extends TestCase
             'question' => null,
             'resource_demands' => ['external research'],
             'authorization_required' => true,
+            'mission_plan' => $this->missionPlan(),
         ], JSON_THROW_ON_ERROR)));
 
         $decision = (new SymfonyAiSeneschalCognitionGateway($agent))->advance(
@@ -60,5 +62,21 @@ final class SymfonyAiSeneschalCognitionGatewayTest extends TestCase
 
         self::assertSame('MISSION_PLAN_DRAFTED', $decision['disposition']);
         self::assertTrue($decision['authorization_required']);
+    }
+
+    private function missionPlan(): array
+    {
+        return [
+            'objective' => 'Assess the public web application.',
+            'scope' => ['Explicitly supplied public URLs'],
+            'deliverables' => ['Prioritized risk report'],
+            'constraints' => ['Passive and non-invasive only'],
+            'required_inputs' => ['Target URLs and scope definition'],
+            'personnel_requirements' => ['Cybersecurity assessment specialist'],
+            'tool_requirements' => ['Approved passive review tooling or manual checklist'],
+            'data_requirements' => ['Publicly observable application responses'],
+            'office_participation' => ['Guildhall personnel disposition', 'Armory tooling disposition'],
+            'stop_conditions' => ['Any need for authentication or active scanning'],
+        ];
     }
 }
