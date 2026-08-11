@@ -36,8 +36,9 @@ final readonly class ManifestValidator
         $artifacts = $this->flattenArtifacts($payload);
         $observed = [];
         $successionCommission = null;
+        $seneschalCommission = null;
+        $chamberlainCommission = null;
         $secretaryCommission = null;
-        $rectorCommission = null;
         $routes = null;
         foreach ($artifacts as $identity => $record) {
             $this->validateArtifactRecord($identity, $record);
@@ -50,11 +51,14 @@ final readonly class ManifestValidator
             if ('primordial.succession_commission' === $identity) {
                 $successionCommission = $this->decode($this->read($absolutePath), 'succession commission');
             }
-            if ('primordial.assembly_commissions.secretary' === $identity) {
-                $secretaryCommission = $this->decode($this->read($absolutePath), 'Secretary assembly commission');
+            if ('primordial.assembly_commissions.seneschal' === $identity) {
+                $seneschalCommission = $this->decode($this->read($absolutePath), 'Seneschal assembly commission');
             }
-            if ('primordial.assembly_commissions.rector' === $identity) {
-                $rectorCommission = $this->decode($this->read($absolutePath), 'Rector assembly commission');
+            if ('primordial.assembly_commissions.chamberlain' === $identity) {
+                $chamberlainCommission = $this->decode($this->read($absolutePath), 'Chamberlain assembly commission');
+            }
+            if ('primordial.assembly_commissions.secretary' === $identity) {
+                $secretaryCommission = $this->decode($this->read($absolutePath), 'Curial Secretary assembly commission');
             }
             if ('primordial.routes' === $identity) {
                 $routes = $this->decode($this->read($absolutePath), 'primordial routes');
@@ -67,8 +71,8 @@ final readonly class ManifestValidator
         if (!is_array($successionCommission)) {
             throw new ValidationException('Manifest is missing the Recruiter succession commission.');
         }
-        if (!is_array($secretaryCommission) || !is_array($rectorCommission)) {
-            throw new ValidationException('Manifest is missing one or both triad assembly commissions.');
+        if (!is_array($seneschalCommission) || !is_array($chamberlainCommission) || !is_array($secretaryCommission)) {
+            throw new ValidationException('Manifest is missing one or more Curian assembly commissions.');
         }
         if (!is_array($routes)) {
             throw new ValidationException('Manifest is missing the primordial route artifact.');
@@ -81,8 +85,9 @@ final readonly class ManifestValidator
             (string) $launcher['digest'],
             (string) $masterMason['digest'],
             $successionCommission,
+            $seneschalCommission,
+            $chamberlainCommission,
             $secretaryCommission,
-            $rectorCommission,
             $routes,
             $manifest,
         );

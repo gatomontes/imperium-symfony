@@ -13,8 +13,9 @@ final readonly class ValidationReceipt
         public string $launcherDigest,
         public string $masterMasonDigest,
         public array $successionCommission,
+        public array $seneschalCommission,
+        public array $chamberlainCommission,
         public array $secretaryCommission,
-        public array $rectorCommission,
         public array $routes,
         public array $manifest,
     ) {

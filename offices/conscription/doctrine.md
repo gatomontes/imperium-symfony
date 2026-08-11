@@ -89,7 +89,8 @@ authenticated Charter + compatible MasterMason
 → provisional Recruiter assembles and qualifies one distinct ordinary Recruiter successor
 → MasterMason verifies the succession packet
 → MasterMason atomically retires the provisional Recruiter and binds the ordinary Recruiter
-→ ordinary Recruiter commissions may then produce Secretary and Rector
+→ ordinary Recruiter commissions produce the Seneschal–Chamberlain governing pair
+→ a separate commission may attach the Curial Secretary
 ```
 
 This exception:
@@ -98,10 +99,10 @@ This exception:
 - requires an exact Charter-declared transition and structurally valid Profile approval chain
 - performs no interpretive selection, rewriting, discretionary qualification, or substitution
 - fails closed on any mismatch, ambiguity, missing version, invalid substrate, or occupied Seat
-- may target only one distinct ordinary Recruiter successor under the pinned succession commission and may not target Secretary, Rector, any other Profile, manifestation, or Seat
+- may target only one distinct ordinary Recruiter successor under the pinned succession commission and may not target any Curian Seat, other Profile, manifestation, or Seat
 - may not be generalized as an alternate spawning route
 
-The mechanical bootstrap does not prove broad qualification through cognitive examination. It establishes only a provisional root Recruiter from the exact predeclared substrate, Profile, and binding. That root has no ordinary Conscription jurisdiction: it may construct and qualify exactly one distinct ordinary Recruiter successor. MasterMason then retires the provisional manifestation and binds the successor to the resident Recruiter Seat. Only the ordinary Recruiter may qualify Secretary, Rector, or any later manifestation. Both identities and the complete succession lineage remain explicit in the manifestation and occupancy records.
+The mechanical bootstrap does not prove broad qualification through cognitive examination. It establishes only a provisional root Recruiter from the exact predeclared substrate, Profile, and binding. That root has no ordinary Conscription jurisdiction: it may construct and qualify exactly one distinct ordinary Recruiter successor. MasterMason then retires the provisional manifestation and binds the successor to the resident Recruiter Seat. Only the ordinary Recruiter may qualify the Seneschal, Chamberlain, Curial Secretary, or any later manifestation. Both Recruiter identities and the complete succession lineage remain explicit in the manifestation and occupancy records.
 
 ## Recruiter disaster recovery
 

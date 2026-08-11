@@ -44,15 +44,18 @@ final readonly class MasterMason
                 $record = $this->installOrdinaryRecruiter($record, $receipt, $instanceId);
             }
             if (BootstrapState::OrdinaryRecruiterBound === BootstrapState::from($record['state'])) {
-                $record = $this->assembleSecretaryAndRector($record, $receipt, $instanceId);
+                $record = $this->assembleCurianCore($record, $receipt, $instanceId);
             }
-            if (BootstrapState::TriadAssembled === BootstrapState::from($record['state'])) {
-                $record = $this->activatePrimordialOffices($record, $receipt, $instanceId);
+            if (BootstrapState::CurianCoreAssembled === BootstrapState::from($record['state'])) {
+                $record = $this->activateCuria($record, $receipt, $instanceId);
             }
-            if (BootstrapState::OfficesActive === BootstrapState::from($record['state'])) {
-                $record = $this->bindPrimordialOfficers($record, $instanceId);
+            if (BootstrapState::CuriaActive === BootstrapState::from($record['state'])) {
+                $record = $this->bindCurianCore($record, $instanceId);
             }
-            if (BootstrapState::TriadBoundInactive === BootstrapState::from($record['state'])) {
+            if (BootstrapState::CurianCoreBoundInactive === BootstrapState::from($record['state'])) {
+                $record = $this->attachCurialSecretary($record, $receipt, $instanceId);
+            }
+            if (BootstrapState::SecretaryBoundInactive === BootstrapState::from($record['state'])) {
                 $record = $this->verifyPrimordialRoutes($record, $receipt, $instanceId);
             }
             if (BootstrapState::RoutesVerified === BootstrapState::from($record['state'])) {
@@ -65,145 +68,61 @@ final readonly class MasterMason
 
     private function establishReadiness(array $record, string $instanceId): array
     {
-        $t07 = $this->lastSuccessfulOutput($record, 'T07');
         $t08 = $this->lastSuccessfulOutput($record, 'T08');
-        $configuration = $t08['route_configuration'] ?? null;
-        $routes = is_array($configuration) ? ($configuration['routes'] ?? null) : null;
-        $runtimes = $t07['runtimes'] ?? null;
-        $expectedRoutes = [
-            ['from' => 'secretariat.secretary', 'to' => 'castellan.rector', 'enabled' => false],
-            ['from' => 'castellan.rector', 'to' => 'secretariat.secretary', 'enabled' => false],
-        ];
-        if (!is_array($configuration)
-            || !is_array($runtimes)
+        $t09 = $this->lastSuccessfulOutput($record, 'T09');
+        $runtime = $t08['runtime'] ?? null;
+        $configuration = $t09['route_configuration'] ?? null;
+        $expectedRoutes = $this->curianRoutes(true);
+        if (!is_array($runtime) || !is_array($configuration)
             || 'verified-disabled' !== ($configuration['status'] ?? null)
-            || 'closed' !== ($configuration['default'] ?? null)
-            || $expectedRoutes !== $routes
-            || !is_string($t08['route_configuration_digest'] ?? null)
-            || !hash_equals($t08['route_configuration_digest'], hash('sha256', CanonicalJson::encode($configuration)))
-            || true !== ($t08['all_probes_passed'] ?? null)
-            || false !== ($t08['work_delivered'] ?? null)
-            || false !== ($t08['routes_enabled'] ?? null)
-            || false !== ($t08['officers_active'] ?? null)
-            || false !== ($t08['offices_addressable'] ?? null)
+            || $this->curianRoutes(false) !== ($configuration['routes'] ?? null)
+            || true !== ($t09['all_probes_passed'] ?? null)
+            || false !== ($t09['work_delivered'] ?? null)
+            || $instanceId.'.office.curia' !== ($runtime['runtime_id'] ?? null)
+            || false !== ($runtime['addressable'] ?? null)
         ) {
-            throw new \RuntimeException('B80_ROUTE_PROOF_INVALID: exact verified-disabled T08 route proof is absent.');
+            throw new \RuntimeException('B80_ROUTE_PROOF_INVALID: Curia readiness proof is incomplete.');
         }
-
-        $probes = $t08['probes'] ?? null;
-        if (!is_array($probes) || 2 !== count($probes)) {
-            throw new \RuntimeException('B80_ROUTE_PROOF_INVALID: both primordial route probes are required.');
-        }
-        foreach ($probes as $index => $probe) {
-            $route = $expectedRoutes[$index];
-            if ('PASS' !== ($probe['result'] ?? null)
-                || false !== ($probe['work_delivered'] ?? null)
-                || $route['from'] !== ($probe['from'] ?? null)
-                || $route['to'] !== ($probe['to'] ?? null)
-                || [
-                    'exact-endpoint-resolution' => true,
-                    'bound-occupancy-generation' => true,
-                    'no-office-work-delivery' => true,
-                ] !== ($probe['checks'] ?? null)
-            ) {
-                throw new \RuntimeException('B80_ROUTE_PROOF_INVALID: primordial route probe does not authorize enablement.');
+        $readyRuntime = $runtime;
+        foreach (['seneschal', 'chamberlain', 'secretary'] as $role) {
+            if ('bound-inactive' !== ($readyRuntime['occupants'][$role]['status'] ?? null)) {
+                throw new \RuntimeException('B81_ACTIVATION_PRECONDITION_FAILED: '.$role.' is not bound inactive.');
             }
+            $readyRuntime['occupants'][$role]['status'] = 'active';
         }
+        $readyRuntime['mode'] = 'operator-facing';
+        $readyRuntime['addressable'] = true;
+        $enabled = $configuration;
+        $enabled['status'] = 'enabled';
+        $enabled['routes'] = $expectedRoutes;
 
-        $readyRuntimes = $runtimes;
-        $verifiedEndpoints = $t08['endpoint_bindings'] ?? null;
-        if (!is_array($verifiedEndpoints)) {
-            throw new \RuntimeException('B80_ROUTE_PROOF_INVALID: verified endpoint bindings are absent.');
-        }
-        $specifications = [
-            'secretariat' => ['seat' => 'secretariat.secretary', 'public' => true],
-            'castellan' => ['seat' => 'castellan.rector', 'public' => false],
-        ];
-        foreach ($specifications as $office => $specification) {
-            $runtime = $readyRuntimes[$office] ?? null;
-            $occupant = is_array($runtime) ? ($runtime['occupant'] ?? null) : null;
-            if (!is_array($runtime)
-                || !is_array($occupant)
-                || $instanceId.'.office.'.$office !== ($runtime['runtime_id'] ?? null)
-                || 'active-with-inactive-occupant' !== ($runtime['mode'] ?? null)
-                || false !== ($runtime['addressable'] ?? null)
-                || $specification['seat'] !== ($runtime['resident_seat'] ?? null)
-                || $specification['seat'] !== ($occupant['seat'] ?? null)
-                || 1 !== ($occupant['occupancy_generation'] ?? null)
-                || 'bound-inactive' !== ($occupant['status'] ?? null)
-                || [
-                    'runtime_id' => $runtime['runtime_id'],
-                    'manifestation_id' => $occupant['manifestation_id'] ?? null,
-                    'occupancy_generation' => $occupant['occupancy_generation'],
-                    'status' => $occupant['status'],
-                ] !== ($verifiedEndpoints[$specification['seat']] ?? null)
-            ) {
-                throw new \RuntimeException('B81_ACTIVATION_PRECONDITION_FAILED: '.$office.' is not the exact inactive T07 runtime.');
-            }
-            $readyRuntimes[$office]['occupant']['status'] = 'active';
-            $readyRuntimes[$office]['mode'] = $specification['public'] ? 'operator-facing' : 'internal-active';
-            $readyRuntimes[$office]['addressable'] = $specification['public'];
-        }
-
-        $enabledRoutes = array_map(
-            static fn (array $route): array => ['from' => $route['from'], 'to' => $route['to'], 'enabled' => true],
-            $expectedRoutes,
-        );
-        $enabledConfiguration = $configuration;
-        $enabledConfiguration['status'] = 'enabled';
-        $enabledConfiguration['routes'] = $enabledRoutes;
-
-        return $this->transition($record, 'T09', BootstrapState::Ready, [
-            'route_configuration' => $enabledConfiguration,
-            'route_configuration_digest' => hash('sha256', CanonicalJson::encode($enabledConfiguration)),
-            'runtimes' => $readyRuntimes,
+        return $this->transition($record, 'T10', BootstrapState::CuriaReady, [
+            'route_configuration' => $enabled,
+            'route_configuration_digest' => hash('sha256', CanonicalJson::encode($enabled)),
+            'runtime' => $readyRuntime,
             'routes_enabled' => true,
             'officers_active' => true,
-            'operator_entrypoint' => 'secretariat.secretary',
-            'secretariat_addressable' => true,
-            'castellan_addressable' => false,
+            'operator_entrypoint' => 'curia.imperator',
+            'curia_addressable' => true,
+            'secretary_optional' => true,
             'activation_atomic' => true,
         ]);
     }
 
     private function verifyPrimordialRoutes(array $record, ValidationReceipt $receipt, string $instanceId): array
     {
-        $t07 = $this->lastSuccessfulOutput($record, 'T07');
-        $bindings = $t07['bindings'] ?? null;
-        $runtimes = $t07['runtimes'] ?? null;
-        if (!is_array($bindings)
-            || !is_array($runtimes)
-            || true !== ($t07['binding_atomic'] ?? null)
-            || false !== ($t07['officers_active'] ?? null)
-            || false !== ($t07['offices_addressable'] ?? null)
-        ) {
-            throw new \RuntimeException('B71_ENDPOINT_MISMATCH: atomic T07 bindings are absent.');
+        $t08 = $this->lastSuccessfulOutput($record, 'T08');
+        $runtime = $t08['runtime'] ?? null;
+        $bindings = $t08['bindings'] ?? null;
+        if (!is_array($runtime) || !is_array($bindings) || $instanceId.'.office.curia' !== ($runtime['runtime_id'] ?? null)) {
+            throw new \RuntimeException('B71_ENDPOINT_MISMATCH: Curia bindings are absent.');
         }
-
-        $endpoints = [
-            'secretariat.secretary' => ['role' => 'secretary', 'office' => 'secretariat'],
-            'castellan.rector' => ['role' => 'rector', 'office' => 'castellan'],
-        ];
         $resolved = [];
-        foreach ($endpoints as $endpoint => $specification) {
-            $binding = $bindings[$specification['role']] ?? null;
-            $runtime = $runtimes[$specification['office']] ?? null;
-            $occupant = is_array($runtime) ? ($runtime['occupant'] ?? null) : null;
-            if (!is_array($binding)
-                || !is_array($runtime)
-                || !is_array($occupant)
-                || $endpoint !== ($binding['seat'] ?? null)
-                || 1 !== ($binding['occupancy_generation'] ?? null)
-                || $instanceId.'.office.'.$specification['office'] !== ($runtime['runtime_id'] ?? null)
-                || 'active-with-inactive-occupant' !== ($runtime['mode'] ?? null)
-                || false !== ($runtime['addressable'] ?? null)
-                || $endpoint !== ($runtime['resident_seat'] ?? null)
-                || $endpoint !== ($occupant['seat'] ?? null)
-                || 1 !== ($occupant['occupancy_generation'] ?? null)
-                || 'bound-inactive' !== ($occupant['status'] ?? null)
-                || $occupant !== ($binding['occupant'] ?? null)
-            ) {
-                throw new \RuntimeException('B71_ENDPOINT_MISMATCH: '.$endpoint.' does not resolve to its exact inactive T07 occupant.');
+        foreach (['seneschal', 'chamberlain', 'secretary'] as $role) {
+            $endpoint = 'curia.'.$role;
+            $occupant = $runtime['occupants'][$role] ?? null;
+            if (!is_array($occupant) || $endpoint !== ($occupant['seat'] ?? null) || 'bound-inactive' !== ($occupant['status'] ?? null)) {
+                throw new \RuntimeException('B71_ENDPOINT_MISMATCH: '.$endpoint.' is not bound inactive.');
             }
             $resolved[$endpoint] = [
                 'runtime_id' => $runtime['runtime_id'],
@@ -215,15 +134,8 @@ final readonly class MasterMason
 
         $routeRecord = $receipt->manifest['unsigned_payload']['primordial']['routes'] ?? null;
         $routeArtifact = $receipt->routes;
-        $expectedRoutes = [
-            ['from' => 'secretariat.secretary', 'to' => 'castellan.rector'],
-            ['from' => 'castellan.rector', 'to' => 'secretariat.secretary'],
-        ];
-        $expectedProbeChecks = [
-            'exact-endpoint-resolution',
-            'bound-occupancy-generation',
-            'no-office-work-delivery',
-        ];
+        $expectedRoutes = array_map(static fn (array $route): array => ['from' => $route['from'], 'to' => $route['to']], $this->curianRoutes(false));
+        $expectedProbeChecks = ['exact-endpoint-resolution', 'bound-occupancy-generation', 'shared-curia-runtime', 'no-office-work-delivery'];
         $routeArtifactKeys = array_keys($routeArtifact);
         sort($routeArtifactKeys, SORT_STRING);
         $expectedRouteArtifactKeys = ['charter_generation', 'default', 'probe_checks', 'routes', 'schema', 'version'];
@@ -268,6 +180,7 @@ final readonly class MasterMason
                 'checks' => [
                     'exact-endpoint-resolution' => true,
                     'bound-occupancy-generation' => true,
+                    'shared-curia-runtime' => $source['runtime_id'] === $target['runtime_id'],
                     'no-office-work-delivery' => true,
                 ],
                 'work_delivered' => false,
@@ -283,7 +196,7 @@ final readonly class MasterMason
             'routes' => $configuredRoutes,
         ];
 
-        return $this->transition($record, 'T08', BootstrapState::RoutesVerified, [
+        return $this->transition($record, 'T09', BootstrapState::RoutesVerified, [
             'route_configuration' => $configuration,
             'route_configuration_digest' => hash('sha256', CanonicalJson::encode($configuration)),
             'endpoint_bindings' => $resolved,
@@ -292,8 +205,22 @@ final readonly class MasterMason
             'work_delivered' => false,
             'routes_enabled' => false,
             'officers_active' => false,
-            'offices_addressable' => false,
+            'curia_addressable' => false,
+            'runtime' => $runtime,
         ]);
+    }
+
+    private function curianRoutes(bool $enabled): array
+    {
+        return array_map(
+            static fn (array $route): array => $route + ['enabled' => $enabled],
+            [
+                ['from' => 'curia.secretary', 'to' => 'curia.seneschal'],
+                ['from' => 'curia.seneschal', 'to' => 'curia.secretary'],
+                ['from' => 'curia.chamberlain', 'to' => 'curia.seneschal'],
+                ['from' => 'curia.seneschal', 'to' => 'curia.chamberlain'],
+            ],
+        );
     }
 
     private function containsEnabledRoute(array $record): bool
@@ -317,16 +244,16 @@ final readonly class MasterMason
         return $contains($record['events'] ?? []);
     }
 
-    private function bindPrimordialOfficers(array $record, string $instanceId): array
+    private function bindCurianCore(array $record, string $instanceId): array
     {
         $t05 = $this->lastSuccessfulOutput($record, 'T05');
         $t06 = $this->lastSuccessfulOutput($record, 'T06');
         $packets = $t05['delivery_packets'] ?? null;
         $reservations = $t05['seat_reservations'] ?? null;
-        $runtimes = $t06['runtimes'] ?? null;
+        $runtime = $t06['runtime'] ?? null;
         if (!is_array($packets)
             || !is_array($reservations)
-            || !is_array($runtimes)
+            || !is_array($runtime)
             || true !== ($t05['atomic_pair'] ?? null)
             || true !== ($t06['activation_atomic'] ?? null)
         ) {
@@ -334,31 +261,27 @@ final readonly class MasterMason
         }
 
         $specifications = [
-            'secretary' => ['seat' => 'secretariat.secretary', 'office' => 'secretariat'],
-            'rector' => ['seat' => 'castellan.rector', 'office' => 'castellan'],
+            'seneschal' => 'curia.seneschal',
+            'chamberlain' => 'curia.chamberlain',
         ];
         $bindings = [];
-        $boundRuntimes = $runtimes;
-        foreach ($specifications as $role => $specification) {
+        $boundRuntime = $runtime;
+        foreach ($specifications as $role => $seat) {
             $packet = $packets[$role] ?? null;
             $reservation = $reservations[$role] ?? null;
-            $runtime = $runtimes[$specification['office']] ?? null;
             if (!is_array($packet)
                 || !is_array($reservation)
-                || !is_array($runtime)
                 || true !== ($packet['sealed'] ?? null)
                 || 'qualified-unbound' !== ($packet['candidate']['status'] ?? null)
-                || $specification['seat'] !== ($packet['candidate']['target_seat'] ?? null)
+                || $seat !== ($packet['candidate']['target_seat'] ?? null)
                 || 1 !== ($packet['candidate']['target_occupancy_generation'] ?? null)
-                || $specification['seat'] !== ($reservation['seat'] ?? null)
+                || $seat !== ($reservation['seat'] ?? null)
                 || 0 !== ($reservation['expected_generation'] ?? null)
                 || 'HELD' !== ($reservation['status'] ?? null)
-                || $instanceId.'.office.'.$specification['office'] !== ($runtime['runtime_id'] ?? null)
-                || 'active-but-unavailable' !== ($runtime['mode'] ?? null)
+                || $instanceId.'.office.curia' !== ($runtime['runtime_id'] ?? null)
+                || 'inactive-unavailable' !== ($runtime['mode'] ?? null)
                 || false !== ($runtime['addressable'] ?? null)
-                || $specification['seat'] !== ($runtime['resident_seat'] ?? null)
-                || !array_key_exists('occupant', $runtime)
-                || null !== $runtime['occupant']
+                || null !== ($runtime['occupants'][$role] ?? null)
             ) {
                 throw new \RuntimeException('B61_BINDING_PRECONDITION_FAILED: '.$role.' binding inputs are invalid.');
             }
@@ -375,16 +298,14 @@ final readonly class MasterMason
 
             $occupant = [
                 'manifestation_id' => $packet['candidate']['manifestation_id'],
-                'seat' => $specification['seat'],
+                'seat' => $seat,
                 'occupancy_generation' => 1,
                 'status' => 'bound-inactive',
                 'source_packet_digest' => $packetDigest,
             ];
-            $boundRuntimes[$specification['office']]['occupant'] = $occupant;
-            $boundRuntimes[$specification['office']]['mode'] = 'active-with-inactive-occupant';
-            $boundRuntimes[$specification['office']]['addressable'] = false;
+            $boundRuntime['occupants'][$role] = $occupant;
             $bindings[$role] = [
-                'seat' => $specification['seat'],
+                'seat' => $seat,
                 'prior_occupancy_generation' => 0,
                 'occupancy_generation' => 1,
                 'occupant' => $occupant,
@@ -392,16 +313,92 @@ final readonly class MasterMason
             ];
         }
 
-        return $this->transition($record, 'T07', BootstrapState::TriadBoundInactive, [
+        return $this->transition($record, 'T07', BootstrapState::CurianCoreBoundInactive, [
             'bindings' => $bindings,
-            'runtimes' => $boundRuntimes,
+            'runtime' => $boundRuntime,
             'binding_atomic' => true,
             'officers_active' => false,
-            'offices_addressable' => false,
+            'curia_addressable' => false,
         ]);
     }
 
-    private function activatePrimordialOffices(array $record, ValidationReceipt $receipt, string $instanceId): array
+    private function attachCurialSecretary(array $record, ValidationReceipt $receipt, string $instanceId): array
+    {
+        $t07 = $this->lastSuccessfulOutput($record, 'T07');
+        $runtime = $t07['runtime'] ?? null;
+        $commission = $receipt->secretaryCommission;
+        $commissionRecord = $receipt->manifest['unsigned_payload']['primordial']['assembly_commissions']['secretary'] ?? null;
+        $expected = [
+            'primordial.curial-secretary-assembly.1', true, 'charter-development-1',
+            'conscription.recruiter', 'T07.curian-core-bound', 2,
+            'curia.secretary', 'curia.secretary@1.0.0',
+            'generic-officer.curial-secretary@1.0.0', 'qualification.curia.secretary.v1',
+            0, true, true,
+        ];
+        $observed = [
+            $commission['id'] ?? null,
+            $commission['single_use'] ?? null,
+            $commission['charter_generation'] ?? null,
+            $commission['issuer']['seat'] ?? null,
+            $commission['issuer']['source_transition'] ?? null,
+            $commission['issuer']['occupancy_generation'] ?? null,
+            $commission['target']['seat'] ?? null,
+            $commission['target']['profile'] ?? null,
+            $commission['target']['substrate'] ?? null,
+            $commission['target']['qualification_contract'] ?? null,
+            $commission['constraints']['expected_occupancy_generation'] ?? null,
+            $commission['constraints']['independent_from_governing_pair'] ?? null,
+            $commission['constraints']['curia_runtime_required'] ?? null,
+        ];
+        if (!is_array($runtime)
+            || $instanceId.'.office.curia' !== ($runtime['runtime_id'] ?? null)
+            || null !== ($runtime['occupants']['secretary'] ?? null)
+            || $expected !== $observed
+            || !is_array($commissionRecord)
+            || !isset($commissionRecord['digest'])
+        ) {
+            throw new \RuntimeException('B65_SECRETARY_ATTACHMENT_FAILED: Curial Secretary inputs are invalid.');
+        }
+
+        $candidateId = $instanceId.'.officer.isolde.1';
+        $qualification = [
+            'commission_id' => $commission['id'],
+            'commission_digest' => $commissionRecord['digest'],
+            'candidate_id' => $candidateId,
+            'persona' => 'isolde',
+            'profile' => 'curia.secretary@1.0.0',
+            'substrate' => 'generic-officer.curial-secretary@1.0.0',
+            'qualification_contract' => 'qualification.curia.secretary.v1',
+            'limitation' => 'provisional-curial-assignment',
+        ];
+        $occupant = [
+            'manifestation_id' => $candidateId,
+            'seat' => 'curia.secretary',
+            'occupancy_generation' => 1,
+            'status' => 'bound-inactive',
+            'qualification_digest' => hash('sha256', CanonicalJson::encode($qualification)),
+        ];
+        $runtime['occupants']['secretary'] = $occupant;
+        $bindings = $t07['bindings'];
+        $bindings['secretary'] = [
+            'seat' => 'curia.secretary',
+            'prior_occupancy_generation' => 0,
+            'occupancy_generation' => 1,
+            'occupant' => $occupant,
+            'commission_disposition' => 'consumed-by-binding',
+        ];
+
+        return $this->transition($record, 'T08', BootstrapState::SecretaryBoundInactive, [
+            'runtime' => $runtime,
+            'bindings' => $bindings,
+            'qualification_packet' => $qualification,
+            'secretary_optional' => true,
+            'secretary_provisional' => true,
+            'curia_addressable' => false,
+        ]);
+    }
+
+    private function activateCuria(array $record, ValidationReceipt $receipt, string $instanceId): array
     {
         $t05 = $this->lastSuccessfulOutput($record, 'T05');
         $packets = $t05['delivery_packets'] ?? null;
@@ -411,19 +408,19 @@ final readonly class MasterMason
         }
 
         $specifications = [
-            'secretary' => ['seat' => 'secretariat.secretary', 'office' => 'secretariat'],
-            'rector' => ['seat' => 'castellan.rector', 'office' => 'castellan'],
+            'seneschal' => 'curia.seneschal',
+            'chamberlain' => 'curia.chamberlain',
         ];
-        foreach ($specifications as $role => $specification) {
+        foreach ($specifications as $role => $seat) {
             $packet = $packets[$role] ?? null;
             $reservation = $reservations[$role] ?? null;
             if (!is_array($packet)
                 || !is_array($reservation)
                 || true !== ($packet['sealed'] ?? null)
                 || 'qualified-unbound' !== ($packet['candidate']['status'] ?? null)
-                || $specification['seat'] !== ($packet['candidate']['target_seat'] ?? null)
+                || $seat !== ($packet['candidate']['target_seat'] ?? null)
                 || 1 !== ($packet['candidate']['target_occupancy_generation'] ?? null)
-                || $specification['seat'] !== ($reservation['seat'] ?? null)
+                || $seat !== ($reservation['seat'] ?? null)
                 || 0 !== ($reservation['expected_generation'] ?? null)
                 || 'HELD' !== ($reservation['status'] ?? null)
             ) {
@@ -445,40 +442,29 @@ final readonly class MasterMason
             throw new \RuntimeException('B50_OFFICE_MISMATCH: pinned Office definitions are absent.');
         }
 
-        $runtimes = [];
-        foreach ($specifications as $specification) {
-            $office = $specification['office'];
-            $definition = $manifestOffices[$office] ?? null;
-            if (!is_array($definition)
-                || !isset($definition['artifact'], $definition['version'], $definition['digest'])
-            ) {
-                throw new \RuntimeException('B50_OFFICE_MISMATCH: pinned '.$office.' definition is invalid.');
-            }
-            $runtimeId = $instanceId.'.office.'.$office;
-            if ($this->outputContainsRuntime($record, $runtimeId)) {
-                throw new \RuntimeException('B52_OFFICE_EXISTS: '.$office.' runtime already exists.');
-            }
-            $runtimes[$office] = [
-                'runtime_id' => $runtimeId,
-                'definition' => [
-                    'artifact' => $definition['artifact'],
-                    'version' => $definition['version'],
-                    'digest' => $definition['digest'],
-                ],
-                'charter_generation' => $receipt->charterGeneration,
-                'mode' => 'active-but-unavailable',
-                'addressable' => false,
-                'resident_seat' => $specification['seat'],
-                'occupant' => null,
-            ];
+        $definition = $manifestOffices['curia'] ?? null;
+        if (!is_array($definition) || !isset($definition['artifact'], $definition['version'], $definition['digest'])) {
+            throw new \RuntimeException('B50_OFFICE_MISMATCH: pinned Curia definition is invalid.');
         }
+        $runtimeId = $instanceId.'.office.curia';
+        if ($this->outputContainsRuntime($record, $runtimeId)) {
+            throw new \RuntimeException('B52_OFFICE_EXISTS: Curia runtime already exists.');
+        }
+        $runtime = [
+            'runtime_id' => $runtimeId,
+            'definition' => $definition,
+            'charter_generation' => $receipt->charterGeneration,
+            'mode' => 'inactive-unavailable',
+            'addressable' => false,
+            'occupants' => ['seneschal' => null, 'chamberlain' => null, 'secretary' => null],
+        ];
 
-        return $this->transition($record, 'T06', BootstrapState::OfficesActive, [
-            'runtimes' => $runtimes,
+        return $this->transition($record, 'T06', BootstrapState::CuriaActive, [
+            'runtime' => $runtime,
             'activation_atomic' => true,
             'delivery_packets_preserved' => [
-                'secretary' => $packets['secretary']['packet_digest'],
-                'rector' => $packets['rector']['packet_digest'],
+                'seneschal' => $packets['seneschal']['packet_digest'],
+                'chamberlain' => $packets['chamberlain']['packet_digest'],
             ],
         ]);
     }
@@ -503,7 +489,7 @@ final readonly class MasterMason
         return $contains($record['events'] ?? []);
     }
 
-    private function assembleSecretaryAndRector(array $record, ValidationReceipt $receipt, string $instanceId): array
+    private function assembleCurianCore(array $record, ValidationReceipt $receipt, string $instanceId): array
     {
         $t04 = $this->lastSuccessfulOutput($record, 'T04');
         $recruiter = $t04['successor'] ?? null;
@@ -521,21 +507,21 @@ final readonly class MasterMason
         }
 
         $specifications = [
-            'secretary' => [
-                'commission' => $receipt->secretaryCommission,
-                'id' => 'primordial.secretary-assembly.1',
-                'seat' => 'secretariat.secretary',
-                'profile' => 'secretariat.secretary@1.0.0',
-                'substrate' => 'generic-officer.secretary@1.0.0',
-                'qualification' => 'qualification.secretariat.secretary.v1',
+            'seneschal' => [
+                'commission' => $receipt->seneschalCommission,
+                'id' => 'primordial.seneschal-assembly.1',
+                'seat' => 'curia.seneschal',
+                'profile' => 'curia.seneschal@1.0.0',
+                'substrate' => 'generic-officer.seneschal@1.0.0',
+                'qualification' => 'qualification.curia.seneschal.v1',
             ],
-            'rector' => [
-                'commission' => $receipt->rectorCommission,
-                'id' => 'primordial.rector-assembly.1',
-                'seat' => 'castellan.rector',
-                'profile' => 'castellan.rector@1.0.0',
-                'substrate' => 'generic-officer.rector@1.0.0',
-                'qualification' => 'qualification.castellan.rector.v1',
+            'chamberlain' => [
+                'commission' => $receipt->chamberlainCommission,
+                'id' => 'primordial.chamberlain-assembly.1',
+                'seat' => 'curia.chamberlain',
+                'profile' => 'curia.chamberlain@1.0.0',
+                'substrate' => 'generic-officer.chamberlain@1.0.0',
+                'qualification' => 'qualification.curia.chamberlain.v1',
             ],
         ];
 
@@ -561,7 +547,7 @@ final readonly class MasterMason
                 $specification['id'], true, 'charter-development-1', 'conscription.recruiter',
                 'T04.successor', 2, $specification['seat'], $specification['profile'],
                 $specification['substrate'], $specification['qualification'], 0,
-                'secretary' === $role ? 'primordial.rector-assembly.1' : 'primordial.secretary-assembly.1', true,
+                'seneschal' === $role ? 'primordial.chamberlain-assembly.1' : 'primordial.seneschal-assembly.1', true,
             ];
             if ($observed !== $expected || !isset($manifestCommissions[$role]['digest'])) {
                 throw new \RuntimeException('B41_COMMISSION_MISMATCH: pinned '.$role.' commission contents are invalid.');
@@ -592,12 +578,12 @@ final readonly class MasterMason
             $packets[$role] = $packet;
         }
 
-        return $this->transition($record, 'T05', BootstrapState::TriadAssembled, [
+        return $this->transition($record, 'T05', BootstrapState::CurianCoreAssembled, [
             'recruiter_manifestation_id' => $recruiter['manifestation_id'],
             'assembly_attempt' => 1,
             'seat_reservations' => [
-                'secretary' => ['seat' => 'secretariat.secretary', 'expected_generation' => 0, 'status' => 'HELD'],
-                'rector' => ['seat' => 'castellan.rector', 'expected_generation' => 0, 'status' => 'HELD'],
+                'seneschal' => ['seat' => 'curia.seneschal', 'expected_generation' => 0, 'status' => 'HELD'],
+                'chamberlain' => ['seat' => 'curia.chamberlain', 'expected_generation' => 0, 'status' => 'HELD'],
             ],
             'delivery_packets' => $packets,
             'atomic_pair' => true,

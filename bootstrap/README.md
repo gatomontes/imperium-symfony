@@ -1,16 +1,7 @@
-# Executable bootstrap corpus
+# Bootstrap composition
 
-This directory contains the immutable development composition consumed by the
-CLI-first Launcher. `manifest.json` pins the exact artifact bytes and is signed
-under the development Charter root. It authorizes the complete T01-T09 primordial
-bootstrap sequence; only the terminal T09 state means `READY`.
+`artifacts/manifest.json` is generated from the immutable development composition by `tools/build-bootstrap-manifest.mjs` and verified by `tools/verify-bootstrap-manifest.mjs`.
 
-Regenerate the manifest only after an intentional artifact change:
+The composition mechanically establishes Conscription, replaces the provisional Recruiter with an ordinary Recruiter, assembles the Seneschal–Chamberlain governing pair, creates one Curia runtime, binds that pair atomically, attaches Isolde independently as provisional Curial Secretary, verifies closed Curian routes, and finally commits `CURIA_READY` with the Imperator entrypoint.
 
-```bash
-node tools/build-bootstrap-manifest.mjs
-```
-
-The generator creates a new one-use signing root and discards its private key.
-It is a development composition mechanism, not the eventual production key
-ceremony.
+Do not edit generated Profiles, attestations, or the manifest directly. Change their source definitions or the generator and regenerate the set.

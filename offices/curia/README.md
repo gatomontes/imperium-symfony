@@ -4,9 +4,7 @@ Curia is the mission-specific governing Office of one Imperium instance. It owns
 
 ## Migration status
 
-These files define the approved target architecture. They are not yet pinned by the executable bootstrap manifest and acquire no Runtime authority merely by existing.
-
-The current Secretariat, Castellan, and Rector bootstrap constituents remain executable legacy dependencies until the Curian bootstrap cutover is completed.
+These files define the active architecture pinned by the executable bootstrap manifest. Curia is the single governing runtime; its resident Seats are Seneschal, Chamberlain, and the optional Secretary.
 
 ## Constituents
 

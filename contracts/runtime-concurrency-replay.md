@@ -71,7 +71,7 @@ Failure follows only the governing machine's declared edge. This contract suppli
 
 ## Separate machines
 
-The bootstrap machine may use these primitives only for the Manifest-pinned primordial transaction. The ordinary-spawning machine may use them only after primordial `READY` and for an attributable request from an authorized occupied Office.
+The bootstrap machine may use these primitives only for the Manifest-pinned primordial transaction. The ordinary-spawning machine may use them only after `CURIA_READY` and for an attributable request from an authorized occupied Office.
 
 Neither machine may enter the other's states, reuse its authority artifact, consume its reservations or commissions, or treat shared primitive semantics as shared workflow authority.
 

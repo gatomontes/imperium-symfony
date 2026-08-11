@@ -1,6 +1,6 @@
 {
   "schema": "imperium.bootstrap-manifest/v1",
-  "manifest_id": "d7767a880fa4e7e0b2fbc7dfffda33b041194b15127ac8dab47d1a158f438588",
+  "manifest_id": "71d6de7fba2799a0eb935c167b84e2cad4d7a2796e00258dc10f1a97a6e9c4af",
   "unsigned_payload": {
     "charter_generation": "charter-development-1",
     "instance_class": "development",
@@ -11,8 +11,8 @@
       "accepted_signers": [
         {
           "key_id": "imperator-development-root-1",
-          "public_key": "BA99SNUzlldem2eTHxsDl8EEh8lJ+i0sHQT2yb8JQrg=",
-          "public_key_digest": "809182eee7c20a0340109730cd0f9bda928eff94cd0a23a5e8b470eb14a2a6f1"
+          "public_key": "2HHW4YtFqK8fsFu7Zc1i6ztJpob4UaS653BUTwHAKjs=",
+          "public_key_digest": "4d393ab67e15b3024e4e99531e4a0c4c0f8aaf841fd41c70abc83f76db3047c8"
         }
       ],
       "revocation_snapshot": {
@@ -30,14 +30,14 @@
     "mastermason": {
       "artifact": "/src/Bootstrap/MasterMason.php",
       "version": "1.0.0",
-      "digest": "2d9caad298fc5d4f7bdbe74f22b43825d8c59071ff65018a67de793b55a873bb",
+      "digest": "81189469692e5e3c439fc399313b11eb7e42538bb0a3719ee0d91f1bc1d6a530",
       "compatible_charter_generation": "charter-development-1"
     },
     "runtime": {
       "bootstrap_state": {
         "artifact": "/src/Bootstrap/BootstrapState.php",
         "version": "1.0.0",
-        "digest": "11dcd7718268a58120d83804debd5ad055e80067d04102824597a616ef624480"
+        "digest": "13867aca32dd6010f7cb48960223f7035047f7cc9860b191a1207905b8a33e2d"
       },
       "canonical_json": {
         "artifact": "/src/Bootstrap/CanonicalJson.php",
@@ -47,7 +47,7 @@
       "manifest_validator": {
         "artifact": "/src/Bootstrap/ManifestValidator.php",
         "version": "1.0.0",
-        "digest": "2f9c2d85a3fa119fe6ce70faa9189f03942efc2ceaa9dcbb5ef1f04af103aba8"
+        "digest": "678410f6dd1c6b5d19196f27993d674afe7f0e4399d07de05029ee0336cd1eed"
       },
       "state_store": {
         "artifact": "/src/Bootstrap/StateStore.php",
@@ -62,19 +62,19 @@
       "validation_receipt": {
         "artifact": "/src/Bootstrap/ValidationReceipt.php",
         "version": "1.0.0",
-        "digest": "f3cc8608d9270164b14af1d213e38d2338704121943ee875babbfd25dbf0a4ba"
+        "digest": "a3cd4ad753e85e1482fb91dc3ebe4612e213f73caaf92dc37394eea749820a2c"
       }
     },
     "primordial": {
       "constitutional_doctrine": {
         "artifact": "/imperium-doctrine.md",
         "version": "1.0.0",
-        "digest": "a64ef4e6e66667aff35ac3600d71d5832f3484f4eb1ce034e08951391d8bace8"
+        "digest": "afe8e7767960eb46b4518763eaadd959c0564da4503a7a8e78cf07c87fb53751"
       },
       "mission_planning_contract": {
         "artifact": "/contracts/mission-planning.md",
         "version": "1.0.0",
-        "digest": "a70d2abc46f320b0080062774ab625cd7066b7965ae56bce3e510da15c7f143b"
+        "digest": "c673155a893b91252755e46cedb5517d9c7afecdaedd6f2be3d7a5e081b3487f"
       },
       "charter": {
         "artifact": "/bootstrap/artifacts/charter.json",
@@ -87,32 +87,32 @@
           "version": "1.0.0",
           "digest": "7efc2a6ea16ce6ca83bb15a7c75060edb4dc7e6b110795e7a27f75d5e31c36a5"
         },
-        "secretary": {
-          "artifact": "/bootstrap/artifacts/secretary-persona.json",
+        "seneschal": {
+          "artifact": "/bootstrap/artifacts/seneschal-persona.json",
           "version": "1.0.0",
-          "digest": "030b66e96054057b5c8788646796b4b56799e3fef4fc3924b611e11bb6535fec"
+          "digest": "7db89a60fda53b2a250284e65daa3b901085ff21a09d419f26a482f65fb5123c"
         },
-        "rector": {
-          "artifact": "/bootstrap/artifacts/rector-persona.json",
+        "chamberlain": {
+          "artifact": "/bootstrap/artifacts/chamberlain-persona.json",
           "version": "1.0.0",
-          "digest": "06e10975bc147270a61c15e8db28b7657def25e1f6fcb709be96ec97101cb805"
+          "digest": "db4861e422b155076a08e484ff7f21a24afab7c48c0344aad249c3938632f817"
+        },
+        "isolde": {
+          "artifact": "/bootstrap/artifacts/isolde-persona.json",
+          "version": "1.0.0",
+          "digest": "38c8707ef2f5e3a57c1946065fe49654f097fd2ccac3638b536f77a0c89d22e1"
         }
       },
       "offices": {
         "conscription": {
           "artifact": "/offices/conscription/doctrine.md",
           "version": "1.0.0",
-          "digest": "e405f24923673965af59ae5739ceaad9a88ee1cb3324d1083389517efb1d578b"
+          "digest": "c3819a655659749cf9864bca82855d5871ad1ff3f59917f6f02599fbef00be47"
         },
-        "secretariat": {
-          "artifact": "/offices/secretariat/doctrine.md",
+        "curia": {
+          "artifact": "/offices/curia/doctrine.md",
           "version": "1.0.0",
-          "digest": "885852f90c64d86cd3eb156f315a8c2173f19d8e01854d399d3f54ef76eae062"
-        },
-        "castellan": {
-          "artifact": "/offices/castellan/doctrine.md",
-          "version": "1.0.0",
-          "digest": "5bf383f56c4b5a46489359596806a3db4eb1994f7fa12fcee84524d83e4ad1b9"
+          "digest": "7bcb590f89b3af324bc1fa97d9279cb1446f2c2528f52348a55115e4306606ad"
         }
       },
       "seats": {
@@ -126,15 +126,20 @@
           "version": "1.0.0",
           "digest": "d31e5a0e47444da58d19044ce51f8653bf586b20c18f3406627757973f2f4b54"
         },
+        "seneschal": {
+          "artifact": "/bootstrap/artifacts/seneschal-seat.json",
+          "version": "1.0.0",
+          "digest": "8fe11e5bef2909b9be5b4dcaf15d379bcf17aed4923cecc6385c0a66716c3482"
+        },
+        "chamberlain": {
+          "artifact": "/bootstrap/artifacts/chamberlain-seat.json",
+          "version": "1.0.0",
+          "digest": "4f1a68c878e6c70a7f01b7d4efc6121392f5e7fac2c5394b59a66dece04f4bef"
+        },
         "secretary": {
           "artifact": "/bootstrap/artifacts/secretary-seat.json",
           "version": "1.0.0",
-          "digest": "ac9f40bfce62886bd4106fe76c1ef58c82804caeb68ebf56fa0c5bb04c104633"
-        },
-        "rector": {
-          "artifact": "/bootstrap/artifacts/rector-seat.json",
-          "version": "1.0.0",
-          "digest": "54d60fd5a7c8fa6a53bf68361b7e7926c07c9cfac16afa323cec4c46bfcbd5f4"
+          "digest": "9a16cbabf4fa81199a5f0b8bc7276de3734fcc194472ec3534c198633c1335dc"
         }
       },
       "profiles": {
@@ -172,37 +177,54 @@
             }
           }
         },
+        "seneschal": {
+          "artifact": "/bootstrap/artifacts/seneschal-profile.json",
+          "version": "1.0.0",
+          "digest": "ab3f285362e7367590f51c7047a5aa499cf30638f5f92325f5dfcd4d4544a14b",
+          "attestations": {
+            "approval": {
+              "artifact": "/bootstrap/artifacts/seneschal-profile-approved.json",
+              "version": "1.0.0",
+              "digest": "b1c83a29087a59e88c535f933fd1e8b6d6d3c7e31bc2c94b13daee7e8eb41c34"
+            },
+            "current_active": {
+              "artifact": "/bootstrap/artifacts/seneschal-profile-current-active.json",
+              "version": "1.0.0",
+              "digest": "0db84755b351fd160db5372e072ca3c2e1f4dc0c88fdf27941ecdae468a44884"
+            }
+          }
+        },
+        "chamberlain": {
+          "artifact": "/bootstrap/artifacts/chamberlain-profile.json",
+          "version": "1.0.0",
+          "digest": "585e14e0819ffd3de2af8cddb7a3d9f3cc5672a7c89a8e7f6e882895b4c10df7",
+          "attestations": {
+            "approval": {
+              "artifact": "/bootstrap/artifacts/chamberlain-profile-approved.json",
+              "version": "1.0.0",
+              "digest": "5b1d86620d6e1b6efcfd2c2e3f6179df45f9c8f613452bf35c4761e2b8464353"
+            },
+            "current_active": {
+              "artifact": "/bootstrap/artifacts/chamberlain-profile-current-active.json",
+              "version": "1.0.0",
+              "digest": "9c6ca4a3b6412cbee2d20353fdaf81fceeda85ce3c7a4e3ada035a9b36ed7841"
+            }
+          }
+        },
         "secretary": {
           "artifact": "/bootstrap/artifacts/secretary-profile.json",
           "version": "1.0.0",
-          "digest": "69333cde7adcb3318342545aa56e50b9eacfd0619a29e5cf0a7855b445f3f087",
+          "digest": "013e41f9ed67a1cf5059fa9669c0dba3948efcc2247750fce2faa92b4a67410e",
           "attestations": {
             "approval": {
               "artifact": "/bootstrap/artifacts/secretary-profile-approved.json",
               "version": "1.0.0",
-              "digest": "84672c96a45bcb0576d67b7fefca97c280c86747b2d870ae337a4f3a3f3d0762"
+              "digest": "1aaa827e92749590d480994cfef74d4cae80dc8276b33956667892b150f0eca0"
             },
             "current_active": {
               "artifact": "/bootstrap/artifacts/secretary-profile-current-active.json",
               "version": "1.0.0",
-              "digest": "8882bda75e89a42af8d37d20e9f07b99141499cf2bd8150767be3f089c7deb17"
-            }
-          }
-        },
-        "rector": {
-          "artifact": "/bootstrap/artifacts/rector-profile.json",
-          "version": "1.0.0",
-          "digest": "04c916ac6ec9398e86e37ab50b85525c78ea8c8b14857e8851092e98bda5e844",
-          "attestations": {
-            "approval": {
-              "artifact": "/bootstrap/artifacts/rector-profile-approved.json",
-              "version": "1.0.0",
-              "digest": "bf6510c145ee8f13b4e7eec1366117710b4514d4160aa6eb11a27cae42faab7b"
-            },
-            "current_active": {
-              "artifact": "/bootstrap/artifacts/rector-profile-current-active.json",
-              "version": "1.0.0",
-              "digest": "fec063b6dc4ba3c6178f27c204e1299f5284088ce96f2195f11bb85bc41073d8"
+              "digest": "a4dd2dc6ead9b46991a8f091c946544b349dce76e78249cfb55adf6971d4de18"
             }
           }
         }
@@ -218,43 +240,53 @@
           "version": "1.0.0",
           "digest": "21693e898dd5f21bae806ace33d32097de99795fce8f99a436a7398fba8e5864"
         },
+        "seneschal": {
+          "artifact": "/bootstrap/artifacts/seneschal-substrate.json",
+          "version": "1.0.0",
+          "digest": "fd95d49724ffe4455414828612d81221dcc95047fa5a7ae3c8029dac44c04fe1"
+        },
+        "chamberlain": {
+          "artifact": "/bootstrap/artifacts/chamberlain-substrate.json",
+          "version": "1.0.0",
+          "digest": "b3a13088473bce6f1aa4deeabed10642e97050d116b84312ff92bbebf4b02a20"
+        },
         "secretary": {
           "artifact": "/bootstrap/artifacts/secretary-substrate.json",
           "version": "1.0.0",
-          "digest": "4b0e229997e4c9774ce8bcd6e3a64eed4eb25fb5adf2a563c50711ce15aded78"
-        },
-        "rector": {
-          "artifact": "/bootstrap/artifacts/rector-substrate.json",
-          "version": "1.0.0",
-          "digest": "7bb4489bed9836fec474604fe53cb955ac8d8df22c596a0a99f953577a61e91f"
+          "digest": "6ed9096bc88fd2eceb3eda17e4f4c9f8d2272573d0b26bcf5c9e60a1b162c20c"
         }
       },
       "succession_commission": {
         "artifact": "/bootstrap/artifacts/recruiter-succession-commission.json",
         "version": "1.0.0",
-        "digest": "dbfb593e1fa8fbba9985388417e2865304c14b247846c68e28a0b2fcc24f1001"
+        "digest": "8d037d7214f39a16ede01078dc43c7875587fa8e8ef796539aa18e8552c42f39"
       },
       "assembly_commissions": {
+        "seneschal": {
+          "artifact": "/bootstrap/artifacts/seneschal-assembly-commission.json",
+          "version": "1.0.0",
+          "digest": "f95d00bfd3ed785a6d56e26b2cb96d260042818ea0cd241f1b6741b498700851"
+        },
+        "chamberlain": {
+          "artifact": "/bootstrap/artifacts/chamberlain-assembly-commission.json",
+          "version": "1.0.0",
+          "digest": "879f2079872b2460413b89811ff33e58f9281e3417f519f78515d0a0c9f249e4"
+        },
         "secretary": {
           "artifact": "/bootstrap/artifacts/secretary-assembly-commission.json",
           "version": "1.0.0",
-          "digest": "dff77e0cf9b909ff66716e623d62736206004970a28452c9c44c41c3b853aa65"
-        },
-        "rector": {
-          "artifact": "/bootstrap/artifacts/rector-assembly-commission.json",
-          "version": "1.0.0",
-          "digest": "e702b2616290c977821bcfd74545f31e1e2468f6cc8fbeb3f421e4f28e7d8dc6"
+          "digest": "5c4f6485d41f08f69906378bbff00ec417bb5f5169392eb1031f1f6b2fd86838"
         }
       },
       "routes": {
         "artifact": "/bootstrap/artifacts/routes.json",
         "version": "1.0.0",
-        "digest": "df56bbd5faf9331f1655cabf1050b530f6738828a3e5f817b43d2331dfd1bd67"
+        "digest": "161e1fd8426bab655264684f5d763da2fa16dbd81347df2578fff68606c02577"
       },
       "bootstrap_machine": {
         "artifact": "/bootstrap/artifacts/bootstrap-machine.json",
         "version": "1.0.0",
-        "digest": "1f99f775194b4c7dc02454e4edfe804cfd64071eeacf365e92548fcab102110f"
+        "digest": "aa6e30910ac09ab9adb6f9a1b22ece0c600ba92952ec3e18201f0704d5097ebf"
       },
       "bootstrap_recovery_machine": {
         "artifact": "/bootstrap/artifacts/bootstrap-recovery-machine.json",
@@ -277,8 +309,8 @@
     {
       "key_id": "imperator-development-root-1",
       "algorithm": "ed25519",
-      "signed_payload_digest": "d7767a880fa4e7e0b2fbc7dfffda33b041194b15127ac8dab47d1a158f438588",
-      "signature": "c/Fy75+Nt8yTg7YSE3Iz/hsX/kjLr2OmiiSO3Y6sbvZZTM7csxxdyViiJ5nSoIcFDOmpegd12kKp21A1FRrJBQ=="
+      "signed_payload_digest": "71d6de7fba2799a0eb935c167b84e2cad4d7a2796e00258dc10f1a97a6e9c4af",
+      "signature": "19brj36k8Hij2kqziHrts1oXcEZ24Asx02yCReyC+f37FtK2zzCmJdBK7QrQ1Ulv0chhQaNOm8wbN3C/RoqPAg=="
     }
   ]
 }
