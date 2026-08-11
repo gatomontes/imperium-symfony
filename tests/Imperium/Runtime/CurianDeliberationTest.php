@@ -68,6 +68,7 @@ final class CurianDeliberationTest extends TestCase
                     'question' => 'Which hostname is in scope?',
                     'resource_demands' => [],
                     'authorization_required' => false,
+                    'mission_plan' => null,
                 ];
             }
         };

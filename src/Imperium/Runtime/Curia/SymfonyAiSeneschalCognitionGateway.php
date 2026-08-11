@@ -27,6 +27,7 @@ final readonly class SymfonyAiSeneschalCognitionGateway implements SeneschalCogn
             'question: null or exactly one question',
             'resource_demands: an array of explicitly identified planning resource categories',
             'authorization_required: boolean; true only when a listed resource demand requires Imperator authorization now',
+            'mission_plan: null; an opening disposition cannot contain a Mission Plan',
             'Do not claim that any resource, mission, tool, credential, research, or execution has been authorized.',
         ]), ['ADMITTED_FOR_PLANNING', 'CLARIFICATION_REQUIRED', 'REFUSED']);
     }
@@ -45,7 +46,8 @@ final readonly class SymfonyAiSeneschalCognitionGateway implements SeneschalCogn
             'question: null or exactly one question',
             'resource_demands: an array of explicitly identified resource categories',
             'authorization_required: boolean',
-            'A Mission Plan may be described in decision, but it remains a draft until Imperator approval.',
+            'mission_plan: null unless disposition is MISSION_PLAN_DRAFTED; then an object containing exactly objective, scope, deliverables, constraints, required_inputs, personnel_requirements, tool_requirements, data_requirements, office_participation, and stop_conditions. Every field except objective is an array of explicit strings.',
+            'A Mission Plan remains a draft until Imperator approval.',
             'Do not claim that approval, authorization, research, tooling, or execution occurred.',
         ]), ['PLANNING_CONTINUES', 'CLARIFICATION_REQUIRED', 'AUTHORIZATION_REQUIRED', 'MISSION_PLAN_DRAFTED', 'REFUSED']);
     }
@@ -68,7 +70,7 @@ final readonly class SymfonyAiSeneschalCognitionGateway implements SeneschalCogn
         }
         $keys = array_keys($decision);
         sort($keys, SORT_STRING);
-        if (['authorization_required', 'decision', 'disposition', 'question', 'resource_demands'] !== $keys
+        if (['authorization_required', 'decision', 'disposition', 'mission_plan', 'question', 'resource_demands'] !== $keys
             || !in_array($decision['disposition'] ?? null, $allowedDispositions, true)
             || !is_string($decision['decision'] ?? null)
             || '' === trim($decision['decision'])
@@ -87,6 +89,11 @@ final readonly class SymfonyAiSeneschalCognitionGateway implements SeneschalCogn
         if ('AUTHORIZATION_REQUIRED' === $decision['disposition'] && !$decision['authorization_required']) {
             throw new \RuntimeException('C11_SENESCHAL_CONTRACT_INVALID: authorization disposition must declare the requirement.');
         }
+        if ('MISSION_PLAN_DRAFTED' === $decision['disposition']) {
+            $this->validateMissionPlan($decision['mission_plan'] ?? null);
+        } elseif (null !== ($decision['mission_plan'] ?? null)) {
+            throw new \RuntimeException('C11_SENESCHAL_CONTRACT_INVALID: only a drafted-plan disposition may include a Mission Plan.');
+        }
         foreach ($decision['resource_demands'] as $demand) {
             if (!is_string($demand) || '' === trim($demand)) {
                 throw new \RuntimeException('C11_SENESCHAL_CONTRACT_INVALID: resource demands must be non-empty strings.');
@@ -94,6 +101,32 @@ final readonly class SymfonyAiSeneschalCognitionGateway implements SeneschalCogn
         }
 
         return $decision;
+    }
+
+    private function validateMissionPlan(mixed $plan): void
+    {
+        if (!is_array($plan)) {
+            throw new \RuntimeException('C12_MISSION_PLAN_INVALID: structured Mission Plan is required.');
+        }
+        $keys = array_keys($plan);
+        sort($keys, SORT_STRING);
+        $expected = ['constraints', 'data_requirements', 'deliverables', 'objective', 'office_participation', 'personnel_requirements', 'required_inputs', 'scope', 'stop_conditions', 'tool_requirements'];
+        if ($expected !== $keys || !is_string($plan['objective'] ?? null) || '' === trim($plan['objective'])) {
+            throw new \RuntimeException('C12_MISSION_PLAN_INVALID: Mission Plan fields are incomplete.');
+        }
+        foreach ($expected as $field) {
+            if ('objective' === $field) {
+                continue;
+            }
+            if (!is_array($plan[$field])) {
+                throw new \RuntimeException('C12_MISSION_PLAN_INVALID: '.$field.' must be an array.');
+            }
+            foreach ($plan[$field] as $item) {
+                if (!is_string($item) || '' === trim($item)) {
+                    throw new \RuntimeException('C12_MISSION_PLAN_INVALID: '.$field.' entries must be explicit strings.');
+                }
+            }
+        }
     }
 
     private function extractJson(string $content): string

@@ -81,6 +81,9 @@ final readonly class ImperatorActs
         if ('MISSION_PLAN_DRAFTED' !== ($turn['seneschal']['disposition'] ?? null)) {
             throw new \RuntimeException('C31_PLAN_NOT_FOUND: referenced turn is not a drafted Mission Plan.');
         }
+        if (!is_array($turn['seneschal']['mission_plan'] ?? null)) {
+            throw new \RuntimeException('C33_PLAN_NOT_COMMISSIONABLE: drafted plan lacks the structured commissioning contract.');
+        }
 
         return [$proceeding, $turn];
     }
@@ -101,10 +104,12 @@ final readonly class ImperatorActs
             }
         }
         $demands = array_values(array_unique($turn['resource_demands'] ?? []));
+        $structured = is_array($turn['seneschal']['mission_plan'] ?? null);
         $act['readiness'] = [
             'plan_approved' => $approved,
+            'plan_structured' => $structured,
             'resource_demands_satisfied' => [] === array_diff($demands, $authorized),
-            'commissioning_ready' => $approved && [] === array_diff($demands, $authorized),
+            'commissioning_ready' => $structured && $approved && [] === array_diff($demands, $authorized),
             'execution_authorized' => false,
         ];
 
