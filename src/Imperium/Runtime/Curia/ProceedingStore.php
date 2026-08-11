@@ -101,6 +101,52 @@ final readonly class ProceedingStore
         );
     }
 
+    public function commissions(string $proceedingId): array
+    {
+        $paths = glob($this->directory.'/'.$proceedingId.'.commission.*.json') ?: [];
+        sort($paths, SORT_STRING);
+
+        return array_map(
+            static fn (string $path): array => json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR),
+            $paths,
+        );
+    }
+
+    public function persistCommission(string $proceedingId, string $commissionId, array $commission): array
+    {
+        if (!preg_match('/^[a-zA-Z0-9._-]{8,80}$/', $commissionId)) {
+            throw new \InvalidArgumentException('Commission identity must contain 8–80 safe identifier characters.');
+        }
+        $handle = fopen($this->directory.'/'.$proceedingId.'.lock', 'c+');
+        if (false === $handle || !flock($handle, LOCK_EX)) {
+            throw new \RuntimeException('Curian proceeding lock cannot be acquired.');
+        }
+        try {
+            $path = $this->directory.'/'.$proceedingId.'.commission.'.$commissionId.'.json';
+            $commission['commission_id'] = $commissionId;
+            $commission['record_digest'] = hash('sha256', CanonicalJson::encode($commission));
+            if (is_file($path)) {
+                $existing = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+                if (CanonicalJson::encode($existing) !== CanonicalJson::encode($commission)) {
+                    throw new \RuntimeException('C40_COMMISSION_REPLAY_CONFLICT: commission identity is already bound differently.');
+                }
+
+                return $existing;
+            }
+            $temporary = $path.'.tmp.'.bin2hex(random_bytes(6));
+            $json = json_encode($commission, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)."\n";
+            if (false === file_put_contents($temporary, $json, LOCK_EX) || !rename($temporary, $path)) {
+                @unlink($temporary);
+                throw new \RuntimeException('Curian commission cannot be committed atomically.');
+            }
+
+            return $commission;
+        } finally {
+            flock($handle, LOCK_UN);
+            fclose($handle);
+        }
+    }
+
     public function persistAct(string $proceedingId, string $actId, array $act): array
     {
         if (!preg_match('/^[a-zA-Z0-9._-]{8,80}$/', $actId)) {
