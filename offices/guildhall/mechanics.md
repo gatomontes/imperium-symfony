@@ -6,7 +6,7 @@ inherits: [./doctrine.md]
 These functions support Guildhall cognition. They do not determine professions, compose the queue, challenge boundaries, or adjudicate recommendations.
 
 ## open-resolution-case
-Preserve exact Castellan inputs, versions, provenance, and correlation in a resolution-case record.
+Preserve exact Curia inputs, versions, provenance, authority, and correlation in a resolution-case record.
 
 ## dispatch-committee-assignment
 Route a Guildmaster-authorized bounded assignment to the named Committee Seat and record attribution.
@@ -21,6 +21,15 @@ Bind attributable returns without reconciling their meaning; output a committee 
 Preserve the exact Guildmaster disposition, rationale, contributions, version, and authority.
 
 ## issue-profession-packet
-Package and transmit the exact admitted Profession Determination Packet to Castellan.
+Package and transmit the exact admitted Profession Determination Packet and Personnel Disposition to Curia.
+
+## open-executive-suitability-case
+Preserve the exact Seneschal Suitability Demand, mission mandate, Planning Authorization, commission, Garrison inventory facts, and candidate references without interpreting them.
+
+## record-executive-suitability-return
+Preserve the exact attributable axis findings returned by the qualified Executive-Suitability Committee occupant.
+
+## issue-executive-suitability-disposition
+Package and transmit the exact Guildmaster disposition, evaluated candidates, evidence, mismatches, uncertainty, construction estimate, and revision conditions to Curia.
 
 Every function fails closed on missing authority, attribution, identity, version, integrity, or correlation.

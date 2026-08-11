@@ -104,9 +104,9 @@ A roster match or availability report is not a suitability determination or perm
 
 An Office stewards its own Profiles. Garrison preserves the exact admitted Persona and status supplied through the competent handoff; it does not hold, revise, approve, sign, or reinterpret Profiles.
 
-### Castellan
+### Curia
 
-Castellan may route the exact confirmed Persona package to Garrison. It does not render Garrison's Persona-admission disposition.
+Curia may route an exact Foundry Release Packet and Senate confirmation record to Garrison under the applicable authorized handoff. Curia does not render Garrison's Persona-admission disposition, and Seneschal selection does not itself admit, reserve, retrieve, or release a Persona.
 
 ### Foundry and Senate
 
@@ -118,7 +118,7 @@ Conscription does not retrieve Officer Profiles from Garrison. It receives an ex
 
 ### Guildhall and other suitability authorities
 
-Under an exact authorized request, Garrison supplies Guildhall with exact roster, custody-state, and availability facts effective at a declared time. Guildhall may use those facts to determine professional fit and prepare a Personnel Disposition for mission planning. Garrison does not compose professions, determine suitability, estimate construction needs, or convert inventory facts into permission to reserve, retrieve, build, or deploy.
+Under an exact authorized request, Garrison supplies Guildhall with exact roster, custody-state, and availability facts effective at a declared time. Guildhall may use those facts to determine professional fit, prepare a Personnel Disposition, or evaluate exact admitted Seneschal Persona versions against a Suitability Demand. Garrison does not compose professions, determine professional or executive suitability, estimate construction needs, select a Seneschal, or convert inventory facts into permission to reserve, retrieve, build, appoint, bind, or deploy.
 
 ## Products
 

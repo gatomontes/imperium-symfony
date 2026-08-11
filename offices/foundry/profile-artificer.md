@@ -43,7 +43,7 @@ The Artificer must:
 The Profile must not equip its bearer to:
 
 - fabricate professional, evidentiary, doctrinal, or persona substance;
-- impersonate Sanctographer, Notary, Guildmaster, Rector, or Adversarial Reviewer;
+- impersonate Sanctographer, Notary, Guildmaster, Seneschal, Curialis, or Adversarial Reviewer;
 - convert fluent output into proof;
 - silently alter an active template or admitted queue;
 - admit, lodge, qualify, spawn, credential, tool, or deploy; or

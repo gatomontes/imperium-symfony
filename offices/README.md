@@ -35,16 +35,18 @@ The Charter is Imperium's declarative authority, and MasterMason is its non-cogn
 | Bind requirements, target contract, and exact admitted Persona source | Laboratorium | `bind-transformation-inputs` |
 | Version a derived artifact without mutating its source | Laboratorium | `version-derived-artifact` |
 | Record Alchemist disposition and issue the derived-artifact packet | Laboratorium | `record-transformation-disposition`, `issue-derived-artifact-packet` |
-| Register intake and preserve exact material | Secretariat | `register-intake` |
-| Present one authorized question and correlate its answer | Secretariat | `present-question`, `record-answer` |
-| Package and deliver an authorized artifact | Secretariat | `package-delivery`, `deliver-package` |
+| Open and version a mission dossier | Curia | `open-planning-proceeding`, `version-mission-dossier` |
+| Present one authorized question and preserve its answer | Curia | `register-active-question`, `record-operator-answer` |
+| Register Curial submissions and Seneschal dispositions | Curia | `register-curial-submission`, `record-seneschal-disposition` |
+| Track mission dependencies and continuity | Curia | `track-dependency`, `assemble-succession-packet` |
+| Bind an authorized Seneschal Seat transfer | Curia | `bind-seat-transfer` |
+| Package and deliver an authorized Curial artifact | Curia | `package-authorized-delivery` |
 | Open a profession-resolution case | Guildhall | `open-resolution-case` |
 | Dispatch and correlate committee work | Guildhall | `dispatch-committee-assignment`, `record-committee-return` |
 | Assemble attributed committee material | Guildhall | `assemble-committee-record` |
 | Record and issue Guildmaster disposition | Guildhall | `record-guildmaster-disposition`, `issue-profession-packet` |
-| Open and version a mission dossier | Castellan | `open-mission-dossier`, `version-mission-dossier` |
-| Dispatch one Rector-authored question | Castellan | `dispatch-intake-question` |
-| Record Rector dispositions and issue artifacts | Castellan | `record-rector-disposition`, `issue-mission-artifact` |
+| Open and preserve a Seneschal suitability case | Guildhall | `open-executive-suitability-case` |
+| Preserve findings and issue executive-suitability disposition | Guildhall | `record-executive-suitability-return`, `issue-executive-suitability-disposition` |
 | Register, retrieve, and release held artifacts | Garrison | `register-custody`, `retrieve-held-artifact`, `release-held-artifact` |
 | Query inventory and record custodial state | Garrison | `query-inventory`, `record-custodial-state` |
 | Verify custody-record integrity | Garrison | `verify-custody-integrity` |
