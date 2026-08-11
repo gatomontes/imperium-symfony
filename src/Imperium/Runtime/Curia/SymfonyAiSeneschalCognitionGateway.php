@@ -84,9 +84,6 @@ final readonly class SymfonyAiSeneschalCognitionGateway implements SeneschalCogn
         if ('CLARIFICATION_REQUIRED' !== $decision['disposition'] && null !== $decision['question']) {
             throw new \RuntimeException('C11_SENESCHAL_CONTRACT_INVALID: only clarification may include a question.');
         }
-        if ($decision['authorization_required'] && 'AUTHORIZATION_REQUIRED' !== $decision['disposition']) {
-            throw new \RuntimeException('C11_SENESCHAL_CONTRACT_INVALID: an authorization demand requires its exact disposition.');
-        }
         if ('AUTHORIZATION_REQUIRED' === $decision['disposition'] && !$decision['authorization_required']) {
             throw new \RuntimeException('C11_SENESCHAL_CONTRACT_INVALID: authorization disposition must declare the requirement.');
         }

@@ -43,7 +43,7 @@ The development command `imperium:curia:respond` restores an existing proceeding
 
 Turns are append-only and monotonically sequenced. A stable `response_id` is an idempotency identity: replay returns the existing turn without invoking cognition again. A concurrent intervening turn invalidates a stale deliberation result rather than silently reordering the minutes.
 
-The Seneschal may continue planning, ask exactly one question, request authorization, draft a Mission Plan, or refuse. An authorization request is not authorization, and a drafted Mission Plan is not approval.
+The Seneschal may continue planning, ask exactly one question, request authorization, draft a Mission Plan, or refuse. The primary disposition and authorization flag are orthogonal: a draft or continuing-planning disposition may identify unresolved authorization demands. `AUTHORIZATION_REQUIRED` is used when the demand itself is the controlling disposition. An authorization request is not authorization, and a drafted Mission Plan is not approval.
 
 ## `register-curial-submission`
 
