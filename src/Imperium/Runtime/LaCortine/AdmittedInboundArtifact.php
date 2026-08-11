@@ -11,6 +11,7 @@ final readonly class AdmittedInboundArtifact
         public string $artifactId,
         public string $rawPayloadId,
         public string $rawPayloadDigest,
+        public string $rawContent,
         public string $content,
         public array $provenance,
         public \DateTimeImmutable $admittedAt,
