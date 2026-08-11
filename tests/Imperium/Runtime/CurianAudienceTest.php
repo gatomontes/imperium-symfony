@@ -17,7 +17,7 @@ final class CurianAudienceTest extends TestCase
         $root = sys_get_temp_dir().DIRECTORY_SEPARATOR.'imperium-curia-'.bin2hex(random_bytes(6));
         mkdir($root, 0700, true);
         $bootstrap = new StateStore($root);
-        $bootstrap->write($this->readyState());
+        $this->seedBootstrap($bootstrap, $this->readyState());
         $calls = (object) ['count' => 0];
         $audience = new CurianAudience($bootstrap, new ProceedingStore($root), $this->seneschal($calls));
 
@@ -43,7 +43,7 @@ final class CurianAudienceTest extends TestCase
         $root = sys_get_temp_dir().DIRECTORY_SEPARATOR.'imperium-curia-'.bin2hex(random_bytes(6));
         mkdir($root, 0700, true);
         $bootstrap = new StateStore($root);
-        $bootstrap->write(['state' => 'ROUTES_VERIFIED']);
+        $this->seedBootstrap($bootstrap, ['state' => 'ROUTES_VERIFIED']);
         $calls = (object) ['count' => 0];
         $audience = new CurianAudience($bootstrap, new ProceedingStore($root), $this->seneschal($calls));
 
@@ -82,6 +82,13 @@ final class CurianAudienceTest extends TestCase
                 ],
             ]],
         ];
+    }
+
+    private function seedBootstrap(StateStore $store, array $state): void
+    {
+        $store->locked(static function () use ($store, $state): void {
+            $store->write($state);
+        });
     }
 
     private function seneschal(object $calls): SeneschalCognitionGateway
