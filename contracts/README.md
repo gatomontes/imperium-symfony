@@ -8,6 +8,18 @@ lineage, state, and evidence required by doctrine structurally explicit.
   separately disclosed and approved Planning Charter and Mission Plan phases;
   it defines Planning Authorization, Mission Authorization, their distinct
   commissions, amendment, and closure.
+- [`seneschal-suitability.md`](seneschal-suitability.md) defines the
+  multidimensional executive-disposition demand used to determine whether the
+  standard Seneschal is sufficient for one mission instance.
+- [`seneschal-suitability-demand.schema.json`](seneschal-suitability-demand.schema.json)
+  validates that immutable demand.
+- [`seneschal-succession.md`](seneschal-succession.md) defines mandate
+  correction, mismatch evaluation, ordinary replacement, emergency suspension,
+  succession-state preservation, and atomic Seat transfer.
+- [`seneschal-succession-directive.schema.json`](seneschal-succession-directive.schema.json),
+  [`seneschal-succession-packet.schema.json`](seneschal-succession-packet.schema.json),
+  and [`seneschal-seat-transfer.schema.json`](seneschal-seat-transfer.schema.json)
+  validate the corresponding succession artifacts.
 
 - [`profile-artifact.md`](profile-artifact.md) defines the constitutional
   Profile artifact and lifecycle.

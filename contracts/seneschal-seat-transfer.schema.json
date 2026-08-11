@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://imperium.invalid/contracts/seneschal-seat-transfer.schema.json",
+  "title": "Seneschal Seat Transfer",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version", "transfer_id", "mission_instance_id", "action",
+    "directive_ref", "succession_packet_ref", "seat_id", "outgoing",
+    "expected_current_generation", "expected_next_generation", "authorized_by",
+    "executed_by", "replay_key", "status", "receipts", "digest_spec", "content_digest"
+  ],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "transfer_id": { "$ref": "#/$defs/nonempty" },
+    "mission_instance_id": { "$ref": "#/$defs/nonempty" },
+    "action": { "enum": ["replace", "suspend", "appoint_interim", "appoint_permanent"] },
+    "directive_ref": { "$ref": "#/$defs/versionedRef" },
+    "succession_packet_ref": { "$ref": "#/$defs/versionedRef" },
+    "seat_id": { "const": "curia.seneschal" },
+    "outgoing": { "$ref": "#/$defs/occupant" },
+    "incoming": { "$ref": "#/$defs/candidate" },
+    "expected_current_generation": { "type": "integer", "minimum": 1 },
+    "expected_next_generation": { "type": "integer", "minimum": 2 },
+    "authorized_by": { "$ref": "#/$defs/digestRef" },
+    "executed_by": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "id", "version"],
+      "properties": {
+        "kind": { "const": "mastermason" },
+        "id": { "$ref": "#/$defs/nonempty" },
+        "version": { "$ref": "#/$defs/nonempty" }
+      }
+    },
+    "replay_key": { "$ref": "#/$defs/nonempty" },
+    "status": { "enum": ["prepared", "reserved", "outgoing_fenced", "incoming_bound", "completed", "halted"] },
+    "receipts": { "$ref": "#/$defs/refSet" },
+    "digest_spec": { "$ref": "#/$defs/digestSpec" },
+    "content_digest": { "$ref": "#/$defs/digest" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "action": { "enum": ["replace", "appoint_interim", "appoint_permanent"] } } },
+      "then": { "required": ["incoming"] }
+    },
+    {
+      "if": { "properties": { "action": { "const": "suspend" } } },
+      "then": { "not": { "required": ["incoming"] } }
+    }
+  ],
+  "$defs": {
+    "nonempty": { "type": "string", "minLength": 1 },
+    "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "digestRef": {
+      "type": "object", "additionalProperties": false, "required": ["id", "digest"],
+      "properties": { "id": { "$ref": "#/$defs/nonempty" }, "digest": { "$ref": "#/$defs/digest" } }
+    },
+    "versionedRef": {
+      "type": "object", "additionalProperties": false, "required": ["id", "version", "digest"],
+      "properties": {
+        "id": { "$ref": "#/$defs/nonempty" }, "version": { "$ref": "#/$defs/nonempty" }, "digest": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "occupant": {
+      "type": "object", "additionalProperties": false,
+      "required": ["manifestation_id", "occupancy_generation"],
+      "properties": {
+        "manifestation_id": { "$ref": "#/$defs/nonempty" },
+        "occupancy_generation": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "candidate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["manifestation_id", "persona_ref", "profile_ref", "qualification_ref", "mandate_ref"],
+      "properties": {
+        "manifestation_id": { "$ref": "#/$defs/nonempty" },
+        "persona_ref": { "$ref": "#/$defs/versionedRef" },
+        "profile_ref": { "$ref": "#/$defs/versionedRef" },
+        "qualification_ref": { "$ref": "#/$defs/digestRef" },
+        "mandate_ref": { "$ref": "#/$defs/versionedRef" }
+      }
+    },
+    "refSet": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/digestRef" } },
+    "digestSpec": {
+      "type": "object", "additionalProperties": false,
+      "required": ["algorithm", "canonicalization", "omitted_fields"],
+      "properties": {
+        "algorithm": { "const": "sha256" }, "canonicalization": { "const": "rfc8785" },
+        "omitted_fields": { "const": ["content_digest"] }
+      }
+    }
+  }
+}
