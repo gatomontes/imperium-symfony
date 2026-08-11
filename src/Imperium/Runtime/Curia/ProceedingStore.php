@@ -56,4 +56,59 @@ final readonly class ProceedingStore
 
         return is_array($record) ? $record : null;
     }
+
+    public function turns(string $proceedingId): array
+    {
+        $paths = glob($this->directory.'/'.$proceedingId.'.turn.*.json') ?: [];
+        sort($paths, SORT_STRING);
+
+        return array_map(
+            static fn (string $path): array => json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR),
+            $paths,
+        );
+    }
+
+    public function findTurn(string $proceedingId, string $responseId): ?array
+    {
+        foreach ($this->turns($proceedingId) as $turn) {
+            if ($responseId === ($turn['response_id'] ?? null)) {
+                return $turn;
+            }
+        }
+
+        return null;
+    }
+
+    public function appendTurn(string $proceedingId, string $responseId, int $expectedSequence, array $turn): array
+    {
+        $lockPath = $this->directory.'/'.$proceedingId.'.lock';
+        $handle = fopen($lockPath, 'c+');
+        if (false === $handle || !flock($handle, LOCK_EX)) {
+            throw new \RuntimeException('Curian proceeding lock cannot be acquired.');
+        }
+        try {
+            $existing = $this->findTurn($proceedingId, $responseId);
+            if (null !== $existing) {
+                return $existing;
+            }
+            $sequence = count($this->turns($proceedingId)) + 1;
+            if ($sequence !== $expectedSequence) {
+                throw new \RuntimeException('C20_PROCEEDING_CHANGED: another turn was committed during deliberation.');
+            }
+            $turn['sequence'] = $sequence;
+            $turn['record_digest'] = hash('sha256', CanonicalJson::encode($turn));
+            $path = sprintf('%s/%s.turn.%06d.json', $this->directory, $proceedingId, $sequence);
+            $temporary = $path.'.tmp.'.bin2hex(random_bytes(6));
+            $json = json_encode($turn, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)."\n";
+            if (false === file_put_contents($temporary, $json, LOCK_EX) || !rename($temporary, $path)) {
+                @unlink($temporary);
+                throw new \RuntimeException('Curian turn cannot be committed atomically.');
+            }
+
+            return $turn;
+        } finally {
+            flock($handle, LOCK_UN);
+            fclose($handle);
+        }
+    }
 }
