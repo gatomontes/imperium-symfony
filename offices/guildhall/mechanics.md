@@ -5,6 +5,10 @@ inherits: [./doctrine.md]
 
 These functions support Guildhall cognition. They do not determine professions, compose the queue, challenge boundaries, or adjudicate recommendations.
 
+## demand-runtime-activation
+
+When an exact planning commission has reached Guildhall's inbox but the four resident Seats are unavailable, preserve a deterministic activation demand to MasterMason. The demand names the Guildmaster, Disciplinary-Fit, Composition, and Boundary-Challenge Seats and their Guildhall-owned Profiles. Missing immutable Profile artifacts, approval/current-active attestations, Conscription qualification packets, or Seat bindings remain explicit blockers. The demand grants no spawning, qualification, binding, acceptance, or execution authority.
+
 ## open-resolution-case
 Preserve exact Curia inputs, versions, provenance, authority, and correlation in a resolution-case record.
 
