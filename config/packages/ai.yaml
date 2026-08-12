@@ -4,6 +4,7 @@ ai:
             deepseek:
                 base_url: 'https://api.deepseek.com'
                 api_key: '%env(DEEPSEEK_API_KEY)%'
+                http_client: 'ai.deepseek.client'
                 model_catalog: 'Symfony\AI\Platform\Bridge\Generic\ModelCatalog'
 
     agent:

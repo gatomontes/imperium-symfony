@@ -2,6 +2,13 @@
 framework:
     secret: '%env(APP_SECRET)%'
 
+    http_client:
+        scoped_clients:
+            ai.deepseek.client:
+                base_uri: 'https://api.deepseek.com'
+                timeout: 30
+                max_duration: 75
+
     # Note that the session will be started ONLY if you read or write from it.
     session: true
 
