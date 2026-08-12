@@ -27,7 +27,7 @@ The occupied Artificer validates the exact delivered construction authorization 
 For each exact demand enumerated by an accepted construction authorization, create one immutable production case in the authorized profession order. Preserve the originating personnel disposition, demand, authorization acceptance, exemplar criteria, team composition, boundary controls, occupied Artificer, and queue position. Opening a case grants no Persona-selection discretion, spawning, admission, Seat-binding, or mission execution authority.
 
 ## dispatch-commission
-Bind an exact Artificer-authored commission to case, queue position, recipient, and authority; transmit unchanged.
+For each production case, bind two exact specialized-authorship commissions to the case, profession, queue position, source demand, accepted authorization, exemplar criteria, team composition, boundary controls, recipient, product, forbidden authorship, and authority restraint. Hagiography receives only evidence-derived Persona-section authorship; Studium receives only Persona Governance Doctrine-section authorship. The commissions remain pending recipient acceptance and grant neither complete Persona assembly, spawning, admission, Seat binding, nor mission execution.
 
 ## record-specialized-return
 Preserve the exact return, authorship, authentication, sources, and case relation.
