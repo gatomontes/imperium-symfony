@@ -82,6 +82,8 @@ Route each exact sealed planning commission into its declared Office inbox. Deli
 
 Maintain mechanical state for authorized commissions, Office dependencies, pending returns, deadlines, stop conditions, and unresolved blockers.
 
+When Guildhall returns a final Personnel Disposition proving exact unresolved personnel gaps and routes matching non-authorizing Foundry demands, Curia validates the complete Garrison-response and demand lineage and presents one bounded construction-authorization request to Imperator. The request identifies every exact demand and asks only for Persona construction. Recording or presenting the request grants no construction, Persona selection, spawning, Seat binding, or execution authority.
+
 ## `assemble-succession-packet`
 
 Assemble the exact mission-state references, pending decisions, commitments, authorizations, unresolved disagreements, suitability demand, and transfer conditions selected by competent cognition. Assembly grants no appointment or transfer authority.
