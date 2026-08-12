@@ -39,12 +39,21 @@ final readonly class SpecializedAuthorshipCommissionService
         $acceptance = is_string($acceptanceId) ? $this->read($this->acceptanceDirectory.'/'.$acceptanceId.'.json', 'F83_CASE_CHAIN_INVALID') : [];
         $demandId = $case['source_demand_id'] ?? null;
         $demand = is_string($demandId) ? $this->read($this->demandDirectory.'/'.$demandId.'.json', 'F83_CASE_CHAIN_INVALID') : [];
+        $authorizedReference = null;
+        foreach ($acceptance['authorized_demands'] ?? [] as $reference) {
+            if (is_array($reference) && $demandId === ($reference['demand_id'] ?? null)) {
+                if (null !== $authorizedReference) throw new \RuntimeException('F83_CASE_CHAIN_INVALID: accepted authorization contains a duplicate demand identity.');
+                $authorizedReference = $reference;
+            }
+        }
         if (!$this->digestMatches($acceptance) || !$this->digestMatches($demand)
             || ($case['authorization_acceptance_digest'] ?? null) !== ($acceptance['record_digest'] ?? null)
             || ($case['source_demand_digest'] ?? null) !== ($demand['record_digest'] ?? null)
             || 'ACCEPTED_FOR_EXACT_CONSTRUCTION' !== ($acceptance['disposition'] ?? null)
             || ($case['profession'] ?? null) !== ($demand['profession'] ?? null)
-            || !in_array(['demand_id' => $demandId, 'profession' => $demand['profession'], 'record_digest' => $demand['record_digest']], $acceptance['authorized_demands'] ?? [], true)) {
+            || !is_array($authorizedReference)
+            || ($demand['profession'] ?? null) !== ($authorizedReference['profession'] ?? null)
+            || ($demand['record_digest'] ?? null) !== ($authorizedReference['record_digest'] ?? null)) {
             throw new \RuntimeException('F83_CASE_CHAIN_INVALID: production case, demand, and accepted authorization do not agree.');
         }
         $common = [
