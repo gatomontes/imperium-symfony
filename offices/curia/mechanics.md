@@ -95,3 +95,7 @@ Apply an already-authorized atomic Seneschal Seat transition only after exact id
 ## `package-authorized-delivery`
 
 Package and route an already-authorized Curial artifact without revising its content or destination.
+
+## Resource-demand normalization
+
+Mission-plan prose is explanatory, not a routing protocol. Before issuing planning commissions, Curia resolves explicit office names and resource categories case-insensitively from the authorized demands. A destination remains required, but its position or prose prefix is not authoritative. This prevents cognitively equivalent replay wording from changing the mechanical disposition.
