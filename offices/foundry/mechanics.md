@@ -14,6 +14,9 @@ When an exact construction authorization reaches a vacant Foundry, validate and 
 ## prepare-canonical-artificer
 MasterMason validates the deterministic canonical Artificer package: admitted Persona, exact Seat-targeted Profile, Imperator approval, and current/active lifecycle attestation. A valid package opens a provisioning case but grants no commission, spawning, Seat-binding, acceptance, or execution authority.
 
+## commission-canonical-artificer
+MasterMason binds the exact canonical Artificer Persona, current/active Profile, generic Officer substrate, qualification contract, and provisioning case into one Conscription commission. Conscription receives authority only to instantiate and qualify that one manifestation. Foundry construction authority does not transfer; Seat binding, authorization acceptance, and execution remain separate.
+
 ## open-production-case
 Create the case, preserve exact inputs, and instantiate the admitted profession order.
 
