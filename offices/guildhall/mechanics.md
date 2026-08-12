@@ -25,6 +25,8 @@ The bound Guildmaster may accept only the exact delivered planning commission wh
 
 After acceptance, the Disciplinary-Fit, Composition, and Boundary-Challenge committee occupants deliberate independently over the exact commissioned Mission Plan. Guildmaster preserves their records and synthesizes a sealed Profession Determination containing required professions, exemplar criteria, team composition, boundary controls, and exact Garrison inventory questions. Because suitability is a claim about available admitted Personas and personnel, this determination explicitly remains short of a final Personnel Disposition until Garrison returns exact inventory facts.
 
+When the active Constable returns an authoritative empty admitted-Persona custody ledger, Guildmaster may issue a final Personnel Disposition identifying every required profession as an unresolved personnel gap. Guildhall may route one exact Persona-construction demand per gap to Foundry, but the demands remain `PENDING_CURIA_CONSTRUCTION_AUTHORIZATION`: they grant no Persona or exemplar selection, construction, spawning, Seat binding, or execution authority.
+
 Each committee disposition is durably checkpointed before the next Seat is invoked. The proceeding exposes Seat-level progress, applies bounded provider request durations, and resumes from the last valid checkpoint after interruption without repeating completed cognition. Guildmaster synthesis begins only after all three exact committee records are sealed.
 
 ## summon-canonical-staff
