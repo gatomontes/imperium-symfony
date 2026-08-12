@@ -15,7 +15,7 @@ final class SpecializedAuthorshipCommissionServiceTest extends TestCase
         $root = sys_get_temp_dir().'/imperium-specialized-authorship-'.bin2hex(random_bytes(6)); $caseId = 'persona-production-1234567890abcdef1234';
         $demandId = 'foundry-persona-demand-1234567890abcdef1234'; $acceptanceId = 'foundry-acceptance-1234567890abcdef1234'; $profession = 'Cybersecurity assessment';
         $demand = ['demand_id' => $demandId, 'profession' => $profession]; $demand['record_digest'] = hash('sha256', CanonicalJson::encode($demand));
-        $reference = ['demand_id' => $demandId, 'profession' => $profession, 'record_digest' => $demand['record_digest']];
+        $reference = ['demand_id' => $demandId, 'record_digest' => $demand['record_digest'], 'profession' => $profession];
         $acceptance = ['acceptance_id' => $acceptanceId, 'disposition' => 'ACCEPTED_FOR_EXACT_CONSTRUCTION', 'authorized_demands' => [$reference]]; $acceptance['record_digest'] = hash('sha256', CanonicalJson::encode($acceptance));
         $artificer = ['seat' => 'foundry.artificer', 'manifestation_id' => 'manifestation-artificer', 'occupancy_generation' => 1];
         $case = ['schema' => 'imperium.foundry-persona-production-case/v1', 'case_id' => $caseId, 'instance_id' => 'imperium-test', 'proceeding_id' => 'proceeding-test', 'queue_position' => 1,
