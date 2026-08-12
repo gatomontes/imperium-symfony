@@ -84,6 +84,10 @@ Maintain mechanical state for authorized commissions, Office dependencies, pendi
 
 When Guildhall returns a final Personnel Disposition proving exact unresolved personnel gaps and routes matching non-authorizing Foundry demands, Curia validates the complete Garrison-response and demand lineage and presents one bounded construction-authorization request to Imperator. The request identifies every exact demand and asks only for Persona construction. Recording or presenting the request grants no construction, Persona selection, spawning, Seat binding, or execution authority.
 
+## `record-imperator-construction-authorization`
+
+Bind one explicit Imperator decision to the exact construction request, request digest, and complete set of Foundry demand digests. Authorization grants Foundry permission to construct one Persona candidate for each exact demand. It grants no Persona selection, spawning, Seat binding, or mission-execution authority. The immutable authorization act does not mutate the request or its demands; subsequent Foundry work must cite and validate the act.
+
 ## `assemble-succession-packet`
 
 Assemble the exact mission-state references, pending decisions, commitments, authorizations, unresolved disagreements, suitability demand, and transfer conditions selected by competent cognition. Assembly grants no appointment or transfer authority.
