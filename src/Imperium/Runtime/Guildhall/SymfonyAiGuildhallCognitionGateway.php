@@ -41,16 +41,26 @@ final readonly class SymfonyAiGuildhallCognitionGateway implements GuildhallCogn
             'boundary_challenge' => [$this->boundaryChallenge, 'Challenge professional boundaries, overreach risks, segregation requirements, and personnel-related stop conditions.'],
         ] as $seat => [$agent, $instruction]) {
             if (isset($committee[$seat])) {
-                $progress?.__invoke($seat, 'RESUMED');
+                if (null !== $progress) {
+                    $progress($seat, 'RESUMED');
+                }
                 continue;
             }
-            $progress?.__invoke($seat, 'CALLING');
+            if (null !== $progress) {
+                $progress($seat, 'CALLING');
+            }
             $committee[$seat] = $this->committee($agent, $common."\n".$instruction);
-            $checkpoint?.__invoke(['committee' => $committee]);
-            $progress?.__invoke($seat, 'SEALED');
+            if (null !== $checkpoint) {
+                $checkpoint(['committee' => $committee]);
+            }
+            if (null !== $progress) {
+                $progress($seat, 'SEALED');
+            }
         }
         if (is_array($completed['guildmaster'] ?? null)) {
-            $progress?.__invoke('guildmaster', 'RESUMED');
+            if (null !== $progress) {
+                $progress('guildmaster', 'RESUMED');
+            }
             return ['committee' => $committee, 'guildmaster' => $completed['guildmaster']];
         }
         $prompt = implode("\n", [
@@ -67,7 +77,9 @@ final readonly class SymfonyAiGuildhallCognitionGateway implements GuildhallCogn
             'unresolved_questions: array of explicit strings',
             'This is not a final Personnel Disposition. No person may be declared suitable until exact Garrison facts return.',
         ]);
-        $progress?.__invoke('guildmaster', 'CALLING');
+        if (null !== $progress) {
+            $progress('guildmaster', 'CALLING');
+        }
         $synthesis = $this->invoke($this->guildmaster, $prompt);
         $keys = array_keys($synthesis);
         sort($keys, SORT_STRING);
@@ -87,8 +99,12 @@ final readonly class SymfonyAiGuildhallCognitionGateway implements GuildhallCogn
         ) {
             throw new \RuntimeException('G51_GUILDMASTER_CONTRACT_INVALID: complete determination requires professions and exact inventory queries.');
         }
-        $checkpoint?.__invoke(['committee' => $committee, 'guildmaster' => $synthesis]);
-        $progress?.__invoke('guildmaster', 'SEALED');
+        if (null !== $checkpoint) {
+            $checkpoint(['committee' => $committee, 'guildmaster' => $synthesis]);
+        }
+        if (null !== $progress) {
+            $progress('guildmaster', 'SEALED');
+        }
 
         return ['committee' => $committee, 'guildmaster' => $synthesis];
     }
