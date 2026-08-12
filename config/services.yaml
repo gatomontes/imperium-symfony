@@ -82,6 +82,20 @@ services:
         arguments:
             $projectDir: '%kernel.project_dir%'
 
+    App\Imperium\Runtime\Guildhall\SymfonyAiGuildhallCognitionGateway:
+        arguments:
+            $disciplinaryFit: '@ai.agent.guildhall_disciplinary_fit'
+            $composition: '@ai.agent.guildhall_composition'
+            $boundaryChallenge: '@ai.agent.guildhall_boundary_challenge'
+            $guildmaster: '@ai.agent.guildmaster'
+
+    App\Imperium\Runtime\Guildhall\GuildhallCognitionGateway:
+        alias: App\Imperium\Runtime\Guildhall\SymfonyAiGuildhallCognitionGateway
+
+    App\Imperium\Runtime\Guildhall\GuildhallDeliberationService:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
     App\Imperium\Runtime\Curia\SymfonyAiSeneschalCognitionGateway:
         arguments:
             $agent: '@ai.agent.seneschal'

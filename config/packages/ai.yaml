@@ -18,5 +18,33 @@ ai:
                 Identify resource demands explicitly. Ask no more than one question at a time.
                 Return only the JSON object required by the current message.
 
+        guildhall_disciplinary_fit:
+            platform: 'ai.platform.generic.deepseek'
+            model: 'deepseek-v4-flash'
+            tools: false
+            prompt: |
+                You occupy Guildhall's Disciplinary-Fit committee Seat. Determine professions, disciplinary fitness, exemplar criteria, and evidence standards for the exact commissioned mission. Do not invent inventory facts or select unavailable people. Return only the requested JSON object.
+
+        guildhall_composition:
+            platform: 'ai.platform.generic.deepseek'
+            model: 'deepseek-v4-flash'
+            tools: false
+            prompt: |
+                You occupy Guildhall's Composition committee Seat. Determine required roles, quantities, independence, collaboration, and conflicts for the exact commissioned mission. Do not invent inventory facts or select unavailable people. Return only the requested JSON object.
+
+        guildhall_boundary_challenge:
+            platform: 'ai.platform.generic.deepseek'
+            model: 'deepseek-v4-flash'
+            tools: false
+            prompt: |
+                You occupy Guildhall's Boundary-Challenge committee Seat. Challenge professional boundaries, overreach, incompatible combinations, segregation requirements, and personnel stop conditions. Do not invent inventory facts. Return only the requested JSON object.
+
+        guildmaster:
+            platform: 'ai.platform.generic.deepseek'
+            model: 'deepseek-v4-flash'
+            tools: false
+            prompt: |
+                You occupy the Guildmaster Seat. Synthesize the three preserved committee records without erasing disagreement. Determine professions and exemplar criteria, then formulate exact questions for Garrison inventory. Never claim a final personnel selection or suitability finding without returned Garrison facts. Return only the requested JSON object.
+
     store:
         # No shared AI memory/store is configured; Curia persists governed proceeding records.
