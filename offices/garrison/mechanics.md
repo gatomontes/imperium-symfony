@@ -18,6 +18,8 @@ Guildhall may route one sealed Profession Determination containing exact invento
 
 The resident Constable is standing institutional staff, not a mission-selected operative. A vacancy-blocked inquiry permits MasterMason to validate the exact versioned canonical Constable Persona, Profile, approval/current lifecycle chain, and qualification contract and open a non-authorizing provisioning case. That case grants no spawning, qualification, Seat binding, inventory response, or execution authority.
 
+MasterMason may subsequently consume that exact ready case to issue one immutable construction commission to Conscription. The commission grants spawning authority only for instantiating and qualifying one canonical Constable manifestation against the exact Persona, current/active Profile, qualification contract, and generic Officer substrate. It grants no Seat binding, inventory response, or execution authority.
+
 ## retrieve-held-artifact
 Fetch the exact authorized immutable version and bind its custody and provenance.
 
