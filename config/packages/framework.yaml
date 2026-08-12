@@ -6,8 +6,8 @@ framework:
         scoped_clients:
             ai.deepseek.client:
                 base_uri: 'https://api.deepseek.com'
-                timeout: 30
-                max_duration: 75
+                timeout: 60
+                max_duration: 120
 
     # Note that the session will be started ONLY if you read or write from it.
     session: true
