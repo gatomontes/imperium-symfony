@@ -104,6 +104,10 @@ services:
         arguments:
             $projectDir: '%kernel.project_dir%'
 
+    App\Imperium\Runtime\Garrison\GarrisonInventoryResponseService:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
     App\Imperium\Runtime\Garrison\CanonicalConstableRegistry:
         arguments:
             $projectDir: '%kernel.project_dir%'
