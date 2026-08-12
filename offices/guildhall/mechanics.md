@@ -19,6 +19,8 @@ Opening a provisioning case records this summoning rule and any missing canonica
 
 The canonical staff package binds four exact Garrison-admitted Persona versions, their Laboratorium-derived Officer Profiles, competent approval attestations, Guildhall current/active designations, and immutable file digests. The package is versioned institutional material, not a live staff body. A summons still requires fresh Conscription manifestations, qualification, and MasterMason Seat bindings for the current Imperium instance.
 
+After Conscription returns the four sealed `QUALIFIED_UNBOUND` packets, MasterMason validates them as one exact cohort against the summons, canonical staff package, immutable generic Officer substrate, qualification dispositions, target Seats, and vacant generation. It commits all four Seat bindings in one atomic occupancy record or commits none. The resulting occupants are bound pending Guildmaster acceptance of the waiting planning commission; binding does not itself record recipient acceptance or grant mission execution authority.
+
 ## summon-canonical-staff
 
 The exact Seneschal-issued Guildhall planning commission constitutes the bounded activation request when it reaches a dormant Guildhall and the personnel question is present. Chamberlain records and routes the derived summons. MasterMason validates current Seneschal and Chamberlain occupancies, the immutable commission and delivery chain, the ready provisioning case, and the exact canonical staff package. It may then issue four single-purpose Conscription construction commissions. Each permits one fresh manifestation to be instantiated and qualified for one exact Guildhall Seat; it grants no Seat binding, Guildhall acceptance, mission work, or execution authority.
