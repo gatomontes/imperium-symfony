@@ -74,6 +74,10 @@ services:
         arguments:
             $projectDir: '%kernel.project_dir%'
 
+    App\Imperium\Runtime\Conscription\ConstableConscriptionService:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
     App\Imperium\Runtime\Guildhall\GuildhallSeatBindingService:
         arguments:
             $projectDir: '%kernel.project_dir%'
