@@ -14,6 +14,8 @@ Preserve the Constable's exact defects and return destination.
 ## query-inventory
 Match recorded criteria without ranking or suitability inference.
 
+Guildhall may route one sealed Profession Determination containing exact inventory questions and its attributable Guildmaster occupancy. Mechanics preserve that inquiry even while the Constable Seat is vacant, but status it `CONSTABLE_ACTIVATION_REQUIRED` and issue no authoritative inventory response. Only an exact active Constable occupancy may answer; neither an empty roster nor a filesystem scan may impersonate the vacant Seat.
+
 ## retrieve-held-artifact
 Fetch the exact authorized immutable version and bind its custody and provenance.
 
