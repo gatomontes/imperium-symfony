@@ -40,6 +40,8 @@ For a validated Guildhall summons, the ordinary Recruiter consumes exactly four 
 
 For a canonical Constable vacancy, the ordinary Recruiter consumes one exact MasterMason construction commission, instantiates the shared immutable generic Officer substrate, installs the exact Garrison-stewarded current/active Constable Profile, verifies the admitted Persona and lifecycle chain, applies the qualification contract, and returns one sealed `QUALIFIED_UNBOUND` packet. Qualification grants no Seat binding, inventory response, or execution authority.
 
+For a canonical Artificer vacancy, the ordinary Recruiter consumes one exact MasterMason construction commission, instantiates the shared immutable generic Officer substrate, installs the exact current/active Artificer Profile, verifies its admitted Persona and lifecycle chain, applies the qualification contract, and returns one sealed `QUALIFIED_UNBOUND` packet. Qualification grants no Foundry construction authority, Seat binding, recipient acceptance, or execution authority.
+
 ## bootstrap-recruiter
 When and only when MasterMason invokes the exact Charter-declared bootstrap transition and the resident Recruiter Seat is vacant, mechanically validate the exact Charter-recognized current/active Recruiter Profile and authorized generic substrate, instantiate the substrate, install that Profile, prepare the resulting Recruiter exclusively for the Recruiter Seat, and record its mechanical origin. MasterMason then verifies, binds, and activates Recruiter in the resident Recruiter Seat.
 

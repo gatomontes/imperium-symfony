@@ -74,6 +74,10 @@ services:
         arguments:
             $projectDir: '%kernel.project_dir%'
 
+    App\Imperium\Runtime\Conscription\ArtificerConscriptionService:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
     App\Imperium\Runtime\Guildhall\GuildhallActivationDemandService:
         arguments:
             $projectDir: '%kernel.project_dir%'
