@@ -20,6 +20,9 @@ MasterMason binds the exact canonical Artificer Persona, current/active Profile,
 ## bind-canonical-artificer
 After Conscription returns one sealed `QUALIFIED_UNBOUND` Artificer packet, MasterMason validates its exact provisioning, commission, Persona, current/active Profile, substrate, qualification, instance, and authority-restraint chain before atomically binding it to the vacant `foundry.artificer` Seat. Valid occupancy makes the preexisting construction authority exercisable only for the exact demands carried by the source Foundry authorization chain. Binding records no recipient acceptance and grants no mission execution authority.
 
+## accept-construction-authorization
+The occupied Artificer validates the exact delivered construction authorization against its activation demand and atomic Seat binding, then records an explicit acceptance disposition. Acceptance makes Foundry responsible for only the enumerated construction demands; it grants no Persona-selection discretion beyond those demands, no spawning or Seat-binding authority, and no mission execution authority.
+
 ## open-production-case
 Create the case, preserve exact inputs, and instantiate the admitted profession order.
 
