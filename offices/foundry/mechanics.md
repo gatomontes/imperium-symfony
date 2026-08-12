@@ -24,7 +24,7 @@ After Conscription returns one sealed `QUALIFIED_UNBOUND` Artificer packet, Mast
 The occupied Artificer validates the exact delivered construction authorization against its activation demand and atomic Seat binding, then records an explicit acceptance disposition. Acceptance makes Foundry responsible for only the enumerated construction demands; it grants no Persona-selection discretion beyond those demands, no spawning or Seat-binding authority, and no mission execution authority.
 
 ## open-production-case
-Create the case, preserve exact inputs, and instantiate the admitted profession order.
+For each exact demand enumerated by an accepted construction authorization, create one immutable production case in the authorized profession order. Preserve the originating personnel disposition, demand, authorization acceptance, exemplar criteria, team composition, boundary controls, occupied Artificer, and queue position. Opening a case grants no Persona-selection discretion, spawning, admission, Seat-binding, or mission execution authority.
 
 ## dispatch-commission
 Bind an exact Artificer-authored commission to case, queue position, recipient, and authority; transmit unchanged.
