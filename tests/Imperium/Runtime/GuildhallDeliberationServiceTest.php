@@ -18,13 +18,19 @@ final class GuildhallDeliberationServiceTest extends TestCase
         $gateway = new class implements GuildhallCognitionGateway {
             public int $calls = 0;
 
-            public function deliberate(array $missionPlan, array $commissionScope, array $occupancy): array
-            {
+            public function deliberate(
+                array $missionPlan,
+                array $commissionScope,
+                array $occupancy,
+                array $completed = [],
+                ?callable $progress = null,
+                ?callable $checkpoint = null,
+            ): array {
                 ++$this->calls;
                 TestCase::assertSame('Assess the public application.', $missionPlan['objective']);
                 TestCase::assertCount(4, $occupancy);
 
-                return [
+                $decision = [
                     'committee' => [
                         'disciplinary_fit' => ['disposition' => 'PASS', 'findings' => ['Security assessment discipline required.'], 'requirements' => ['Evidence-led assessor.'], 'questions' => []],
                         'composition' => ['disposition' => 'PASS', 'findings' => ['Assessor and independent reviewer required.'], 'requirements' => ['Reviewer independent from assessor.'], 'questions' => []],
@@ -41,6 +47,12 @@ final class GuildhallDeliberationServiceTest extends TestCase
                         'unresolved_questions' => [],
                     ],
                 ];
+                $progress?.__invoke('disciplinary_fit', 'CALLING');
+                $checkpoint?.__invoke(['committee' => ['disciplinary_fit' => $decision['committee']['disciplinary_fit']]]);
+                $progress?.__invoke('disciplinary_fit', 'SEALED');
+                $checkpoint?.__invoke($decision);
+
+                return $decision;
             }
         };
 
@@ -61,6 +73,7 @@ final class GuildhallDeliberationServiceTest extends TestCase
             self::assertCount(2, $record['guildmaster_synthesis']['required_professions']);
             self::assertCount(2, $record['guildmaster_synthesis']['garrison_inventory_queries']);
             self::assertFileExists($root.'/var/imperium/offices/guildhall/deliberations/'.$record['determination_id'].'.json');
+            self::assertFileExists($root.'/var/imperium/offices/guildhall/deliberation-checkpoints/'.$acceptanceId.'.json');
         } finally {
             $this->removeTree($root);
         }

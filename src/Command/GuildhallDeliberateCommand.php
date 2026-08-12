@@ -30,7 +30,13 @@ final class GuildhallDeliberateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
-            $record = $this->service->deliberate((string) $input->getArgument('acceptance-id'));
+            $record = $this->service->deliberate(
+                (string) $input->getArgument('acceptance-id'),
+                static function (string $seat, string $status) use ($output): void {
+                    $label = str_replace('_', '-', $seat);
+                    $output->writeln(sprintf('<comment>Guildhall:</comment> %s %s', $label, $status));
+                },
+            );
         } catch (\Throwable $exception) {
             $output->writeln('<error>REFUSED</error> '.$exception->getMessage());
             return self::FAILURE;

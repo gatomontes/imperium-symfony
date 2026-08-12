@@ -18,8 +18,14 @@ final readonly class SymfonyAiGuildhallCognitionGateway implements GuildhallCogn
     ) {
     }
 
-    public function deliberate(array $missionPlan, array $commissionScope, array $occupancy): array
-    {
+    public function deliberate(
+        array $missionPlan,
+        array $commissionScope,
+        array $occupancy,
+        array $completed = [],
+        ?callable $progress = null,
+        ?callable $checkpoint = null,
+    ): array {
         $common = implode("\n", [
             'Mission Plan: '.json_encode($missionPlan, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR),
             'Commission scope: '.json_encode($commissionScope, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR),
@@ -28,11 +34,25 @@ final readonly class SymfonyAiGuildhallCognitionGateway implements GuildhallCogn
             'disposition must be PASS or CLARIFICATION_REQUIRED. The other fields must be arrays of explicit strings.',
             'Do not invent available personnel, Personas, exemplars, credentials, tools, or Garrison inventory facts.',
         ]);
-        $committee = [
-            'disciplinary_fit' => $this->committee($this->disciplinaryFit, $common."\nDetermine required professions, disciplinary fitness, exemplar criteria, and evidence standards."),
-            'composition' => $this->committee($this->composition, $common."\nDetermine role composition, quantities, independence requirements, collaboration needs, and conflicts."),
-            'boundary_challenge' => $this->committee($this->boundaryChallenge, $common."\nChallenge professional boundaries, overreach risks, segregation requirements, and personnel-related stop conditions."),
-        ];
+        $committee = is_array($completed['committee'] ?? null) ? $completed['committee'] : [];
+        foreach ([
+            'disciplinary_fit' => [$this->disciplinaryFit, 'Determine required professions, disciplinary fitness, exemplar criteria, and evidence standards.'],
+            'composition' => [$this->composition, 'Determine role composition, quantities, independence requirements, collaboration needs, and conflicts.'],
+            'boundary_challenge' => [$this->boundaryChallenge, 'Challenge professional boundaries, overreach risks, segregation requirements, and personnel-related stop conditions.'],
+        ] as $seat => [$agent, $instruction]) {
+            if (isset($committee[$seat])) {
+                $progress?.__invoke($seat, 'RESUMED');
+                continue;
+            }
+            $progress?.__invoke($seat, 'CALLING');
+            $committee[$seat] = $this->committee($agent, $common."\n".$instruction);
+            $checkpoint?.__invoke(['committee' => $committee]);
+            $progress?.__invoke($seat, 'SEALED');
+        }
+        if (is_array($completed['guildmaster'] ?? null)) {
+            $progress?.__invoke('guildmaster', 'RESUMED');
+            return ['committee' => $committee, 'guildmaster' => $completed['guildmaster']];
+        }
         $prompt = implode("\n", [
             $common,
             'Committee records: '.json_encode($committee, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR),
@@ -47,6 +67,7 @@ final readonly class SymfonyAiGuildhallCognitionGateway implements GuildhallCogn
             'unresolved_questions: array of explicit strings',
             'This is not a final Personnel Disposition. No person may be declared suitable until exact Garrison facts return.',
         ]);
+        $progress?.__invoke('guildmaster', 'CALLING');
         $synthesis = $this->invoke($this->guildmaster, $prompt);
         $keys = array_keys($synthesis);
         sort($keys, SORT_STRING);
@@ -66,6 +87,8 @@ final readonly class SymfonyAiGuildhallCognitionGateway implements GuildhallCogn
         ) {
             throw new \RuntimeException('G51_GUILDMASTER_CONTRACT_INVALID: complete determination requires professions and exact inventory queries.');
         }
+        $checkpoint?.__invoke(['committee' => $committee, 'guildmaster' => $synthesis]);
+        $progress?.__invoke('guildmaster', 'SEALED');
 
         return ['committee' => $committee, 'guildmaster' => $synthesis];
     }

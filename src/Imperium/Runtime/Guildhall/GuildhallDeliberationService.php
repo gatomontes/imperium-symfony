@@ -12,6 +12,7 @@ final readonly class GuildhallDeliberationService
     private string $acceptanceDirectory;
     private string $occupancyDirectory;
     private string $outputDirectory;
+    private string $checkpointDirectory;
 
     public function __construct(
         string $projectDir,
@@ -21,9 +22,10 @@ final readonly class GuildhallDeliberationService
         $this->acceptanceDirectory = $projectDir.'/var/imperium/offices/guildhall/acceptances';
         $this->occupancyDirectory = $projectDir.'/var/imperium/offices/guildhall/occupancy';
         $this->outputDirectory = $projectDir.'/var/imperium/offices/guildhall/deliberations';
+        $this->checkpointDirectory = $projectDir.'/var/imperium/offices/guildhall/deliberation-checkpoints';
     }
 
-    public function deliberate(string $acceptanceId): array
+    public function deliberate(string $acceptanceId, ?callable $progress = null): array
     {
         if (!preg_match('/^guildhall-acceptance-[a-f0-9]{20}$/', $acceptanceId)) {
             throw new \InvalidArgumentException('G60_ACCEPTANCE_INVALID: exact Guildhall acceptance identity is required.');
@@ -100,7 +102,30 @@ final readonly class GuildhallDeliberationService
             throw new \RuntimeException('G66_MISSION_PLAN_CHANGED: exact commissioned Mission Plan is unavailable.');
         }
 
-        $decision = $this->cognition->deliberate($plan, $acceptance['authorized_scope'] ?? [], $occupancy);
+        $checkpointPath = $this->checkpointDirectory.'/'.$acceptanceId.'.json';
+        $completed = is_file($checkpointPath) ? $this->read($checkpointPath, 'G69_CHECKPOINT_INVALID') : [];
+        if ([] !== $completed
+            && (!$this->digestMatches($completed)
+                || $acceptanceId !== ($completed['acceptance_id'] ?? null)
+                || $acceptance['record_digest'] !== ($completed['acceptance_digest'] ?? null)
+                || $turn['record_digest'] !== ($completed['mission_plan_digest'] ?? null))
+        ) {
+            throw new \RuntimeException('G69_CHECKPOINT_INVALID: deliberation checkpoint is stale or changed.');
+        }
+        $decision = $this->cognition->deliberate(
+            $plan,
+            $acceptance['authorized_scope'] ?? [],
+            $occupancy,
+            $completed['decision'] ?? [],
+            $progress,
+            fn (array $partial): array => $this->persistCheckpoint($checkpointPath, [
+                'schema' => 'imperium.guildhall-deliberation-checkpoint/v1',
+                'acceptance_id' => $acceptanceId,
+                'acceptance_digest' => $acceptance['record_digest'],
+                'mission_plan_digest' => $turn['record_digest'],
+                'decision' => $partial,
+            ]),
+        );
         $guildmaster = $decision['guildmaster'] ?? null;
         if (!is_array($guildmaster)) {
             throw new \RuntimeException('G67_DELIBERATION_INVALID: Guildmaster synthesis is absent.');
@@ -167,5 +192,20 @@ final readonly class GuildhallDeliberationService
             throw new \RuntimeException('Guildhall determination cannot be committed atomically.');
         }
         return $record;
+    }
+
+    private function persistCheckpoint(string $path, array $checkpoint): array
+    {
+        if (!is_dir($this->checkpointDirectory) && !mkdir($this->checkpointDirectory, 0770, true) && !is_dir($this->checkpointDirectory)) {
+            throw new \RuntimeException('Guildhall checkpoint directory cannot be created.');
+        }
+        $checkpoint['record_digest'] = hash('sha256', CanonicalJson::encode($checkpoint));
+        $temporary = $path.'.tmp.'.bin2hex(random_bytes(6));
+        $json = json_encode($checkpoint, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)."\n";
+        if (false === file_put_contents($temporary, $json, LOCK_EX) || !rename($temporary, $path)) {
+            @unlink($temporary);
+            throw new \RuntimeException('Guildhall checkpoint cannot be committed atomically.');
+        }
+        return $checkpoint;
     }
 }
