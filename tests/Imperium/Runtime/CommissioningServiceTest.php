@@ -50,6 +50,44 @@ final class CommissioningServiceTest extends TestCase
         }
     }
 
+    public function testNormalizesExplicitDestinationsInsteadOfAssumingProsePrefixes(): void
+    {
+        $root = sys_get_temp_dir().DIRECTORY_SEPARATOR.'imperium-commissioning-normalized-'.bin2hex(random_bytes(6));
+        mkdir($root, 0700, true);
+        $store = new ProceedingStore($root);
+        $store->persist(['proceeding_id' => 'proceeding-normalized-test', 'instance_id' => 'imperium-test']);
+        $demands = [
+            'Profession and personnel disposition: Guildhall authority for personnel disposition and as institutional source of independent review',
+            'Protected inventory access: Garrison supply of admitted Persona and personnel inventory and availability facts to Guildhall',
+            'Tooling disposition: Armory authority to dispose passive observation tools, methodology, and checklists',
+            'Storage: secure document storage for assessment outputs',
+            'Mechanical support: standard office productivity tooling for drafting and tracking',
+        ];
+        $plan = $this->plan();
+        $plan['office_participation'] = [
+            'Profession and personnel disposition: Guildhall authority for personnel disposition',
+            'Tooling disposition: Armory authority for passive assessment tooling',
+        ];
+        $store->appendTurn('proceeding-normalized-test', 'response-normalized-test', 1, [
+            'seneschal' => ['disposition' => 'MISSION_PLAN_DRAFTED', 'mission_plan' => $plan],
+            'resource_demands' => $demands,
+        ]);
+        $acts = new ImperatorActs($store);
+        $acts->approvePlan('proceeding-normalized-test', 1, 'approval-normalized-test');
+        $acts->authorizeResources('proceeding-normalized-test', 1, $demands, 'Planning inquiries only.', 'authorization-normalized-test');
+
+        try {
+            $result = (new CommissioningService($store))->issue('proceeding-normalized-test', 1);
+
+            self::assertCount(2, $result['commissions']['guildhall']['authorized_resources']);
+            self::assertCount(1, $result['commissions']['armory']['authorized_resources']);
+            self::assertCount(2, $result['mechanical_support']);
+            self::assertFalse($result['execution_authority']);
+        } finally {
+            $this->removeTree($root);
+        }
+    }
+
     private function plan(): array
     {
         return [

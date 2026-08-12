@@ -45,8 +45,8 @@ final readonly class CommissioningService
         }
 
         $participation = $plan['office_participation'] ?? [];
-        $guildhallParticipation = $this->matching($participation, 'Guildhall:');
-        $armoryParticipation = $this->matching($participation, 'Armory:');
+        $guildhallParticipation = $this->mentioningOffice($participation, 'Guildhall');
+        $armoryParticipation = $this->mentioningOffice($participation, 'Armory');
         if ([] === $guildhallParticipation || [] === $armoryParticipation) {
             throw new \RuntimeException('C43_COMMISSION_DESTINATION_UNDECLARED: Guildhall and Armory participation must be explicit.');
         }
@@ -62,14 +62,14 @@ final readonly class CommissioningService
             'guildhall' => [
                 'target' => 'guildhall.guildmaster',
                 'purpose' => 'Determine required professions and personnel suitability, obtain exact Garrison Persona and personnel inventory facts, and return a Personnel Disposition.',
-                'authorized_resources' => $this->matching($demands, 'Guildhall ', 'Garrison '),
+                'authorized_resources' => $this->guildhallResources($demands),
                 'expected_products' => ['Profession Determination Packet', 'Personnel Disposition'],
                 'forbidden_effects' => ['persona construction', 'recruitment', 'manifestation', 'reservation', 'deployment'],
             ],
             'armory' => [
                 'target' => 'armory',
                 'purpose' => 'Determine admissible passive methodology, checklists, and tooling under the exact Mission Plan constraints.',
-                'authorized_resources' => $this->matching($demands, 'Armory '),
+                'authorized_resources' => $this->armoryResources($demands),
                 'expected_products' => ['Tooling Disposition'],
                 'forbidden_effects' => ['tool activation', 'target access', 'credential use', 'assessment execution'],
             ],
@@ -104,19 +104,45 @@ final readonly class CommissioningService
             'proceeding_id' => $proceedingId,
             'plan_turn' => $turnSequence,
             'commissions' => $issued,
-            'mechanical_support' => $this->matching($demands, 'Secure document storage', 'Standard office productivity'),
+            'mechanical_support' => $this->matchingText($demands, 'secure document storage', 'standard office productivity'),
             'execution_authority' => false,
         ];
     }
 
-    private function matching(array $values, string ...$prefixes): array
+    private function mentioningOffice(array $values, string $office): array
     {
-        return array_values(array_filter($values, static function (mixed $value) use ($prefixes): bool {
+        return array_values(array_filter($values, static fn (mixed $value): bool => is_string($value)
+            && 1 === preg_match('/\\b'.preg_quote($office, '/').'\\b/i', $value)));
+    }
+
+    private function guildhallResources(array $demands): array
+    {
+        return array_values(array_filter($demands, function (mixed $value): bool {
             if (!is_string($value)) {
                 return false;
             }
-            foreach ($prefixes as $prefix) {
-                if (str_starts_with($value, $prefix)) {
+
+            return [] !== $this->mentioningOffice([$value], 'Guildhall')
+                || ([] !== $this->mentioningOffice([$value], 'Garrison')
+                    && [] !== $this->matchingText([$value], 'personnel inventory', 'persona and personnel inventory'));
+        }));
+    }
+
+    private function armoryResources(array $demands): array
+    {
+        return array_values(array_filter($demands, fn (mixed $value): bool => is_string($value)
+            && [] !== $this->mentioningOffice([$value], 'Armory')
+            && [] !== $this->matchingText([$value], 'tooling', 'methodology', 'checklist')));
+    }
+
+    private function matchingText(array $values, string ...$needles): array
+    {
+        return array_values(array_filter($values, static function (mixed $value) use ($needles): bool {
+            if (!is_string($value)) {
+                return false;
+            }
+            foreach ($needles as $needle) {
+                if (str_contains(strtolower($value), strtolower($needle))) {
                     return true;
                 }
             }
