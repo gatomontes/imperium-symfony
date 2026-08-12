@@ -47,10 +47,14 @@ final class GuildhallDeliberationServiceTest extends TestCase
                         'unresolved_questions' => [],
                     ],
                 ];
-                $progress?.__invoke('disciplinary_fit', 'CALLING');
-                $checkpoint?.__invoke(['committee' => ['disciplinary_fit' => $decision['committee']['disciplinary_fit']]]);
-                $progress?.__invoke('disciplinary_fit', 'SEALED');
-                $checkpoint?.__invoke($decision);
+                if (null !== $progress) {
+                    $progress('disciplinary_fit', 'CALLING');
+                    $progress('disciplinary_fit', 'SEALED');
+                }
+                if (null !== $checkpoint) {
+                    $checkpoint(['committee' => ['disciplinary_fit' => $decision['committee']['disciplinary_fit']]]);
+                    $checkpoint($decision);
+                }
 
                 return $decision;
             }
