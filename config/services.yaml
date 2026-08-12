@@ -100,6 +100,14 @@ services:
         arguments:
             $projectDir: '%kernel.project_dir%'
 
+    App\Imperium\Runtime\Garrison\CanonicalConstableRegistry:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
+    App\Imperium\Runtime\Garrison\ConstableProvisioningService:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
     App\Imperium\Runtime\Curia\SymfonyAiSeneschalCognitionGateway:
         arguments:
             $agent: '@ai.agent.seneschal'
