@@ -58,6 +58,10 @@ services:
         arguments:
             $projectDir: '%kernel.project_dir%'
 
+    App\Imperium\Runtime\Foundry\FoundryActivationDemandService:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
     App\Imperium\Runtime\Guildhall\GuildhallActivationDemandService:
         arguments:
             $projectDir: '%kernel.project_dir%'

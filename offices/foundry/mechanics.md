@@ -8,6 +8,9 @@ inherits: [./doctrine.md]
 
 These functions support Artificer cognition and authority. They do not reconcile substance, judge coherence, conduct adversarial analysis, approve production, or decide repair ownership.
 
+## demand-activation
+When an exact construction authorization reaches a vacant Foundry, validate and preserve the delivery, then demand the canonical resident Artificer from MasterMason. Construction authority remains bound to the exact demands but cannot be exercised while the Artificer Seat is vacant. Activation does not require a mission-selected Persona and grants no spawning, Seat-binding, acceptance, or execution authority.
+
 ## open-production-case
 Create the case, preserve exact inputs, and instantiate the admitted profession order.
 
