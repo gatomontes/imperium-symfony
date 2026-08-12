@@ -8,6 +8,9 @@ inherits: [./doctrine.md]
 
 These are non-cognitive support functions. They do not select exemplars, judge relevance or sufficiency, interpret accomplishments, derive traits, resolve contradictions, author substantive sections, or accept research.
 
+## demand-activation
+When an exact evidence-authorship commission reaches a vacant Hagiography, preserve it and demand only the canonical resident Sanctographer from MasterMason. The commission's authorship authority remains non-exercisable while the Seat is vacant. Chronicler versions and committee composition remain unresolved until an occupied Sanctographer accepts and interprets the exact commission. Activation grants no spawning, Seat-binding, acceptance, or mission execution authority.
+
 ## open-inquiry
 Create an inquiry identity and preserve the exact Artificer commission, profession queue item, versions, and provenance.
 
