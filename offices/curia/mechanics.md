@@ -88,6 +88,10 @@ When Guildhall returns a final Personnel Disposition proving exact unresolved pe
 
 Bind one explicit Imperator decision to the exact construction request, request digest, and complete set of Foundry demand digests. Authorization grants Foundry permission to construct one Persona candidate for each exact demand. It grants no Persona selection, spawning, Seat binding, or mission-execution authority. The immutable authorization act does not mutate the request or its demands; subsequent Foundry work must cite and validate the act.
 
+## `deliver-construction-authorization`
+
+Route the exact immutable construction-authorization act and its complete demand references to Foundry's authorization inbox. Delivery revalidates the act and every demand but does not mutate the original demands or claim Foundry acceptance. Only the exact construction authority crosses the boundary; Persona selection, spawning, Seat binding, and execution authority remain withheld.
+
 ## `assemble-succession-packet`
 
 Assemble the exact mission-state references, pending decisions, commitments, authorizations, unresolved disagreements, suitability demand, and transfer conditions selected by competent cognition. Assembly grants no appointment or transfer authority.
