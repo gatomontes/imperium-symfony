@@ -20,6 +20,8 @@ The resident Constable is standing institutional staff, not a mission-selected o
 
 MasterMason may subsequently consume that exact ready case to issue one immutable construction commission to Conscription. The commission grants spawning authority only for instantiating and qualifying one canonical Constable manifestation against the exact Persona, current/active Profile, qualification contract, and generic Officer substrate. It grants no Seat binding, inventory response, or execution authority.
 
+After Conscription returns one sealed `QUALIFIED_UNBOUND` Constable packet, MasterMason validates its exact commission chain, Persona, current/active Profile, qualification disposition, substrate, target instance, and authority restraints before atomically binding it to the vacant `garrison.constable` Seat. Valid occupancy activates only Garrison's exact inventory and availability fact jurisdiction. It grants no professional selection or mission execution authority.
+
 ## retrieve-held-artifact
 Fetch the exact authorized immutable version and bind its custody and provenance.
 
