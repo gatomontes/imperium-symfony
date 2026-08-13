@@ -14,6 +14,9 @@ When an exact evidence-authorship commission reaches a vacant Hagiography, prese
 ## prepare-canonical-sanctographer
 MasterMason validates the admitted canonical Sanctographer Persona, exact current/active resident Profile, Imperator approval, and lifecycle chain. All commission-triggered vacancy demands for the same instance converge on one provisioning case. Preparation grants no spawning, Seat binding, commission acceptance, authorship exercise, or mission execution authority.
 
+## commission-canonical-sanctographer
+MasterMason issues one exact spawning-only construction commission for the canonical resident Sanctographer from the converged ready provisioning case. Conscription receives no authorship, Chronicler-resolution, Seat-binding, acceptance, or execution authority.
+
 ## open-inquiry
 Create an inquiry identity and preserve the exact Artificer commission, profession queue item, versions, and provenance.
 
