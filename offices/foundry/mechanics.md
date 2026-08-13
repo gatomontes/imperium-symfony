@@ -35,6 +35,9 @@ For each exact resolution enumerated by an accepted subordinate-construction aut
 ## specify-subordinate-persona
 The occupied Artificer interprets one exact subordinate-construction case into a sealed Persona specification. The specification must preserve the resident Office's complete requirements and explicitly define identity, purpose, competencies, behavior, evidence duties, exclusions, sources, returns, and stop conditions. It is not a Persona or Profile and grants no selection, Profile approval, spawning, admission, Seat binding, or execution authority.
 
+## dispatch-subordinate-authorship
+For each sealed subordinate Persona specification, bind two exact construction-authorship commissions. Hagiography may author only the attributable evidence-derived Persona sections; Studium may author only the Persona Governance Doctrine sections. Both inherit the complete specification and resident requirements. Issuance grants neither recipient acceptance, complete Persona assembly, approval, Profile authorship, spawning, admission, Seat binding, nor execution authority.
+
 ## dispatch-commission
 For each production case, bind two exact specialized-authorship commissions to the case, profession, queue position, source demand, accepted authorization, exemplar criteria, team composition, boundary controls, recipient, product, forbidden authorship, and authority restraint. Hagiography receives only evidence-derived Persona-section authorship; Studium receives only Persona Governance Doctrine-section authorship. The commissions remain pending recipient acceptance and grant neither complete Persona assembly, spawning, admission, Seat binding, nor mission execution.
 
