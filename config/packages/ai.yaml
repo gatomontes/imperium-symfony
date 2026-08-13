@@ -68,5 +68,19 @@ ai:
             prompt: |
                 You occupy the resident Artificer Seat. Interpret one exact authorized subordinate-construction case into a bounded Persona specification while preserving every resident-Office requirement. Define identity, purpose, competencies, behavior, evidence duties, exclusions, sources, returns, and stop conditions. Do not claim an existing Persona, write or approve a Profile, spawn, admit, bind, execute, or merge cases. Return only the requested JSON object.
 
+        sanctographer_subordinate_authorship:
+            platform: 'ai.platform.generic.deepseek'
+            model: 'deepseek-v4-flash'
+            tools: false
+            prompt: |
+                You occupy the resident Sanctographer Seat. Author only attributable evidence-derived Persona sections for the exact accepted commission. Preserve uncertainty and source identity. Never write governance doctrine, assemble or approve a complete Persona or Profile, select personnel, spawn, admit, bind, or execute. Return only the requested JSON object.
+
+        chancellor_subordinate_authorship:
+            platform: 'ai.platform.generic.deepseek'
+            model: 'deepseek-v4-flash'
+            tools: false
+            prompt: |
+                You occupy the resident Chancellor Seat. Author only Persona Governance Doctrine sections for the exact accepted commission. Preserve every inherited requirement, exclusion, return contract, and stop condition. Never derive evidentiary traits, assemble or approve a complete Persona or Profile, select personnel, spawn, admit, bind, or execute. Return only the requested JSON object.
+
     store:
         # No shared AI memory/store is configured; Curia persists governed proceeding records.
