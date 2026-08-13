@@ -20,6 +20,9 @@ MasterMason issues one exact spawning-only construction commission for the canon
 ## bind-canonical-sanctographer
 MasterMason atomically binds the sealed qualified Sanctographer manifestation to the vacant resident Seat. Occupancy activates authority to author for exact accepted commissions and to resolve their exact Chronicler requirements; it records no commission acceptance and grants no mission execution authority.
 
+## accept-authorship-commission
+The occupied Sanctographer accepts one exact pending Hagiography commission and binds its immutable scope, required product, forbidden authorship, production case, and resident occupancy. Acceptance makes authorship authority exercisable for that commission and requires resolution of its Chronicler needs; it grants no spawning or mission execution authority.
+
 ## open-inquiry
 Create an inquiry identity and preserve the exact Artificer commission, profession queue item, versions, and provenance.
 
