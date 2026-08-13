@@ -112,6 +112,12 @@ final readonly class SubordinatePersonaSectionAuthorshipService
                 ($c["record_digest"] ?? null) ||
             ($a["persona_specification_digest"] ?? null) !==
                 ($s["record_digest"] ?? null) ||
+            ($a["persona_specification_version"] ?? 1) !==
+                ($s["specification_version"] ?? 1) ||
+            CanonicalJson::encode($a["specification_supersedes"] ?? null) !==
+                CanonicalJson::encode($s["supersedes"] ?? null) ||
+            CanonicalJson::encode($a["specification_revision_basis"] ?? null) !==
+                CanonicalJson::encode($s["revision_basis"] ?? null) ||
             ($a["subordinate_construction_case_digest"] ?? null) !==
                 ($case["record_digest"] ?? null) ||
             ($a["source_resolution_id"] ?? null) !==
@@ -177,6 +183,10 @@ final readonly class SubordinatePersonaSectionAuthorshipService
             "commission_digest" => $c["record_digest"],
             "persona_specification_id" => $specId,
             "persona_specification_digest" => $s["record_digest"],
+            "persona_specification_version" =>
+                $s["specification_version"] ?? 1,
+            "specification_supersedes" => $s["supersedes"] ?? null,
+            "specification_revision_basis" => $s["revision_basis"] ?? null,
             "subordinate_construction_case_id" => $caseId,
             "subordinate_construction_case_digest" => $case["record_digest"],
             "source_resolution_id" => $a["source_resolution_id"],
