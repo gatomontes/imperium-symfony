@@ -223,6 +223,9 @@ services:
     App\Imperium\Runtime\Curia\SeneschalCognitionGateway:
         alias: App\Imperium\Runtime\Curia\SymfonyAiSeneschalCognitionGateway
 
+    App\Imperium\Runtime\Authorship\SubordinatePersonaSectionAuthorshipGateway:
+        alias: App\Imperium\Runtime\Authorship\SymfonyAiSubordinatePersonaSectionAuthorshipGateway
+
     App\Imperium\Runtime\LaCortine\SortieProcessLauncher:
         arguments:
             $projectDir: '%kernel.project_dir%'
