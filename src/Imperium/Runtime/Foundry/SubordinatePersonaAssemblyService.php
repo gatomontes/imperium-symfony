@@ -109,6 +109,14 @@ final readonly class SubordinatePersonaAssemblyService
                 true !== ($r["authorship_complete"] ?? null) ||
                 ($r["persona_specification_digest"] ?? null) !==
                     ($s["record_digest"] ?? null) ||
+                ($r["persona_specification_version"] ?? 1) !==
+                    ($s["specification_version"] ?? 1) ||
+                CanonicalJson::encode(
+                    $r["specification_supersedes"] ?? null,
+                ) !== CanonicalJson::encode($s["supersedes"] ?? null) ||
+                CanonicalJson::encode(
+                    $r["specification_revision_basis"] ?? null,
+                ) !== CanonicalJson::encode($s["revision_basis"] ?? null) ||
                 ($r["subordinate_construction_case_id"] ?? null) !== $caseId ||
                 ($r["subordinate_construction_case_digest"] ?? null) !==
                     ($case["record_digest"] ?? null) ||
@@ -183,6 +191,10 @@ final readonly class SubordinatePersonaAssemblyService
             "subordinate_construction_case_digest" => $case["record_digest"],
             "persona_specification_id" => $specificationId,
             "persona_specification_digest" => $s["record_digest"],
+            "persona_specification_version" =>
+                $s["specification_version"] ?? 1,
+            "specification_supersedes" => $s["supersedes"] ?? null,
+            "specification_revision_basis" => $s["revision_basis"] ?? null,
             "source_resolution_id" => $s["source_resolution_id"],
             "source_resolution_digest" => $s["source_resolution_digest"],
             "artificer" => $s["artificer"],

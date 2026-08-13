@@ -1,3 +1,159 @@
 <?php
-declare(strict_types=1);namespace App\Tests\Imperium\Runtime;use App\Bootstrap\CanonicalJson;use App\Imperium\Runtime\Foundry\SubordinatePersonaAssemblyService;use PHPUnit\Framework\TestCase;
-final class SubordinatePersonaAssemblyServiceTest extends TestCase{public function testPairsComplementaryPacketsWithoutApproval():void{$root=sys_get_temp_dir().'/imperium-subordinate-assembly-'.bin2hex(random_bytes(6));$caseId='subordinate-construction-case-'.str_repeat('a',20);$case=['case_id'=>$caseId];$this->write($root.'/var/imperium/offices/foundry/subordinate-construction-cases',$caseId,$case);$specId='subordinate-persona-specification-'.str_repeat('b',20);$spec=['schema'=>'imperium.foundry-subordinate-persona-specification/v1','specification_id'=>$specId,'instance_id'=>'imperium-test','case_id'=>$caseId,'case_digest'=>$case['record_digest'],'queue_position'=>1,'subordinate_staff_class'=>'Chronicler','source_resolution_id'=>'resolution','source_resolution_digest'=>'digest','artificer'=>['seat'=>'foundry.artificer'],'specification'=>['persona_name'=>'Bounded Chronicler'],'status'=>'SEALED_PENDING_PERSONA_CONSTRUCTION','persona_specification_complete'=>true,'sealed'=>true];$this->write($root.'/var/imperium/offices/foundry/subordinate-persona-specifications',$specId,$spec);foreach(['hagiography'=>'EVIDENCE_DERIVED_PERSONA_SECTIONS','studium'=>'PERSONA_GOVERNANCE_DOCTRINE_SECTIONS']as$office=>$class){$id=$office.'-subordinate-product-'.str_repeat('c',20);$r=['schema'=>'imperium.subordinate-persona-section-packet/v1','product_id'=>$id,'office'=>$office,'authorship_class'=>$class,'acceptance_id'=>$office.'-acceptance','commission_id'=>$office.'-commission','author'=>['seat'=>$office.'.resident'],'persona_specification_id'=>$specId,'persona_specification_digest'=>$spec['record_digest'],'subordinate_construction_case_id'=>$caseId,'subordinate_construction_case_digest'=>$case['record_digest'],'source_resolution_id'=>'resolution','source_resolution_digest'=>'digest','authored_sections'=>[$office.'_section'=>['Exact content']],'source_citations'=>['resolution:digest'],'unresolved_questions'=>[],'status'=>'SEALED_PENDING_FOUNDRY_ASSEMBLY','sealed'=>true,'authorship_complete'=>true,'persona_assembly_authority'=>false,'persona_approval_authority'=>false,'profile_approval_authority'=>false,'spawning_authority'=>false,'admission_authority'=>false,'seat_binding_authority'=>false,'execution_authority'=>false];$this->write($root.'/var/imperium/offices/'.$office.'/subordinate-products',$id,$r);}try{$service=new SubordinatePersonaAssemblyService($root);$r=$service->assemble($specId);self::assertSame($r,$service->assemble($specId));self::assertSame('ASSEMBLED_PENDING_FOUNDRY_REVIEW',$r['status']);self::assertCount(2,$r['section_products']);self::assertTrue($r['assembly_complete']);self::assertTrue($r['sealed']);self::assertFalse($r['persona_approval_authority']);self::assertFalse($r['profile_approval_authority']);self::assertFalse($r['spawning_authority']);self::assertFalse($r['admission_authority']);self::assertFalse($r['execution_authority']);}finally{$this->removeTree($root);}}private function write(string$dir,string$id,array&$r):void{mkdir($dir,0770,true);$r['record_digest']=hash('sha256',CanonicalJson::encode($r));file_put_contents($dir.'/'.$id.'.json',json_encode($r,JSON_THROW_ON_ERROR));}private function removeTree(string$p):void{if(!is_dir($p))return;foreach(array_diff(scandir($p)?:[],['.','..'])as$e){$c=$p.'/'.$e;is_dir($c)?$this->removeTree($c):unlink($c);}rmdir($p);}}
+declare(strict_types=1);
+namespace App\Tests\Imperium\Runtime;
+use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\Foundry\SubordinatePersonaAssemblyService;
+use PHPUnit\Framework\TestCase;
+final class SubordinatePersonaAssemblyServiceTest extends TestCase
+{
+    public function testPairsComplementaryPacketsWithoutApproval(): void
+    {
+        $root =
+            sys_get_temp_dir() .
+            "/imperium-subordinate-assembly-" .
+            bin2hex(random_bytes(6));
+        $caseId = "subordinate-construction-case-" . str_repeat("a", 20);
+        $case = ["case_id" => $caseId];
+        $this->write(
+            $root .
+                "/var/imperium/offices/foundry/subordinate-construction-cases",
+            $caseId,
+            $case,
+        );
+        $specId = "subordinate-persona-specification-" . str_repeat("b", 20);
+        $spec = [
+            "schema" => "imperium.foundry-subordinate-persona-specification/v1",
+            "specification_id" => $specId,
+            "specification_version" => 2,
+            "supersedes" => [
+                "specification_id" =>
+                    "subordinate-persona-specification-" . str_repeat("d", 20),
+                "specification_digest" => "prior-specification-digest",
+                "specification_version" => 1,
+            ],
+            "revision_basis" => [
+                "clarification_return_id" =>
+                    "subordinate-clarification-return-" . str_repeat("e", 20),
+                "original_clarification" => [
+                    "unresolved_questions" => [
+                        "Garrison has no facts for an unfinished Persona.",
+                    ],
+                ],
+            ],
+            "instance_id" => "imperium-test",
+            "case_id" => $caseId,
+            "case_digest" => $case["record_digest"],
+            "queue_position" => 1,
+            "subordinate_staff_class" => "Chronicler",
+            "source_resolution_id" => "resolution",
+            "source_resolution_digest" => "digest",
+            "artificer" => ["seat" => "foundry.artificer"],
+            "specification" => ["persona_name" => "Bounded Chronicler"],
+            "status" => "SEALED_PENDING_PERSONA_CONSTRUCTION",
+            "persona_specification_complete" => true,
+            "sealed" => true,
+        ];
+        $this->write(
+            $root .
+                "/var/imperium/offices/foundry/subordinate-persona-specifications",
+            $specId,
+            $spec,
+        );
+        foreach (
+            [
+                "hagiography" => "EVIDENCE_DERIVED_PERSONA_SECTIONS",
+                "studium" => "PERSONA_GOVERNANCE_DOCTRINE_SECTIONS",
+            ]
+            as $office => $class
+        ) {
+            $id = $office . "-subordinate-product-" . str_repeat("c", 20);
+            $r = [
+                "schema" => "imperium.subordinate-persona-section-packet/v1",
+                "product_id" => $id,
+                "office" => $office,
+                "authorship_class" => $class,
+                "acceptance_id" => $office . "-acceptance",
+                "commission_id" => $office . "-commission",
+                "author" => ["seat" => $office . ".resident"],
+                "persona_specification_id" => $specId,
+                "persona_specification_digest" => $spec["record_digest"],
+                "persona_specification_version" => 2,
+                "specification_supersedes" => $spec["supersedes"],
+                "specification_revision_basis" => $spec["revision_basis"],
+                "subordinate_construction_case_id" => $caseId,
+                "subordinate_construction_case_digest" =>
+                    $case["record_digest"],
+                "source_resolution_id" => "resolution",
+                "source_resolution_digest" => "digest",
+                "authored_sections" => [
+                    $office . "_section" => ["Exact content"],
+                ],
+                "source_citations" => ["resolution:digest"],
+                "unresolved_questions" => [],
+                "status" => "SEALED_PENDING_FOUNDRY_ASSEMBLY",
+                "sealed" => true,
+                "authorship_complete" => true,
+                "persona_assembly_authority" => false,
+                "persona_approval_authority" => false,
+                "profile_approval_authority" => false,
+                "spawning_authority" => false,
+                "admission_authority" => false,
+                "seat_binding_authority" => false,
+                "execution_authority" => false,
+            ];
+            $this->write(
+                $root .
+                    "/var/imperium/offices/" .
+                    $office .
+                    "/subordinate-products",
+                $id,
+                $r,
+            );
+        }
+        try {
+            $service = new SubordinatePersonaAssemblyService($root);
+            $r = $service->assemble($specId);
+            self::assertSame($r, $service->assemble($specId));
+            self::assertSame("ASSEMBLED_PENDING_FOUNDRY_REVIEW", $r["status"]);
+            self::assertCount(2, $r["section_products"]);
+            self::assertSame(2, $r["persona_specification_version"]);
+            self::assertSame(
+                $spec["supersedes"],
+                $r["specification_supersedes"],
+            );
+            self::assertSame(
+                $spec["revision_basis"],
+                $r["specification_revision_basis"],
+            );
+            self::assertTrue($r["assembly_complete"]);
+            self::assertTrue($r["sealed"]);
+            self::assertFalse($r["persona_approval_authority"]);
+            self::assertFalse($r["profile_approval_authority"]);
+            self::assertFalse($r["spawning_authority"]);
+            self::assertFalse($r["admission_authority"]);
+            self::assertFalse($r["execution_authority"]);
+        } finally {
+            $this->removeTree($root);
+        }
+    }
+    private function write(string $dir, string $id, array &$r): void
+    {
+        mkdir($dir, 0770, true);
+        $r["record_digest"] = hash("sha256", CanonicalJson::encode($r));
+        file_put_contents(
+            $dir . "/" . $id . ".json",
+            json_encode($r, JSON_THROW_ON_ERROR),
+        );
+    }
+    private function removeTree(string $p): void
+    {
+        if (!is_dir($p)) {
+            return;
+        }
+        foreach (array_diff(scandir($p) ?: [], [".", ".."]) as $e) {
+            $c = $p . "/" . $e;
+            is_dir($c) ? $this->removeTree($c) : unlink($c);
+        }
+        rmdir($p);
+    }
+}
