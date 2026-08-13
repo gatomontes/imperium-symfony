@@ -66,3 +66,6 @@ Preserve the Artificer's exact approval or refusal, adversarial-review record, c
 Bind the exact approved Persona, adversarial-review record, fingerprints, lineage, approval, and destination.
 
 Every function fails closed on authority, identity, attribution, version, correlation, or integrity defects.
+
+## assemble-subordinate-persona
+For one sealed specification, atomically pair exactly one authenticated Hagiography evidence packet and one authenticated Studium governance-doctrine packet whose complete immutable chains agree. Preserve both products, authors, sources, unresolved questions, and specification identity without rewriting either Office's work. Seal a complete Persona candidate pending Foundry review; assembly grants no Persona or Profile approval, spawning, admission, Seat binding, or execution authority.
