@@ -96,6 +96,10 @@ When occupied authorship Offices return sealed subordinate-requirement resolutio
 
 Bind one explicit Imperator decision to the exact Curial request digest and its complete ordered set of independently sealed subordinate resolutions. Authorization grants construction authority only against those exact resolutions. It grants no Persona selection, Profile approval, spawning, Seat binding, or execution authority, and it does not mutate the request or any Office resolution.
 
+## `deliver-subordinate-construction-authorization`
+
+Route the immutable Imperator act, its exact Curial request, and the complete digest-bound subordinate-resolution set into Foundry's authorization inbox. Delivery records authority as present but not exercisable until attributable Foundry acceptance. It neither mutates the source acts nor grants Persona selection, Profile approval, spawning, Seat binding, or execution authority.
+
 ## `deliver-construction-authorization`
 
 Route the exact immutable construction-authorization act and its complete demand references to Foundry's authorization inbox. Delivery revalidates the act and every demand but does not mutate the original demands or claim Foundry acceptance. Only the exact construction authority crosses the boundary; Persona selection, spawning, Seat binding, and execution authority remain withheld.
