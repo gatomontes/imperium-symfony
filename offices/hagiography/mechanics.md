@@ -17,6 +17,9 @@ MasterMason validates the admitted canonical Sanctographer Persona, exact curren
 ## commission-canonical-sanctographer
 MasterMason issues one exact spawning-only construction commission for the canonical resident Sanctographer from the converged ready provisioning case. Conscription receives no authorship, Chronicler-resolution, Seat-binding, acceptance, or execution authority.
 
+## bind-canonical-sanctographer
+MasterMason atomically binds the sealed qualified Sanctographer manifestation to the vacant resident Seat. Occupancy activates authority to author for exact accepted commissions and to resolve their exact Chronicler requirements; it records no commission acceptance and grants no mission execution authority.
+
 ## open-inquiry
 Create an inquiry identity and preserve the exact Artificer commission, profession queue item, versions, and provenance.
 
