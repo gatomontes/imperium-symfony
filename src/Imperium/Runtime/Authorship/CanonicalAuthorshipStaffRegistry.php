@@ -29,6 +29,18 @@ final readonly class CanonicalAuthorshipStaffRegistry
         return ['package_id' => $package['package_id'], 'package_version' => $package['package_version'], 'record_digest' => $package['record_digest'], 'seat' => $seat, 'role' => $role];
     }
 
+    public function member(string $office): array
+    {
+        [, $seat] = $this->configuration($office); $this->current($office);
+        $package = $this->read($this->projectDir.'/offices/'.$office.'/canonical-staff/package.json');
+        $persona = $this->read($this->projectDir.'/'.$package['artifacts']['persona']['path']);
+        $profile = $this->read($this->projectDir.'/'.$package['artifacts']['profile']['path']);
+        return ['seat' => $seat,
+            'persona' => ['persona_id' => $persona['persona_id'], 'persona_version' => $persona['persona_version'], 'persona_digest' => $package['artifacts']['persona']['content_digest'], 'admission_record' => $persona['admission']['evidence_record']],
+            'profile' => ['profile_id' => $profile['profile_id'], 'profile_version' => $profile['profile_version'], 'content_digest' => $profile['content_digest'], 'approval_attestation' => $package['artifacts']['profile-approved'], 'current_active_attestation' => $package['artifacts']['profile-current-active']],
+            'qualification_contract' => $profile['qualification_contract']];
+    }
+
     private function configuration(string $office): array { return match ($office) { 'hagiography' => ['sanctographer', 'hagiography.sanctographer'], 'studium' => ['chancellor', 'studium.chancellor'], default => throw new \InvalidArgumentException('A19_AUTHORSHIP_OFFICE_INVALID') }; }
     private function read(string $path): array { if (!is_file($path)) throw new \RuntimeException('A18_CANONICAL_STAFF_ABSENT'); return json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR); }
     private function digestMatches(array $record, string $field): bool { $digest = $record[$field] ?? null; unset($record[$field]); return is_string($digest) && hash_equals($digest, 'sha256:'.hash('sha256', CanonicalJson::encode($record))); }
