@@ -32,6 +32,9 @@ For each exact demand enumerated by an accepted construction authorization, crea
 ## open-subordinate-construction-cases
 For each exact resolution enumerated by an accepted subordinate-construction authorization, create one independent immutable case in the authorized order. Preserve the resident Office act, complete subordinate requirements, resolution digest, authorization acceptance, occupied Artificer, and queue position. Cases may not merge resolutions. Opening them constructs nothing and grants no Persona selection, Profile approval, spawning, admission, Seat binding, or execution authority.
 
+## specify-subordinate-persona
+The occupied Artificer interprets one exact subordinate-construction case into a sealed Persona specification. The specification must preserve the resident Office's complete requirements and explicitly define identity, purpose, competencies, behavior, evidence duties, exclusions, sources, returns, and stop conditions. It is not a Persona or Profile and grants no selection, Profile approval, spawning, admission, Seat binding, or execution authority.
+
 ## dispatch-commission
 For each production case, bind two exact specialized-authorship commissions to the case, profession, queue position, source demand, accepted authorization, exemplar criteria, team composition, boundary controls, recipient, product, forbidden authorship, and authority restraint. Hagiography receives only evidence-derived Persona-section authorship; Studium receives only Persona Governance Doctrine-section authorship. The commissions remain pending recipient acceptance and grant neither complete Persona assembly, spawning, admission, Seat binding, nor mission execution.
 
