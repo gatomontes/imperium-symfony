@@ -4,6 +4,10 @@ inherits: [./doctrine.md]
 
 # Conscription Mechanics
 
+## fulfill-canonical-authorship-resident
+
+The ordinary Recruiter consumes one exact MasterMason construction commission, installs the admitted canonical Sanctographer or Chancellor Persona and current/active Profile on the generic officer substrate, verifies the declared qualification contract, and returns a sealed `QUALIFIED_UNBOUND` manifestation packet. This grants no authorship, subordinate-staff resolution, Seat-binding, acceptance, or execution authority.
+
 These functions instantiate, preserve, package, and transport exact construction artifacts. They do not interpret Profiles, judge ordinary Officer qualification, manage spawning requests, bind occupants to Seats, or grant another Office's authority.
 
 ## register-construction-commission
