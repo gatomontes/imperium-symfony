@@ -96,6 +96,10 @@ final readonly class SubordinatePersonaAuthorshipCommissionService
             "subordinate_construction_case_digest" => $case["record_digest"],
             "persona_specification_id" => $id,
             "persona_specification_digest" => $s["record_digest"],
+            "persona_specification_version" =>
+                $s["specification_version"] ?? 1,
+            "specification_supersedes" => $s["supersedes"] ?? null,
+            "specification_revision_basis" => $s["revision_basis"] ?? null,
             "source_resolution_id" => $s["source_resolution_id"],
             "source_resolution_digest" => $s["source_resolution_digest"],
             "candidate_class" => $s["subordinate_staff_class"],
