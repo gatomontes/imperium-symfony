@@ -11,6 +11,9 @@ These are non-cognitive support functions. They do not select exemplars, judge r
 ## demand-activation
 When an exact evidence-authorship commission reaches a vacant Hagiography, preserve it and demand only the canonical resident Sanctographer from MasterMason. The commission's authorship authority remains non-exercisable while the Seat is vacant. Chronicler versions and committee composition remain unresolved until an occupied Sanctographer accepts and interprets the exact commission. Activation grants no spawning, Seat-binding, acceptance, or mission execution authority.
 
+## prepare-canonical-sanctographer
+MasterMason validates the admitted canonical Sanctographer Persona, exact current/active resident Profile, Imperator approval, and lifecycle chain. All commission-triggered vacancy demands for the same instance converge on one provisioning case. Preparation grants no spawning, Seat binding, commission acceptance, authorship exercise, or mission execution authority.
+
 ## open-inquiry
 Create an inquiry identity and preserve the exact Artificer commission, profession queue item, versions, and provenance.
 
