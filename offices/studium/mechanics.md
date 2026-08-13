@@ -17,6 +17,10 @@ When an exact doctrine-authorship commission reaches a vacant Studium, preserve 
 
 MasterMason validates the admitted canonical Chancellor Persona, exact current/active resident Profile, Imperator approval, and lifecycle chain. All commission-triggered vacancy demands for the same instance converge on one provisioning case. Preparation grants no spawning, Seat binding, commission acceptance, authorship exercise, or mission execution authority.
 
+## commission-canonical-chancellor
+
+MasterMason issues one exact spawning-only construction commission for the canonical resident Chancellor from the converged ready provisioning case. Conscription receives no authorship, Notary-resolution, Seat-binding, acceptance, or execution authority.
+
 ## open-doctrine-case
 
 Create the case and preserve the exact doctrinal class, commission, upstream identities, versions, order, and authority.
