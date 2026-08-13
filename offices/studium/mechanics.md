@@ -21,6 +21,10 @@ MasterMason validates the admitted canonical Chancellor Persona, exact current/a
 
 MasterMason issues one exact spawning-only construction commission for the canonical resident Chancellor from the converged ready provisioning case. Conscription receives no authorship, Notary-resolution, Seat-binding, acceptance, or execution authority.
 
+## bind-canonical-chancellor
+
+MasterMason atomically binds the sealed qualified Chancellor manifestation to the vacant resident Seat. Occupancy activates authority to author for exact accepted commissions and to resolve their exact Notary requirements; it records no commission acceptance and grants no mission execution authority.
+
 ## open-doctrine-case
 
 Create the case and preserve the exact doctrinal class, commission, upstream identities, versions, order, and authority.
