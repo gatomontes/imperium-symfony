@@ -23,6 +23,9 @@ MasterMason atomically binds the sealed qualified Sanctographer manifestation to
 ## accept-authorship-commission
 The occupied Sanctographer accepts one exact pending Hagiography commission and binds its immutable scope, required product, forbidden authorship, production case, and resident occupancy. Acceptance makes authorship authority exercisable for that commission and requires resolution of its Chronicler needs; it grants no spawning or mission execution authority.
 
+## resolve-chronicler-requirements
+The occupied Sanctographer interprets one exact accepted commission and seals the required Chronicler specializations, versioned Seat and Profile requirements, assignment boundaries, sources, returns, and stop conditions. A complete disposition may request Curia construction authorization but cannot authorize construction, select a Persona, approve a Profile, spawn, bind, or execute.
+
 ## open-inquiry
 Create an inquiry identity and preserve the exact Artificer commission, profession queue item, versions, and provenance.
 
