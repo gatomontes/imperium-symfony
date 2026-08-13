@@ -98,6 +98,14 @@ services:
         arguments:
             $projectDir: '%kernel.project_dir%'
 
+    App\Imperium\Runtime\Authorship\CanonicalAuthorshipStaffRegistry:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
+    App\Imperium\Runtime\Authorship\AuthorshipOfficeProvisioningService:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
     App\Imperium\Runtime\Guildhall\GuildhallActivationDemandService:
         arguments:
             $projectDir: '%kernel.project_dir%'

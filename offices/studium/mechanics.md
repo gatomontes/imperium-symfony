@@ -13,6 +13,10 @@ These functions support Chancellor and Notary cognition. They do not determine a
 
 When an exact doctrine-authorship commission reaches a vacant Studium, preserve it and demand only the canonical resident Chancellor from MasterMason. The commission's authorship authority remains non-exercisable while the Seat is vacant. Notary specializations remain unresolved until an occupied Chancellor accepts and interprets the exact commission. Activation grants no spawning, Seat-binding, acceptance, or mission execution authority.
 
+## prepare-canonical-chancellor
+
+MasterMason validates the admitted canonical Chancellor Persona, exact current/active resident Profile, Imperator approval, and lifecycle chain. All commission-triggered vacancy demands for the same instance converge on one provisioning case. Preparation grants no spawning, Seat binding, commission acceptance, authorship exercise, or mission execution authority.
+
 ## open-doctrine-case
 
 Create the case and preserve the exact doctrinal class, commission, upstream identities, versions, order, and authority.
