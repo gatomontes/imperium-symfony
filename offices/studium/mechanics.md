@@ -29,6 +29,10 @@ MasterMason atomically binds the sealed qualified Chancellor manifestation to th
 
 The occupied Chancellor accepts one exact pending Studium commission and binds its immutable scope, required product, forbidden authorship, production case, and resident occupancy. Acceptance makes authorship authority exercisable for that commission and requires resolution of its Notary needs; it grants no spawning or mission execution authority.
 
+## resolve-notary-requirements
+
+The occupied Chancellor interprets one exact accepted commission and seals the required Notary specializations, versioned Seat and Profile requirements, assignment boundaries, sources, returns, and stop conditions. A complete disposition may request Curia construction authorization but cannot authorize construction, select a Persona, approve a Profile, spawn, bind, or execute.
+
 ## open-doctrine-case
 
 Create the case and preserve the exact doctrinal class, commission, upstream identities, versions, order, and authority.
