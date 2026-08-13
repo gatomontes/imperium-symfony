@@ -92,6 +92,10 @@ Bind one explicit Imperator decision to the exact construction request, request 
 
 When occupied authorship Offices return sealed subordinate-requirement resolutions, Curia may present them together to Imperator as one authorization request. Each resolution remains an independent, digest-bound Office act: Curia may neither merge its specializations nor reinterpret its rationale. The request asks only for construction against the exact included resolutions and grants no construction, Persona selection, Profile approval, spawning, Seat binding, or execution authority.
 
+## `authorize-subordinate-construction`
+
+Bind one explicit Imperator decision to the exact Curial request digest and its complete ordered set of independently sealed subordinate resolutions. Authorization grants construction authority only against those exact resolutions. It grants no Persona selection, Profile approval, spawning, Seat binding, or execution authority, and it does not mutate the request or any Office resolution.
+
 ## `deliver-construction-authorization`
 
 Route the exact immutable construction-authorization act and its complete demand references to Foundry's authorization inbox. Delivery revalidates the act and every demand but does not mutate the original demands or claim Foundry acceptance. Only the exact construction authority crosses the boundary; Persona selection, spawning, Seat binding, and execution authority remain withheld.
