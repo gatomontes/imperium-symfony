@@ -25,6 +25,10 @@ MasterMason issues one exact spawning-only construction commission for the canon
 
 MasterMason atomically binds the sealed qualified Chancellor manifestation to the vacant resident Seat. Occupancy activates authority to author for exact accepted commissions and to resolve their exact Notary requirements; it records no commission acceptance and grants no mission execution authority.
 
+## accept-authorship-commission
+
+The occupied Chancellor accepts one exact pending Studium commission and binds its immutable scope, required product, forbidden authorship, production case, and resident occupancy. Acceptance makes authorship authority exercisable for that commission and requires resolution of its Notary needs; it grants no spawning or mission execution authority.
+
 ## open-doctrine-case
 
 Create the case and preserve the exact doctrinal class, commission, upstream identities, versions, order, and authority.
