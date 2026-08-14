@@ -136,9 +136,6 @@ final readonly class ConstableSeatBindingService
             "inventory_response_authority" => true,
             "inventory_response_scope" =>
                 "authorized exact Garrison inventory and availability facts only",
-            "persona_admission_disposition_authority" => true,
-            "persona_admission_disposition_scope" =>
-                "verify exact immutable admission packages and render attributable admission or refusal dispositions only",
             "selection_authority" => false,
             "execution_authority" => false,
         ]);
