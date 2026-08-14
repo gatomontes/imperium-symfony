@@ -75,6 +75,11 @@ final class SubordinateAuthorshipCommissionAcceptanceServiceTest extends
             "subordinate_construction_case_digest" => $case["record_digest"],
             "persona_specification_id" => $specId,
             "persona_specification_digest" => $spec["record_digest"],
+            "persona_specification_version" => 1,
+            "specification_supersedes" => null,
+            "specification_revision_basis" => null,
+            "dispatch_kind" => "INITIAL_SPECIFICATION_DISPATCH",
+            "superseded_commissions" => [],
             "source_resolution_id" => "resolution",
             "source_resolution_digest" => "resolution-digest",
             "persona_specification" => $spec["specification"],
@@ -136,6 +141,11 @@ final class SubordinateAuthorshipCommissionAcceptanceServiceTest extends
             );
             self::assertTrue($a["recipient_acceptance"]);
             self::assertTrue($a["authorship_authority_exercisable"]);
+            self::assertSame(
+                "INITIAL_SPECIFICATION_DISPATCH",
+                $a["dispatch_kind"],
+            );
+            self::assertSame([], $a["superseded_commissions"]);
             self::assertFalse($a["persona_assembly_authority"]);
             self::assertFalse($a["persona_approval_authority"]);
             self::assertFalse($a["profile_approval_authority"]);

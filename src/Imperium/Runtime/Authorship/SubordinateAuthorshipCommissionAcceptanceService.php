@@ -142,8 +142,9 @@ final readonly class SubordinateAuthorshipCommissionAcceptanceService
                 ($s["specification_version"] ?? 1) ||
             CanonicalJson::encode($c["specification_supersedes"] ?? null) !==
                 CanonicalJson::encode($s["supersedes"] ?? null) ||
-            CanonicalJson::encode($c["specification_revision_basis"] ?? null) !==
-                CanonicalJson::encode($s["revision_basis"] ?? null) ||
+            CanonicalJson::encode(
+                $c["specification_revision_basis"] ?? null,
+            ) !== CanonicalJson::encode($s["revision_basis"] ?? null) ||
             ($c["subordinate_construction_case_digest"] ?? null) !==
                 ($case["record_digest"] ?? null) ||
             ($s["case_id"] ?? null) !== $caseId ||
@@ -162,6 +163,18 @@ final readonly class SubordinateAuthorshipCommissionAcceptanceService
             );
         }
         $this->lineageGuard->assertCurrent($s);
+        $revisionReissue = null !== ($s["supersedes"] ?? null);
+        if (
+            ($revisionReissue
+                ? "SPECIFICATION_REVISION_REISSUE"
+                : "INITIAL_SPECIFICATION_DISPATCH") !==
+                ($c["dispatch_kind"] ?? null) ||
+            !$this->dispatchLineageMatches($c, $s)
+        ) {
+            throw new \RuntimeException(
+                "A103_SUBORDINATE_DISPATCH_LINEAGE_INVALID",
+            );
+        }
         $id =
             $office .
             "-subordinate-acceptance-" .
@@ -190,10 +203,11 @@ final readonly class SubordinateAuthorshipCommissionAcceptanceService
             "binding_digest" => $b["record_digest"],
             "persona_specification_id" => $specId,
             "persona_specification_digest" => $s["record_digest"],
-            "persona_specification_version" =>
-                $s["specification_version"] ?? 1,
+            "persona_specification_version" => $s["specification_version"] ?? 1,
             "specification_supersedes" => $s["supersedes"] ?? null,
             "specification_revision_basis" => $s["revision_basis"] ?? null,
+            "dispatch_kind" => $c["dispatch_kind"],
+            "superseded_commissions" => $c["superseded_commissions"],
             "subordinate_construction_case_id" => $caseId,
             "subordinate_construction_case_digest" => $case["record_digest"],
             "source_resolution_id" => $c["source_resolution_id"],
@@ -218,6 +232,67 @@ final readonly class SubordinateAuthorshipCommissionAcceptanceService
             "seat_binding_authority" => false,
             "execution_authority" => false,
         ]);
+    }
+    private function dispatchLineageMatches(
+        array $commission,
+        array $spec,
+    ): bool {
+        $references = $commission["superseded_commissions"] ?? null;
+        if (null === ($spec["supersedes"] ?? null)) {
+            return [] === $references;
+        }
+        if (!is_array($references) || 2 !== count($references)) {
+            return false;
+        }
+        $seen = [];
+        foreach ($references as $reference) {
+            $office = is_array($reference)
+                ? $reference["office"] ?? null
+                : null;
+            $commissionId = is_array($reference)
+                ? $reference["commission_id"] ?? null
+                : null;
+            if (
+                !is_string($office) ||
+                !in_array($office, ["hagiography", "studium"], true) ||
+                isset($seen[$office]) ||
+                !is_string($commissionId)
+            ) {
+                return false;
+            }
+            try {
+                $prior = $this->read(
+                    $this->officeRoot .
+                        "/" .
+                        $office .
+                        "/inbox/" .
+                        $commissionId .
+                        ".json",
+                    "A103_SUBORDINATE_DISPATCH_LINEAGE_INVALID",
+                );
+            } catch (\RuntimeException) {
+                return false;
+            }
+            if (
+                !$this->digestMatches($prior) ||
+                ($reference["commission_digest"] ?? null) !==
+                    ($prior["record_digest"] ?? null) ||
+                ($reference["persona_specification_id"] ?? null) !==
+                    ($spec["supersedes"]["specification_id"] ?? null) ||
+                ($reference["persona_specification_digest"] ?? null) !==
+                    ($spec["supersedes"]["specification_digest"] ?? null) ||
+                ($prior["persona_specification_id"] ?? null) !==
+                    ($reference["persona_specification_id"] ?? null) ||
+                ($prior["persona_specification_digest"] ?? null) !==
+                    ($reference["persona_specification_digest"] ?? null) ||
+                "SUPERSEDED_BY_SPECIFICATION_REVISION" !==
+                    ($reference["disposition"] ?? null)
+            ) {
+                return false;
+            }
+            $seen[$office] = true;
+        }
+        return isset($seen["hagiography"], $seen["studium"]);
     }
     private function read(string $p, string $e): array
     {
