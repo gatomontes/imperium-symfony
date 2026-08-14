@@ -88,6 +88,13 @@ final readonly class SubordinatePersonaAuthorshipCommissionService
                 "F119_SUBORDINATE_SPECIFICATION_CHAIN_INVALID",
             );
         }
+        $supersededCommissions = $this->supersededCommissions($s);
+        $revisionReissue = null !== ($s["supersedes"] ?? null);
+        if ($revisionReissue && 2 !== count($supersededCommissions)) {
+            throw new \RuntimeException(
+                "F139_SUBORDINATE_REVISION_REISSUE_CHAIN_INCOMPLETE",
+            );
+        }
         $common = [
             "schema" => "imperium.subordinate-persona-authorship-commission/v1",
             "issuer" => $s["artificer"],
@@ -96,10 +103,13 @@ final readonly class SubordinatePersonaAuthorshipCommissionService
             "subordinate_construction_case_digest" => $case["record_digest"],
             "persona_specification_id" => $id,
             "persona_specification_digest" => $s["record_digest"],
-            "persona_specification_version" =>
-                $s["specification_version"] ?? 1,
+            "persona_specification_version" => $s["specification_version"] ?? 1,
             "specification_supersedes" => $s["supersedes"] ?? null,
             "specification_revision_basis" => $s["revision_basis"] ?? null,
+            "dispatch_kind" => $revisionReissue
+                ? "SPECIFICATION_REVISION_REISSUE"
+                : "INITIAL_SPECIFICATION_DISPATCH",
+            "superseded_commissions" => $supersededCommissions,
             "source_resolution_id" => $s["source_resolution_id"],
             "source_resolution_digest" => $s["source_resolution_digest"],
             "candidate_class" => $s["subordinate_staff_class"],
@@ -184,9 +194,74 @@ final readonly class SubordinatePersonaAuthorshipCommissionService
         );
         return [
             "specification_id" => $id,
+            "dispatch_kind" => $common["dispatch_kind"],
+            "superseded_commissions" => $supersededCommissions,
             "artificer" => $s["artificer"],
             "commissions" => [$h, $d],
         ];
+    }
+    private function supersededCommissions(array $specification): array
+    {
+        $supersedes = $specification["supersedes"] ?? null;
+        if (!is_array($supersedes)) {
+            return [];
+        }
+        $references = [];
+        foreach (
+            [
+                "hagiography" => $this->hagiographyInbox,
+                "studium" => $this->studiumInbox,
+            ]
+            as $office => $directory
+        ) {
+            $matches = [];
+            foreach (
+                glob(
+                    $directory .
+                        "/subordinate-authorship-" .
+                        $office .
+                        "-*.json",
+                ) ?:
+                []
+                as $path
+            ) {
+                $commission = $this->read(
+                    $path,
+                    "F139_SUBORDINATE_REVISION_REISSUE_CHAIN_INCOMPLETE",
+                );
+                if (
+                    !$this->digestMatches($commission) ||
+                    "imperium.subordinate-persona-authorship-commission/v1" !==
+                        ($commission["schema"] ?? null)
+                ) {
+                    throw new \RuntimeException(
+                        "F139_SUBORDINATE_REVISION_REISSUE_CHAIN_INCOMPLETE",
+                    );
+                }
+                if (
+                    ($supersedes["specification_id"] ?? null) ===
+                        ($commission["persona_specification_id"] ?? null) &&
+                    ($supersedes["specification_digest"] ?? null) ===
+                        ($commission["persona_specification_digest"] ?? null)
+                ) {
+                    $matches[] = $commission;
+                }
+            }
+            if (1 !== count($matches)) {
+                continue;
+            }
+            $references[] = [
+                "office" => $office,
+                "commission_id" => $matches[0]["commission_id"],
+                "commission_digest" => $matches[0]["record_digest"],
+                "persona_specification_id" =>
+                    $matches[0]["persona_specification_id"],
+                "persona_specification_digest" =>
+                    $matches[0]["persona_specification_digest"],
+                "disposition" => "SUPERSEDED_BY_SPECIFICATION_REVISION",
+            ];
+        }
+        return $references;
     }
     private function read(string $p, string $e): array
     {

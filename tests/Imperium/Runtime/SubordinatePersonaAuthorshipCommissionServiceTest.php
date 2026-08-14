@@ -30,14 +30,14 @@ final class SubordinatePersonaAuthorshipCommissionServiceTest extends TestCase
             $dir . "/" . $caseId . ".json",
             json_encode($case, JSON_THROW_ON_ERROR),
         );
+        $priorId = "subordinate-persona-specification-" . str_repeat("a", 20);
         $id = "subordinate-persona-specification-" . str_repeat("b", 20);
         $spec = [
             "schema" => "imperium.foundry-subordinate-persona-specification/v1",
             "specification_id" => $id,
             "specification_version" => 2,
             "supersedes" => [
-                "specification_id" =>
-                    "subordinate-persona-specification-" . str_repeat("a", 20),
+                "specification_id" => $priorId,
                 "specification_digest" => "prior-specification-digest",
                 "specification_version" => 1,
             ],
@@ -76,14 +76,38 @@ final class SubordinatePersonaAuthorshipCommissionServiceTest extends TestCase
             $root .
             "/var/imperium/offices/foundry/subordinate-persona-specifications";
         mkdir($dir, 0770, true);
+        $prior = $spec;
+        $prior["specification_id"] = $priorId;
+        $prior["specification_version"] = 1;
+        $prior["supersedes"] = null;
+        $prior["revision_basis"] = null;
+        unset($prior["record_digest"]);
+        $prior["record_digest"] = hash("sha256", CanonicalJson::encode($prior));
+        $spec["supersedes"]["specification_digest"] = $prior["record_digest"];
+        unset($spec["record_digest"]);
+        $spec["record_digest"] = hash("sha256", CanonicalJson::encode($spec));
+        file_put_contents(
+            $dir . "/" . $priorId . ".json",
+            json_encode($prior, JSON_THROW_ON_ERROR),
+        );
+        $service = new SubordinatePersonaAuthorshipCommissionService($root);
+        $initial = $service->dispatch($priorId);
+        self::assertSame(
+            "INITIAL_SPECIFICATION_DISPATCH",
+            $initial["dispatch_kind"],
+        );
         file_put_contents(
             $dir . "/" . $id . ".json",
             json_encode($spec, JSON_THROW_ON_ERROR),
         );
         try {
-            $service = new SubordinatePersonaAuthorshipCommissionService($root);
             $r = $service->dispatch($id);
             self::assertSame($r, $service->dispatch($id));
+            self::assertSame(
+                "SPECIFICATION_REVISION_REISSUE",
+                $r["dispatch_kind"],
+            );
+            self::assertCount(2, $r["superseded_commissions"]);
             self::assertCount(2, $r["commissions"]);
             self::assertSame(
                 ["hagiography", "studium"],
@@ -98,6 +122,14 @@ final class SubordinatePersonaAuthorshipCommissionServiceTest extends TestCase
             );
             foreach ($r["commissions"] as $c) {
                 self::assertSame("ISSUED_PENDING_RECIPIENT", $c["status"]);
+                self::assertSame(
+                    "SPECIFICATION_REVISION_REISSUE",
+                    $c["dispatch_kind"],
+                );
+                self::assertSame(
+                    $r["superseded_commissions"],
+                    $c["superseded_commissions"],
+                );
                 self::assertTrue($c["authorship_authority"]);
                 self::assertSame(2, $c["persona_specification_version"]);
                 self::assertSame(
