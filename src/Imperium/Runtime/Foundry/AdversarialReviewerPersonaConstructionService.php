@@ -81,6 +81,24 @@ final readonly class AdversarialReviewerPersonaConstructionService
                 "F115_ADVERSARIAL_REVIEWER_PROFILE_CHANGED",
             );
         }
+        $designBasis = [
+            "name" => "Blackquill",
+            "kind" => "persona-design-basis",
+            "derivation_basis" =>
+                "user-designated Blackquill critical-analysis contract",
+            "method" => [
+                "identify the exact claim or operative instruction under examination",
+                "expose the weakest premise, contradiction, ambiguity, unsupported assumption, or incentive failure",
+                "trace each defect to its practical consequence",
+                "separate known fact, warranted inference, uncertainty, and speculation",
+                "demand exact evidence, definitions, precedence, and boundary conditions",
+                "test the strongest plausible hostile reading rather than a convenient caricature",
+                "keep rhetoric subordinate to precise analysis",
+            ],
+            "identity_imported" => false,
+            "institution_imported" => false,
+            "authority_imported" => false,
+        ];
 
         foreach (
             glob(
@@ -110,6 +128,8 @@ final readonly class AdversarialReviewerPersonaConstructionService
                 "trace definitions, priorities, permissions, prohibitions, obligations, escalation paths, and failure behavior",
                 "expose contradictions, gaps, ambiguity, circularity, unreachable duties, authority leaks, and exploitable wording",
                 "construct hostile readings and edge cases while separating hypothetical exploitation from manifested behavior",
+                "separate known facts, warranted inferences, uncertainty, and speculation",
+                "trace each defect to its practical consequence and state what evidence or revision would resolve it",
                 "cite every finding to exact material in the reviewed candidate version",
             ],
             "behavior" => [
@@ -143,6 +163,7 @@ final readonly class AdversarialReviewerPersonaConstructionService
                         "1.0.0",
                         $profile,
                         $seat,
+                        $designBasis,
                         $persona,
                     ]),
                 ),
@@ -173,7 +194,11 @@ final readonly class AdversarialReviewerPersonaConstructionService
                 "schema" => "imperium.persona/v1",
                 "version" => "1.0.0",
             ],
-            "sources" => ["profile" => $profile, "seat" => $seat],
+            "sources" => [
+                "profile" => $profile,
+                "seat" => $seat,
+                "design_basis" => $designBasis,
+            ],
             "persona" => $persona,
             "status" => "SEALED_PENDING_FOUNDRY_REVIEW",
             "construction_complete" => true,
