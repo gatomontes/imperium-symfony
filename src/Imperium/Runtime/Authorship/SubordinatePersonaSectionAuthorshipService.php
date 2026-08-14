@@ -116,8 +116,12 @@ final readonly class SubordinatePersonaSectionAuthorshipService
                 ($s["specification_version"] ?? 1) ||
             CanonicalJson::encode($a["specification_supersedes"] ?? null) !==
                 CanonicalJson::encode($s["supersedes"] ?? null) ||
-            CanonicalJson::encode($a["specification_revision_basis"] ?? null) !==
-                CanonicalJson::encode($s["revision_basis"] ?? null) ||
+            CanonicalJson::encode(
+                $a["specification_revision_basis"] ?? null,
+            ) !== CanonicalJson::encode($s["revision_basis"] ?? null) ||
+            ($a["dispatch_kind"] ?? null) !== ($c["dispatch_kind"] ?? null) ||
+            CanonicalJson::encode($a["superseded_commissions"] ?? null) !==
+                CanonicalJson::encode($c["superseded_commissions"] ?? null) ||
             ($a["subordinate_construction_case_digest"] ?? null) !==
                 ($case["record_digest"] ?? null) ||
             ($a["source_resolution_id"] ?? null) !==
@@ -132,6 +136,22 @@ final readonly class SubordinatePersonaSectionAuthorshipService
             );
         }
         $this->lineageGuard->assertCurrent($s);
+        $revisionReissue = null !== ($s["supersedes"] ?? null);
+        $supersededCommissions = $a["superseded_commissions"] ?? null;
+        if (
+            ($revisionReissue
+                ? "SPECIFICATION_REVISION_REISSUE"
+                : "INITIAL_SPECIFICATION_DISPATCH") !==
+                ($a["dispatch_kind"] ?? null) ||
+            ($revisionReissue
+                ? !is_array($supersededCommissions) ||
+                    2 !== count($supersededCommissions)
+                : [] !== $supersededCommissions)
+        ) {
+            throw new \RuntimeException(
+                "A113_SUBORDINATE_PRODUCT_DISPATCH_LINEAGE_INVALID",
+            );
+        }
         foreach (
             glob(
                 $this->officeRoot .
@@ -183,10 +203,11 @@ final readonly class SubordinatePersonaSectionAuthorshipService
             "commission_digest" => $c["record_digest"],
             "persona_specification_id" => $specId,
             "persona_specification_digest" => $s["record_digest"],
-            "persona_specification_version" =>
-                $s["specification_version"] ?? 1,
+            "persona_specification_version" => $s["specification_version"] ?? 1,
             "specification_supersedes" => $s["supersedes"] ?? null,
             "specification_revision_basis" => $s["revision_basis"] ?? null,
+            "dispatch_kind" => $a["dispatch_kind"],
+            "superseded_commissions" => $supersededCommissions,
             "subordinate_construction_case_id" => $caseId,
             "subordinate_construction_case_digest" => $case["record_digest"],
             "source_resolution_id" => $a["source_resolution_id"],
