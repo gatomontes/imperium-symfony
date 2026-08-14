@@ -1,0 +1,62 @@
+<?php
+declare(strict_types=1);
+namespace App\Command;
+use App\Imperium\Runtime\Foundry\BlackquillProductionRemediationCaseService;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+#[
+    AsCommand(
+        name: "imperium:foundry:open-blackquill-production-remediation",
+        description: "Open the exact Foundry production route required by Blackquill admission refusal",
+    ),
+]
+final class FoundryOpenBlackquillProductionRemediationCommand extends Command
+{
+    public function __construct(
+        private readonly BlackquillProductionRemediationCaseService $service,
+    ) {
+        parent::__construct();
+    }
+    protected function configure(): void
+    {
+        $this->addArgument(
+            "disposition-id",
+            InputArgument::REQUIRED,
+        )->addOption("json", null, InputOption::VALUE_NONE);
+    }
+    protected function execute(InputInterface $i, OutputInterface $o): int
+    {
+        try {
+            $r = $this->service->open(
+                (string) $i->getArgument("disposition-id"),
+            );
+        } catch (\Throwable $e) {
+            $o->writeln("<error>REFUSED</error> " . $e->getMessage());
+            return self::FAILURE;
+        }
+        if ($i->getOption("json")) {
+            $o->writeln(
+                json_encode(
+                    $r,
+                    JSON_PRETTY_PRINT |
+                        JSON_UNESCAPED_SLASHES |
+                        JSON_THROW_ON_ERROR,
+                ),
+            );
+            return self::SUCCESS;
+        }
+        $o->writeln(
+            "<info>BLACKQUILL_PRODUCTION_REMEDIATION_OPENED</info> " .
+                $r["case_id"],
+        );
+        $o->writeln("Status: " . $r["status"]);
+        $o->writeln(
+            "Production, review, Senate, release, and admission authority: NOT GRANTED",
+        );
+        return self::SUCCESS;
+    }
+}
