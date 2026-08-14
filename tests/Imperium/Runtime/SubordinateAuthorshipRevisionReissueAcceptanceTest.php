@@ -3,6 +3,8 @@ declare(strict_types=1);
 namespace App\Tests\Imperium\Runtime;
 use App\Bootstrap\CanonicalJson;
 use App\Imperium\Runtime\Authorship\SubordinateAuthorshipCommissionAcceptanceService;
+use App\Imperium\Runtime\Authorship\SubordinatePersonaSectionAuthorshipGateway;
+use App\Imperium\Runtime\Authorship\SubordinatePersonaSectionAuthorshipService;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaAuthorshipCommissionService;
 use PHPUnit\Framework\TestCase;
 
@@ -72,6 +74,33 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
             $acceptance = new SubordinateAuthorshipCommissionAcceptanceService(
                 $root,
             );
+            $authorship = new SubordinatePersonaSectionAuthorshipService(
+                $root,
+                new class implements SubordinatePersonaSectionAuthorshipGateway
+                {
+                    public function author(
+                        string $office,
+                        array $acceptance,
+                        array $commission,
+                        array $specification,
+                        array $case,
+                    ): array {
+                        return [
+                            "disposition" => "SECTION_PACKET_COMPLETE",
+                            "authored_sections" => [
+                                $office . "_replacement" => [
+                                    "Complete content derived only for specification v2.",
+                                ],
+                            ],
+                            "source_citations" => [
+                                "resolution:resolution-digest",
+                            ],
+                            "unresolved_questions" => [],
+                        ];
+                    }
+                },
+            );
+            $products = [];
             foreach ($reissue["commissions"] as $commission) {
                 $office = $commission["office"];
                 $role =
@@ -138,7 +167,38 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 );
                 self::assertTrue($accepted["authorship_authority_exercisable"]);
                 self::assertFalse($accepted["persona_assembly_authority"]);
+                $product = $authorship->author(
+                    $office,
+                    $accepted["acceptance_id"],
+                );
+                self::assertSame(
+                    $product,
+                    $authorship->author($office, $accepted["acceptance_id"]),
+                );
+                self::assertSame(
+                    "SEALED_PENDING_FOUNDRY_ASSEMBLY",
+                    $product["status"],
+                );
+                self::assertSame(
+                    "SPECIFICATION_REVISION_REISSUE",
+                    $product["dispatch_kind"],
+                );
+                self::assertSame(
+                    $accepted["superseded_commissions"],
+                    $product["superseded_commissions"],
+                );
+                self::assertSame([], $product["unresolved_questions"]);
+                self::assertSame(2, $product["persona_specification_version"]);
+                self::assertSame(
+                    $revisionBasis,
+                    $product["specification_revision_basis"],
+                );
+                self::assertTrue($product["authorship_complete"]);
+                self::assertTrue($product["sealed"]);
+                self::assertFalse($product["persona_assembly_authority"]);
+                $products[$office] = $product;
             }
+            self::assertSame(["hagiography", "studium"], array_keys($products));
         } finally {
             $this->removeTree($root);
         }
