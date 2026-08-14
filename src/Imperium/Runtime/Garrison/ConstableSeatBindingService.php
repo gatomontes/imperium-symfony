@@ -136,6 +136,12 @@ final readonly class ConstableSeatBindingService
             "inventory_response_authority" => true,
             "inventory_response_scope" =>
                 "authorized exact Garrison inventory and availability facts only",
+            "persona_admission_disposition_authority" => true,
+            "persona_admission_disposition_scope" =>
+                "admit or refuse exact immutable Persona packages under Garrison doctrine only",
+            "custody_registration_authority" => true,
+            "custody_registration_scope" =>
+                "register custody only after the same occupied Constable renders an attributable admission disposition",
             "selection_authority" => false,
             "execution_authority" => false,
         ]);
