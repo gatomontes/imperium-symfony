@@ -83,6 +83,23 @@ final class AdversarialReviewerPersonaConstructionServiceTest extends TestCase
                 $acceptance["record_digest"],
                 $candidate["construction_acceptance_digest"],
             );
+            self::assertSame(
+                "Blackquill",
+                $candidate["sources"]["design_basis"]["name"],
+            );
+            self::assertSame(
+                "persona-design-basis",
+                $candidate["sources"]["design_basis"]["kind"],
+            );
+            self::assertFalse(
+                $candidate["sources"]["design_basis"]["identity_imported"],
+            );
+            self::assertFalse(
+                $candidate["sources"]["design_basis"]["institution_imported"],
+            );
+            self::assertFalse(
+                $candidate["sources"]["design_basis"]["authority_imported"],
+            );
             foreach (
                 [
                     "review_authority",
