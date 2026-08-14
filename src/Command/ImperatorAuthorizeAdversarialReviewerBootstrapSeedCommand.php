@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 namespace App\Command;
-use App\Imperium\Runtime\Curia\AdversarialReviewerBootstrapReviewAuthorizationRequestService;
+use App\Imperium\Runtime\Curia\AdversarialReviewerBootstrapSeedAuthorizationService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -10,32 +10,33 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 #[
     AsCommand(
-        name: "imperium:curia:request-adversarial-reviewer-bootstrap-review",
-        description: "Request an exact one-time bootstrap review after authenticated Reviewer absence",
+        name: "imperium:imperator:authorize-adversarial-reviewer-bootstrap-seed",
+        description: "Authorize the exact initial Reviewer candidate as a non-precedential bootstrap seed",
     ),
 ]
-final class CuriaRequestAdversarialReviewerBootstrapReviewCommand extends
+final class ImperatorAuthorizeAdversarialReviewerBootstrapSeedCommand extends
     Command
 {
     public function __construct(
-        private readonly AdversarialReviewerBootstrapReviewAuthorizationRequestService $service,
+        private readonly AdversarialReviewerBootstrapSeedAuthorizationService $service,
     ) {
         parent::__construct();
     }
     protected function configure(): void
     {
-        $this->addArgument(
-            "availability-response-id",
-            InputArgument::REQUIRED,
-        )->addOption("json", null, InputOption::VALUE_NONE);
+        $this->addArgument("candidate-id", InputArgument::REQUIRED)->addOption(
+            "json",
+            null,
+            InputOption::VALUE_NONE,
+        );
     }
     protected function execute(
         InputInterface $input,
         OutputInterface $output,
     ): int {
         try {
-            $request = $this->service->request(
-                (string) $input->getArgument("availability-response-id"),
+            $delivery = $this->service->authorize(
+                (string) $input->getArgument("candidate-id"),
             );
         } catch (\Throwable $e) {
             $output->writeln("<error>REFUSED</error> " . $e->getMessage());
@@ -44,7 +45,7 @@ final class CuriaRequestAdversarialReviewerBootstrapReviewCommand extends
         if ($input->getOption("json")) {
             $output->writeln(
                 json_encode(
-                    $request,
+                    $delivery,
                     JSON_PRETTY_PRINT |
                         JSON_UNESCAPED_SLASHES |
                         JSON_THROW_ON_ERROR,
@@ -53,12 +54,12 @@ final class CuriaRequestAdversarialReviewerBootstrapReviewCommand extends
             return self::SUCCESS;
         }
         $output->writeln(
-            "<info>ADVERSARIAL_REVIEWER_BOOTSTRAP_REVIEW_REQUESTED</info> " .
-                $request["request_id"],
+            "<info>ADVERSARIAL_REVIEWER_BOOTSTRAP_SEED_AUTHORIZED</info> " .
+                $delivery["delivery_id"],
         );
-        $output->writeln("Status: " . $request["status"]);
+        $output->writeln("Status: " . $delivery["status"]);
         $output->writeln(
-            "Protocol, reviewer, findings, and every downstream authority: NOT GRANTED",
+            "Foundry acceptance and every downstream authority: NOT GRANTED",
         );
         return self::SUCCESS;
     }
