@@ -55,6 +55,8 @@ final class SubordinatePersonaSectionAuthorshipServiceTest extends TestCase
             "commission_id" => $commissionId,
             "authorship_class" => $class,
             "forbidden_authorship" => [$forbidden],
+            "dispatch_kind" => "INITIAL_SPECIFICATION_DISPATCH",
+            "superseded_commissions" => [],
         ];
         $this->write(
             $root . "/var/imperium/offices/" . $office . "/inbox",
@@ -73,6 +75,11 @@ final class SubordinatePersonaSectionAuthorshipServiceTest extends TestCase
             "commission_digest" => $commission["record_digest"],
             "persona_specification_id" => $specId,
             "persona_specification_digest" => $spec["record_digest"],
+            "persona_specification_version" => 1,
+            "specification_supersedes" => null,
+            "specification_revision_basis" => null,
+            "dispatch_kind" => "INITIAL_SPECIFICATION_DISPATCH",
+            "superseded_commissions" => [],
             "subordinate_construction_case_id" => $caseId,
             "subordinate_construction_case_digest" => $case["record_digest"],
             "source_resolution_id" => "resolution",
@@ -128,6 +135,11 @@ final class SubordinatePersonaSectionAuthorshipServiceTest extends TestCase
             self::assertSame("SEALED_PENDING_FOUNDRY_ASSEMBLY", $r["status"]);
             self::assertTrue($r["authorship_complete"]);
             self::assertTrue($r["sealed"]);
+            self::assertSame(
+                "INITIAL_SPECIFICATION_DISPATCH",
+                $r["dispatch_kind"],
+            );
+            self::assertSame([], $r["superseded_commissions"]);
             self::assertFalse($r["persona_assembly_authority"]);
             self::assertFalse($r["persona_approval_authority"]);
             self::assertFalse($r["profile_approval_authority"]);
