@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 final class ConstableSeatBindingServiceTest extends TestCase
 {
-    public function testAtomicallyBindsQualifiedConstableAndActivatesOnlyGarrisonFactsAuthority(): void
+    public function testAtomicallyBindsQualifiedConstableAndActivatesExactGarrisonJurisdiction(): void
     {
         $root =
             sys_get_temp_dir() .
@@ -112,6 +112,10 @@ final class ConstableSeatBindingServiceTest extends TestCase
                 $occupancy["seat_binding_disposition"],
             );
             self::assertTrue($occupancy["inventory_response_authority"]);
+            self::assertTrue(
+                $occupancy["persona_admission_disposition_authority"],
+            );
+            self::assertTrue($occupancy["custody_registration_authority"]);
             self::assertFalse($occupancy["selection_authority"]);
             self::assertFalse($occupancy["execution_authority"]);
             self::assertFileExists(
