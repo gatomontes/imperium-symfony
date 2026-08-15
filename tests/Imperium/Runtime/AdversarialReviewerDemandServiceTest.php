@@ -17,6 +17,11 @@ final class AdversarialReviewerDemandServiceTest extends TestCase
             "schema" => "imperium.foundry-subordinate-persona-candidate/v1",
             "candidate_id" => $candidateId,
             "status" => "ASSEMBLED_PENDING_FOUNDRY_REVIEW",
+            "dispatch_kind" => "SPECIFICATION_REVISION_REISSUE",
+            "superseded_commissions" => [
+                ["office" => "hagiography", "commission_id" => "prior-h"],
+                ["office" => "studium", "commission_id" => "prior-s"],
+            ],
         ];
         $this->write(
             $root .
@@ -38,6 +43,8 @@ final class AdversarialReviewerDemandServiceTest extends TestCase
             "specification_revision_basis" => [
                 "clarification_return_id" => "clarification",
             ],
+            "dispatch_kind" => "SPECIFICATION_REVISION_REISSUE",
+            "superseded_commissions" => $candidate["superseded_commissions"],
             "decision" => [
                 "adversarial_review_brief" =>
                     "Attack authority boundaries and contradictions.",
@@ -71,6 +78,14 @@ final class AdversarialReviewerDemandServiceTest extends TestCase
             self::assertSame(
                 "PENDING_EXACT_ADVERSARIAL_REVIEWER_OCCUPATION",
                 $d["status"],
+            );
+            self::assertSame(
+                "SPECIFICATION_REVISION_REISSUE",
+                $d["dispatch_kind"],
+            );
+            self::assertSame(
+                $candidate["superseded_commissions"],
+                $d["superseded_commissions"],
             );
             self::assertFalse($d["review_authority"]);
             self::assertFalse($d["persona_approval_authority"]);
