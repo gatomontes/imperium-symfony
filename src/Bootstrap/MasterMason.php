@@ -4,13 +4,35 @@ declare(strict_types=1);
 
 namespace App\Bootstrap;
 
+use App\Imperium\Runtime\Bootstrap\V0ActivationService;
+
 final readonly class MasterMason
 {
-    public function __construct(private StateStore $store)
-    {
+    public function __construct(
+        private StateStore $store,
+        private V0ActivationService $v0Activation,
+    ) {}
+
+    public function activate(
+        string $instanceId,
+        bool $prepareUpgrades = false,
+    ): array {
+        return $this->v0Activation->activate($instanceId, $prepareUpgrades);
     }
 
-    public function executeThroughReadiness(ValidationReceipt $receipt, string $instanceId): array
+    public function executeThroughReadiness(
+        ValidationReceipt $receipt,
+        string $instanceId,
+    ): array {
+        throw new \RuntimeException(
+            'B242_LEGACY_SELF_CONSTRUCTING_PERSONNEL_SEQUENCE_RETIRED: MasterMason must install operator-root generic v0 occupants.',
+        );
+    }
+
+    private function executeRetiredSelfConstructingPersonnelSequence(
+        ValidationReceipt $receipt,
+        string $instanceId,
+    ): array
     {
         return $this->store->locked(function () use ($receipt, $instanceId): array {
             $record = $this->store->read();
