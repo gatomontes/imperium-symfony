@@ -136,6 +136,21 @@ final readonly class AdversarialReviewerBootstrapSeedAuthorizationService
                 $candidate["construction_acceptance_digest"],
             "authorized_review_target" =>
                 $candidate["authorized_review_target"],
+            "review_target_lineage" => [
+                "persona_specification_id" =>
+                    $candidate["persona_specification_id"] ?? null,
+                "persona_specification_digest" =>
+                    $candidate["persona_specification_digest"] ?? null,
+                "persona_specification_version" =>
+                    $candidate["persona_specification_version"] ?? null,
+                "specification_supersedes" =>
+                    $candidate["specification_supersedes"] ?? null,
+                "specification_revision_basis" =>
+                    $candidate["specification_revision_basis"] ?? null,
+                "dispatch_kind" => $candidate["dispatch_kind"] ?? null,
+                "superseded_commissions" =>
+                    $candidate["superseded_commissions"] ?? null,
+            ],
             "design_basis" => $basis,
             "bootstrap_seed_boundary" => [
                 "initial_version_only" => true,
