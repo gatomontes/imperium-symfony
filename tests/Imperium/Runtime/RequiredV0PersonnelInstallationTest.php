@@ -3,10 +3,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Imperium\Runtime;
 
+use App\Bootstrap\StateStore;
 use App\Imperium\Runtime\Bootstrap\OperatorRootOperationalizationService;
 use App\Imperium\Runtime\Bootstrap\OperatorRootPersonnelInstallationService;
+use App\Imperium\Runtime\Bootstrap\OperatorRootUpgradePlanningService;
 use App\Imperium\Runtime\Bootstrap\RequiredV0PersonnelInstallationService;
 use App\Imperium\Runtime\Bootstrap\RequiredV0SeatRegistry;
+use App\Imperium\Runtime\Bootstrap\V0ActivationService;
 use PHPUnit\Framework\TestCase;
 
 final class RequiredV0PersonnelInstallationTest extends TestCase
@@ -90,12 +93,8 @@ final class RequiredV0PersonnelInstallationTest extends TestCase
                 );
                 self::assertSame("0", $upgrade["placeholder_version"]);
                 self::assertSame(
-                    "FIRST_ORDER_OF_BUSINESS",
-                    $upgrade["priority"],
-                );
-                self::assertSame(
-                    "GOVERNED_REASSESSMENT_AND_UPGRADE",
-                    $upgrade["required_disposition"],
+                    "DEFERRED_FOR_OPTIONAL_PREPARATION",
+                    $upgrade["program_status"],
                 );
             }
             try {
@@ -109,6 +108,94 @@ final class RequiredV0PersonnelInstallationTest extends TestCase
                     $e->getMessage(),
                 );
             }
+        } finally {
+            $this->removeTree($root);
+        }
+    }
+
+    public function testPrimaryActivationAllowsTestDriveBeforeOptionalUpgradePlanning(): void
+    {
+        $root =
+            sys_get_temp_dir() .
+            "/imperium-v0-activation-" .
+            bin2hex(random_bytes(6));
+        try {
+            $personnel = new OperatorRootPersonnelInstallationService($root);
+            $required = new RequiredV0PersonnelInstallationService($personnel);
+            $operationalization = new OperatorRootOperationalizationService(
+                $root,
+            );
+            $upgrades = new OperatorRootUpgradePlanningService($root);
+            $state = new StateStore($root);
+            $activation = new V0ActivationService(
+                $required,
+                $operationalization,
+                $upgrades,
+                $state,
+            );
+            $result = $activation->activate("imperium-activation-test");
+            self::assertSame("CURIA_READY", $result["state"]["state"]);
+            self::assertSame(
+                "OPERATOR_ROOT_V0",
+                $result["state"]["activation_mode"],
+            );
+            self::assertSame(
+                "DEFERRED_FOR_TEST_DRIVE",
+                $result["upgrade_program_status"],
+            );
+            self::assertSame(null, $result["upgrade_plan"]);
+            self::assertTrue(
+                $result["operationalization"][
+                    "test_drive_permitted_before_upgrades"
+                ],
+            );
+            self::assertFalse(
+                $result["operationalization"][
+                    "upgrade_program_required_for_activation"
+                ],
+            );
+            $runtime = $result["state"]["events"][0]["output"]["runtime"];
+            self::assertTrue($runtime["addressable"]);
+            self::assertCount(3, $runtime["occupants"]);
+            foreach ($runtime["occupants"] as $occupant) {
+                self::assertSame("0", $occupant["placeholder_version"]);
+                self::assertSame("active", $occupant["status"]);
+            }
+            $prepared = $activation->activate("imperium-activation-test", true);
+            self::assertSame(
+                "PREPARED_NOT_STARTED",
+                $prepared["upgrade_program_status"],
+            );
+            self::assertSame(
+                "PREPARED_NOT_STARTED",
+                $prepared["upgrade_plan"]["status"],
+            );
+            self::assertTrue(
+                $prepared["upgrade_plan"][
+                    "operator_may_test_drive_before_start"
+                ],
+            );
+            self::assertFalse($prepared["upgrade_plan"]["execution_authority"]);
+            self::assertSame(
+                "foundry.reviewer.adversarial",
+                $prepared["upgrade_plan"]["ordered_upgrades"][0]["seat"],
+            );
+            self::assertSame(
+                "foundry.artificer",
+                $prepared["upgrade_plan"]["ordered_upgrades"][1]["seat"],
+            );
+            self::assertSame(
+                "garrison.constable",
+                $prepared["upgrade_plan"]["ordered_upgrades"][2]["seat"],
+            );
+            self::assertSame(
+                "laboratorium.alchemist",
+                $prepared["upgrade_plan"]["ordered_upgrades"][3]["seat"],
+            );
+            self::assertSame(
+                "conscription.recruiter",
+                $prepared["upgrade_plan"]["ordered_upgrades"][4]["seat"],
+            );
         } finally {
             $this->removeTree($root);
         }
