@@ -5,18 +5,248 @@ use App\Bootstrap\CanonicalJson;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 final readonly class SubordinateConstructionAuthorizationAcceptanceService
 {
-    private string $inboxDirectory; private string $occupancyDirectory; private string $acceptanceDirectory;
-    public function __construct(#[Autowire('%kernel.project_dir%')] string $projectDir){$this->inboxDirectory=$projectDir.'/var/imperium/offices/foundry/inbox/subordinate-construction-authorizations';$this->occupancyDirectory=$projectDir.'/var/imperium/offices/foundry/occupancy';$this->acceptanceDirectory=$projectDir.'/var/imperium/offices/foundry/subordinate-construction-acceptances';}
-    public function accept(string $deliveryId,string $bindingId):array
-    {
-        if(!preg_match('/^subordinate-construction-delivery-[a-f0-9]{20}$/',$deliveryId))throw new \InvalidArgumentException('F90_SUBORDINATE_DELIVERY_ID_INVALID');if(!preg_match('/^foundry-artificer-binding-[a-f0-9]{20}$/',$bindingId))throw new \InvalidArgumentException('F91_ARTIFICER_BINDING_ID_INVALID');
-        $delivery=$this->read($this->inboxDirectory.'/'.$deliveryId.'.json','F92_SUBORDINATE_DELIVERY_ABSENT');$act=$delivery['authorization_act']??null;
-        if(!is_array($act)||!$this->digestMatches($delivery)||!$this->digestMatches($act)||$deliveryId!==($delivery['delivery_id']??null)||'imperium.foundry-subordinate-construction-authorization-delivery/v1'!==($delivery['schema']??null)||'foundry'!==($delivery['office']??null)||'foundry.artificer'!==($delivery['target']??null)||'DELIVERED_PENDING_FOUNDRY_ACCEPTANCE'!==($delivery['status']??null)||null!==($delivery['recipient_acceptance']??null)||true!==($delivery['construction_authority']??null)||false!==($delivery['construction_authority_exercisable']??null)||true===($delivery['persona_selection_authority']??null)||true===($delivery['profile_approval_authority']??null)||true===($delivery['spawning_authority']??null)||true===($delivery['seat_binding_authority']??null)||true===($delivery['execution_authority']??null)||($delivery['authorization_act_id']??null)!==($act['act_id']??null)||($delivery['authorization_act_digest']??null)!==($act['record_digest']??null)||'AUTHORIZED_FOR_EXACT_RESOLUTIONS'!==($act['disposition']??null)||true!==($act['construction_authority']??null))throw new \RuntimeException('F93_SUBORDINATE_DELIVERY_INVALID');
-        $binding=$this->read($this->occupancyDirectory.'/'.$bindingId.'.json','F94_ARTIFICER_BINDING_ABSENT');if(!$this->digestMatches($binding)||'imperium.foundry-artificer-occupancy/v1'!==($binding['schema']??null)||'foundry'!==($binding['office']??null)||'foundry.artificer'!==($binding['seat']??null)||'ACTIVE'!==($binding['status']??null)||true!==($binding['binding_atomic']??null)||($delivery['instance_id']??null)!==($binding['instance_id']??null)||true===($binding['execution_authority']??null))throw new \RuntimeException('F95_ARTIFICER_BINDING_INVALID');
-        $references=$delivery['authorized_resolutions']??null;if(!is_array($references)||[]===$references||CanonicalJson::encode($references)!==CanonicalJson::encode($act['resolutions']??null))throw new \RuntimeException('F96_AUTHORIZED_RESOLUTION_SET_INVALID');
-        $id='foundry-subordinate-acceptance-'.substr(hash('sha256',CanonicalJson::encode([$deliveryId,$delivery['record_digest'],$bindingId,$binding['record_digest'],$references])),0,20);
-        return $this->persist($id,['schema'=>'imperium.foundry-subordinate-construction-authorization-acceptance/v1','acceptance_id'=>$id,'instance_id'=>$delivery['instance_id'],'delivery_id'=>$deliveryId,'delivery_digest'=>$delivery['record_digest'],'authorization_act_id'=>$act['act_id'],'authorization_act_digest'=>$act['record_digest'],'binding_id'=>$bindingId,'binding_digest'=>$binding['record_digest'],'actor'=>['seat'=>'foundry.artificer','manifestation_id'=>$binding['manifestation_id'],'occupancy_generation'=>$binding['occupancy_generation']],'authorized_resolutions'=>$references,'disposition'=>'ACCEPTED_FOR_EXACT_SUBORDINATE_CONSTRUCTION','recipient_acceptance'=>true,'construction_authority'=>true,'construction_authority_exercisable'=>true,'persona_selection_authority'=>false,'profile_approval_authority'=>false,'spawning_authority'=>false,'seat_binding_authority'=>false,'execution_authority'=>false]);
+    private string $inboxDirectory;
+    private string $occupancyDirectory;
+    private string $acceptanceDirectory;
+    public function __construct(
+        #[Autowire("%kernel.project_dir%")] string $projectDir,
+    ) {
+        $this->inboxDirectory =
+            $projectDir .
+            "/var/imperium/offices/foundry/inbox/subordinate-construction-authorizations";
+        $this->occupancyDirectory =
+            $projectDir . "/var/imperium/offices/foundry/occupancy";
+        $this->acceptanceDirectory =
+            $projectDir .
+            "/var/imperium/offices/foundry/subordinate-construction-acceptances";
     }
-    private function read(string $path,string $error):array{if(!is_file($path))throw new \RuntimeException($error);return json_decode((string)file_get_contents($path),true,512,JSON_THROW_ON_ERROR);}private function digestMatches(array $record):bool{$digest=$record['record_digest']??null;unset($record['record_digest']);return is_string($digest)&&hash_equals($digest,hash('sha256',CanonicalJson::encode($record)));}
-    private function persist(string $id,array $acceptance):array{if(!is_dir($this->acceptanceDirectory)&&!mkdir($this->acceptanceDirectory,0770,true)&&!is_dir($this->acceptanceDirectory))throw new \RuntimeException('Foundry subordinate-construction acceptance directory cannot be created.');$acceptance['record_digest']=hash('sha256',CanonicalJson::encode($acceptance));$path=$this->acceptanceDirectory.'/'.$id.'.json';if(is_file($path)){$existing=$this->read($path,'F97_SUBORDINATE_ACCEPTANCE_ABSENT');if(CanonicalJson::encode($existing)!==CanonicalJson::encode($acceptance))throw new \RuntimeException('F98_SUBORDINATE_ACCEPTANCE_REPLAY_CONFLICT');return $existing;}foreach(glob($this->acceptanceDirectory.'/foundry-subordinate-acceptance-*.json')?:[]as$existingPath){$existing=$this->read($existingPath,'F98_SUBORDINATE_ACCEPTANCE_REPLAY_CONFLICT');if($acceptance['delivery_id']===($existing['delivery_id']??null))throw new \RuntimeException('F99_SUBORDINATE_DELIVERY_ALREADY_DISPOSED');}$temporary=$path.'.tmp.'.bin2hex(random_bytes(6));if(false===file_put_contents($temporary,json_encode($acceptance,JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_THROW_ON_ERROR)."\n",LOCK_EX)||!rename($temporary,$path)){@unlink($temporary);throw new \RuntimeException('Foundry subordinate-construction acceptance cannot be committed atomically.');}return $acceptance;}
+    public function accept(string $deliveryId, string $bindingId): array
+    {
+        if (
+            !preg_match(
+                '/^subordinate-construction-delivery-[a-f0-9]{20}$/',
+                $deliveryId,
+            )
+        ) {
+            throw new \InvalidArgumentException(
+                "F90_SUBORDINATE_DELIVERY_ID_INVALID",
+            );
+        }
+        if (
+            !preg_match(
+                '/^foundry-artificer-binding-[a-f0-9]{20}$/',
+                $bindingId,
+            )
+        ) {
+            throw new \InvalidArgumentException(
+                "F91_ARTIFICER_BINDING_ID_INVALID",
+            );
+        }
+        $delivery = $this->read(
+            $this->inboxDirectory . "/" . $deliveryId . ".json",
+            "F92_SUBORDINATE_DELIVERY_ABSENT",
+        );
+        $act = $delivery["authorization_act"] ?? null;
+        if (
+            !is_array($act) ||
+            !$this->digestMatches($delivery) ||
+            !$this->digestMatches($act) ||
+            $deliveryId !== ($delivery["delivery_id"] ?? null) ||
+            "imperium.foundry-subordinate-construction-authorization-delivery/v1" !==
+                ($delivery["schema"] ?? null) ||
+            "foundry" !== ($delivery["office"] ?? null) ||
+            "foundry.artificer" !== ($delivery["target"] ?? null) ||
+            "DELIVERED_PENDING_FOUNDRY_ACCEPTANCE" !==
+                ($delivery["status"] ?? null) ||
+            null !== ($delivery["recipient_acceptance"] ?? null) ||
+            true !== ($delivery["construction_authority"] ?? null) ||
+            false !==
+                ($delivery["construction_authority_exercisable"] ?? null) ||
+            true === ($delivery["persona_selection_authority"] ?? null) ||
+            true === ($delivery["profile_approval_authority"] ?? null) ||
+            true === ($delivery["spawning_authority"] ?? null) ||
+            true === ($delivery["seat_binding_authority"] ?? null) ||
+            true === ($delivery["execution_authority"] ?? null) ||
+            ($delivery["authorization_act_id"] ?? null) !==
+                ($act["act_id"] ?? null) ||
+            ($delivery["authorization_act_digest"] ?? null) !==
+                ($act["record_digest"] ?? null) ||
+            "AUTHORIZED_FOR_EXACT_RESOLUTIONS" !==
+                ($act["disposition"] ?? null) ||
+            true !== ($act["construction_authority"] ?? null)
+        ) {
+            throw new \RuntimeException("F93_SUBORDINATE_DELIVERY_INVALID");
+        }
+        $binding = $this->read(
+            $this->occupancyDirectory . "/" . $bindingId . ".json",
+            "F94_ARTIFICER_BINDING_ABSENT",
+        );
+        if (
+            !$this->digestMatches($binding) ||
+            !in_array(
+                $binding["schema"] ?? null,
+                [
+                    "imperium.foundry-artificer-occupancy/v1",
+                    "imperium.operator-root-seat-occupancy/v1",
+                ],
+                true,
+            ) ||
+            "foundry" !== ($binding["office"] ?? null) ||
+            "foundry.artificer" !== ($binding["seat"] ?? null) ||
+            "ACTIVE" !== ($binding["status"] ?? null) ||
+            true !== ($binding["binding_atomic"] ?? null) ||
+            ($delivery["instance_id"] ?? null) !==
+                ($binding["instance_id"] ?? null) ||
+            true === ($binding["execution_authority"] ?? null)
+        ) {
+            throw new \RuntimeException("F95_ARTIFICER_BINDING_INVALID");
+        }
+        $references = $delivery["authorized_resolutions"] ?? null;
+        if (
+            !is_array($references) ||
+            [] === $references ||
+            CanonicalJson::encode($references) !==
+                CanonicalJson::encode($act["resolutions"] ?? null)
+        ) {
+            throw new \RuntimeException(
+                "F96_AUTHORIZED_RESOLUTION_SET_INVALID",
+            );
+        }
+        $id =
+            "foundry-subordinate-acceptance-" .
+            substr(
+                hash(
+                    "sha256",
+                    CanonicalJson::encode([
+                        $deliveryId,
+                        $delivery["record_digest"],
+                        $bindingId,
+                        $binding["record_digest"],
+                        $references,
+                    ]),
+                ),
+                0,
+                20,
+            );
+        return $this->persist($id, [
+            "schema" =>
+                "imperium.foundry-subordinate-construction-authorization-acceptance/v1",
+            "acceptance_id" => $id,
+            "instance_id" => $delivery["instance_id"],
+            "delivery_id" => $deliveryId,
+            "delivery_digest" => $delivery["record_digest"],
+            "authorization_act_id" => $act["act_id"],
+            "authorization_act_digest" => $act["record_digest"],
+            "binding_id" => $bindingId,
+            "binding_digest" => $binding["record_digest"],
+            "actor" => [
+                "seat" => "foundry.artificer",
+                "manifestation_id" => $binding["manifestation_id"],
+                "occupancy_generation" => $binding["occupancy_generation"],
+            ],
+            "authorized_resolutions" => $references,
+            "disposition" => "ACCEPTED_FOR_EXACT_SUBORDINATE_CONSTRUCTION",
+            "recipient_acceptance" => true,
+            "construction_authority" => true,
+            "construction_authority_exercisable" => true,
+            "persona_selection_authority" => false,
+            "profile_approval_authority" => false,
+            "spawning_authority" => false,
+            "seat_binding_authority" => false,
+            "execution_authority" => false,
+        ]);
+    }
+    private function read(string $path, string $error): array
+    {
+        if (!is_file($path)) {
+            throw new \RuntimeException($error);
+        }
+        return json_decode(
+            (string) file_get_contents($path),
+            true,
+            512,
+            JSON_THROW_ON_ERROR,
+        );
+    }
+    private function digestMatches(array $record): bool
+    {
+        $digest = $record["record_digest"] ?? null;
+        unset($record["record_digest"]);
+        return is_string($digest) &&
+            hash_equals(
+                $digest,
+                hash("sha256", CanonicalJson::encode($record)),
+            );
+    }
+    private function persist(string $id, array $acceptance): array
+    {
+        if (
+            !is_dir($this->acceptanceDirectory) &&
+            !mkdir($this->acceptanceDirectory, 0770, true) &&
+            !is_dir($this->acceptanceDirectory)
+        ) {
+            throw new \RuntimeException(
+                "Foundry subordinate-construction acceptance directory cannot be created.",
+            );
+        }
+        $acceptance["record_digest"] = hash(
+            "sha256",
+            CanonicalJson::encode($acceptance),
+        );
+        $path = $this->acceptanceDirectory . "/" . $id . ".json";
+        if (is_file($path)) {
+            $existing = $this->read($path, "F97_SUBORDINATE_ACCEPTANCE_ABSENT");
+            if (
+                CanonicalJson::encode($existing) !==
+                CanonicalJson::encode($acceptance)
+            ) {
+                throw new \RuntimeException(
+                    "F98_SUBORDINATE_ACCEPTANCE_REPLAY_CONFLICT",
+                );
+            }
+            return $existing;
+        }
+        foreach (
+            glob(
+                $this->acceptanceDirectory .
+                    "/foundry-subordinate-acceptance-*.json",
+            ) ?:
+            []
+            as $existingPath
+        ) {
+            $existing = $this->read(
+                $existingPath,
+                "F98_SUBORDINATE_ACCEPTANCE_REPLAY_CONFLICT",
+            );
+            if (
+                $acceptance["delivery_id"] ===
+                ($existing["delivery_id"] ?? null)
+            ) {
+                throw new \RuntimeException(
+                    "F99_SUBORDINATE_DELIVERY_ALREADY_DISPOSED",
+                );
+            }
+        }
+        $temporary = $path . ".tmp." . bin2hex(random_bytes(6));
+        if (
+            false ===
+                file_put_contents(
+                    $temporary,
+                    json_encode(
+                        $acceptance,
+                        JSON_PRETTY_PRINT |
+                            JSON_UNESCAPED_SLASHES |
+                            JSON_THROW_ON_ERROR,
+                    ) . "\n",
+                    LOCK_EX,
+                ) ||
+            !rename($temporary, $path)
+        ) {
+            @unlink($temporary);
+            throw new \RuntimeException(
+                "Foundry subordinate-construction acceptance cannot be committed atomically.",
+            );
+        }
+        return $acceptance;
+    }
 }
