@@ -157,6 +157,18 @@ These terms are not interchangeable. In particular, no Profile is admitted or qu
 
 “Production” means accepted for current semantic use under the lifecycle disposition applicable to the exact constituent. It does not mean permanent, implemented, deployed, or externally authorized.
 
+#### Operator-root founding installation
+
+Before an Imperium instance is operational, the human Operator may directly supply and install any initial Persona, Profile, Officer, or internal operative needed to make that instance operational. No Imperium Office, incumbent, predecessor, admission, confirmation, construction authorization, qualification procedure, or self-originating provenance is required for that founding act. Its provenance is exactly `OPERATOR_ROOT_INSTALLATION`.
+
+This is a temporary constitutive power, not a standing procedural bypass. It exists only while the instance is pre-operational. The Operator's declaration that the instance is operational permanently closes the operator-root installation window for that instance. No later vacancy, defect, convenience, emergency, or Operator preference reopens it.
+
+Root installation establishes the supplied founding artifact and, for an Officer, its initial Seat occupancy. It does not by itself grant mission execution, deployment, external-action authority, tool access, credentials, spending authority, or authority outside the exact installed Profile and Seat. A non-Seat operative is installed inactive until separately deployed under competent authority.
+
+The exact supplied Persona, Profile, Officer or operative, its versions and digests, placement, and root provenance must be preserved. Root provenance may never be rewritten as if Imperium had constructed, admitted, confirmed, or qualified its own predecessor.
+
+Once operational, Imperium's first order of business is the governed reassessment and upgrade of every root-installed constituent. Every revision, replacement, qualification, re-binding, upgrade, suspension, or retirement after operationalization follows ordinary Imperium governance with complete lineage back to the root installation. The founding installation may remain active during reassessment only until a governed disposition and controlled cutover replace, restrict, or retire it.
+
 Every disposition must identify the exact version, governing authority, and supporting evidence. SuperAdmin identity does not substitute for competent artifact jurisdiction. It may later be narrowed, suspended, superseded, demoted, retired, restored, or removed. Prior versions remain distinct lineage.
 
 ### XI. Change requires reassessment
