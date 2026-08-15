@@ -63,6 +63,20 @@ When all necessary founding personnel are present, the Operator declares the ins
 bin/console imperium:operator:declare-operational imperium-instance
 ```
 
-Operationalization permanently closes operator-root installation and creates the complete first-order upgrade docket. Every root-installed constituent is then reassessed, upgraded, replaced, restricted, or retired through ordinary Imperium governance with its original versions, digests, placement, and `OPERATOR_ROOT_INSTALLATION` lineage preserved.
+Operationalization permanently closes operator-root installation and preserves the complete upgrade inventory. It does not force upgrades to begin. The Operator may test-drive the v0 instance first.
+
+The primary activation command now performs required-v0 installation, operationalization, and `CURIA_READY` runtime binding in one flow:
+
+```console
+bin/console imperium:activate imperium-instance
+```
+
+To prepare—but not start—the dependency-ordered upgrade plan during activation:
+
+```console
+bin/console imperium:activate imperium-instance --prepare-upgrades
+```
+
+Calling activation later with `--prepare-upgrades` prepares the same plan without reactivating or altering the running v0 instance. The first five planned upgrades are Adversarial Reviewer, Artificer, Constable, Alchemist, and Recruiter; remaining occupants follow deterministically. Plan preparation grants no upgrade execution authority.
 
 Installation and operationalization do not grant mission execution, external-action authority, credentials, tool access, or spending authority.

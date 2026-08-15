@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[
     AsCommand(
         name: "imperium:operator:declare-operational",
-        description: "Permanently close operator-root installation and open the founding-personnel upgrade docket",
+        description: "Permanently close operator-root installation without forcing the optional upgrade program",
     ),
 ]
 final class OperatorDeclareImperiumOperationalCommand extends Command
@@ -63,11 +63,7 @@ final class OperatorDeclareImperiumOperationalCommand extends Command
         $output->writeln(
             "Operator-root installation window: PERMANENTLY CLOSED",
         );
-        $output->writeln(
-            "First order: governed reassessment and upgrade of " .
-                $result["founding_installation_count"] .
-                " founding personnel",
-        );
+        $output->writeln("Upgrade program: DEFERRED FOR TEST-DRIVE");
         return self::SUCCESS;
     }
 }

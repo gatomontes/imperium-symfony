@@ -83,8 +83,8 @@ final readonly class OperatorRootOperationalizationService
                 "officer_id" => $installation["officer"]["id"] ?? null,
                 "officer_version" =>
                     $installation["officer"]["version"] ?? null,
-                "required_disposition" => "GOVERNED_REASSESSMENT_AND_UPGRADE",
-                "priority" => "FIRST_ORDER_OF_BUSINESS",
+                "available_disposition" => "GOVERNED_REASSESSMENT_AND_UPGRADE",
+                "program_status" => "DEFERRED_FOR_OPTIONAL_PREPARATION",
                 "root_installation_may_remain_active_during_reassessment" => true,
                 "replacement_requires_governed_cutover" => true,
             ];
@@ -107,8 +107,9 @@ final readonly class OperatorRootOperationalizationService
             "founding_installation_count" => count($docket),
             "required_seat_count" => count($requiredSeats),
             "required_seats_complete" => true,
-            "first_order_of_business" =>
-                "GOVERNED_REASSESSMENT_AND_UPGRADE_OF_ALL_ROOT_INSTALLED_PERSONNEL",
+            "test_drive_permitted_before_upgrades" => true,
+            "upgrade_program_required_for_activation" => false,
+            "upgrade_program_status" => "DEFERRED_FOR_TEST_DRIVE",
             "upgrade_docket" => $docket,
             "root_provenance_preserved" => true,
             "future_operator_root_installation_allowed" => false,

@@ -6,9 +6,10 @@ namespace App\Bootstrap;
 
 final readonly class Launcher
 {
-    public function __construct(private ManifestValidator $validator, private MasterMason $masterMason)
-    {
-    }
+    public function __construct(
+        private ManifestValidator $validator,
+        private MasterMason $masterMason,
+    ) {}
 
     public function validate(): ValidationReceipt
     {
@@ -17,7 +18,8 @@ final readonly class Launcher
 
     public function activate(string $instanceId): array
     {
-        $receipt = $this->validate();
-        return $this->masterMason->executeThroughReadiness($receipt, $instanceId);
+        throw new \RuntimeException(
+            "B242_LEGACY_PRIMORDIAL_BOOTSTRAP_RETIRED: use imperium:activate operator-root v0 activation.",
+        );
     }
 }

@@ -185,8 +185,8 @@ Initialization no longer requires Secretariat, Castellan, or Rector:
 2. while the instance remains pre-operational, the Operator occupies every required agent-held Seat with an artifact-free generic `v0` placeholder carrying exact `OPERATOR_ROOT_INSTALLATION` provenance and no invented Persona, Profile, Officer artifact, admission, confirmation, or qualification history;
 3. the installed Seneschal, Chamberlain, and provisional Isolde occupy their Seats;
 4. the Operator declares the instance operational, permanently closing operator-root installation;
-5. Curia opens the first governed order of business: reassessment and upgrade of every root-installed constituent; and
-6. only after that governed founding-personnel docket is dispositioned does Curia summon mission-specific Curiales according to the authorized planning path.
+5. the Operator may test-drive the operational v0 instance before optionally preparing the governed founding-personnel upgrade program; and
+6. Curia may summon mission-specific Curiales according to the authorized planning path without making v0 replacement a condition of initial operation.
 
 Operator-root founding installation is temporary constitutive power, not a reusable bypass. Once operational, every replacement, upgrade, requalification, and Seat cutover follows ordinary Imperium governance with full lineage to the original installation.
 
