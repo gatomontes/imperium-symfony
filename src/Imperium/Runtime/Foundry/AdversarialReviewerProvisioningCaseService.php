@@ -79,6 +79,18 @@ final readonly class AdversarialReviewerProvisioningCaseService
             "candidate_digest" => $d["candidate_digest"],
             "foundry_review_id" => $d["foundry_review_id"],
             "foundry_review_digest" => $d["foundry_review_digest"],
+            "persona_specification_id" =>
+                $d["persona_specification_id"] ?? null,
+            "persona_specification_digest" =>
+                $d["persona_specification_digest"] ?? null,
+            "persona_specification_version" =>
+                $d["persona_specification_version"] ?? null,
+            "specification_supersedes" =>
+                $d["specification_supersedes"] ?? null,
+            "specification_revision_basis" =>
+                $d["specification_revision_basis"] ?? null,
+            "dispatch_kind" => $d["dispatch_kind"] ?? null,
+            "superseded_commissions" => $d["superseded_commissions"] ?? null,
             "review_scope" => $d["review_scope"],
             "independence_requirements" => $d["independence_requirements"],
             "required_artifacts" => [
