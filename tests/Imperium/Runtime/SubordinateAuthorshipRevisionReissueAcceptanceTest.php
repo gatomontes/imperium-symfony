@@ -11,6 +11,15 @@ use App\Imperium\Runtime\Foundry\AdversarialReviewerProvisioningCaseService;
 use App\Imperium\Runtime\Curia\AdversarialReviewerConstructionAuthorizationService;
 use App\Imperium\Runtime\Foundry\AdversarialReviewerConstructionAuthorizationAcceptanceService;
 use App\Imperium\Runtime\Foundry\AdversarialReviewerPersonaConstructionService;
+use App\Imperium\Runtime\Curia\AdversarialReviewerBootstrapSeedAuthorizationService;
+use App\Imperium\Runtime\Foundry\AdversarialReviewerBootstrapSeedAuthorizationAcceptanceService;
+use App\Imperium\Runtime\Foundry\AdversarialReviewerBootstrapSeedProductionApprovalService;
+use App\Imperium\Runtime\Foundry\AdversarialReviewerBootstrapSeedAdmissionDeliveryService;
+use App\Imperium\Runtime\Garrison\AdversarialReviewerBootstrapSeedAdmissionIntakeService;
+use App\Imperium\Runtime\Foundry\AdversarialReviewerBootstrapSeedSenateConfirmationRequestService;
+use App\Imperium\Runtime\Senate\PersonaConfirmationCaseIntakeService;
+use App\Imperium\Runtime\Senate\SenateActivationDemandService;
+use App\Imperium\Runtime\Senate\SenateResidentProvisioningCaseService;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaAssemblyService;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaReviewCognitionGateway;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaReviewService;
@@ -376,6 +385,139 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
             );
             self::assertFalse($reviewer["review_authority"]);
             self::assertFalse($reviewer["admission_authority"]);
+            $seedAuthorization = new AdversarialReviewerBootstrapSeedAuthorizationService(
+                $root,
+            );
+            $seedDelivery = $seedAuthorization->authorize(
+                $reviewer["persona_candidate_id"],
+            );
+            $expectedLineage = [
+                "persona_specification_id" =>
+                    $reviewer["persona_specification_id"],
+                "persona_specification_digest" =>
+                    $reviewer["persona_specification_digest"],
+                "persona_specification_version" => 2,
+                "specification_supersedes" =>
+                    $reviewer["specification_supersedes"],
+                "specification_revision_basis" =>
+                    $reviewer["specification_revision_basis"],
+                "dispatch_kind" => "SPECIFICATION_REVISION_REISSUE",
+                "superseded_commissions" => $reviewer["superseded_commissions"],
+            ];
+            self::assertSame(
+                $expectedLineage,
+                $seedDelivery["authorization_act"]["review_target_lineage"],
+            );
+            $seedAcceptanceService = new AdversarialReviewerBootstrapSeedAuthorizationAcceptanceService(
+                $root,
+            );
+            $seedAcceptance = $seedAcceptanceService->accept(
+                $seedDelivery["delivery_id"],
+                $bindingId,
+            );
+            $approvalService = new AdversarialReviewerBootstrapSeedProductionApprovalService(
+                $root,
+            );
+            $approval = $approvalService->approve(
+                $seedAcceptance["acceptance_id"],
+            );
+            $admissionDeliveryService = new AdversarialReviewerBootstrapSeedAdmissionDeliveryService(
+                $root,
+            );
+            $admissionDelivery = $admissionDeliveryService->deliver(
+                $approval["production_approval_id"],
+            );
+            $constableBindingId =
+                "garrison-constable-binding-" . str_repeat("1", 20);
+            $constableBinding = [
+                "schema" => "imperium.garrison-constable-occupancy/v1",
+                "binding_id" => $constableBindingId,
+                "instance_id" => "imperium-test",
+                "seat" => "garrison.constable",
+                "manifestation_id" => "constable-manifestation",
+                "occupancy_generation" => 1,
+                "status" => "ACTIVE",
+                "binding_atomic" => true,
+                "persona_admission_disposition_authority" => true,
+                "custody_registration_authority" => true,
+                "selection_authority" => false,
+                "execution_authority" => false,
+            ];
+            $this->write(
+                $root . "/var/imperium/offices/garrison/occupancy",
+                $constableBindingId,
+                $constableBinding,
+            );
+            $admissionIntake = new AdversarialReviewerBootstrapSeedAdmissionIntakeService(
+                $root,
+            );
+            $admissionReturn = $admissionIntake->inspect(
+                $admissionDelivery["delivery_id"],
+            );
+            self::assertSame(
+                "REFUSED_INCOMPLETE_PERSONA_ADMISSION_PACKAGE",
+                $admissionReturn["disposition"],
+            );
+            self::assertFalse($admissionReturn["custody_created"]);
+            $confirmationRequestService = new AdversarialReviewerBootstrapSeedSenateConfirmationRequestService(
+                $root,
+            );
+            $confirmationRequest = $confirmationRequestService->request(
+                $admissionReturn["return_id"],
+            );
+            self::assertSame(
+                $expectedLineage,
+                $confirmationRequest["review_target_lineage"],
+            );
+            $confirmationIntake = new PersonaConfirmationCaseIntakeService(
+                $root,
+            );
+            $confirmationCase = $confirmationIntake->preserve(
+                $confirmationRequest["confirmation_request_id"],
+            );
+            self::assertSame(
+                "BLOCKED_PENDING_SENATE_OCCUPANCY",
+                $confirmationCase["status"],
+            );
+            foreach (
+                [
+                    "offices/senate/profile-lord-speaker.md",
+                    "offices/senate/seat-resident-lord-speaker.md",
+                    "offices/senate/profile-bailiff.md",
+                    "offices/senate/seat-resident-bailiff.md",
+                ]
+                as $source
+            ) {
+                $this->copySource($root, $source);
+            }
+            $senateDemandService = new SenateActivationDemandService($root);
+            $senateDemand = $senateDemandService->demand(
+                $confirmationCase["confirmation_case_id"],
+            );
+            $residentCasesService = new SenateResidentProvisioningCaseService(
+                $root,
+            );
+            $residentCases = $residentCasesService->open(
+                $senateDemand["demand_id"],
+            );
+            self::assertCount(2, $residentCases["cases"]);
+            self::assertSame(
+                ["senate.lord-speaker", "senate.bailiff"],
+                array_column($residentCases["cases"], "target_seat"),
+            );
+            foreach ($residentCases["cases"] as $residentCase) {
+                self::assertSame(
+                    "BLOCKED_PENDING_EXPLICIT_CONSTRUCTION_AUTHORIZATION",
+                    $residentCase["status"],
+                );
+                self::assertSame(
+                    $expectedLineage,
+                    $residentCase["review_target_lineage"],
+                );
+                self::assertFalse($residentCase["construction_authority"]);
+                self::assertFalse($residentCase["spawning_authority"]);
+                self::assertFalse($residentCase["senate_finding_authority"]);
+            }
         } finally {
             $this->removeTree($root);
         }
