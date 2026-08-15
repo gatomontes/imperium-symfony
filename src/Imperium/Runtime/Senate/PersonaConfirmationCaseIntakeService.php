@@ -125,6 +125,10 @@ final readonly class PersonaConfirmationCaseIntakeService
             "persona" => $request["persona"],
             "design_basis" => $request["design_basis"],
             "bootstrap_seed_boundary" => $request["bootstrap_seed_boundary"],
+            "authorized_review_target" =>
+                $request["authorized_review_target"] ?? null,
+            "review_target_lineage" =>
+                $request["review_target_lineage"] ?? null,
             "proceeding_class" => $request["proceeding_class"],
             "examination_contract" => $contract,
             "lord_speaker_occupancy" => $lordSpeaker,

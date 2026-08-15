@@ -121,6 +121,10 @@ final readonly class AdversarialReviewerBootstrapSeedAdmissionIntakeService
             "persona_candidate_digest" => $delivery["persona_candidate_digest"],
             "persona_id" => $delivery["persona_id"],
             "persona_version" => $delivery["persona_version"],
+            "authorized_review_target" =>
+                $delivery["authorized_review_target"] ?? null,
+            "review_target_lineage" =>
+                $delivery["review_target_lineage"] ?? null,
             "constable" => [
                 "seat" => "garrison.constable",
                 "manifestation_id" => $constable["manifestation_id"],

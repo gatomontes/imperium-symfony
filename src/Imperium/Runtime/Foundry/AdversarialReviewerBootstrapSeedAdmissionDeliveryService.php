@@ -178,6 +178,10 @@ final readonly class AdversarialReviewerBootstrapSeedAdmissionDeliveryService
             "persona" => $candidate["persona"],
             "design_basis" => $candidate["sources"]["design_basis"],
             "bootstrap_seed_boundary" => $approval["bootstrap_seed_boundary"],
+            "authorized_review_target" =>
+                $approval["authorized_review_target"] ?? null,
+            "review_target_lineage" =>
+                $approval["review_target_lineage"] ?? null,
             "requested_disposition" =>
                 "CONSIDER_EXACT_PERSONA_FOR_GARRISON_ADMISSION",
             "status" => "DELIVERED_PENDING_GARRISON_ACCEPTANCE",

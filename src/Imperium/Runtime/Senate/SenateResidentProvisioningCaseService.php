@@ -120,6 +120,10 @@ final readonly class SenateResidentProvisioningCaseService
                 "persona_candidate_id" => $demand["persona_candidate_id"],
                 "persona_candidate_digest" =>
                     $demand["persona_candidate_digest"],
+                "authorized_review_target" =>
+                    $demand["authorized_review_target"] ?? null,
+                "review_target_lineage" =>
+                    $demand["review_target_lineage"] ?? null,
                 "profile_source" => $seat["profile_source"],
                 "profile_source_digest" => $seat["profile_source_digest"],
                 "seat_contract_source" => $seat["seat_contract_source"],

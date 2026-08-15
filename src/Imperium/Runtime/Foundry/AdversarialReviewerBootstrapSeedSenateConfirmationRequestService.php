@@ -202,6 +202,10 @@ final readonly class AdversarialReviewerBootstrapSeedSenateConfirmationRequestSe
             "persona" => $candidate["persona"],
             "design_basis" => $candidate["sources"]["design_basis"],
             "bootstrap_seed_boundary" => $approval["bootstrap_seed_boundary"],
+            "authorized_review_target" =>
+                $approval["authorized_review_target"] ?? null,
+            "review_target_lineage" =>
+                $approval["review_target_lineage"] ?? null,
             "examination_contract" => [
                 "subject_state" => "production-approved-pending-admission",
                 "manifestation_required" => true,

@@ -196,6 +196,7 @@ final readonly class AdversarialReviewerBootstrapSeedAuthorizationAcceptanceServ
                 $candidate["construction_acceptance_digest"],
             "authorized_review_target" =>
                 $candidate["authorized_review_target"],
+            "review_target_lineage" => $act["review_target_lineage"] ?? null,
             "design_basis" => $candidate["sources"]["design_basis"],
             "bootstrap_seed_boundary" => $boundary,
             "binding_id" => $bindingId,
