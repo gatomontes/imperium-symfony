@@ -97,8 +97,14 @@ final readonly class SubordinateAuthorshipCommissionAcceptanceService
         );
         if (
             !$this->digestMatches($b) ||
-            "imperium.authorship-resident-occupancy/v1" !==
-                ($b["schema"] ?? null) ||
+            !in_array(
+                $b["schema"] ?? null,
+                [
+                    "imperium.authorship-resident-occupancy/v1",
+                    "imperium.operator-root-seat-occupancy/v1",
+                ],
+                true,
+            ) ||
             $bindingId !== ($b["binding_id"] ?? null) ||
             $office !== ($b["office"] ?? null) ||
             $seat !== ($b["seat"] ?? null) ||

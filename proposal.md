@@ -182,7 +182,7 @@ For succession:
 Initialization no longer requires Secretariat, Castellan, or Rector:
 
 1. the Operator activates Imperium and assumes the Imperator Seat;
-2. while the instance remains pre-operational, the Operator directly installs the initial Personas, Profiles, Officers, and internal operatives required to make Imperium operational, with exact `OPERATOR_ROOT_INSTALLATION` provenance and without internal construction, admission, confirmation, or qualification fiction;
+2. while the instance remains pre-operational, the Operator occupies every required agent-held Seat with an artifact-free generic `v0` placeholder carrying exact `OPERATOR_ROOT_INSTALLATION` provenance and no invented Persona, Profile, Officer artifact, admission, confirmation, or qualification history;
 3. the installed Seneschal, Chamberlain, and provisional Isolde occupy their Seats;
 4. the Operator declares the instance operational, permanently closing operator-root installation;
 5. Curia opens the first governed order of business: reassessment and upgrade of every root-installed constituent; and

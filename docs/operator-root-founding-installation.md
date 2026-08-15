@@ -1,8 +1,28 @@
 # Operator-root founding installation
 
-Operator-root installation is the temporary pre-operational mechanism for supplying Imperium's initial internal personnel. It applies to every Office, not to a privileged list of founding Seats.
+Operator-root installation is the temporary pre-operational mechanism for occupying Imperium's initial required Seats. It applies to every Office, not to a privileged list of founding Seats.
 
-The Operator may supply arbitrary initial Persona, Profile, and Officer artifacts. An `OFFICER` is bound to an initial Seat. An `OPERATIVE` is placed on an inactive internal roster and receives no deployment or execution authority from installation.
+The normal founding path uses generic `v0` placeholders. They have no Persona, Profile, or Officer artifact because they are explicit scaffolding, not counterfeit mature personnel.
+
+```console
+bin/console imperium:operator:install-required-v0 imperium-instance
+```
+
+This deterministically occupies every required founding Seat. The Imperator Seat is excluded because it is held directly by the human Operator. Mission-specific and dynamically commissioned Seats are excluded because they are not required merely to bring the instance online.
+
+The founding registry currently contains 20 Seats:
+
+- Conscription: Recruiter;
+- Curia: Seneschal, Chamberlain, and Secretary;
+- Foundry: Artificer and Adversarial Reviewer;
+- Garrison: Constable;
+- Guildhall: Guildmaster and the Disciplinary Fit, Composition, and Boundary Challenge committee Seats;
+- Hagiography: Sanctographer;
+- Laboratorium: Alchemist;
+- Senate: Lord Speaker, Bailiff, and the Consistency, Governance, Practice, and Security committee Seats; and
+- Studium: Chancellor.
+
+The lower-level package command remains available for an exceptional artifact-backed founding occupant or an inactive non-Seat operative. An `OFFICER` is bound to an initial Seat. An `OPERATIVE` is placed on an inactive internal roster and receives no deployment or execution authority from installation.
 
 ```json
 {

@@ -635,33 +635,17 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
             $operationalization = new OperatorRootOperationalizationService(
                 $root,
             );
-            $seal = $operationalization->seal("imperium-test");
-            self::assertSame($seal, $operationalization->seal("imperium-test"));
-            self::assertSame("IMPERIUM_OPERATIONAL", $seal["status"]);
-            self::assertSame(
-                "PERMANENTLY_CLOSED",
-                $seal["operator_root_installation_window"],
-            );
-            self::assertCount(6, $seal["upgrade_docket"]);
-            foreach ($seal["upgrade_docket"] as $upgrade) {
-                self::assertSame(
-                    "FIRST_ORDER_OF_BUSINESS",
-                    $upgrade["priority"],
-                );
-                self::assertSame(
-                    "GOVERNED_REASSESSMENT_AND_UPGRADE",
-                    $upgrade["required_disposition"],
-                );
-            }
             try {
-                $rootInstallation->install($foundingPackage);
+                $operationalization->seal("imperium-test");
                 self::fail(
-                    "Operator-root installation remained open after operationalization.",
+                    "Partial founding personnel were declared operational.",
                 );
             } catch (\RuntimeException $e) {
-                self::assertSame(
-                    "B212_OPERATOR_ROOT_WINDOW_CLOSED",
-                    $e->getMessage(),
+                self::assertTrue(
+                    str_starts_with(
+                        $e->getMessage(),
+                        "B224_REQUIRED_FOUNDING_SEATS_VACANT:",
+                    ),
                 );
             }
         } finally {
