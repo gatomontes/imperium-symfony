@@ -18,8 +18,6 @@ final readonly class Launcher
 
     public function activate(string $instanceId): array
     {
-        throw new \RuntimeException(
-            "B242_LEGACY_PRIMORDIAL_BOOTSTRAP_RETIRED: use imperium:activate operator-root v0 activation.",
-        );
+        return $this->masterMason->activate($instanceId);
     }
 }
