@@ -99,6 +99,9 @@ final readonly class SenateActivationDemandService
                 $case["source_request_digest"],
             "persona_candidate_id" => $case["persona_candidate_id"],
             "persona_candidate_digest" => $case["persona_candidate_digest"],
+            "authorized_review_target" =>
+                $case["authorized_review_target"] ?? null,
+            "review_target_lineage" => $case["review_target_lineage"] ?? null,
             "required_seats" => $requiredSeats,
             "activation_reason" =>
                 "an exact preserved confirmation case cannot proceed while the resident Lord Speaker and Bailiff Seats are vacant",
