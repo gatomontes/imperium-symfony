@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Tests\Imperium\Runtime;
 
 use App\Bootstrap\StateStore;
+use App\Bootstrap\MasterMason;
 use App\Imperium\Runtime\Bootstrap\OperatorRootOperationalizationService;
 use App\Imperium\Runtime\Bootstrap\OperatorRootPersonnelInstallationService;
 use App\Imperium\Runtime\Bootstrap\OperatorRootUpgradePlanningService;
@@ -133,7 +134,8 @@ final class RequiredV0PersonnelInstallationTest extends TestCase
                 $upgrades,
                 $state,
             );
-            $result = $activation->activate("imperium-activation-test");
+            $masterMason = new MasterMason($state, $activation);
+            $result = $masterMason->activate("imperium-activation-test");
             self::assertSame("CURIA_READY", $result["state"]["state"]);
             self::assertSame(
                 "OPERATOR_ROOT_V0",
@@ -161,7 +163,7 @@ final class RequiredV0PersonnelInstallationTest extends TestCase
                 self::assertSame("0", $occupant["placeholder_version"]);
                 self::assertSame("active", $occupant["status"]);
             }
-            $prepared = $activation->activate("imperium-activation-test", true);
+            $prepared = $masterMason->activate("imperium-activation-test", true);
             self::assertSame(
                 "PREPARED_NOT_STARTED",
                 $prepared["upgrade_program_status"],
