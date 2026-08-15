@@ -44,6 +44,17 @@ final readonly class OperatorRootOperationalizationService
         if ([] === $installations) {
             throw new \RuntimeException("B222_FOUNDING_PERSONNEL_ABSENT");
         }
+        $installedSeats = array_filter(array_column($installations, "seat"));
+        $requiredSeats = array_column(RequiredV0SeatRegistry::all(), "seat");
+        $missingSeats = array_values(
+            array_diff($requiredSeats, $installedSeats),
+        );
+        if ([] !== $missingSeats) {
+            throw new \RuntimeException(
+                "B224_REQUIRED_FOUNDING_SEATS_VACANT:" .
+                    implode(",", $missingSeats),
+            );
+        }
         usort(
             $installations,
             static fn(array $a, array $b): int => $a["installation_id"] <=>
@@ -60,12 +71,18 @@ final readonly class OperatorRootOperationalizationService
                 "role" => $installation["role"],
                 "seat" => $installation["seat"] ?? null,
                 "assignment_id" => $installation["assignment_id"] ?? null,
-                "persona_id" => $installation["persona"]["id"],
-                "persona_version" => $installation["persona"]["version"],
-                "profile_id" => $installation["profile"]["id"],
-                "profile_version" => $installation["profile"]["version"],
-                "officer_id" => $installation["officer"]["id"],
-                "officer_version" => $installation["officer"]["version"],
+                "founding_class" =>
+                    $installation["founding_class"] ?? "ARTIFACT_BACKED",
+                "placeholder_version" => $installation["version"] ?? null,
+                "persona_id" => $installation["persona"]["id"] ?? null,
+                "persona_version" =>
+                    $installation["persona"]["version"] ?? null,
+                "profile_id" => $installation["profile"]["id"] ?? null,
+                "profile_version" =>
+                    $installation["profile"]["version"] ?? null,
+                "officer_id" => $installation["officer"]["id"] ?? null,
+                "officer_version" =>
+                    $installation["officer"]["version"] ?? null,
                 "required_disposition" => "GOVERNED_REASSESSMENT_AND_UPGRADE",
                 "priority" => "FIRST_ORDER_OF_BUSINESS",
                 "root_installation_may_remain_active_during_reassessment" => true,
@@ -88,6 +105,8 @@ final readonly class OperatorRootOperationalizationService
             "status" => "IMPERIUM_OPERATIONAL",
             "operator_root_installation_window" => "PERMANENTLY_CLOSED",
             "founding_installation_count" => count($docket),
+            "required_seat_count" => count($requiredSeats),
+            "required_seats_complete" => true,
             "first_order_of_business" =>
                 "GOVERNED_REASSESSMENT_AND_UPGRADE_OF_ALL_ROOT_INSTALLED_PERSONNEL",
             "upgrade_docket" => $docket,
