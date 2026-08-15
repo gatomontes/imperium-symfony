@@ -85,6 +85,14 @@ final readonly class SubordinatePersonaReviewService
                 CanonicalJson::encode(
                     $specification["revision_basis"] ?? null,
                 ) ||
+            (null !== ($specification["supersedes"] ?? null)
+                ? "SPECIFICATION_REVISION_REISSUE"
+                : "INITIAL_SPECIFICATION_DISPATCH") !==
+                ($candidate["dispatch_kind"] ?? null) ||
+            (null !== ($specification["supersedes"] ?? null)
+                ? !is_array($candidate["superseded_commissions"] ?? null) ||
+                    2 !== count($candidate["superseded_commissions"])
+                : [] !== ($candidate["superseded_commissions"] ?? null)) ||
             ($candidate["subordinate_construction_case_digest"] ?? null) !==
                 ($case["record_digest"] ?? null) ||
             true === ($candidate["persona_approval_authority"] ?? null) ||
@@ -139,6 +147,8 @@ final readonly class SubordinatePersonaReviewService
             "specification_supersedes" => $specification["supersedes"] ?? null,
             "specification_revision_basis" =>
                 $specification["revision_basis"] ?? null,
+            "dispatch_kind" => $candidate["dispatch_kind"],
+            "superseded_commissions" => $candidate["superseded_commissions"],
             "subordinate_construction_case_id" => $caseId,
             "subordinate_construction_case_digest" => $case["record_digest"],
             "artificer" => $candidate["artificer"],
@@ -190,7 +200,7 @@ final readonly class SubordinatePersonaReviewService
                         "F144_PERSONA_REVIEW_CONTRACT_INVALID",
                     );
                 }
-            };
+            }
         }
     }
     private function read(string $path, string $error): array
