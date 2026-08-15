@@ -48,7 +48,7 @@ final readonly class OperatorRootPersonnelInstallationService
         $installed = array_map($this->persist(...), $records);
 
         return [
-            "schema" => "imperium.operator-root-personnel-installation/v2",
+            "schema" => "imperium.operator-root-personnel-installation/v3",
             "instance_id" => $package["instance_id"],
             "source_package_digest" => $packageDigest,
             "provenance" => "OPERATOR_ROOT_INSTALLATION",
@@ -99,8 +99,14 @@ final readonly class OperatorRootPersonnelInstallationService
             $package["schema"] = "imperium.operator-root-personnel-package/v2";
         }
         if (
-            "imperium.operator-root-personnel-package/v2" !==
-                ($package["schema"] ?? null) ||
+            !in_array(
+                $package["schema"] ?? null,
+                [
+                    "imperium.operator-root-personnel-package/v2",
+                    "imperium.operator-root-personnel-package/v3",
+                ],
+                true,
+            ) ||
             !is_string($package["instance_id"] ?? null) ||
             trim($package["instance_id"]) === "" ||
             !is_array($package["personnel"] ?? null) ||
@@ -123,6 +129,14 @@ final readonly class OperatorRootPersonnelInstallationService
         ) {
             throw new \RuntimeException("B205_OPERATOR_ROOT_TYPE_INVALID");
         }
+        $v0 = "GENERIC_V0_PLACEHOLDER" === ($member["founding_class"] ?? null);
+        if (
+            $v0 &&
+            ("OFFICER" !== $member["personnel_type"] ||
+                "0" !== ($member["version"] ?? null))
+        ) {
+            throw new \RuntimeException("B213_GENERIC_V0_INVALID");
+        }
         foreach (["office", "role"] as $field) {
             if (
                 !is_string($member[$field] ?? null) ||
@@ -138,6 +152,16 @@ final readonly class OperatorRootPersonnelInstallationService
             !preg_match('/^[a-z0-9][a-z0-9.-]*$/', $member[$placementField])
         ) {
             throw new \RuntimeException("B207_OPERATOR_ROOT_PLACEMENT_INVALID");
+        }
+        if ($v0) {
+            foreach (["persona", "profile", "officer"] as $forbidden) {
+                if (array_key_exists($forbidden, $member)) {
+                    throw new \RuntimeException(
+                        "B214_GENERIC_V0_ARTIFACT_FORBIDDEN",
+                    );
+                }
+            }
+            return;
         }
         foreach (["persona", "profile", "officer"] as $artifact) {
             $value = $member[$artifact] ?? null;
@@ -168,6 +192,9 @@ final readonly class OperatorRootPersonnelInstallationService
         string $packageDigest,
         array $member,
     ): array {
+        if ("GENERIC_V0_PLACEHOLDER" === ($member["founding_class"] ?? null)) {
+            return $this->v0Record($instanceId, $packageDigest, $member);
+        }
         $digests = [];
         foreach (["persona", "profile", "officer"] as $artifact) {
             $digests[$artifact] = hash(
@@ -285,6 +312,113 @@ final readonly class OperatorRootPersonnelInstallationService
         return $record;
     }
 
+    private function v0Record(
+        string $instanceId,
+        string $packageDigest,
+        array $member,
+    ): array {
+        $seat = $member["seat"];
+        $id =
+            "operator-root-v0-installation-" .
+            substr(
+                hash(
+                    "sha256",
+                    CanonicalJson::encode([
+                        $instanceId,
+                        $packageDigest,
+                        $member["office"],
+                        $member["role"],
+                        $seat,
+                        "0",
+                    ]),
+                ),
+                0,
+                20,
+            );
+        $manifestationId =
+            "generic-v0-placeholder-" .
+            substr(hash("sha256", $instanceId . ":" . $seat), 0, 20);
+        $bindingId =
+            $member["office"] .
+            "-" .
+            $member["role"] .
+            "-binding-" .
+            substr(hash("sha256", $id . $seat), 0, 20);
+        $authoritySource = [
+            "kind" => "REQUIRED_SEAT_CONTRACT",
+            "seat" => $seat,
+            "placeholder_version" => "0",
+        ];
+
+        return [
+            "schema" => "imperium.operator-root-v0-installation-record/v1",
+            "installation_id" => $id,
+            "instance_id" => $instanceId,
+            "personnel_type" => "OFFICER",
+            "founding_class" => "GENERIC_V0_PLACEHOLDER",
+            "version" => "0",
+            "office" => $member["office"],
+            "role" => $member["role"],
+            "seat" => $seat,
+            "source_package_digest" => $packageDigest,
+            "provenance" => "OPERATOR_ROOT_INSTALLATION",
+            "manifestation_id" => $manifestationId,
+            "authority_source" => $authoritySource,
+            "binding" => [
+                "schema" => "imperium.operator-root-seat-occupancy/v1",
+                "binding_id" => $bindingId,
+                "instance_id" => $instanceId,
+                "office" => $member["office"],
+                "seat" => $seat,
+                "role" => $member["role"],
+                "manifestation_id" => $manifestationId,
+                "occupancy_generation" => 1,
+                "placeholder_version" => "0",
+                "founding_class" => "GENERIC_V0_PLACEHOLDER",
+                "source_installation_id" => $id,
+                "source_package_digest" => $packageDigest,
+                "provenance" => "OPERATOR_ROOT_INSTALLATION",
+                "status" => "ACTIVE",
+                "binding_atomic" => true,
+                "authority_source" => $authoritySource,
+                "authorship_authority" => in_array(
+                    $seat,
+                    ["hagiography.sanctographer", "studium.chancellor"],
+                    true,
+                ),
+                "subordinate_staff_resolution_authority" => in_array(
+                    $seat,
+                    ["hagiography.sanctographer", "studium.chancellor"],
+                    true,
+                ),
+                "foundry_construction_authority" =>
+                    "foundry.artificer" === $seat,
+                "inventory_response_authority" =>
+                    "garrison.constable" === $seat,
+                "review_authority" => "foundry.reviewer.adversarial" === $seat,
+                "confirmation_acceptance_authority" =>
+                    "senate.lord-speaker" === $seat,
+                "proceeding_security_authority" => "senate.bailiff" === $seat,
+                "recipient_acceptance" => false,
+                "selection_authority" => false,
+                "execution_authority" => false,
+                "external_action_authority" => false,
+                "credentials_granted" => false,
+            ],
+            "status" => "GENERIC_V0_INSTALLED_AND_BOUND_PRE_OPERATIONAL",
+            "internal_authorization_required" => false,
+            "internal_construction_required" => false,
+            "internal_admission_required" => false,
+            "internal_qualification_required" => false,
+            "internal_confirmation_required" => false,
+            "execution_authority" => false,
+            "external_action_authority" => false,
+            "credentials_granted" => false,
+            "mandatory_first_order_upgrade" => true,
+            "post_operational_upgrades_governed" => true,
+        ];
+    }
+
     private function assertPlacementAvailable(array $record): void
     {
         [$path, $directory] = $this->placementPath($record);
@@ -296,7 +430,11 @@ final readonly class OperatorRootPersonnelInstallationService
             if (
                 "OFFICER" === $record["personnel_type"] &&
                 $record["seat"] === ($existing["seat"] ?? null) &&
-                "ACTIVE" === ($existing["status"] ?? null)
+                in_array(
+                    $existing["status"] ?? null,
+                    ["ACTIVE", "ACTIVE_PLACEHOLDER"],
+                    true,
+                )
             ) {
                 throw new \RuntimeException("B203_OPERATOR_ROOT_SEAT_OCCUPIED");
             }
