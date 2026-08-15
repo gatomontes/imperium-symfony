@@ -6,6 +6,10 @@ use App\Imperium\Runtime\Authorship\SubordinateAuthorshipCommissionAcceptanceSer
 use App\Imperium\Runtime\Authorship\SubordinatePersonaSectionAuthorshipGateway;
 use App\Imperium\Runtime\Authorship\SubordinatePersonaSectionAuthorshipService;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaAuthorshipCommissionService;
+use App\Imperium\Runtime\Foundry\AdversarialReviewerDemandService;
+use App\Imperium\Runtime\Foundry\SubordinatePersonaAssemblyService;
+use App\Imperium\Runtime\Foundry\SubordinatePersonaReviewCognitionGateway;
+use App\Imperium\Runtime\Foundry\SubordinatePersonaReviewService;
 use PHPUnit\Framework\TestCase;
 
 final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
@@ -199,6 +203,81 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 $products[$office] = $product;
             }
             self::assertSame(["hagiography", "studium"], array_keys($products));
+            $assembly = new SubordinatePersonaAssemblyService($root);
+            $candidate = $assembly->assemble($revisedId);
+            self::assertSame($candidate, $assembly->assemble($revisedId));
+            self::assertSame(
+                "ASSEMBLED_PENDING_FOUNDRY_REVIEW",
+                $candidate["status"],
+            );
+            self::assertSame(
+                "SPECIFICATION_REVISION_REISSUE",
+                $candidate["dispatch_kind"],
+            );
+            self::assertSame(
+                $reissue["superseded_commissions"],
+                $candidate["superseded_commissions"],
+            );
+            self::assertCount(2, $candidate["section_products"]);
+            self::assertSame([], $candidate["unresolved_questions"]);
+            self::assertTrue($candidate["assembly_complete"]);
+            self::assertFalse($candidate["persona_approval_authority"]);
+            $reviewService = new SubordinatePersonaReviewService(
+                $root,
+                new class implements SubordinatePersonaReviewCognitionGateway {
+                    public function review(
+                        array $candidate,
+                        array $specification,
+                        array $case,
+                    ): array {
+                        return [
+                            "disposition" => "READY_FOR_ADVERSARIAL_REVIEW",
+                            "findings" => [
+                                "Both replacement packets match specification v2.",
+                                "The original clarification remains traceable.",
+                            ],
+                            "unresolved_blockers" => [],
+                            "adversarial_review_brief" =>
+                                "Challenge the assembled v2 Persona without reopening superseded v1 requirements.",
+                        ];
+                    }
+                },
+            );
+            $review = $reviewService->review($candidate["candidate_id"]);
+            self::assertSame(
+                $review,
+                $reviewService->review($candidate["candidate_id"]),
+            );
+            self::assertSame(
+                "SEALED_PENDING_FOUNDRY_ADVERSARIAL_REVIEW",
+                $review["status"],
+            );
+            self::assertSame(
+                $candidate["superseded_commissions"],
+                $review["superseded_commissions"],
+            );
+            self::assertTrue($review["adversarial_review_authority"]);
+            self::assertFalse($review["persona_approval_authority"]);
+            $demandService = new AdversarialReviewerDemandService($root);
+            $demand = $demandService->demand($review["review_id"]);
+            self::assertSame(
+                $demand,
+                $demandService->demand($review["review_id"]),
+            );
+            self::assertSame(
+                "PENDING_EXACT_ADVERSARIAL_REVIEWER_OCCUPATION",
+                $demand["status"],
+            );
+            self::assertSame(
+                $review["superseded_commissions"],
+                $demand["superseded_commissions"],
+            );
+            self::assertSame(
+                $candidate["candidate_id"],
+                $demand["required_seat"]["candidate_id"],
+            );
+            self::assertFalse($demand["review_authority"]);
+            self::assertFalse($demand["spawning_authority"]);
         } finally {
             $this->removeTree($root);
         }

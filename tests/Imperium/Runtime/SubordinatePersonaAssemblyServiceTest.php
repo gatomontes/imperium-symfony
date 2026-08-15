@@ -80,6 +80,17 @@ final class SubordinatePersonaAssemblyServiceTest extends TestCase
                 "persona_specification_version" => 2,
                 "specification_supersedes" => $spec["supersedes"],
                 "specification_revision_basis" => $spec["revision_basis"],
+                "dispatch_kind" => "SPECIFICATION_REVISION_REISSUE",
+                "superseded_commissions" => [
+                    [
+                        "office" => "hagiography",
+                        "commission_id" => "prior-hagiography",
+                    ],
+                    [
+                        "office" => "studium",
+                        "commission_id" => "prior-studium",
+                    ],
+                ],
                 "subordinate_construction_case_id" => $caseId,
                 "subordinate_construction_case_digest" =>
                     $case["record_digest"],
@@ -125,6 +136,11 @@ final class SubordinatePersonaAssemblyServiceTest extends TestCase
                 $spec["revision_basis"],
                 $r["specification_revision_basis"],
             );
+            self::assertSame(
+                "SPECIFICATION_REVISION_REISSUE",
+                $r["dispatch_kind"],
+            );
+            self::assertCount(2, $r["superseded_commissions"]);
             self::assertTrue($r["assembly_complete"]);
             self::assertTrue($r["sealed"]);
             self::assertFalse($r["persona_approval_authority"]);

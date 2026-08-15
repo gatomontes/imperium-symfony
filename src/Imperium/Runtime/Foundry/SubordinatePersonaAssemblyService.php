@@ -63,6 +63,10 @@ final readonly class SubordinatePersonaAssemblyService
             );
         }
         $this->lineageGuard->assertCurrent($s);
+        $revisionReissue = null !== ($s["supersedes"] ?? null);
+        $dispatchKind = $revisionReissue
+            ? "SPECIFICATION_REVISION_REISSUE"
+            : "INITIAL_SPECIFICATION_DISPATCH";
         $products = [];
         foreach (
             [
@@ -117,6 +121,11 @@ final readonly class SubordinatePersonaAssemblyService
                 CanonicalJson::encode(
                     $r["specification_revision_basis"] ?? null,
                 ) !== CanonicalJson::encode($s["revision_basis"] ?? null) ||
+                $dispatchKind !== ($r["dispatch_kind"] ?? null) ||
+                ($revisionReissue
+                    ? !is_array($r["superseded_commissions"] ?? null) ||
+                        2 !== count($r["superseded_commissions"])
+                    : [] !== ($r["superseded_commissions"] ?? null)) ||
                 ($r["subordinate_construction_case_id"] ?? null) !== $caseId ||
                 ($r["subordinate_construction_case_digest"] ?? null) !==
                     ($case["record_digest"] ?? null) ||
@@ -137,6 +146,16 @@ final readonly class SubordinatePersonaAssemblyService
                 throw new \RuntimeException("F124_SUBORDINATE_PRODUCT_INVALID");
             }
             $products[$office] = $r;
+        }
+        if (
+            CanonicalJson::encode(
+                $products["hagiography"]["superseded_commissions"],
+            ) !==
+            CanonicalJson::encode(
+                $products["studium"]["superseded_commissions"],
+            )
+        ) {
+            throw new \RuntimeException("F124_SUBORDINATE_PRODUCT_INVALID");
         }
         foreach (
             glob(
@@ -191,10 +210,12 @@ final readonly class SubordinatePersonaAssemblyService
             "subordinate_construction_case_digest" => $case["record_digest"],
             "persona_specification_id" => $specificationId,
             "persona_specification_digest" => $s["record_digest"],
-            "persona_specification_version" =>
-                $s["specification_version"] ?? 1,
+            "persona_specification_version" => $s["specification_version"] ?? 1,
             "specification_supersedes" => $s["supersedes"] ?? null,
             "specification_revision_basis" => $s["revision_basis"] ?? null,
+            "dispatch_kind" => $dispatchKind,
+            "superseded_commissions" =>
+                $products["hagiography"]["superseded_commissions"],
             "source_resolution_id" => $s["source_resolution_id"],
             "source_resolution_digest" => $s["source_resolution_digest"],
             "artificer" => $s["artificer"],

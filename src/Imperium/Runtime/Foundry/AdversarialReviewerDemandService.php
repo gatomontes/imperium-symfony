@@ -58,6 +58,12 @@ final readonly class AdversarialReviewerDemandService
             true !== ($review["sealed"] ?? null) ||
             ($review["candidate_digest"] ?? null) !==
                 ($candidate["record_digest"] ?? null) ||
+            ($review["dispatch_kind"] ?? null) !==
+                ($candidate["dispatch_kind"] ?? null) ||
+            CanonicalJson::encode($review["superseded_commissions"] ?? null) !==
+                CanonicalJson::encode(
+                    $candidate["superseded_commissions"] ?? null,
+                ) ||
             "ASSEMBLED_PENDING_FOUNDRY_REVIEW" !==
                 ($candidate["status"] ?? null) ||
             true === ($review["persona_approval_authority"] ?? null) ||
@@ -108,6 +114,8 @@ final readonly class AdversarialReviewerDemandService
             "specification_supersedes" => $review["specification_supersedes"],
             "specification_revision_basis" =>
                 $review["specification_revision_basis"],
+            "dispatch_kind" => $review["dispatch_kind"],
+            "superseded_commissions" => $review["superseded_commissions"],
             "review_scope" => $review["decision"]["adversarial_review_brief"],
             "required_seat" => $seat,
             "independence_requirements" => [
