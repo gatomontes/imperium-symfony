@@ -189,6 +189,19 @@ final readonly class AdversarialReviewerPersonaConstructionService
                 "candidate_id" => $acceptance["candidate_id"],
                 "candidate_digest" => $acceptance["candidate_digest"],
             ],
+            "persona_specification_id" =>
+                $acceptance["persona_specification_id"] ?? null,
+            "persona_specification_digest" =>
+                $acceptance["persona_specification_digest"] ?? null,
+            "persona_specification_version" =>
+                $acceptance["persona_specification_version"] ?? null,
+            "specification_supersedes" =>
+                $acceptance["specification_supersedes"] ?? null,
+            "specification_revision_basis" =>
+                $acceptance["specification_revision_basis"] ?? null,
+            "dispatch_kind" => $acceptance["dispatch_kind"] ?? null,
+            "superseded_commissions" =>
+                $acceptance["superseded_commissions"] ?? null,
             "artificer" => $acceptance["actor"],
             "template" => [
                 "schema" => "imperium.persona/v1",

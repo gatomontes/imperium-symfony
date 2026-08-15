@@ -112,6 +112,28 @@ final readonly class AdversarialReviewerConstructionAuthorizationAcceptanceServi
                 ($case["candidate_id"] ?? null) ||
             ($act["candidate_digest"] ?? null) !==
                 ($case["candidate_digest"] ?? null) ||
+            ($act["persona_specification_id"] ?? null) !==
+                ($case["persona_specification_id"] ?? null) ||
+            ($act["persona_specification_digest"] ?? null) !==
+                ($case["persona_specification_digest"] ?? null) ||
+            ($act["persona_specification_version"] ?? null) !==
+                ($case["persona_specification_version"] ?? null) ||
+            CanonicalJson::encode($act["specification_supersedes"] ?? null) !==
+                CanonicalJson::encode(
+                    $case["specification_supersedes"] ?? null,
+                ) ||
+            CanonicalJson::encode(
+                $act["specification_revision_basis"] ?? null,
+            ) !==
+                CanonicalJson::encode(
+                    $case["specification_revision_basis"] ?? null,
+                ) ||
+            ($act["dispatch_kind"] ?? null) !==
+                ($case["dispatch_kind"] ?? null) ||
+            CanonicalJson::encode($act["superseded_commissions"] ?? null) !==
+                CanonicalJson::encode(
+                    $case["superseded_commissions"] ?? null,
+                ) ||
             CanonicalJson::encode($act["target_seat"] ?? null) !==
                 CanonicalJson::encode($case["target_seat"] ?? null) ||
             "BLOCKED_PENDING_ADVERSARIAL_REVIEWER_PERSONA" !==
@@ -174,6 +196,18 @@ final readonly class AdversarialReviewerConstructionAuthorizationAcceptanceServi
             "source_case_digest" => $case["record_digest"],
             "candidate_id" => $case["candidate_id"],
             "candidate_digest" => $case["candidate_digest"],
+            "persona_specification_id" =>
+                $case["persona_specification_id"] ?? null,
+            "persona_specification_digest" =>
+                $case["persona_specification_digest"] ?? null,
+            "persona_specification_version" =>
+                $case["persona_specification_version"] ?? null,
+            "specification_supersedes" =>
+                $case["specification_supersedes"] ?? null,
+            "specification_revision_basis" =>
+                $case["specification_revision_basis"] ?? null,
+            "dispatch_kind" => $case["dispatch_kind"] ?? null,
+            "superseded_commissions" => $case["superseded_commissions"] ?? null,
             "target_seat" => $case["target_seat"],
             "profile_source" => $case["profile_source"],
             "binding_id" => $bindingId,

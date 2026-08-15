@@ -7,6 +7,10 @@ use App\Imperium\Runtime\Authorship\SubordinatePersonaSectionAuthorshipGateway;
 use App\Imperium\Runtime\Authorship\SubordinatePersonaSectionAuthorshipService;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaAuthorshipCommissionService;
 use App\Imperium\Runtime\Foundry\AdversarialReviewerDemandService;
+use App\Imperium\Runtime\Foundry\AdversarialReviewerProvisioningCaseService;
+use App\Imperium\Runtime\Curia\AdversarialReviewerConstructionAuthorizationService;
+use App\Imperium\Runtime\Foundry\AdversarialReviewerConstructionAuthorizationAcceptanceService;
+use App\Imperium\Runtime\Foundry\AdversarialReviewerPersonaConstructionService;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaAssemblyService;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaReviewCognitionGateway;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaReviewService;
@@ -278,6 +282,100 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
             );
             self::assertFalse($demand["review_authority"]);
             self::assertFalse($demand["spawning_authority"]);
+            $provisioning = new AdversarialReviewerProvisioningCaseService(
+                $root,
+            );
+            $reviewerCase = $provisioning->open($demand["demand_id"]);
+            self::assertSame(
+                $reviewerCase,
+                $provisioning->open($demand["demand_id"]),
+            );
+            self::assertSame(
+                $demand["superseded_commissions"],
+                $reviewerCase["superseded_commissions"],
+            );
+            $authorization = new AdversarialReviewerConstructionAuthorizationService(
+                $root,
+            );
+            $delivery = $authorization->authorize($reviewerCase["case_id"]);
+            self::assertSame(
+                $delivery,
+                $authorization->authorize($reviewerCase["case_id"]),
+            );
+            $bindingId = "foundry-artificer-binding-" . str_repeat("f", 20);
+            $binding = [
+                "schema" => "imperium.foundry-artificer-occupancy/v1",
+                "binding_id" => $bindingId,
+                "instance_id" => "imperium-test",
+                "office" => "foundry",
+                "seat" => "foundry.artificer",
+                "manifestation_id" => "artificer-manifestation",
+                "occupancy_generation" => 1,
+                "status" => "ACTIVE",
+                "binding_atomic" => true,
+                "execution_authority" => false,
+            ];
+            $this->write(
+                $root . "/var/imperium/offices/foundry/occupancy",
+                $bindingId,
+                $binding,
+            );
+            $acceptanceService = new AdversarialReviewerConstructionAuthorizationAcceptanceService(
+                $root,
+            );
+            $reviewerAcceptance = $acceptanceService->accept(
+                $delivery["delivery_id"],
+                $bindingId,
+            );
+            self::assertSame(
+                $reviewerAcceptance,
+                $acceptanceService->accept(
+                    $delivery["delivery_id"],
+                    $bindingId,
+                ),
+            );
+            $this->copySource(
+                $root,
+                "offices/foundry/profile-reviewer-adversarial.md",
+            );
+            $this->copySource(
+                $root,
+                "offices/foundry/seat-demand-reviewer-adversarial.md",
+            );
+            $construction = new AdversarialReviewerPersonaConstructionService(
+                $root,
+            );
+            $reviewer = $construction->construct(
+                $reviewerAcceptance["acceptance_id"],
+            );
+            self::assertSame(
+                $reviewer,
+                $construction->construct($reviewerAcceptance["acceptance_id"]),
+            );
+            self::assertSame(
+                $candidate["candidate_id"],
+                $reviewer["authorized_review_target"]["candidate_id"],
+            );
+            self::assertSame(
+                "Blackquill",
+                $reviewer["sources"]["design_basis"]["name"],
+            );
+            self::assertFalse(
+                $reviewer["sources"]["design_basis"]["identity_imported"],
+            );
+            self::assertFalse(
+                $reviewer["sources"]["design_basis"]["institution_imported"],
+            );
+            self::assertSame(
+                $demand["superseded_commissions"],
+                $reviewer["superseded_commissions"],
+            );
+            self::assertSame(
+                "SEALED_PENDING_FOUNDRY_REVIEW",
+                $reviewer["status"],
+            );
+            self::assertFalse($reviewer["review_authority"]);
+            self::assertFalse($reviewer["admission_authority"]);
         } finally {
             $this->removeTree($root);
         }
@@ -332,6 +430,18 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
         file_put_contents(
             $directory . "/" . $id . ".json",
             json_encode($record, JSON_THROW_ON_ERROR),
+        );
+    }
+
+    private function copySource(string $root, string $relative): void
+    {
+        $destination = $root . "/" . $relative;
+        if (!is_dir(dirname($destination))) {
+            mkdir(dirname($destination), 0770, true);
+        }
+        file_put_contents(
+            $destination,
+            (string) file_get_contents(dirname(__DIR__, 3) . "/" . $relative),
         );
     }
 
