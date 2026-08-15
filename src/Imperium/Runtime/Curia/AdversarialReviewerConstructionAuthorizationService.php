@@ -94,6 +94,18 @@ final readonly class AdversarialReviewerConstructionAuthorizationService
             "source_demand_digest" => $case["source_demand_digest"],
             "candidate_id" => $case["candidate_id"],
             "candidate_digest" => $case["candidate_digest"],
+            "persona_specification_id" =>
+                $case["persona_specification_id"] ?? null,
+            "persona_specification_digest" =>
+                $case["persona_specification_digest"] ?? null,
+            "persona_specification_version" =>
+                $case["persona_specification_version"] ?? null,
+            "specification_supersedes" =>
+                $case["specification_supersedes"] ?? null,
+            "specification_revision_basis" =>
+                $case["specification_revision_basis"] ?? null,
+            "dispatch_kind" => $case["dispatch_kind"] ?? null,
+            "superseded_commissions" => $case["superseded_commissions"] ?? null,
             "target_seat" => $case["target_seat"],
             "profile_source" => $case["profile_source"],
             "disposition" =>
