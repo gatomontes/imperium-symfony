@@ -20,6 +20,8 @@ use App\Imperium\Runtime\Foundry\AdversarialReviewerBootstrapSeedSenateConfirmat
 use App\Imperium\Runtime\Senate\PersonaConfirmationCaseIntakeService;
 use App\Imperium\Runtime\Senate\SenateActivationDemandService;
 use App\Imperium\Runtime\Senate\SenateResidentProvisioningCaseService;
+use App\Imperium\Runtime\Bootstrap\OperatorRootPersonnelInstallationService;
+use App\Imperium\Runtime\Foundry\AdversarialReviewReadinessService;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaAssemblyService;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaReviewCognitionGateway;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaReviewService;
@@ -518,6 +520,84 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 self::assertFalse($residentCase["spawning_authority"]);
                 self::assertFalse($residentCase["senate_finding_authority"]);
             }
+            $foundingPackage = [
+                "schema" => "imperium.operator-root-personnel-package/v1",
+                "instance_id" => "imperium-test",
+                "personnel" => [],
+            ];
+            foreach (
+                [
+                    "foundry.reviewer.adversarial",
+                    "senate.lord-speaker",
+                    "senate.bailiff",
+                ]
+                as $seat
+            ) {
+                $slug = str_replace(".", "-", $seat);
+                $foundingPackage["personnel"][] = [
+                    "seat" => $seat,
+                    "persona" => [
+                        "id" => $slug . "-persona",
+                        "version" => "1.0.0",
+                        "definition" => ["operator-authored founding Persona"],
+                    ],
+                    "profile" => [
+                        "id" => $slug . "-profile",
+                        "version" => "1.0.0",
+                        "definition" => ["operator-authored founding Profile"],
+                    ],
+                    "officer" => [
+                        "id" => $slug . "-officer",
+                        "version" => "1.0.0",
+                        "definition" => ["operator-supplied founding Officer"],
+                    ],
+                ];
+            }
+            $rootInstallation = new OperatorRootPersonnelInstallationService(
+                $root,
+            );
+            $installed = $rootInstallation->install($foundingPackage);
+            self::assertSame(
+                $installed,
+                $rootInstallation->install($foundingPackage),
+            );
+            self::assertSame(
+                "OPERATOR_ROOT_INSTALLATION",
+                $installed["provenance"],
+            );
+            self::assertCount(3, $installed["installations"]);
+            self::assertFalse($installed["internal_authorization_required"]);
+            self::assertFalse($installed["internal_construction_required"]);
+            self::assertFalse($installed["internal_admission_required"]);
+            self::assertTrue($installed["post_bootstrap_changes_governed"]);
+            $readinessService = new AdversarialReviewReadinessService($root);
+            $readiness = $readinessService->resume($demand["demand_id"]);
+            self::assertSame(
+                $readiness,
+                $readinessService->resume($demand["demand_id"]),
+            );
+            self::assertSame(
+                "PENDING_ADVERSARIAL_REVIEWER_ACCEPTANCE",
+                $readiness["status"],
+            );
+            self::assertSame(
+                "BLOCKED_PENDING_SENATE_OCCUPANCY",
+                $confirmationCase["status"],
+            );
+            self::assertSame(
+                $expectedLineage,
+                $readiness["review_target_lineage"],
+            );
+            self::assertSame(
+                $candidate["candidate_id"],
+                $readiness["candidate_id"],
+            );
+            self::assertSame(
+                "OPERATOR_ROOT_INSTALLATION",
+                $readiness["reviewer_occupancy"]["provenance"],
+            );
+            self::assertFalse($readiness["review_authority_exercisable"]);
+            self::assertFalse($readiness["persona_approval_authority"]);
         } finally {
             $this->removeTree($root);
         }
