@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Imperium\Runtime\Bootstrap\V0ActivationService;
+use App\Bootstrap\MasterMason;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class ActivateCommand extends Command
 {
     public function __construct(
-        private readonly V0ActivationService $activation,
+        private readonly MasterMason $masterMason,
     ) {
         parent::__construct();
     }
@@ -46,7 +46,7 @@ final class ActivateCommand extends Command
         OutputInterface $output,
     ): int {
         try {
-            $result = $this->activation->activate(
+            $result = $this->masterMason->activate(
                 (string) $input->getArgument("instance-id"),
                 (bool) $input->getOption("prepare-upgrades"),
             );
@@ -63,6 +63,7 @@ final class ActivateCommand extends Command
                 "</info> generation " .
                 $record["generation"],
         );
+        $output->writeln("Runtime: MASTERMASON");
         $output->writeln("Activation: OPERATOR_ROOT_V0");
         $output->writeln(
             "Upgrade program: " . $result["upgrade_program_status"],

@@ -65,7 +65,7 @@ bin/console imperium:operator:declare-operational imperium-instance
 
 Operationalization permanently closes operator-root installation and preserves the complete upgrade inventory. It does not force upgrades to begin. The Operator may test-drive the v0 instance first.
 
-The primary activation command now performs required-v0 installation, operationalization, and `CURIA_READY` runtime binding in one flow:
+MasterMason remains Imperium's non-cognitive mechanical activation runtime. The primary activation command directs MasterMason to perform required-v0 installation, operationalization, and `CURIA_READY` runtime binding in one flow:
 
 ```console
 bin/console imperium:activate imperium-instance
@@ -78,5 +78,7 @@ bin/console imperium:activate imperium-instance --prepare-upgrades
 ```
 
 Calling activation later with `--prepare-upgrades` prepares the same plan without reactivating or altering the running v0 instance. The first five planned upgrades are Adversarial Reviewer, Artificer, Constable, Alchemist, and Recruiter; remaining occupants follow deterministically. Plan preparation grants no upgrade execution authority.
+
+Only MasterMason's obsolete self-constructing personnel sequence is retired. MasterMason itself and its legitimate mechanical lifecycle, verification, binding, recovery, and routing duties remain active.
 
 Installation and operationalization do not grant mission execution, external-action authority, credentials, tool access, or spending authority.
