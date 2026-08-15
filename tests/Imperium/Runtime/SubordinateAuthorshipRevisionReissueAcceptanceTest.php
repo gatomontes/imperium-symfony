@@ -21,6 +21,7 @@ use App\Imperium\Runtime\Senate\PersonaConfirmationCaseIntakeService;
 use App\Imperium\Runtime\Senate\SenateActivationDemandService;
 use App\Imperium\Runtime\Senate\SenateResidentProvisioningCaseService;
 use App\Imperium\Runtime\Bootstrap\OperatorRootPersonnelInstallationService;
+use App\Imperium\Runtime\Bootstrap\OperatorRootOperationalizationService;
 use App\Imperium\Runtime\Foundry\AdversarialReviewReadinessService;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaAssemblyService;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaReviewCognitionGateway;
@@ -521,20 +522,29 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 self::assertFalse($residentCase["senate_finding_authority"]);
             }
             $foundingPackage = [
-                "schema" => "imperium.operator-root-personnel-package/v1",
+                "schema" => "imperium.operator-root-personnel-package/v2",
                 "instance_id" => "imperium-test",
                 "personnel" => [],
             ];
             foreach (
                 [
-                    "foundry.reviewer.adversarial",
-                    "senate.lord-speaker",
-                    "senate.bailiff",
+                    [
+                        "foundry.reviewer.adversarial",
+                        "foundry",
+                        "adversarial-reviewer",
+                    ],
+                    ["senate.lord-speaker", "senate", "lord-speaker"],
+                    ["senate.bailiff", "senate", "bailiff"],
+                    ["armory.warden", "armory", "warden"],
+                    ["curia.seneschal", "curia", "seneschal"],
                 ]
-                as $seat
+                as [$seat, $office, $role]
             ) {
                 $slug = str_replace(".", "-", $seat);
                 $foundingPackage["personnel"][] = [
+                    "personnel_type" => "OFFICER",
+                    "office" => $office,
+                    "role" => $role,
                     "seat" => $seat,
                     "persona" => [
                         "id" => $slug . "-persona",
@@ -553,6 +563,18 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                     ],
                 ];
             }
+            $foundingPackage["personnel"][] = [
+                "personnel_type" => "OPERATIVE",
+                "office" => "hagiography",
+                "role" => "research-operative",
+                "assignment_id" => "founding-research-operative-1",
+                "persona" => ["id" => "research-persona", "version" => "1.0.0"],
+                "profile" => ["id" => "research-profile", "version" => "1.0.0"],
+                "officer" => [
+                    "id" => "research-operative",
+                    "version" => "1.0.0",
+                ],
+            ];
             $rootInstallation = new OperatorRootPersonnelInstallationService(
                 $root,
             );
@@ -565,11 +587,23 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 "OPERATOR_ROOT_INSTALLATION",
                 $installed["provenance"],
             );
-            self::assertCount(3, $installed["installations"]);
+            self::assertCount(6, $installed["installations"]);
             self::assertFalse($installed["internal_authorization_required"]);
             self::assertFalse($installed["internal_construction_required"]);
             self::assertFalse($installed["internal_admission_required"]);
-            self::assertTrue($installed["post_bootstrap_changes_governed"]);
+            self::assertFalse($installed["internal_qualification_required"]);
+            self::assertFalse($installed["internal_confirmation_required"]);
+            self::assertFalse(
+                $installed["installation_grants_execution_authority"],
+            );
+            self::assertTrue($installed["post_operational_upgrades_governed"]);
+            $operative = $installed["installations"][5];
+            self::assertSame("OPERATIVE", $operative["personnel_type"]);
+            self::assertSame(
+                "INSTALLED_INACTIVE_PRE_OPERATIONAL",
+                $operative["status"],
+            );
+            self::assertFalse($operative["roster"]["deployment_authority"]);
             $readinessService = new AdversarialReviewReadinessService($root);
             $readiness = $readinessService->resume($demand["demand_id"]);
             self::assertSame(
@@ -598,6 +632,38 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
             );
             self::assertFalse($readiness["review_authority_exercisable"]);
             self::assertFalse($readiness["persona_approval_authority"]);
+            $operationalization = new OperatorRootOperationalizationService(
+                $root,
+            );
+            $seal = $operationalization->seal("imperium-test");
+            self::assertSame($seal, $operationalization->seal("imperium-test"));
+            self::assertSame("IMPERIUM_OPERATIONAL", $seal["status"]);
+            self::assertSame(
+                "PERMANENTLY_CLOSED",
+                $seal["operator_root_installation_window"],
+            );
+            self::assertCount(6, $seal["upgrade_docket"]);
+            foreach ($seal["upgrade_docket"] as $upgrade) {
+                self::assertSame(
+                    "FIRST_ORDER_OF_BUSINESS",
+                    $upgrade["priority"],
+                );
+                self::assertSame(
+                    "GOVERNED_REASSESSMENT_AND_UPGRADE",
+                    $upgrade["required_disposition"],
+                );
+            }
+            try {
+                $rootInstallation->install($foundingPackage);
+                self::fail(
+                    "Operator-root installation remained open after operationalization.",
+                );
+            } catch (\RuntimeException $e) {
+                self::assertSame(
+                    "B212_OPERATOR_ROOT_WINDOW_CLOSED",
+                    $e->getMessage(),
+                );
+            }
         } finally {
             $this->removeTree($root);
         }

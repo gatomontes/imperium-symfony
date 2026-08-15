@@ -182,13 +182,13 @@ For succession:
 Initialization no longer requires Secretariat, Castellan, or Rector:
 
 1. the Operator activates Imperium and assumes the Imperator Seat;
-2. bootstrap provides only the initial authority or manifestation explicitly admitted by bootstrap doctrine;
-3. Conscription assembles the required standard Curian occupants under authorized provenance;
-4. the Seneschal and Chamberlain occupy their Seats;
-5. Isolde may occupy the Secretary Seat provisionally; and
-6. Curia summons mission-specific Curiales according to the authorized planning path.
+2. while the instance remains pre-operational, the Operator directly installs the initial Personas, Profiles, Officers, and internal operatives required to make Imperium operational, with exact `OPERATOR_ROOT_INSTALLATION` provenance and without internal construction, admission, confirmation, or qualification fiction;
+3. the installed Seneschal, Chamberlain, and provisional Isolde occupy their Seats;
+4. the Operator declares the instance operational, permanently closing operator-root installation;
+5. Curia opens the first governed order of business: reassessment and upgrade of every root-installed constituent; and
+6. only after that governed founding-personnel docket is dispositioned does Curia summon mission-specific Curiales according to the authorized planning path.
 
-The exact bootstrap mechanism remains subject to separate doctrine. This proposal does not silently assign bootstrap authority to an abolished role.
+Operator-root founding installation is temporary constitutive power, not a reusable bypass. Once operational, every replacement, upgrade, requalification, and Seat cutover follows ordinary Imperium governance with full lineage to the original installation.
 
 ## Architectural consequences
 
