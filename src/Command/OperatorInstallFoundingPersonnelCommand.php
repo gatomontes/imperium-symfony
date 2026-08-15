@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[
     AsCommand(
         name: "imperium:operator:install-founding-personnel",
-        description: "Mechanically install operator-supplied founding Personas, Profiles, and Officers",
+        description: "Install operator-supplied founding Officers and operatives before Imperium becomes operational",
     ),
 ]
 final class OperatorInstallFoundingPersonnelCommand extends Command
@@ -65,13 +65,20 @@ final class OperatorInstallFoundingPersonnelCommand extends Command
             );
             return self::SUCCESS;
         }
-        $output->writeln("<info>FOUNDING_PERSONNEL_INSTALLED</info>");
+        $output->writeln(
+            "<info>FOUNDING_PERSONNEL_INSTALLED_PRE_OPERATIONAL</info>",
+        );
         foreach ($result["installations"] as $installation) {
-            $output->writeln($installation["seat"] . ": ACTIVE");
+            $placement =
+                $installation["seat"] ?? $installation["assignment_id"];
+            $output->writeln($placement . ": " . $installation["status"]);
         }
         $output->writeln("Provenance: OPERATOR_ROOT_INSTALLATION");
         $output->writeln(
-            "Internal authorization, construction, and admission: NOT REQUIRED",
+            "Internal authorization, construction, admission, qualification, and confirmation: NOT REQUIRED",
+        );
+        $output->writeln(
+            "Window: OPEN UNTIL OPERATOR DECLARES IMPERIUM OPERATIONAL",
         );
         return self::SUCCESS;
     }
