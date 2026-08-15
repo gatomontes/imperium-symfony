@@ -63,6 +63,11 @@ final class SubordinatePersonaReviewServiceTest extends TestCase
             "persona_specification_version" => 2,
             "specification_supersedes" => $supersedes,
             "specification_revision_basis" => $basis,
+            "dispatch_kind" => "SPECIFICATION_REVISION_REISSUE",
+            "superseded_commissions" => [
+                ["office" => "hagiography", "commission_id" => "prior-h"],
+                ["office" => "studium", "commission_id" => "prior-s"],
+            ],
             "subordinate_construction_case_id" => $caseId,
             "subordinate_construction_case_digest" => $case["record_digest"],
             "artificer" => ["seat" => "foundry.artificer"],
@@ -104,6 +109,11 @@ final class SubordinatePersonaReviewServiceTest extends TestCase
             );
             self::assertSame(2, $review["persona_specification_version"]);
             self::assertSame($basis, $review["specification_revision_basis"]);
+            self::assertSame(
+                "SPECIFICATION_REVISION_REISSUE",
+                $review["dispatch_kind"],
+            );
+            self::assertCount(2, $review["superseded_commissions"]);
             self::assertTrue($review["adversarial_review_authority"]);
             self::assertFalse($review["persona_approval_authority"]);
             self::assertFalse($review["admission_authority"]);
