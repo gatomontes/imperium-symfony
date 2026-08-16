@@ -23,6 +23,9 @@ use App\Imperium\Runtime\Senate\SenateResidentProvisioningCaseService;
 use App\Imperium\Runtime\Bootstrap\OperatorRootPersonnelInstallationService;
 use App\Imperium\Runtime\Bootstrap\OperatorRootOperationalizationService;
 use App\Imperium\Runtime\Foundry\AdversarialReviewReadinessService;
+use App\Imperium\Runtime\Foundry\AdversarialReviewAcceptanceService;
+use App\Imperium\Runtime\Foundry\AdversarialPersonaReviewCognitionGateway;
+use App\Imperium\Runtime\Foundry\AdversarialPersonaReviewService;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaAssemblyService;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaReviewCognitionGateway;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaReviewService;
@@ -575,6 +578,14 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                     "version" => "1.0.0",
                 ],
             ];
+            $foundingPackage["personnel"][0] = [
+                "personnel_type" => "OFFICER",
+                "founding_class" => "GENERIC_V0_PLACEHOLDER",
+                "version" => "0",
+                "office" => "foundry",
+                "role" => "adversarial-reviewer",
+                "seat" => "foundry.reviewer.adversarial",
+            ];
             $rootInstallation = new OperatorRootPersonnelInstallationService(
                 $root,
             );
@@ -632,6 +643,73 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
             );
             self::assertFalse($readiness["review_authority_exercisable"]);
             self::assertFalse($readiness["persona_approval_authority"]);
+            $reviewAcceptanceService = new AdversarialReviewAcceptanceService(
+                $root,
+            );
+            $reviewAcceptance = $reviewAcceptanceService->accept(
+                $readiness["readiness_id"],
+            );
+            self::assertSame(
+                $reviewAcceptance,
+                $reviewAcceptanceService->accept($readiness["readiness_id"]),
+            );
+            self::assertSame(
+                "GENERIC_V0_PLACEHOLDER",
+                $reviewAcceptance["reviewer"]["founding_class"],
+            );
+            self::assertSame(
+                "0",
+                $reviewAcceptance["reviewer"]["placeholder_version"],
+            );
+            self::assertTrue($reviewAcceptance["review_authority_exercisable"]);
+            self::assertFalse($reviewAcceptance["persona_approval_authority"]);
+            $adversarialCognition = new class implements
+                AdversarialPersonaReviewCognitionGateway
+            {
+                public function review(
+                    array $candidate,
+                    array $specification,
+                    array $case,
+                    array $acceptance,
+                ): array {
+                    return [
+                        "disposition" => "PASSED",
+                        "findings" => [
+                            "The corrected v2 candidate preserves the clarification, exact supersession lineage, and resident authorship boundaries.",
+                        ],
+                        "required_corrections" => [],
+                        "rationale" =>
+                            "No unresolved contradiction, unsupported authority claim, or material specification defect remains in the exact reviewed candidate.",
+                    ];
+                }
+            };
+            $adversarialReviewService = new AdversarialPersonaReviewService(
+                $root,
+                $adversarialCognition,
+            );
+            $adversarialResult = $adversarialReviewService->review(
+                $reviewAcceptance["acceptance_id"],
+            );
+            self::assertSame(
+                $adversarialResult,
+                $adversarialReviewService->review(
+                    $reviewAcceptance["acceptance_id"],
+                ),
+            );
+            self::assertSame(
+                "PASSED_PENDING_FOUNDRY_PRODUCTION_APPROVAL",
+                $adversarialResult["status"],
+            );
+            self::assertSame(
+                $expectedLineage,
+                $adversarialResult["review_target_lineage"],
+            );
+            self::assertTrue(
+                $adversarialResult["foundry_production_approval_eligible"],
+            );
+            self::assertFalse($adversarialResult["persona_approval_authority"]);
+            self::assertFalse($adversarialResult["admission_authority"]);
+            self::assertFalse($adversarialResult["execution_authority"]);
             $operationalization = new OperatorRootOperationalizationService(
                 $root,
             );
