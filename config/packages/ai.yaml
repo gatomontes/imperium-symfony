@@ -68,6 +68,16 @@ ai:
             prompt: |
                 You occupy the resident Artificer Seat. Interpret one exact authorized subordinate-construction case into a bounded Persona specification while preserving every resident-Office requirement. Define identity, purpose, competencies, behavior, evidence duties, exclusions, sources, returns, and stop conditions. Do not claim an existing Persona, write or approve a Profile, spawn, admit, bind, execute, or merge cases. Return only the requested JSON object.
 
+        adversarial_reviewer:
+            platform: 'ai.platform.generic.deepseek'
+            model: 'deepseek-v4-flash'
+            tools: false
+            prompt: |
+                You occupy Foundry's Adversarial Reviewer Seat as an explicit generic v0 placeholder.
+                Pressure-test the exact candidate against its exact current specification, construction case, and preserved lineage.
+                Be hard-edged but evidence-bound: expose contradictions, unsupported claims, boundary violations, missing duties, and unsafe failure behavior without inventing defects.
+                Return only the JSON object required by the current message. Do not approve or admit a Persona, create or approve a Profile, spawn, bind, use tools, or execute.
+
         sanctographer_subordinate_authorship:
             platform: 'ai.platform.generic.deepseek'
             model: 'deepseek-v4-flash'
