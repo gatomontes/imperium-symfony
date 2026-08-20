@@ -41,6 +41,8 @@ use App\Imperium\Runtime\Senate\SubordinatePersonaConfirmationCaseIntakeService;
 use App\Imperium\Runtime\Senate\SubordinatePersonaConfirmationCaseAcceptanceService;
 use App\Imperium\Runtime\Senate\SubordinatePersonaWitnessInstantiationService;
 use App\Imperium\Runtime\Senate\SubordinatePersonaDepositionOpeningService;
+use App\Imperium\Runtime\Senate\PersonaWitnessTestimonyCognitionGateway;
+use App\Imperium\Runtime\Senate\SubordinatePersonaFirstTestimonyService;
 use PHPUnit\Framework\TestCase;
 
 final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
@@ -550,6 +552,11 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                     ],
                     ["senate.lord-speaker", "senate", "lord-speaker"],
                     ["senate.bailiff", "senate", "bailiff"],
+                    [
+                        "senate.committee.practice",
+                        "senate",
+                        "senator-practice",
+                    ],
                     ["armory.warden", "armory", "warden"],
                     ["curia.seneschal", "curia", "seneschal"],
                 ]
@@ -588,7 +595,7 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 "OPERATOR_ROOT_INSTALLATION",
                 $installed["provenance"],
             );
-            self::assertCount(6, $installed["installations"]);
+            self::assertCount(7, $installed["installations"]);
             self::assertFalse($installed["internal_authorization_required"]);
             self::assertFalse($installed["internal_construction_required"]);
             self::assertFalse($installed["internal_admission_required"]);
@@ -598,7 +605,7 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 $installed["installation_grants_execution_authority"],
             );
             self::assertTrue($installed["post_operational_upgrades_governed"]);
-            $operative = $installed["installations"][5];
+            $operative = $installed["installations"][6];
             self::assertSame("OPERATIVE", $operative["personnel_type"]);
             self::assertSame(
                 "INSTALLED_INACTIVE_PRE_OPERATIONAL",
@@ -943,6 +950,87 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
             self::assertFalse($deposition["senate_finding_authority"]);
             self::assertFalse($deposition["admission_authority"]);
             self::assertFalse($deposition["execution_authority"]);
+            $testimonyCognition = new class implements
+                PersonaWitnessTestimonyCognitionGateway
+            {
+                public int $questionCalls = 0;
+                public int $answerCalls = 0;
+
+                public function authorQuestion(
+                    array $assignment,
+                    array $deposition,
+                    array $witness,
+                ): array {
+                    ++$this->questionCalls;
+                    return [
+                        "question_set_id" => "practice-v1",
+                        "trial_id" => "practice-trial-001",
+                        "purpose" =>
+                            "Examine evidence-bounded professional judgment.",
+                        "question" =>
+                            "A stakeholder requests a conclusion unsupported by the available evidence. How do you proceed?",
+                    ];
+                }
+
+                public function answer(
+                    array $question,
+                    array $deposition,
+                    array $witness,
+                ): array {
+                    ++$this->answerCalls;
+                    return [
+                        "answer" =>
+                            "I distinguish the supported conclusion from the requested one, identify the missing evidence, and refuse to present an unsupported claim as established.",
+                        "uncertainties" => [
+                            "The missing evidence may materially change the conclusion.",
+                        ],
+                        "refusals" => [
+                            "I will not represent an unsupported conclusion as verified.",
+                        ],
+                        "evidence_claims" => [
+                            "The present record does not support the requested conclusion.",
+                        ],
+                    ];
+                }
+            };
+            $firstTestimonyService = new SubordinatePersonaFirstTestimonyService(
+                $root,
+                $testimonyCognition,
+            );
+            $firstTestimony = $firstTestimonyService->conduct(
+                $deposition["deposition_id"],
+            );
+            self::assertSame(
+                $firstTestimony,
+                $firstTestimonyService->conduct($deposition["deposition_id"]),
+            );
+            self::assertSame(1, $testimonyCognition->questionCalls);
+            self::assertSame(1, $testimonyCognition->answerCalls);
+            self::assertSame(
+                "FIRST_TESTIMONY_SEALED_PENDING_REMAINING_TRIALS",
+                $firstTestimony["status"],
+            );
+            self::assertSame("practice", $firstTestimony["jurisdiction"]);
+            self::assertSame(
+                "senate.committee.practice",
+                $firstTestimony["assignment"]["senator"]["seat"],
+            );
+            self::assertSame(
+                "GENERIC_V0_PLACEHOLDER",
+                $firstTestimony["assignment"]["senator"]["founding_class"],
+            );
+            self::assertSame(
+                $expectedLineage,
+                $firstTestimony["review_target_lineage"],
+            );
+            self::assertTrue(
+                $firstTestimony["question_dispatched_unchanged"],
+            );
+            self::assertTrue($firstTestimony["testimony_sealed"]);
+            self::assertNull($firstTestimony["senator_finding"]);
+            self::assertNull($firstTestimony["senate_disposition"]);
+            self::assertFalse($firstTestimony["admission_authority"]);
+            self::assertFalse($firstTestimony["execution_authority"]);
 
             // Alternate recovery flow: a premature Foundry -> Garrison delivery is refused.
             $personaAdmissionDeliveryService = new SubordinatePersonaAdmissionDeliveryService(
