@@ -26,9 +26,13 @@ use App\Imperium\Runtime\Foundry\AdversarialReviewReadinessService;
 use App\Imperium\Runtime\Foundry\AdversarialReviewAcceptanceService;
 use App\Imperium\Runtime\Foundry\AdversarialPersonaReviewCognitionGateway;
 use App\Imperium\Runtime\Foundry\AdversarialPersonaReviewService;
+use App\Imperium\Runtime\Foundry\AdversarialReviewCorrectionReturnService;
+use App\Imperium\Runtime\Foundry\AdversarialReviewProductionApprovalService;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaAssemblyService;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaReviewCognitionGateway;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaReviewService;
+use App\Imperium\Runtime\Foundry\SubordinatePersonaSpecificationRevisionCognitionGateway;
+use App\Imperium\Runtime\Foundry\SubordinatePersonaSpecificationRevisionService;
 use PHPUnit\Framework\TestCase;
 
 final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
@@ -710,6 +714,179 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
             self::assertFalse($adversarialResult["persona_approval_authority"]);
             self::assertFalse($adversarialResult["admission_authority"]);
             self::assertFalse($adversarialResult["execution_authority"]);
+            $productionApprovalService = new AdversarialReviewProductionApprovalService(
+                $root,
+            );
+            $productionApproval = $productionApprovalService->approve(
+                $adversarialResult["result_id"],
+                $bindingId,
+            );
+            self::assertSame(
+                $productionApproval,
+                $productionApprovalService->approve(
+                    $adversarialResult["result_id"],
+                    $bindingId,
+                ),
+            );
+            self::assertSame(
+                "APPROVED_PENDING_GARRISON_ADMISSION_DELIVERY",
+                $productionApproval["status"],
+            );
+            self::assertSame(
+                $expectedLineage,
+                $productionApproval["review_target_lineage"],
+            );
+            self::assertTrue($productionApproval["production_approval"]);
+            self::assertFalse($productionApproval["admission_authority"]);
+            self::assertFalse($productionApproval["execution_authority"]);
+
+            unlink(
+                $root .
+                    "/var/imperium/offices/foundry/adversarial-review-results/" .
+                    $adversarialResult["result_id"] .
+                    ".json",
+            );
+            $returningCognition = new class implements
+                AdversarialPersonaReviewCognitionGateway
+            {
+                public function review(
+                    array $candidate,
+                    array $specification,
+                    array $case,
+                    array $acceptance,
+                ): array {
+                    return [
+                        "disposition" => "RETURN_TO_FOUNDRY",
+                        "findings" => [
+                            "One stop condition remains ambiguous under conflicting source evidence.",
+                        ],
+                        "required_corrections" => [
+                            "Make the conflicting-evidence stop condition explicit without requesting Garrison facts for the unfinished Persona.",
+                        ],
+                        "rationale" =>
+                            "The exact candidate cannot pass until its evidence conflict behavior is bounded.",
+                    ];
+                }
+            };
+            $returnedResult = new AdversarialPersonaReviewService(
+                $root,
+                $returningCognition,
+            )->review($reviewAcceptance["acceptance_id"]);
+            self::assertSame(
+                "RETURNED_TO_FOUNDRY_FOR_VERSIONED_CORRECTION",
+                $returnedResult["status"],
+            );
+            $correctionReturnService = new AdversarialReviewCorrectionReturnService(
+                $root,
+            );
+            $correctionReturn = $correctionReturnService->returnForRevision(
+                $returnedResult["result_id"],
+            );
+            self::assertSame(
+                $correctionReturn,
+                $correctionReturnService->returnForRevision(
+                    $returnedResult["result_id"],
+                ),
+            );
+            self::assertSame(
+                $expectedLineage,
+                $correctionReturn["review_target_lineage"],
+            );
+            self::assertSame(
+                $revisionBasis,
+                $correctionReturn["prior_revision_basis"],
+            );
+            self::assertTrue($correctionReturn["re_dispatch_required"]);
+
+            $revisionCognition = new class implements
+                SubordinatePersonaSpecificationRevisionCognitionGateway
+            {
+                public function revise(
+                    array $case,
+                    array $priorSpecification,
+                    array $revisionReturn,
+                ): array {
+                    return [
+                        "disposition" => "PERSONA_SPECIFICATION_COMPLETE",
+                        "persona_name" => "Bounded Chronicler",
+                        "purpose" =>
+                            "Produce evidence-bounded Hagiography sections.",
+                        "identity_constraints" => [
+                            "Remain a subordinate Chronicler.",
+                        ],
+                        "competencies" => [
+                            "Trace conflicting source evidence.",
+                        ],
+                        "behavioral_directives" => [
+                            "Stop and return conflicting evidence explicitly.",
+                        ],
+                        "evidence_obligations" => [
+                            "Preserve source identity and uncertainty.",
+                        ],
+                        "explicit_exclusions" => [
+                            "Do not request Garrison facts for an unfinished Persona.",
+                        ],
+                        "source_requirements" => [
+                            "Use only supplied evidence.",
+                        ],
+                        "return_contracts" => [
+                            "Return unresolved conflicts to Hagiography.",
+                        ],
+                        "stop_conditions" => [
+                            "Stop when source evidence materially conflicts.",
+                        ],
+                    ];
+                }
+            };
+            $revisionService = new SubordinatePersonaSpecificationRevisionService(
+                $root,
+                $revisionCognition,
+            );
+            $correctedSpecification = $revisionService->revise(
+                $correctionReturn["return_id"],
+            );
+            self::assertSame(
+                $correctedSpecification,
+                $revisionService->revise($correctionReturn["return_id"]),
+            );
+            self::assertSame(
+                3,
+                $correctedSpecification["specification_version"],
+            );
+            self::assertSame(
+                $revisedId,
+                $correctedSpecification["supersedes"]["specification_id"],
+            );
+            self::assertSame(
+                "ADVERSARIAL_CORRECTION",
+                $correctedSpecification["revision_basis"]["return_kind"],
+            );
+            self::assertSame(
+                $revisionBasis,
+                $correctedSpecification["revision_basis"][
+                    "prior_revision_basis"
+                ],
+            );
+            $correctedDispatch = $dispatch->dispatch(
+                $correctedSpecification["specification_id"],
+            );
+            self::assertSame(
+                "SPECIFICATION_REVISION_REISSUE",
+                $correctedDispatch["dispatch_kind"],
+            );
+            foreach (
+                $correctedDispatch["commissions"]
+                as $correctedCommission
+            ) {
+                self::assertSame(
+                    3,
+                    $correctedCommission["persona_specification_version"],
+                );
+                self::assertSame(
+                    $correctedSpecification["revision_basis"],
+                    $correctedCommission["specification_revision_basis"],
+                );
+            }
             $operationalization = new OperatorRootOperationalizationService(
                 $root,
             );
