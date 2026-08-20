@@ -52,6 +52,7 @@ use App\Imperium\Runtime\Senate\LordSpeakerDispositionCognitionGateway;
 use App\Imperium\Runtime\Senate\SubordinatePersonaSenateDispositionService;
 use App\Imperium\Runtime\Senate\SubordinatePersonaWitnessRetirementService;
 use App\Imperium\Runtime\Senate\SubordinatePersonaConfirmationRecordIssuanceService;
+use App\Imperium\Runtime\Foundry\SubordinatePersonaSenateConfirmationRecordAcceptanceService;
 use PHPUnit\Framework\TestCase;
 
 final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
@@ -351,6 +352,7 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 "occupancy_generation" => 1,
                 "status" => "ACTIVE",
                 "binding_atomic" => true,
+                "senate_confirmation_record_acceptance_authority" => true,
                 "execution_authority" => false,
             ];
             $this->write(
@@ -1500,6 +1502,55 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
             );
             self::assertFalse($confirmationRecord["admission_authority"]);
             self::assertFalse($confirmationRecord["execution_authority"]);
+
+            $confirmationAcceptanceService = new SubordinatePersonaSenateConfirmationRecordAcceptanceService(
+                $root,
+            );
+            $confirmationAcceptance = $confirmationAcceptanceService->accept(
+                $confirmationRecord["confirmation_record_id"],
+                $bindingId,
+            );
+            self::assertSame(
+                $confirmationAcceptance,
+                $confirmationAcceptanceService->accept(
+                    $confirmationRecord["confirmation_record_id"],
+                    $bindingId,
+                ),
+            );
+            self::assertSame(
+                "SENATE_CONFIRMATION_RECORD_ACCEPTED_PENDING_GUILDHALL_FULFILLMENT",
+                $confirmationAcceptance["status"],
+            );
+            self::assertTrue($confirmationAcceptance["record_receipt_accepted"]);
+            self::assertFalse($confirmationAcceptance["persona_reinterpreted"]);
+            self::assertFalse($confirmationAcceptance["candidate_substituted"]);
+            self::assertSame("CONFIRMED", $confirmationAcceptance["senate_disposition"]);
+            self::assertSame(
+                "CONFIRMED_CANDIDATE_FOR_GUILDHALL_FULFILLMENT",
+                $confirmationAcceptance["foundry_routing"],
+            );
+            self::assertSame(
+                "foundry.artificer",
+                $confirmationAcceptance["artificer"]["seat"],
+            );
+            self::assertTrue(
+                $confirmationAcceptance["guildhall_fulfillment_ready"],
+            );
+            self::assertFalse(
+                $confirmationAcceptance["versioned_correction_required"],
+            );
+            self::assertFalse(
+                $confirmationAcceptance["canonical_progression_halted"],
+            );
+            self::assertFalse(
+                $confirmationAcceptance["explicit_resolution_required"],
+            );
+            self::assertSame(
+                $expectedLineage,
+                $confirmationAcceptance["review_target_lineage"],
+            );
+            self::assertFalse($confirmationAcceptance["admission_authority"]);
+            self::assertFalse($confirmationAcceptance["execution_authority"]);
 
             $mandatoryFailureSet = $findingSet;
             unset($mandatoryFailureSet["record_digest"]);
