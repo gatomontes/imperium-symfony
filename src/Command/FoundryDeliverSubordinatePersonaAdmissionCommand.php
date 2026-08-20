@@ -13,8 +13,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 #[
     AsCommand(
-        name: "imperium:foundry:deliver-subordinate-persona-admission",
-        description: "Deliver an exact production-approved Persona package to Garrison",
+        name: "imperium:foundry:recover:deliver-premature-subordinate-persona-admission",
+        description: "Exercise the recovery-only premature Garrison delivery path",
     ),
 ]
 final class FoundryDeliverSubordinatePersonaAdmissionCommand extends Command
@@ -27,10 +27,13 @@ final class FoundryDeliverSubordinatePersonaAdmissionCommand extends Command
 
     protected function configure(): void
     {
-        $this->addArgument(
-            "production-approval-id",
-            InputArgument::REQUIRED,
-        )->addOption("json", null, InputOption::VALUE_NONE);
+        $this->addArgument("production-approval-id", InputArgument::REQUIRED)
+            ->addOption(
+                "acknowledge-recovery-only",
+                null,
+                InputOption::VALUE_NONE,
+            )
+            ->addOption("json", null, InputOption::VALUE_NONE);
     }
 
     protected function execute(
@@ -40,6 +43,7 @@ final class FoundryDeliverSubordinatePersonaAdmissionCommand extends Command
         try {
             $record = $this->service->deliver(
                 (string) $input->getArgument("production-approval-id"),
+                (bool) $input->getOption("acknowledge-recovery-only"),
             );
         } catch (\Throwable $exception) {
             $output->writeln(
