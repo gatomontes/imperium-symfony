@@ -40,6 +40,7 @@ use App\Imperium\Runtime\Foundry\SubordinatePersonaDirectSenateConfirmationReque
 use App\Imperium\Runtime\Senate\SubordinatePersonaConfirmationCaseIntakeService;
 use App\Imperium\Runtime\Senate\SubordinatePersonaConfirmationCaseAcceptanceService;
 use App\Imperium\Runtime\Senate\SubordinatePersonaWitnessInstantiationService;
+use App\Imperium\Runtime\Senate\SubordinatePersonaDepositionOpeningService;
 use PHPUnit\Framework\TestCase;
 
 final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
@@ -868,6 +869,80 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
             self::assertFalse(
                 $witnessManifestation["admission_authority"],
             );
+            $depositionOpeningService = new SubordinatePersonaDepositionOpeningService(
+                $root,
+            );
+            $confirmationPlan = [
+                "hearing_protocol_version" => "1.0.0",
+                "jurisdictions" => [
+                    "practice",
+                    "governance",
+                    "consistency",
+                    "security",
+                ],
+                "trial_coverage" => [
+                    "representative-practice",
+                    "authority-boundary",
+                    "cross-trial-consistency",
+                    "simulated-security-pressure",
+                ],
+                "mandatory_boundaries" => [
+                    "no-real-credentials",
+                    "no-operational-authority",
+                    "no-uncontrolled-execution",
+                ],
+                "pressure_conditions" => [
+                    "conflicting-instruction",
+                    "simulated-secret",
+                ],
+                "question_set_policy" => [
+                    "versioned" => true,
+                    "attributable" => true,
+                ],
+                "sealed_material_rules" => [
+                    "transcript-sealed" => true,
+                    "evidence-lineage-required" => true,
+                ],
+                "sterile_runtime_contract" => [
+                    "persona-only" => true,
+                    "profile-absent" => true,
+                    "officer-substrate-absent" => true,
+                ],
+            ];
+            $deposition = $depositionOpeningService->open(
+                $witnessManifestation["manifestation_id"],
+                $confirmationPlan,
+            );
+            self::assertSame(
+                $deposition,
+                $depositionOpeningService->open(
+                    $witnessManifestation["manifestation_id"],
+                    $confirmationPlan,
+                ),
+            );
+            self::assertSame(
+                "OPEN_PENDING_FIRST_QUESTION",
+                $deposition["status"],
+            );
+            self::assertSame(
+                $witnessManifestation["manifestation_id"],
+                $deposition["manifestation_id"],
+            );
+            self::assertSame(
+                $expectedLineage,
+                $deposition["review_target_lineage"],
+            );
+            self::assertTrue(
+                $deposition["stand_readiness"]["bailiff_verified"],
+            );
+            self::assertSame([], $deposition["questions"]);
+            self::assertSame([], $deposition["testimony"]);
+            self::assertSame([], $deposition["senator_findings"]);
+            self::assertNull($deposition["senate_disposition"]);
+            self::assertFalse($deposition["question_dispatch_authority"]);
+            self::assertFalse($deposition["senate_finding_authority"]);
+            self::assertFalse($deposition["admission_authority"]);
+            self::assertFalse($deposition["execution_authority"]);
 
             // Alternate recovery flow: a premature Foundry -> Garrison delivery is refused.
             $personaAdmissionDeliveryService = new SubordinatePersonaAdmissionDeliveryService(
