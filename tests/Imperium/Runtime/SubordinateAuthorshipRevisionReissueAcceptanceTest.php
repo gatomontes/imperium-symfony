@@ -35,6 +35,8 @@ use App\Imperium\Runtime\Foundry\SubordinatePersonaSpecificationRevisionCognitio
 use App\Imperium\Runtime\Foundry\SubordinatePersonaSpecificationRevisionService;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaAdmissionDeliveryService;
 use App\Imperium\Runtime\Garrison\SubordinatePersonaAdmissionIntakeService;
+use App\Imperium\Runtime\Foundry\SubordinatePersonaSenateConfirmationRequestService;
+use App\Imperium\Runtime\Senate\SubordinatePersonaConfirmationCaseIntakeService;
 use PHPUnit\Framework\TestCase;
 
 final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
@@ -790,6 +792,62 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
             self::assertFalse($personaAdmissionReturn["custody_created"]);
             self::assertFalse($personaAdmissionReturn["admission_authority"]);
             self::assertFalse($personaAdmissionReturn["execution_authority"]);
+            $personaConfirmationRequestService = new SubordinatePersonaSenateConfirmationRequestService(
+                $root,
+            );
+            $personaConfirmationRequest = $personaConfirmationRequestService->request(
+                $personaAdmissionReturn["return_id"],
+            );
+            self::assertSame(
+                $personaConfirmationRequest,
+                $personaConfirmationRequestService->request(
+                    $personaAdmissionReturn["return_id"],
+                ),
+            );
+            self::assertSame(
+                "examination_only",
+                $personaConfirmationRequest["examination_contract"][
+                    "profile_class"
+                ],
+            );
+            self::assertSame(
+                $expectedLineage,
+                $personaConfirmationRequest["review_target_lineage"],
+            );
+            self::assertFalse(
+                $personaConfirmationRequest["admission_authority"],
+            );
+            $personaConfirmationCaseService = new SubordinatePersonaConfirmationCaseIntakeService(
+                $root,
+            );
+            $personaConfirmationCase = $personaConfirmationCaseService->preserve(
+                $personaConfirmationRequest["confirmation_request_id"],
+            );
+            self::assertSame(
+                $personaConfirmationCase,
+                $personaConfirmationCaseService->preserve(
+                    $personaConfirmationRequest["confirmation_request_id"],
+                ),
+            );
+            self::assertSame(
+                "PENDING_LORD_SPEAKER_ACCEPTANCE",
+                $personaConfirmationCase["status"],
+            );
+            self::assertSame(
+                [],
+                $personaConfirmationCase["activation_required"],
+            );
+            self::assertSame(
+                $expectedLineage,
+                $personaConfirmationCase["review_target_lineage"],
+            );
+            self::assertFalse(
+                $personaConfirmationCase["assembly_request_authority"],
+            );
+            self::assertFalse(
+                $personaConfirmationCase["witness_instantiation_authority"],
+            );
+            self::assertFalse($personaConfirmationCase["admission_authority"]);
 
             unlink(
                 $root .
