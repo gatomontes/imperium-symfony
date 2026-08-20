@@ -26,13 +26,15 @@ No Office may be silently skipped. A handoff transfers the exact artifact and it
 14. **A failed adversarial review re-enters versioned construction.** Foundry preserves the findings, creates a correction return, supersedes the specification with the next version, and re-dispatches it to Hagiography and Studium. The original clarification remains nested in the lineage.
 15. **A passed adversarial review receives Foundry production approval.** The Artificer approves the exact reviewed candidate as Foundry's production output. This is not Senate approval and is not Garrison admission.
 16. **Foundry sends the production-approved candidate directly to Senate.** The canonical request is `CANONICAL_FOUNDRY_TO_SENATE`. It requires an exact, sterile, `examination_only` manifestation and independent Senate disposition.
-17. **Senate preserves the exact confirmation case.** The Lord Speaker and Bailiff occupancies are recorded. At the presently implemented boundary, the case stops at `PENDING_LORD_SPEAKER_ACCEPTANCE`; no assembly or witness-instantiation authority has yet been exercised.
-18. **Lord Speaker acceptance and examination assembly follow.** After explicit acceptance, Senate may issue a bounded request for the exact examination-only manifestation. This internal subflow does not change the high-level Office route.
-19. **Senate examines and approves or returns the Persona.** Approval must identify the exact candidate and tested manifestation. Failure returns to the competent Foundry correction boundary with complete lineage.
-20. **Senate returns the disposition to Foundry.** Foundry receives the exact Senate-approved artifact and may not substitute an untested or revised candidate.
-21. **Foundry fulfills the original Guildhall commission.** The Senate-approved Persona returns to Guildhall as the product of Guildhall's original personnel demand.
-22. **Guildhall forwards the accepted Persona to Garrison.** Only after Guildhall receives the exact Senate-approved result does the canonical route proceed to Garrison.
-23. **Garrison decides admission and custody.** The Constable admits or rejects the exact Persona under Garrison jurisdiction. Senate approval is a prerequisite; it is not admission. Only admission creates an admitted Persona custody record.
+17. **Senate preserves the exact confirmation case.** The Lord Speaker and Bailiff occupancies are recorded. The preserved case initially stops at `PENDING_LORD_SPEAKER_ACCEPTANCE`; it grants no assembly or witness-instantiation authority.
+18. **The Lord Speaker accepts the exact case.** Acceptance is bound to the case digest, candidate digest, current v0 Lord Speaker occupancy, Bailiff security occupancy, examination contract, and complete review lineage. It authorizes only the next assembly-request act.
+19. **Senate requests one examination-only manifestation from Conscription.** The request requires one generic Officer substrate, one `examination_only` Profile, sterile Senate-chamber use, exact-candidate binding, prohibition on ordinary operational use, and retirement after disposition. At the presently implemented boundary it stops at `DELIVERED_PENDING_CONSCRIPTION_ACCEPTANCE`; no Profile has been commissioned and no witness has been instantiated.
+20. **Conscription coordinates the examination-only assembly.** After explicit acceptance, Conscription commissions the bounded Profile from Laboratorium, assembles the sterile manifestation, and returns the exact tested witness to Senate. This internal subflow does not change the high-level Office route.
+21. **Senate examines and approves or returns the Persona.** Approval must identify the exact candidate and tested manifestation. Failure returns to the competent Foundry correction boundary with complete lineage.
+22. **Senate returns the disposition to Foundry.** Foundry receives the exact Senate-approved artifact and may not substitute an untested or revised candidate.
+23. **Foundry fulfills the original Guildhall commission.** The Senate-approved Persona returns to Guildhall as the product of Guildhall's original personnel demand.
+24. **Guildhall forwards the accepted Persona to Garrison.** Only after Guildhall receives the exact Senate-approved result does the canonical route proceed to Garrison.
+25. **Garrison decides admission and custody.** The Constable admits or rejects the exact Persona under Garrison jurisdiction. Senate approval is a prerequisite; it is not admission. Only admission creates an admitted Persona custody record.
 
 ## Alternate recovery route
 
