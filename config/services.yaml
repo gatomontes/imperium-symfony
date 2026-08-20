@@ -244,6 +244,13 @@ services:
     App\Imperium\Runtime\Senate\SenatorFindingCognitionGateway:
         alias: App\Imperium\Runtime\Senate\SymfonyAiSenatorFindingCognitionGateway
 
+    App\Imperium\Runtime\Senate\SymfonyAiLordSpeakerDispositionCognitionGateway:
+        arguments:
+            $agent: '@ai.agent.lord_speaker_disposition'
+
+    App\Imperium\Runtime\Senate\LordSpeakerDispositionCognitionGateway:
+        alias: App\Imperium\Runtime\Senate\SymfonyAiLordSpeakerDispositionCognitionGateway
+
     App\Imperium\Runtime\Authorship\SubordinatePersonaSectionAuthorshipGateway:
         alias: App\Imperium\Runtime\Authorship\SymfonyAiSubordinatePersonaSectionAuthorshipGateway
 

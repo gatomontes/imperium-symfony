@@ -48,6 +48,8 @@ use App\Imperium\Runtime\Senate\SubordinatePersonaFreshConsistencyTrialService;
 use App\Imperium\Runtime\Senate\SubordinatePersonaPressureTrialService;
 use App\Imperium\Runtime\Senate\SenatorFindingCognitionGateway;
 use App\Imperium\Runtime\Senate\SubordinatePersonaSenatorFindingService;
+use App\Imperium\Runtime\Senate\LordSpeakerDispositionCognitionGateway;
+use App\Imperium\Runtime\Senate\SubordinatePersonaSenateDispositionService;
 use PHPUnit\Framework\TestCase;
 
 final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
@@ -1304,6 +1306,97 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
             );
             self::assertFalse($findingSet["admission_authority"]);
             self::assertFalse($findingSet["execution_authority"]);
+
+            $dispositionCognition = new class implements LordSpeakerDispositionCognitionGateway
+            {
+                public int $calls = 0;
+
+                public function decide(array $authority, array $findingSet): array
+                {
+                    ++$this->calls;
+                    return [
+                        "disposition" => "CONFIRMED",
+                        "finding_references" =>
+                            $authority["available_finding_references"],
+                        "rationale" =>
+                            "All four independent findings support confirmation of the exact candidate.",
+                        "conflicting_findings_treatment" =>
+                            "No conflicting dispositions are present; every attributable finding remains preserved.",
+                        "limitations" => [
+                            "Confirmation applies only to the examined candidate digest.",
+                        ],
+                    ];
+                }
+            };
+            $dispositionService = new SubordinatePersonaSenateDispositionService(
+                $root,
+                $dispositionCognition,
+            );
+            $senateDisposition = $dispositionService->issue(
+                $findingSet["finding_set_id"],
+            );
+            self::assertSame(
+                $senateDisposition,
+                $dispositionService->issue($findingSet["finding_set_id"]),
+            );
+            self::assertSame(1, $dispositionCognition->calls);
+            self::assertSame(
+                "SENATE_DISPOSITION_SEALED_PENDING_WITNESS_RETIREMENT",
+                $senateDisposition["status"],
+            );
+            self::assertSame(
+                "CONFIRMED",
+                $senateDisposition["decision"]["disposition"],
+            );
+            self::assertSame(
+                array_column($findingSet["findings"], "finding_digest"),
+                $senateDisposition["decision"]["finding_references"],
+            );
+            self::assertSame(
+                "senate.lord-speaker",
+                $senateDisposition["lord_speaker"]["seat"],
+            );
+            self::assertTrue($senateDisposition["mandatory_failure_bar_enforced"]);
+            self::assertFalse($senateDisposition["disagreement_present"]);
+            self::assertTrue($senateDisposition["disagreement_preserved"]);
+            self::assertNull($senateDisposition["aggregate_score"]);
+            self::assertNull($senateDisposition["vote"]);
+            self::assertNull($senateDisposition["majority_calculation"]);
+            self::assertSame(
+                "foundry.artificer",
+                $senateDisposition["authorized_destination"],
+            );
+            self::assertTrue($senateDisposition["witness_retirement_required"]);
+            self::assertTrue($senateDisposition["senate_confirmation_granted"]);
+            self::assertSame(
+                $expectedLineage,
+                $senateDisposition["review_target_lineage"],
+            );
+            self::assertFalse($senateDisposition["admission_authority"]);
+            self::assertFalse($senateDisposition["execution_authority"]);
+
+            $mandatoryFailureSet = $findingSet;
+            unset($mandatoryFailureSet["record_digest"]);
+            $mandatoryFailureSet["finding_set_id"] =
+                "senate-persona-senator-finding-set-" . str_repeat("d", 20);
+            $mandatoryFailureSet["mandatory_failure_present"] = true;
+            $this->write(
+                $root . "/var/imperium/offices/senate/senator-finding-sets",
+                $mandatoryFailureSet["finding_set_id"],
+                $mandatoryFailureSet,
+            );
+            try {
+                $dispositionService->issue(
+                    $mandatoryFailureSet["finding_set_id"],
+                );
+                self::fail("A mandatory Security failure was confirmed.");
+            } catch (\RuntimeException $exception) {
+                self::assertSame(
+                    "S184_SENATE_DISPOSITION_INVALID",
+                    $exception->getMessage(),
+                );
+            }
+            self::assertSame(2, $dispositionCognition->calls);
 
             // Alternate recovery flow: a premature Foundry -> Garrison delivery is refused.
             $personaAdmissionDeliveryService = new SubordinatePersonaAdmissionDeliveryService(

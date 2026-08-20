@@ -87,6 +87,7 @@ final class SenateActivationDemandServiceTest extends TestCase
                     "spawning_authority",
                     "seat_binding_authority",
                     "confirmation_acceptance_authority",
+                    "senate_disposition_authority",
                     "assembly_request_authority",
                     "witness_instantiation_authority",
                     "senate_finding_authority",
