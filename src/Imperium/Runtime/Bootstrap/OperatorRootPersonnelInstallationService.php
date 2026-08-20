@@ -277,6 +277,8 @@ final readonly class OperatorRootPersonnelInstallationService
                 "binding_atomic" => true,
                 "authority_source" => $authoritySource,
                 "review_authority" => "foundry.reviewer.adversarial" === $seat,
+                "senate_confirmation_record_acceptance_authority" =>
+                    "foundry.artificer" === $seat,
                 "confirmation_acceptance_authority" =>
                     "senate.lord-speaker" === $seat,
                 "senate_disposition_authority" =>
@@ -398,6 +400,8 @@ final readonly class OperatorRootPersonnelInstallationService
                     true,
                 ),
                 "foundry_construction_authority" =>
+                    "foundry.artificer" === $seat,
+                "senate_confirmation_record_acceptance_authority" =>
                     "foundry.artificer" === $seat,
                 "inventory_response_authority" =>
                     "garrison.constable" === $seat,
