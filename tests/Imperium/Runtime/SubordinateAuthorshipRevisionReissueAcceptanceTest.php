@@ -45,6 +45,7 @@ use App\Imperium\Runtime\Senate\PersonaWitnessTestimonyCognitionGateway;
 use App\Imperium\Runtime\Senate\SubordinatePersonaFirstTestimonyService;
 use App\Imperium\Runtime\Senate\SubordinatePersonaJurisdictionBaselineService;
 use App\Imperium\Runtime\Senate\SubordinatePersonaFreshConsistencyTrialService;
+use App\Imperium\Runtime\Senate\SubordinatePersonaPressureTrialService;
 use PHPUnit\Framework\TestCase;
 
 final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
@@ -1156,6 +1157,82 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
             );
             self::assertFalse($freshConsistency["admission_authority"]);
             self::assertFalse($freshConsistency["execution_authority"]);
+            $pressureTrialService = new SubordinatePersonaPressureTrialService(
+                $root,
+                $testimonyCognition,
+            );
+            $requiredTrials = $pressureTrialService->conduct(
+                $freshConsistency["trial_record_id"],
+            );
+            self::assertSame(
+                $requiredTrials,
+                $pressureTrialService->conduct(
+                    $freshConsistency["trial_record_id"],
+                ),
+            );
+            self::assertSame(7, $testimonyCognition->questionCalls);
+            self::assertSame(7, $testimonyCognition->answerCalls);
+            self::assertSame(
+                "REQUIRED_TRIALS_SEALED_PENDING_SENATOR_FINDINGS",
+                $requiredTrials["status"],
+            );
+            self::assertTrue($requiredTrials["evidentiary_phase_complete"]);
+            self::assertSame(
+                ["governance", "security"],
+                array_column($requiredTrials["pressure_trials"], "jurisdiction"),
+            );
+            self::assertCount(2, $requiredTrials["pressure_trials"]);
+            $pressureManifestations = [];
+            foreach ($requiredTrials["pressure_trials"] as $trial) {
+                self::assertTrue(
+                    $trial["assignment"]["synthetic_material_only"],
+                );
+                self::assertTrue(
+                    $trial["assignment"]["pressure_condition"]["synthetic"],
+                );
+                self::assertFalse(
+                    $trial["assignment"]["pressure_condition"][
+                        "real_assets_present"
+                    ],
+                );
+                self::assertFalse(
+                    $trial["assignment"]["pressure_condition"][
+                        "external_effect_possible"
+                    ],
+                );
+                self::assertTrue(
+                    $trial["fresh_witness"]["candidate_digest_equal"],
+                );
+                self::assertTrue($trial["fresh_witness"]["persona_equal"]);
+                self::assertTrue($trial["fresh_witness"]["bailiff_verified"]);
+                self::assertTrue($trial["question_dispatched_unchanged"]);
+                self::assertTrue($trial["testimony_sealed"]);
+                self::assertNull($trial["senator_finding"]);
+                self::assertNull($trial["mandatory_failure_assessment"]);
+                $pressureManifestations[] =
+                    $trial["fresh_witness"]["manifestation_id"];
+            }
+            self::assertCount(2, array_unique($pressureManifestations));
+            self::assertNotContains(
+                $baseline["manifestation_id"],
+                $pressureManifestations,
+            );
+            self::assertNotContains(
+                $freshConsistency["fresh_witness"]["manifestation_id"],
+                $pressureManifestations,
+            );
+            self::assertSame([], $requiredTrials["senator_findings"]);
+            self::assertNull($requiredTrials["drift_conclusion"]);
+            self::assertNull($requiredTrials["mandatory_failure_conclusion"]);
+            self::assertNull($requiredTrials["aggregate_score"]);
+            self::assertNull($requiredTrials["vote"]);
+            self::assertNull($requiredTrials["senate_disposition"]);
+            self::assertSame(
+                $expectedLineage,
+                $requiredTrials["review_target_lineage"],
+            );
+            self::assertFalse($requiredTrials["admission_authority"]);
+            self::assertFalse($requiredTrials["execution_authority"]);
 
             // Alternate recovery flow: a premature Foundry -> Garrison delivery is refused.
             $personaAdmissionDeliveryService = new SubordinatePersonaAdmissionDeliveryService(

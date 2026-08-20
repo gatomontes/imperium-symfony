@@ -55,6 +55,8 @@ The jurisdictional-baseline boundary repeats that separation for Governance, Con
 
 The fresh-instance consistency boundary creates a distinct sterile manifestation of the exact same candidate under renewed Bailiff verification, dispatches one equivalent Consistency question, and preserves both exchanges as comparison material. Mechanics may record exact identity equality but may not interpret variance, infer drift, or issue a finding.
 
+The pressure-trial boundary creates separate fresh witnesses for Governance and Security. All pressure material is synthetic, carries an exact digest, grants no real access, and cannot produce an external effect. Mechanics seal the complete required-trial ledger but do not assess a mandatory failure, score conduct, vote, or issue a disposition.
+
 ## record-senator-finding
 
 Preserve the exact attributable jurisdictional finding, evidence references, severity, mandatory-failure marker, and Senator authentication.
