@@ -28,7 +28,7 @@ After Conscription returns one sealed `QUALIFIED_UNBOUND` Artificer packet, Mast
 The occupied Artificer validates the exact delivered construction authorization against its activation demand and atomic Seat binding, then records an explicit acceptance disposition. Acceptance makes Foundry responsible for only the enumerated construction demands; it grants no Persona-selection discretion beyond those demands, no spawning or Seat-binding authority, and no mission execution authority.
 
 ## accept-subordinate-construction-authorization
-The occupied Artificer accepts one exact Curia-delivered subordinate-construction authorization and its complete resolution set. Acceptance makes construction authority exercisable only for those digest-bound resolutions. It constructs nothing and grants no Persona selection, Profile approval, spawning, Seat binding, or execution authority.
+The occupied Artificer accepts one exact Guildhall construction commission and its complete Curia-authorized resolution set. A direct Curia delivery is invalid and cannot create a construction case. Acceptance makes construction authority exercisable only for those digest-bound resolutions. It constructs nothing and grants no Persona selection, Profile approval, spawning, Seat binding, or execution authority.
 
 ## open-production-case
 For each exact demand enumerated by an accepted construction authorization, create one immutable production case in the authorized profession order. Preserve the originating personnel disposition, demand, authorization acceptance, exemplar criteria, team composition, boundary controls, occupied Artificer, and queue position. Opening a case grants no Persona-selection discretion, spawning, admission, Seat-binding, or mission execution authority.

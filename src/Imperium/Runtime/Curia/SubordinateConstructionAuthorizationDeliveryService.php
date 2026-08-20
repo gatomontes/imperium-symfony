@@ -12,14 +12,14 @@ final readonly class SubordinateConstructionAuthorizationDeliveryService
     private string $decisionDirectory;
     private string $requestDirectory;
     private string $officeRoot;
-    private string $foundryInbox;
+    private string $guildhallInbox;
 
     public function __construct(#[Autowire('%kernel.project_dir%')] string $projectDir)
     {
         $this->decisionDirectory = $projectDir.'/var/imperium/curia/subordinate-construction-decisions';
         $this->requestDirectory = $projectDir.'/var/imperium/curia/subordinate-construction-requests';
         $this->officeRoot = $projectDir.'/var/imperium/offices';
-        $this->foundryInbox = $projectDir.'/var/imperium/offices/foundry/inbox/subordinate-construction-authorizations';
+        $this->guildhallInbox = $projectDir.'/var/imperium/offices/guildhall/inbox/subordinate-personnel-authorizations';
     }
 
     public function deliver(string $actId): array
@@ -59,19 +59,20 @@ final readonly class SubordinateConstructionAuthorizationDeliveryService
             $seen[$resolutionId] = true;
         }
 
-        $deliveryId = 'subordinate-construction-delivery-'.substr(hash('sha256', CanonicalJson::encode([$actId, $act['record_digest'], $references, 'foundry'])), 0, 20);
+        $deliveryId = 'guildhall-subordinate-personnel-authorization-'.substr(hash('sha256', CanonicalJson::encode([$actId, $act['record_digest'], $references, 'guildhall'])), 0, 20);
         return $this->persist($deliveryId, [
-            'schema' => 'imperium.foundry-subordinate-construction-authorization-delivery/v1',
+            'schema' => 'imperium.guildhall-subordinate-personnel-authorization-delivery/v1',
             'delivery_id' => $deliveryId,
-            'office' => 'foundry',
-            'target' => 'foundry.artificer',
+            'office' => 'guildhall',
+            'target' => 'guildhall',
             'instance_id' => $act['instance_id'],
             'authorization_act_id' => $actId,
             'authorization_act_digest' => $act['record_digest'],
             'authorized_resolutions' => $references,
-            'status' => 'DELIVERED_PENDING_FOUNDRY_ACCEPTANCE',
+            'status' => 'DELIVERED_PENDING_GUILDHALL_COMMISSION',
             'recipient_acceptance' => null,
-            'construction_authority' => true,
+            'personnel_commission_authority' => true,
+            'construction_authority' => false,
             'construction_authority_exercisable' => false,
             'persona_selection_authority' => false,
             'profile_approval_authority' => false,
@@ -86,8 +87,8 @@ final readonly class SubordinateConstructionAuthorizationDeliveryService
     private function digestMatches(array $record): bool { $digest = $record['record_digest'] ?? null; unset($record['record_digest']); return is_string($digest) && hash_equals($digest, hash('sha256', CanonicalJson::encode($record))); }
     private function persist(string $deliveryId, array $delivery): array
     {
-        if (!is_dir($this->foundryInbox) && !mkdir($this->foundryInbox, 0770, true) && !is_dir($this->foundryInbox)) throw new \RuntimeException('Foundry subordinate-construction authorization inbox cannot be created.');
-        $delivery['record_digest'] = hash('sha256', CanonicalJson::encode($delivery)); $path = $this->foundryInbox.'/'.$deliveryId.'.json';
+        if (!is_dir($this->guildhallInbox) && !mkdir($this->guildhallInbox, 0770, true) && !is_dir($this->guildhallInbox)) throw new \RuntimeException('Guildhall subordinate-personnel authorization inbox cannot be created.');
+        $delivery['record_digest'] = hash('sha256', CanonicalJson::encode($delivery)); $path = $this->guildhallInbox.'/'.$deliveryId.'.json';
         if (is_file($path)) { $existing = $this->read($path, 'C110_SUBORDINATE_DELIVERY_ABSENT'); if (CanonicalJson::encode($existing) !== CanonicalJson::encode($delivery)) throw new \RuntimeException('C111_SUBORDINATE_DELIVERY_REPLAY_CONFLICT'); return $existing; }
         $temporary = $path.'.tmp.'.bin2hex(random_bytes(6));
         if (false === file_put_contents($temporary, json_encode($delivery, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)."\n", LOCK_EX) || !rename($temporary, $path)) { @unlink($temporary); throw new \RuntimeException('Subordinate construction authorization delivery cannot be committed atomically.'); }
