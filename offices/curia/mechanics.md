@@ -98,7 +98,7 @@ Bind one explicit Imperator decision to the exact Curial request digest and its 
 
 ## `deliver-subordinate-construction-authorization`
 
-Route the immutable Imperator act, its exact Curial request, and the complete digest-bound subordinate-resolution set into Foundry's authorization inbox. Delivery records authority as present but not exercisable until attributable Foundry acceptance. It neither mutates the source acts nor grants Persona selection, Profile approval, spawning, Seat binding, or execution authority.
+Route the immutable Imperator act, its exact Curial request, and the complete digest-bound subordinate-resolution set to Guildhall as personnel-commission authority. Curia does not commission Foundry and cannot make construction authority exercisable. Guildhall alone may issue the downstream construction commission for the exact authorized set. Delivery neither mutates the source acts nor grants construction, Persona selection, Profile approval, spawning, Seat binding, or execution authority.
 
 ## `deliver-construction-authorization`
 

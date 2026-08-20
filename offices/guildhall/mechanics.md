@@ -36,6 +36,10 @@ The exact Seneschal-issued Guildhall planning commission constitutes the bounded
 ## open-resolution-case
 Preserve exact Curia inputs, versions, provenance, authority, and correlation in a resolution-case record.
 
+## commission-subordinate-construction
+
+Accept the exact Curia-delivered personnel authorization and issue one immutable construction commission to `foundry.artificer`, bound to the complete ordered resolution set and authorization digest. This is the sole canonical subordinate-construction route into Foundry: Curia cannot bypass Guildhall. Issuance makes construction authority available for attributable Foundry acceptance but grants no Persona selection, admission, spawning, Seat binding, or execution authority.
+
 ## dispatch-committee-assignment
 Route a Guildmaster-authorized bounded assignment to the named Committee Seat and record attribution.
 
