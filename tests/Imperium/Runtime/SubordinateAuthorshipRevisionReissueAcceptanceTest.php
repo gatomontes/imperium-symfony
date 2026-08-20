@@ -51,6 +51,7 @@ use App\Imperium\Runtime\Senate\SubordinatePersonaSenatorFindingService;
 use App\Imperium\Runtime\Senate\LordSpeakerDispositionCognitionGateway;
 use App\Imperium\Runtime\Senate\SubordinatePersonaSenateDispositionService;
 use App\Imperium\Runtime\Senate\SubordinatePersonaWitnessRetirementService;
+use App\Imperium\Runtime\Senate\SubordinatePersonaConfirmationRecordIssuanceService;
 use PHPUnit\Framework\TestCase;
 
 final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
@@ -1441,6 +1442,64 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
             );
             self::assertFalse($retirementSet["admission_authority"]);
             self::assertFalse($retirementSet["execution_authority"]);
+
+            $confirmationRecordService = new SubordinatePersonaConfirmationRecordIssuanceService(
+                $root,
+            );
+            $confirmationRecord = $confirmationRecordService->issue(
+                $retirementSet["retirement_set_id"],
+            );
+            self::assertSame(
+                $confirmationRecord,
+                $confirmationRecordService->issue(
+                    $retirementSet["retirement_set_id"],
+                ),
+            );
+            self::assertSame(
+                "CONFIRMATION_RECORD_ISSUED_PENDING_FOUNDRY_ACCEPTANCE",
+                $confirmationRecord["status"],
+            );
+            self::assertSame(
+                "CONFIRMED",
+                $confirmationRecord["senate_disposition"],
+            );
+            self::assertSame(
+                "CONFIRMED_CANDIDATE_FOR_GUILDHALL_FULFILLMENT",
+                $confirmationRecord["foundry_routing"],
+            );
+            self::assertSame(
+                "foundry.artificer",
+                $confirmationRecord["recipient"]["seat"],
+            );
+            self::assertSame(
+                [
+                    "confirmation_request",
+                    "confirmation_case",
+                    "lord_speaker_acceptance",
+                    "baseline_witness",
+                    "secured_deposition",
+                    "jurisdiction_baseline",
+                    "fresh_consistency_trial",
+                    "required_trial_ledger",
+                    "senator_finding_set",
+                    "senate_disposition",
+                    "witness_retirement_set",
+                ],
+                array_keys($confirmationRecord["record_bundle"]),
+            );
+            self::assertNotSame("", $confirmationRecord["record_bundle_digest"]);
+            self::assertFalse($confirmationRecord["evidence_omitted"]);
+            self::assertFalse($confirmationRecord["findings_omitted"]);
+            self::assertTrue($confirmationRecord["disagreement_preserved"]);
+            self::assertTrue($confirmationRecord["all_witnesses_retired"]);
+            self::assertNull($confirmationRecord["recipient_acceptance"]);
+            self::assertTrue($confirmationRecord["senate_confirmation_granted"]);
+            self::assertSame(
+                $expectedLineage,
+                $confirmationRecord["review_target_lineage"],
+            );
+            self::assertFalse($confirmationRecord["admission_authority"]);
+            self::assertFalse($confirmationRecord["execution_authority"]);
 
             $mandatoryFailureSet = $findingSet;
             unset($mandatoryFailureSet["record_digest"]);

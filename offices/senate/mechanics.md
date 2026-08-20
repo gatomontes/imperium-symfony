@@ -67,6 +67,8 @@ The Senator-finding boundary partitions evidence by jurisdiction: Practice recei
 
 Bind exact plans, contracts, trials, transcripts, findings, variance material, mandatory failures, disposition, limitations, provenance, and lineage without interpreting them.
 
+Assembly also binds the original confirmation request and case, Lord Speaker acceptance, all manifestation identities, and the complete retirement set. Every digest chain and the single candidate identity must remain intact; no evidence, finding, limitation, disagreement, or retirement event may be omitted.
+
 ## record-senate-disposition
 
 Preserve Lord Speaker's exact disposition, rationale, authority, limitations, and destination.
@@ -76,6 +78,8 @@ The Lord Speaker receives the complete sealed finding set and must cite all four
 ## issue-confirmation-record
 
 Transmit the immutable record unchanged to the authorized destination.
+
+The only destination is `foundry.artificer`. The preserved disposition supplies the route: confirmed fulfillment, versioned correction, halted progression, or explicit-resolution hold. Issuance stops at `CONFIRMATION_RECORD_ISSUED_PENDING_FOUNDRY_ACCEPTANCE` and creates no admission, Profile, spawning, Seat-binding, or execution authority.
 
 ## close-witness-instance
 
