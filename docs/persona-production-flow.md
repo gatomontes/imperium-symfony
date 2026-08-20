@@ -30,11 +30,12 @@ No Office may be silently skipped. A handoff transfers the exact artifact and it
 18. **The Lord Speaker accepts the exact case.** Acceptance is bound to the case digest, candidate digest, current v0 Lord Speaker occupancy, Bailiff security occupancy, examination contract, and complete review lineage. It authorizes only Senate's bounded witness-instantiation act.
 19. **Senate instantiates the exact elaborated Persona on the stand.** Senate creates one sterile Persona-only manifestation from the sealed candidate. It has no Profile, Officer substrate, Office Seat, operational authority, or ordinary-use eligibility. Bailiff security governs the stand, and retirement after disposition is mandatory. Conscription and Laboratorium do not participate.
 20. **Senate opens the secured deposition.** The Lord Speaker supplies the versioned confirmation plan, the active Bailiff verifies the exact sterile witness and stand boundaries, and Senate opens the proceeding at `OPEN_PENDING_FIRST_QUESTION`. Opening creates no testimony, finding, disposition, admission authority, or execution authority.
-21. **Senate examines and approves or returns the Persona.** Approval must identify the exact candidate and tested manifestation. Failure returns to the competent Foundry correction boundary with complete lineage.
-22. **Senate returns the disposition to Foundry.** Foundry receives the exact Senate-approved artifact and may not substitute an untested or revised candidate.
-23. **Foundry fulfills the original Guildhall commission.** The Senate-approved Persona returns to Guildhall as the product of Guildhall's original personnel demand.
-24. **Guildhall forwards the accepted Persona to Garrison.** Only after Guildhall receives the exact Senate-approved result does the canonical route proceed to Garrison.
-25. **Garrison decides admission and custody.** The Constable admits or rejects the exact Persona under Garrison jurisdiction. Senate approval is a prerequisite; it is not admission. Only admission creates an admitted Persona custody record.
+21. **Practice conducts the first attributable testimony turn.** The occupied Practice Senator receives a bounded jurisdictional assignment, authors one exact question, and Senate dispatches it unchanged to the exact Persona manifestation. The answer is sealed with the question, Senator, trial, candidate, manifestation, and full review lineage. The boundary stops at `FIRST_TESTIMONY_SEALED_PENDING_REMAINING_TRIALS` without a finding or disposition.
+22. **Senate examines and approves or returns the Persona.** Approval must identify the exact candidate and tested manifestation. Failure returns to the competent Foundry correction boundary with complete lineage.
+23. **Senate returns the disposition to Foundry.** Foundry receives the exact Senate-approved artifact and may not substitute an untested or revised candidate.
+24. **Foundry fulfills the original Guildhall commission.** The Senate-approved Persona returns to Guildhall as the product of Guildhall's original personnel demand.
+25. **Guildhall forwards the accepted Persona to Garrison.** Only after Guildhall receives the exact Senate-approved result does the canonical route proceed to Garrison.
+26. **Garrison decides admission and custody.** The Constable admits or rejects the exact Persona under Garrison jurisdiction. Senate approval is a prerequisite; it is not admission. Only admission creates an admitted Persona custody record.
 
 ## Alternate recovery route
 
