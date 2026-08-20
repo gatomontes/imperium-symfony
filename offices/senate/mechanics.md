@@ -21,13 +21,9 @@ Bind the exact Lord-Speaker-authored plan, hearing protocol, required jurisdicti
 
 Bind an exact jurisdictional assignment to the case, occupied committee Seat, Profile version, scope, and return contract.
 
-## issue-assembly-request
+## prepare-persona-witness
 
-Transmit the exact pending-admission Persona, Foundry approval record, manifestation contract, examination identity, and return contract to Conscription without alteration.
-
-## receive-examination-packet
-
-Receive Conscription's sealed examination assembly packet; verify custody, whole-packet integrity, exact case correlation, expiry, and destination without instantiating it.
+Bind the exact pending-admission Persona, Foundry approval record, manifestation contract, examination identity, and return contract into a Senate-local sterile witness packet without invoking Conscription, Laboratorium, a Profile, an Officer substrate, or a Seat.
 
 ## verify-stand-readiness
 
@@ -35,7 +31,7 @@ Verify occupied Bailiff Seat, containment, isolation, permission controls, inter
 
 ## instantiate-witness-on-stand
 
-Create a fresh isolated witness from the exact verified packet with synthetic assets and no Office Seat or operational authority; record instance identity, configuration, packet digest, and stand state.
+Create a fresh isolated manifestation of the exact elaborated Persona from the verified Senate-local packet. The witness has synthetic assets, no Profile, no Officer substrate, no Office Seat, and no operational authority. Record instance identity, configuration, packet digest, and stand state.
 
 ## enforce-stand-control
 
