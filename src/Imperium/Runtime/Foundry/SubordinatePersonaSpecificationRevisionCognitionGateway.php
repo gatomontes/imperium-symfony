@@ -5,5 +5,9 @@ namespace App\Imperium\Runtime\Foundry;
 
 interface SubordinatePersonaSpecificationRevisionCognitionGateway
 {
-    public function revise(array $case, array $priorSpecification, array $clarificationReturn): array;
+    public function revise(
+        array $case,
+        array $priorSpecification,
+        array $revisionReturn,
+    ): array;
 }
