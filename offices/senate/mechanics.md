@@ -81,4 +81,6 @@ Transmit the immutable record unchanged to the authorized destination.
 
 Revoke the provisional instance, synthetic assets, and hearing access while preserving authorized examination artifacts.
 
+After disposition, the Bailiff must account for and retire exactly four sterile manifestations: the baseline witness, fresh Consistency witness, Governance pressure witness, and Security pressure witness. Each immutable retirement event correlates the witness, candidate, disposition, and active Bailiff; records stand-access revocation, synthetic-material revocation, and runtime termination; and preserves the original witness record and every sealed evidentiary artifact. The batch fails closed if any witness is missing, duplicated, mismatched, or remains unretired. Only a complete set reaches `ALL_WITNESSES_RETIRED_PENDING_CONFIRMATION_RECORD_ISSUANCE`.
+
 Every function fails closed on authority, identity, version, attribution, isolation, correlation, destination, or integrity defects.
