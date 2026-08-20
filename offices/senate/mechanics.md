@@ -53,6 +53,8 @@ The first testimony boundary binds the occupied Practice Senator, consumes only 
 
 The jurisdictional-baseline boundary repeats that separation for Governance, Consistency, and Security, provides preserved prior testimony to Consistency, and seals the four-jurisdiction ledger. It explicitly requires additional trials and creates no finding, score, vote, or disposition.
 
+The fresh-instance consistency boundary creates a distinct sterile manifestation of the exact same candidate under renewed Bailiff verification, dispatches one equivalent Consistency question, and preserves both exchanges as comparison material. Mechanics may record exact identity equality but may not interpret variance, infer drift, or issue a finding.
+
 ## record-senator-finding
 
 Preserve the exact attributable jurisdictional finding, evidence references, severity, mandatory-failure marker, and Senator authentication.

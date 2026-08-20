@@ -44,6 +44,7 @@ use App\Imperium\Runtime\Senate\SubordinatePersonaDepositionOpeningService;
 use App\Imperium\Runtime\Senate\PersonaWitnessTestimonyCognitionGateway;
 use App\Imperium\Runtime\Senate\SubordinatePersonaFirstTestimonyService;
 use App\Imperium\Runtime\Senate\SubordinatePersonaJurisdictionBaselineService;
+use App\Imperium\Runtime\Senate\SubordinatePersonaFreshConsistencyTrialService;
 use PHPUnit\Framework\TestCase;
 
 final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
@@ -981,7 +982,15 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                     $jurisdiction = $assignment["jurisdiction"];
                     return [
                         "question_set_id" => $jurisdiction . "-v1",
-                        "trial_id" => $jurisdiction . "-trial-001",
+                        "trial_id" =>
+                            $jurisdiction .
+                            "-trial-" .
+                            str_pad(
+                                (string) $this->questionCalls,
+                                3,
+                                "0",
+                                STR_PAD_LEFT,
+                            ),
                         "purpose" =>
                             "Examine the exact " . $jurisdiction . " boundary.",
                         "question" =>
@@ -1087,6 +1096,66 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
             self::assertSame($expectedLineage, $baseline["review_target_lineage"]);
             self::assertFalse($baseline["admission_authority"]);
             self::assertFalse($baseline["execution_authority"]);
+            $freshConsistencyService = new SubordinatePersonaFreshConsistencyTrialService(
+                $root,
+                $testimonyCognition,
+            );
+            $freshConsistency = $freshConsistencyService->conduct(
+                $baseline["baseline_id"],
+            );
+            self::assertSame(
+                $freshConsistency,
+                $freshConsistencyService->conduct($baseline["baseline_id"]),
+            );
+            self::assertSame(5, $testimonyCognition->questionCalls);
+            self::assertSame(5, $testimonyCognition->answerCalls);
+            self::assertSame(
+                "FRESH_INSTANCE_CONSISTENCY_TRIAL_SEALED_PENDING_PRESSURE_TRIALS",
+                $freshConsistency["status"],
+            );
+            self::assertNotSame(
+                $baseline["manifestation_id"],
+                $freshConsistency["fresh_witness"]["manifestation_id"],
+            );
+            self::assertSame(
+                $baseline["manifestation_id"],
+                $freshConsistency["fresh_witness"]["source_manifestation_id"],
+            );
+            self::assertSame(
+                "senate.committee.consistency",
+                $freshConsistency["assignment"]["senator"]["seat"],
+            );
+            self::assertTrue(
+                $freshConsistency["assignment"]["equivalent_question_required"],
+            );
+            self::assertTrue(
+                $freshConsistency["comparison_record"]["candidate_id_equal"],
+            );
+            self::assertTrue(
+                $freshConsistency["comparison_record"]["candidate_digest_equal"],
+            );
+            self::assertTrue(
+                $freshConsistency["comparison_record"]["persona_equal"],
+            );
+            self::assertNull(
+                $freshConsistency["comparison_record"]["variance_assessment"],
+            );
+            self::assertNull(
+                $freshConsistency["comparison_record"]["consistency_finding"],
+            );
+            self::assertTrue($freshConsistency["testimony_sealed"]);
+            self::assertTrue($freshConsistency["pressure_trials_required"]);
+            self::assertNull($freshConsistency["senator_finding"]);
+            self::assertNull($freshConsistency["drift_conclusion"]);
+            self::assertNull($freshConsistency["aggregate_score"]);
+            self::assertNull($freshConsistency["vote"]);
+            self::assertNull($freshConsistency["senate_disposition"]);
+            self::assertSame(
+                $expectedLineage,
+                $freshConsistency["review_target_lineage"],
+            );
+            self::assertFalse($freshConsistency["admission_authority"]);
+            self::assertFalse($freshConsistency["execution_authority"]);
 
             // Alternate recovery flow: a premature Foundry -> Garrison delivery is refused.
             $personaAdmissionDeliveryService = new SubordinatePersonaAdmissionDeliveryService(
