@@ -111,6 +111,7 @@ final readonly class SenateActivationDemandService
             "spawning_authority" => false,
             "seat_binding_authority" => false,
             "confirmation_acceptance_authority" => false,
+            "senate_disposition_authority" => false,
             "assembly_request_authority" => false,
             "witness_instantiation_authority" => false,
             "senate_finding_authority" => false,
@@ -152,6 +153,9 @@ final readonly class SenateActivationDemandService
             [
                 "assembly_request_authority",
                 "witness_instantiation_authority",
+                "confirmation_acceptance_authority",
+                "senate_disposition_authority",
+                "senate_finding_authority",
                 "admission_authority",
                 "profile_approval_authority",
                 "spawning_authority",

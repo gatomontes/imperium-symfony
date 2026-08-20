@@ -279,6 +279,8 @@ final readonly class OperatorRootPersonnelInstallationService
                 "review_authority" => "foundry.reviewer.adversarial" === $seat,
                 "confirmation_acceptance_authority" =>
                     "senate.lord-speaker" === $seat,
+                "senate_disposition_authority" =>
+                    "senate.lord-speaker" === $seat,
                 "proceeding_security_authority" => "senate.bailiff" === $seat,
                 "senator_question_authority" =>
                     str_starts_with($seat, "senate.committee."),
@@ -401,6 +403,8 @@ final readonly class OperatorRootPersonnelInstallationService
                     "garrison.constable" === $seat,
                 "review_authority" => "foundry.reviewer.adversarial" === $seat,
                 "confirmation_acceptance_authority" =>
+                    "senate.lord-speaker" === $seat,
+                "senate_disposition_authority" =>
                     "senate.lord-speaker" === $seat,
                 "proceeding_security_authority" => "senate.bailiff" === $seat,
                 "senator_question_authority" =>

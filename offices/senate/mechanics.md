@@ -71,6 +71,8 @@ Bind exact plans, contracts, trials, transcripts, findings, variance material, m
 
 Preserve Lord Speaker's exact disposition, rationale, authority, limitations, and destination.
 
+The Lord Speaker receives the complete sealed finding set and must cite all four finding digests. The disposition is not a vote, score, or majority result; disagreement remains explicit and the Lord Speaker records how it was treated. A Security mandatory failure is a hard constitutional bar to `CONFIRMED`. The exact disposition is one of `CONFIRMED`, `RETURN_TO_FOUNDRY`, `REFUSED`, or `UNRESOLVED`, applies only to the examined candidate digest, and stops at `SENATE_DISPOSITION_SEALED_PENDING_WITNESS_RETIREMENT` without admission or execution authority.
+
 ## issue-confirmation-record
 
 Transmit the immutable record unchanged to the authorized destination.
