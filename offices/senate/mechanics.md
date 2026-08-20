@@ -33,6 +33,10 @@ Verify occupied Bailiff Seat, containment, isolation, permission controls, inter
 
 Create a fresh isolated manifestation of the exact elaborated Persona from the verified Senate-local packet. The witness has synthetic assets, no Profile, no Officer substrate, no Office Seat, and no operational authority. Record instance identity, configuration, packet digest, and stand state.
 
+## open-secured-deposition
+
+Bind the exact on-stand witness, Lord-Speaker-authored versioned confirmation plan, active Bailiff security occupancy, jurisdiction coverage, pressure conditions, question-set policy, sealed-material rules, and sterile-runtime contract. Open at `OPEN_PENDING_FIRST_QUESTION` without creating a question, testimony, finding, disposition, or downstream authority.
+
 ## enforce-stand-control
 
 Execute the occupied Bailiff Seat's exact authorized mute, interrupt, isolate, suspend, terminate, access-control, or closure order mechanically and preserve the event without interpreting it.
