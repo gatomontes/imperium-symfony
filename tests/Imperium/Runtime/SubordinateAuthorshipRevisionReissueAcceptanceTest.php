@@ -39,7 +39,7 @@ use App\Imperium\Runtime\Foundry\SubordinatePersonaSenateConfirmationRequestServ
 use App\Imperium\Runtime\Foundry\SubordinatePersonaDirectSenateConfirmationRequestService;
 use App\Imperium\Runtime\Senate\SubordinatePersonaConfirmationCaseIntakeService;
 use App\Imperium\Runtime\Senate\SubordinatePersonaConfirmationCaseAcceptanceService;
-use App\Imperium\Runtime\Senate\SubordinatePersonaExaminationAssemblyRequestService;
+use App\Imperium\Runtime\Senate\SubordinatePersonaWitnessInstantiationService;
 use PHPUnit\Framework\TestCase;
 
 final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
@@ -740,11 +740,17 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 "CANONICAL_FOUNDRY_TO_SENATE",
                 $personaConfirmationRequest["route_class"],
             );
-            self::assertSame(
-                "examination_only",
-                $personaConfirmationRequest["examination_contract"][
-                    "profile_class"
-                ],
+            self::assertNull(
+                $personaConfirmationRequest["examination_contract"]["profile_class"],
+            );
+            self::assertFalse(
+                $personaConfirmationRequest["examination_contract"]["profile_required"],
+            );
+            self::assertFalse(
+                $personaConfirmationRequest["examination_contract"]["officer_substrate_required"],
+            );
+            self::assertTrue(
+                $personaConfirmationRequest["examination_contract"]["senate_local_instantiation"],
             );
             self::assertSame(
                 $expectedLineage,
@@ -801,7 +807,7 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 ),
             );
             self::assertSame(
-                "ACCEPTED_PENDING_EXAMINATION_ASSEMBLY_REQUEST",
+                "ACCEPTED_PENDING_PERSONA_WITNESS_INSTANTIATION",
                 $personaConfirmationAcceptance["status"],
             );
             self::assertSame(
@@ -821,58 +827,46 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 $personaConfirmationAcceptance["review_target_lineage"],
             );
             self::assertTrue(
-                $personaConfirmationAcceptance[
-                    "assembly_request_authority_exercisable"
-                ],
+                $personaConfirmationAcceptance["witness_instantiation_authority"],
             );
             self::assertFalse(
-                $personaConfirmationAcceptance[
-                    "witness_instantiation_authority"
-                ],
+                $personaConfirmationAcceptance["assembly_request_authority_exercisable"],
             );
-            $examinationAssemblyRequestService = new SubordinatePersonaExaminationAssemblyRequestService(
+            $witnessInstantiationService = new SubordinatePersonaWitnessInstantiationService(
                 $root,
             );
-            $examinationAssemblyRequest = $examinationAssemblyRequestService->request(
+            $witnessManifestation = $witnessInstantiationService->instantiate(
                 $personaConfirmationAcceptance["acceptance_id"],
             );
             self::assertSame(
-                $examinationAssemblyRequest,
-                $examinationAssemblyRequestService->request(
+                $witnessManifestation,
+                $witnessInstantiationService->instantiate(
                     $personaConfirmationAcceptance["acceptance_id"],
                 ),
             );
             self::assertSame(
-                "DELIVERED_PENDING_CONSCRIPTION_ACCEPTANCE",
-                $examinationAssemblyRequest["status"],
+                "INSTANTIATED_ON_STAND_PENDING_DEPOSITION",
+                $witnessManifestation["status"],
             );
             self::assertSame(
-                "examination_only",
-                $examinationAssemblyRequest["required_assembly"][
-                    "profile_class"
-                ],
+                "STERILE_PERSONA_ONLY_STAND_INSTANCE",
+                $witnessManifestation["manifestation_class"],
             );
-            self::assertSame(
-                1,
-                $examinationAssemblyRequest["required_assembly"]["quantity"],
-            );
+            self::assertNull($witnessManifestation["profile"]);
+            self::assertNull($witnessManifestation["officer_substrate"]);
+            self::assertNull($witnessManifestation["seat"]);
             self::assertSame(
                 $expectedLineage,
-                $examinationAssemblyRequest["review_target_lineage"],
+                $witnessManifestation["review_target_lineage"],
             );
             self::assertFalse(
-                $examinationAssemblyRequest[
-                    "profile_commission_authority_exercisable"
-                ],
+                $witnessManifestation["operational_authority"],
             );
             self::assertFalse(
-                $examinationAssemblyRequest["witness_instantiation_authority"],
+                $witnessManifestation["senate_finding_authority"],
             );
             self::assertFalse(
-                $examinationAssemblyRequest["senate_finding_authority"],
-            );
-            self::assertFalse(
-                $examinationAssemblyRequest["admission_authority"],
+                $witnessManifestation["admission_authority"],
             );
 
             // Alternate recovery flow: a premature Foundry -> Garrison delivery is refused.

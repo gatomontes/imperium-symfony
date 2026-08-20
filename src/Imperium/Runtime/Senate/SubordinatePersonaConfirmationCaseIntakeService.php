@@ -203,7 +203,10 @@ final readonly class SubordinatePersonaConfirmationCaseIntakeService
                 true,
             ) &&
             true === ($contract["manifestation_required"] ?? null) &&
-            "examination_only" === ($contract["profile_class"] ?? null) &&
+            false === ($contract["profile_required"] ?? null) &&
+            null === ($contract["profile_class"] ?? null) &&
+            false === ($contract["officer_substrate_required"] ?? null) &&
+            true === ($contract["senate_local_instantiation"] ?? null) &&
             true === ($contract["sterile_witness_required"] ?? null) &&
             true === ($contract["exact_candidate_only"] ?? null) &&
             true ===

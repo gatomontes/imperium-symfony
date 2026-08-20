@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[
     AsCommand(
         name: "imperium:senate:accept-subordinate-persona-confirmation-case",
-        description: "Accept an exact subordinate Persona case for examination assembly",
+        description: "Accept an exact subordinate Persona case for sterile witness instantiation",
     ),
 ]
 final class SenateAcceptSubordinatePersonaConfirmationCaseCommand extends

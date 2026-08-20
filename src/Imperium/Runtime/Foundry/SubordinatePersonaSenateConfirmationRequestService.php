@@ -172,7 +172,10 @@ final readonly class SubordinatePersonaSenateConfirmationRequestService
             "examination_contract" => [
                 "subject_state" => "production-approved-pending-admission",
                 "manifestation_required" => true,
-                "profile_class" => "examination_only",
+                "profile_required" => false,
+                "profile_class" => null,
+                "officer_substrate_required" => false,
+                "senate_local_instantiation" => true,
                 "sterile_witness_required" => true,
                 "exact_candidate_only" => true,
                 "independent_senate_disposition_required" => true,
