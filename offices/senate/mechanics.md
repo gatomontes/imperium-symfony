@@ -49,6 +49,8 @@ Transmit an exact Senator-authored question to the correlated witness instance a
 
 Preserve the exact question, answer, authorship, instance identity, trial, timing, and correlation.
 
+The first testimony boundary binds the occupied Practice Senator, consumes only its bounded question authority, dispatches one exact attributable question, and seals the Persona-only witness response. It creates no Senator finding or Senate disposition.
+
 ## record-senator-finding
 
 Preserve the exact attributable jurisdictional finding, evidence references, severity, mandatory-failure marker, and Senator authentication.
