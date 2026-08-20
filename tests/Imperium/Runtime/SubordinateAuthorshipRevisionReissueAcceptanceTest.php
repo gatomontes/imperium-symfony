@@ -36,6 +36,7 @@ use App\Imperium\Runtime\Foundry\SubordinatePersonaSpecificationRevisionService;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaAdmissionDeliveryService;
 use App\Imperium\Runtime\Garrison\SubordinatePersonaAdmissionIntakeService;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaSenateConfirmationRequestService;
+use App\Imperium\Runtime\Foundry\SubordinatePersonaDirectSenateConfirmationRequestService;
 use App\Imperium\Runtime\Senate\SubordinatePersonaConfirmationCaseIntakeService;
 use PHPUnit\Framework\TestCase;
 
@@ -733,7 +734,7 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 ),
             );
             self::assertSame(
-                "APPROVED_PENDING_GARRISON_ADMISSION_DELIVERY",
+                "APPROVED_PENDING_SENATE_CONFIRMATION_REQUEST",
                 $productionApproval["status"],
             );
             self::assertSame(
@@ -743,17 +744,102 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
             self::assertTrue($productionApproval["production_approval"]);
             self::assertFalse($productionApproval["admission_authority"]);
             self::assertFalse($productionApproval["execution_authority"]);
+            $directConfirmationRequestService = new SubordinatePersonaDirectSenateConfirmationRequestService(
+                $root,
+            );
+            $personaConfirmationRequest = $directConfirmationRequestService->request(
+                $productionApproval["production_approval_id"],
+            );
+            self::assertSame(
+                $personaConfirmationRequest,
+                $directConfirmationRequestService->request(
+                    $productionApproval["production_approval_id"],
+                ),
+            );
+            self::assertSame(
+                "CANONICAL_FOUNDRY_TO_SENATE",
+                $personaConfirmationRequest["route_class"],
+            );
+            self::assertSame(
+                "examination_only",
+                $personaConfirmationRequest["examination_contract"][
+                    "profile_class"
+                ],
+            );
+            self::assertSame(
+                $expectedLineage,
+                $personaConfirmationRequest["review_target_lineage"],
+            );
+            self::assertFalse(
+                $personaConfirmationRequest["admission_authority"],
+            );
+            $personaConfirmationCaseService = new SubordinatePersonaConfirmationCaseIntakeService(
+                $root,
+            );
+            $personaConfirmationCase = $personaConfirmationCaseService->preserve(
+                $personaConfirmationRequest["confirmation_request_id"],
+            );
+            self::assertSame(
+                $personaConfirmationCase,
+                $personaConfirmationCaseService->preserve(
+                    $personaConfirmationRequest["confirmation_request_id"],
+                ),
+            );
+            self::assertSame(
+                "CANONICAL_FOUNDRY_TO_SENATE",
+                $personaConfirmationCase["route_class"],
+            );
+            self::assertSame(
+                "PENDING_LORD_SPEAKER_ACCEPTANCE",
+                $personaConfirmationCase["status"],
+            );
+            self::assertSame(
+                [],
+                $personaConfirmationCase["activation_required"],
+            );
+            self::assertSame(
+                $expectedLineage,
+                $personaConfirmationCase["review_target_lineage"],
+            );
+            self::assertFalse(
+                $personaConfirmationCase["assembly_request_authority"],
+            );
+            self::assertFalse(
+                $personaConfirmationCase["witness_instantiation_authority"],
+            );
+            self::assertFalse($personaConfirmationCase["admission_authority"]);
+
+            // Alternate recovery flow: a premature Foundry -> Garrison delivery is refused.
             $personaAdmissionDeliveryService = new SubordinatePersonaAdmissionDeliveryService(
                 $root,
             );
+            try {
+                $personaAdmissionDeliveryService->deliver(
+                    $productionApproval["production_approval_id"],
+                );
+                self::fail(
+                    "Premature Garrison delivery was treated as canonical.",
+                );
+            } catch (\RuntimeException $exception) {
+                self::assertSame(
+                    "F177_GARRISON_FIRST_ROUTE_IS_RECOVERY_ONLY",
+                    $exception->getMessage(),
+                );
+            }
             $personaAdmissionDelivery = $personaAdmissionDeliveryService->deliver(
                 $productionApproval["production_approval_id"],
+                true,
             );
             self::assertSame(
                 $personaAdmissionDelivery,
                 $personaAdmissionDeliveryService->deliver(
                     $productionApproval["production_approval_id"],
+                    true,
                 ),
+            );
+            self::assertSame(
+                "RECOVERY_ONLY_PREMATURE_GARRISON_DELIVERY",
+                $personaAdmissionDelivery["route_class"],
             );
             self::assertSame(
                 "DELIVERED_PENDING_GARRISON_ACCEPTANCE",
@@ -792,62 +878,26 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
             self::assertFalse($personaAdmissionReturn["custody_created"]);
             self::assertFalse($personaAdmissionReturn["admission_authority"]);
             self::assertFalse($personaAdmissionReturn["execution_authority"]);
-            $personaConfirmationRequestService = new SubordinatePersonaSenateConfirmationRequestService(
+            $recoveryConfirmationRequestService = new SubordinatePersonaSenateConfirmationRequestService(
                 $root,
             );
-            $personaConfirmationRequest = $personaConfirmationRequestService->request(
+            $recoveryConfirmationRequest = $recoveryConfirmationRequestService->request(
                 $personaAdmissionReturn["return_id"],
             );
             self::assertSame(
-                $personaConfirmationRequest,
-                $personaConfirmationRequestService->request(
+                $recoveryConfirmationRequest,
+                $recoveryConfirmationRequestService->request(
                     $personaAdmissionReturn["return_id"],
                 ),
             );
             self::assertSame(
-                "examination_only",
-                $personaConfirmationRequest["examination_contract"][
-                    "profile_class"
-                ],
+                "RECOVERY_AFTER_PREMATURE_GARRISON_DELIVERY",
+                $recoveryConfirmationRequest["route_class"],
             );
             self::assertSame(
                 $expectedLineage,
-                $personaConfirmationRequest["review_target_lineage"],
+                $recoveryConfirmationRequest["review_target_lineage"],
             );
-            self::assertFalse(
-                $personaConfirmationRequest["admission_authority"],
-            );
-            $personaConfirmationCaseService = new SubordinatePersonaConfirmationCaseIntakeService(
-                $root,
-            );
-            $personaConfirmationCase = $personaConfirmationCaseService->preserve(
-                $personaConfirmationRequest["confirmation_request_id"],
-            );
-            self::assertSame(
-                $personaConfirmationCase,
-                $personaConfirmationCaseService->preserve(
-                    $personaConfirmationRequest["confirmation_request_id"],
-                ),
-            );
-            self::assertSame(
-                "PENDING_LORD_SPEAKER_ACCEPTANCE",
-                $personaConfirmationCase["status"],
-            );
-            self::assertSame(
-                [],
-                $personaConfirmationCase["activation_required"],
-            );
-            self::assertSame(
-                $expectedLineage,
-                $personaConfirmationCase["review_target_lineage"],
-            );
-            self::assertFalse(
-                $personaConfirmationCase["assembly_request_authority"],
-            );
-            self::assertFalse(
-                $personaConfirmationCase["witness_instantiation_authority"],
-            );
-            self::assertFalse($personaConfirmationCase["admission_authority"]);
 
             unlink(
                 $root .
