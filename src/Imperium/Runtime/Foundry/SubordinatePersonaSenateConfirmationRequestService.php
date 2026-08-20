@@ -99,6 +99,8 @@ final readonly class SubordinatePersonaSenateConfirmationRequestService
                 ($return["disposition"] ?? null) ||
             "REFUSED" !== ($return["admission_decision"] ?? null) ||
             false !== ($return["custody_created"] ?? null) ||
+            "RECOVERY_AFTER_PREMATURE_GARRISON_DELIVERY" !==
+                ($return["route_class"] ?? null) ||
             $this->requiredDefects() !== ($return["defects"] ?? null) ||
             true !== ($return["sealed"] ?? null) ||
             $this->hasAuthority($return) ||
@@ -112,7 +114,9 @@ final readonly class SubordinatePersonaSenateConfirmationRequestService
                 ($approval["record_digest"] ?? null) ||
             ($delivery["candidate_digest"] ?? null) !==
                 ($candidate["record_digest"] ?? null) ||
-            "APPROVED_PENDING_GARRISON_ADMISSION_DELIVERY" !==
+            "RECOVERY_ONLY_PREMATURE_GARRISON_DELIVERY" !==
+                ($delivery["route_class"] ?? null) ||
+            "APPROVED_PENDING_SENATE_CONFIRMATION_REQUEST" !==
                 ($approval["status"] ?? null) ||
             ($return["review_target_lineage"]["persona_specification_digest"] ??
                 null) !==
@@ -164,6 +168,7 @@ final readonly class SubordinatePersonaSenateConfirmationRequestService
                 $candidate["persona_specification_version"],
             "persona" => $candidate["persona"],
             "review_target_lineage" => $return["review_target_lineage"],
+            "route_class" => "RECOVERY_AFTER_PREMATURE_GARRISON_DELIVERY",
             "examination_contract" => [
                 "subject_state" => "production-approved-pending-admission",
                 "manifestation_required" => true,
