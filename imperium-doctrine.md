@@ -148,12 +148,14 @@ Existence establishes no lifecycle disposition. Drafting, testing, successful ex
 
 The governed noun determines the disposition:
 
-- a Persona is **admitted** or rejected by Garrison under the competent admission disposition;
+- a Persona candidate is **approved** or returned by Senate after exact manifestation-bound examination, and the resulting Persona is separately **admitted** or rejected by Garrison under the competent admission disposition;
 - a Profile is **approved**, bound to its exact version and digest, by the exact competent authority established by the Charter before its owning steward may designate it **current/active**;
 - an assembled Officer or operative manifestation is **qualified** or rejected by Conscription against its exact Profile contract; and
 - a Seat is **occupied** only through the competent binding authority.
 
-These terms are not interchangeable. In particular, no Profile is admitted or qualified, and no Persona becomes approved, current/active, installed, qualified, or occupied merely because a related artifact or manifestation reaches one of those states.
+These terms are not interchangeable. Senate approval does not admit a Persona, and Garrison admission does not make a Profile current or qualify a manifestation. In particular, no Profile is admitted or qualified, and no Persona becomes current/active, installed, qualified, or occupied merely because a related artifact or manifestation reaches one of those states.
+
+The canonical Persona production route is **Guildhall → Foundry → Hagiography/Studium → Foundry → Senate approval → Foundry → Guildhall → Garrison**. Direct Foundry delivery to Garrison before Senate approval and return through Guildhall is a recovery-only premature-delivery path. Garrison must refuse it without creating custody, and its provenance may never be rewritten as the canonical route.
 
 “Production” means accepted for current semantic use under the lifecycle disposition applicable to the exact constituent. It does not mean permanent, implemented, deployed, or externally authorized.
 

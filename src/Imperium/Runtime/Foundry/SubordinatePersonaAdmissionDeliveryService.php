@@ -24,8 +24,15 @@ final readonly class SubordinatePersonaAdmissionDeliveryService
         );
     }
 
-    public function deliver(string $approvalId): array
-    {
+    public function deliver(
+        string $approvalId,
+        bool $recoveryOnlyAcknowledged = false,
+    ): array {
+        if (!$recoveryOnlyAcknowledged) {
+            throw new \RuntimeException(
+                "F177_GARRISON_FIRST_ROUTE_IS_RECOVERY_ONLY",
+            );
+        }
         if (
             !preg_match(
                 '/^subordinate-persona-production-approval-[a-f0-9]{20}$/',
@@ -85,7 +92,7 @@ final readonly class SubordinatePersonaAdmissionDeliveryService
                 ($approval["schema"] ?? null) ||
             "APPROVED_AS_EXACT_REVIEWED_PERSONA_PRODUCTION" !==
                 ($approval["disposition"] ?? null) ||
-            "APPROVED_PENDING_GARRISON_ADMISSION_DELIVERY" !==
+            "APPROVED_PENDING_SENATE_CONFIRMATION_REQUEST" !==
                 ($approval["status"] ?? null) ||
             true !== ($approval["production_approval"] ?? null) ||
             true !== ($approval["sealed"] ?? null) ||
@@ -151,6 +158,8 @@ final readonly class SubordinatePersonaAdmissionDeliveryService
             "section_products" => $candidate["section_products"],
             "review_target_lineage" => $approval["review_target_lineage"],
             "review_decision" => $approval["review_decision"],
+            "route_class" => "RECOVERY_ONLY_PREMATURE_GARRISON_DELIVERY",
+            "canonical_flow_violation" => true,
             "requested_disposition" =>
                 "CONSIDER_EXACT_PERSONA_FOR_GARRISON_ADMISSION",
             "status" => "DELIVERED_PENDING_GARRISON_ACCEPTANCE",

@@ -51,6 +51,9 @@ final readonly class SubordinatePersonaAdmissionIntakeService
                 ($delivery["requested_disposition"] ?? null) ||
             "DELIVERED_PENDING_GARRISON_ACCEPTANCE" !==
                 ($delivery["status"] ?? null) ||
+            "RECOVERY_ONLY_PREMATURE_GARRISON_DELIVERY" !==
+                ($delivery["route_class"] ?? null) ||
+            true !== ($delivery["canonical_flow_violation"] ?? null) ||
             null !== ($delivery["recipient_acceptance"] ?? null) ||
             true !== ($delivery["production_approval"] ?? null) ||
             false !== ($delivery["admission_authority"] ?? null) ||
@@ -121,6 +124,7 @@ final readonly class SubordinatePersonaAdmissionIntakeService
             "candidate_digest" => $delivery["candidate_digest"],
             "persona_name" => $delivery["persona_name"],
             "review_target_lineage" => $delivery["review_target_lineage"],
+            "route_class" => "RECOVERY_AFTER_PREMATURE_GARRISON_DELIVERY",
             "constable" => [
                 "seat" => "garrison.constable",
                 "manifestation_id" => $constable["manifestation_id"],

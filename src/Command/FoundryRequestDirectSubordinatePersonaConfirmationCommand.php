@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Imperium\Runtime\Foundry\SubordinatePersonaAdmissionDeliveryService;
+use App\Imperium\Runtime\Foundry\SubordinatePersonaDirectSenateConfirmationRequestService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -13,27 +13,25 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 #[
     AsCommand(
-        name: "imperium:foundry:recover:deliver-premature-subordinate-persona-admission",
-        description: "Exercise the recovery-only premature Garrison delivery path",
+        name: "imperium:foundry:request-subordinate-persona-confirmation",
+        description: "Send an exact production-approved Persona directly to Senate",
     ),
 ]
-final class FoundryDeliverSubordinatePersonaAdmissionCommand extends Command
+final class FoundryRequestDirectSubordinatePersonaConfirmationCommand extends
+    Command
 {
     public function __construct(
-        private readonly SubordinatePersonaAdmissionDeliveryService $service,
+        private readonly SubordinatePersonaDirectSenateConfirmationRequestService $service,
     ) {
         parent::__construct();
     }
 
     protected function configure(): void
     {
-        $this->addArgument("production-approval-id", InputArgument::REQUIRED)
-            ->addOption(
-                "acknowledge-recovery-only",
-                null,
-                InputOption::VALUE_NONE,
-            )
-            ->addOption("json", null, InputOption::VALUE_NONE);
+        $this->addArgument(
+            "production-approval-id",
+            InputArgument::REQUIRED,
+        )->addOption("json", null, InputOption::VALUE_NONE);
     }
 
     protected function execute(
@@ -41,9 +39,8 @@ final class FoundryDeliverSubordinatePersonaAdmissionCommand extends Command
         OutputInterface $output,
     ): int {
         try {
-            $record = $this->service->deliver(
+            $record = $this->service->request(
                 (string) $input->getArgument("production-approval-id"),
-                (bool) $input->getOption("acknowledge-recovery-only"),
             );
         } catch (\Throwable $exception) {
             $output->writeln(
@@ -59,8 +56,8 @@ final class FoundryDeliverSubordinatePersonaAdmissionCommand extends Command
                         JSON_UNESCAPED_SLASHES |
                         JSON_THROW_ON_ERROR,
                 )
-                : "<info>SUBORDINATE_PERSONA_ADMISSION_DELIVERED</info> " .
-                    $record["delivery_id"],
+                : "<info>SUBORDINATE_PERSONA_SENT_DIRECTLY_TO_SENATE</info> " .
+                    $record["confirmation_request_id"],
         );
         return self::SUCCESS;
     }

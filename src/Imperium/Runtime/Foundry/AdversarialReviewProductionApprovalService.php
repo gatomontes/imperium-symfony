@@ -128,7 +128,7 @@ final readonly class AdversarialReviewProductionApprovalService
                 "occupancy_generation" => $binding["occupancy_generation"],
             ],
             "disposition" => "APPROVED_AS_EXACT_REVIEWED_PERSONA_PRODUCTION",
-            "status" => "APPROVED_PENDING_GARRISON_ADMISSION_DELIVERY",
+            "status" => "APPROVED_PENDING_SENATE_CONFIRMATION_REQUEST",
             "production_approval" => true,
             "profile_approval_authority" => false,
             "spawning_authority" => false,

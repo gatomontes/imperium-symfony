@@ -13,8 +13,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 #[
     AsCommand(
-        name: "imperium:foundry:request-subordinate-persona-confirmation",
-        description: "Request Senate examination of an exact production-approved Persona",
+        name: "imperium:foundry:recover-subordinate-persona-confirmation",
+        description: "Recover a premature Garrison delivery into Senate examination",
     ),
 ]
 final class FoundryRequestSubordinatePersonaConfirmationCommand extends Command

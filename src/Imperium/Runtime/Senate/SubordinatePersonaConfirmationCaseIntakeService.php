@@ -55,7 +55,19 @@ final readonly class SubordinatePersonaConfirmationCaseIntakeService
             null !== ($request["recipient_acceptance"] ?? null) ||
             null !== ($request["senate_finding"] ?? null) ||
             true !== ($request["sealed"] ?? null) ||
+            !in_array(
+                $request["route_class"] ?? null,
+                [
+                    "CANONICAL_FOUNDRY_TO_SENATE",
+                    "RECOVERY_AFTER_PREMATURE_GARRISON_DELIVERY",
+                ],
+                true,
+            ) ||
             !$this->validContract($request["examination_contract"] ?? null) ||
+            !$this->routeMatchesContract(
+                $request["route_class"] ?? null,
+                $request["examination_contract"]["subject_state"] ?? null,
+            ) ||
             $this->hasAuthority($request)
         ) {
             throw new \RuntimeException(
@@ -101,6 +113,7 @@ final readonly class SubordinatePersonaConfirmationCaseIntakeService
                 "imperium.senate-subordinate-persona-confirmation-case/v1",
             "confirmation_case_id" => $id,
             "instance_id" => $request["instance_id"],
+            "route_class" => $request["route_class"],
             "source_request_id" => $requestId,
             "source_request_digest" => $request["record_digest"],
             "source_admission_return_id" =>
@@ -181,8 +194,14 @@ final readonly class SubordinatePersonaConfirmationCaseIntakeService
     private function validContract(mixed $contract): bool
     {
         return is_array($contract) &&
-            "production-approved-pending-admission" ===
-                ($contract["subject_state"] ?? null) &&
+            in_array(
+                $contract["subject_state"] ?? null,
+                [
+                    "production-approved-pending-senate-approval",
+                    "production-approved-pending-admission",
+                ],
+                true,
+            ) &&
             true === ($contract["manifestation_required"] ?? null) &&
             "examination_only" === ($contract["profile_class"] ?? null) &&
             true === ($contract["sterile_witness_required"] ?? null) &&
@@ -192,6 +211,17 @@ final readonly class SubordinatePersonaConfirmationCaseIntakeService
                     null) &&
             true === ($contract["self_review_prohibited"] ?? null) &&
             true === ($contract["ordinary_operational_use_prohibited"] ?? null);
+    }
+
+    private function routeMatchesContract(mixed $route, mixed $subject): bool
+    {
+        return match ($route) {
+            "CANONICAL_FOUNDRY_TO_SENATE"
+                => "production-approved-pending-senate-approval" === $subject,
+            "RECOVERY_AFTER_PREMATURE_GARRISON_DELIVERY"
+                => "production-approved-pending-admission" === $subject,
+            default => false,
+        };
     }
 
     private function hasAuthority(array $record): bool

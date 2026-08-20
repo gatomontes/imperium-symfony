@@ -6,11 +6,9 @@ namespace App\Imperium\Runtime\Foundry;
 use App\Bootstrap\CanonicalJson;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
-final readonly class SubordinatePersonaSenateConfirmationRequestService
+final readonly class SubordinatePersonaDirectSenateConfirmationRequestService
 {
     private string $root;
-    private string $returnDirectory;
-    private string $deliveryDirectory;
     private string $senateInbox;
     private SubordinatePersonaSpecificationLineageGuard $lineage;
 
@@ -18,11 +16,6 @@ final readonly class SubordinatePersonaSenateConfirmationRequestService
         #[Autowire("%kernel.project_dir%")] string $projectDir,
     ) {
         $this->root = $projectDir . "/var/imperium/offices/foundry";
-        $this->returnDirectory =
-            $this->root . "/inbox/subordinate-persona-admission-returns";
-        $this->deliveryDirectory =
-            $projectDir .
-            "/var/imperium/offices/garrison/inbox/subordinate-persona-admissions";
         $this->senateInbox =
             $projectDir .
             "/var/imperium/offices/senate/inbox/persona-confirmation-requests";
@@ -31,51 +24,47 @@ final readonly class SubordinatePersonaSenateConfirmationRequestService
         );
     }
 
-    public function request(string $returnId): array
+    public function request(string $approvalId): array
     {
         if (
             !preg_match(
-                '/^subordinate-persona-admission-return-[a-f0-9]{20}$/',
-                $returnId,
+                '/^subordinate-persona-production-approval-[a-f0-9]{20}$/',
+                $approvalId,
             )
         ) {
             throw new \InvalidArgumentException(
-                "F181_SUBORDINATE_ADMISSION_RETURN_ID_INVALID",
+                "F185_SUBORDINATE_PRODUCTION_APPROVAL_ID_INVALID",
             );
         }
-        $return = $this->read(
-            $this->returnDirectory . "/" . $returnId . ".json",
-            "F182_SUBORDINATE_CONFIRMATION_REQUEST_CHAIN_INVALID",
+        $approval = $this->read(
+            $this->root .
+                "/subordinate-persona-production-approvals/" .
+                $approvalId .
+                ".json",
+            "F186_DIRECT_SENATE_REQUEST_CHAIN_INVALID",
         );
-        $deliveryId = $return["source_delivery_id"] ?? null;
-        $delivery = is_string($deliveryId)
-            ? $this->read(
-                $this->deliveryDirectory . "/" . $deliveryId . ".json",
-                "F182_SUBORDINATE_CONFIRMATION_REQUEST_CHAIN_INVALID",
-            )
-            : [];
-        $approvalId = $return["production_approval_id"] ?? null;
-        $approval = is_string($approvalId)
-            ? $this->read(
-                $this->root .
-                    "/subordinate-persona-production-approvals/" .
-                    $approvalId .
-                    ".json",
-                "F182_SUBORDINATE_CONFIRMATION_REQUEST_CHAIN_INVALID",
-            )
-            : [];
-        $candidateId = $return["candidate_id"] ?? null;
+        $candidateId = $approval["candidate_id"] ?? null;
         $candidate = is_string($candidateId)
             ? $this->read(
                 $this->root .
                     "/subordinate-persona-candidates/" .
                     $candidateId .
                     ".json",
-                "F182_SUBORDINATE_CONFIRMATION_REQUEST_CHAIN_INVALID",
+                "F186_DIRECT_SENATE_REQUEST_CHAIN_INVALID",
+            )
+            : [];
+        $resultId = $approval["adversarial_review_result_id"] ?? null;
+        $result = is_string($resultId)
+            ? $this->read(
+                $this->root .
+                    "/adversarial-review-results/" .
+                    $resultId .
+                    ".json",
+                "F186_DIRECT_SENATE_REQUEST_CHAIN_INVALID",
             )
             : [];
         $specificationId =
-            $return["review_target_lineage"]["persona_specification_id"] ??
+            $approval["review_target_lineage"]["persona_specification_id"] ??
             null;
         $specification = is_string($specificationId)
             ? $this->read(
@@ -83,47 +72,42 @@ final readonly class SubordinatePersonaSenateConfirmationRequestService
                     "/subordinate-persona-specifications/" .
                     $specificationId .
                     ".json",
-                "F182_SUBORDINATE_CONFIRMATION_REQUEST_CHAIN_INVALID",
+                "F186_DIRECT_SENATE_REQUEST_CHAIN_INVALID",
             )
             : [];
 
         if (
-            !$this->digestMatches($return) ||
-            !$this->digestMatches($delivery) ||
             !$this->digestMatches($approval) ||
             !$this->digestMatches($candidate) ||
+            !$this->digestMatches($result) ||
             !$this->digestMatches($specification) ||
-            "imperium.garrison-subordinate-persona-admission-return/v1" !==
-                ($return["schema"] ?? null) ||
-            "REFUSED_INCOMPLETE_PERSONA_ADMISSION_PACKAGE" !==
-                ($return["disposition"] ?? null) ||
-            "REFUSED" !== ($return["admission_decision"] ?? null) ||
-            false !== ($return["custody_created"] ?? null) ||
-            "RECOVERY_AFTER_PREMATURE_GARRISON_DELIVERY" !==
-                ($return["route_class"] ?? null) ||
-            $this->requiredDefects() !== ($return["defects"] ?? null) ||
-            true !== ($return["sealed"] ?? null) ||
-            $this->hasAuthority($return) ||
-            ($return["source_delivery_digest"] ?? null) !==
-                ($delivery["record_digest"] ?? null) ||
-            ($return["production_approval_digest"] ?? null) !==
-                ($approval["record_digest"] ?? null) ||
-            ($return["candidate_digest"] ?? null) !==
-                ($candidate["record_digest"] ?? null) ||
-            ($delivery["production_approval_digest"] ?? null) !==
-                ($approval["record_digest"] ?? null) ||
-            ($delivery["candidate_digest"] ?? null) !==
-                ($candidate["record_digest"] ?? null) ||
-            "RECOVERY_ONLY_PREMATURE_GARRISON_DELIVERY" !==
-                ($delivery["route_class"] ?? null) ||
+            "imperium.foundry-subordinate-persona-production-approval/v1" !==
+                ($approval["schema"] ?? null) ||
+            "APPROVED_AS_EXACT_REVIEWED_PERSONA_PRODUCTION" !==
+                ($approval["disposition"] ?? null) ||
             "APPROVED_PENDING_SENATE_CONFIRMATION_REQUEST" !==
                 ($approval["status"] ?? null) ||
-            ($return["review_target_lineage"]["persona_specification_digest"] ??
+            true !== ($approval["production_approval"] ?? null) ||
+            true !== ($approval["sealed"] ?? null) ||
+            ($approval["candidate_digest"] ?? null) !==
+                ($candidate["record_digest"] ?? null) ||
+            ($approval["adversarial_review_result_digest"] ?? null) !==
+                ($result["record_digest"] ?? null) ||
+            "PASSED_PENDING_FOUNDRY_PRODUCTION_APPROVAL" !==
+                ($result["status"] ?? null) ||
+            "PASSED" !== ($result["decision"]["disposition"] ?? null) ||
+            ($approval["review_target_lineage"][
+                "persona_specification_digest"
+            ] ??
                 null) !==
-                ($specification["record_digest"] ?? null)
+                ($specification["record_digest"] ?? null) ||
+            ($candidate["persona_specification_digest"] ?? null) !==
+                ($specification["record_digest"] ?? null) ||
+            true === ($approval["admission_authority"] ?? null) ||
+            true === ($approval["execution_authority"] ?? null)
         ) {
             throw new \RuntimeException(
-                "F182_SUBORDINATE_CONFIRMATION_REQUEST_CHAIN_INVALID",
+                "F186_DIRECT_SENATE_REQUEST_CHAIN_INVALID",
             );
         }
 
@@ -133,13 +117,11 @@ final readonly class SubordinatePersonaSenateConfirmationRequestService
                 hash(
                     "sha256",
                     CanonicalJson::encode([
-                        $returnId,
-                        $return["record_digest"],
-                        $deliveryId,
-                        $delivery["record_digest"],
+                        $approvalId,
+                        $approval["record_digest"],
                         $candidateId,
                         $candidate["record_digest"],
-                        "senate.qualification",
+                        "CANONICAL_FOUNDRY_TO_SENATE",
                     ]),
                 ),
                 0,
@@ -148,17 +130,18 @@ final readonly class SubordinatePersonaSenateConfirmationRequestService
         $record = [
             "schema" => "imperium.senate-persona-confirmation-request/v1",
             "confirmation_request_id" => $id,
-            "instance_id" => $return["instance_id"],
+            "instance_id" => $approval["instance_id"],
+            "route_class" => "CANONICAL_FOUNDRY_TO_SENATE",
             "proceeding_class" => "PENDING_ADMISSION_PERSONA_QUALIFICATION",
             "requester" => $approval["actor"],
             "recipient" => [
                 "office" => "senate",
                 "seat" => "senate.lord-speaker",
             ],
-            "source_admission_return_id" => $returnId,
-            "source_admission_return_digest" => $return["record_digest"],
-            "source_admission_delivery_id" => $deliveryId,
-            "source_admission_delivery_digest" => $delivery["record_digest"],
+            "source_admission_return_id" => null,
+            "source_admission_return_digest" => null,
+            "source_admission_delivery_id" => null,
+            "source_admission_delivery_digest" => null,
             "production_approval_id" => $approvalId,
             "production_approval_digest" => $approval["record_digest"],
             "candidate_id" => $candidateId,
@@ -167,10 +150,10 @@ final readonly class SubordinatePersonaSenateConfirmationRequestService
             "persona_specification_version" =>
                 $candidate["persona_specification_version"],
             "persona" => $candidate["persona"],
-            "review_target_lineage" => $return["review_target_lineage"],
-            "route_class" => "RECOVERY_AFTER_PREMATURE_GARRISON_DELIVERY",
+            "review_target_lineage" => $approval["review_target_lineage"],
             "examination_contract" => [
-                "subject_state" => "production-approved-pending-admission",
+                "subject_state" =>
+                    "production-approved-pending-senate-approval",
                 "manifestation_required" => true,
                 "profile_class" => "examination_only",
                 "sterile_witness_required" => true,
@@ -198,36 +181,6 @@ final readonly class SubordinatePersonaSenateConfirmationRequestService
         return $this->persist($id, $record);
     }
 
-    private function requiredDefects(): array
-    {
-        return [
-            "MISSING_EXACT_SENATE_CONFIRMATION_ID",
-            "MISSING_EXACT_SENATE_CONFIRMATION_DIGEST",
-            "MISSING_EXACT_TESTED_MANIFESTATION_ID",
-            "MISSING_EXACT_TESTED_MANIFESTATION_DIGEST",
-        ];
-    }
-
-    private function hasAuthority(array $record): bool
-    {
-        foreach (
-            [
-                "admission_authority",
-                "profile_approval_authority",
-                "spawning_authority",
-                "seat_binding_authority",
-                "selection_authority",
-                "execution_authority",
-            ]
-            as $key
-        ) {
-            if (true === ($record[$key] ?? false)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private function persist(string $id, array $record): array
     {
         if (
@@ -235,9 +188,7 @@ final readonly class SubordinatePersonaSenateConfirmationRequestService
             !mkdir($this->senateInbox, 0770, true) &&
             !is_dir($this->senateInbox)
         ) {
-            throw new \RuntimeException(
-                "F183_SUBORDINATE_CONFIRMATION_REQUEST_FAILED",
-            );
+            throw new \RuntimeException("F187_DIRECT_SENATE_REQUEST_FAILED");
         }
         $record["record_digest"] = hash(
             "sha256",
@@ -247,14 +198,14 @@ final readonly class SubordinatePersonaSenateConfirmationRequestService
         if (is_file($path)) {
             $existing = $this->read(
                 $path,
-                "F184_SUBORDINATE_CONFIRMATION_REQUEST_CONFLICT",
+                "F188_DIRECT_SENATE_REQUEST_CONFLICT",
             );
             if (
                 CanonicalJson::encode($existing) !==
                 CanonicalJson::encode($record)
             ) {
                 throw new \RuntimeException(
-                    "F184_SUBORDINATE_CONFIRMATION_REQUEST_CONFLICT",
+                    "F188_DIRECT_SENATE_REQUEST_CONFLICT",
                 );
             }
             return $existing;
@@ -275,9 +226,7 @@ final readonly class SubordinatePersonaSenateConfirmationRequestService
             !rename($temporary, $path)
         ) {
             @unlink($temporary);
-            throw new \RuntimeException(
-                "F183_SUBORDINATE_CONFIRMATION_REQUEST_FAILED",
-            );
+            throw new \RuntimeException("F187_DIRECT_SENATE_REQUEST_FAILED");
         }
         return $record;
     }
