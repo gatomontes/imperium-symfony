@@ -50,6 +50,7 @@ use App\Imperium\Runtime\Senate\SenatorFindingCognitionGateway;
 use App\Imperium\Runtime\Senate\SubordinatePersonaSenatorFindingService;
 use App\Imperium\Runtime\Senate\LordSpeakerDispositionCognitionGateway;
 use App\Imperium\Runtime\Senate\SubordinatePersonaSenateDispositionService;
+use App\Imperium\Runtime\Senate\SubordinatePersonaWitnessRetirementService;
 use PHPUnit\Framework\TestCase;
 
 final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
@@ -1374,6 +1375,72 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
             );
             self::assertFalse($senateDisposition["admission_authority"]);
             self::assertFalse($senateDisposition["execution_authority"]);
+
+            $retirementService = new SubordinatePersonaWitnessRetirementService(
+                $root,
+            );
+            $retirementSet = $retirementService->retire(
+                $senateDisposition["disposition_id"],
+            );
+            self::assertSame(
+                $retirementSet,
+                $retirementService->retire(
+                    $senateDisposition["disposition_id"],
+                ),
+            );
+            self::assertSame(
+                "ALL_WITNESSES_RETIRED_PENDING_CONFIRMATION_RECORD_ISSUANCE",
+                $retirementSet["status"],
+            );
+            self::assertSame(4, $retirementSet["required_witness_count"]);
+            self::assertSame(4, $retirementSet["retired_witness_count"]);
+            self::assertTrue($retirementSet["all_witnesses_accounted_for"]);
+            self::assertTrue($retirementSet["all_witnesses_retired"]);
+            self::assertTrue(
+                $retirementSet["evidentiary_artifacts_preserved"],
+            );
+            self::assertSame(
+                [
+                    "baseline",
+                    "fresh_consistency",
+                    "governance_pressure",
+                    "security_pressure",
+                ],
+                array_column(
+                    $retirementSet["retirement_events"],
+                    "witness_role",
+                ),
+            );
+            self::assertCount(4, $retirementSet["retirement_events"]);
+            foreach ($retirementSet["retirement_events"] as $event) {
+                self::assertSame("RETIRED", $event["status"]);
+                self::assertTrue($event["stand_access_revoked"]);
+                self::assertTrue($event["synthetic_material_revoked"]);
+                self::assertTrue($event["runtime_terminated"]);
+                self::assertTrue($event["evidentiary_artifacts_preserved"]);
+                self::assertSame(
+                    "senate.bailiff",
+                    $event["bailiff"]["seat"],
+                );
+                self::assertFalse($event["operational_authority"]);
+                self::assertFalse($event["admission_authority"]);
+                self::assertFalse($event["execution_authority"]);
+                self::assertFileExists(
+                    $root .
+                        "/var/imperium/offices/senate/persona-witnesses/" .
+                        $event["manifestation_id"] .
+                        ".json",
+                );
+            }
+            self::assertTrue(
+                $retirementSet["confirmation_record_issuance_ready"],
+            );
+            self::assertSame(
+                $expectedLineage,
+                $retirementSet["review_target_lineage"],
+            );
+            self::assertFalse($retirementSet["admission_authority"]);
+            self::assertFalse($retirementSet["execution_authority"]);
 
             $mandatoryFailureSet = $findingSet;
             unset($mandatoryFailureSet["record_digest"]);
