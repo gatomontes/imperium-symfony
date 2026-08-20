@@ -38,6 +38,8 @@ use App\Imperium\Runtime\Garrison\SubordinatePersonaAdmissionIntakeService;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaSenateConfirmationRequestService;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaDirectSenateConfirmationRequestService;
 use App\Imperium\Runtime\Senate\SubordinatePersonaConfirmationCaseIntakeService;
+use App\Imperium\Runtime\Senate\SubordinatePersonaConfirmationCaseAcceptanceService;
+use App\Imperium\Runtime\Senate\SubordinatePersonaExaminationAssemblyRequestService;
 use PHPUnit\Framework\TestCase;
 
 final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
@@ -552,27 +554,13 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 ]
                 as [$seat, $office, $role]
             ) {
-                $slug = str_replace(".", "-", $seat);
                 $foundingPackage["personnel"][] = [
                     "personnel_type" => "OFFICER",
+                    "founding_class" => "GENERIC_V0_PLACEHOLDER",
+                    "version" => "0",
                     "office" => $office,
                     "role" => $role,
                     "seat" => $seat,
-                    "persona" => [
-                        "id" => $slug . "-persona",
-                        "version" => "1.0.0",
-                        "definition" => ["operator-authored founding Persona"],
-                    ],
-                    "profile" => [
-                        "id" => $slug . "-profile",
-                        "version" => "1.0.0",
-                        "definition" => ["operator-authored founding Profile"],
-                    ],
-                    "officer" => [
-                        "id" => $slug . "-officer",
-                        "version" => "1.0.0",
-                        "definition" => ["operator-supplied founding Officer"],
-                    ],
                 ];
             }
             $foundingPackage["personnel"][] = [
@@ -586,14 +574,6 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                     "id" => "research-operative",
                     "version" => "1.0.0",
                 ],
-            ];
-            $foundingPackage["personnel"][0] = [
-                "personnel_type" => "OFFICER",
-                "founding_class" => "GENERIC_V0_PLACEHOLDER",
-                "version" => "0",
-                "office" => "foundry",
-                "role" => "adversarial-reviewer",
-                "seat" => "foundry.reviewer.adversarial",
             ];
             $rootInstallation = new OperatorRootPersonnelInstallationService(
                 $root,
@@ -808,6 +788,92 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 $personaConfirmationCase["witness_instantiation_authority"],
             );
             self::assertFalse($personaConfirmationCase["admission_authority"]);
+            $personaConfirmationAcceptanceService = new SubordinatePersonaConfirmationCaseAcceptanceService(
+                $root,
+            );
+            $personaConfirmationAcceptance = $personaConfirmationAcceptanceService->accept(
+                $personaConfirmationCase["confirmation_case_id"],
+            );
+            self::assertSame(
+                $personaConfirmationAcceptance,
+                $personaConfirmationAcceptanceService->accept(
+                    $personaConfirmationCase["confirmation_case_id"],
+                ),
+            );
+            self::assertSame(
+                "ACCEPTED_PENDING_EXAMINATION_ASSEMBLY_REQUEST",
+                $personaConfirmationAcceptance["status"],
+            );
+            self::assertSame(
+                "GENERIC_V0_PLACEHOLDER",
+                $personaConfirmationAcceptance["lord_speaker"][
+                    "founding_class"
+                ],
+            );
+            self::assertSame(
+                "0",
+                $personaConfirmationAcceptance["lord_speaker"][
+                    "placeholder_version"
+                ],
+            );
+            self::assertSame(
+                $expectedLineage,
+                $personaConfirmationAcceptance["review_target_lineage"],
+            );
+            self::assertTrue(
+                $personaConfirmationAcceptance[
+                    "assembly_request_authority_exercisable"
+                ],
+            );
+            self::assertFalse(
+                $personaConfirmationAcceptance[
+                    "witness_instantiation_authority"
+                ],
+            );
+            $examinationAssemblyRequestService = new SubordinatePersonaExaminationAssemblyRequestService(
+                $root,
+            );
+            $examinationAssemblyRequest = $examinationAssemblyRequestService->request(
+                $personaConfirmationAcceptance["acceptance_id"],
+            );
+            self::assertSame(
+                $examinationAssemblyRequest,
+                $examinationAssemblyRequestService->request(
+                    $personaConfirmationAcceptance["acceptance_id"],
+                ),
+            );
+            self::assertSame(
+                "DELIVERED_PENDING_CONSCRIPTION_ACCEPTANCE",
+                $examinationAssemblyRequest["status"],
+            );
+            self::assertSame(
+                "examination_only",
+                $examinationAssemblyRequest["required_assembly"][
+                    "profile_class"
+                ],
+            );
+            self::assertSame(
+                1,
+                $examinationAssemblyRequest["required_assembly"]["quantity"],
+            );
+            self::assertSame(
+                $expectedLineage,
+                $examinationAssemblyRequest["review_target_lineage"],
+            );
+            self::assertFalse(
+                $examinationAssemblyRequest[
+                    "profile_commission_authority_exercisable"
+                ],
+            );
+            self::assertFalse(
+                $examinationAssemblyRequest["witness_instantiation_authority"],
+            );
+            self::assertFalse(
+                $examinationAssemblyRequest["senate_finding_authority"],
+            );
+            self::assertFalse(
+                $examinationAssemblyRequest["admission_authority"],
+            );
 
             // Alternate recovery flow: a premature Foundry -> Garrison delivery is refused.
             $personaAdmissionDeliveryService = new SubordinatePersonaAdmissionDeliveryService(
