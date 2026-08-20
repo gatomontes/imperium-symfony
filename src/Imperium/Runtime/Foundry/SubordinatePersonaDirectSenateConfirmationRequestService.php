@@ -155,7 +155,10 @@ final readonly class SubordinatePersonaDirectSenateConfirmationRequestService
                 "subject_state" =>
                     "production-approved-pending-senate-approval",
                 "manifestation_required" => true,
-                "profile_class" => "examination_only",
+                "profile_required" => false,
+                "profile_class" => null,
+                "officer_substrate_required" => false,
+                "senate_local_instantiation" => true,
                 "sterile_witness_required" => true,
                 "exact_candidate_only" => true,
                 "independent_senate_disposition_required" => true,
