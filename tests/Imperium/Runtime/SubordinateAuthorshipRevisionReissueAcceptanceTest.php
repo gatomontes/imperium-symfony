@@ -46,6 +46,8 @@ use App\Imperium\Runtime\Senate\SubordinatePersonaFirstTestimonyService;
 use App\Imperium\Runtime\Senate\SubordinatePersonaJurisdictionBaselineService;
 use App\Imperium\Runtime\Senate\SubordinatePersonaFreshConsistencyTrialService;
 use App\Imperium\Runtime\Senate\SubordinatePersonaPressureTrialService;
+use App\Imperium\Runtime\Senate\SenatorFindingCognitionGateway;
+use App\Imperium\Runtime\Senate\SubordinatePersonaSenatorFindingService;
 use PHPUnit\Framework\TestCase;
 
 final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
@@ -1233,6 +1235,75 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
             );
             self::assertFalse($requiredTrials["admission_authority"]);
             self::assertFalse($requiredTrials["execution_authority"]);
+
+            $findingCognition = new class implements SenatorFindingCognitionGateway
+            {
+                public int $calls = 0;
+
+                public function find(
+                    string $jurisdiction,
+                    array $assignment,
+                    array $evidence,
+                ): array {
+                    ++$this->calls;
+                    return [
+                        "disposition" => "PASS",
+                        "evidence_references" =>
+                            $evidence["available_evidence_references"],
+                        "rationale" =>
+                            ucfirst($jurisdiction) .
+                            " evidence remains within the exact Persona contract.",
+                        "severity" => "NONE",
+                        "limitations" => [],
+                        "mandatory_failure" => false,
+                    ];
+                }
+            };
+            $findingService = new SubordinatePersonaSenatorFindingService(
+                $root,
+                $findingCognition,
+            );
+            $findingSet = $findingService->issue(
+                $requiredTrials["ledger_id"],
+            );
+            self::assertSame(
+                $findingSet,
+                $findingService->issue(
+                    $requiredTrials["ledger_id"],
+                ),
+            );
+            self::assertSame(4, $findingCognition->calls);
+            self::assertSame(
+                "SENATOR_FINDINGS_SEALED_PENDING_LORD_SPEAKER_DISPOSITION",
+                $findingSet["status"],
+            );
+            self::assertSame(
+                ["practice", "governance", "consistency", "security"],
+                array_column($findingSet["findings"], "jurisdiction"),
+            );
+            self::assertCount(4, $findingSet["findings"]);
+            foreach ($findingSet["findings"] as $finding) {
+                self::assertTrue($finding["attributable"]);
+                self::assertTrue($finding["sealed"]);
+                self::assertNotSame([], $finding["decision"]["evidence_references"]);
+                self::assertSame(
+                    "senate.committee." . $finding["jurisdiction"],
+                    $finding["senator"]["seat"],
+                );
+                self::assertNotSame("", $finding["finding_digest"]);
+            }
+            self::assertFalse($findingSet["mandatory_failure_present"]);
+            self::assertNull($findingSet["aggregate_score"]);
+            self::assertNull($findingSet["vote"]);
+            self::assertNull($findingSet["majority_calculation"]);
+            self::assertFalse($findingSet["disagreement_suppressed"]);
+            self::assertNull($findingSet["senate_disposition"]);
+            self::assertSame(
+                $expectedLineage,
+                $findingSet["review_target_lineage"],
+            );
+            self::assertFalse($findingSet["admission_authority"]);
+            self::assertFalse($findingSet["execution_authority"]);
 
             // Alternate recovery flow: a premature Foundry -> Garrison delivery is refused.
             $personaAdmissionDeliveryService = new SubordinatePersonaAdmissionDeliveryService(

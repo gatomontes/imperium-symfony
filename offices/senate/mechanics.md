@@ -61,6 +61,8 @@ The pressure-trial boundary creates separate fresh witnesses for Governance and 
 
 Preserve the exact attributable jurisdictional finding, evidence references, severity, mandatory-failure marker, and Senator authentication.
 
+The Senator-finding boundary partitions evidence by jurisdiction: Practice receives only its baseline; Governance receives its baseline and pressure trial; Consistency receives its baseline and fresh-instance comparison; Security receives its baseline and synthetic pressure trial. Each occupied Senator independently records `PASS`, `CONCERN`, `FAIL`, or `UNRESOLVED`, rationale, severity, limitations, and exact evidence references. Only Security may mark a mandatory failure, which must be both `FAIL` and `CRITICAL`. Mechanics preserve disagreement and stop at `SENATOR_FINDINGS_SEALED_PENDING_LORD_SPEAKER_DISPOSITION` without voting, aggregation, majority calculation, disposition, admission, or execution authority.
+
 ## assemble-confirmation-record
 
 Bind exact plans, contracts, trials, transcripts, findings, variance material, mandatory failures, disposition, limitations, provenance, and lineage without interpreting them.
