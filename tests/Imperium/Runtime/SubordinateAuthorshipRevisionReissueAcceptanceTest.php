@@ -33,6 +33,8 @@ use App\Imperium\Runtime\Foundry\SubordinatePersonaReviewCognitionGateway;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaReviewService;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaSpecificationRevisionCognitionGateway;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaSpecificationRevisionService;
+use App\Imperium\Runtime\Foundry\SubordinatePersonaAdmissionDeliveryService;
+use App\Imperium\Runtime\Garrison\SubordinatePersonaAdmissionIntakeService;
 use PHPUnit\Framework\TestCase;
 
 final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
@@ -739,6 +741,55 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
             self::assertTrue($productionApproval["production_approval"]);
             self::assertFalse($productionApproval["admission_authority"]);
             self::assertFalse($productionApproval["execution_authority"]);
+            $personaAdmissionDeliveryService = new SubordinatePersonaAdmissionDeliveryService(
+                $root,
+            );
+            $personaAdmissionDelivery = $personaAdmissionDeliveryService->deliver(
+                $productionApproval["production_approval_id"],
+            );
+            self::assertSame(
+                $personaAdmissionDelivery,
+                $personaAdmissionDeliveryService->deliver(
+                    $productionApproval["production_approval_id"],
+                ),
+            );
+            self::assertSame(
+                "DELIVERED_PENDING_GARRISON_ACCEPTANCE",
+                $personaAdmissionDelivery["status"],
+            );
+            self::assertSame(
+                $candidate["persona"],
+                $personaAdmissionDelivery["persona"],
+            );
+            self::assertSame(
+                $expectedLineage,
+                $personaAdmissionDelivery["review_target_lineage"],
+            );
+            self::assertFalse($personaAdmissionDelivery["admission_authority"]);
+            $personaAdmissionIntakeService = new SubordinatePersonaAdmissionIntakeService(
+                $root,
+            );
+            $personaAdmissionReturn = $personaAdmissionIntakeService->inspect(
+                $personaAdmissionDelivery["delivery_id"],
+            );
+            self::assertSame(
+                $personaAdmissionReturn,
+                $personaAdmissionIntakeService->inspect(
+                    $personaAdmissionDelivery["delivery_id"],
+                ),
+            );
+            self::assertSame(
+                "REFUSED_INCOMPLETE_PERSONA_ADMISSION_PACKAGE",
+                $personaAdmissionReturn["disposition"],
+            );
+            self::assertSame(
+                $expectedLineage,
+                $personaAdmissionReturn["review_target_lineage"],
+            );
+            self::assertCount(4, $personaAdmissionReturn["defects"]);
+            self::assertFalse($personaAdmissionReturn["custody_created"]);
+            self::assertFalse($personaAdmissionReturn["admission_authority"]);
+            self::assertFalse($personaAdmissionReturn["execution_authority"]);
 
             unlink(
                 $root .
