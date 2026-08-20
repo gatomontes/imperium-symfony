@@ -51,6 +51,8 @@ Preserve the exact question, answer, authorship, instance identity, trial, timin
 
 The first testimony boundary binds the occupied Practice Senator, consumes only its bounded question authority, dispatches one exact attributable question, and seals the Persona-only witness response. It creates no Senator finding or Senate disposition.
 
+The jurisdictional-baseline boundary repeats that separation for Governance, Consistency, and Security, provides preserved prior testimony to Consistency, and seals the four-jurisdiction ledger. It explicitly requires additional trials and creates no finding, score, vote, or disposition.
+
 ## record-senator-finding
 
 Preserve the exact attributable jurisdictional finding, evidence references, severity, mandatory-failure marker, and Senator authentication.

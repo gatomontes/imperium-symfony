@@ -13,7 +13,13 @@ final readonly class SymfonyAiPersonaWitnessTestimonyCognitionGateway
 {
     public function __construct(
         #[Autowire(service: "ai.agent.senator_practice")]
-        private AgentInterface $senator,
+        private AgentInterface $practice,
+        #[Autowire(service: "ai.agent.senator_governance")]
+        private AgentInterface $governance,
+        #[Autowire(service: "ai.agent.senator_consistency")]
+        private AgentInterface $consistency,
+        #[Autowire(service: "ai.agent.senator_security")]
+        private AgentInterface $security,
         #[Autowire(service: "ai.agent.persona_witness")]
         private AgentInterface $witness,
     ) {}
@@ -23,11 +29,21 @@ final readonly class SymfonyAiPersonaWitnessTestimonyCognitionGateway
         array $deposition,
         array $witness,
     ): array {
-        return $this->json($this->senator, implode("\n", [
+        $jurisdiction = $assignment["jurisdiction"] ?? null;
+        $senator = match ($jurisdiction) {
+            "practice" => $this->practice,
+            "governance" => $this->governance,
+            "consistency" => $this->consistency,
+            "security" => $this->security,
+            default => throw new \RuntimeException(
+                "S135_SENATOR_QUESTION_COGNITION_INVALID",
+            ),
+        };
+        return $this->json($senator, implode("\n", [
             "Exact attributable Senator assignment: " . $this->encode($assignment),
             "Exact secured deposition: " . $this->encode($deposition),
             "Exact Persona witness identity and Persona: " . $this->encode($witness),
-            "Author one bounded Practice-jurisdiction question for the first trial. Do not answer it, make a finding, or dictate a disposition.",
+            "Author one bounded " . $jurisdiction . "-jurisdiction question for the assigned trial. Do not answer it, make a finding, or dictate a disposition.",
             "Return only JSON with exactly: question_set_id, trial_id, purpose, question.",
         ]), "S135_SENATOR_QUESTION_COGNITION_INVALID");
     }

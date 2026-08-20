@@ -225,7 +225,10 @@ services:
 
     App\Imperium\Runtime\Senate\SymfonyAiPersonaWitnessTestimonyCognitionGateway:
         arguments:
-            $senator: '@ai.agent.senator_practice'
+            $practice: '@ai.agent.senator_practice'
+            $governance: '@ai.agent.senator_governance'
+            $consistency: '@ai.agent.senator_consistency'
+            $security: '@ai.agent.senator_security'
             $witness: '@ai.agent.persona_witness'
 
     App\Imperium\Runtime\Senate\PersonaWitnessTestimonyCognitionGateway:
