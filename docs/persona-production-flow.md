@@ -92,15 +92,15 @@ The occupied ordinary Recruiter converts only an approved exact lease into one s
 
 The occupied Alchemist independently accepts only that unchanged commission and active custody lease. Acceptance makes derivation authority exercisable for one exact Profile candidate but creates nothing by itself. The boundary stops at `PROFILE_DERIVATION_COMMISSION_ACCEPTED_PENDING_PROFILE_DERIVATION`.
 
-The next implementation begins with an exact authorized personnel-use demand and must answer, in order:
+The downstream lifecycle is implemented through `PROFILE_DERIVATION_COMMISSION_ACCEPTED_PENDING_PROFILE_DERIVATION`. The remaining design and implementation questions are, in order:
 
-1. Who requests an admitted Persona, for what mission role or Seat, and under which authority?
-2. Who determines suitability among Garrison inventory facts without giving Garrison selection authority?
-3. How does Laboratorium derive, version, and seal the exact Profile candidate while preserving every scope and Persona constraint?
-4. How does the Alchemist return that candidate to Conscription without acquiring Profile approval or installation authority?
-5. Who approves that Profile and authorizes Conscription to assemble a manifestation?
-6. How does Conscription bind the exact Persona, approved Profile, generic Officer substrate, and commission without inheriting selection or deployment authority?
-7. Who authorizes Seat binding or mission deployment, and what state transition releases the Persona from held custody?
-8. How are return, retirement, custody restoration, and supersession recorded after use?
+1. How does Laboratorium derive, version, and seal the exact Profile candidate while preserving every scope and Persona constraint?
+2. How does the Alchemist return that candidate to Conscription without acquiring Profile approval or installation authority?
+3. How does Conscription create a bounded examination assembly from the returned, not-yet-approved Profile and place the exact operative before Senate without Senate becoming the Profile creator?
+4. How does Senate examine the complete operative and distinguish Persona defects from Profile, derivation, assembly, substrate, or compatibility defects?
+5. How does Imperator approve the examined Profile without creating an unnecessary intervention in routine future routes?
+6. After approval, how does Conscription qualify the exact Persona, approved Profile, generic Officer substrate, and commission for operational use without inheriting selection or deployment authority?
+7. Who authorizes mission deployment, and what state transition changes the Persona's custody availability without implying ownership transfer?
+8. How are return, retirement, custody restoration, denial classification, and supersession recorded after use?
 
 No downstream step may treat `ADMITTED_HELD`, inventory availability, retrieval, Profile derivation, qualification, manifestation assembly, or Seat binding as implicit authority for the next step.
