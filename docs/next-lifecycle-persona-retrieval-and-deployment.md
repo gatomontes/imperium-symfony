@@ -39,6 +39,23 @@ This boundary is named `CAPABILITY_TO_PROFESSION` and is owned by `guildhall.gui
 
 The initiating mission artifact carries capability requirements rather than profession or Persona selections. Guildhall owns capability-to-profession translation and determines Persona suitability against Garrison facts. A later batch must still define the distinct authorization that permits reservation and retrieval of the resulting exact Persona.
 
+## Personnel-use authorization dialogue — implemented
+
+After Guildhall resolves exact personnel against capability slots, Curia presents only the functional commitments plus an opaque Guildhall disposition ID and digest to Imperator. Profession and Persona identity remain inside the Guildhall artifact and are not promoted into Curial language.
+
+Imperator may record exactly one disposition against each exact request:
+
+- `AUTHORIZED`;
+- `REFUSED`;
+- `RETURNED_FOR_REVISION`;
+- `ALTERNATIVE_PROPOSED`;
+- `CLARIFICATION_REQUIRED`; or
+- `DEFERRED`.
+
+Every disposition preserves Imperator's exact response and optional limitations. Only `AUTHORIZED` creates `personnel_use_authority`; objection, suggestion, clarification, deferral, and refusal remain mechanically non-authorizing. An alternative does not mutate the Guildhall disposition or authorize itself. Competent revision must produce a new digest-bound request for a later explicit decision.
+
+The current implementation stops at `AUTHORIZED_PENDING_GUILDHALL_ACCEPTANCE`. It grants no Persona reservation, retrieval, Profile derivation, manifestation assembly, Seat binding, deployment, or execution authority.
+
 ## Non-negotiable inherited invariants
 
 - preserve the exact admitted Persona ID, version, digest, custody record, Guildhall commission, and Senate confirmation;

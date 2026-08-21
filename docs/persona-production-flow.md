@@ -78,6 +78,8 @@ It does not mean that the Persona has been selected, reserved, retrieved, transf
 
 The handoff crosses an explicit language and jurisdiction boundary: Curia supplies functional `capability_requirements`; Guildhall alone translates them into professions and Persona suitability criteria. Curia has neither profession-selection nor Persona-selection authority, while Guildhall suitability grants no retrieval or use authority.
 
+When exact suitable personnel are later resolved, Curia may present only capability-slot commitments and an opaque Guildhall disposition reference to Imperator. Only an explicit `AUTHORIZED` act grants personnel-use authority; every objection, suggestion, clarification, refusal, or deferral remains non-authorizing and cannot release Garrison custody.
+
 The next implementation begins with an exact authorized personnel-use demand and must answer, in order:
 
 1. Who requests an admitted Persona, for what mission role or Seat, and under which authority?

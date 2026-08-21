@@ -90,6 +90,14 @@ When Guildhall returns a final Personnel Disposition proving exact unresolved pe
 
 Bind one explicit Imperator decision to the exact construction request, request digest, and complete set of Foundry demand digests. Authorization grants Foundry permission to construct one Persona candidate for each exact demand. It grants no Persona selection, spawning, Seat binding, or mission-execution authority. The immutable authorization act does not mutate the request or its demands; subsequent Foundry work must cite and validate the act.
 
+## `request-personnel-use-authorization`
+
+Present exact Guildhall-resolved capability commitments to Imperator without importing profession or Persona identity into Curial language. The request carries capability-slot requirements and only an opaque Guildhall disposition ID and digest. It grants no personnel-use, reservation, retrieval, Profile, spawning, Seat-binding, or execution authority.
+
+## `record-imperator-personnel-use-disposition`
+
+Record one exact `AUTHORIZED`, `REFUSED`, `RETURNED_FOR_REVISION`, `ALTERNATIVE_PROPOSED`, `CLARIFICATION_REQUIRED`, or `DEFERRED` response. Preserve Imperator's exact rationale, question, objection, proposal, and limitations without mutating the request or Guildhall disposition. Only `AUTHORIZED` creates personnel-use authority. Every other disposition is explicitly non-authorizing, and any proposed alternative requires a separately revised request and later explicit authorization. Even an authorized act stops before Guildhall acceptance and grants no Garrison reservation, retrieval, Profile derivation, manifestation, Seat binding, deployment, or execution authority.
+
 ## `request-subordinate-construction`
 
 When occupied authorship Offices return sealed subordinate-requirement resolutions, Curia may present them together to Imperator as one authorization request. Each resolution remains an independent, digest-bound Office act: Curia may neither merge its specializations nor reinterpret its rationale. The request asks only for construction against the exact included resolutions and grants no construction, Persona selection, Profile approval, spawning, Seat binding, or execution authority.
