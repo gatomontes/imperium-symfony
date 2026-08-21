@@ -62,7 +62,13 @@ Guildhall may accept only an exact `AUTHORIZED` Imperator act whose request, dis
 
 The occupied Constable independently verifies the exact request chain, admitted custody record, Persona identity, instance, custodial state, availability, and existing reservations. Garrison records either `RESERVED_PENDING_PROFILE_DERIVATION_AUTHORIZATION` or a factual non-authorizing refusal: `REFUSED_PERSONA_NOT_ADMITTED`, `REFUSED_PERSONA_UNAVAILABLE`, `REFUSED_PERSONA_ALREADY_RESERVED`, or `REFUSED_DISPOSITION_MISMATCH`. Garrison cannot select or propose another Persona.
 
-The current implementation stops at `RESERVED_PENDING_PROFILE_DERIVATION_AUTHORIZATION`. Reservation preserves Garrison custody and grants no retrieval, Profile derivation, manifestation assembly, Seat binding, deployment, or execution authority.
+## Profile-derivation authorization — implemented
+
+Curia may present an authorization request only when one exact Persona is successfully reserved. The request binds that reservation to the exact structured Mission Plan turn and carries the immutable mission objective, scope, constraints, capability requirements, tools, data, and stop conditions into one proposed Profile scope. Fresh CLI prose cannot redefine the Profile after personnel selection.
+
+The current explicit constitutional route identifies Curia as mission-Profile steward, Conscription as the prospective commissioner and installer, Laboratorium as transformer, Senate as examiner, and Imperator as approver. Imperator may authorize, refuse, return for revision, propose an alternative, request clarification, or defer. Only `AUTHORIZED` creates Profile-derivation authority.
+
+The implementation stops at `PROFILE_DERIVATION_AUTHORIZED_PENDING_CONSCRIPTION_ACCEPTANCE`. Garrison retains the reservation, and the act grants no retrieval, Conscription acceptance, Laboratorium commission, Profile artifact, manifestation assembly, examination disposition, Seat binding, deployment, or execution authority. This deliberately explicit checkpoint may later be covered by a bounded Imperator delegation without changing the underlying authority chain.
 
 ## Non-negotiable inherited invariants
 

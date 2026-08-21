@@ -82,12 +82,14 @@ When exact suitable personnel are later resolved, Curia presents the capability-
 
 Guildhall accepts only that unchanged identity-bound authorization and requests reservation of the exact Persona from Garrison. The occupied Constable verifies admission, custody identity, availability, and reservation conflicts before recording either a factual refusal or `RESERVED_PENDING_PROFILE_DERIVATION_AUTHORIZATION`. Guildhall does not acquire reservation authority, Garrison does not acquire selection authority, and reservation grants no retrieval, Profile, manifestation, Seat, deployment, or execution authority.
 
+Curia then presents a distinct Profile-derivation authorization request bound to the exact successful reservation and exact structured Mission Plan turn. The proposed scope preserves the mission objective, constraints, capability requirements, tools, data boundaries, and stop conditions; it identifies Curia as mission-Profile steward, Conscription as prospective commissioner and installer, Laboratorium as transformer, Senate as examiner, and Imperator as approver. Only an explicit `AUTHORIZED` disposition reaches `PROFILE_DERIVATION_AUTHORIZED_PENDING_CONSCRIPTION_ACCEPTANCE`. No Persona retrieval, Profile construction, manifestation, examination, deployment, or execution occurs at this stage.
+
 The next implementation begins with an exact authorized personnel-use demand and must answer, in order:
 
 1. Who requests an admitted Persona, for what mission role or Seat, and under which authority?
 2. Who determines suitability among Garrison inventory facts without giving Garrison selection authority?
-3. The exact Persona reservation is implemented; how is the reserved Persona retrieved without implying downstream authority?
-4. Which Office commissions Laboratorium to derive the exact role-, Seat-, framework-, or deployment-specific Profile?
+3. Profile derivation is explicitly authorized against the exact reservation and Mission Plan; how does Conscription accept it without implying retrieval or assembly authority?
+4. How is the reserved Persona handed from Garrison to the Conscription–Laboratorium derivation route without releasing custody by implication?
 5. Who approves that Profile and authorizes Conscription to assemble a manifestation?
 6. How does Conscription bind the exact Persona, approved Profile, generic Officer substrate, and commission without inheriting selection or deployment authority?
 7. Who authorizes Seat binding or mission deployment, and what state transition releases the Persona from held custody?

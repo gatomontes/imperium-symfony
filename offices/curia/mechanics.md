@@ -98,6 +98,14 @@ Present exact Guildhall-resolved capability commitments, profession, and Persona
 
 Record one exact `AUTHORIZED`, `REFUSED`, `RETURNED_FOR_REVISION`, `ALTERNATIVE_PROPOSED`, `CLARIFICATION_REQUIRED`, or `DEFERRED` response against the disclosed profession and exact Persona identity. Preserve Imperator's exact rationale, question, objection, proposal, and limitations without mutating the request or Guildhall disposition. Only `AUTHORIZED` creates personnel-use authority for that exact profession–Persona resolution. Every other disposition is explicitly non-authorizing, and any changed profession, replacement Persona, or proposed alternative requires a separately revised request and later explicit authorization. Even an authorized act stops before Guildhall acceptance and grants no Garrison reservation, retrieval, Profile derivation, manifestation, Seat binding, deployment, or execution authority.
 
+## `request-profile-derivation-authorization`
+
+Present one exact successful Garrison reservation together with its exact structured Mission Plan turn. Mechanically derive the proposed mission-Profile scope from the approved planning vocabulary—objective, scope, constraints, capabilities, tools, data, and stop conditions—rather than accepting fresh prose. The request identifies Curia as mission-Profile steward and the prospective Conscription, Laboratorium, Senate, and Imperator jurisdictions, but grants none of them downstream authority.
+
+## `record-imperator-profile-derivation-disposition`
+
+Record one exact `AUTHORIZED`, `REFUSED`, `RETURNED_FOR_REVISION`, `ALTERNATIVE_PROPOSED`, `CLARIFICATION_REQUIRED`, or `DEFERRED` response against the exact reservation, Mission Plan digest, and proposed Profile scope. Only `AUTHORIZED` creates Profile-derivation authority and stops at `PROFILE_DERIVATION_AUTHORIZED_PENDING_CONSCRIPTION_ACCEPTANCE`. Every other disposition remains non-authorizing. Even authorization grants no Persona retrieval, Conscription acceptance, Laboratorium commission, Profile artifact, manifestation, examination disposition, Seat binding, deployment, or execution authority.
+
 ## `request-subordinate-construction`
 
 When occupied authorship Offices return sealed subordinate-requirement resolutions, Curia may present them together to Imperator as one authorization request. Each resolution remains an independent, digest-bound Office act: Curia may neither merge its specializations nor reinterpret its rationale. The request asks only for construction against the exact included resolutions and grants no construction, Persona selection, Profile approval, spawning, Seat binding, or execution authority.
