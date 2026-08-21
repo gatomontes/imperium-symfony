@@ -12,11 +12,36 @@ The central boundary is:
 
 **An admitted Persona is stored cognitive identity—not an operative, manifestation, Seat occupant, or authorization to work.**
 
-## Provisional route for design
+## Canonical downstream route
 
-**Authorized personnel-use demand → Guildhall suitability against Garrison facts → Garrison reservation/retrieval → Laboratorium Profile derivation → competent Profile approval → Conscription manifestation assembly and qualification → authorized Seat binding or deployment → governed return/retirement**
+**Curia capability demand → Guildhall profession and Persona resolution → Imperator personnel-use authorization → Garrison reservation → Imperator Profile-derivation authorization → Conscription acceptance → Constable custody-bound derivation lease → Conscription commission → Alchemist acceptance → Laboratorium Profile derivation and return → Conscription examination assembly → Senate examination and disposition → Imperator Profile approval → Conscription operational qualification → authorized deployment → governed return or retirement**
 
-This route is provisional. Before implementation, jurisdiction must be settled for requester authority, suitability selection, Profile stewardship and approval, deployment authorization, and post-use custody transitions.
+The route is implemented through Alchemist commission acceptance. Profile derivation, candidate return, Senate examination, Imperator Profile approval, manifestation assembly, deployment authorization, and post-use custody transitions remain downstream work.
+
+## Enumerated downstream flow
+
+1. **Curia states the mission demand in capabilities.** Curia supplies skills, attributes, constraints, tools, data needs, and expected outcomes. It does not select a profession or Persona.
+2. **Guildhall resolves profession and exact Persona.** Guildhall alone translates the capability demand into a profession and determines suitability against Garrison inventory facts.
+3. **Curia presents the identity-bearing personnel-use request.** Curia shows Imperator the functional demand together with Guildhall's exact profession, Persona, suitability determination, custody identity, and digests without amending them.
+4. **Imperator decides personnel use.** Only `AUTHORIZED` grants personnel-use authority; refusal, revision, alternative, clarification, and deferral remain non-authorizing.
+5. **Guildhall accepts the exact act and requests reservation.** Acceptance preserves the authorized identity and permits one exact reservation request; Guildhall cannot reserve or retrieve the Persona.
+6. **The Constable decides reservation.** Garrison verifies admission, availability, identity, instance, and reservation conflicts. Success stops at `RESERVED_PENDING_PROFILE_DERIVATION_AUTHORIZATION` while custody remains held.
+7. **Curia constructs the immutable Profile scope.** Curia binds the successful reservation to the exact structured Mission Plan and identifies Curia as steward, Conscription as commissioner and installer, Laboratorium as transformer, Senate as examiner, and Imperator as approver.
+8. **Imperator decides Profile derivation.** Only `AUTHORIZED` reaches `PROFILE_DERIVATION_AUTHORIZED_PENDING_CONSCRIPTION_ACCEPTANCE`; no retrieval, Profile, or manifestation exists.
+9. **The Recruiter accepts and requests a derivation handoff.** Conscription revalidates the entire chain and issues one custody-bound, derivation-only request to the Constable.
+10. **The Constable decides the derivation lease.** Approval reaches `PROFILE_DERIVATION_HANDOFF_APPROVED_PENDING_CONSCRIPTION_LABORATORIUM_COMMISSION`; refusal grants nothing. Garrison retains custody at `ADMITTED_HELD`.
+11. **The Recruiter commissions Laboratorium.** Conscription issues one sealed `DERIVE_ONE_EXACT_MISSION_PROFILE` commission to `laboratorium.alchemist`. Its authority remains non-exercisable pending recipient acceptance.
+12. **The Alchemist accepts the exact commission.** The occupied Alchemist independently validates the commission, lease, Persona, Profile scope, return destination, active occupancy, and digests. Acceptance reaches `PROFILE_DERIVATION_COMMISSION_ACCEPTED_PENDING_PROFILE_DERIVATION` and makes authority exercisable for one candidate only.
+13. **Next: Laboratorium derives the Profile candidate.** The Alchemist must derive, version, and seal one exact candidate without acquiring approval, installation, custody-release, manifestation, deployment, or execution authority.
+
+## Current implementation checkpoint
+
+The implemented route ends after step 12 at `PROFILE_DERIVATION_COMMISSION_ACCEPTED_PENDING_PROFILE_DERIVATION`.
+
+- Garrison still holds the exact Persona at `ADMITTED_HELD`.
+- The commission and its acceptance authorize one exact derivation candidate.
+- No Profile candidate has yet been created.
+- No Senate Profile examination, Imperator Profile approval, installation, manifestation, Seat binding, deployment, or execution authority exists.
 
 ## Capability-to-Profession Translation Boundary
 
@@ -35,9 +60,9 @@ The governed handoff is therefore:
 
 This boundary is named `CAPABILITY_TO_PROFESSION` and is owned by `guildhall.guildmaster`.
 
-## First design question — resolved
+## Capability-to-profession question — resolved
 
-The initiating mission artifact carries capability requirements rather than profession or Persona selections. Guildhall owns capability-to-profession translation and determines Persona suitability against Garrison facts. A later batch must still define the distinct authorization that permits reservation and retrieval of the resulting exact Persona.
+The initiating mission artifact carries capability requirements rather than profession or Persona selections. Guildhall owns capability-to-profession translation and determines Persona suitability against Garrison facts. Personnel-use authorization, reservation, and the custody-bound derivation lease are now separately implemented and cannot be inferred from suitability.
 
 ## Personnel-use authorization dialogue — implemented
 
@@ -74,7 +99,7 @@ The implementation stops at `PROFILE_DERIVATION_AUTHORIZED_PENDING_CONSCRIPTION_
 
 The occupied ordinary Recruiter may accept only an exact `AUTHORIZED` Profile-derivation act whose Curia request, successful Garrison reservation, structured Mission Plan source, exact Persona, profession, capability commitment, Profile scope, jurisdiction assignments, and record digests remain unchanged. Acceptance binds Conscription to the authorized derivation route; it does not move custody or commission Laboratorium.
 
-Acceptance permits one exact request to the occupied Constable for a custody-bound, derivation-only Persona handoff. The request preserves the complete authority chain and stops at `PENDING_CONSTABLE_PROFILE_DERIVATION_HANDOFF_DISPOSITION`. It grants no handoff, retrieval, custody release, Laboratorium commission, Profile artifact, manifestation assembly, Senate examination, Seat binding, deployment, or execution authority. Garrison must independently decide the handoff in the next batch.
+Acceptance permits one exact request to the occupied Constable for a custody-bound, derivation-only Persona handoff. The request preserves the complete authority chain and stops at `PENDING_CONSTABLE_PROFILE_DERIVATION_HANDOFF_DISPOSITION`. It grants no handoff, retrieval, custody release, Laboratorium commission, Profile artifact, manifestation assembly, Senate examination, Seat binding, deployment, or execution authority. Garrison independently decides the handoff in the following transition.
 
 ## Constable derivation-handoff disposition — implemented
 
