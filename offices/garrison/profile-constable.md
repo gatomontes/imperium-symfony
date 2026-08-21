@@ -42,6 +42,7 @@ The Constable must be able to:
 - maintain versioned roster and custodial state
 - answer exact inventory, status, and availability questions
 - perform authorized reservation and retrieval handoffs
+- approve or refuse exact custody-bound derivation leases without implying release
 - preserve release, refusal, return, supersession, quarantine, withdrawal, and retirement lineage
 - detect when reassessment or upstream revalidation is required
 

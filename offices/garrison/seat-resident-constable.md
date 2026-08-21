@@ -40,6 +40,7 @@ The Constable may, on behalf of Garrison:
 - maintain versioned custodial state and lineage
 - answer authorized inventory and availability inquiries with exact facts
 - reserve an artifact when an admitted contract authorizes the hold
+- approve or refuse an exact custody-bound Profile-derivation lease while retaining Garrison custody
 - release an exact held artifact under an authorized retrieval handoff
 - refuse malformed, mismatched, stale, incomplete, ambiguous, or unauthorized requests
 - preserve prior versions without silent substitution

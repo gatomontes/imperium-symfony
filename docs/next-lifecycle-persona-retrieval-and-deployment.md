@@ -76,6 +76,12 @@ The occupied ordinary Recruiter may accept only an exact `AUTHORIZED` Profile-de
 
 Acceptance permits one exact request to the occupied Constable for a custody-bound, derivation-only Persona handoff. The request preserves the complete authority chain and stops at `PENDING_CONSTABLE_PROFILE_DERIVATION_HANDOFF_DISPOSITION`. It grants no handoff, retrieval, custody release, Laboratorium commission, Profile artifact, manifestation assembly, Senate examination, Seat binding, deployment, or execution authority. Garrison must independently decide the handoff in the next batch.
 
+## Constable derivation-handoff disposition — implemented
+
+The occupied Constable independently validates the exact Conscription request, acceptance, Imperator act, successful reservation, immutable Profile scope, admitted Persona custody record, availability, instance, and complete digest chain. The Constable may record `APPROVED` or `REFUSED` with an attributable rationale.
+
+Approval creates only a custody-bound Profile-derivation lease and authority for Conscription to issue the next exact Laboratorium-commission request. Garrison retains the Persona in `ADMITTED_HELD`; there is no unrestricted retrieval or custody release. Refusal creates no downstream authority. The implementation stops at `PROFILE_DERIVATION_HANDOFF_APPROVED_PENDING_CONSCRIPTION_LABORATORIUM_COMMISSION`, before any Laboratorium commission, Profile artifact, manifestation assembly, Senate examination, Seat binding, deployment, or execution.
+
 ## Non-negotiable inherited invariants
 
 - preserve the exact admitted Persona ID, version, digest, custody record, Guildhall commission, and Senate confirmation;

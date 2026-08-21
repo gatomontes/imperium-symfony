@@ -145,6 +145,9 @@ final readonly class ConstableSeatBindingService
             "persona_reservation_disposition_authority" => true,
             "persona_reservation_disposition_scope" =>
                 "reserve or factually refuse one exact admitted Persona against an identity-bound authorized Guildhall request",
+            "profile_derivation_handoff_disposition_authority" => true,
+            "profile_derivation_handoff_disposition_scope" =>
+                "approve or refuse one exact custody-bound Profile-derivation lease without releasing Garrison custody",
             "selection_authority" => false,
             "execution_authority" => false,
         ]);

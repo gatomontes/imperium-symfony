@@ -86,12 +86,14 @@ Curia then presents a distinct Profile-derivation authorization request bound to
 
 The occupied ordinary Recruiter then accepts only that exact authorization chain and issues one request to the occupied Constable for a custody-bound, derivation-only handoff. This advances the boundary to `PENDING_CONSTABLE_PROFILE_DERIVATION_HANDOFF_DISPOSITION`; it does not hand off or retrieve the Persona, release Garrison custody, commission Laboratorium, construct a Profile, assemble a manifestation, invoke Senate, deploy, or execute.
 
+The occupied Constable independently approves or refuses that exact request. Approval creates a derivation-only lease while Garrison retains the Persona in `ADMITTED_HELD`, and permits Conscription only to request the next exact Laboratorium commission. Refusal permits nothing. No Profile exists at this boundary.
+
 The next implementation begins with an exact authorized personnel-use demand and must answer, in order:
 
 1. Who requests an admitted Persona, for what mission role or Seat, and under which authority?
 2. Who determines suitability among Garrison inventory facts without giving Garrison selection authority?
-3. How does the Constable approve or refuse the requested custody-bound derivation handoff without releasing custody by implication?
-4. How does an approved handoff authorize Conscription to commission Laboratorium for only the exact derivation scope?
+3. How does Conscription convert the approved custody-bound lease into one exact Laboratorium commission without broadening the Profile scope?
+4. How does Laboratorium accept, derive, and return the exact Profile without acquiring approval or installation authority?
 5. Who approves that Profile and authorizes Conscription to assemble a manifestation?
 6. How does Conscription bind the exact Persona, approved Profile, generic Officer substrate, and commission without inheriting selection or deployment authority?
 7. Who authorizes Seat binding or mission deployment, and what state transition releases the Persona from held custody?
