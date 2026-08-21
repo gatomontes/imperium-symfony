@@ -24,7 +24,11 @@ The resident Constable is standing institutional staff, not a mission-selected o
 
 MasterMason may subsequently consume that exact ready case to issue one immutable construction commission to Conscription. The commission grants spawning authority only for instantiating and qualifying one canonical Constable manifestation against the exact Persona, current/active Profile, qualification contract, and generic Officer substrate. It grants no Seat binding, inventory response, or execution authority.
 
-After Conscription returns one sealed `QUALIFIED_UNBOUND` Constable packet, MasterMason validates its exact commission chain, Persona, current/active Profile, qualification disposition, substrate, target instance, and authority restraints before atomically binding it to the vacant `garrison.constable` Seat. Valid occupancy activates only Garrison's exact inventory and availability fact jurisdiction. It grants no professional selection or mission execution authority.
+After Conscription returns one sealed `QUALIFIED_UNBOUND` Constable packet, MasterMason validates its exact commission chain, Persona, current/active Profile, qualification disposition, substrate, target instance, and authority restraints before atomically binding it to the vacant `garrison.constable` Seat. Valid occupancy activates Garrison's exact inventory, availability, admission, custody, and authorized reservation-disposition jurisdiction. It grants no professional selection or mission execution authority.
+
+## decide-persona-reservation
+
+The occupied Constable accepts only an exact Guildhall reservation request derived from an unchanged identity-bound Imperator authorization and Guildhall acceptance. It verifies the exact Persona against Garrison's admitted custody record, instance, custodial state, availability, and existing reservation ledger. Success records `RESERVED_PENDING_PROFILE_DERIVATION_AUTHORIZATION`; factual failures record not-admitted, unavailable, already-reserved, or disposition-mismatch refusals. Garrison cannot select or suggest a replacement. Reservation preserves custody and grants no retrieval, Profile derivation, manifestation, Seat-binding, deployment, or execution authority.
 
 ## retrieve-held-artifact
 Fetch the exact authorized immutable version and bind its custody and provenance.

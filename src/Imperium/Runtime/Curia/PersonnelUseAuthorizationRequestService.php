@@ -56,6 +56,7 @@ final readonly class PersonnelUseAuthorizationRequestService
             $requirements = is_array($slot) ? ($slot['capability_requirements'] ?? null) : null;
             $profession = is_array($slot) ? ($slot['profession'] ?? null) : null;
             $persona = is_array($slot) ? ($slot['persona'] ?? null) : null;
+            $suitability = is_array($slot) ? ($slot['suitability_determination'] ?? null) : null;
             $resolutionDigest = is_array($slot) ? ($slot['guildhall_resolution_digest'] ?? null) : null;
             if (!is_string($slotId) || '' === trim($slotId) || isset($seen[$slotId])
                 || !is_array($requirements) || [] === $requirements
@@ -63,6 +64,7 @@ final readonly class PersonnelUseAuthorizationRequestService
                 || !is_array($persona)
                 || !is_string($persona['custody_id'] ?? null) || '' === trim($persona['custody_id'])
                 || !is_string($persona['persona_id'] ?? null) || '' === trim($persona['persona_id'])
+                || !is_string($suitability) || '' === trim($suitability)
                 || !is_string($resolutionDigest) || !preg_match('/^[a-f0-9]{64}$/', $resolutionDigest)
             ) {
                 throw new \RuntimeException('C126_CAPABILITY_COMMITMENT_INVALID');
@@ -78,6 +80,7 @@ final readonly class PersonnelUseAuthorizationRequestService
                 'capability_requirements' => $requirements,
                 'profession' => $profession,
                 'persona' => $persona,
+                'suitability_determination' => $suitability,
                 'guildhall_resolution_digest' => $resolutionDigest,
             ];
         }

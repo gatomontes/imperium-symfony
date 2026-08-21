@@ -116,6 +116,9 @@ final class ConstableSeatBindingServiceTest extends TestCase
                 $occupancy["persona_admission_disposition_authority"],
             );
             self::assertTrue($occupancy["custody_registration_authority"]);
+            self::assertTrue(
+                $occupancy["persona_reservation_disposition_authority"],
+            );
             self::assertFalse($occupancy["selection_authority"]);
             self::assertFalse($occupancy["execution_authority"]);
             self::assertFileExists(

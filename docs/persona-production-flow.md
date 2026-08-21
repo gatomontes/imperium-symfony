@@ -78,13 +78,15 @@ It does not mean that the Persona has been selected, reserved, retrieved, transf
 
 The handoff crosses an explicit language and jurisdiction boundary: Curia supplies functional `capability_requirements`; Guildhall alone translates them into professions and Persona suitability criteria. Curia has neither profession-selection nor Persona-selection authority, while Guildhall suitability grants no retrieval or use authority.
 
-When exact suitable personnel are later resolved, Curia presents the capability-slot commitments together with Guildhall's exact profession and Persona resolution to Imperator. Curia has visibility for presentation and deliberative context but no authority to select, rank, substitute, or amend the personnel resolution. Imperator's decision is bound to that exact identity-bearing Guildhall disposition. Only an explicit `AUTHORIZED` act grants personnel-use authority; every objection, suggestion, clarification, refusal, or deferral remains non-authorizing and cannot release Garrison custody.
+When exact suitable personnel are later resolved, Curia presents the capability-slot commitments together with Guildhall's exact profession, suitability determination, and Persona resolution to Imperator. Curia has visibility for presentation and deliberative context but no authority to select, rank, substitute, or amend the personnel resolution. Imperator's decision is bound to that exact identity-bearing Guildhall disposition. Only an explicit `AUTHORIZED` act grants personnel-use authority; every objection, suggestion, clarification, refusal, or deferral remains non-authorizing and cannot release Garrison custody.
+
+Guildhall accepts only that unchanged identity-bound authorization and requests reservation of the exact Persona from Garrison. The occupied Constable verifies admission, custody identity, availability, and reservation conflicts before recording either a factual refusal or `RESERVED_PENDING_PROFILE_DERIVATION_AUTHORIZATION`. Guildhall does not acquire reservation authority, Garrison does not acquire selection authority, and reservation grants no retrieval, Profile, manifestation, Seat, deployment, or execution authority.
 
 The next implementation begins with an exact authorized personnel-use demand and must answer, in order:
 
 1. Who requests an admitted Persona, for what mission role or Seat, and under which authority?
 2. Who determines suitability among Garrison inventory facts without giving Garrison selection authority?
-3. How is the exact Persona reserved and retrieved from `ADMITTED_HELD` custody?
+3. The exact Persona reservation is implemented; how is the reserved Persona retrieved without implying downstream authority?
 4. Which Office commissions Laboratorium to derive the exact role-, Seat-, framework-, or deployment-specific Profile?
 5. Who approves that Profile and authorizes Conscription to assemble a manifestation?
 6. How does Conscription bind the exact Persona, approved Profile, generic Officer substrate, and commission without inheriting selection or deployment authority?

@@ -56,7 +56,13 @@ Imperator may record exactly one disposition against each exact request:
 
 Every disposition preserves Imperator's exact response and optional limitations. Only `AUTHORIZED` creates `personnel_use_authority`; objection, suggestion, clarification, deferral, and refusal remain mechanically non-authorizing. An alternative does not mutate the Guildhall disposition or authorize itself. Competent revision must produce a new digest-bound request for a later explicit decision.
 
-The current implementation stops at `AUTHORIZED_PENDING_GUILDHALL_ACCEPTANCE`. It grants no Persona reservation, retrieval, Profile derivation, manifestation assembly, Seat binding, deployment, or execution authority.
+## Guildhall acceptance and Garrison reservation — implemented
+
+Guildhall may accept only an exact `AUTHORIZED` Imperator act whose request, disclosed profession, exact Persona custody identity, suitability determination, capability correlation, Guildhall disposition, and digests remain unchanged. Acceptance makes one exact Garrison reservation request permissible for each authorized Persona. Guildhall cannot reserve, retrieve, substitute, or deploy the Persona.
+
+The occupied Constable independently verifies the exact request chain, admitted custody record, Persona identity, instance, custodial state, availability, and existing reservations. Garrison records either `RESERVED_PENDING_PROFILE_DERIVATION_AUTHORIZATION` or a factual non-authorizing refusal: `REFUSED_PERSONA_NOT_ADMITTED`, `REFUSED_PERSONA_UNAVAILABLE`, `REFUSED_PERSONA_ALREADY_RESERVED`, or `REFUSED_DISPOSITION_MISMATCH`. Garrison cannot select or propose another Persona.
+
+The current implementation stops at `RESERVED_PENDING_PROFILE_DERIVATION_AUTHORIZATION`. Reservation preserves Garrison custody and grants no retrieval, Profile derivation, manifestation assembly, Seat binding, deployment, or execution authority.
 
 ## Non-negotiable inherited invariants
 
