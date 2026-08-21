@@ -13,7 +13,7 @@ final class SubordinatePersonaAssemblyServiceTest extends TestCase
             "/imperium-subordinate-assembly-" .
             bin2hex(random_bytes(6));
         $caseId = "subordinate-construction-case-" . str_repeat("a", 20);
-        $case = ["case_id" => $caseId];
+        $case = ["case_id" => $caseId, "originating_guildhall_commission_id" => "guildhall-subordinate-construction-commission-cccccccccccccccccccc", "originating_guildhall_commission_digest" => "guildhall-commission-digest"];
         $this->write(
             $root .
                 "/var/imperium/offices/foundry/subordinate-construction-cases",
@@ -96,6 +96,8 @@ final class SubordinatePersonaAssemblyServiceTest extends TestCase
                 "subordinate_construction_case_id" => $caseId,
                 "subordinate_construction_case_digest" =>
                     $case["record_digest"],
+                "originating_guildhall_commission_id" => $case["originating_guildhall_commission_id"],
+                "originating_guildhall_commission_digest" => $case["originating_guildhall_commission_digest"],
                 "source_resolution_id" => "resolution",
                 "source_resolution_digest" => "digest",
                 "authored_sections" => [

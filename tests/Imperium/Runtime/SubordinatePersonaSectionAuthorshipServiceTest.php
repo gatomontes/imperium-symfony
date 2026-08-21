@@ -24,6 +24,8 @@ final class SubordinatePersonaSectionAuthorshipServiceTest extends TestCase
         $case = [
             "schema" => "imperium.foundry-subordinate-construction-case/v1",
             "case_id" => $caseId,
+            "originating_guildhall_commission_id" => "guildhall-subordinate-construction-commission-cccccccccccccccccccc",
+            "originating_guildhall_commission_digest" => "guildhall-commission-digest",
         ];
         $this->write(
             $root .
@@ -39,6 +41,8 @@ final class SubordinatePersonaSectionAuthorshipServiceTest extends TestCase
             "supersedes" => null,
             "specification_id" => $specId,
             "case_id" => $caseId,
+            "originating_guildhall_commission_id" => $case["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $case["originating_guildhall_commission_digest"],
             "source_resolution_id" => "resolution",
             "source_resolution_digest" => "digest",
         ];
@@ -57,6 +61,8 @@ final class SubordinatePersonaSectionAuthorshipServiceTest extends TestCase
             "forbidden_authorship" => [$forbidden],
             "dispatch_kind" => "INITIAL_SPECIFICATION_DISPATCH",
             "superseded_commissions" => [],
+            "originating_guildhall_commission_id" => $case["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $case["originating_guildhall_commission_digest"],
         ];
         $this->write(
             $root . "/var/imperium/offices/" . $office . "/inbox",
