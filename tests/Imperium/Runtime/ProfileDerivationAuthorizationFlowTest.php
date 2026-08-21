@@ -12,11 +12,84 @@ use App\Imperium\Runtime\Curia\ProceedingStore;
 use App\Imperium\Runtime\Curia\ProfileDerivationAuthorizationDecisionService;
 use App\Imperium\Runtime\Curia\ProfileDerivationAuthorizationRequestService;
 use App\Imperium\Runtime\Garrison\ProfileDerivationHandoffDispositionService;
+use App\Imperium\Runtime\Laboratorium\ProfileDerivationCommissionAcceptanceService;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class ProfileDerivationAuthorizationFlowTest extends TestCase
 {
+    public function testOccupiedAlchemistAcceptsExactCommissionAndOnlyThenMakesDerivationExercisable(): void
+    {
+        [$root, $store, $reservationId] = $this->fixture();
+        try {
+            $bootstrap = $this->recruiterBootstrap($root);
+            $request = (new ProfileDerivationAuthorizationRequestService($root, $store))->request($reservationId, 1);
+            $act = (new ProfileDerivationAuthorizationDecisionService($root))->decide($request['request_id'], 'AUTHORIZED', 'Authorize exact derivation.', 'Passive scope only.');
+            $handoff = (new ProfileDerivationAuthorizationAcceptanceService($root, $bootstrap))->accept($act['act_id'])['handoff_request'];
+            $constable = $this->constableOccupancy($root);
+            $disposition = (new ProfileDerivationHandoffDispositionService($root))->decide($handoff['request_id'], $constable['binding_id'], 'APPROVED', 'Approve exact lease.');
+            $commission = (new LaboratoriumProfileDerivationCommissionService($root, $bootstrap))->commission($disposition['disposition_id']);
+            $alchemist = $this->alchemistOccupancy($root);
+            $service = new ProfileDerivationCommissionAcceptanceService($root);
+            $acceptance = $service->accept($commission['commission_id'], $alchemist['binding_id']);
+            self::assertSame($acceptance, $service->accept($commission['commission_id'], $alchemist['binding_id']));
+            self::assertSame('PROFILE_DERIVATION_COMMISSION_ACCEPTED_PENDING_PROFILE_DERIVATION', $acceptance['status']);
+            self::assertSame('ACCEPTED_FOR_EXACT_PROFILE_DERIVATION', $acceptance['disposition']);
+            self::assertSame($act['profile_scope'], $acceptance['profile_scope']);
+            self::assertSame('ADMITTED_HELD', $acceptance['custody_lease']['custody_state']);
+            self::assertTrue($acceptance['recipient_acceptance']);
+            self::assertTrue($acceptance['profile_derivation_authority']);
+            self::assertTrue($acceptance['profile_derivation_authority_exercisable']);
+            self::assertTrue($acceptance['profile_candidate_creation_authority']);
+            self::assertFalse($acceptance['profile_artifact_created']);
+            self::assertFalse($acceptance['profile_approval_authority']);
+            self::assertFalse($acceptance['profile_installation_authority']);
+            self::assertFalse($acceptance['custody_release_authority']);
+            self::assertFalse($acceptance['spawning_authority']);
+            self::assertFalse($acceptance['deployment_authority']);
+            self::assertFalse($acceptance['execution_authority']);
+        } finally { $this->removeTree($root); }
+    }
+
+    public function testAlchemistAcceptanceRequiresActiveAuthorizedOccupancy(): void
+    {
+        [$root, $store, $reservationId] = $this->fixture();
+        try {
+            $bootstrap = $this->recruiterBootstrap($root);
+            $request = (new ProfileDerivationAuthorizationRequestService($root, $store))->request($reservationId, 1);
+            $act = (new ProfileDerivationAuthorizationDecisionService($root))->decide($request['request_id'], 'AUTHORIZED', 'Authorize exact derivation.', 'Passive scope only.');
+            $handoff = (new ProfileDerivationAuthorizationAcceptanceService($root, $bootstrap))->accept($act['act_id'])['handoff_request'];
+            $constable = $this->constableOccupancy($root);
+            $disposition = (new ProfileDerivationHandoffDispositionService($root))->decide($handoff['request_id'], $constable['binding_id'], 'APPROVED', 'Approve exact lease.');
+            $commission = (new LaboratoriumProfileDerivationCommissionService($root, $bootstrap))->commission($disposition['disposition_id']);
+            $alchemist = $this->alchemistOccupancy($root, false);
+            $this->expectExceptionMessage('L25_PROFILE_DERIVATION_COMMISSION_INVALID');
+            (new ProfileDerivationCommissionAcceptanceService($root))->accept($commission['commission_id'], $alchemist['binding_id']);
+        } finally { $this->removeTree($root); }
+    }
+
+    public function testAlchemistRefusesCommissionDriftAfterConscriptionIssuance(): void
+    {
+        [$root, $store, $reservationId] = $this->fixture();
+        try {
+            $bootstrap = $this->recruiterBootstrap($root);
+            $request = (new ProfileDerivationAuthorizationRequestService($root, $store))->request($reservationId, 1);
+            $act = (new ProfileDerivationAuthorizationDecisionService($root))->decide($request['request_id'], 'AUTHORIZED', 'Authorize exact derivation.', 'Passive scope only.');
+            $handoff = (new ProfileDerivationAuthorizationAcceptanceService($root, $bootstrap))->accept($act['act_id'])['handoff_request'];
+            $constable = $this->constableOccupancy($root);
+            $disposition = (new ProfileDerivationHandoffDispositionService($root))->decide($handoff['request_id'], $constable['binding_id'], 'APPROVED', 'Approve exact lease.');
+            $commission = (new LaboratoriumProfileDerivationCommissionService($root, $bootstrap))->commission($disposition['disposition_id']);
+            $alchemist = $this->alchemistOccupancy($root);
+            $path = $root.'/var/imperium/offices/laboratorium/profile-derivation-commission-inbox/'.$commission['commission_id'].'.json';
+            $changed = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+            $changed['profile_scope']['constraints'][] = 'Injected constraint'; unset($changed['record_digest']);
+            $changed['record_digest'] = hash('sha256', CanonicalJson::encode($changed));
+            file_put_contents($path, json_encode($changed, JSON_THROW_ON_ERROR));
+            $this->expectExceptionMessage('L25_PROFILE_DERIVATION_COMMISSION_INVALID');
+            (new ProfileDerivationCommissionAcceptanceService($root))->accept($commission['commission_id'], $alchemist['binding_id']);
+        } finally { $this->removeTree($root); }
+    }
+
     public function testRecruiterIssuesExactNonExercisableLaboratoriumCommissionFromApprovedLease(): void
     {
         [$root, $store, $reservationId] = $this->fixture();
@@ -428,6 +501,28 @@ final class ProfileDerivationAuthorizationFlowTest extends TestCase
         ];
         $binding['record_digest'] = hash('sha256', CanonicalJson::encode($binding));
         $directory = $root.'/var/imperium/offices/garrison/occupancy';
+        mkdir($directory, 0770, true);
+        file_put_contents($directory.'/'.$binding['binding_id'].'.json', json_encode($binding, JSON_THROW_ON_ERROR));
+        return $binding;
+    }
+
+    private function alchemistOccupancy(string $root, bool $authorized = true): array
+    {
+        $binding = [
+            'schema' => 'imperium.operator-root-seat-occupancy/v1',
+            'binding_id' => 'operator-root-binding-'.str_repeat('e', 20),
+            'instance_id' => 'imperium-test',
+            'office' => 'laboratorium',
+            'seat' => 'laboratorium.alchemist',
+            'manifestation_id' => 'imperium-test.officer.laboratorium.alchemist.test',
+            'occupancy_generation' => 1,
+            'status' => 'ACTIVE',
+            'binding_atomic' => true,
+            'profile_derivation_commission_acceptance_authority' => $authorized,
+            'execution_authority' => false,
+        ];
+        $binding['record_digest'] = hash('sha256', CanonicalJson::encode($binding));
+        $directory = $root.'/var/imperium/offices/laboratorium/occupancy';
         mkdir($directory, 0770, true);
         file_put_contents($directory.'/'.$binding['binding_id'].'.json', json_encode($binding, JSON_THROW_ON_ERROR));
         return $binding;

@@ -18,6 +18,7 @@ The Alchemist Seat localizes Laboratorium's authority to transform an exact admi
 The occupied Seat may:
 
 - accept or refuse a transformation case against its required inputs;
+- accept an exact Conscription Profile-derivation commission before exercising its bounded transformation authority;
 - interpret the admitted Persona, destination requirements, and target contract together;
 - choose transformations permitted by the exact transformation specification;
 - resolve representational tensions without changing source meaning or destination authority;

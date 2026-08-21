@@ -90,12 +90,14 @@ The occupied Constable independently approves or refuses that exact request. App
 
 The occupied ordinary Recruiter converts only an approved exact lease into one sealed commission to `laboratorium.alchemist`. The commission preserves the immutable Profile scope, Persona, custody, authorization, plan, and return destination, but remains non-exercisable until Alchemist acceptance. No Profile exists at `PENDING_ALCHEMIST_PROFILE_DERIVATION_COMMISSION_ACCEPTANCE`.
 
+The occupied Alchemist independently accepts only that unchanged commission and active custody lease. Acceptance makes derivation authority exercisable for one exact Profile candidate but creates nothing by itself. The boundary stops at `PROFILE_DERIVATION_COMMISSION_ACCEPTED_PENDING_PROFILE_DERIVATION`.
+
 The next implementation begins with an exact authorized personnel-use demand and must answer, in order:
 
 1. Who requests an admitted Persona, for what mission role or Seat, and under which authority?
 2. Who determines suitability among Garrison inventory facts without giving Garrison selection authority?
-3. How does the occupied Alchemist accept the exact commission without acquiring Profile approval, installation, or custody authority?
-4. How does Laboratorium derive and return the exact Profile while preserving every scope and Persona constraint?
+3. How does Laboratorium derive, version, and seal the exact Profile candidate while preserving every scope and Persona constraint?
+4. How does the Alchemist return that candidate to Conscription without acquiring Profile approval or installation authority?
 5. Who approves that Profile and authorizes Conscription to assemble a manifestation?
 6. How does Conscription bind the exact Persona, approved Profile, generic Officer substrate, and commission without inheriting selection or deployment authority?
 7. Who authorizes Seat binding or mission deployment, and what state transition releases the Persona from held custody?
