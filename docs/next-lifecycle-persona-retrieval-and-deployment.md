@@ -82,6 +82,12 @@ The occupied Constable independently validates the exact Conscription request, a
 
 Approval creates only a custody-bound Profile-derivation lease and authority for Conscription to issue the next exact Laboratorium-commission request. Garrison retains the Persona in `ADMITTED_HELD`; there is no unrestricted retrieval or custody release. Refusal creates no downstream authority. The implementation stops at `PROFILE_DERIVATION_HANDOFF_APPROVED_PENDING_CONSCRIPTION_LABORATORIUM_COMMISSION`, before any Laboratorium commission, Profile artifact, manifestation assembly, Senate examination, Seat binding, deployment, or execution.
 
+## Conscription Profile-derivation commission — implemented
+
+The occupied ordinary Recruiter may commission Laboratorium only from an exact approved Constable handoff disposition. Conscription revalidates the complete disposition, handoff request, acceptance, reservation, custody record, immutable Profile scope, Persona identity, instance, and digest chain before issuing one commission to `laboratorium.alchemist`.
+
+The commission is limited to `DERIVE_ONE_EXACT_MISSION_PROFILE`, preserves Garrison custody at `ADMITTED_HELD`, and requires return to Conscription. It carries Profile-derivation authority but that authority is not exercisable until the occupied Alchemist accepts the exact commission. The implementation stops at `PENDING_ALCHEMIST_PROFILE_DERIVATION_COMMISSION_ACCEPTANCE`; no Profile artifact, approval, installation, manifestation assembly, Senate examination, Seat binding, deployment, or execution exists.
+
 ## Non-negotiable inherited invariants
 
 - preserve the exact admitted Persona ID, version, digest, custody record, Guildhall commission, and Senate confirmation;
