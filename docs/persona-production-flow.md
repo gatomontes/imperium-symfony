@@ -94,10 +94,12 @@ The occupied Alchemist independently accepts only that unchanged commission and 
 
 The occupied Alchemist then cognitively elaborates the mission-specific Profile content from the exact acceptance, Persona, immutable Profile scope, and Imperator limitations. Laboratorium machinery revalidates the commission, active custody lease, return destination, occupancy, digests, and elaboration contract; it then attaches authoritative metadata, assigns deterministic identity and version 1, and seals the candidate at `PROFILE_CANDIDATE_DERIVED_VERSIONED_SEALED_PENDING_RETURN_TO_CONSCRIPTION`. The candidate has not left Laboratorium and carries no approval, installation, examination-assembly, Senate-examination, custody-release, Seat-binding, deployment, or execution authority.
 
-The downstream lifecycle is implemented through `PROFILE_CANDIDATE_DERIVED_VERSIONED_SEALED_PENDING_RETURN_TO_CONSCRIPTION`. The remaining design and implementation questions are, in order:
+Laboratorium then revalidates the exact sealed candidate and consumes its one-use return authority to deliver one immutable packet to `conscription.recruiter`. The boundary stops at `PROFILE_CANDIDATE_RETURNED_PENDING_CONSCRIPTION_ACCEPTANCE`; delivery is not acceptance and grants no downstream authority.
 
-1. How does the Alchemist return that candidate to Conscription without acquiring Profile approval or installation authority?
-2. How does Conscription create a bounded examination assembly from the returned, not-yet-approved Profile and place the exact operative before Senate without Senate becoming the Profile creator?
+The downstream lifecycle is implemented through `PROFILE_CANDIDATE_RETURNED_PENDING_CONSCRIPTION_ACCEPTANCE`. The remaining design and implementation questions are, in order:
+
+1. How does the Recruiter independently accept the returned candidate without inheriting Profile approval or installation authority?
+2. How does Conscription create a bounded examination assembly from the accepted, not-yet-approved Profile and place the exact operative before Senate without Senate becoming the Profile creator?
 3. How does Senate examine the complete operative and distinguish Persona defects from Profile, derivation, assembly, substrate, or compatibility defects?
 4. How does Imperator approve the examined Profile without creating an unnecessary intervention in routine future routes?
 5. After approval, how does Conscription qualify the exact Persona, approved Profile, generic Officer substrate, and commission for operational use without inheriting selection or deployment authority?

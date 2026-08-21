@@ -114,6 +114,7 @@ final readonly class ProfileCandidateDerivationService
             'status' => 'PROFILE_CANDIDATE_DERIVED_VERSIONED_SEALED_PENDING_RETURN_TO_CONSCRIPTION',
             'profile_candidate_created' => true,
             'profile_candidate_returned' => false,
+            'profile_candidate_return_authority' => true,
             'profile_approval_authority' => false,
             'profile_installation_authority' => false,
             'examination_assembly_authority' => false,
