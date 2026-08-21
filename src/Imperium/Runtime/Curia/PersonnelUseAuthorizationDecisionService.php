@@ -38,7 +38,7 @@ final readonly class PersonnelUseAuthorizationDecisionService
             || $requestId !== ($request['request_id'] ?? null)
             || 'PENDING_IMPERATOR_DECISION' !== ($request['status'] ?? null)
             || self::IMPERATOR_ID !== ($request['recipient']['id'] ?? null)
-            || 'FUNCTIONAL_CAPABILITIES' !== ($request['source_language'] ?? null)
+            || 'FUNCTIONAL_CAPABILITIES_WITH_GUILDHALL_PERSONNEL_RESOLUTION' !== ($request['source_language'] ?? null)
             || 'PERSONNEL_USE_COMMITMENT_ONLY' !== ($request['requested_authority'] ?? null)
             || self::DISPOSITIONS !== ($request['allowed_dispositions'] ?? null)
             || true === ($request['personnel_use_authority'] ?? null)
@@ -48,10 +48,39 @@ final readonly class PersonnelUseAuthorizationDecisionService
             || true === ($request['seat_binding_authority'] ?? null)
             || true === ($request['execution_authority'] ?? null)
             || true !== ($request['sealed'] ?? null)
-            || !is_array($request['capability_commitments'] ?? null)
-            || [] === $request['capability_commitments']
+            || 'guildhall.guildmaster' !== ($request['personnel_resolution_boundary']['resolution_authority'] ?? null)
+            || 'PRESENTATION_ONLY' !== ($request['personnel_resolution_boundary']['curia_role'] ?? null)
+            || false !== ($request['personnel_resolution_boundary']['curia_profession_selection_authority'] ?? null)
+            || false !== ($request['personnel_resolution_boundary']['curia_persona_selection_authority'] ?? null)
+            || false !== ($request['personnel_resolution_boundary']['curia_substitution_authority'] ?? null)
+            || !is_array($request['personnel_commitments'] ?? null)
+            || [] === $request['personnel_commitments']
         ) {
             throw new \RuntimeException('C132_PERSONNEL_USE_REQUEST_INVALID');
+        }
+        $seenSlots = [];
+        foreach ($request['personnel_commitments'] as $commitment) {
+            $slotId = is_array($commitment) ? ($commitment['capability_slot_id'] ?? null) : null;
+            $requirements = is_array($commitment) ? ($commitment['capability_requirements'] ?? null) : null;
+            $profession = is_array($commitment) ? ($commitment['profession'] ?? null) : null;
+            $persona = is_array($commitment) ? ($commitment['persona'] ?? null) : null;
+            $resolutionDigest = is_array($commitment) ? ($commitment['guildhall_resolution_digest'] ?? null) : null;
+            if (!is_string($slotId) || '' === trim($slotId) || isset($seenSlots[$slotId])
+                || !is_array($requirements) || [] === $requirements
+                || !is_string($profession) || '' === trim($profession)
+                || !is_array($persona)
+                || !is_string($persona['custody_id'] ?? null) || '' === trim($persona['custody_id'])
+                || !is_string($persona['persona_id'] ?? null) || '' === trim($persona['persona_id'])
+                || !is_string($resolutionDigest) || !preg_match('/^[a-f0-9]{64}$/', $resolutionDigest)
+            ) {
+                throw new \RuntimeException('C132_PERSONNEL_USE_REQUEST_INVALID');
+            }
+            foreach ($requirements as $requirement) {
+                if (!is_string($requirement) || '' === trim($requirement)) {
+                    throw new \RuntimeException('C132_PERSONNEL_USE_REQUEST_INVALID');
+                }
+            }
+            $seenSlots[$slotId] = true;
         }
         foreach (glob($this->decisionDirectory.'/personnel-use-decision-*.json') ?: [] as $path) {
             $prior = $this->read($path, 'C135_PERSONNEL_USE_DECISION_CONFLICT');
@@ -75,8 +104,9 @@ final readonly class PersonnelUseAuthorizationDecisionService
             'authority_basis' => 'development-local-cli',
             'source_request_id' => $requestId,
             'source_request_digest' => $request['record_digest'],
-            'opaque_guildhall_disposition' => $request['opaque_guildhall_disposition'],
-            'capability_commitments' => $request['capability_commitments'],
+            'guildhall_disposition' => $request['guildhall_disposition'],
+            'personnel_commitments' => $request['personnel_commitments'],
+            'personnel_resolution_boundary' => $request['personnel_resolution_boundary'],
             'disposition' => $disposition,
             'response' => $response,
             'limitations' => $limitations,

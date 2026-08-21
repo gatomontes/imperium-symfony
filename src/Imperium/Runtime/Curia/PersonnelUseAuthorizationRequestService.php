@@ -54,9 +54,15 @@ final readonly class PersonnelUseAuthorizationRequestService
         foreach ($slots as $slot) {
             $slotId = is_array($slot) ? ($slot['capability_slot_id'] ?? null) : null;
             $requirements = is_array($slot) ? ($slot['capability_requirements'] ?? null) : null;
+            $profession = is_array($slot) ? ($slot['profession'] ?? null) : null;
+            $persona = is_array($slot) ? ($slot['persona'] ?? null) : null;
             $resolutionDigest = is_array($slot) ? ($slot['guildhall_resolution_digest'] ?? null) : null;
             if (!is_string($slotId) || '' === trim($slotId) || isset($seen[$slotId])
                 || !is_array($requirements) || [] === $requirements
+                || !is_string($profession) || '' === trim($profession)
+                || !is_array($persona)
+                || !is_string($persona['custody_id'] ?? null) || '' === trim($persona['custody_id'])
+                || !is_string($persona['persona_id'] ?? null) || '' === trim($persona['persona_id'])
                 || !is_string($resolutionDigest) || !preg_match('/^[a-f0-9]{64}$/', $resolutionDigest)
             ) {
                 throw new \RuntimeException('C126_CAPABILITY_COMMITMENT_INVALID');
@@ -70,6 +76,8 @@ final readonly class PersonnelUseAuthorizationRequestService
             $commitments[] = [
                 'capability_slot_id' => $slotId,
                 'capability_requirements' => $requirements,
+                'profession' => $profession,
+                'persona' => $persona,
                 'guildhall_resolution_digest' => $resolutionDigest,
             ];
         }
@@ -84,10 +92,17 @@ final readonly class PersonnelUseAuthorizationRequestService
             'proceeding_id' => $proceedingId,
             'requester' => ['office' => 'curia', 'seat' => 'curia.seneschal'],
             'recipient' => ['kind' => 'imperator', 'id' => 'imperator-development-root'],
-            'source_language' => 'FUNCTIONAL_CAPABILITIES',
-            'opaque_guildhall_disposition' => ['id' => $dispositionId, 'digest' => $disposition['record_digest']],
-            'capability_commitments' => $commitments,
-            'question' => 'Authorize commitment of the Guildhall-resolved personnel resources for these exact mission capability slots?',
+            'source_language' => 'FUNCTIONAL_CAPABILITIES_WITH_GUILDHALL_PERSONNEL_RESOLUTION',
+            'guildhall_disposition' => ['id' => $dispositionId, 'digest' => $disposition['record_digest']],
+            'personnel_commitments' => $commitments,
+            'personnel_resolution_boundary' => [
+                'resolution_authority' => 'guildhall.guildmaster',
+                'curia_role' => 'PRESENTATION_ONLY',
+                'curia_profession_selection_authority' => false,
+                'curia_persona_selection_authority' => false,
+                'curia_substitution_authority' => false,
+            ],
+            'question' => 'Authorize use of these exact Guildhall-resolved professions and Personas for the correlated mission capability slots?',
             'requested_authority' => 'PERSONNEL_USE_COMMITMENT_ONLY',
             'allowed_dispositions' => ['AUTHORIZED', 'REFUSED', 'RETURNED_FOR_REVISION', 'ALTERNATIVE_PROPOSED', 'CLARIFICATION_REQUIRED', 'DEFERRED'],
             'status' => 'PENDING_IMPERATOR_DECISION',
