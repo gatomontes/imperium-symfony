@@ -7,6 +7,7 @@ namespace App\Tests\Imperium\Runtime;
 use App\Bootstrap\CanonicalJson;
 use App\Bootstrap\StateStore;
 use App\Imperium\Runtime\Conscription\ProfileDerivationAuthorizationAcceptanceService;
+use App\Imperium\Runtime\Conscription\LaboratoriumProfileDerivationCommissionService;
 use App\Imperium\Runtime\Curia\ProceedingStore;
 use App\Imperium\Runtime\Curia\ProfileDerivationAuthorizationDecisionService;
 use App\Imperium\Runtime\Curia\ProfileDerivationAuthorizationRequestService;
@@ -16,6 +17,74 @@ use PHPUnit\Framework\TestCase;
 
 final class ProfileDerivationAuthorizationFlowTest extends TestCase
 {
+    public function testRecruiterIssuesExactNonExercisableLaboratoriumCommissionFromApprovedLease(): void
+    {
+        [$root, $store, $reservationId] = $this->fixture();
+        try {
+            $bootstrap = $this->recruiterBootstrap($root);
+            $request = (new ProfileDerivationAuthorizationRequestService($root, $store))->request($reservationId, 1);
+            $act = (new ProfileDerivationAuthorizationDecisionService($root))->decide($request['request_id'], 'AUTHORIZED', 'Authorize exact derivation.', 'Passive scope only.');
+            $handoff = (new ProfileDerivationAuthorizationAcceptanceService($root, $bootstrap))->accept($act['act_id'])['handoff_request'];
+            $binding = $this->constableOccupancy($root);
+            $disposition = (new ProfileDerivationHandoffDispositionService($root))->decide($handoff['request_id'], $binding['binding_id'], 'APPROVED', 'Approve the exact custody-bound derivation lease.');
+            $service = new LaboratoriumProfileDerivationCommissionService($root, $bootstrap);
+            $commission = $service->commission($disposition['disposition_id']);
+            self::assertSame($commission, $service->commission($disposition['disposition_id']));
+            self::assertSame('PENDING_ALCHEMIST_PROFILE_DERIVATION_COMMISSION_ACCEPTANCE', $commission['status']);
+            self::assertSame('laboratorium.alchemist', $commission['recipient']['seat']);
+            self::assertSame('DERIVE_ONE_EXACT_MISSION_PROFILE', $commission['commission_scope']);
+            self::assertSame($act['profile_scope'], $commission['profile_scope']);
+            self::assertSame('ADMITTED_HELD', $commission['custody_lease']['custody_state']);
+            self::assertSame('garrison', $commission['custody_lease']['custodian']);
+            self::assertFalse($commission['recipient_acceptance']);
+            self::assertTrue($commission['profile_derivation_authority']);
+            self::assertFalse($commission['profile_derivation_authority_exercisable']);
+            self::assertFalse($commission['profile_artifact_authority']);
+            self::assertFalse($commission['profile_approval_authority']);
+            self::assertFalse($commission['profile_installation_authority']);
+            self::assertFalse($commission['custody_release_authority']);
+            self::assertFalse($commission['persona_substitution_authority']);
+            self::assertFalse($commission['spawning_authority']);
+            self::assertFalse($commission['deployment_authority']);
+            self::assertFalse($commission['execution_authority']);
+        } finally { $this->removeTree($root); }
+    }
+
+    public function testRecruiterCannotCommissionLaboratoriumFromRefusedLease(): void
+    {
+        [$root, $store, $reservationId] = $this->fixture();
+        try {
+            $bootstrap = $this->recruiterBootstrap($root);
+            $request = (new ProfileDerivationAuthorizationRequestService($root, $store))->request($reservationId, 1);
+            $act = (new ProfileDerivationAuthorizationDecisionService($root))->decide($request['request_id'], 'AUTHORIZED', 'Authorize exact derivation.', 'Passive scope only.');
+            $handoff = (new ProfileDerivationAuthorizationAcceptanceService($root, $bootstrap))->accept($act['act_id'])['handoff_request'];
+            $binding = $this->constableOccupancy($root);
+            $disposition = (new ProfileDerivationHandoffDispositionService($root))->decide($handoff['request_id'], $binding['binding_id'], 'REFUSED', 'Refuse the lease.');
+            $this->expectExceptionMessage('R89_PROFILE_DERIVATION_COMMISSION_CHAIN_INVALID');
+            (new LaboratoriumProfileDerivationCommissionService($root, $bootstrap))->commission($disposition['disposition_id']);
+        } finally { $this->removeTree($root); }
+    }
+
+    public function testRecruiterRefusesProfileScopeDriftAfterConstableApproval(): void
+    {
+        [$root, $store, $reservationId] = $this->fixture();
+        try {
+            $bootstrap = $this->recruiterBootstrap($root);
+            $request = (new ProfileDerivationAuthorizationRequestService($root, $store))->request($reservationId, 1);
+            $act = (new ProfileDerivationAuthorizationDecisionService($root))->decide($request['request_id'], 'AUTHORIZED', 'Authorize exact derivation.', 'Passive scope only.');
+            $handoff = (new ProfileDerivationAuthorizationAcceptanceService($root, $bootstrap))->accept($act['act_id'])['handoff_request'];
+            $binding = $this->constableOccupancy($root);
+            $disposition = (new ProfileDerivationHandoffDispositionService($root))->decide($handoff['request_id'], $binding['binding_id'], 'APPROVED', 'Approve the exact custody-bound derivation lease.');
+            $path = $root.'/var/imperium/offices/garrison/profile-derivation-handoff-inbox/'.$handoff['request_id'].'.json';
+            $changed = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+            $changed['profile_scope']['objective'] = 'Changed objective'; unset($changed['record_digest']);
+            $changed['record_digest'] = hash('sha256', CanonicalJson::encode($changed));
+            file_put_contents($path, json_encode($changed, JSON_THROW_ON_ERROR));
+            $this->expectExceptionMessage('R89_PROFILE_DERIVATION_COMMISSION_CHAIN_INVALID');
+            (new LaboratoriumProfileDerivationCommissionService($root, $bootstrap))->commission($disposition['disposition_id']);
+        } finally { $this->removeTree($root); }
+    }
+
     public function testConstableApprovesExactCustodyBoundDerivationHandoffWithoutReleasingCustody(): void
     {
         [$root, $store, $reservationId] = $this->fixture();

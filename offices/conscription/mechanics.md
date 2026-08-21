@@ -12,6 +12,12 @@ The acceptance stops at `PROFILE_DERIVATION_ACCEPTED_PENDING_CONSTABLE_HANDOFF_D
 
 The Constable's later `APPROVED` disposition grants the Recruiter authority only to issue the next exact Laboratorium-commission request. It does not itself commission Laboratorium or transfer custody.
 
+## commission-profile-derivation
+
+The occupied ordinary Recruiter consumes one exact approved Constable derivation-lease disposition, revalidates its complete custody and authority chain, and issues one sealed `DERIVE_ONE_EXACT_MISSION_PROFILE` commission to `laboratorium.alchemist`. The immutable Profile scope and exact Persona are preserved without substitution or expansion.
+
+The commission stops at `PENDING_ALCHEMIST_PROFILE_DERIVATION_COMMISSION_ACCEPTANCE`. Garrison retains custody, the Alchemist has not accepted, and no Profile artifact, approval, installation, manifestation, Seat binding, deployment, or execution exists.
+
 ## fulfill-canonical-authorship-resident
 
 The ordinary Recruiter consumes one exact MasterMason construction commission, installs the admitted canonical Sanctographer or Chancellor Persona and current/active Profile on the generic officer substrate, verifies the declared qualification contract, and returns a sealed `QUALIFIED_UNBOUND` manifestation packet. This grants no authorship, subordinate-staff resolution, Seat-binding, acceptance, or execution authority.
