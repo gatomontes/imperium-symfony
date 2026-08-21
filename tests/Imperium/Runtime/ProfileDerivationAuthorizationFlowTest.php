@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Imperium\Runtime;
 
 use App\Bootstrap\CanonicalJson;
+use App\Bootstrap\StateStore;
+use App\Imperium\Runtime\Conscription\ProfileDerivationAuthorizationAcceptanceService;
 use App\Imperium\Runtime\Curia\ProceedingStore;
 use App\Imperium\Runtime\Curia\ProfileDerivationAuthorizationDecisionService;
 use App\Imperium\Runtime\Curia\ProfileDerivationAuthorizationRequestService;
@@ -13,6 +15,86 @@ use PHPUnit\Framework\TestCase;
 
 final class ProfileDerivationAuthorizationFlowTest extends TestCase
 {
+    public function testOccupiedRecruiterAcceptsExactAuthorizedRouteAndRequestsOnlyConstableHandoff(): void
+    {
+        [$root, $store, $reservationId] = $this->fixture();
+        try {
+            $bootstrap = $this->recruiterBootstrap($root);
+            $request = (new ProfileDerivationAuthorizationRequestService($root, $store))->request($reservationId, 1);
+            $act = (new ProfileDerivationAuthorizationDecisionService($root))->decide($request['request_id'], 'AUTHORIZED', 'Authorize exact derivation.', 'Passive scope only.');
+            $service = new ProfileDerivationAuthorizationAcceptanceService($root, $bootstrap);
+            $result = $service->accept($act['act_id']);
+            self::assertSame($result, $service->accept($act['act_id']));
+
+            $acceptance = $result['acceptance'];
+            self::assertSame('PROFILE_DERIVATION_ACCEPTED_PENDING_CONSTABLE_HANDOFF_DISPOSITION', $acceptance['status']);
+            self::assertSame('conscription.recruiter', $acceptance['actor']['seat']);
+            self::assertSame($act['profile_scope'], $acceptance['profile_scope']);
+            self::assertTrue($acceptance['garrison_handoff_request_authority']);
+            self::assertFalse($acceptance['retrieval_authority']);
+            self::assertFalse($acceptance['laboratorium_commission_authority']);
+
+            $handoff = $result['handoff_request'];
+            self::assertSame('PENDING_CONSTABLE_PROFILE_DERIVATION_HANDOFF_DISPOSITION', $handoff['status']);
+            self::assertSame('CUSTODY_BOUND_PROFILE_DERIVATION_ONLY', $handoff['requested_handoff']);
+            self::assertSame(['custody_id' => 'persona-custody-test', 'persona_id' => 'persona-test'], $handoff['persona']);
+            self::assertSame($act['profile_scope'], $handoff['profile_scope']);
+            self::assertTrue($handoff['handoff_requested']);
+            self::assertFalse($handoff['handoff_authority']);
+            self::assertFalse($handoff['custody_release_authority']);
+            self::assertFalse($handoff['laboratorium_commission_authority']);
+            self::assertFalse($handoff['spawning_authority']);
+            self::assertFalse($handoff['seat_binding_authority']);
+            self::assertFalse($handoff['deployment_authority']);
+            self::assertFalse($handoff['execution_authority']);
+        } finally { $this->removeTree($root); }
+    }
+
+    public function testRecruiterRefusesNonAuthorizingDisposition(): void
+    {
+        [$root, $store, $reservationId] = $this->fixture();
+        try {
+            $bootstrap = $this->recruiterBootstrap($root);
+            $request = (new ProfileDerivationAuthorizationRequestService($root, $store))->request($reservationId, 1);
+            $act = (new ProfileDerivationAuthorizationDecisionService($root))->decide($request['request_id'], 'DEFERRED', 'Do not proceed.');
+            $this->expectExceptionMessage('R76_PROFILE_DERIVATION_AUTHORIZATION_CHAIN_INVALID');
+            (new ProfileDerivationAuthorizationAcceptanceService($root, $bootstrap))->accept($act['act_id']);
+        } finally { $this->removeTree($root); }
+    }
+
+    public function testRecruiterRefusesReservationDriftAfterAuthorization(): void
+    {
+        [$root, $store, $reservationId] = $this->fixture();
+        try {
+            $bootstrap = $this->recruiterBootstrap($root);
+            $request = (new ProfileDerivationAuthorizationRequestService($root, $store))->request($reservationId, 1);
+            $act = (new ProfileDerivationAuthorizationDecisionService($root))->decide($request['request_id'], 'AUTHORIZED', 'Authorize exact derivation.', 'Passive scope only.');
+            $path = $root.'/var/imperium/offices/garrison/persona-reservation-dispositions/'.$reservationId.'.json';
+            $reservation = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+            $reservation['personnel_commitment']['profession'] = 'Substituted profession';
+            unset($reservation['record_digest']);
+            $reservation['record_digest'] = hash('sha256', CanonicalJson::encode($reservation));
+            file_put_contents($path, json_encode($reservation, JSON_THROW_ON_ERROR));
+            $this->expectExceptionMessage('R76_PROFILE_DERIVATION_AUTHORIZATION_CHAIN_INVALID');
+            (new ProfileDerivationAuthorizationAcceptanceService($root, $bootstrap))->accept($act['act_id']);
+        } finally { $this->removeTree($root); }
+    }
+
+    public function testRecruiterAcceptanceRequiresCurrentOccupiedRecruiter(): void
+    {
+        [$root, $store, $reservationId] = $this->fixture();
+        try {
+            $bootstrap = new StateStore($root);
+            $bootstrap->locked(static function () use ($bootstrap): void {
+                $bootstrap->write(['state' => 'CURIA_READY', 'binding' => ['instance_id' => 'imperium-test'], 'events' => []]);
+            });
+            $request = (new ProfileDerivationAuthorizationRequestService($root, $store))->request($reservationId, 1);
+            $act = (new ProfileDerivationAuthorizationDecisionService($root))->decide($request['request_id'], 'AUTHORIZED', 'Authorize exact derivation.', 'Passive scope only.');
+            $this->expectExceptionMessage('R82_RECRUITER_UNAVAILABLE');
+            (new ProfileDerivationAuthorizationAcceptanceService($root, $bootstrap))->accept($act['act_id']);
+        } finally { $this->removeTree($root); }
+    }
+
     public function testAuthorizedDecisionBindsExactReservationAndStructuredProfileScope(): void
     {
         [$root, $store, $reservationId] = $this->fixture();
@@ -159,6 +241,28 @@ final class ProfileDerivationAuthorizationFlowTest extends TestCase
             'office_participation' => ['Guildhall', 'Laboratorium', 'Conscription', 'Senate'],
             'stop_conditions' => ['Authentication or active scanning required'],
         ];
+    }
+
+    private function recruiterBootstrap(string $root): StateStore
+    {
+        $bootstrap = new StateStore($root);
+        $bootstrap->locked(static function () use ($bootstrap): void {
+            $bootstrap->write([
+                'state' => 'CURIA_READY',
+                'binding' => ['instance_id' => 'imperium-test'],
+                'events' => [[
+                    'transition' => 'T04',
+                    'result' => 'SUCCESS',
+                    'output' => ['successor' => [
+                        'manifestation_id' => 'imperium-test.officer.ordinary-recruiter.1',
+                        'seat' => 'conscription.recruiter',
+                        'occupancy_generation' => 2,
+                        'authority' => 'ordinary-recruiter',
+                    ]],
+                ]],
+            ]);
+        });
+        return $bootstrap;
     }
 
     private function removeTree(string $path): void

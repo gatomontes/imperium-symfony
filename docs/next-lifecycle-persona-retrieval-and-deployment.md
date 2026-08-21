@@ -70,6 +70,12 @@ The current explicit constitutional route identifies Curia as mission-Profile st
 
 The implementation stops at `PROFILE_DERIVATION_AUTHORIZED_PENDING_CONSCRIPTION_ACCEPTANCE`. Garrison retains the reservation, and the act grants no retrieval, Conscription acceptance, Laboratorium commission, Profile artifact, manifestation assembly, examination disposition, Seat binding, deployment, or execution authority. This deliberately explicit checkpoint may later be covered by a bounded Imperator delegation without changing the underlying authority chain.
 
+## Conscription acceptance and derivation handoff request — implemented
+
+The occupied ordinary Recruiter may accept only an exact `AUTHORIZED` Profile-derivation act whose Curia request, successful Garrison reservation, structured Mission Plan source, exact Persona, profession, capability commitment, Profile scope, jurisdiction assignments, and record digests remain unchanged. Acceptance binds Conscription to the authorized derivation route; it does not move custody or commission Laboratorium.
+
+Acceptance permits one exact request to the occupied Constable for a custody-bound, derivation-only Persona handoff. The request preserves the complete authority chain and stops at `PENDING_CONSTABLE_PROFILE_DERIVATION_HANDOFF_DISPOSITION`. It grants no handoff, retrieval, custody release, Laboratorium commission, Profile artifact, manifestation assembly, Senate examination, Seat binding, deployment, or execution authority. Garrison must independently decide the handoff in the next batch.
+
 ## Non-negotiable inherited invariants
 
 - preserve the exact admitted Persona ID, version, digest, custody record, Guildhall commission, and Senate confirmation;

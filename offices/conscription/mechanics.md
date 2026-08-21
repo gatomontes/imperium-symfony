@@ -4,6 +4,12 @@ inherits: [./doctrine.md]
 
 # Conscription Mechanics
 
+## accept-profile-derivation-authorization
+
+The occupied ordinary Recruiter validates and accepts one exact Imperator-authorized Profile-derivation route. Validation binds the successful Garrison reservation, Curia request, immutable Mission Plan source, exact Persona and profession, Profile scope, jurisdiction assignments, and all record digests. The Recruiter then emits one derivation-only handoff request to the occupied Constable.
+
+The acceptance stops at `PROFILE_DERIVATION_ACCEPTED_PENDING_CONSTABLE_HANDOFF_DISPOSITION`; the request stops at `PENDING_CONSTABLE_PROFILE_DERIVATION_HANDOFF_DISPOSITION`. Neither record moves custody, hands off or retrieves the Persona, commissions Laboratorium, creates or installs a Profile, assembles a manifestation, invokes Senate, binds a Seat, deploys, or executes.
+
 ## fulfill-canonical-authorship-resident
 
 The ordinary Recruiter consumes one exact MasterMason construction commission, installs the admitted canonical Sanctographer or Chancellor Persona and current/active Profile on the generic officer substrate, verifies the declared qualification contract, and returns a sealed `QUALIFIED_UNBOUND` manifestation packet. This grants no authorship, subordinate-staff resolution, Seat-binding, acceptance, or execution authority.
