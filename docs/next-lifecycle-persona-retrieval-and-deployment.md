@@ -126,6 +126,8 @@ The occupied Alchemist uses only the exact accepted commission and Imperator lim
 
 Derivation stops at `PROFILE_CANDIDATE_DERIVED_VERSIONED_SEALED_PENDING_RETURN_TO_CONSCRIPTION`. The candidate is sealed but not returned, approved, installed, assembled for examination, examined, bound, deployed, or executed. Laboratorium acquires none of those authorities.
 
+For development verification, `imperium:dev:profile-elaboration-smoke` constructs an isolated synthetic state root under `var/imperium-dev/`, executes the authentic authorization, lease, commission, acceptance, Alchemist-elaboration, and mechanical-sealing services, and preserves all resulting artifacts for inspection. It refuses non-development environments and never writes into the active `var/imperium/` state root.
+
 ## Non-negotiable inherited invariants
 
 - preserve the exact admitted Persona ID, version, digest, custody record, Guildhall commission, and Senate confirmation;
