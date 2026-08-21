@@ -57,6 +57,7 @@ final readonly class SubordinatePersonaSenateDispositionService
             : [];
         if (
             !$this->digestMatches($findingSet) ||
+            !is_string($findingSet["originating_guildhall_commission_id"] ?? null) ||
             !$this->digestMatches($ledger) ||
             !$this->digestMatches($baseline) ||
             !$this->digestMatches($witness) ||
@@ -88,6 +89,8 @@ final readonly class SubordinatePersonaSenateDispositionService
             "finding_set_digest" => $findingSet["record_digest"],
             "candidate_id" => $findingSet["candidate_id"],
             "candidate_digest" => $findingSet["candidate_digest"],
+            "originating_guildhall_commission_id" => $findingSet["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $findingSet["originating_guildhall_commission_digest"],
             "available_finding_references" => $references,
             "mandatory_failure_present" => $findingSet["mandatory_failure_present"],
             "senate_disposition_authority" => true,

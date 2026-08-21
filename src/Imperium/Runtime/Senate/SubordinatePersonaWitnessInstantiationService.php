@@ -37,6 +37,9 @@ final readonly class SubordinatePersonaWitnessInstantiationService
         if (
             !$this->digestMatches($acceptance) ||
             !$this->digestMatches($case) ||
+            !is_string($case["originating_guildhall_commission_id"] ?? null) ||
+            ($acceptance["originating_guildhall_commission_id"] ?? null) !== ($case["originating_guildhall_commission_id"] ?? null) ||
+            ($acceptance["originating_guildhall_commission_digest"] ?? null) !== ($case["originating_guildhall_commission_digest"] ?? null) ||
             "imperium.senate-subordinate-persona-confirmation-acceptance/v1" !== ($acceptance["schema"] ?? null) ||
             "ACCEPTED_FOR_EXACT_PERSONA_WITNESS_INSTANTIATION" !== ($acceptance["disposition"] ?? null) ||
             "ACCEPTED_PENDING_PERSONA_WITNESS_INSTANTIATION" !== ($acceptance["status"] ?? null) ||
@@ -73,6 +76,8 @@ final readonly class SubordinatePersonaWitnessInstantiationService
             "confirmation_case_digest" => $case["record_digest"],
             "candidate_id" => $case["candidate_id"],
             "candidate_digest" => $case["candidate_digest"],
+            "originating_guildhall_commission_id" => $case["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $case["originating_guildhall_commission_digest"],
             "persona_name" => $case["persona_name"],
             "persona_specification_version" => $case["persona_specification_version"],
             "persona" => $case["persona"],

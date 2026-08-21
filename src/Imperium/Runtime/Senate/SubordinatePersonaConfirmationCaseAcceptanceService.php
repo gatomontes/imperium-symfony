@@ -49,6 +49,8 @@ final readonly class SubordinatePersonaConfirmationCaseAcceptanceService
         );
         if (
             !$this->digestMatches($case) ||
+            !is_string($case["originating_guildhall_commission_id"] ?? null) ||
+            !is_string($case["originating_guildhall_commission_digest"] ?? null) ||
             "imperium.senate-subordinate-persona-confirmation-case/v1" !==
                 ($case["schema"] ?? null) ||
             "CANONICAL_FOUNDRY_TO_SENATE" !== ($case["route_class"] ?? null) ||
@@ -94,6 +96,8 @@ final readonly class SubordinatePersonaConfirmationCaseAcceptanceService
             "confirmation_case_digest" => $case["record_digest"],
             "candidate_id" => $case["candidate_id"],
             "candidate_digest" => $case["candidate_digest"],
+            "originating_guildhall_commission_id" => $case["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $case["originating_guildhall_commission_digest"],
             "persona_name" => $case["persona_name"],
             "persona_specification_version" =>
                 $case["persona_specification_version"],

@@ -103,6 +103,14 @@ final readonly class SubordinatePersonaDirectSenateConfirmationRequestService
                 ($specification["record_digest"] ?? null) ||
             ($candidate["persona_specification_digest"] ?? null) !==
                 ($specification["record_digest"] ?? null) ||
+            !is_string($candidate["originating_guildhall_commission_id"] ?? null) ||
+            !preg_match('/^guildhall-subordinate-construction-commission-[a-f0-9]{20}$/', $candidate["originating_guildhall_commission_id"]) ||
+            ($approval["originating_guildhall_commission_id"] ?? null) !== ($candidate["originating_guildhall_commission_id"] ?? null) ||
+            ($approval["originating_guildhall_commission_digest"] ?? null) !== ($candidate["originating_guildhall_commission_digest"] ?? null) ||
+            ($result["originating_guildhall_commission_id"] ?? null) !== ($candidate["originating_guildhall_commission_id"] ?? null) ||
+            ($result["originating_guildhall_commission_digest"] ?? null) !== ($candidate["originating_guildhall_commission_digest"] ?? null) ||
+            ($specification["originating_guildhall_commission_id"] ?? null) !== ($candidate["originating_guildhall_commission_id"] ?? null) ||
+            ($specification["originating_guildhall_commission_digest"] ?? null) !== ($candidate["originating_guildhall_commission_digest"] ?? null) ||
             true === ($approval["admission_authority"] ?? null) ||
             true === ($approval["execution_authority"] ?? null)
         ) {
@@ -146,6 +154,8 @@ final readonly class SubordinatePersonaDirectSenateConfirmationRequestService
             "production_approval_digest" => $approval["record_digest"],
             "candidate_id" => $candidateId,
             "candidate_digest" => $candidate["record_digest"],
+            "originating_guildhall_commission_id" => $candidate["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $candidate["originating_guildhall_commission_digest"],
             "persona_name" => $candidate["persona_name"],
             "persona_specification_version" =>
                 $candidate["persona_specification_version"],

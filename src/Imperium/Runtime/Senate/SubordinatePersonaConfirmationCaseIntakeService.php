@@ -42,6 +42,9 @@ final readonly class SubordinatePersonaConfirmationCaseIntakeService
         );
         if (
             !$this->digestMatches($request) ||
+            !is_string($request["originating_guildhall_commission_id"] ?? null) ||
+            !preg_match('/^guildhall-subordinate-construction-commission-[a-f0-9]{20}$/', $request["originating_guildhall_commission_id"]) ||
+            !is_string($request["originating_guildhall_commission_digest"] ?? null) ||
             "imperium.senate-persona-confirmation-request/v1" !==
                 ($request["schema"] ?? null) ||
             "PENDING_ADMISSION_PERSONA_QUALIFICATION" !==
@@ -125,6 +128,8 @@ final readonly class SubordinatePersonaConfirmationCaseIntakeService
                 $request["production_approval_digest"],
             "candidate_id" => $request["candidate_id"],
             "candidate_digest" => $request["candidate_digest"],
+            "originating_guildhall_commission_id" => $request["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $request["originating_guildhall_commission_digest"],
             "persona_name" => $request["persona_name"],
             "persona_specification_version" =>
                 $request["persona_specification_version"],

@@ -66,6 +66,7 @@ final readonly class SubordinatePersonaWitnessRetirementService
             : [];
         if (
             !$this->digestMatches($disposition) ||
+            !is_string($disposition["originating_guildhall_commission_id"] ?? null) ||
             !$this->digestMatches($findingSet) ||
             !$this->digestMatches($ledger) ||
             !$this->digestMatches($baseline) ||
@@ -97,6 +98,8 @@ final readonly class SubordinatePersonaWitnessRetirementService
                 ($disposition["instance_id"] ?? null) !== ($witness["instance_id"] ?? null) ||
                 ($disposition["candidate_id"] ?? null) !== ($witness["candidate_id"] ?? null) ||
                 ($disposition["candidate_digest"] ?? null) !== ($witness["candidate_digest"] ?? null) ||
+                ($disposition["originating_guildhall_commission_id"] ?? null) !== ($witness["originating_guildhall_commission_id"] ?? null) ||
+                ($disposition["originating_guildhall_commission_digest"] ?? null) !== ($witness["originating_guildhall_commission_digest"] ?? null) ||
                 "STERILE_PERSONA_ONLY_STAND_INSTANCE" !== ($witness["manifestation_class"] ?? null) ||
                 "senate.stand" !== ($witness["location"] ?? null) ||
                 true !== ($witness["retirement_required_after_disposition"] ?? null) ||
@@ -140,6 +143,8 @@ final readonly class SubordinatePersonaWitnessRetirementService
                 "disposition_digest" => $disposition["record_digest"],
                 "candidate_id" => $disposition["candidate_id"],
                 "candidate_digest" => $disposition["candidate_digest"],
+                "originating_guildhall_commission_id" => $disposition["originating_guildhall_commission_id"],
+                "originating_guildhall_commission_digest" => $disposition["originating_guildhall_commission_digest"],
                 "witness_role" => $reference["witness_role"],
                 "manifestation_id" => $witness["manifestation_id"],
                 "manifestation_digest" => $witness["record_digest"],
@@ -169,6 +174,8 @@ final readonly class SubordinatePersonaWitnessRetirementService
             "disposition_digest" => $disposition["record_digest"],
             "candidate_id" => $disposition["candidate_id"],
             "candidate_digest" => $disposition["candidate_digest"],
+            "originating_guildhall_commission_id" => $disposition["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $disposition["originating_guildhall_commission_digest"],
             "review_target_lineage" => $disposition["review_target_lineage"],
             "bailiff" => $this->actor($bailiff),
             "retirement_events" => $events,

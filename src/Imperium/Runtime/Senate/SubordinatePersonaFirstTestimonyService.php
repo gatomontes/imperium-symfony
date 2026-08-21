@@ -46,6 +46,7 @@ final readonly class SubordinatePersonaFirstTestimonyService
         $senator = $this->senator($deposition["instance_id"] ?? null);
         if (
             !$this->digestMatches($deposition) ||
+            !is_string($deposition["originating_guildhall_commission_id"] ?? null) ||
             !$this->digestMatches($witness) ||
             "imperium.senate-persona-deposition/v1" !== ($deposition["schema"] ?? null) ||
             "OPEN_PENDING_FIRST_QUESTION" !== ($deposition["status"] ?? null) ||
@@ -93,6 +94,8 @@ final readonly class SubordinatePersonaFirstTestimonyService
             "manifestation_digest" => $witness["record_digest"],
             "candidate_id" => $deposition["candidate_id"],
             "candidate_digest" => $deposition["candidate_digest"],
+            "originating_guildhall_commission_id" => $deposition["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $deposition["originating_guildhall_commission_digest"],
             "review_target_lineage" => $deposition["review_target_lineage"],
             "jurisdiction" => "practice",
             "assignment" => $assignment,

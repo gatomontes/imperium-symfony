@@ -32,11 +32,14 @@ final readonly class SubordinatePersonaDepositionOpeningService
         );
         $bailiff = $this->currentBailiff($witness);
         $this->assertWitnessReady($witness);
+        if (!is_string($witness["originating_guildhall_commission_id"] ?? null) || !is_string($witness["originating_guildhall_commission_digest"] ?? null)) throw new \RuntimeException("S123_PERSONA_WITNESS_ABSENT");
         $this->assertPlan($plan);
 
         $planRecord = [
             "schema" => "imperium.senate-subordinate-confirmation-plan/v1",
             "authored_by" => $witness["lord_speaker"],
+            "originating_guildhall_commission_id" => $witness["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $witness["originating_guildhall_commission_digest"],
             "hearing_protocol_version" => $plan["hearing_protocol_version"],
             "jurisdictions" => $plan["jurisdictions"],
             "trial_coverage" => $plan["trial_coverage"],
@@ -64,6 +67,8 @@ final readonly class SubordinatePersonaDepositionOpeningService
             "manifestation_digest" => $witness["record_digest"],
             "candidate_id" => $witness["candidate_id"],
             "candidate_digest" => $witness["candidate_digest"],
+            "originating_guildhall_commission_id" => $witness["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $witness["originating_guildhall_commission_digest"],
             "confirmation_case_id" => $witness["confirmation_case_id"],
             "confirmation_case_digest" => $witness["confirmation_case_digest"],
             "review_target_lineage" => $witness["review_target_lineage"],
