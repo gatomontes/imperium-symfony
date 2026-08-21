@@ -41,7 +41,9 @@ The initiating mission artifact carries capability requirements rather than prof
 
 ## Personnel-use authorization dialogue — implemented
 
-After Guildhall resolves exact personnel against capability slots, Curia presents only the functional commitments plus an opaque Guildhall disposition ID and digest to Imperator. Profession and Persona identity remain inside the Guildhall artifact and are not promoted into Curial language.
+After Guildhall resolves exact personnel against capability slots, Curia presents the functional commitments together with Guildhall's profession determination and exact Persona identity to Imperator. Curia knows and records that resolution solely in a presentation capacity: it cannot select, rank, substitute, or amend either profession or Persona.
+
+Imperator therefore knows exactly which profession and Persona he is being asked to authorize. The authorization request and resulting act are bound to the complete Guildhall disposition, exact Persona custody identity, profession, capability correlation, and resolution digests. Any changed profession or replacement Persona requires a new Guildhall disposition and a new Imperator authorization.
 
 Imperator may record exactly one disposition against each exact request:
 

@@ -13,16 +13,20 @@ use PHPUnit\Framework\TestCase;
 
 final class PersonnelUseAuthorizationFlowTest extends TestCase
 {
-    public function testAuthorizedActCommitsOnlyOpaqueCapabilityResolvedPersonnelUse(): void
+    public function testAuthorizedActCommitsExactGuildhallResolvedProfessionAndPersona(): void
     {
         [$root, $store, $dispositionId] = $this->fixture();
         try {
             $requestService = new PersonnelUseAuthorizationRequestService($root, $store);
             $request = $requestService->request($dispositionId);
             self::assertSame($request, $requestService->request($dispositionId));
-            self::assertSame('FUNCTIONAL_CAPABILITIES', $request['source_language']);
-            self::assertArrayNotHasKey('persona', $request);
-            self::assertArrayNotHasKey('profession', $request);
+            self::assertSame('FUNCTIONAL_CAPABILITIES_WITH_GUILDHALL_PERSONNEL_RESOLUTION', $request['source_language']);
+            self::assertSame('Web application security assessor', $request['personnel_commitments'][0]['profession']);
+            self::assertSame(['custody_id' => 'persona-custody-test', 'persona_id' => 'persona-test'], $request['personnel_commitments'][0]['persona']);
+            self::assertSame('PRESENTATION_ONLY', $request['personnel_resolution_boundary']['curia_role']);
+            self::assertFalse($request['personnel_resolution_boundary']['curia_profession_selection_authority']);
+            self::assertFalse($request['personnel_resolution_boundary']['curia_persona_selection_authority']);
+            self::assertFalse($request['personnel_resolution_boundary']['curia_substitution_authority']);
             self::assertFalse($request['personnel_use_authority']);
             self::assertFalse($request['reservation_authority']);
 
@@ -30,6 +34,8 @@ final class PersonnelUseAuthorizationFlowTest extends TestCase
             $act = $decisionService->decide($request['request_id'], 'AUTHORIZED', 'Authorize the exact capability commitments for seven days.', 'Seven-day maximum; return for any scope expansion.');
             self::assertSame($act, $decisionService->decide($request['request_id'], 'AUTHORIZED', 'Authorize the exact capability commitments for seven days.', 'Seven-day maximum; return for any scope expansion.'));
             self::assertSame('AUTHORIZED_PENDING_GUILDHALL_ACCEPTANCE', $act['status']);
+            self::assertSame($request['personnel_commitments'], $act['personnel_commitments']);
+            self::assertSame($request['guildhall_disposition'], $act['guildhall_disposition']);
             self::assertTrue($act['personnel_use_authority']);
             self::assertTrue($act['personnel_use_authority_exercisable']);
             self::assertFalse($act['reservation_authority']);
@@ -62,6 +68,23 @@ final class PersonnelUseAuthorizationFlowTest extends TestCase
     public static function nonAuthorizingDispositions(): iterable
     {
         foreach (['REFUSED', 'RETURNED_FOR_REVISION', 'ALTERNATIVE_PROPOSED', 'CLARIFICATION_REQUIRED', 'DEFERRED'] as $disposition) yield $disposition => [$disposition];
+    }
+
+    public function testCuriaRefusesPersonnelResolutionWithoutExactPersonaIdentity(): void
+    {
+        [$root, $store, $dispositionId] = $this->fixture();
+        try {
+            $path = $root.'/var/imperium/offices/guildhall/personnel-use-dispositions/'.$dispositionId.'.json';
+            $disposition = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+            unset($disposition['record_digest'], $disposition['resolved_capability_slots'][0]['persona']['persona_id']);
+            $disposition['record_digest'] = hash('sha256', CanonicalJson::encode($disposition));
+            file_put_contents($path, json_encode($disposition, JSON_THROW_ON_ERROR));
+
+            $this->expectExceptionMessage('C126_CAPABILITY_COMMITMENT_INVALID');
+            (new PersonnelUseAuthorizationRequestService($root, $store))->request($dispositionId);
+        } finally {
+            $this->removeTree($root);
+        }
     }
 
     private function fixture(): array

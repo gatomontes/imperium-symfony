@@ -92,11 +92,11 @@ Bind one explicit Imperator decision to the exact construction request, request 
 
 ## `request-personnel-use-authorization`
 
-Present exact Guildhall-resolved capability commitments to Imperator without importing profession or Persona identity into Curial language. The request carries capability-slot requirements and only an opaque Guildhall disposition ID and digest. It grants no personnel-use, reservation, retrieval, Profile, spawning, Seat-binding, or execution authority.
+Present exact Guildhall-resolved capability commitments, profession, and Persona identity to Imperator. Curia knows and records the identity-bearing Guildhall resolution for presentation and deliberative context, but it may neither select, rank, substitute, nor amend the profession or Persona. The request is bound to the complete Guildhall disposition and resolution digests. It grants no personnel-use, reservation, retrieval, Profile, spawning, Seat-binding, or execution authority.
 
 ## `record-imperator-personnel-use-disposition`
 
-Record one exact `AUTHORIZED`, `REFUSED`, `RETURNED_FOR_REVISION`, `ALTERNATIVE_PROPOSED`, `CLARIFICATION_REQUIRED`, or `DEFERRED` response. Preserve Imperator's exact rationale, question, objection, proposal, and limitations without mutating the request or Guildhall disposition. Only `AUTHORIZED` creates personnel-use authority. Every other disposition is explicitly non-authorizing, and any proposed alternative requires a separately revised request and later explicit authorization. Even an authorized act stops before Guildhall acceptance and grants no Garrison reservation, retrieval, Profile derivation, manifestation, Seat binding, deployment, or execution authority.
+Record one exact `AUTHORIZED`, `REFUSED`, `RETURNED_FOR_REVISION`, `ALTERNATIVE_PROPOSED`, `CLARIFICATION_REQUIRED`, or `DEFERRED` response against the disclosed profession and exact Persona identity. Preserve Imperator's exact rationale, question, objection, proposal, and limitations without mutating the request or Guildhall disposition. Only `AUTHORIZED` creates personnel-use authority for that exact profession–Persona resolution. Every other disposition is explicitly non-authorizing, and any changed profession, replacement Persona, or proposed alternative requires a separately revised request and later explicit authorization. Even an authorized act stops before Guildhall acceptance and grants no Garrison reservation, retrieval, Profile derivation, manifestation, Seat binding, deployment, or execution authority.
 
 ## `request-subordinate-construction`
 
