@@ -57,6 +57,7 @@ final readonly class ProfileCandidateDerivationService
         }
 
         $elaboration = $this->cognition->elaborate($acceptance, $authorization);
+        $this->validateElaboration($elaboration);
         $profile = [
             'target_kind' => $acceptance['profile_scope']['target_kind'],
             'persona' => $acceptance['persona'],
@@ -156,6 +157,25 @@ final readonly class ProfileCandidateDerivationService
             || 'laboratorium.alchemist' !== ($binding['seat'] ?? null) || 'ACTIVE' !== ($binding['status'] ?? null) || true !== ($binding['binding_atomic'] ?? null)
             || true !== ($binding['profile_derivation_commission_acceptance_authority'] ?? null) || true === ($binding['execution_authority'] ?? null)
         ) throw new \RuntimeException('L35_PROFILE_DERIVATION_CHAIN_INVALID');
+    }
+
+    private function validateElaboration(array $elaboration): void
+    {
+        $expected = [
+            'disposition', 'operating_posture', 'responsibilities', 'non_responsibilities',
+            'reasoning_priorities', 'evidence_discipline', 'tool_use_directives',
+            'input_handling', 'output_contract', 'escalation_conditions',
+            'uncertainty_behavior', 'failure_behavior', 'persona_adaptations',
+        ];
+        $keys = array_keys($elaboration); sort($keys, SORT_STRING); sort($expected, SORT_STRING);
+        if ($expected !== $keys || 'PROFILE_ELABORATION_COMPLETE' !== ($elaboration['disposition'] ?? null)
+            || !is_string($elaboration['operating_posture'] ?? null) || '' === trim($elaboration['operating_posture'])) {
+            throw new \RuntimeException('L41_PROFILE_ELABORATION_CONTRACT_INVALID');
+        }
+        foreach (array_diff($expected, ['disposition', 'operating_posture']) as $field) {
+            if (!is_array($elaboration[$field]) || [] === $elaboration[$field]) throw new \RuntimeException('L41_PROFILE_ELABORATION_CONTRACT_INVALID');
+            foreach ($elaboration[$field] as $item) if (!is_string($item) || '' === trim($item)) throw new \RuntimeException('L41_PROFILE_ELABORATION_CONTRACT_INVALID');
+        }
     }
 
     private function read(string $path, string $error): array
