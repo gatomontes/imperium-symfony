@@ -64,6 +64,30 @@ final class SymfonyAiSeneschalCognitionGatewayTest extends TestCase
         self::assertTrue($decision['authorization_required']);
     }
 
+    public function testRefusesLegacyProfessionSelectingMissionPlanField(): void
+    {
+        $agent = $this->createStub(AgentInterface::class);
+        $plan = $this->missionPlan();
+        $plan['personnel_requirements'] = ['Security assessor'];
+        unset($plan['capability_requirements']);
+        $agent->method('call')->willReturn(new TextResult(json_encode([
+            'disposition' => 'MISSION_PLAN_DRAFTED',
+            'decision' => 'Select a named profession in Curia.',
+            'question' => null,
+            'resource_demands' => [],
+            'authorization_required' => false,
+            'mission_plan' => $plan,
+        ], JSON_THROW_ON_ERROR)));
+
+        $this->expectExceptionMessage('C12_MISSION_PLAN_INVALID');
+        (new SymfonyAiSeneschalCognitionGateway($agent))->advance(
+            ['imperator_request' => ['content' => 'Prepare a mission.']],
+            [],
+            'Draft it.',
+            ['proceeding_id' => 'proceeding-test'],
+        );
+    }
+
     private function missionPlan(): array
     {
         return [
@@ -72,7 +96,7 @@ final class SymfonyAiSeneschalCognitionGatewayTest extends TestCase
             'deliverables' => ['Prioritized risk report'],
             'constraints' => ['Passive and non-invasive only'],
             'required_inputs' => ['Target URLs and scope definition'],
-            'personnel_requirements' => ['Cybersecurity assessment specialist'],
+            'capability_requirements' => ['Analyze publicly observable application behavior', 'Distinguish evidence from inference', 'Independently challenge security findings'],
             'tool_requirements' => ['Approved passive review tooling or manual checklist'],
             'data_requirements' => ['Publicly observable application responses'],
             'office_participation' => ['Guildhall personnel disposition', 'Armory tooling disposition'],

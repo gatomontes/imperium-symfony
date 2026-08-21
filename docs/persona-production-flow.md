@@ -76,6 +76,8 @@ It does not mean that the Persona has been selected, reserved, retrieved, transf
 
 ## Next lifecycle handoff
 
+The handoff crosses an explicit language and jurisdiction boundary: Curia supplies functional `capability_requirements`; Guildhall alone translates them into professions and Persona suitability criteria. Curia has neither profession-selection nor Persona-selection authority, while Guildhall suitability grants no retrieval or use authority.
+
 The next implementation begins with an exact authorized personnel-use demand and must answer, in order:
 
 1. Who requests an admitted Persona, for what mission role or Seat, and under which authority?

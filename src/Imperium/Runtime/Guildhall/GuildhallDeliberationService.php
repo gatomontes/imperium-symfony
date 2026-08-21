@@ -92,6 +92,20 @@ final readonly class GuildhallDeliberationService
         ) {
             throw new \RuntimeException('G65_COMMISSION_CHANGED: accepted planning commission is unavailable or changed.');
         }
+        $translation = $commission['translation_boundary'] ?? null;
+        if ('FUNCTIONAL_CAPABILITIES' !== ($commission['source_language'] ?? null)
+            || !is_array($commission['source_capability_requirements'] ?? null)
+            || [] === $commission['source_capability_requirements']
+            || !is_array($translation)
+            || 'CAPABILITY_TO_PROFESSION' !== ($translation['name'] ?? null)
+            || 'guildhall.guildmaster' !== ($translation['authority'] ?? null)
+            || false !== ($translation['curia_profession_selection_authority'] ?? null)
+            || false !== ($translation['curia_persona_selection_authority'] ?? null)
+            || true !== ($translation['guildhall_profession_determination_authority'] ?? null)
+            || true !== ($translation['guildhall_persona_suitability_authority'] ?? null)
+        ) {
+            throw new \RuntimeException('G70_TRANSLATION_BOUNDARY_INVALID: Guildhall requires an exact capability-only demand and exclusive translation authority.');
+        }
         $turnSequence = $commission['authority']['plan_turn'] ?? null;
         $turn = is_int($turnSequence) ? $this->proceedings->turn($proceedingId, $turnSequence) : null;
         $plan = is_array($turn) ? ($turn['seneschal']['mission_plan'] ?? null) : null;
@@ -142,6 +156,9 @@ final readonly class GuildhallDeliberationService
             'binding_id' => $bindingId,
             'occupancy' => $occupancy,
             'mission_plan_digest' => $turn['record_digest'],
+            'source_language' => 'FUNCTIONAL_CAPABILITIES',
+            'source_capability_requirements' => $commission['source_capability_requirements'],
+            'translation_boundary' => $translation,
             'committee_dispositions' => $decision['committee'] ?? null,
             'guildmaster_synthesis' => $guildmaster,
             'status' => 'PROFESSION_DETERMINED_GARRISON_INVENTORY_REQUIRED',
