@@ -17,7 +17,10 @@ final readonly class ProfileCandidateDerivationService
     private string $occupancyDirectory;
     private string $candidateDirectory;
 
-    public function __construct(#[Autowire('%kernel.project_dir%')] string $projectDir)
+    public function __construct(
+        #[Autowire('%kernel.project_dir%')] string $projectDir,
+        private ProfileElaborationCognitionGateway $cognition,
+    )
     {
         $this->acceptanceDirectory = $projectDir.'/var/imperium/offices/laboratorium/profile-derivation-commission-acceptances';
         $this->commissionDirectory = $projectDir.'/var/imperium/offices/laboratorium/profile-derivation-commission-inbox';
@@ -53,6 +56,7 @@ final readonly class ProfileCandidateDerivationService
             if (($prior['source_acceptance']['id'] ?? null) === $acceptanceId) return $prior;
         }
 
+        $elaboration = $this->cognition->elaborate($acceptance, $authorization);
         $profile = [
             'target_kind' => $acceptance['profile_scope']['target_kind'],
             'persona' => $acceptance['persona'],
@@ -80,6 +84,7 @@ final readonly class ProfileCandidateDerivationService
                 'prospective_examiner' => $acceptance['profile_scope']['prospective_examiner'],
                 'prospective_approver' => $acceptance['profile_scope']['prospective_approver'],
             ],
+            'elaboration' => $elaboration,
         ];
         $profileId = 'profile-'.substr(hash('sha256', CanonicalJson::encode([$acceptanceId, $acceptance['record_digest'], 1, $profile])), 0, 20);
         $candidateId = 'profile-candidate-'.substr(hash('sha256', CanonicalJson::encode([$profileId, 1, $profile, $acceptance['record_digest']])), 0, 20);
@@ -104,6 +109,7 @@ final readonly class ProfileCandidateDerivationService
             'custody_lease' => $acceptance['custody_lease'],
             'return_destination' => $acceptance['return_destination'],
             'profile' => $profile,
+            'profile_elaboration_complete' => true,
             'status' => 'PROFILE_CANDIDATE_DERIVED_VERSIONED_SEALED_PENDING_RETURN_TO_CONSCRIPTION',
             'profile_candidate_created' => true,
             'profile_candidate_returned' => false,

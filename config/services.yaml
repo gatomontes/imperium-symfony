@@ -42,6 +42,13 @@ services:
         arguments:
             $projectDir: '%kernel.project_dir%'
 
+    App\Imperium\Runtime\Laboratorium\SymfonyAiProfileElaborationCognitionGateway:
+        arguments:
+            $alchemist: '@ai.agent.alchemist_profile_elaboration'
+
+    App\Imperium\Runtime\Laboratorium\ProfileElaborationCognitionGateway:
+        alias: App\Imperium\Runtime\Laboratorium\SymfonyAiProfileElaborationCognitionGateway
+
     App\Imperium\Runtime\Curia\PlanningCommissionRouter:
         arguments:
             $projectDir: '%kernel.project_dir%'
