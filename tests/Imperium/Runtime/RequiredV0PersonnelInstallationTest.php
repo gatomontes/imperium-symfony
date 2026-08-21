@@ -67,6 +67,11 @@ final class RequiredV0PersonnelInstallationTest extends TestCase
                             "inventory_response_authority"
                         ],
                     );
+                    self::assertTrue(
+                        $installation["binding"][
+                            "persona_reservation_disposition_authority"
+                        ],
+                    );
                 }
             }
             $operationalization = new OperatorRootOperationalizationService(

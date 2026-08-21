@@ -104,6 +104,7 @@ final class PersonnelUseAuthorizationFlowTest extends TestCase
                 'capability_requirements' => ['Analyze public application behavior', 'Produce evidence-bound findings'],
                 'profession' => 'Web application security assessor',
                 'persona' => ['custody_id' => 'persona-custody-test', 'persona_id' => 'persona-test'],
+                'suitability_determination' => 'Exact admitted Persona satisfies the profession and capability constraints.',
                 'guildhall_resolution_digest' => str_repeat('b', 64),
             ]],
             'disposition' => 'CAPABILITY_SLOTS_RESOLVED_PENDING_USE_AUTHORIZATION',

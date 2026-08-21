@@ -29,6 +29,8 @@ The Disciplinary-Fit, Composition, and Boundary-Challenge committee occupants th
 
 When the active Constable returns an authoritative empty admitted-Persona custody ledger, Guildmaster may issue a final Personnel Disposition identifying every required profession as an unresolved personnel gap. Guildhall may route one exact Persona-construction demand per gap to Foundry, but the demands remain `PENDING_CURIA_CONSTRUCTION_AUTHORIZATION`: they grant no Persona or exemplar selection, construction, spawning, Seat binding, or execution authority.
 
+When Imperator explicitly authorizes personnel use against a disclosed exact Guildhall resolution, Guildmaster may accept only the unchanged act, request, profession, Persona custody identity, suitability determination, capability correlation, disposition, and digests. Acceptance issues one exact reservation request per authorized Persona to Garrison. Guildhall does not reserve, retrieve, substitute, derive a Profile, spawn, bind, deploy, or execute.
+
 Each committee disposition is durably checkpointed before the next Seat is invoked. The proceeding exposes Seat-level progress, applies bounded provider request durations, and resumes from the last valid checkpoint after interruption without repeating completed cognition. Guildmaster synthesis begins only after all three exact committee records are sealed.
 
 ## summon-canonical-staff

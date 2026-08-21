@@ -64,6 +64,7 @@ final readonly class PersonnelUseAuthorizationDecisionService
             $requirements = is_array($commitment) ? ($commitment['capability_requirements'] ?? null) : null;
             $profession = is_array($commitment) ? ($commitment['profession'] ?? null) : null;
             $persona = is_array($commitment) ? ($commitment['persona'] ?? null) : null;
+            $suitability = is_array($commitment) ? ($commitment['suitability_determination'] ?? null) : null;
             $resolutionDigest = is_array($commitment) ? ($commitment['guildhall_resolution_digest'] ?? null) : null;
             if (!is_string($slotId) || '' === trim($slotId) || isset($seenSlots[$slotId])
                 || !is_array($requirements) || [] === $requirements
@@ -71,6 +72,7 @@ final readonly class PersonnelUseAuthorizationDecisionService
                 || !is_array($persona)
                 || !is_string($persona['custody_id'] ?? null) || '' === trim($persona['custody_id'])
                 || !is_string($persona['persona_id'] ?? null) || '' === trim($persona['persona_id'])
+                || !is_string($suitability) || '' === trim($suitability)
                 || !is_string($resolutionDigest) || !preg_match('/^[a-f0-9]{64}$/', $resolutionDigest)
             ) {
                 throw new \RuntimeException('C132_PERSONNEL_USE_REQUEST_INVALID');

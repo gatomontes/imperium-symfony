@@ -142,6 +142,9 @@ final readonly class ConstableSeatBindingService
             "custody_registration_authority" => true,
             "custody_registration_scope" =>
                 "register custody only after the same occupied Constable renders an attributable admission disposition",
+            "persona_reservation_disposition_authority" => true,
+            "persona_reservation_disposition_scope" =>
+                "reserve or factually refuse one exact admitted Persona against an identity-bound authorized Guildhall request",
             "selection_authority" => false,
             "execution_authority" => false,
         ]);
