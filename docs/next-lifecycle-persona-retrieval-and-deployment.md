@@ -88,6 +88,12 @@ The occupied ordinary Recruiter may commission Laboratorium only from an exact a
 
 The commission is limited to `DERIVE_ONE_EXACT_MISSION_PROFILE`, preserves Garrison custody at `ADMITTED_HELD`, and requires return to Conscription. It carries Profile-derivation authority but that authority is not exercisable until the occupied Alchemist accepts the exact commission. The implementation stops at `PENDING_ALCHEMIST_PROFILE_DERIVATION_COMMISSION_ACCEPTANCE`; no Profile artifact, approval, installation, manifestation assembly, Senate examination, Seat binding, deployment, or execution exists.
 
+## Alchemist commission acceptance — implemented
+
+The occupied Alchemist independently validates the exact commission, approved Constable lease, immutable Persona, custody lease, Profile scope, return destination, instance, active Laboratorium occupancy, and complete digest chain. Only that occupied Seat may accept the commission.
+
+Acceptance changes the exact commission's Profile-derivation authority from non-exercisable to exercisable and grants authority to create one derived Profile candidate. It does not itself derive or create the candidate. The implementation stops at `PROFILE_DERIVATION_COMMISSION_ACCEPTED_PENDING_PROFILE_DERIVATION`; Garrison custody remains `ADMITTED_HELD`, and no Profile artifact, approval, installation, manifestation, Senate examination, Seat binding, deployment, or execution exists.
+
 ## Non-negotiable inherited invariants
 
 - preserve the exact admitted Persona ID, version, digest, custody record, Guildhall commission, and Senate confirmation;

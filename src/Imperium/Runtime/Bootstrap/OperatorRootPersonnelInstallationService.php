@@ -409,6 +409,8 @@ final readonly class OperatorRootPersonnelInstallationService
                     "garrison.constable" === $seat,
                 "profile_derivation_handoff_disposition_authority" =>
                     "garrison.constable" === $seat,
+                "profile_derivation_commission_acceptance_authority" =>
+                    "laboratorium.alchemist" === $seat,
                 "review_authority" => "foundry.reviewer.adversarial" === $seat,
                 "confirmation_acceptance_authority" =>
                     "senate.lord-speaker" === $seat,

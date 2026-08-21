@@ -78,6 +78,13 @@ final class RequiredV0PersonnelInstallationTest extends TestCase
                         ],
                     );
                 }
+                if ("laboratorium.alchemist" === $installation["seat"]) {
+                    self::assertTrue(
+                        $installation["binding"][
+                            "profile_derivation_commission_acceptance_authority"
+                        ],
+                    );
+                }
             }
             $operationalization = new OperatorRootOperationalizationService(
                 $root,

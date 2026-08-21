@@ -8,6 +8,8 @@ inherits: [./doctrine.md]
 
 Conscription may deliver one sealed, custody-bound commission limited to one exact mission Profile. Receipt alone does not make derivation authority exercisable: the occupied Alchemist must independently validate and accept the exact commission in a later transition. Garrison custody remains `ADMITTED_HELD`, and Laboratorium receives no Profile approval, installation, manifestation, deployment, or execution authority.
 
+The occupied Alchemist's acceptance binds the exact commission, approved custody lease, Persona, Profile scope, return destination, instance, and active Seat occupancy. Acceptance makes derivation authority exercisable for one candidate but creates no Profile artifact and grants no approval, installation, custody-release, manifestation, deployment, or execution authority.
+
 These functions preserve and transport exact transformation artifacts. They do not interpret a Persona, decide faithful transformation, approve a product, or make it live.
 
 ## open-transformation-case
