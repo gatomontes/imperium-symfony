@@ -1405,6 +1405,14 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
             self::assertTrue($senateDisposition["witness_retirement_required"]);
             self::assertTrue($senateDisposition["senate_confirmation_granted"]);
             self::assertSame(
+                $candidate["originating_guildhall_commission_id"],
+                $senateDisposition["originating_guildhall_commission_id"],
+            );
+            self::assertSame(
+                $candidate["originating_guildhall_commission_digest"],
+                $senateDisposition["originating_guildhall_commission_digest"],
+            );
+            self::assertSame(
                 $expectedLineage,
                 $senateDisposition["review_target_lineage"],
             );

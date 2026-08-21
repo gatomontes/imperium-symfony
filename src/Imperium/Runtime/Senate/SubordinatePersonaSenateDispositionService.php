@@ -116,6 +116,10 @@ final readonly class SubordinatePersonaSenateDispositionService
             "instance_id" => $findingSet["instance_id"],
             "candidate_id" => $findingSet["candidate_id"],
             "candidate_digest" => $findingSet["candidate_digest"],
+            "originating_guildhall_commission_id" =>
+                $findingSet["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" =>
+                $findingSet["originating_guildhall_commission_digest"],
             "review_target_lineage" => $findingSet["review_target_lineage"],
             "finding_set_id" => $findingSetId,
             "finding_set_digest" => $findingSet["record_digest"],
