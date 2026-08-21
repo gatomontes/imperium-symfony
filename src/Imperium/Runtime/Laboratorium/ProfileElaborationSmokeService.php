@@ -104,8 +104,9 @@ final readonly class ProfileElaborationSmokeService
         $commission = (new LaboratoriumProfileDerivationCommissionService($root, $bootstrap))->commission($disposition['disposition_id']);
         $acceptance = (new ProfileDerivationCommissionAcceptanceService($root))->accept($commission['commission_id'], $alchemist['binding_id']);
         $candidate = (new ProfileCandidateDerivationService($root, $this->cognition))->derive($acceptance['acceptance_id']);
+        $return = (new ProfileCandidateReturnService($root))->returnCandidate($candidate['candidate_id']);
 
-        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate];
+        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return];
     }
 
     private function missionPlan(): array

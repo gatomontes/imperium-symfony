@@ -52,6 +52,7 @@ final class ProfileDerivationAuthorizationFlowTest extends TestCase
             self::assertSame(['Operate only within the passive assessment mission.'], $candidate['profile']['elaboration']['responsibilities']);
             self::assertTrue($candidate['profile_elaboration_complete']);
             self::assertTrue($candidate['profile_candidate_created']);
+            self::assertTrue($candidate['profile_candidate_return_authority']);
             self::assertTrue($candidate['sealed']);
             self::assertFalse($candidate['profile_candidate_returned']);
             self::assertFalse($candidate['profile_approval_authority']);
