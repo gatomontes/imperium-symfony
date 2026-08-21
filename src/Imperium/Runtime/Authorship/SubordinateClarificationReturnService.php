@@ -38,6 +38,9 @@ final readonly class SubordinateClarificationReturnService
             || true === ($product['authorship_complete'] ?? null)
             || !is_array($product['unresolved_questions'] ?? null)
             || [] === $product['unresolved_questions']
+            || !is_string($product['originating_guildhall_commission_id'] ?? null)
+            || !preg_match('/^guildhall-subordinate-construction-commission-[a-f0-9]{20}$/', $product['originating_guildhall_commission_id'])
+            || !is_string($product['originating_guildhall_commission_digest'] ?? null)
             || true === ($product['persona_assembly_authority'] ?? null)
             || true === ($product['persona_approval_authority'] ?? null)
             || true === ($product['profile_approval_authority'] ?? null)
@@ -77,6 +80,8 @@ final readonly class SubordinateClarificationReturnService
             'persona_specification_digest' => $product['persona_specification_digest'],
             'subordinate_construction_case_id' => $product['subordinate_construction_case_id'],
             'subordinate_construction_case_digest' => $product['subordinate_construction_case_digest'],
+            'originating_guildhall_commission_id' => $product['originating_guildhall_commission_id'],
+            'originating_guildhall_commission_digest' => $product['originating_guildhall_commission_digest'],
             'source_resolution_id' => $product['source_resolution_id'],
             'source_resolution_digest' => $product['source_resolution_digest'],
             'original_clarification' => [

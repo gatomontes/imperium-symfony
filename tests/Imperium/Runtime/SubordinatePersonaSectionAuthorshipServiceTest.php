@@ -70,6 +70,8 @@ final class SubordinatePersonaSectionAuthorshipServiceTest extends TestCase
                 "imperium.subordinate-authorship-commission-acceptance/v1",
             "acceptance_id" => $acceptanceId,
             "instance_id" => "imperium-test",
+            "originating_guildhall_commission_id" => "guildhall-subordinate-construction-commission-cccccccccccccccccccc",
+            "originating_guildhall_commission_digest" => "guildhall-commission-digest",
             "office" => $office,
             "commission_id" => $commissionId,
             "commission_digest" => $commission["record_digest"],
@@ -135,6 +137,8 @@ final class SubordinatePersonaSectionAuthorshipServiceTest extends TestCase
             self::assertSame("SEALED_PENDING_FOUNDRY_ASSEMBLY", $r["status"]);
             self::assertTrue($r["authorship_complete"]);
             self::assertTrue($r["sealed"]);
+            self::assertSame($case["originating_guildhall_commission_id"], $r["originating_guildhall_commission_id"]);
+            self::assertSame($case["originating_guildhall_commission_digest"], $r["originating_guildhall_commission_digest"]);
             self::assertSame(
                 "INITIAL_SPECIFICATION_DISPATCH",
                 $r["dispatch_kind"],

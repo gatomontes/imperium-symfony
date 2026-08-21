@@ -108,6 +108,9 @@ final readonly class SubordinatePersonaSectionAuthorshipService
             !$this->digestMatches($c) ||
             !$this->digestMatches($s) ||
             !$this->digestMatches($case) ||
+            !is_string($case["originating_guildhall_commission_id"] ?? null) ||
+            !preg_match('/^guildhall-subordinate-construction-commission-[a-f0-9]{20}$/', $case["originating_guildhall_commission_id"]) ||
+            !is_string($case["originating_guildhall_commission_digest"] ?? null) ||
             ($a["commission_digest"] ?? null) !==
                 ($c["record_digest"] ?? null) ||
             ($a["persona_specification_digest"] ?? null) !==
@@ -124,6 +127,12 @@ final readonly class SubordinatePersonaSectionAuthorshipService
                 CanonicalJson::encode($c["superseded_commissions"] ?? null) ||
             ($a["subordinate_construction_case_digest"] ?? null) !==
                 ($case["record_digest"] ?? null) ||
+            ($a["originating_guildhall_commission_id"] ?? null) !== ($c["originating_guildhall_commission_id"] ?? null) ||
+            ($a["originating_guildhall_commission_digest"] ?? null) !== ($c["originating_guildhall_commission_digest"] ?? null) ||
+            ($c["originating_guildhall_commission_id"] ?? null) !== ($s["originating_guildhall_commission_id"] ?? null) ||
+            ($c["originating_guildhall_commission_digest"] ?? null) !== ($s["originating_guildhall_commission_digest"] ?? null) ||
+            ($s["originating_guildhall_commission_id"] ?? null) !== ($case["originating_guildhall_commission_id"] ?? null) ||
+            ($s["originating_guildhall_commission_digest"] ?? null) !== ($case["originating_guildhall_commission_digest"] ?? null) ||
             ($a["source_resolution_id"] ?? null) !==
                 ($s["source_resolution_id"] ?? null) ||
             ($a["source_resolution_digest"] ?? null) !==
@@ -210,6 +219,8 @@ final readonly class SubordinatePersonaSectionAuthorshipService
             "superseded_commissions" => $supersededCommissions,
             "subordinate_construction_case_id" => $caseId,
             "subordinate_construction_case_digest" => $case["record_digest"],
+            "originating_guildhall_commission_id" => $case["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $case["originating_guildhall_commission_digest"],
             "source_resolution_id" => $a["source_resolution_id"],
             "source_resolution_digest" => $a["source_resolution_digest"],
             "author" => $a["actor"],

@@ -133,6 +133,9 @@ final readonly class SubordinateAuthorshipCommissionAcceptanceService
         if (
             !$this->digestMatches($s) ||
             !$this->digestMatches($case) ||
+            !is_string($case["originating_guildhall_commission_id"] ?? null) ||
+            !preg_match('/^guildhall-subordinate-construction-commission-[a-f0-9]{20}$/', $case["originating_guildhall_commission_id"]) ||
+            !is_string($case["originating_guildhall_commission_digest"] ?? null) ||
             "imperium.foundry-subordinate-persona-specification/v1" !==
                 ($s["schema"] ?? null) ||
             "SEALED_PENDING_PERSONA_CONSTRUCTION" !== ($s["status"] ?? null) ||
@@ -155,6 +158,10 @@ final readonly class SubordinateAuthorshipCommissionAcceptanceService
                 ($case["record_digest"] ?? null) ||
             ($s["case_id"] ?? null) !== $caseId ||
             ($s["case_digest"] ?? null) !== ($case["record_digest"] ?? null) ||
+            ($c["originating_guildhall_commission_id"] ?? null) !== ($s["originating_guildhall_commission_id"] ?? null) ||
+            ($c["originating_guildhall_commission_digest"] ?? null) !== ($s["originating_guildhall_commission_digest"] ?? null) ||
+            ($s["originating_guildhall_commission_id"] ?? null) !== ($case["originating_guildhall_commission_id"] ?? null) ||
+            ($s["originating_guildhall_commission_digest"] ?? null) !== ($case["originating_guildhall_commission_digest"] ?? null) ||
             ($c["source_resolution_id"] ?? null) !==
                 ($s["source_resolution_id"] ?? null) ||
             ($c["source_resolution_digest"] ?? null) !==
@@ -216,6 +223,8 @@ final readonly class SubordinateAuthorshipCommissionAcceptanceService
             "superseded_commissions" => $c["superseded_commissions"],
             "subordinate_construction_case_id" => $caseId,
             "subordinate_construction_case_digest" => $case["record_digest"],
+            "originating_guildhall_commission_id" => $case["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $case["originating_guildhall_commission_digest"],
             "source_resolution_id" => $c["source_resolution_id"],
             "source_resolution_digest" => $c["source_resolution_digest"],
             "actor" => [

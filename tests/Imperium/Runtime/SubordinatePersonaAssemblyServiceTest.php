@@ -41,6 +41,8 @@ final class SubordinatePersonaAssemblyServiceTest extends TestCase
                 ],
             ],
             "instance_id" => "imperium-test",
+            "originating_guildhall_commission_id" => "guildhall-subordinate-construction-commission-cccccccccccccccccccc",
+            "originating_guildhall_commission_digest" => "guildhall-commission-digest",
             "case_id" => $caseId,
             "case_digest" => $case["record_digest"],
             "queue_position" => 1,
@@ -126,6 +128,8 @@ final class SubordinatePersonaAssemblyServiceTest extends TestCase
             $r = $service->assemble($specId);
             self::assertSame($r, $service->assemble($specId));
             self::assertSame("ASSEMBLED_PENDING_FOUNDRY_REVIEW", $r["status"]);
+            self::assertSame($case["originating_guildhall_commission_id"], $r["originating_guildhall_commission_id"]);
+            self::assertSame($case["originating_guildhall_commission_digest"], $r["originating_guildhall_commission_digest"]);
             self::assertCount(2, $r["section_products"]);
             self::assertSame(2, $r["persona_specification_version"]);
             self::assertSame(

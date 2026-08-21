@@ -67,6 +67,9 @@ final readonly class SubordinatePersonaSpecificationRevisionService
             !$this->digestMatches($return) ||
             !$this->digestMatches($specification) ||
             !$this->digestMatches($case) ||
+            !is_string($case["originating_guildhall_commission_id"] ?? null) ||
+            !preg_match('/^guildhall-subordinate-construction-commission-[a-f0-9]{20}$/', $case["originating_guildhall_commission_id"]) ||
+            !is_string($case["originating_guildhall_commission_digest"] ?? null) ||
             "PENDING_FOUNDRY_SPECIFICATION_REVISION" !==
                 ($return["status"] ?? null) ||
             true !== ($return["specification_revision_authority"] ?? null) ||
@@ -77,6 +80,10 @@ final readonly class SubordinatePersonaSpecificationRevisionService
             ($specification["case_id"] ?? null) !== $caseId ||
             ($specification["case_digest"] ?? null) !==
                 ($case["record_digest"] ?? null) ||
+            ($return["originating_guildhall_commission_id"] ?? null) !== ($specification["originating_guildhall_commission_id"] ?? null) ||
+            ($return["originating_guildhall_commission_digest"] ?? null) !== ($specification["originating_guildhall_commission_digest"] ?? null) ||
+            ($specification["originating_guildhall_commission_id"] ?? null) !== ($case["originating_guildhall_commission_id"] ?? null) ||
+            ($specification["originating_guildhall_commission_digest"] ?? null) !== ($case["originating_guildhall_commission_digest"] ?? null) ||
             !$this->validReturnPayload($returnKind, $return)
         ) {
             throw new \RuntimeException(
@@ -139,6 +146,8 @@ final readonly class SubordinatePersonaSpecificationRevisionService
             "instance_id" => $specification["instance_id"],
             "case_id" => $caseId,
             "case_digest" => $case["record_digest"],
+            "originating_guildhall_commission_id" => $case["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $case["originating_guildhall_commission_digest"],
             "queue_position" => $specification["queue_position"],
             "office" => $specification["office"],
             "subordinate_staff_class" =>

@@ -73,6 +73,9 @@ final readonly class SubordinatePersonaAuthorshipCommissionService
             : [];
         if (
             !$this->digestMatches($case) ||
+            !is_string($case["originating_guildhall_commission_id"] ?? null) ||
+            !preg_match('/^guildhall-subordinate-construction-commission-[a-f0-9]{20}$/', $case["originating_guildhall_commission_id"]) ||
+            !is_string($case["originating_guildhall_commission_digest"] ?? null) ||
             ($s["case_digest"] ?? null) !== ($case["record_digest"] ?? null) ||
             ($s["source_resolution_id"] ?? null) !==
                 ($case["source_resolution_id"] ?? null) ||
@@ -83,6 +86,8 @@ final readonly class SubordinatePersonaAuthorshipCommissionService
                     $case["subordinate_requirements"] ?? null,
                 ) ||
             ($s["instance_id"] ?? null) !== ($case["instance_id"] ?? null)
+            || ($s["originating_guildhall_commission_id"] ?? null) !== ($case["originating_guildhall_commission_id"] ?? null)
+            || ($s["originating_guildhall_commission_digest"] ?? null) !== ($case["originating_guildhall_commission_digest"] ?? null)
         ) {
             throw new \RuntimeException(
                 "F119_SUBORDINATE_SPECIFICATION_CHAIN_INVALID",
@@ -101,6 +106,8 @@ final readonly class SubordinatePersonaAuthorshipCommissionService
             "instance_id" => $s["instance_id"],
             "subordinate_construction_case_id" => $caseId,
             "subordinate_construction_case_digest" => $case["record_digest"],
+            "originating_guildhall_commission_id" => $case["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $case["originating_guildhall_commission_digest"],
             "persona_specification_id" => $id,
             "persona_specification_digest" => $s["record_digest"],
             "persona_specification_version" => $s["specification_version"] ?? 1,

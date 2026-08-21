@@ -69,6 +69,8 @@ final class SubordinateAuthorshipCommissionAcceptanceServiceTest extends
             "schema" => "imperium.subordinate-persona-authorship-commission/v1",
             "commission_id" => $commissionId,
             "instance_id" => "imperium-test",
+            "originating_guildhall_commission_id" => "guildhall-subordinate-construction-commission-cccccccccccccccccccc",
+            "originating_guildhall_commission_digest" => "guildhall-commission-digest",
             "office" => $office,
             "target_seat" => $seat,
             "subordinate_construction_case_id" => $caseId,
@@ -110,6 +112,8 @@ final class SubordinateAuthorshipCommissionAcceptanceServiceTest extends
             "schema" => "imperium.authorship-resident-occupancy/v1",
             "binding_id" => $bindingId,
             "instance_id" => "imperium-test",
+            "originating_guildhall_commission_id" => "guildhall-subordinate-construction-commission-cccccccccccccccccccc",
+            "originating_guildhall_commission_digest" => "guildhall-commission-digest",
             "office" => $office,
             "seat" => $seat,
             "manifestation_id" => "manifestation-" . $role,
@@ -141,6 +145,8 @@ final class SubordinateAuthorshipCommissionAcceptanceServiceTest extends
             );
             self::assertTrue($a["recipient_acceptance"]);
             self::assertTrue($a["authorship_authority_exercisable"]);
+            self::assertSame($case["originating_guildhall_commission_id"], $a["originating_guildhall_commission_id"]);
+            self::assertSame($case["originating_guildhall_commission_digest"], $a["originating_guildhall_commission_digest"]);
             self::assertSame(
                 "INITIAL_SPECIFICATION_DISPATCH",
                 $a["dispatch_kind"],
