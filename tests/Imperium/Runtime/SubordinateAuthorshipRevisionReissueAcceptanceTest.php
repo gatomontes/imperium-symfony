@@ -68,6 +68,8 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
             "schema" => "imperium.foundry-subordinate-construction-case/v1",
             "case_id" => $caseId,
             "instance_id" => "imperium-test",
+            "originating_guildhall_commission_id" => "guildhall-subordinate-construction-commission-cccccccccccccccccccc",
+            "originating_guildhall_commission_digest" => "guildhall-commission-digest",
             "source_resolution_id" => "resolution",
             "source_resolution_digest" => "resolution-digest",
             "subordinate_requirements" => [
@@ -159,6 +161,8 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                     "schema" => "imperium.authorship-resident-occupancy/v1",
                     "binding_id" => $bindingId,
                     "instance_id" => "imperium-test",
+            "originating_guildhall_commission_id" => "guildhall-subordinate-construction-commission-cccccccccccccccccccc",
+            "originating_guildhall_commission_digest" => "guildhall-commission-digest",
                     "office" => $office,
                     "seat" => $seat,
                     "manifestation_id" => "manifestation-" . $role,
@@ -346,6 +350,8 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 "schema" => "imperium.foundry-artificer-occupancy/v1",
                 "binding_id" => $bindingId,
                 "instance_id" => "imperium-test",
+            "originating_guildhall_commission_id" => "guildhall-subordinate-construction-commission-cccccccccccccccccccc",
+            "originating_guildhall_commission_digest" => "guildhall-commission-digest",
                 "office" => "foundry",
                 "seat" => "foundry.artificer",
                 "manifestation_id" => "artificer-manifestation",
@@ -464,6 +470,8 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 "schema" => "imperium.garrison-constable-occupancy/v1",
                 "binding_id" => $constableBindingId,
                 "instance_id" => "imperium-test",
+            "originating_guildhall_commission_id" => "guildhall-subordinate-construction-commission-cccccccccccccccccccc",
+            "originating_guildhall_commission_digest" => "guildhall-commission-digest",
                 "seat" => "garrison.constable",
                 "manifestation_id" => "constable-manifestation",
                 "occupancy_generation" => 1,
@@ -552,6 +560,8 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
             $foundingPackage = [
                 "schema" => "imperium.operator-root-personnel-package/v2",
                 "instance_id" => "imperium-test",
+            "originating_guildhall_commission_id" => "guildhall-subordinate-construction-commission-cccccccccccccccccccc",
+            "originating_guildhall_commission_digest" => "guildhall-commission-digest",
                 "personnel" => [],
             ];
             foreach (
@@ -1847,6 +1857,8 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
             "supersedes" => $supersedes,
             "revision_basis" => $revisionBasis,
             "instance_id" => "imperium-test",
+            "originating_guildhall_commission_id" => "guildhall-subordinate-construction-commission-cccccccccccccccccccc",
+            "originating_guildhall_commission_digest" => "guildhall-commission-digest",
             "case_id" => $case["case_id"],
             "case_digest" => $case["record_digest"],
             "queue_position" => 1,

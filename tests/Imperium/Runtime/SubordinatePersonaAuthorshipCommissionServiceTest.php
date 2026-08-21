@@ -17,6 +17,8 @@ final class SubordinatePersonaAuthorshipCommissionServiceTest extends TestCase
         $case = [
             "case_id" => $caseId,
             "instance_id" => "imperium-test",
+            "originating_guildhall_commission_id" => "guildhall-subordinate-construction-commission-cccccccccccccccccccc",
+            "originating_guildhall_commission_digest" => "guildhall-commission-digest",
             "source_resolution_id" => "resolution",
             "source_resolution_digest" => "resolution-digest",
             "subordinate_requirements" => $requirements,
@@ -51,6 +53,8 @@ final class SubordinatePersonaAuthorshipCommissionServiceTest extends TestCase
                 ],
             ],
             "instance_id" => "imperium-test",
+            "originating_guildhall_commission_id" => "guildhall-subordinate-construction-commission-cccccccccccccccccccc",
+            "originating_guildhall_commission_digest" => "guildhall-commission-digest",
             "case_id" => $caseId,
             "case_digest" => $case["record_digest"],
             "queue_position" => 1,
@@ -122,6 +126,8 @@ final class SubordinatePersonaAuthorshipCommissionServiceTest extends TestCase
             );
             foreach ($r["commissions"] as $c) {
                 self::assertSame("ISSUED_PENDING_RECIPIENT", $c["status"]);
+                self::assertSame($case["originating_guildhall_commission_id"], $c["originating_guildhall_commission_id"]);
+                self::assertSame($case["originating_guildhall_commission_digest"], $c["originating_guildhall_commission_digest"]);
                 self::assertSame(
                     "SPECIFICATION_REVISION_REISSUE",
                     $c["dispatch_kind"],

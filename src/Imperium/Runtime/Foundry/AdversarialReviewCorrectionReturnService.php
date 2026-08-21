@@ -84,7 +84,9 @@ final readonly class AdversarialReviewCorrectionReturnService
                 null) !==
                 ($specification["record_digest"] ?? null) ||
             ($candidate["persona_specification_digest"] ?? null) !==
-                ($specification["record_digest"] ?? null)
+                ($specification["record_digest"] ?? null) ||
+            ($candidate["originating_guildhall_commission_id"] ?? null) !== ($specification["originating_guildhall_commission_id"] ?? null) ||
+            ($candidate["originating_guildhall_commission_digest"] ?? null) !== ($specification["originating_guildhall_commission_digest"] ?? null)
         ) {
             throw new \RuntimeException(
                 "F174_ADVERSARIAL_CORRECTION_CHAIN_INVALID",
@@ -124,6 +126,8 @@ final readonly class AdversarialReviewCorrectionReturnService
                 $candidate["subordinate_construction_case_id"],
             "subordinate_construction_case_digest" =>
                 $candidate["subordinate_construction_case_digest"],
+            "originating_guildhall_commission_id" => $candidate["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $candidate["originating_guildhall_commission_digest"],
             "review_target_lineage" => $result["review_target_lineage"],
             "prior_revision_basis" => $specification["revision_basis"] ?? null,
             "adversarial_findings" => $result["decision"]["findings"],

@@ -50,6 +50,9 @@ final readonly class SubordinatePersonaAssemblyService
         if (
             !$this->digestMatches($s) ||
             !$this->digestMatches($case) ||
+            !is_string($case["originating_guildhall_commission_id"] ?? null) ||
+            !preg_match('/^guildhall-subordinate-construction-commission-[a-f0-9]{20}$/', $case["originating_guildhall_commission_id"]) ||
+            !is_string($case["originating_guildhall_commission_digest"] ?? null) ||
             "imperium.foundry-subordinate-persona-specification/v1" !==
                 ($s["schema"] ?? null) ||
             $specificationId !== ($s["specification_id"] ?? null) ||
@@ -57,6 +60,8 @@ final readonly class SubordinatePersonaAssemblyService
             true !== ($s["persona_specification_complete"] ?? null) ||
             true !== ($s["sealed"] ?? null) ||
             ($s["case_digest"] ?? null) !== ($case["record_digest"] ?? null)
+            || ($s["originating_guildhall_commission_id"] ?? null) !== ($case["originating_guildhall_commission_id"] ?? null)
+            || ($s["originating_guildhall_commission_digest"] ?? null) !== ($case["originating_guildhall_commission_digest"] ?? null)
         ) {
             throw new \RuntimeException(
                 "F123_SUBORDINATE_ASSEMBLY_CHAIN_INVALID",
@@ -129,6 +134,8 @@ final readonly class SubordinatePersonaAssemblyService
                 ($r["subordinate_construction_case_id"] ?? null) !== $caseId ||
                 ($r["subordinate_construction_case_digest"] ?? null) !==
                     ($case["record_digest"] ?? null) ||
+                ($r["originating_guildhall_commission_id"] ?? null) !== ($case["originating_guildhall_commission_id"] ?? null) ||
+                ($r["originating_guildhall_commission_digest"] ?? null) !== ($case["originating_guildhall_commission_digest"] ?? null) ||
                 ($r["source_resolution_id"] ?? null) !==
                     ($s["source_resolution_id"] ?? null) ||
                 ($r["source_resolution_digest"] ?? null) !==
@@ -208,6 +215,8 @@ final readonly class SubordinatePersonaAssemblyService
             "persona_name" => $s["specification"]["persona_name"],
             "subordinate_construction_case_id" => $caseId,
             "subordinate_construction_case_digest" => $case["record_digest"],
+            "originating_guildhall_commission_id" => $case["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $case["originating_guildhall_commission_digest"],
             "persona_specification_id" => $specificationId,
             "persona_specification_digest" => $s["record_digest"],
             "persona_specification_version" => $s["specification_version"] ?? 1,
