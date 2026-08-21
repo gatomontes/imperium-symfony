@@ -1,5 +1,11 @@
 # Persona production flow
 
+## Completion status
+
+**Implemented and locally verified:** the canonical production lifecycle is complete through step 33. A successfully produced Persona terminates this lifecycle in Garrison custody at `ADMITTED_HELD` with no execution, deployment, Profile, spawning, or Seat-binding authority.
+
+This document governs Persona creation and admission only. Retrieval, role-specific transformation, qualification, manifestation assembly, Seat binding, and deployment belong to a separate downstream lifecycle.
+
 ## Canonical Office route
 
 The canonical high-level route is:
@@ -55,3 +61,30 @@ A direct **Foundry → Garrison** delivery before Senate approval and Guildhall 
 5. Foundry may recover the exact candidate into Senate examination without rewriting the premature route as canonical history.
 
 The recovery path exists to contain malformed, legacy, or incorrectly routed deliveries. It must never become the ordinary bridge from Foundry to Senate.
+
+## Production terminal boundary
+
+The completed lifecycle emits one immutable `imperium.garrison-persona-custody/v1` record containing the exact admitted Persona, originating Guildhall commission, Senate confirmation, Constable disposition, version, digest, and custody state.
+
+`ADMITTED_HELD` means only:
+
+- Garrison has admitted and holds the exact Persona;
+- the Persona is eligible to be considered by a separately authorized retrieval lifecycle;
+- its production and admission provenance must remain immutable downstream.
+
+It does not mean that the Persona has been selected, reserved, retrieved, transformed into a Profile, installed on an Officer substrate, manifested, bound to a Seat, activated, deployed, or authorized to execute.
+
+## Next lifecycle handoff
+
+The next implementation begins with an exact authorized personnel-use demand and must answer, in order:
+
+1. Who requests an admitted Persona, for what mission role or Seat, and under which authority?
+2. Who determines suitability among Garrison inventory facts without giving Garrison selection authority?
+3. How is the exact Persona reserved and retrieved from `ADMITTED_HELD` custody?
+4. Which Office commissions Laboratorium to derive the exact role-, Seat-, framework-, or deployment-specific Profile?
+5. Who approves that Profile and authorizes Conscription to assemble a manifestation?
+6. How does Conscription bind the exact Persona, approved Profile, generic Officer substrate, and commission without inheriting selection or deployment authority?
+7. Who authorizes Seat binding or mission deployment, and what state transition releases the Persona from held custody?
+8. How are return, retirement, custody restoration, and supersession recorded after use?
+
+No downstream step may treat `ADMITTED_HELD`, inventory availability, retrieval, Profile derivation, qualification, manifestation assembly, or Seat binding as implicit authority for the next step.
