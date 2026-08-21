@@ -53,6 +53,10 @@ use App\Imperium\Runtime\Senate\SubordinatePersonaSenateDispositionService;
 use App\Imperium\Runtime\Senate\SubordinatePersonaWitnessRetirementService;
 use App\Imperium\Runtime\Senate\SubordinatePersonaConfirmationRecordIssuanceService;
 use App\Imperium\Runtime\Foundry\SubordinatePersonaSenateConfirmationRecordAcceptanceService;
+use App\Imperium\Runtime\Foundry\SubordinatePersonaGuildhallFulfillmentService;
+use App\Imperium\Runtime\Guildhall\SubordinatePersonaFulfillmentAcceptanceService;
+use App\Imperium\Runtime\Guildhall\SubordinatePersonaGarrisonDeliveryService;
+use App\Imperium\Runtime\Garrison\SubordinatePersonaCanonicalAdmissionService;
 use PHPUnit\Framework\TestCase;
 
 final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
@@ -1583,6 +1587,51 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
             );
             self::assertFalse($confirmationAcceptance["admission_authority"]);
             self::assertFalse($confirmationAcceptance["execution_authority"]);
+
+            $fulfillmentService = new SubordinatePersonaGuildhallFulfillmentService($root);
+            $fulfillment = $fulfillmentService->fulfill($confirmationAcceptance["acceptance_id"]);
+            self::assertSame($fulfillment, $fulfillmentService->fulfill($confirmationAcceptance["acceptance_id"]));
+            self::assertSame("FULFILLED_PENDING_GUILDHALL_ACCEPTANCE", $fulfillment["status"]);
+            self::assertSame($candidate["candidate_id"], $fulfillment["candidate_id"]);
+            self::assertSame($candidate["record_digest"], $fulfillment["candidate_digest"]);
+            self::assertSame($candidate["originating_guildhall_commission_id"], $fulfillment["originating_guildhall_commission_id"]);
+            self::assertTrue($fulfillment["commission_fulfilled"]);
+            self::assertFalse($fulfillment["candidate_substituted"]);
+            self::assertFalse($fulfillment["admission_authority"]);
+
+            $guildmasterBindingId = "guildhall-guildmaster-binding-" . str_repeat("2", 20);
+            $guildmasterBinding = ["schema" => "imperium.guildhall-guildmaster-occupancy/v1", "binding_id" => $guildmasterBindingId, "instance_id" => "imperium-test", "office" => "guildhall", "seat" => "guildhall.guildmaster", "manifestation_id" => "guildmaster-manifestation", "occupancy_generation" => 1, "status" => "ACTIVE", "binding_atomic" => true, "persona_fulfillment_acceptance_authority" => true, "execution_authority" => false];
+            $this->write($root . "/var/imperium/offices/guildhall/occupancy", $guildmasterBindingId, $guildmasterBinding);
+            $guildhallAcceptanceService = new SubordinatePersonaFulfillmentAcceptanceService($root);
+            $guildhallReceipt = $guildhallAcceptanceService->accept($fulfillment["fulfillment_id"], $guildmasterBindingId);
+            self::assertSame($guildhallReceipt, $guildhallAcceptanceService->accept($fulfillment["fulfillment_id"], $guildmasterBindingId));
+            self::assertSame("GUILDHALL_ACCEPTED_PENDING_GARRISON_FORWARDING", $guildhallReceipt["status"]);
+            self::assertSame($candidate["candidate_id"], $guildhallReceipt["candidate_id"]);
+            self::assertSame($candidate["record_digest"], $guildhallReceipt["candidate_digest"]);
+            self::assertTrue($guildhallReceipt["commission_fulfillment_accepted"]);
+            self::assertTrue($guildhallReceipt["garrison_forwarding_ready"]);
+
+            $garrisonDeliveryService = new SubordinatePersonaGarrisonDeliveryService($root);
+            $canonicalDelivery = $garrisonDeliveryService->deliver($guildhallReceipt["receipt_id"]);
+            self::assertSame($canonicalDelivery, $garrisonDeliveryService->deliver($guildhallReceipt["receipt_id"]));
+            self::assertSame("CANONICAL_GUILDHALL_TO_GARRISON", $canonicalDelivery["route_class"]);
+            self::assertSame("DELIVERED_PENDING_CONSTABLE_ADMISSION_DISPOSITION", $canonicalDelivery["status"]);
+            self::assertSame($candidate["candidate_id"], $canonicalDelivery["candidate_id"]);
+            self::assertSame($confirmationRecord["confirmation_record_id"], $canonicalDelivery["senate_confirmation_record_id"]);
+            self::assertFalse($canonicalDelivery["admission_authority"]);
+
+            $canonicalAdmissionService = new SubordinatePersonaCanonicalAdmissionService($root);
+            $admission = $canonicalAdmissionService->admit($canonicalDelivery["delivery_id"], $constableBindingId);
+            self::assertSame($admission, $canonicalAdmissionService->admit($canonicalDelivery["delivery_id"], $constableBindingId));
+            self::assertSame("ADMITTED", $admission["disposition"]);
+            self::assertSame("ADMITTED_HELD", $admission["status"]);
+            self::assertSame($candidate["candidate_id"], $admission["candidate_id"]);
+            self::assertSame($candidate["originating_guildhall_commission_id"], $admission["originating_guildhall_commission_id"]);
+            self::assertSame($confirmationRecord["confirmation_record_id"], $admission["senate_confirmation_record_id"]);
+            self::assertTrue($admission["custody_created"]);
+            self::assertFalse($admission["admission_authority"]);
+            self::assertFalse($admission["execution_authority"]);
+            self::assertFileExists($root . "/var/imperium/offices/garrison/custody/" . $admission["custody_id"] . ".json");
 
             $mandatoryFailureSet = $findingSet;
             unset($mandatoryFailureSet["record_digest"]);

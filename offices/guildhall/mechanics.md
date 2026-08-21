@@ -40,6 +40,14 @@ Preserve exact Curia inputs, versions, provenance, authority, and correlation in
 
 Accept the exact Curia-delivered personnel authorization and issue one immutable construction commission to `foundry.artificer`, bound to the complete ordered resolution set and authorization digest. This is the sole canonical subordinate-construction route into Foundry: Curia cannot bypass Guildhall. Issuance makes construction authority available for attributable Foundry acceptance but grants no Persona selection, admission, spawning, Seat binding, or execution authority.
 
+## accept-persona-fulfillment
+
+The occupied Guildmaster accepts only the exact Senate-confirmed candidate returned by Foundry as fulfillment of Guildhall's originating construction commission. Acceptance binds the Foundry fulfillment, Senate record, candidate, and commission identities without reinterpretation or substitution and grants no admission or execution authority.
+
+## forward-persona-to-garrison
+
+Guildhall forwards the accepted fulfillment unchanged to `garrison.constable` under `CANONICAL_GUILDHALL_TO_GARRISON`. A missing Guildhall receipt, Senate record, candidate match, or originating commission match fails closed. Forwarding requests a Constable disposition but grants Guildhall no admission or custody authority.
+
 ## dispatch-committee-assignment
 Route a Guildmaster-authorized bounded assignment to the named Committee Seat and record attribution.
 
