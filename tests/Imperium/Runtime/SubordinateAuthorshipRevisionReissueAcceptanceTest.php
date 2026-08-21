@@ -796,6 +796,8 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 "CANONICAL_FOUNDRY_TO_SENATE",
                 $personaConfirmationRequest["route_class"],
             );
+            self::assertSame($candidate["originating_guildhall_commission_id"], $personaConfirmationRequest["originating_guildhall_commission_id"]);
+            self::assertSame($candidate["originating_guildhall_commission_digest"], $personaConfirmationRequest["originating_guildhall_commission_digest"]);
             self::assertNull(
                 $personaConfirmationRequest["examination_contract"]["profile_class"],
             );
@@ -835,6 +837,8 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 "PENDING_LORD_SPEAKER_ACCEPTANCE",
                 $personaConfirmationCase["status"],
             );
+            self::assertSame($candidate["originating_guildhall_commission_id"], $personaConfirmationCase["originating_guildhall_commission_id"]);
+            self::assertSame($candidate["originating_guildhall_commission_digest"], $personaConfirmationCase["originating_guildhall_commission_digest"]);
             self::assertSame(
                 [],
                 $personaConfirmationCase["activation_required"],
@@ -866,6 +870,8 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 "ACCEPTED_PENDING_PERSONA_WITNESS_INSTANTIATION",
                 $personaConfirmationAcceptance["status"],
             );
+            self::assertSame($candidate["originating_guildhall_commission_id"], $personaConfirmationAcceptance["originating_guildhall_commission_id"]);
+            self::assertSame($candidate["originating_guildhall_commission_digest"], $personaConfirmationAcceptance["originating_guildhall_commission_digest"]);
             self::assertSame(
                 "GENERIC_V0_PLACEHOLDER",
                 $personaConfirmationAcceptance["lord_speaker"][
@@ -1491,6 +1497,8 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 "CONFIRMED_CANDIDATE_FOR_GUILDHALL_FULFILLMENT",
                 $confirmationRecord["foundry_routing"],
             );
+            self::assertSame($candidate["originating_guildhall_commission_id"], $confirmationRecord["originating_guildhall_commission_id"]);
+            self::assertSame($candidate["originating_guildhall_commission_digest"], $confirmationRecord["originating_guildhall_commission_digest"]);
             self::assertSame(
                 "foundry.artificer",
                 $confirmationRecord["recipient"]["seat"],
@@ -1543,6 +1551,8 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 "SENATE_CONFIRMATION_RECORD_ACCEPTED_PENDING_GUILDHALL_FULFILLMENT",
                 $confirmationAcceptance["status"],
             );
+            self::assertSame($candidate["originating_guildhall_commission_id"], $confirmationAcceptance["originating_guildhall_commission_id"]);
+            self::assertSame($candidate["originating_guildhall_commission_digest"], $confirmationAcceptance["originating_guildhall_commission_digest"]);
             self::assertTrue($confirmationAcceptance["record_receipt_accepted"]);
             self::assertFalse($confirmationAcceptance["persona_reinterpreted"]);
             self::assertFalse($confirmationAcceptance["candidate_substituted"]);

@@ -52,6 +52,7 @@ final readonly class SubordinatePersonaJurisdictionBaselineService
         if (
             !$this->digestMatches($first) ||
             !$this->digestMatches($deposition) ||
+            !is_string($deposition["originating_guildhall_commission_id"] ?? null) ||
             !$this->digestMatches($witness) ||
             "FIRST_TESTIMONY_SEALED_PENDING_REMAINING_TRIALS" !== ($first["status"] ?? null) ||
             "practice" !== ($first["jurisdiction"] ?? null) ||
@@ -114,6 +115,8 @@ final readonly class SubordinatePersonaJurisdictionBaselineService
             "manifestation_digest" => $witness["record_digest"],
             "candidate_id" => $deposition["candidate_id"],
             "candidate_digest" => $deposition["candidate_digest"],
+            "originating_guildhall_commission_id" => $deposition["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $deposition["originating_guildhall_commission_digest"],
             "review_target_lineage" => $deposition["review_target_lineage"],
             "first_turn_id" => $firstTurnId,
             "first_turn_digest" => $first["record_digest"],

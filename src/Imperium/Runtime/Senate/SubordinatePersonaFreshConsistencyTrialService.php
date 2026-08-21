@@ -58,6 +58,7 @@ final readonly class SubordinatePersonaFreshConsistencyTrialService
         );
         if (
             !$this->digestMatches($baseline) ||
+            !is_string($baseline["originating_guildhall_commission_id"] ?? null) ||
             !$this->digestMatches($sourceWitness) ||
             "imperium.senate-persona-jurisdiction-baseline/v1" !== ($baseline["schema"] ?? null) ||
             "REQUIRED_JURISDICTION_BASELINE_COMPLETE_PENDING_ADDITIONAL_TRIALS" !== ($baseline["status"] ?? null) ||
@@ -90,6 +91,8 @@ final readonly class SubordinatePersonaFreshConsistencyTrialService
             "confirmation_case_digest" => $sourceWitness["confirmation_case_digest"],
             "candidate_id" => $sourceWitness["candidate_id"],
             "candidate_digest" => $sourceWitness["candidate_digest"],
+            "originating_guildhall_commission_id" => $sourceWitness["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $sourceWitness["originating_guildhall_commission_digest"],
             "persona_name" => $sourceWitness["persona_name"],
             "persona_specification_version" => $sourceWitness["persona_specification_version"],
             "persona" => $sourceWitness["persona"],
@@ -173,6 +176,8 @@ final readonly class SubordinatePersonaFreshConsistencyTrialService
             "baseline_digest" => $baseline["record_digest"],
             "candidate_id" => $baseline["candidate_id"],
             "candidate_digest" => $baseline["candidate_digest"],
+            "originating_guildhall_commission_id" => $baseline["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $baseline["originating_guildhall_commission_digest"],
             "review_target_lineage" => $baseline["review_target_lineage"],
             "assignment" => $assignment,
             "fresh_witness" => [

@@ -79,6 +79,13 @@ final readonly class SubordinatePersonaConfirmationRecordIssuanceService
         if ([] === $candidateDigests || 1 !== count(array_unique($candidateDigests))) {
             throw new \RuntimeException("S198_CONFIRMATION_RECORD_CANDIDATE_MISMATCH");
         }
+        $allGuildhallCommissionIds = array_column($records, "originating_guildhall_commission_id");
+        $allGuildhallCommissionDigests = array_column($records, "originating_guildhall_commission_digest");
+        $guildhallCommissionIds = array_values(array_unique($allGuildhallCommissionIds));
+        $guildhallCommissionDigests = array_values(array_unique($allGuildhallCommissionDigests));
+        if (count($records) !== count($allGuildhallCommissionIds) || count($records) !== count($allGuildhallCommissionDigests) || 1 !== count($guildhallCommissionIds) || 1 !== count($guildhallCommissionDigests) || !preg_match('/^guildhall-subordinate-construction-commission-[a-f0-9]{20}$/', (string) $guildhallCommissionIds[0])) {
+            throw new \RuntimeException("S198_CONFIRMATION_RECORD_GUILDHALL_PROVENANCE_MISMATCH");
+        }
         $findingDigests = array_column($findingSet["findings"] ?? [], "finding_digest");
         $dispositionReferences = $disposition["decision"]["finding_references"] ?? null;
         if (
@@ -122,6 +129,8 @@ final readonly class SubordinatePersonaConfirmationRecordIssuanceService
             "instance_id" => $retirement["instance_id"],
             "candidate_id" => $retirement["candidate_id"],
             "candidate_digest" => $retirement["candidate_digest"],
+            "originating_guildhall_commission_id" => $retirement["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $retirement["originating_guildhall_commission_digest"],
             "review_target_lineage" => $retirement["review_target_lineage"],
             "retirement_set_id" => $retirementSetId,
             "retirement_set_digest" => $retirement["record_digest"],

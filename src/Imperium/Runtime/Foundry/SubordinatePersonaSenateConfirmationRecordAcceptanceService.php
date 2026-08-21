@@ -38,6 +38,9 @@ final readonly class SubordinatePersonaSenateConfirmationRecordAcceptanceService
         $artificer = $this->read($this->occupancy . "/" . $bindingId . ".json", "F195_ARTIFICER_CONFIRMATION_ACCEPTANCE_AUTHORITY_INVALID");
         if (
             !$this->digestMatches($record) ||
+            !is_string($record["originating_guildhall_commission_id"] ?? null) ||
+            !preg_match('/^guildhall-subordinate-construction-commission-[a-f0-9]{20}$/', $record["originating_guildhall_commission_id"]) ||
+            !is_string($record["originating_guildhall_commission_digest"] ?? null) ||
             !$this->digestMatches($artificer) ||
             $recordId !== ($record["confirmation_record_id"] ?? null) ||
             "CONFIRMATION_RECORD_ISSUED_PENDING_FOUNDRY_ACCEPTANCE" !== ($record["status"] ?? null) ||
@@ -80,6 +83,8 @@ final readonly class SubordinatePersonaSenateConfirmationRecordAcceptanceService
             "confirmation_record_digest" => $record["record_digest"],
             "candidate_id" => $record["candidate_id"],
             "candidate_digest" => $record["candidate_digest"],
+            "originating_guildhall_commission_id" => $record["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $record["originating_guildhall_commission_digest"],
             "review_target_lineage" => $record["review_target_lineage"],
             "artificer" => $this->actor($artificer),
             "record_receipt_accepted" => true,

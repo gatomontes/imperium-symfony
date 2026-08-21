@@ -51,6 +51,7 @@ final readonly class SubordinatePersonaSenatorFindingService
             : [];
         if (
             !$this->digestMatches($ledger) ||
+            !is_string($ledger["originating_guildhall_commission_id"] ?? null) ||
             !$this->digestMatches($baseline) ||
             !$this->digestMatches($consistency) ||
             "REQUIRED_TRIALS_SEALED_PENDING_SENATOR_FINDINGS" !== ($ledger["status"] ?? null) ||
@@ -127,6 +128,8 @@ final readonly class SubordinatePersonaSenatorFindingService
             "instance_id" => $ledger["instance_id"],
             "candidate_id" => $ledger["candidate_id"],
             "candidate_digest" => $ledger["candidate_digest"],
+            "originating_guildhall_commission_id" => $ledger["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $ledger["originating_guildhall_commission_digest"],
             "review_target_lineage" => $ledger["review_target_lineage"],
             "required_trial_ledger_id" => $ledgerId,
             "required_trial_ledger_digest" => $ledger["record_digest"],

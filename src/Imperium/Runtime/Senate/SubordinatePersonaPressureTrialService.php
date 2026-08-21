@@ -52,6 +52,7 @@ final readonly class SubordinatePersonaPressureTrialService
         if (
             !$this->digestMatches($consistency) ||
             !$this->digestMatches($baseline) ||
+            !is_string($baseline["originating_guildhall_commission_id"] ?? null) ||
             !$this->digestMatches($source) ||
             "FRESH_INSTANCE_CONSISTENCY_TRIAL_SEALED_PENDING_PRESSURE_TRIALS" !== ($consistency["status"] ?? null) ||
             true !== ($consistency["pressure_trials_required"] ?? null) ||
@@ -149,6 +150,8 @@ final readonly class SubordinatePersonaPressureTrialService
             "instance_id" => $baseline["instance_id"],
             "candidate_id" => $baseline["candidate_id"],
             "candidate_digest" => $baseline["candidate_digest"],
+            "originating_guildhall_commission_id" => $baseline["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $baseline["originating_guildhall_commission_digest"],
             "review_target_lineage" => $baseline["review_target_lineage"],
             "baseline_id" => $baselineId,
             "baseline_digest" => $baseline["record_digest"],
@@ -220,6 +223,8 @@ final readonly class SubordinatePersonaPressureTrialService
             "confirmation_case_digest" => $source["confirmation_case_digest"],
             "candidate_id" => $source["candidate_id"],
             "candidate_digest" => $source["candidate_digest"],
+            "originating_guildhall_commission_id" => $source["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $source["originating_guildhall_commission_digest"],
             "persona_name" => $source["persona_name"],
             "persona_specification_version" => $source["persona_specification_version"],
             "persona" => $source["persona"],
