@@ -53,6 +53,7 @@ final readonly class AdversarialReviewAcceptanceService
                 ($readiness["status"] ?? null) ||
             null !== ($readiness["recipient_acceptance"] ?? null) ||
             true === ($readiness["review_authority_exercisable"] ?? null) ||
+            !is_string($readiness["originating_guildhall_commission_id"] ?? null) ||
             ($readiness["reviewer_occupancy"]["binding_digest"] ?? null) !==
                 ($occupancy["record_digest"] ?? null) ||
             "foundry.reviewer.adversarial" !== ($occupancy["seat"] ?? null) ||
@@ -89,6 +90,8 @@ final readonly class AdversarialReviewAcceptanceService
             "readiness_digest" => $readiness["record_digest"],
             "candidate_id" => $readiness["candidate_id"],
             "candidate_digest" => $readiness["candidate_digest"],
+            "originating_guildhall_commission_id" => $readiness["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $readiness["originating_guildhall_commission_digest"],
             "review_target_lineage" => $readiness["review_target_lineage"],
             "reviewer" => [
                 "seat" => "foundry.reviewer.adversarial",

@@ -16,6 +16,8 @@ final class AdversarialReviewerDemandServiceTest extends TestCase
         $candidate = [
             "schema" => "imperium.foundry-subordinate-persona-candidate/v1",
             "candidate_id" => $candidateId,
+            "originating_guildhall_commission_id" => "guildhall-subordinate-construction-commission-cccccccccccccccccccc",
+            "originating_guildhall_commission_digest" => "guildhall-commission-digest",
             "status" => "ASSEMBLED_PENDING_FOUNDRY_REVIEW",
             "dispatch_kind" => "SPECIFICATION_REVISION_REISSUE",
             "superseded_commissions" => [
@@ -36,6 +38,8 @@ final class AdversarialReviewerDemandServiceTest extends TestCase
             "instance_id" => "imperium-test",
             "candidate_id" => $candidateId,
             "candidate_digest" => $candidate["record_digest"],
+            "originating_guildhall_commission_id" => $candidate["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $candidate["originating_guildhall_commission_digest"],
             "persona_specification_id" => "specification",
             "persona_specification_digest" => "specification-digest",
             "persona_specification_version" => 2,
@@ -83,6 +87,8 @@ final class AdversarialReviewerDemandServiceTest extends TestCase
                 "SPECIFICATION_REVISION_REISSUE",
                 $d["dispatch_kind"],
             );
+            self::assertSame($candidate["originating_guildhall_commission_id"], $d["originating_guildhall_commission_id"]);
+            self::assertSame($candidate["originating_guildhall_commission_digest"], $d["originating_guildhall_commission_digest"]);
             self::assertSame(
                 $candidate["superseded_commissions"],
                 $d["superseded_commissions"],

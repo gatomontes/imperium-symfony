@@ -85,6 +85,8 @@ final readonly class AdversarialReviewCorrectionReturnService
                 ($specification["record_digest"] ?? null) ||
             ($candidate["persona_specification_digest"] ?? null) !==
                 ($specification["record_digest"] ?? null) ||
+            ($result["originating_guildhall_commission_id"] ?? null) !== ($candidate["originating_guildhall_commission_id"] ?? null) ||
+            ($result["originating_guildhall_commission_digest"] ?? null) !== ($candidate["originating_guildhall_commission_digest"] ?? null) ||
             ($candidate["originating_guildhall_commission_id"] ?? null) !== ($specification["originating_guildhall_commission_id"] ?? null) ||
             ($candidate["originating_guildhall_commission_digest"] ?? null) !== ($specification["originating_guildhall_commission_digest"] ?? null)
         ) {

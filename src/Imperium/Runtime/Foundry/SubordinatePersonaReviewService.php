@@ -66,6 +66,9 @@ final readonly class SubordinatePersonaReviewService
             !$this->digestMatches($candidate) ||
             !$this->digestMatches($specification) ||
             !$this->digestMatches($case) ||
+            !is_string($case["originating_guildhall_commission_id"] ?? null) ||
+            !preg_match('/^guildhall-subordinate-construction-commission-[a-f0-9]{20}$/', $case["originating_guildhall_commission_id"]) ||
+            !is_string($case["originating_guildhall_commission_digest"] ?? null) ||
             "imperium.foundry-subordinate-persona-candidate/v1" !==
                 ($candidate["schema"] ?? null) ||
             "ASSEMBLED_PENDING_FOUNDRY_REVIEW" !==
@@ -95,6 +98,10 @@ final readonly class SubordinatePersonaReviewService
                 : [] !== ($candidate["superseded_commissions"] ?? null)) ||
             ($candidate["subordinate_construction_case_digest"] ?? null) !==
                 ($case["record_digest"] ?? null) ||
+            ($candidate["originating_guildhall_commission_id"] ?? null) !== ($specification["originating_guildhall_commission_id"] ?? null) ||
+            ($candidate["originating_guildhall_commission_digest"] ?? null) !== ($specification["originating_guildhall_commission_digest"] ?? null) ||
+            ($specification["originating_guildhall_commission_id"] ?? null) !== ($case["originating_guildhall_commission_id"] ?? null) ||
+            ($specification["originating_guildhall_commission_digest"] ?? null) !== ($case["originating_guildhall_commission_digest"] ?? null) ||
             true === ($candidate["persona_approval_authority"] ?? null) ||
             true === ($candidate["admission_authority"] ?? null) ||
             true === ($candidate["execution_authority"] ?? null)
@@ -151,6 +158,8 @@ final readonly class SubordinatePersonaReviewService
             "superseded_commissions" => $candidate["superseded_commissions"],
             "subordinate_construction_case_id" => $caseId,
             "subordinate_construction_case_digest" => $case["record_digest"],
+            "originating_guildhall_commission_id" => $case["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $case["originating_guildhall_commission_digest"],
             "artificer" => $candidate["artificer"],
             "decision" => $decision,
             "status" => $ready

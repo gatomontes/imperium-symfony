@@ -74,6 +74,9 @@ final readonly class AdversarialReviewProductionApprovalService
                 ($result["foundry_production_approval_eligible"] ?? null) ||
             ($result["candidate_digest"] ?? null) !==
                 ($candidate["record_digest"] ?? null) ||
+            !is_string($candidate["originating_guildhall_commission_id"] ?? null) ||
+            ($result["originating_guildhall_commission_id"] ?? null) !== ($candidate["originating_guildhall_commission_id"] ?? null) ||
+            ($result["originating_guildhall_commission_digest"] ?? null) !== ($candidate["originating_guildhall_commission_digest"] ?? null) ||
             "ASSEMBLED_PENDING_FOUNDRY_REVIEW" !==
                 ($candidate["status"] ?? null) ||
             "imperium.foundry-artificer-occupancy/v1" !==
@@ -118,6 +121,8 @@ final readonly class AdversarialReviewProductionApprovalService
             "adversarial_review_result_digest" => $result["record_digest"],
             "candidate_id" => $candidateId,
             "candidate_digest" => $candidate["record_digest"],
+            "originating_guildhall_commission_id" => $candidate["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $candidate["originating_guildhall_commission_digest"],
             "review_target_lineage" => $result["review_target_lineage"],
             "review_decision" => $result["decision"],
             "actor" => [
