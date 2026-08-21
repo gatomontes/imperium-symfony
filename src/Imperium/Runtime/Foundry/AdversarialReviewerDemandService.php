@@ -112,6 +112,10 @@ final readonly class AdversarialReviewerDemandService
             "foundry_review_digest" => $review["record_digest"],
             "candidate_id" => $candidateId,
             "candidate_digest" => $candidate["record_digest"],
+            "originating_guildhall_commission_id" =>
+                $candidate["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" =>
+                $candidate["originating_guildhall_commission_digest"],
             "persona_specification_id" => $review["persona_specification_id"],
             "persona_specification_digest" =>
                 $review["persona_specification_digest"],
