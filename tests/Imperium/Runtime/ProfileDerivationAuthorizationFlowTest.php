@@ -14,6 +14,7 @@ use App\Imperium\Runtime\Curia\ProfileDerivationAuthorizationRequestService;
 use App\Imperium\Runtime\Garrison\ProfileDerivationHandoffDispositionService;
 use App\Imperium\Runtime\Laboratorium\ProfileDerivationCommissionAcceptanceService;
 use App\Imperium\Runtime\Laboratorium\ProfileCandidateDerivationService;
+use App\Imperium\Runtime\Laboratorium\ProfileElaborationCognitionGateway;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -30,7 +31,7 @@ final class ProfileDerivationAuthorizationFlowTest extends TestCase
             $disposition = (new ProfileDerivationHandoffDispositionService($root))->decide($handoff['request_id'], $this->constableOccupancy($root)['binding_id'], 'APPROVED', 'Approve exact lease.');
             $commission = (new LaboratoriumProfileDerivationCommissionService($root, $bootstrap))->commission($disposition['disposition_id']);
             $acceptance = (new ProfileDerivationCommissionAcceptanceService($root))->accept($commission['commission_id'], $this->alchemistOccupancy($root)['binding_id']);
-            $service = new ProfileCandidateDerivationService($root);
+            $service = new ProfileCandidateDerivationService($root, $this->profileElaboration());
             $candidate = $service->derive($acceptance['acceptance_id']);
 
             self::assertSame($candidate, $service->derive($acceptance['acceptance_id']));
@@ -47,6 +48,9 @@ final class ProfileDerivationAuthorizationFlowTest extends TestCase
             self::assertSame($acceptance['profile_scope']['constraints'], $candidate['profile']['limitations']['constraints']);
             self::assertSame($acceptance['profile_scope']['stop_conditions'], $candidate['profile']['limitations']['stop_conditions']);
             self::assertSame('Passive scope only.', $candidate['profile']['limitations']['imperator_authorization_limitations']);
+            self::assertSame('PROFILE_ELABORATION_COMPLETE', $candidate['profile']['elaboration']['disposition']);
+            self::assertSame(['Operate only within the passive assessment mission.'], $candidate['profile']['elaboration']['responsibilities']);
+            self::assertTrue($candidate['profile_elaboration_complete']);
             self::assertTrue($candidate['profile_candidate_created']);
             self::assertTrue($candidate['sealed']);
             self::assertFalse($candidate['profile_candidate_returned']);
@@ -81,7 +85,7 @@ final class ProfileDerivationAuthorizationFlowTest extends TestCase
             file_put_contents($path, json_encode($custody, JSON_THROW_ON_ERROR));
 
             $this->expectExceptionMessage('L35_PROFILE_DERIVATION_CHAIN_INVALID');
-            (new ProfileCandidateDerivationService($root))->derive($acceptance['acceptance_id']);
+            (new ProfileCandidateDerivationService($root, $this->profileElaboration()))->derive($acceptance['acceptance_id']);
         } finally { $this->removeTree($root); }
     }
 
@@ -593,6 +597,30 @@ final class ProfileDerivationAuthorizationFlowTest extends TestCase
         mkdir($directory, 0770, true);
         file_put_contents($directory.'/'.$binding['binding_id'].'.json', json_encode($binding, JSON_THROW_ON_ERROR));
         return $binding;
+    }
+
+    private function profileElaboration(): ProfileElaborationCognitionGateway
+    {
+        return new class implements ProfileElaborationCognitionGateway {
+            public function elaborate(array $acceptance, array $authorization): array
+            {
+                return [
+                    'disposition' => 'PROFILE_ELABORATION_COMPLETE',
+                    'operating_posture' => 'Evidence-bound passive assessor operating under the exact authorized mission.',
+                    'responsibilities' => ['Operate only within the passive assessment mission.'],
+                    'non_responsibilities' => ['Do not perform active scanning or remediation.'],
+                    'reasoning_priorities' => ['Distinguish observed evidence from inference.'],
+                    'evidence_discipline' => ['Attribute every finding to preserved evidence.'],
+                    'tool_use_directives' => ['Use only the approved passive checklist.'],
+                    'input_handling' => ['Accept only supplied public target URLs.'],
+                    'output_contract' => ['Produce an evidence-bound risk report.'],
+                    'escalation_conditions' => ['Escalate any need for authentication.'],
+                    'uncertainty_behavior' => ['State uncertainty explicitly.'],
+                    'failure_behavior' => ['Stop when passive evidence is insufficient.'],
+                    'persona_adaptations' => ['Apply the existing security-assessor identity to this bounded mission only.'],
+                ];
+            }
+        };
     }
 
     private function removeTree(string $path): void

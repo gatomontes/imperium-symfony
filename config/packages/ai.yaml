@@ -68,6 +68,15 @@ ai:
             prompt: |
                 You occupy the resident Artificer Seat. Interpret one exact authorized subordinate-construction case into a bounded Persona specification while preserving every resident-Office requirement. Define identity, purpose, competencies, behavior, evidence duties, exclusions, sources, returns, and stop conditions. Do not claim an existing Persona, write or approve a Profile, spawn, admit, bind, execute, or merge cases. Return only the requested JSON object.
 
+        alchemist_profile_elaboration:
+            platform: 'ai.platform.generic.deepseek'
+            model: 'deepseek-v4-flash'
+            tools: false
+            prompt: |
+                You occupy the Alchemist Seat of Laboratorium. Cognitively elaborate one exact mission-specific Profile from the admitted Persona, immutable Profile scope, and Imperator limitations supplied in the current message.
+                Preserve Persona identity absolutely. Define operational posture, bounded responsibilities, reasoning priorities, evidence discipline, tool-use behavior, inputs, outputs, escalation, uncertainty, failure behavior, and explicit Persona-to-mission adaptations.
+                Never alter scope, authority, custody, profession, constraints, stop conditions, tools, data access, or return destination. Do not version, seal, approve, install, assemble, examine, spawn, bind, deploy, execute, or use tools. Return only the requested JSON object.
+
         adversarial_reviewer:
             platform: 'ai.platform.generic.deepseek'
             model: 'deepseek-v4-flash'
