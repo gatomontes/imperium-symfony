@@ -13,11 +13,78 @@ use App\Imperium\Runtime\Curia\ProfileDerivationAuthorizationDecisionService;
 use App\Imperium\Runtime\Curia\ProfileDerivationAuthorizationRequestService;
 use App\Imperium\Runtime\Garrison\ProfileDerivationHandoffDispositionService;
 use App\Imperium\Runtime\Laboratorium\ProfileDerivationCommissionAcceptanceService;
+use App\Imperium\Runtime\Laboratorium\ProfileCandidateDerivationService;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class ProfileDerivationAuthorizationFlowTest extends TestCase
 {
+    public function testLaboratoriumDerivesVersionsAndSealsOnlyOneExactProfileCandidate(): void
+    {
+        [$root, $store, $reservationId] = $this->fixture();
+        try {
+            $bootstrap = $this->recruiterBootstrap($root);
+            $request = (new ProfileDerivationAuthorizationRequestService($root, $store))->request($reservationId, 1);
+            $act = (new ProfileDerivationAuthorizationDecisionService($root))->decide($request['request_id'], 'AUTHORIZED', 'Authorize exact derivation.', 'Passive scope only.');
+            $handoff = (new ProfileDerivationAuthorizationAcceptanceService($root, $bootstrap))->accept($act['act_id'])['handoff_request'];
+            $disposition = (new ProfileDerivationHandoffDispositionService($root))->decide($handoff['request_id'], $this->constableOccupancy($root)['binding_id'], 'APPROVED', 'Approve exact lease.');
+            $commission = (new LaboratoriumProfileDerivationCommissionService($root, $bootstrap))->commission($disposition['disposition_id']);
+            $acceptance = (new ProfileDerivationCommissionAcceptanceService($root))->accept($commission['commission_id'], $this->alchemistOccupancy($root)['binding_id']);
+            $service = new ProfileCandidateDerivationService($root);
+            $candidate = $service->derive($acceptance['acceptance_id']);
+
+            self::assertSame($candidate, $service->derive($acceptance['acceptance_id']));
+            self::assertSame('imperium.laboratorium-profile-candidate/v1', $candidate['schema']);
+            self::assertSame(1, $candidate['profile_version']);
+            self::assertNull($candidate['supersedes']);
+            self::assertSame('PROFILE_CANDIDATE_DERIVED_VERSIONED_SEALED_PENDING_RETURN_TO_CONSCRIPTION', $candidate['status']);
+            self::assertSame($acceptance['persona'], $candidate['persona']);
+            self::assertSame($acceptance['profile_scope'], $candidate['profile_scope']);
+            self::assertSame($acceptance['custody_lease'], $candidate['custody_lease']);
+            self::assertSame($acceptance['return_destination'], $candidate['return_destination']);
+            self::assertSame($acceptance['persona'], $candidate['profile']['persona']);
+            self::assertSame($acceptance['profile_scope']['objective'], $candidate['profile']['mission']['objective']);
+            self::assertSame($acceptance['profile_scope']['constraints'], $candidate['profile']['limitations']['constraints']);
+            self::assertSame($acceptance['profile_scope']['stop_conditions'], $candidate['profile']['limitations']['stop_conditions']);
+            self::assertSame('Passive scope only.', $candidate['profile']['limitations']['imperator_authorization_limitations']);
+            self::assertTrue($candidate['profile_candidate_created']);
+            self::assertTrue($candidate['sealed']);
+            self::assertFalse($candidate['profile_candidate_returned']);
+            self::assertFalse($candidate['profile_approval_authority']);
+            self::assertFalse($candidate['profile_installation_authority']);
+            self::assertFalse($candidate['examination_assembly_authority']);
+            self::assertFalse($candidate['senate_examination_authority']);
+            self::assertFalse($candidate['custody_release_authority']);
+            self::assertFalse($candidate['persona_substitution_authority']);
+            self::assertFalse($candidate['seat_binding_authority']);
+            self::assertFalse($candidate['deployment_authority']);
+            self::assertFalse($candidate['execution_authority']);
+            self::assertDirectoryDoesNotExist($root.'/var/imperium/offices/conscription/profile-candidate-returns');
+        } finally { $this->removeTree($root); }
+    }
+
+    public function testProfileDerivationRefusesCustodyDriftAfterCommissionAcceptance(): void
+    {
+        [$root, $store, $reservationId] = $this->fixture();
+        try {
+            $bootstrap = $this->recruiterBootstrap($root);
+            $request = (new ProfileDerivationAuthorizationRequestService($root, $store))->request($reservationId, 1);
+            $act = (new ProfileDerivationAuthorizationDecisionService($root))->decide($request['request_id'], 'AUTHORIZED', 'Authorize exact derivation.', 'Passive scope only.');
+            $handoff = (new ProfileDerivationAuthorizationAcceptanceService($root, $bootstrap))->accept($act['act_id'])['handoff_request'];
+            $disposition = (new ProfileDerivationHandoffDispositionService($root))->decide($handoff['request_id'], $this->constableOccupancy($root)['binding_id'], 'APPROVED', 'Approve exact lease.');
+            $commission = (new LaboratoriumProfileDerivationCommissionService($root, $bootstrap))->commission($disposition['disposition_id']);
+            $acceptance = (new ProfileDerivationCommissionAcceptanceService($root))->accept($commission['commission_id'], $this->alchemistOccupancy($root)['binding_id']);
+            $path = $root.'/var/imperium/offices/garrison/custody/persona-custody-test.json';
+            $custody = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+            $custody['available'] = false; unset($custody['record_digest']);
+            $custody['record_digest'] = hash('sha256', CanonicalJson::encode($custody));
+            file_put_contents($path, json_encode($custody, JSON_THROW_ON_ERROR));
+
+            $this->expectExceptionMessage('L35_PROFILE_DERIVATION_CHAIN_INVALID');
+            (new ProfileCandidateDerivationService($root))->derive($acceptance['acceptance_id']);
+        } finally { $this->removeTree($root); }
+    }
+
     public function testOccupiedAlchemistAcceptsExactCommissionAndOnlyThenMakesDerivationExercisable(): void
     {
         [$root, $store, $reservationId] = $this->fixture();

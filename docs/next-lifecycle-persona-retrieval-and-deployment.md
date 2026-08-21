@@ -32,15 +32,16 @@ The route is implemented through Alchemist commission acceptance. Profile deriva
 10. **The Constable decides the derivation lease.** Approval reaches `PROFILE_DERIVATION_HANDOFF_APPROVED_PENDING_CONSCRIPTION_LABORATORIUM_COMMISSION`; refusal grants nothing. Garrison retains custody at `ADMITTED_HELD`.
 11. **The Recruiter commissions Laboratorium.** Conscription issues one sealed `DERIVE_ONE_EXACT_MISSION_PROFILE` commission to `laboratorium.alchemist`. Its authority remains non-exercisable pending recipient acceptance.
 12. **The Alchemist accepts the exact commission.** The occupied Alchemist independently validates the commission, lease, Persona, Profile scope, return destination, active occupancy, and digests. Acceptance reaches `PROFILE_DERIVATION_COMMISSION_ACCEPTED_PENDING_PROFILE_DERIVATION` and makes authority exercisable for one candidate only.
-13. **Next: Laboratorium derives the Profile candidate.** The Alchemist must derive, version, and seal one exact candidate without acquiring approval, installation, custody-release, manifestation, deployment, or execution authority.
+13. **Laboratorium derives the Profile candidate.** The occupied Alchemist revalidates the accepted commission, active occupancy, exact Persona, immutable Profile scope, live custody lease, return destination, and source digests; then derives, versions, and seals one exact candidate. The candidate reaches `PROFILE_CANDIDATE_DERIVED_VERSIONED_SEALED_PENDING_RETURN_TO_CONSCRIPTION` without being returned and without approval, installation, examination-assembly, Senate-examination, custody-release, manifestation, Seat-binding, deployment, or execution authority.
 
 ## Current implementation checkpoint
 
-The implemented route ends after step 12 at `PROFILE_DERIVATION_COMMISSION_ACCEPTED_PENDING_PROFILE_DERIVATION`.
+The implemented route ends after step 13 at `PROFILE_CANDIDATE_DERIVED_VERSIONED_SEALED_PENDING_RETURN_TO_CONSCRIPTION`.
 
 - Garrison still holds the exact Persona at `ADMITTED_HELD`.
-- The commission and its acceptance authorize one exact derivation candidate.
-- No Profile candidate has yet been created.
+- The commission and its acceptance have been consumed only to derive one deterministic, immutable Profile candidate at version 1.
+- The candidate preserves the exact Persona identity, immutable mission scope, limitations, custody lease, complete source lineage, and required return destination.
+- The candidate has not been returned to Conscription.
 - No Senate Profile examination, Imperator Profile approval, installation, manifestation, Seat binding, deployment, or execution authority exists.
 
 ## Capability-to-Profession Translation Boundary
@@ -118,6 +119,12 @@ The commission is limited to `DERIVE_ONE_EXACT_MISSION_PROFILE`, preserves Garri
 The occupied Alchemist independently validates the exact commission, approved Constable lease, immutable Persona, custody lease, Profile scope, return destination, instance, active Laboratorium occupancy, and complete digest chain. Only that occupied Seat may accept the commission.
 
 Acceptance changes the exact commission's Profile-derivation authority from non-exercisable to exercisable and grants authority to create one derived Profile candidate. It does not itself derive or create the candidate. The implementation stops at `PROFILE_DERIVATION_COMMISSION_ACCEPTED_PENDING_PROFILE_DERIVATION`; Garrison custody remains `ADMITTED_HELD`, and no Profile artifact, approval, installation, manifestation, Senate examination, Seat binding, deployment, or execution exists.
+
+## Laboratorium Profile-candidate derivation — implemented
+
+The occupied Alchemist uses only the exact accepted commission to derive one deterministic `imperium.laboratorium-profile-candidate/v1`. The artifact is explicitly version 1, has no predecessor, remains bound to the original Persona and live `ADMITTED_HELD` custody lease, reproduces the immutable mission scope and limitations, and carries the complete authorization and production lineage plus the exact Conscription return destination.
+
+Derivation stops at `PROFILE_CANDIDATE_DERIVED_VERSIONED_SEALED_PENDING_RETURN_TO_CONSCRIPTION`. The candidate is sealed but not returned, approved, installed, assembled for examination, examined, bound, deployed, or executed. Laboratorium acquires none of those authorities.
 
 ## Non-negotiable inherited invariants
 
