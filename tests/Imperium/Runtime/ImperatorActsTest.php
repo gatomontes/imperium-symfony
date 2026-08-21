@@ -97,7 +97,7 @@ final class ImperatorActsTest extends TestCase
             'deliverables' => ['Risk report'],
             'constraints' => ['Passive only'],
             'required_inputs' => ['Target URL'],
-            'personnel_requirements' => ['Security assessor'],
+            'capability_requirements' => ['Analyze public application behavior', 'Produce evidence-bound risk findings'],
             'tool_requirements' => ['Passive checklist'],
             'data_requirements' => ['Public responses'],
             'office_participation' => ['Guildhall', 'Armory'],

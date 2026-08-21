@@ -45,7 +45,7 @@ Turns are append-only and monotonically sequenced. A stable `response_id` is an 
 
 The Seneschal may continue planning, ask exactly one question, request authorization, draft a Mission Plan, or refuse. The primary disposition and authorization flag are orthogonal: a draft or continuing-planning disposition may identify unresolved authorization demands. `AUTHORIZATION_REQUIRED` is used when the demand itself is the controlling disposition. An authorization request is not authorization, and a drafted Mission Plan is not approval.
 
-A `MISSION_PLAN_DRAFTED` disposition must carry a structured Mission Plan containing objective, scope, deliverables, constraints, required inputs, personnel requirements, tool requirements, data requirements, Office participation, and stop conditions. Prose alone is not commissionable. Approval and authorization records against a legacy or incomplete prose draft remain preserved evidence but cannot produce commissioning readiness.
+A `MISSION_PLAN_DRAFTED` disposition must carry a structured Mission Plan containing objective, scope, deliverables, constraints, required inputs, capability requirements, tool requirements, data requirements, Office participation, and stop conditions. Capability requirements describe functional skills, attributes, capabilities, constraints, and expected outcomes only. Curia may neither prescribe a profession nor select a Persona. Prose alone is not commissionable. Approval and authorization records against a legacy or incomplete prose draft remain preserved evidence but cannot produce commissioning readiness.
 
 ## `register-curial-submission`
 
@@ -73,6 +73,8 @@ From one commissioning-ready structured Mission Plan, mechanically seal the exac
 - an Armory commission for passive-methodology, checklist, and tooling disposition.
 
 Storage and ordinary drafting support remain mechanical allocations rather than cognitive Office commissions. Issuance records each packet as `ISSUED_PENDING_RECIPIENT` while the target Office runtime is unavailable. Issuance grants no construction, recruitment, deployment, tool activation, target access, credential use, assessment work, or execution authority.
+
+The Guildhall commission crosses the explicit `CAPABILITY_TO_PROFESSION` boundary. It preserves the exact Curial `capability_requirements`, records `guildhall.guildmaster` as the translation authority, and affirmatively withholds profession-selection and Persona-selection authority from Curia.
 
 ### `deliver-planning-commissions`
 

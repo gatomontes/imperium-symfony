@@ -39,6 +39,12 @@ final class CommissioningServiceTest extends TestCase
             self::assertSame('planning-only', $result['commissions']['armory']['phase']);
             self::assertFalse($result['execution_authority']);
             self::assertContains('persona construction', $result['commissions']['guildhall']['forbidden_effects']);
+            self::assertSame('FUNCTIONAL_CAPABILITIES', $result['commissions']['guildhall']['source_language']);
+            self::assertSame($this->plan()['capability_requirements'], $result['commissions']['guildhall']['source_capability_requirements']);
+            self::assertSame('CAPABILITY_TO_PROFESSION', $result['commissions']['guildhall']['translation_boundary']['name']);
+            self::assertSame('guildhall.guildmaster', $result['commissions']['guildhall']['translation_boundary']['authority']);
+            self::assertFalse($result['commissions']['guildhall']['translation_boundary']['curia_profession_selection_authority']);
+            self::assertFalse($result['commissions']['guildhall']['translation_boundary']['curia_persona_selection_authority']);
             self::assertContains('tool activation', $result['commissions']['armory']['forbidden_effects']);
             self::assertCount(2, $result['mechanical_support']);
             self::assertCount(2, $store->commissions('proceeding-commission-test'));
@@ -96,7 +102,7 @@ final class CommissioningServiceTest extends TestCase
             'deliverables' => ['Risk report'],
             'constraints' => ['Passive only'],
             'required_inputs' => ['Target URL'],
-            'personnel_requirements' => ['Security assessor'],
+            'capability_requirements' => ['Analyze public application behavior', 'Produce evidence-bound risk findings', 'Independently challenge conclusions'],
             'tool_requirements' => ['Passive checklist'],
             'data_requirements' => ['Public responses'],
             'office_participation' => [

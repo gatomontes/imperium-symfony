@@ -18,9 +18,26 @@ The central boundary is:
 
 This route is provisional. Before implementation, jurisdiction must be settled for requester authority, suitability selection, Profile stewardship and approval, deployment authorization, and post-use custody transitions.
 
-## First design question
+## Capability-to-Profession Translation Boundary
 
-Define the initiating artifact and authority chain: who may request retrieval of an `ADMITTED_HELD` Persona, whether the demand targets a specific Persona or only exact suitability criteria, and which Office may convert Garrison inventory facts into a selection without transferring selection authority to Garrison.
+The first jurisdiction is settled:
+
+- Curia and every upstream mission-governance surface speak only in functional skills, attributes, capabilities, constraints, and expected outcomes.
+- Curia records these in `capability_requirements`. It has no profession-selection or Persona-selection authority.
+- Guildhall exclusively translates the exact capability demand into professions and Persona suitability criteria.
+- From Guildhall downward, the personnel lifecycle speaks in professions, exact Personas, versions, provenance, suitability, custody, and availability.
+- Garrison reports exact custody and availability facts but neither translates capabilities nor determines professional suitability.
+- Guildhall's translation and suitability determination do not authorize retrieval, Profile derivation, manifestation assembly, deployment, or execution.
+
+The governed handoff is therefore:
+
+**Curia capability demand → Guildhall profession determination → Guildhall suitability against Garrison facts**
+
+This boundary is named `CAPABILITY_TO_PROFESSION` and is owned by `guildhall.guildmaster`.
+
+## First design question — resolved
+
+The initiating mission artifact carries capability requirements rather than profession or Persona selections. Guildhall owns capability-to-profession translation and determines Persona suitability against Garrison facts. A later batch must still define the distinct authorization that permits reservation and retrieval of the resulting exact Persona.
 
 ## Non-negotiable inherited invariants
 

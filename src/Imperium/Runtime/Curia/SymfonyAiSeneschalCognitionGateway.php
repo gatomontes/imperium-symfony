@@ -46,7 +46,8 @@ final readonly class SymfonyAiSeneschalCognitionGateway implements SeneschalCogn
             'question: null or exactly one question',
             'resource_demands: an array of explicitly identified resource categories',
             'authorization_required: boolean',
-            'mission_plan: null unless disposition is MISSION_PLAN_DRAFTED; then an object containing exactly objective, scope, deliverables, constraints, required_inputs, personnel_requirements, tool_requirements, data_requirements, office_participation, and stop_conditions. Every field except objective is an array of explicit strings.',
+            'mission_plan: null unless disposition is MISSION_PLAN_DRAFTED; then an object containing exactly objective, scope, deliverables, constraints, required_inputs, capability_requirements, tool_requirements, data_requirements, office_participation, and stop_conditions. Every field except objective is an array of explicit strings.',
+            'capability_requirements may describe only functional skills, attributes, capabilities, constraints, and expected outcomes. Curia must not select, prescribe, or name a profession or Persona; Guildhall alone translates capability demand into professions and Persona suitability criteria.',
             'A Mission Plan remains a draft until Imperator approval.',
             'Do not claim that approval, authorization, research, tooling, or execution occurred.',
         ]), ['PLANNING_CONTINUES', 'CLARIFICATION_REQUIRED', 'AUTHORIZATION_REQUIRED', 'MISSION_PLAN_DRAFTED', 'REFUSED']);
@@ -110,7 +111,7 @@ final readonly class SymfonyAiSeneschalCognitionGateway implements SeneschalCogn
         }
         $keys = array_keys($plan);
         sort($keys, SORT_STRING);
-        $expected = ['constraints', 'data_requirements', 'deliverables', 'objective', 'office_participation', 'personnel_requirements', 'required_inputs', 'scope', 'stop_conditions', 'tool_requirements'];
+        $expected = ['capability_requirements', 'constraints', 'data_requirements', 'deliverables', 'objective', 'office_participation', 'required_inputs', 'scope', 'stop_conditions', 'tool_requirements'];
         if ($expected !== $keys || !is_string($plan['objective'] ?? null) || '' === trim($plan['objective'])) {
             throw new \RuntimeException('C12_MISSION_PLAN_INVALID: Mission Plan fields are incomplete.');
         }

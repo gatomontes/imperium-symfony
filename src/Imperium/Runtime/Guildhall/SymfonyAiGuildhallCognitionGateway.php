@@ -33,6 +33,7 @@ final readonly class SymfonyAiGuildhallCognitionGateway implements GuildhallCogn
             'Return only one JSON object with exactly: disposition, findings, requirements, questions.',
             'disposition must be PASS or CLARIFICATION_REQUIRED. The other fields must be arrays of explicit strings.',
             'Do not invent available personnel, Personas, exemplars, credentials, tools, or Garrison inventory facts.',
+            'The Mission Plan expresses functional skills, attributes, capabilities, constraints, and expected outcomes. Guildhall exclusively translates that demand into professions and Persona suitability criteria. Do not treat a Curia phrase as a profession or Persona selection.',
         ]);
         $committee = is_array($completed['committee'] ?? null) ? $completed['committee'] : [];
         foreach ([

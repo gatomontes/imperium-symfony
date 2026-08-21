@@ -23,6 +23,9 @@ final readonly class CommissioningService
         if (!is_array($plan)) {
             throw new \RuntimeException('C41_COMMISSION_PLAN_INVALID: structured Mission Plan is absent.');
         }
+        if (!is_array($plan['capability_requirements'] ?? null) || [] === $plan['capability_requirements']) {
+            throw new \RuntimeException('C41_COMMISSION_PLAN_INVALID: exact functional capability requirements are absent.');
+        }
 
         $approval = null;
         $authorizations = [];
@@ -61,7 +64,17 @@ final readonly class CommissioningService
         $specifications = [
             'guildhall' => [
                 'target' => 'guildhall.guildmaster',
-                'purpose' => 'Determine required professions and personnel suitability, obtain exact Garrison Persona and personnel inventory facts, and return a Personnel Disposition.',
+                'purpose' => 'Translate the exact functional capability demand into required professions and Persona suitability criteria, obtain exact Garrison Persona inventory facts, and return a Personnel Disposition.',
+                'source_language' => 'FUNCTIONAL_CAPABILITIES',
+                'source_capability_requirements' => $plan['capability_requirements'],
+                'translation_boundary' => [
+                    'name' => 'CAPABILITY_TO_PROFESSION',
+                    'authority' => 'guildhall.guildmaster',
+                    'curia_profession_selection_authority' => false,
+                    'curia_persona_selection_authority' => false,
+                    'guildhall_profession_determination_authority' => true,
+                    'guildhall_persona_suitability_authority' => true,
+                ],
                 'authorized_resources' => $this->guildhallResources($demands),
                 'expected_products' => ['Profession Determination Packet', 'Personnel Disposition'],
                 'forbidden_effects' => ['persona construction', 'recruitment', 'manifestation', 'reservation', 'deployment'],
@@ -90,6 +103,9 @@ final readonly class CommissioningService
                 'issuer' => ['seat' => 'curia.seneschal', 'source' => 'approved-structured-mission-plan'],
                 'target' => $specification['target'],
                 'purpose' => $specification['purpose'],
+                'source_language' => $specification['source_language'] ?? null,
+                'source_capability_requirements' => $specification['source_capability_requirements'] ?? [],
+                'translation_boundary' => $specification['translation_boundary'] ?? null,
                 'authorized_resources' => $specification['authorized_resources'],
                 'expected_products' => $specification['expected_products'],
                 'forbidden_effects' => $specification['forbidden_effects'],

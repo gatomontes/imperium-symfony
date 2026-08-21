@@ -68,6 +68,12 @@ final class GuildhallDeliberationServiceTest extends TestCase
             self::assertSame(1, $gateway->calls);
             self::assertSame('imperium.guildhall-profession-determination/v1', $record['schema']);
             self::assertSame('PROFESSION_DETERMINED_GARRISON_INVENTORY_REQUIRED', $record['status']);
+            self::assertSame('FUNCTIONAL_CAPABILITIES', $record['source_language']);
+            self::assertSame(['Analyze public application behavior.', 'Produce evidence-bound findings.', 'Independently challenge conclusions.'], $record['source_capability_requirements']);
+            self::assertSame('CAPABILITY_TO_PROFESSION', $record['translation_boundary']['name']);
+            self::assertSame('guildhall.guildmaster', $record['translation_boundary']['authority']);
+            self::assertFalse($record['translation_boundary']['curia_profession_selection_authority']);
+            self::assertFalse($record['translation_boundary']['curia_persona_selection_authority']);
             self::assertFalse($record['final_personnel_disposition']);
             self::assertTrue($record['garrison_inventory_authority']);
             self::assertFalse($record['spawning_authority']);
@@ -95,7 +101,7 @@ final class GuildhallDeliberationServiceTest extends TestCase
             'deliverables' => ['Risk report.'],
             'constraints' => ['No active scanning.'],
             'required_inputs' => ['Public URL.'],
-            'personnel_requirements' => ['Assessor and reviewer.'],
+            'capability_requirements' => ['Analyze public application behavior.', 'Produce evidence-bound findings.', 'Independently challenge conclusions.'],
             'tool_requirements' => ['Passive methodology.'],
             'data_requirements' => ['Public observations.'],
             'office_participation' => ['Guildhall: personnel disposition.'],
@@ -113,6 +119,16 @@ final class GuildhallDeliberationServiceTest extends TestCase
             'instance_id' => 'imperium-test',
             'issuer' => ['seat' => 'curia.seneschal'],
             'target' => 'guildhall.guildmaster',
+            'source_language' => 'FUNCTIONAL_CAPABILITIES',
+            'source_capability_requirements' => $plan['capability_requirements'],
+            'translation_boundary' => [
+                'name' => 'CAPABILITY_TO_PROFESSION',
+                'authority' => 'guildhall.guildmaster',
+                'curia_profession_selection_authority' => false,
+                'curia_persona_selection_authority' => false,
+                'guildhall_profession_determination_authority' => true,
+                'guildhall_persona_suitability_authority' => true,
+            ],
             'authority' => ['plan_turn' => 1, 'plan_digest' => $turn['record_digest']],
             'status' => 'ISSUED_PENDING_RECIPIENT',
             'execution_authority' => false,
