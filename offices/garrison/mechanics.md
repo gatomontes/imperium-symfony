@@ -3,6 +3,12 @@ inherits: [./doctrine.md]
 ---
 # Garrison Mechanics
 
+## decide-profile-derivation-handoff
+
+The occupied Constable validates one exact Conscription request and its complete reservation, authorization, Profile-scope, Persona, custody, occupancy, and digest chain. The Constable may approve or refuse the custody-bound derivation lease with an attributable rationale.
+
+Approval preserves Garrison custody at `ADMITTED_HELD` and grants only the next Conscription request authority for the exact Laboratorium commission. Refusal grants nothing. Neither disposition releases custody, substitutes personnel, creates a Profile, assembles a manifestation, invokes Senate, binds a Seat, deploys, or executes.
+
 These functions maintain custody. They do not decide admission, qualification, suitability, selection, or permission to use.
 
 ## register-custody

@@ -10,11 +10,77 @@ use App\Imperium\Runtime\Conscription\ProfileDerivationAuthorizationAcceptanceSe
 use App\Imperium\Runtime\Curia\ProceedingStore;
 use App\Imperium\Runtime\Curia\ProfileDerivationAuthorizationDecisionService;
 use App\Imperium\Runtime\Curia\ProfileDerivationAuthorizationRequestService;
+use App\Imperium\Runtime\Garrison\ProfileDerivationHandoffDispositionService;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class ProfileDerivationAuthorizationFlowTest extends TestCase
 {
+    public function testConstableApprovesExactCustodyBoundDerivationHandoffWithoutReleasingCustody(): void
+    {
+        [$root, $store, $reservationId] = $this->fixture();
+        try {
+            $bootstrap = $this->recruiterBootstrap($root);
+            $request = (new ProfileDerivationAuthorizationRequestService($root, $store))->request($reservationId, 1);
+            $act = (new ProfileDerivationAuthorizationDecisionService($root))->decide($request['request_id'], 'AUTHORIZED', 'Authorize exact derivation.', 'Passive scope only.');
+            $handoff = (new ProfileDerivationAuthorizationAcceptanceService($root, $bootstrap))->accept($act['act_id'])['handoff_request'];
+            $binding = $this->constableOccupancy($root);
+            $service = new ProfileDerivationHandoffDispositionService($root);
+            $record = $service->decide($handoff['request_id'], $binding['binding_id'], 'APPROVED', 'Approve the exact custody-bound derivation lease.');
+            self::assertSame($record, $service->decide($handoff['request_id'], $binding['binding_id'], 'APPROVED', 'Approve the exact custody-bound derivation lease.'));
+            self::assertSame('PROFILE_DERIVATION_HANDOFF_APPROVED_PENDING_CONSCRIPTION_LABORATORIUM_COMMISSION', $record['status']);
+            self::assertSame('ADMITTED_HELD', $record['custody']['state']);
+            self::assertSame('garrison', $record['custody']['retained_by']);
+            self::assertSame('CUSTODY_BOUND_PROFILE_DERIVATION_ONLY', $record['lease_scope']);
+            self::assertSame($act['profile_scope'], $record['profile_scope']);
+            self::assertTrue($record['handoff_authority']);
+            self::assertTrue($record['conscription_laboratorium_commission_request_authority']);
+            self::assertFalse($record['custody_release_authority']);
+            self::assertFalse($record['persona_substitution_authority']);
+            self::assertFalse($record['profile_artifact_authority']);
+            self::assertFalse($record['spawning_authority']);
+            self::assertFalse($record['deployment_authority']);
+            self::assertFalse($record['execution_authority']);
+        } finally { $this->removeTree($root); }
+    }
+
+    public function testConstableRefusalCreatesNoDownstreamAuthority(): void
+    {
+        [$root, $store, $reservationId] = $this->fixture();
+        try {
+            $bootstrap = $this->recruiterBootstrap($root);
+            $request = (new ProfileDerivationAuthorizationRequestService($root, $store))->request($reservationId, 1);
+            $act = (new ProfileDerivationAuthorizationDecisionService($root))->decide($request['request_id'], 'AUTHORIZED', 'Authorize exact derivation.', 'Passive scope only.');
+            $handoff = (new ProfileDerivationAuthorizationAcceptanceService($root, $bootstrap))->accept($act['act_id'])['handoff_request'];
+            $binding = $this->constableOccupancy($root);
+            $record = (new ProfileDerivationHandoffDispositionService($root))->decide($handoff['request_id'], $binding['binding_id'], 'REFUSED', 'Custody lease refused.');
+            self::assertSame('PROFILE_DERIVATION_HANDOFF_REFUSED', $record['status']);
+            self::assertFalse($record['handoff_authority']);
+            self::assertFalse($record['conscription_laboratorium_commission_request_authority']);
+            self::assertFalse($record['custody_release_authority']);
+            self::assertFalse($record['execution_authority']);
+        } finally { $this->removeTree($root); }
+    }
+
+    public function testConstableRefusesHandoffWhenCustodyDriftsAfterRequest(): void
+    {
+        [$root, $store, $reservationId] = $this->fixture();
+        try {
+            $bootstrap = $this->recruiterBootstrap($root);
+            $request = (new ProfileDerivationAuthorizationRequestService($root, $store))->request($reservationId, 1);
+            $act = (new ProfileDerivationAuthorizationDecisionService($root))->decide($request['request_id'], 'AUTHORIZED', 'Authorize exact derivation.', 'Passive scope only.');
+            $handoff = (new ProfileDerivationAuthorizationAcceptanceService($root, $bootstrap))->accept($act['act_id'])['handoff_request'];
+            $binding = $this->constableOccupancy($root);
+            $path = $root.'/var/imperium/offices/garrison/custody/persona-custody-test.json';
+            $custody = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+            $custody['available'] = false; unset($custody['record_digest']);
+            $custody['record_digest'] = hash('sha256', CanonicalJson::encode($custody));
+            file_put_contents($path, json_encode($custody, JSON_THROW_ON_ERROR));
+            $this->expectExceptionMessage('GA105_PROFILE_DERIVATION_HANDOFF_CHAIN_INVALID');
+            (new ProfileDerivationHandoffDispositionService($root))->decide($handoff['request_id'], $binding['binding_id'], 'APPROVED', 'Attempt approval after drift.');
+        } finally { $this->removeTree($root); }
+    }
+
     public function testOccupiedRecruiterAcceptsExactAuthorizedRouteAndRequestsOnlyConstableHandoff(): void
     {
         [$root, $store, $reservationId] = $this->fixture();
@@ -192,6 +258,18 @@ final class ProfileDerivationAuthorizationFlowTest extends TestCase
             'seneschal' => ['disposition' => 'MISSION_PLAN_DRAFTED', 'mission_plan' => $plan],
             'resource_demands' => ['Guildhall personnel disposition'],
         ]);
+        $custody = [
+            'schema' => 'imperium.garrison-persona-custody/v1',
+            'custody_id' => 'persona-custody-test',
+            'instance_id' => 'imperium-test',
+            'persona_id' => 'persona-test',
+            'custody_state' => 'ADMITTED_HELD',
+            'available' => true,
+        ];
+        $custody['record_digest'] = hash('sha256', CanonicalJson::encode($custody));
+        $custodyDirectory = $root.'/var/imperium/offices/garrison/custody';
+        mkdir($custodyDirectory, 0770, true);
+        file_put_contents($custodyDirectory.'/persona-custody-test.json', json_encode($custody, JSON_THROW_ON_ERROR));
         $reservationId = 'persona-reservation-disposition-'.str_repeat('a', 20);
         $record = [
             'schema' => 'imperium.garrison-persona-reservation-disposition/v1',
@@ -207,7 +285,7 @@ final class ProfileDerivationAuthorizationFlowTest extends TestCase
                 'guildhall_resolution_digest' => str_repeat('b', 64),
             ],
             'custody_id' => 'persona-custody-test',
-            'custody_digest' => str_repeat('c', 64),
+            'custody_digest' => $custody['record_digest'],
             'disposition' => $reserved ? 'RESERVED' : 'PERSONA_UNAVAILABLE',
             'status' => $status,
             'persona_reserved' => $reserved,
@@ -263,6 +341,27 @@ final class ProfileDerivationAuthorizationFlowTest extends TestCase
             ]);
         });
         return $bootstrap;
+    }
+
+    private function constableOccupancy(string $root): array
+    {
+        $binding = [
+            'schema' => 'imperium.garrison-constable-occupancy/v1',
+            'binding_id' => 'garrison-constable-binding-'.str_repeat('d', 20),
+            'instance_id' => 'imperium-test',
+            'seat' => 'garrison.constable',
+            'manifestation_id' => 'imperium-test.officer.garrison.constable.test',
+            'occupancy_generation' => 1,
+            'status' => 'ACTIVE',
+            'profile_derivation_handoff_disposition_authority' => true,
+            'selection_authority' => false,
+            'execution_authority' => false,
+        ];
+        $binding['record_digest'] = hash('sha256', CanonicalJson::encode($binding));
+        $directory = $root.'/var/imperium/offices/garrison/occupancy';
+        mkdir($directory, 0770, true);
+        file_put_contents($directory.'/'.$binding['binding_id'].'.json', json_encode($binding, JSON_THROW_ON_ERROR));
+        return $binding;
     }
 
     private function removeTree(string $path): void

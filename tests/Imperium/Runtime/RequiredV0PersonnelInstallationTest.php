@@ -72,6 +72,11 @@ final class RequiredV0PersonnelInstallationTest extends TestCase
                             "persona_reservation_disposition_authority"
                         ],
                     );
+                    self::assertTrue(
+                        $installation["binding"][
+                            "profile_derivation_handoff_disposition_authority"
+                        ],
+                    );
                 }
             }
             $operationalization = new OperatorRootOperationalizationService(
