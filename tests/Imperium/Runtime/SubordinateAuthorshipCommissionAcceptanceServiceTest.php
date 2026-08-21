@@ -25,6 +25,8 @@ final class SubordinateAuthorshipCommissionAcceptanceServiceTest extends
         $case = [
             "schema" => "imperium.foundry-subordinate-construction-case/v1",
             "case_id" => $caseId,
+            "originating_guildhall_commission_id" => "guildhall-subordinate-construction-commission-cccccccccccccccccccc",
+            "originating_guildhall_commission_digest" => "guildhall-commission-digest",
             "status" => "OPEN_PENDING_PERSONA_SPECIFICATION",
             "construction_authority" => true,
         ];
@@ -45,6 +47,8 @@ final class SubordinateAuthorshipCommissionAcceptanceServiceTest extends
             "supersedes" => null,
             "case_id" => $caseId,
             "case_digest" => $case["record_digest"],
+            "originating_guildhall_commission_id" => $case["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $case["originating_guildhall_commission_digest"],
             "source_resolution_id" => "resolution",
             "source_resolution_digest" => "resolution-digest",
             "specification" => ["persona_name" => "Candidate"],
