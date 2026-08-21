@@ -8,6 +8,8 @@ These functions maintain custody. They do not decide admission, qualification, s
 ## register-custody
 Store exact identity, version, digest, disposition, owner, lineage, and custodial state.
 
+For a subordinate Persona, the occupied Constable accepts only `CANONICAL_GUILDHALL_TO_GARRISON`: the exact Guildhall fulfillment receipt, Senate confirmation, candidate, and originating commission must agree. An attributable `ADMITTED` disposition atomically creates one `ADMITTED_HELD` custody record. Refusal creates none. Admission and custody create no execution authority.
+
 ## record-custody-refusal
 Preserve the Constable's exact defects and return destination.
 
