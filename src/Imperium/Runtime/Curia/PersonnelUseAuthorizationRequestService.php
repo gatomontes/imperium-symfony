@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Curia;
 
 use App\Bootstrap\CanonicalJson;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class PersonnelUseAuthorizationRequestService
 {
     private string $dispositionDirectory;
     private string $requestDirectory;
 
-    public function __construct(string $projectDir, private ProceedingStore $proceedings)
+    public function __construct(#[Autowire('%kernel.project_dir%')] string $projectDir, private ProceedingStore $proceedings)
     {
         $this->dispositionDirectory = $projectDir.'/var/imperium/offices/guildhall/personnel-use-dispositions';
         $this->requestDirectory = $projectDir.'/var/imperium/curia/personnel-use-authorization-requests';

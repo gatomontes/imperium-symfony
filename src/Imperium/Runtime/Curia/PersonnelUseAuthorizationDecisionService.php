@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Curia;
 
 use App\Bootstrap\CanonicalJson;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class PersonnelUseAuthorizationDecisionService
 {
@@ -14,7 +15,7 @@ final readonly class PersonnelUseAuthorizationDecisionService
     private string $requestDirectory;
     private string $decisionDirectory;
 
-    public function __construct(string $projectDir)
+    public function __construct(#[Autowire('%kernel.project_dir%')] string $projectDir)
     {
         $this->requestDirectory = $projectDir.'/var/imperium/curia/personnel-use-authorization-requests';
         $this->decisionDirectory = $projectDir.'/var/imperium/curia/personnel-use-authorization-decisions';
