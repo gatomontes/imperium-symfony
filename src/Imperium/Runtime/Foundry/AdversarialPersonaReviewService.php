@@ -79,6 +79,7 @@ final readonly class AdversarialPersonaReviewService
             !$this->digestMatches($candidate) ||
             !$this->digestMatches($specification) ||
             !$this->digestMatches($case) ||
+            !is_string($case["originating_guildhall_commission_id"] ?? null) ||
             "imperium.foundry-adversarial-review-acceptance/v1" !==
                 ($acceptance["schema"] ?? null) ||
             "ACCEPTED_FOR_EXACT_ADVERSARIAL_REVIEW" !==
@@ -96,6 +97,12 @@ final readonly class AdversarialPersonaReviewService
                 ($specification["record_digest"] ?? null) ||
             ($candidate["subordinate_construction_case_digest"] ?? null) !==
                 ($case["record_digest"] ?? null) ||
+            ($acceptance["originating_guildhall_commission_id"] ?? null) !== ($candidate["originating_guildhall_commission_id"] ?? null) ||
+            ($acceptance["originating_guildhall_commission_digest"] ?? null) !== ($candidate["originating_guildhall_commission_digest"] ?? null) ||
+            ($candidate["originating_guildhall_commission_id"] ?? null) !== ($specification["originating_guildhall_commission_id"] ?? null) ||
+            ($candidate["originating_guildhall_commission_digest"] ?? null) !== ($specification["originating_guildhall_commission_digest"] ?? null) ||
+            ($specification["originating_guildhall_commission_id"] ?? null) !== ($case["originating_guildhall_commission_id"] ?? null) ||
+            ($specification["originating_guildhall_commission_digest"] ?? null) !== ($case["originating_guildhall_commission_digest"] ?? null) ||
             "ASSEMBLED_PENDING_FOUNDRY_REVIEW" !==
                 ($candidate["status"] ?? null) ||
             true === ($acceptance["persona_approval_authority"] ?? null) ||
@@ -155,6 +162,8 @@ final readonly class AdversarialPersonaReviewService
             "acceptance_digest" => $acceptance["record_digest"],
             "candidate_id" => $candidateId,
             "candidate_digest" => $candidate["record_digest"],
+            "originating_guildhall_commission_id" => $candidate["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $candidate["originating_guildhall_commission_digest"],
             "review_target_lineage" => $acceptance["review_target_lineage"],
             "reviewer" => $acceptance["reviewer"],
             "decision" => $decision,

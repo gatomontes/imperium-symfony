@@ -60,6 +60,9 @@ final readonly class AdversarialReviewReadinessService
                 ($demand["status"] ?? null) ||
             ($demand["candidate_digest"] ?? null) !==
                 ($candidate["record_digest"] ?? null) ||
+            !is_string($candidate["originating_guildhall_commission_id"] ?? null) ||
+            ($demand["originating_guildhall_commission_id"] ?? null) !== ($candidate["originating_guildhall_commission_id"] ?? null) ||
+            ($demand["originating_guildhall_commission_digest"] ?? null) !== ($candidate["originating_guildhall_commission_digest"] ?? null) ||
             "ASSEMBLED_PENDING_FOUNDRY_REVIEW" !==
                 ($candidate["status"] ?? null)
         ) {
@@ -125,6 +128,8 @@ final readonly class AdversarialReviewReadinessService
             "foundry_review_digest" => $demand["foundry_review_digest"],
             "candidate_id" => $candidateId,
             "candidate_digest" => $candidate["record_digest"],
+            "originating_guildhall_commission_id" => $candidate["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $candidate["originating_guildhall_commission_digest"],
             "review_target_lineage" => [
                 "persona_specification_id" =>
                     $demand["persona_specification_id"],

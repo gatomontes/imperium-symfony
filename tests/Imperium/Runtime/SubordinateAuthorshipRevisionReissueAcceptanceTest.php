@@ -299,6 +299,8 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 "SEALED_PENDING_FOUNDRY_ADVERSARIAL_REVIEW",
                 $review["status"],
             );
+            self::assertSame($candidate["originating_guildhall_commission_id"], $review["originating_guildhall_commission_id"]);
+            self::assertSame($candidate["originating_guildhall_commission_digest"], $review["originating_guildhall_commission_digest"]);
             self::assertSame(
                 $candidate["superseded_commissions"],
                 $review["superseded_commissions"],
@@ -315,6 +317,8 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 "PENDING_EXACT_ADVERSARIAL_REVIEWER_OCCUPATION",
                 $demand["status"],
             );
+            self::assertSame($candidate["originating_guildhall_commission_id"], $demand["originating_guildhall_commission_id"]);
+            self::assertSame($candidate["originating_guildhall_commission_digest"], $demand["originating_guildhall_commission_digest"]);
             self::assertSame(
                 $review["superseded_commissions"],
                 $demand["superseded_commissions"],
@@ -658,6 +662,8 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 "PENDING_ADVERSARIAL_REVIEWER_ACCEPTANCE",
                 $readiness["status"],
             );
+            self::assertSame($candidate["originating_guildhall_commission_id"], $readiness["originating_guildhall_commission_id"]);
+            self::assertSame($candidate["originating_guildhall_commission_digest"], $readiness["originating_guildhall_commission_digest"]);
             self::assertSame(
                 "BLOCKED_PENDING_SENATE_OCCUPANCY",
                 $confirmationCase["status"],
@@ -695,6 +701,8 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 $reviewAcceptance["reviewer"]["placeholder_version"],
             );
             self::assertTrue($reviewAcceptance["review_authority_exercisable"]);
+            self::assertSame($candidate["originating_guildhall_commission_id"], $reviewAcceptance["originating_guildhall_commission_id"]);
+            self::assertSame($candidate["originating_guildhall_commission_digest"], $reviewAcceptance["originating_guildhall_commission_digest"]);
             self::assertFalse($reviewAcceptance["persona_approval_authority"]);
             $adversarialCognition = new class implements
                 AdversarialPersonaReviewCognitionGateway
@@ -733,6 +741,8 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 "PASSED_PENDING_FOUNDRY_PRODUCTION_APPROVAL",
                 $adversarialResult["status"],
             );
+            self::assertSame($candidate["originating_guildhall_commission_id"], $adversarialResult["originating_guildhall_commission_id"]);
+            self::assertSame($candidate["originating_guildhall_commission_digest"], $adversarialResult["originating_guildhall_commission_digest"]);
             self::assertSame(
                 $expectedLineage,
                 $adversarialResult["review_target_lineage"],
@@ -761,6 +771,8 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 "APPROVED_PENDING_SENATE_CONFIRMATION_REQUEST",
                 $productionApproval["status"],
             );
+            self::assertSame($candidate["originating_guildhall_commission_id"], $productionApproval["originating_guildhall_commission_id"]);
+            self::assertSame($candidate["originating_guildhall_commission_digest"], $productionApproval["originating_guildhall_commission_digest"]);
             self::assertSame(
                 $expectedLineage,
                 $productionApproval["review_target_lineage"],

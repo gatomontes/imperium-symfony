@@ -17,7 +17,7 @@ final class SubordinatePersonaReviewServiceTest extends TestCase
             "/imperium-persona-review-" .
             bin2hex(random_bytes(6));
         $caseId = "subordinate-construction-case-" . str_repeat("a", 20);
-        $case = ["case_id" => $caseId];
+        $case = ["case_id" => $caseId, "originating_guildhall_commission_id" => "guildhall-subordinate-construction-commission-cccccccccccccccccccc", "originating_guildhall_commission_digest" => "guildhall-commission-digest"];
         $this->write(
             $root .
                 "/var/imperium/offices/foundry/subordinate-construction-cases",
@@ -46,6 +46,8 @@ final class SubordinatePersonaReviewServiceTest extends TestCase
             "specification_version" => 2,
             "supersedes" => $supersedes,
             "revision_basis" => $basis,
+            "originating_guildhall_commission_id" => $case["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $case["originating_guildhall_commission_digest"],
         ];
         $this->write(
             $root .
@@ -70,6 +72,8 @@ final class SubordinatePersonaReviewServiceTest extends TestCase
             ],
             "subordinate_construction_case_id" => $caseId,
             "subordinate_construction_case_digest" => $case["record_digest"],
+            "originating_guildhall_commission_id" => $case["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $case["originating_guildhall_commission_digest"],
             "artificer" => ["seat" => "foundry.artificer"],
             "status" => "ASSEMBLED_PENDING_FOUNDRY_REVIEW",
             "assembly_complete" => true,
@@ -108,6 +112,8 @@ final class SubordinatePersonaReviewServiceTest extends TestCase
                 $review["status"],
             );
             self::assertSame(2, $review["persona_specification_version"]);
+            self::assertSame($case["originating_guildhall_commission_id"], $review["originating_guildhall_commission_id"]);
+            self::assertSame($case["originating_guildhall_commission_digest"], $review["originating_guildhall_commission_digest"]);
             self::assertSame($basis, $review["specification_revision_basis"]);
             self::assertSame(
                 "SPECIFICATION_REVISION_REISSUE",

@@ -58,6 +58,10 @@ final readonly class AdversarialReviewerDemandService
             true !== ($review["sealed"] ?? null) ||
             ($review["candidate_digest"] ?? null) !==
                 ($candidate["record_digest"] ?? null) ||
+            !is_string($candidate["originating_guildhall_commission_id"] ?? null) ||
+            !preg_match('/^guildhall-subordinate-construction-commission-[a-f0-9]{20}$/', $candidate["originating_guildhall_commission_id"]) ||
+            ($review["originating_guildhall_commission_id"] ?? null) !== ($candidate["originating_guildhall_commission_id"] ?? null) ||
+            ($review["originating_guildhall_commission_digest"] ?? null) !== ($candidate["originating_guildhall_commission_digest"] ?? null) ||
             ($review["dispatch_kind"] ?? null) !==
                 ($candidate["dispatch_kind"] ?? null) ||
             CanonicalJson::encode($review["superseded_commissions"] ?? null) !==
@@ -80,6 +84,8 @@ final readonly class AdversarialReviewerDemandService
             "activation_policy" => "demand",
             "candidate_id" => $candidateId,
             "candidate_digest" => $candidate["record_digest"],
+            "originating_guildhall_commission_id" => $candidate["originating_guildhall_commission_id"],
+            "originating_guildhall_commission_digest" => $candidate["originating_guildhall_commission_digest"],
             "status" => "BLOCKED_PENDING_EXACT_REVIEWER_OCCUPATION",
         ];
         $id =
