@@ -98,13 +98,16 @@ Laboratorium then revalidates the exact sealed candidate and consumes its one-us
 
 The occupied ordinary Recruiter independently revalidates the exact return packet, candidate seal and digest, immutable Persona and mission scope, complete lineage, and live Garrison lease. Acceptance consumes only the candidate-acceptance authority and stops at `PROFILE_CANDIDATE_ACCEPTED_PENDING_EXAMINATION_ASSEMBLY_AUTHORIZATION`. It grants no Profile approval, installation, examination assembly, Senate examination, custody release, Seat binding, deployment, or execution authority.
 
-The downstream lifecycle is implemented through `PROFILE_CANDIDATE_ACCEPTED_PENDING_EXAMINATION_ASSEMBLY_AUTHORIZATION`. The remaining design and implementation questions are, in order:
+The occupied Recruiter then requests Senate authority for one examination-only assembly. The request binds the exact candidate, accepted return, Persona, version-0 generic Officer substrate, live custody lease, complete lineage, `senate.stand` target, and Conscription return destination. It stops at `EXAMINATION_ASSEMBLY_AUTHORIZATION_REQUESTED_PENDING_SENATE_INTAKE`; requesting authority neither grants it nor performs assembly.
 
-1. How does Conscription obtain bounded examination-assembly authority and place the accepted, not-yet-approved Profile before Senate without Senate becoming the Profile creator?
-2. How does Senate examine the complete operative and distinguish Persona defects from Profile, derivation, assembly, substrate, or compatibility defects?
-3. How does Imperator approve the examined Profile without creating an unnecessary intervention in routine future routes?
-4. After approval, how does Conscription qualify the exact Persona, approved Profile, generic Officer substrate, and commission for operational use without inheriting selection or deployment authority?
-5. Who authorizes mission deployment, and what state transition changes the Persona's custody availability without implying ownership transfer?
-6. How are return, retirement, custody restoration, denial classification, and supersession recorded after use?
+The downstream lifecycle is implemented through `EXAMINATION_ASSEMBLY_AUTHORIZATION_REQUESTED_PENDING_SENATE_INTAKE`. The remaining design and implementation questions are, in order:
+
+1. How does the occupied Lord Speaker independently accept or refuse the exact request and grant one-use examination-assembly authority without becoming the Profile creator or installer?
+2. How does Conscription perform the bounded examination-only assembly and place it on `senate.stand` without operational installation or deployment?
+3. How does Senate examine the complete operative and distinguish Persona defects from Profile, derivation, assembly, substrate, or compatibility defects?
+4. How does Imperator approve the examined Profile without creating an unnecessary intervention in routine future routes?
+5. After approval, how does Conscription qualify the exact Persona, approved Profile, generic Officer substrate, and commission for operational use without inheriting selection or deployment authority?
+6. Who authorizes mission deployment, and what state transition changes the Persona's custody availability without implying ownership transfer?
+7. How are return, retirement, custody restoration, denial classification, and supersession recorded after use?
 
 No downstream step may treat `ADMITTED_HELD`, inventory availability, retrieval, Profile derivation, qualification, manifestation assembly, or Seat binding as implicit authority for the next step.
