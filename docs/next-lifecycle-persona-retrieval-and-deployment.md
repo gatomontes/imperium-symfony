@@ -38,10 +38,11 @@ The route is implemented through Alchemist commission acceptance. Profile deriva
 16. **The Recruiter requests examination-assembly authority.** Conscription submits one sealed request to `senate.lord-speaker`, bound to the accepted candidate, exact Persona, version-0 generic Officer substrate, live lease, complete lineage, examination-only purpose, `senate.stand` target, and Conscription return destination. The request reaches `EXAMINATION_ASSEMBLY_AUTHORIZATION_REQUESTED_PENDING_SENATE_INTAKE`; Senate has not accepted it and no assembly authority exists.
 17. **The Lord Speaker decides Senate intake.** The occupied Lord Speaker revalidates the exact request, candidate, acceptance, scope, Persona, live custody, substrate, and source lineage, then records `ACCEPTED` or `REFUSED` with rationale. Refusal reaches `EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY`. Acceptance reaches `EXAMINATION_ASSEMBLY_AUTHORIZED_PENDING_CONSCRIPTION_ASSEMBLY` and grants one-use examination-only installation and assembly authorities; general Profile installation and all later authorities remain false.
 18. **Conscription assembles the examination Manifestation.** The occupied Recruiter mechanically consumes both examination-specific authorities, installs the exact candidate into generic Officer substrate version 0, seals the examination-only Manifestation, and delivers it to the Bailiff's stand intake at `EXAMINATION_MANIFESTATION_ASSEMBLED_DELIVERED_PENDING_SENATE_STAND_INTAKE`. No operational installation, stand admission, examination, approval, deployment, or execution occurs.
+19. **The Bailiff admits and secures the exact Manifestation.** The occupied Bailiff revalidates the sealed delivery, non-operational restrictions, live custody, consumed authorities, and lineage, then admits the subject to `senate.stand` at `EXAMINATION_MANIFESTATION_ADMITTED_SECURED_PENDING_SENATE_EXAMINATION_OPENING`. Examination authority remains false.
 
 ## Current implementation checkpoint
 
-The implemented canonical route ends after step 18 at `EXAMINATION_MANIFESTATION_ASSEMBLED_DELIVERED_PENDING_SENATE_STAND_INTAKE`; refusal remains a sealed alternate terminal branch at `EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY`.
+The implemented canonical route ends after step 19 at `EXAMINATION_MANIFESTATION_ADMITTED_SECURED_PENDING_SENATE_EXAMINATION_OPENING`; refusal remains a sealed alternate terminal branch at `EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY`.
 
 - Garrison still holds the exact Persona at `ADMITTED_HELD`.
 - The commission and its acceptance have been consumed only to derive one deterministic, immutable Profile candidate at version 1.
@@ -163,6 +164,10 @@ Acceptance grants only `examination_profile_installation_authority` and `examina
 Conscription mechanically combines the exact custody-bound Persona, sealed Profile candidate, generic Officer substrate version 0, and Senate-approved examination contract. Both one-use examination authorities are consumed. The resulting ephemeral Manifestation contributes no new identity or authority, has no credentials or tools, forbids operational use, and is delivered to `senate.bailiff` at `senate.stand.intake`.
 
 The route stops at `EXAMINATION_MANIFESTATION_ASSEMBLED_DELIVERED_PENDING_SENATE_STAND_INTAKE`. Garrison retains canonical custody at `ADMITTED_HELD`; Bailiff admission, Senate examination, Profile approval, operational qualification, deployment, and execution have not occurred.
+
+## Bailiff stand admission — implemented
+
+The occupied Bailiff validates the exact sealed delivery, Manifestation restrictions, live `ADMITTED_HELD` custody, and active proceeding-security authority. One immutable admission record secures the subject on `senate.stand` and stops at `EXAMINATION_MANIFESTATION_ADMITTED_SECURED_PENDING_SENATE_EXAMINATION_OPENING`. The Lord Speaker has not opened proceedings and Senate examination authority remains false.
 
 For development verification, `imperium:dev:profile-elaboration-smoke` constructs an isolated synthetic state root under `var/imperium-dev/`, executes the authentic authorization, lease, commission, Alchemist elaboration, mechanical sealing, return, Recruiter acceptance, Senate-intake request, and Lord-Speaker disposition services, and preserves all resulting artifacts for inspection. It refuses non-development environments and never writes into the active `var/imperium/` state root.
 

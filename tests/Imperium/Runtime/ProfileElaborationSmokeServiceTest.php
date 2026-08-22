@@ -40,6 +40,7 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             self::assertFalse($result['examination_assembly_authorization']['examination_assembly_authority']);
             self::assertFalse($result['examination_assembly_authorization']['examination_assembly_authority_exercisable']);
             self::assertNull($result['examination_manifestation']);
+            self::assertNull($result['stand_admission']);
         } finally { $this->removeTree($root); }
     }
 
@@ -120,12 +121,20 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             self::assertFalse($result['examination_manifestation']['senate_examination_authority']);
             self::assertFalse($result['examination_manifestation']['deployment_authority']);
             self::assertFalse($result['examination_manifestation']['execution_authority']);
+            self::assertSame('EXAMINATION_MANIFESTATION_ADMITTED_SECURED_PENDING_SENATE_EXAMINATION_OPENING', $result['stand_admission']['status']);
+            self::assertTrue($result['stand_admission']['stand_admission']);
+            self::assertTrue($result['stand_admission']['proceeding_security_active']);
+            self::assertTrue($result['stand_admission']['recipient_acceptance']);
+            self::assertFalse($result['stand_admission']['senate_examination_authority']);
+            self::assertFalse($result['stand_admission']['deployment_authority']);
+            self::assertFalse($result['stand_admission']['execution_authority']);
             self::assertFileExists($root.'/var/imperium/offices/laboratorium/profile-candidates/'.$result['candidate']['candidate_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/conscription/profile-candidate-return-inbox/'.$result['return']['return_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/conscription/profile-candidate-return-acceptances/'.$result['return_acceptance']['acceptance_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/senate/examination-assembly-authorization-inbox/'.$result['examination_assembly_request']['request_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/conscription/examination-assembly-authorization-dispositions/'.$result['examination_assembly_authorization']['disposition_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/senate/examination-manifestation-intake/'.$result['examination_manifestation']['delivery_id'].'.json');
+            self::assertFileExists($root.'/var/imperium/offices/senate/examination-stand-admissions/'.$result['stand_admission']['admission_id'].'.json');
 
             $custodyPath = $root.'/var/imperium/offices/garrison/custody/'.$result['candidate']['custody_lease']['custody_id'].'.json';
             $custody = json_decode((string) file_get_contents($custodyPath), true, 512, JSON_THROW_ON_ERROR);
