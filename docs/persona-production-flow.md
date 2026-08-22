@@ -116,9 +116,11 @@ Trust, Security, and Usability then independently author and seal one exact juri
 
 Senate then dispatches each exact question unchanged to the exact examination-only Manifestation through a distinct tool-less witness cognition surface and seals each attributable answer. After Trust, Security, and Usability testimony is complete, Senate seals `PROFILE_EXAMINATION_TESTIMONY_ANSWERS_SEALED_PENDING_FINDING_AUTHORITY_OPENING`. This creates no finding, opens no finding authority or deliberation, and grants no disposition, approval, installation, Seat-binding, deployment, or execution authority.
 
-The downstream lifecycle is implemented through the sealed Profile-examination testimony baseline. The remaining design and implementation questions are, in order:
+The occupied Lord Speaker then revalidates the complete sealed testimony baseline, live custody, exact case, and current Trust, Security, and Usability occupancies. One finding-phase-opening authority is consumed to seal `PROFILE_EXAMINATION_FINDING_AUTHORITIES_OPENED_PENDING_SENATOR_FINDINGS`, giving each exact accepted Senator only its jurisdiction-bound finding authority. No finding is authored, deliberation remains closed, and no disposition, approval, installation, Seat-binding, deployment, or execution authority exists.
 
-1. How does Senate separately open jurisdictional finding authority and seal each Senator's attributable finding under the shared defect-attribution rubric?
+The downstream lifecycle is implemented through the bounded Profile-examination finding-authority opening. The remaining design and implementation questions are, in order:
+
+1. How does each Senator independently exercise its jurisdictional authority and seal one attributable finding under the shared defect-attribution rubric?
 2. How does Senate deliberate and distinguish Persona defects from Profile, derivation, assembly, substrate, or compatibility defects?
 3. How does Imperator approve the examined Profile without creating an unnecessary intervention in routine future routes?
 4. After approval, how does Conscription qualify the exact Persona, approved Profile, generic Officer substrate, and commission for operational use without inheriting selection or deployment authority?
