@@ -283,6 +283,8 @@ final readonly class OperatorRootPersonnelInstallationService
                     "senate.lord-speaker" === $seat,
                 "senate_disposition_authority" =>
                     "senate.lord-speaker" === $seat,
+                "examination_assembly_authorization_disposition_authority" =>
+                    "senate.lord-speaker" === $seat,
                 "proceeding_security_authority" => "senate.bailiff" === $seat,
                 "senator_question_authority" =>
                     str_starts_with($seat, "senate.committee."),
@@ -415,6 +417,8 @@ final readonly class OperatorRootPersonnelInstallationService
                 "confirmation_acceptance_authority" =>
                     "senate.lord-speaker" === $seat,
                 "senate_disposition_authority" =>
+                    "senate.lord-speaker" === $seat,
+                "examination_assembly_authorization_disposition_authority" =>
                     "senate.lord-speaker" === $seat,
                 "proceeding_security_authority" => "senate.bailiff" === $seat,
                 "senator_question_authority" =>

@@ -14,6 +14,34 @@ use PHPUnit\Framework\TestCase;
 
 final class ProfileElaborationSmokeServiceTest extends TestCase
 {
+    public function testSenateRefusalGrantsNoAssemblyAuthority(): void
+    {
+        $root = sys_get_temp_dir().'/imperium-profile-elaboration-smoke-refusal-'.bin2hex(random_bytes(6));
+        $cognition = new class implements ProfileElaborationCognitionGateway {
+            public function elaborate(array $acceptance, array $authorization): array
+            {
+                return [
+                    'disposition' => 'PROFILE_ELABORATION_COMPLETE', 'operating_posture' => 'Passive and evidence-bound.',
+                    'responsibilities' => ['Assess the supplied public target.'], 'non_responsibilities' => ['Do not scan actively.'],
+                    'reasoning_priorities' => ['Separate evidence from inference.'], 'evidence_discipline' => ['Attribute every finding.'],
+                    'tool_use_directives' => ['Use only the passive checklist.'], 'input_handling' => ['Accept the supplied URL only.'],
+                    'output_contract' => ['Return an evidence-bound report.'], 'escalation_conditions' => ['Escalate authentication requirements.'],
+                    'uncertainty_behavior' => ['State uncertainty.'], 'failure_behavior' => ['Stop safely.'],
+                    'persona_adaptations' => ['Apply the admitted identity without mutation.'],
+                ];
+            }
+        };
+        try {
+            $result = (new ProfileElaborationSmokeService($cognition))->run($root, 'REFUSED');
+            self::assertSame('REFUSED', $result['examination_assembly_authorization']['disposition']);
+            self::assertSame('EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY', $result['examination_assembly_authorization']['status']);
+            self::assertFalse($result['examination_assembly_authorization']['recipient_acceptance']);
+            self::assertFalse($result['examination_assembly_authorization']['examination_profile_installation_authority']);
+            self::assertFalse($result['examination_assembly_authorization']['examination_assembly_authority']);
+            self::assertFalse($result['examination_assembly_authorization']['examination_assembly_authority_exercisable']);
+        } finally { $this->removeTree($root); }
+    }
+
     public function testIsolatedDriverPersistsTheCompleteGovernedChainAndCandidate(): void
     {
         $root = sys_get_temp_dir().'/imperium-profile-elaboration-smoke-'.bin2hex(random_bytes(6));
@@ -69,10 +97,22 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             self::assertFalse($result['examination_assembly_request']['senate_examination_authority']);
             self::assertFalse($result['examination_assembly_request']['deployment_authority']);
             self::assertFalse($result['examination_assembly_request']['execution_authority']);
+            self::assertSame('ACCEPTED', $result['examination_assembly_authorization']['disposition']);
+            self::assertSame('EXAMINATION_ASSEMBLY_AUTHORIZED_PENDING_CONSCRIPTION_ASSEMBLY', $result['examination_assembly_authorization']['status']);
+            self::assertTrue($result['examination_assembly_authorization']['recipient_acceptance']);
+            self::assertTrue($result['examination_assembly_authorization']['examination_profile_installation_authority']);
+            self::assertTrue($result['examination_assembly_authorization']['examination_assembly_authority']);
+            self::assertTrue($result['examination_assembly_authorization']['examination_assembly_authority_exercisable']);
+            self::assertFalse($result['examination_assembly_authorization']['profile_installation_authority']);
+            self::assertFalse($result['examination_assembly_authorization']['profile_approval_authority']);
+            self::assertFalse($result['examination_assembly_authorization']['senate_examination_authority']);
+            self::assertFalse($result['examination_assembly_authorization']['deployment_authority']);
+            self::assertFalse($result['examination_assembly_authorization']['execution_authority']);
             self::assertFileExists($root.'/var/imperium/offices/laboratorium/profile-candidates/'.$result['candidate']['candidate_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/conscription/profile-candidate-return-inbox/'.$result['return']['return_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/conscription/profile-candidate-return-acceptances/'.$result['return_acceptance']['acceptance_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/senate/examination-assembly-authorization-inbox/'.$result['examination_assembly_request']['request_id'].'.json');
+            self::assertFileExists($root.'/var/imperium/offices/conscription/examination-assembly-authorization-dispositions/'.$result['examination_assembly_authorization']['disposition_id'].'.json');
 
             $custodyPath = $root.'/var/imperium/offices/garrison/custody/'.$result['candidate']['custody_lease']['custody_id'].'.json';
             $custody = json_decode((string) file_get_contents($custodyPath), true, 512, JSON_THROW_ON_ERROR);

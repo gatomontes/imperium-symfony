@@ -14,12 +14,13 @@ use App\Imperium\Runtime\Curia\ProceedingStore;
 use App\Imperium\Runtime\Curia\ProfileDerivationAuthorizationDecisionService;
 use App\Imperium\Runtime\Curia\ProfileDerivationAuthorizationRequestService;
 use App\Imperium\Runtime\Garrison\ProfileDerivationHandoffDispositionService;
+use App\Imperium\Runtime\Senate\ExaminationAssemblyAuthorizationDispositionService;
 
 final readonly class ProfileElaborationSmokeService
 {
     public function __construct(private ProfileElaborationCognitionGateway $cognition) {}
 
-    public function run(string $root): array
+    public function run(string $root, string $senateDisposition = 'ACCEPTED'): array
     {
         if (is_dir($root) || is_file($root)) throw new \RuntimeException('DEV01_SMOKE_ROOT_ALREADY_EXISTS');
 
@@ -96,6 +97,8 @@ final readonly class ProfileElaborationSmokeService
         $this->write($root.'/var/imperium/offices/garrison/occupancy/'.$constable['binding_id'].'.json', $constable);
         $alchemist = $this->alchemist();
         $this->write($root.'/var/imperium/offices/laboratorium/occupancy/'.$alchemist['binding_id'].'.json', $alchemist);
+        $lordSpeaker = $this->lordSpeaker();
+        $this->write($root.'/var/imperium/offices/senate/occupancy/'.$lordSpeaker['binding_id'].'.json', $lordSpeaker);
 
         $request = (new ProfileDerivationAuthorizationRequestService($root, $store))->request($reservationId, 1);
         $act = (new ProfileDerivationAuthorizationDecisionService($root))->decide(
@@ -109,8 +112,12 @@ final readonly class ProfileElaborationSmokeService
         $return = (new ProfileCandidateReturnService($root))->returnCandidate($candidate['candidate_id']);
         $returnAcceptance = (new ProfileCandidateReturnAcceptanceService($root, $bootstrap))->accept($return['return_id']);
         $assemblyRequest = (new ExaminationAssemblyAuthorizationRequestService($root, $bootstrap))->request($returnAcceptance['acceptance_id']);
+        $assemblyAuthorization = (new ExaminationAssemblyAuthorizationDispositionService($root))->decide(
+            $assemblyRequest['request_id'], $lordSpeaker['binding_id'], $senateDisposition,
+            'ACCEPTED' === strtoupper(trim($senateDisposition)) ? 'Accept the exact examination-only assembly contract for Senate intake.' : 'Refuse the exact examination-only assembly contract without granting authority.',
+        );
 
-        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return, 'return_acceptance' => $returnAcceptance, 'examination_assembly_request' => $assemblyRequest];
+        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return, 'return_acceptance' => $returnAcceptance, 'examination_assembly_request' => $assemblyRequest, 'examination_assembly_authorization' => $assemblyAuthorization];
     }
 
     private function missionPlan(): array
@@ -151,6 +158,18 @@ final readonly class ProfileElaborationSmokeService
             'manifestation_id' => 'imperium-profile-elaboration-smoke.officer.laboratorium.alchemist.1',
             'occupancy_generation' => 1, 'status' => 'ACTIVE', 'binding_atomic' => true,
             'profile_derivation_commission_acceptance_authority' => true, 'execution_authority' => false,
+        ]);
+    }
+
+    private function lordSpeaker(): array
+    {
+        return $this->seal([
+            'schema' => 'imperium.senate-lord-speaker-occupancy/v1',
+            'binding_id' => 'senate-lord-speaker-binding-'.str_repeat('f', 20),
+            'instance_id' => 'imperium-profile-elaboration-smoke', 'office' => 'senate', 'seat' => 'senate.lord-speaker',
+            'manifestation_id' => 'imperium-profile-elaboration-smoke.officer.senate.lord-speaker.1',
+            'occupancy_generation' => 1, 'status' => 'ACTIVE', 'binding_atomic' => true,
+            'examination_assembly_authorization_disposition_authority' => true, 'execution_authority' => false,
         ]);
     }
 
