@@ -126,15 +126,16 @@ The Lord Speaker then reconciles only the three exact admitted findings through 
 
 The occupied Lord Speaker then mechanically revalidates the sealed reconciliation, its unchanged finding set, live custody, and current occupancy. One disposition-phase-opening authority is consumed at `PROFILE_EXAMINATION_DISPOSITION_AUTHORITY_OPENED_PENDING_LORD_SPEAKER_DISPOSITION`; no verdict has been authored and no downstream authority exists.
 
-The downstream lifecycle is implemented through disposition-authority opening. The proposed remaining batches are, in order:
+The Lord Speaker consumes the exact authority and seals one attributable `APPROVED`, `RETURN_FOR_REVISION`, `REFUSED`, or `UNRESOLVED` verdict at `PROFILE_EXAMINATION_DISPOSITION_SEALED_PENDING_IMPERATOR_PROFILE_APPROVAL`. Runtime validation requires every finding reference and mechanically prohibits approval after a Security `FAIL`/`CRITICAL`. No Imperator or operational authority is granted.
 
-1. Seal the attributable Senate disposition, preserving denial and revision branches.
-2. Obtain explicit Imperator approval for the exact examined Profile.
-3. Have Conscription install and qualify the approved Profile for operational use without acquiring deployment authority.
-4. Assemble the exact operational Manifestation from Persona, approved Profile, and generic Officer substrate.
-5. Bind the exact Manifestation atomically to its intended Seat without granting deployment or execution.
-6. Authorize one bounded deployment and record the corresponding custody/availability transition.
-7. Execute one governed smoke iteration with attributable input, cognition or tooling, output, and stop.
-8. Return, retire, unbind, restore custody, or supersede deterministically while preserving lineage.
+The downstream lifecycle is implemented through the sealed Senate disposition. The proposed remaining batches are, in order:
+
+1. Obtain explicit Imperator approval for the exact examined Profile.
+2. Have Conscription install and qualify the approved Profile for operational use without acquiring deployment authority.
+3. Assemble the exact operational Manifestation from Persona, approved Profile, and generic Officer substrate.
+4. Bind the exact Manifestation atomically to its intended Seat without granting deployment or execution.
+5. Authorize one bounded deployment and record the corresponding custody/availability transition.
+6. Execute one governed smoke iteration with attributable input, cognition or tooling, output, and stop.
+7. Return, retire, unbind, restore custody, or supersede deterministically while preserving lineage.
 
 No downstream step may treat `ADMITTED_HELD`, inventory availability, retrieval, Profile derivation, qualification, manifestation assembly, or Seat binding as implicit authority for the next step.

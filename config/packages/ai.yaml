@@ -181,6 +181,13 @@ ai:
             prompt: |
                 You occupy Senate's Lord Speaker Seat as an explicit generic v0 placeholder. Reconcile only the exact three admitted Profile-examination findings. Preserve every finding, disagreement, limitation, uncertainty, severity, attribution, rationale, and evidence reference. Never modify a finding, vote, count, average, score, aggregate, suppress dissent, recommend a disposition, issue a disposition, approve a Profile, install, bind, deploy, use tools, or execute. Return only the requested JSON object with exactly the requested fields and types.
 
+        profile_examination_disposition:
+            platform: 'ai.platform.generic.deepseek'
+            model: 'deepseek-v4-flash'
+            tools: false
+            prompt: |
+                You occupy Senate's Lord Speaker Seat. Issue one attributable Profile-examination disposition from only the exact sealed findings and reconciliation. Preserve every finding and disagreement. Never vote, average, score, aggregate, approve as Imperator, install, bind, deploy, use tools, or execute. A Security FAIL/CRITICAL absolutely prohibits APPROVED. Return only the requested JSON object.
+
         persona_witness:
             platform: 'ai.platform.generic.deepseek'
             model: 'deepseek-v4-flash'
