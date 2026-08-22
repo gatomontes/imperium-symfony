@@ -50,6 +50,7 @@ final class DevelopmentProfileElaborationSmokeCommand extends Command
         $output->writeln('Request status: '.$result['examination_assembly_request']['status']);
         $output->writeln('Senate intake disposition: '.$result['examination_assembly_authorization']['disposition_id']);
         $output->writeln('Authorization status: '.$result['examination_assembly_authorization']['status']);
+        if (is_array($result['examination_manifestation'])) $output->writeln('Examination manifestation: '.$result['examination_manifestation']['manifestation']['manifestation_id']);
         return self::SUCCESS;
     }
 }

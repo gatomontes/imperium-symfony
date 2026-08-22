@@ -102,9 +102,11 @@ The occupied Recruiter then requests Senate authority for one examination-only a
 
 The occupied Lord Speaker independently validates that exact request and records `ACCEPTED` or `REFUSED` with a sealed rationale. Refusal reaches `EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY`. Acceptance grants Conscription one-use `examination_profile_installation_authority` and `examination_assembly_authority` for the exact contract and reaches `EXAMINATION_ASSEMBLY_AUTHORIZED_PENDING_CONSCRIPTION_ASSEMBLY`. General Profile installation, Profile approval, Senate examination, custody release, deployment, and execution remain unauthorized.
 
-The downstream lifecycle is implemented through `EXAMINATION_ASSEMBLY_AUTHORIZED_PENDING_CONSCRIPTION_ASSEMBLY`. The remaining design and implementation questions are, in order:
+Conscription then mechanically consumes those two examination-specific authorities, installs the exact candidate only into a generic Officer version-0 examination substrate, seals the resulting ephemeral Manifestation, and delivers it to `senate.stand.intake`. The boundary stops at `EXAMINATION_MANIFESTATION_ASSEMBLED_DELIVERED_PENDING_SENATE_STAND_INTAKE`; the Bailiff has not admitted it and Senate has not opened examination.
 
-1. How does Conscription perform the bounded examination-only assembly and place it on `senate.stand` without operational installation or deployment?
+The downstream lifecycle is implemented through `EXAMINATION_MANIFESTATION_ASSEMBLED_DELIVERED_PENDING_SENATE_STAND_INTAKE`. The remaining design and implementation questions are, in order:
+
+1. How does the Bailiff independently admit and secure the exact Manifestation on `senate.stand`?
 2. How does Senate examine the complete operative and distinguish Persona defects from Profile, derivation, assembly, substrate, or compatibility defects?
 3. How does Imperator approve the examined Profile without creating an unnecessary intervention in routine future routes?
 4. After approval, how does Conscription qualify the exact Persona, approved Profile, generic Officer substrate, and commission for operational use without inheriting selection or deployment authority?
