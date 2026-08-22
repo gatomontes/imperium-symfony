@@ -27,6 +27,7 @@ use App\Imperium\Runtime\Senate\ProfileExaminationTestimonyService;
 use App\Imperium\Runtime\Senate\ProfileExaminationFindingAuthorityOpeningService;
 use App\Imperium\Runtime\Senate\ProfileExaminationFindingCognitionGateway;
 use App\Imperium\Runtime\Senate\ProfileExaminationSenatorFindingService;
+use App\Imperium\Runtime\Senate\ProfileExaminationDeliberationOpeningService;
 
 final readonly class ProfileElaborationSmokeService
 {
@@ -145,8 +146,9 @@ final readonly class ProfileElaborationSmokeService
         $testimonyTurns=[];$testimonyReadiness=null;foreach($examinationQuestions as $question){$conducted=(new ProfileExaminationTestimonyService($root,$this->testimonyCognition))->conduct($question['question_id']);$testimonyTurns[]=$conducted['turn'];$testimonyReadiness=$conducted['readiness'];}
         $findingAuthorityOpening=is_array($testimonyReadiness)?(new ProfileExaminationFindingAuthorityOpeningService($root))->open($testimonyReadiness['readiness_id'],$lordSpeaker['binding_id']):null;
         $senatorFindings=[];$findingReadiness=null;if(is_array($findingAuthorityOpening)){foreach(['trust','security','usability'] as $jurisdiction){$issued=(new ProfileExaminationSenatorFindingService($root,$this->findingCognition))->issue($findingAuthorityOpening['opening_id'],$jurisdiction,$senators[$jurisdiction]['binding_id']);$senatorFindings[]=$issued['finding'];$findingReadiness=$issued['readiness'];}}
+        $deliberationOpening=is_array($findingReadiness)?(new ProfileExaminationDeliberationOpeningService($root))->open($findingReadiness['readiness_id'],$lordSpeaker['binding_id']):null;
 
-        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return, 'return_acceptance' => $returnAcceptance, 'examination_assembly_request' => $assemblyRequest, 'examination_assembly_authorization' => $assemblyAuthorization, 'examination_manifestation' => $examinationManifestation, 'stand_admission' => $standAdmission, 'examination_opening' => $examinationOpening,'panel_acceptances'=>$panelAcceptances,'panel_readiness'=>$panelReadiness,'testimony_opening'=>$testimonyOpening,'examination_questions'=>$examinationQuestions,'profile_testimony_turns'=>$testimonyTurns,'profile_testimony_readiness'=>$testimonyReadiness,'finding_authority_opening'=>$findingAuthorityOpening,'senator_findings'=>$senatorFindings,'finding_readiness'=>$findingReadiness];
+        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return, 'return_acceptance' => $returnAcceptance, 'examination_assembly_request' => $assemblyRequest, 'examination_assembly_authorization' => $assemblyAuthorization, 'examination_manifestation' => $examinationManifestation, 'stand_admission' => $standAdmission, 'examination_opening' => $examinationOpening,'panel_acceptances'=>$panelAcceptances,'panel_readiness'=>$panelReadiness,'testimony_opening'=>$testimonyOpening,'examination_questions'=>$examinationQuestions,'profile_testimony_turns'=>$testimonyTurns,'profile_testimony_readiness'=>$testimonyReadiness,'finding_authority_opening'=>$findingAuthorityOpening,'senator_findings'=>$senatorFindings,'finding_readiness'=>$findingReadiness,'deliberation_opening'=>$deliberationOpening];
     }
 
     private function missionPlan(): array
@@ -200,7 +202,8 @@ final readonly class ProfileElaborationSmokeService
             'occupancy_generation' => 1, 'status' => 'ACTIVE', 'binding_atomic' => true,
             'examination_assembly_authorization_disposition_authority' => true, 'senate_disposition_authority' => true,
             'profile_examination_testimony_opening_authority' => true,
-            'profile_examination_finding_phase_opening_authority' => true, 'execution_authority' => false,
+            'profile_examination_finding_phase_opening_authority' => true,
+            'profile_examination_deliberation_opening_authority' => true, 'execution_authority' => false,
         ]);
     }
 
