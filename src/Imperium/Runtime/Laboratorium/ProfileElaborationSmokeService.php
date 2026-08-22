@@ -8,6 +8,7 @@ use App\Bootstrap\CanonicalJson;
 use App\Bootstrap\StateStore;
 use App\Imperium\Runtime\Conscription\LaboratoriumProfileDerivationCommissionService;
 use App\Imperium\Runtime\Conscription\ProfileCandidateReturnAcceptanceService;
+use App\Imperium\Runtime\Conscription\ExaminationAssemblyAuthorizationRequestService;
 use App\Imperium\Runtime\Conscription\ProfileDerivationAuthorizationAcceptanceService;
 use App\Imperium\Runtime\Curia\ProceedingStore;
 use App\Imperium\Runtime\Curia\ProfileDerivationAuthorizationDecisionService;
@@ -107,8 +108,9 @@ final readonly class ProfileElaborationSmokeService
         $candidate = (new ProfileCandidateDerivationService($root, $this->cognition))->derive($acceptance['acceptance_id']);
         $return = (new ProfileCandidateReturnService($root))->returnCandidate($candidate['candidate_id']);
         $returnAcceptance = (new ProfileCandidateReturnAcceptanceService($root, $bootstrap))->accept($return['return_id']);
+        $assemblyRequest = (new ExaminationAssemblyAuthorizationRequestService($root, $bootstrap))->request($returnAcceptance['acceptance_id']);
 
-        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return, 'return_acceptance' => $returnAcceptance];
+        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return, 'return_acceptance' => $returnAcceptance, 'examination_assembly_request' => $assemblyRequest];
     }
 
     private function missionPlan(): array
