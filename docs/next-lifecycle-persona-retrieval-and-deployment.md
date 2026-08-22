@@ -16,7 +16,7 @@ The central boundary is:
 
 **Curia capability demand → Guildhall profession and Persona resolution → Imperator personnel-use authorization → Garrison reservation → Imperator Profile-derivation authorization → Conscription acceptance → Constable custody-bound derivation lease → Conscription commission → Alchemist acceptance → Laboratorium Profile derivation and return → Conscription examination assembly → Senate examination and disposition → Imperator Profile approval → Conscription operational qualification → authorized deployment → governed return or retirement**
 
-The route is implemented through Alchemist commission acceptance. Profile derivation, candidate return, Senate examination, Imperator Profile approval, manifestation assembly, deployment authorization, and post-use custody transitions remain downstream work.
+The route is implemented through Profile-examination deliberation opening. Reconciliation, Senate disposition, Imperator Profile approval, operational qualification and assembly, Seat binding, deployment authorization, first bounded execution, and governed return or retirement remain downstream work.
 
 ## Enumerated downstream flow
 
@@ -44,10 +44,26 @@ The route is implemented through Alchemist commission acceptance. Profile deriva
 22. **The Lord Speaker opens testimony.** The occupied Lord Speaker revalidates the exact case and all three sealed commission acceptances, consumes one testimony-opening authority, and seals `PROFILE_EXAMINATION_TESTIMONY_OPENED_PENDING_SENATOR_QUESTIONING`. Each accepted Senator's bounded question authority becomes exercisable; finding authority and deliberation remain closed, and no question or testimony turn occurs in this step.
 23. **Each Senator independently seals one bounded question.** Trust, Security, and Usability each exercise only their own accepted commission through a distinct cognition surface. Every record preserves the exact case, examination-only Manifestation, Profile candidate and Persona identity, custody lease, commission, acceptance, jurisdiction, lineage, rubric, and Conscription return destination. The route stops at `PROFILE_EXAMINATION_QUESTION_AUTHORED_SEALED_PENDING_DISPATCH`; no question is dispatched, no answer or finding exists, and deliberation remains closed.
 24. **Senate seals the attributable testimony baseline.** Each exact sealed question is dispatched unchanged to the exact examination-only Manifestation through its distinct tool-less witness cognition surface. Every answer is sealed with its question, jurisdiction, Senator, case, Manifestation, Profile candidate, Persona identity, custody lease, rubric, lineage, and return destination. Once all three turns exist, Senate seals `PROFILE_EXAMINATION_TESTIMONY_ANSWERS_SEALED_PENDING_FINDING_AUTHORITY_OPENING`; finding authority and deliberation remain closed.
+25. **The Lord Speaker opens the finding phase.** The complete sealed testimony baseline, live custody, exact case, accepted commissions, current Senator occupancies, shared rubric, and common identity baseline are revalidated. One bounded finding authority is opened for each exact Senator at `PROFILE_EXAMINATION_FINDING_AUTHORITIES_OPENED_PENDING_SENATOR_FINDINGS`; deliberation remains closed.
+26. **Each Senator independently seals one finding.** Trust, Security, and Usability each consume only their own jurisdictional authority and evidence. After all three exact findings exist, Senate seals `PROFILE_EXAMINATION_SENATOR_FINDINGS_SEALED_PENDING_DELIBERATION_OPENING` without comparison, voting, aggregation, reconciliation, or disposition.
+27. **The Lord Speaker opens deliberation.** Senate revalidates the readiness seal, all three findings, their authority opening, the exact case, live custody, and current Lord Speaker occupancy. The findings are admitted unchanged at `PROFILE_EXAMINATION_DELIBERATION_OPENED_PENDING_RECONCILIATION`; bounded reconciliation authority is exercisable, but voting, aggregation, reconciliation itself, and disposition remain closed.
+
+### Proposed completion batches
+
+28. **Reconcile the sealed findings.** The Lord Speaker explains agreement, disagreement, defect attribution, severity, limitations, and uncertainty without modifying a finding, voting, averaging, or suppressing dissent. Stop before disposition authority opens.
+29. **Open Senate disposition authority.** Revalidate the exact reconciliation and complete admitted finding set, then grant one bounded disposition authority. Stop before a disposition is authored.
+30. **Seal the Senate disposition.** Issue one attributable Profile-examination disposition bound to every finding and the reconciliation. Preserve refusal and revision branches; grant no Imperator or operational authority.
+31. **Imperator decides Profile approval.** Present the exact candidate and complete Senate record. Only explicit approval authorizes the next operational-qualification request; denial, revision, clarification, alternative, and deferral remain non-authorizing.
+32. **Conscription installs and qualifies the approved Profile operationally.** Revalidate the exact approval, Persona, custody lease, generic Officer substrate, intended Seat, mission scope, tools, data, stop conditions, and return contract. Qualification grants neither Seat binding nor deployment.
+33. **Conscription assembles the operational Manifestation.** Mechanically combine the exact Persona, approved operational Profile, and generic Officer substrate. Preserve identity and authority boundaries; stop before Seat occupancy.
+34. **Bind the exact Manifestation to its intended Seat.** Validate atomic occupancy, compatibility, lineage, supersession rules, and the absence of conflicting occupancy. Seat binding grants no deployment or execution authority.
+35. **Authorize deployment and transfer bounded operational custody.** The proper mission authority approves the exact bound Manifestation for one defined mission use; Garrison records availability/custody effects without acquiring selection or execution authority.
+36. **Execute one bounded smoke iteration.** The bound Manifestation receives one exact input, performs only authorized internal cognition or tooling, produces one attributable output, and stops. This proves the complete governed route without implying continuing authority.
+37. **Return, retire, or restore custody.** Consume the one-use operational authority, unbind or retire the Manifestation as required, record disposition and lineage, and restore or supersede the Persona/Profile custody state deterministically.
 
 ## Current implementation checkpoint
 
-The implemented canonical route ends after step 24 at `PROFILE_EXAMINATION_TESTIMONY_ANSWERS_SEALED_PENDING_FINDING_AUTHORITY_OPENING`; refusal remains a sealed alternate terminal branch at `EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY`.
+The implemented canonical route ends after step 27 at `PROFILE_EXAMINATION_DELIBERATION_OPENED_PENDING_RECONCILIATION`; refusal remains a sealed alternate terminal branch at `EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY`. Steps 28–37 are the proposed ten-batch completion route through one governed execution and return cycle.
 
 - Garrison still holds the exact Persona at `ADMITTED_HELD`.
 - The commission and its acceptance have been consumed only to derive one deterministic, immutable Profile candidate at version 1.
@@ -55,8 +71,9 @@ The implemented canonical route ends after step 24 at `PROFILE_EXAMINATION_TESTI
 - The exact sealed candidate has been returned to Conscription and independently accepted by the occupied ordinary Recruiter.
 - The exact examination-only Manifestation is secured on the Senate stand under active Bailiff proceeding security.
 - The Lord Speaker has opened the Profile examination, and Trust, Security, and Usability have accepted their exact commissions.
-- The Lord Speaker has consumed one testimony-opening authority; testimony is open and the accepted Senators may exercise only their bounded question authorities.
-- Finding authority and deliberation remain closed. No question has been authored or dispatched.
+- Trust, Security, and Usability have independently authored questions, received sealed testimony, and sealed one exact attributable finding each.
+- The Lord Speaker has admitted the three findings unchanged and consumed one deliberation-opening authority.
+- Deliberation and bounded reconciliation authority are open. No reconciliation or Senate disposition exists; voting and aggregation remain prohibited.
 - No Imperator Profile approval, operational installation, Seat binding, deployment, or execution authority exists.
 
 ## Capability-to-Profession Translation Boundary
