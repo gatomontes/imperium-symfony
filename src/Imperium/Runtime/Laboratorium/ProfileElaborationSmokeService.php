@@ -25,6 +25,8 @@ use App\Imperium\Runtime\Senate\ProfileExaminationTestimonyOpeningService;
 use App\Imperium\Runtime\Senate\ProfileExaminationTestimonyCognitionGateway;
 use App\Imperium\Runtime\Senate\ProfileExaminationTestimonyService;
 use App\Imperium\Runtime\Senate\ProfileExaminationFindingAuthorityOpeningService;
+use App\Imperium\Runtime\Senate\ProfileExaminationFindingCognitionGateway;
+use App\Imperium\Runtime\Senate\ProfileExaminationSenatorFindingService;
 
 final readonly class ProfileElaborationSmokeService
 {
@@ -32,6 +34,7 @@ final readonly class ProfileElaborationSmokeService
         private ProfileElaborationCognitionGateway $cognition,
         private ProfileExaminationQuestionCognitionGateway $questionCognition,
         private ProfileExaminationTestimonyCognitionGateway $testimonyCognition,
+        private ProfileExaminationFindingCognitionGateway $findingCognition,
     ) {}
 
     public function run(string $root, string $senateDisposition = 'ACCEPTED'): array
@@ -141,8 +144,9 @@ final readonly class ProfileElaborationSmokeService
         $examinationQuestions=[];if(is_array($testimonyOpening)){foreach($panelAcceptances as $panelAcceptance){$role=substr($panelAcceptance['senator']['seat'],strlen('senate.committee.'));$examinationQuestions[]=(new ProfileExaminationQuestionAuthorshipService($root,$this->questionCognition))->author($testimonyOpening['opening_id'],$panelAcceptance['acceptance_id'],$senators[$role]['binding_id']);}}
         $testimonyTurns=[];$testimonyReadiness=null;foreach($examinationQuestions as $question){$conducted=(new ProfileExaminationTestimonyService($root,$this->testimonyCognition))->conduct($question['question_id']);$testimonyTurns[]=$conducted['turn'];$testimonyReadiness=$conducted['readiness'];}
         $findingAuthorityOpening=is_array($testimonyReadiness)?(new ProfileExaminationFindingAuthorityOpeningService($root))->open($testimonyReadiness['readiness_id'],$lordSpeaker['binding_id']):null;
+        $senatorFindings=[];$findingReadiness=null;if(is_array($findingAuthorityOpening)){foreach(['trust','security','usability'] as $jurisdiction){$issued=(new ProfileExaminationSenatorFindingService($root,$this->findingCognition))->issue($findingAuthorityOpening['opening_id'],$jurisdiction,$senators[$jurisdiction]['binding_id']);$senatorFindings[]=$issued['finding'];$findingReadiness=$issued['readiness'];}}
 
-        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return, 'return_acceptance' => $returnAcceptance, 'examination_assembly_request' => $assemblyRequest, 'examination_assembly_authorization' => $assemblyAuthorization, 'examination_manifestation' => $examinationManifestation, 'stand_admission' => $standAdmission, 'examination_opening' => $examinationOpening,'panel_acceptances'=>$panelAcceptances,'panel_readiness'=>$panelReadiness,'testimony_opening'=>$testimonyOpening,'examination_questions'=>$examinationQuestions,'profile_testimony_turns'=>$testimonyTurns,'profile_testimony_readiness'=>$testimonyReadiness,'finding_authority_opening'=>$findingAuthorityOpening];
+        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return, 'return_acceptance' => $returnAcceptance, 'examination_assembly_request' => $assemblyRequest, 'examination_assembly_authorization' => $assemblyAuthorization, 'examination_manifestation' => $examinationManifestation, 'stand_admission' => $standAdmission, 'examination_opening' => $examinationOpening,'panel_acceptances'=>$panelAcceptances,'panel_readiness'=>$panelReadiness,'testimony_opening'=>$testimonyOpening,'examination_questions'=>$examinationQuestions,'profile_testimony_turns'=>$testimonyTurns,'profile_testimony_readiness'=>$testimonyReadiness,'finding_authority_opening'=>$findingAuthorityOpening,'senator_findings'=>$senatorFindings,'finding_readiness'=>$findingReadiness];
     }
 
     private function missionPlan(): array
