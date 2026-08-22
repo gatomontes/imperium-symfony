@@ -189,6 +189,12 @@ Each occupied Trust, Security, and Usability Senator independently consumes only
 
 After all three findings exist, Senate seals `PROFILE_EXAMINATION_SENATOR_FINDINGS_SEALED_PENDING_DELIBERATION_OPENING`. The findings have not been compared, reconciled, voted, aggregated, or converted into a Senate disposition; deliberation, Imperator Profile approval, operational installation, Seat binding, deployment, and execution remain closed.
 
+## Profile-examination deliberation opening — implemented
+
+The occupied Lord Speaker revalidates the exact finding-readiness seal, all three independently sealed jurisdictional findings, their shared finding-authority opening, the examination case, live `ADMITTED_HELD` custody, and the complete Manifestation, Profile candidate, Persona identity, rubric, lineage, and return baseline. The three findings are admitted unchanged into one sealed deliberation-opening record; disagreement, limitations, uncertainty, severity, attribution, rationale, and evidence references remain independently preserved.
+
+The route stops at `PROFILE_EXAMINATION_DELIBERATION_OPENED_PENDING_RECONCILIATION`. Deliberation and bounded reconciliation authority are open, but voting, aggregation, reconciliation itself, Senate disposition, Imperator Profile approval, operational installation, Seat binding, deployment, and execution remain closed.
+
 ## Non-negotiable inherited invariants
 
 - preserve the exact admitted Persona ID, version, digest, custody record, Guildhall commission, and Senate confirmation;
