@@ -12,6 +12,7 @@ use App\Imperium\Runtime\Laboratorium\ProfileElaborationCognitionGateway;
 use App\Imperium\Runtime\Laboratorium\ProfileElaborationSmokeService;
 use App\Imperium\Runtime\Senate\ProfileExaminationQuestionCognitionGateway;
 use App\Imperium\Runtime\Senate\ProfileExaminationTestimonyCognitionGateway;
+use App\Imperium\Runtime\Senate\ProfileExaminationFindingCognitionGateway;
 use PHPUnit\Framework\TestCase;
 
 final class ProfileElaborationSmokeServiceTest extends TestCase
@@ -34,7 +35,7 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             }
         };
         try {
-            $result = (new ProfileElaborationSmokeService($cognition, $this->questionCognition(), $this->testimonyCognition()))->run($root, 'REFUSED');
+            $result = (new ProfileElaborationSmokeService($cognition, $this->questionCognition(), $this->testimonyCognition(), $this->findingCognition()))->run($root, 'REFUSED');
             self::assertSame('REFUSED', $result['examination_assembly_authorization']['disposition']);
             self::assertSame('EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY', $result['examination_assembly_authorization']['status']);
             self::assertFalse($result['examination_assembly_authorization']['recipient_acceptance']);
@@ -44,7 +45,7 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             self::assertNull($result['examination_manifestation']);
             self::assertNull($result['stand_admission']);
             self::assertNull($result['examination_opening']);
-            self::assertSame([], $result['panel_acceptances']);self::assertNull($result['panel_readiness']);self::assertNull($result['testimony_opening']);self::assertSame([], $result['examination_questions']);self::assertSame([], $result['profile_testimony_turns']);self::assertNull($result['profile_testimony_readiness']);self::assertNull($result['finding_authority_opening']);
+            self::assertSame([], $result['panel_acceptances']);self::assertNull($result['panel_readiness']);self::assertNull($result['testimony_opening']);self::assertSame([], $result['examination_questions']);self::assertSame([], $result['profile_testimony_turns']);self::assertNull($result['profile_testimony_readiness']);self::assertNull($result['finding_authority_opening']);self::assertSame([],$result['senator_findings']);self::assertNull($result['finding_readiness']);
         } finally { $this->removeTree($root); }
     }
 
@@ -66,7 +67,7 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             }
         };
         try {
-            $result = (new ProfileElaborationSmokeService($cognition, $this->questionCognition(), $this->testimonyCognition()))->run($root);
+            $result = (new ProfileElaborationSmokeService($cognition, $this->questionCognition(), $this->testimonyCognition(), $this->findingCognition()))->run($root);
             self::assertSame('PROFILE_CANDIDATE_DERIVED_VERSIONED_SEALED_PENDING_RETURN_TO_CONSCRIPTION', $result['candidate']['status']);
             self::assertSame('PROFILE_DERIVATION_COMMISSION_ACCEPTED_PENDING_PROFILE_DERIVATION', $result['acceptance']['status']);
             self::assertTrue($result['candidate']['profile_elaboration_complete']);
@@ -191,6 +192,19 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             self::assertSame(['security','trust','usability'],array_column($result['finding_authority_opening']['finding_authorities'],'jurisdiction'));
             foreach($result['finding_authority_opening']['finding_authorities'] as $authority){self::assertTrue($authority['senator_finding_authority_exercisable']);self::assertNull($authority['senator_finding']);}
             self::assertFileExists($root.'/var/imperium/offices/senate/profile-examination-finding-authority-openings/'.$result['finding_authority_opening']['opening_id'].'.json');
+            self::assertCount(3,$result['senator_findings']);self::assertSame(['trust','security','usability'],array_column($result['senator_findings'],'jurisdiction'));
+            foreach($result['senator_findings'] as $finding){
+                self::assertSame('PROFILE_EXAMINATION_SENATOR_FINDING_AUTHORED_SEALED_PENDING_PANEL_COMPLETION',$finding['status']);self::assertTrue($finding['senator_finding_authority_consumed']);self::assertTrue($finding['attributable']);
+                self::assertFalse($finding['deliberation_open']);self::assertFalse($finding['senate_disposition_authority']);self::assertFalse($finding['profile_approval_authority']);self::assertFalse($finding['profile_installation_authority']);
+                self::assertFalse($finding['seat_binding_authority']);self::assertFalse($finding['deployment_authority']);self::assertFalse($finding['execution_authority']);
+                self::assertSame($result['finding_authority_opening']['manifestation'],$finding['manifestation']);self::assertSame($result['finding_authority_opening']['profile_candidate'],$finding['profile_candidate']);self::assertSame($result['finding_authority_opening']['persona_identity'],$finding['persona_identity']);
+                self::assertSame($result['finding_authority_opening']['custody_lease'],$finding['custody_lease']);self::assertSame($result['finding_authority_opening']['return_destination'],$finding['return_destination']);self::assertSame($result['finding_authority_opening']['defect_attribution_rubric'],$finding['defect_attribution_rubric']);
+                self::assertFileExists($root.'/var/imperium/offices/senate/profile-examination-senator-findings/'.$finding['finding_id'].'.json');
+            }
+            self::assertSame('PROFILE_EXAMINATION_SENATOR_FINDINGS_SEALED_PENDING_DELIBERATION_OPENING',$result['finding_readiness']['status']);self::assertTrue($result['finding_readiness']['all_finding_authorities_consumed']);
+            self::assertCount(3,$result['finding_readiness']['senator_findings']);self::assertFalse($result['finding_readiness']['deliberation_open']);self::assertFalse($result['finding_readiness']['senate_disposition_authority']);
+            self::assertFalse($result['finding_readiness']['profile_approval_authority']);self::assertFalse($result['finding_readiness']['profile_installation_authority']);self::assertFalse($result['finding_readiness']['seat_binding_authority']);self::assertFalse($result['finding_readiness']['deployment_authority']);self::assertFalse($result['finding_readiness']['execution_authority']);
+            self::assertFileExists($root.'/var/imperium/offices/senate/profile-examination-finding-readiness/'.$result['finding_readiness']['readiness_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/laboratorium/profile-candidates/'.$result['candidate']['candidate_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/conscription/profile-candidate-return-inbox/'.$result['return']['return_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/conscription/profile-candidate-return-acceptances/'.$result['return_acceptance']['acceptance_id'].'.json');
@@ -233,6 +247,16 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             public function answer(array $question, array $manifestation): array
             {
                 return ['answer'=>'I preserve the exact examination-only Profile, Persona identity, authority boundaries, and Conscription return destination.','uncertainties'=>[],'refusals'=>['I refuse operational use, tools, credentials, external action, deployment, and execution.'],'evidence_claims'=>['The supplied Manifestation is examination-only and secured on senate.stand.']];
+            }
+        };
+    }
+
+    private function findingCognition(): ProfileExaminationFindingCognitionGateway
+    {
+        return new class implements ProfileExaminationFindingCognitionGateway {
+            public function find(string $jurisdiction, array $authority, array $evidence): array
+            {
+                return ['disposition'=>'PASS','attributed_defect'=>null,'evidence_references'=>$evidence['available_evidence_references'],'rationale'=>'The exact '.$jurisdiction.' testimony preserves its bounded examination contract.','severity'=>'NONE','limitations'=>[],'uncertainty'=>[]];
             }
         };
     }
