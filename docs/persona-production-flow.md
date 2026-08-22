@@ -106,7 +106,9 @@ Conscription then mechanically consumes those two examination-specific authoriti
 
 The occupied Bailiff independently revalidates that delivery, the non-operational Manifestation, consumed assembly authorities, live custody lease, and complete lineage. Admission secures the exact subject on `senate.stand` at `EXAMINATION_MANIFESTATION_ADMITTED_SECURED_PENDING_SENATE_EXAMINATION_OPENING`; it grants no examination or later authority.
 
-The downstream lifecycle is implemented through `EXAMINATION_MANIFESTATION_ADMITTED_SECURED_PENDING_SENATE_EXAMINATION_OPENING`. The remaining design and implementation questions are, in order:
+The Lord Speaker then opens one sealed Profile-examination case and commissions the canonical Trust, Security, and Usability panel under an explicit defect-attribution rubric. The route stops at `PROFILE_EXAMINATION_OPENED_PENDING_SENATOR_ACCEPTANCE`; testimony and deliberation remain closed and each Senator's question and finding authorities remain non-exercisable.
+
+The downstream lifecycle is implemented through `PROFILE_EXAMINATION_OPENED_PENDING_SENATOR_ACCEPTANCE`. The remaining design and implementation questions are, in order:
 
 1. How does the Lord Speaker open the secured examination proceeding and commission the appropriate Senators without beginning testimony prematurely?
 2. How does Senate examine the complete operative and distinguish Persona defects from Profile, derivation, assembly, substrate, or compatibility defects?
