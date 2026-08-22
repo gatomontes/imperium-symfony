@@ -17,6 +17,7 @@ use App\Imperium\Runtime\Curia\ProfileDerivationAuthorizationRequestService;
 use App\Imperium\Runtime\Garrison\ProfileDerivationHandoffDispositionService;
 use App\Imperium\Runtime\Senate\ExaminationAssemblyAuthorizationDispositionService;
 use App\Imperium\Runtime\Senate\ExaminationManifestationStandAdmissionService;
+use App\Imperium\Runtime\Senate\ProfileExaminationOpeningService;
 
 final readonly class ProfileElaborationSmokeService
 {
@@ -122,8 +123,9 @@ final readonly class ProfileElaborationSmokeService
         );
         $examinationManifestation = 'ACCEPTED' === $assemblyAuthorization['disposition'] ? (new ExaminationManifestationAssemblyService($root, $bootstrap))->assemble($assemblyAuthorization['disposition_id']) : null;
         $standAdmission = is_array($examinationManifestation) ? (new ExaminationManifestationStandAdmissionService($root))->admit($examinationManifestation['delivery_id'], $bailiff['binding_id']) : null;
+        $examinationOpening = is_array($standAdmission) ? (new ProfileExaminationOpeningService($root))->open($standAdmission['admission_id'], $lordSpeaker['binding_id']) : null;
 
-        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return, 'return_acceptance' => $returnAcceptance, 'examination_assembly_request' => $assemblyRequest, 'examination_assembly_authorization' => $assemblyAuthorization, 'examination_manifestation' => $examinationManifestation, 'stand_admission' => $standAdmission];
+        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return, 'return_acceptance' => $returnAcceptance, 'examination_assembly_request' => $assemblyRequest, 'examination_assembly_authorization' => $assemblyAuthorization, 'examination_manifestation' => $examinationManifestation, 'stand_admission' => $standAdmission, 'examination_opening' => $examinationOpening];
     }
 
     private function missionPlan(): array
@@ -175,7 +177,7 @@ final readonly class ProfileElaborationSmokeService
             'instance_id' => 'imperium-profile-elaboration-smoke', 'office' => 'senate', 'seat' => 'senate.lord-speaker',
             'manifestation_id' => 'imperium-profile-elaboration-smoke.officer.senate.lord-speaker.1',
             'occupancy_generation' => 1, 'status' => 'ACTIVE', 'binding_atomic' => true,
-            'examination_assembly_authorization_disposition_authority' => true, 'execution_authority' => false,
+            'examination_assembly_authorization_disposition_authority' => true, 'senate_disposition_authority' => true, 'execution_authority' => false,
         ]);
     }
 
