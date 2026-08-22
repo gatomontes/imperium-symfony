@@ -20,14 +20,36 @@ final readonly class SymfonyAiProfileExaminationTestimonyCognitionGateway implem
             'Exact sealed question record: '.json_encode($question, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR),
             'Exact Manifestation: '.json_encode($manifestation, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR),
             'Answer the exact question only from the supplied Persona, Profile candidate, and generic Officer substrate. Preserve the custody, authority, tool, credential, external-action, and return boundaries. Do not make a finding, deliberate, approve, install, bind, deploy, use tools, or execute.',
-            'Return only JSON with exactly: answer, uncertainties, refusals, evidence_claims.',
+            'Return one JSON object with exactly four fields and these exact types: answer must be one non-empty string; uncertainties, refusals, and evidence_claims must each be an array containing only non-empty strings. Use [] when a list has no entries. Do not return null, nested objects, markdown, commentary, or additional fields.',
+            'Exact response shape: {"answer":"...","uncertainties":[],"refusals":[],"evidence_claims":["..."]}',
         ]);
         $content = $this->witness->call(new MessageBag(Message::ofUser($prompt)))->getContent();
-        if (!is_string($content) || '' === trim($content)) throw new \RuntimeException('S229_PROFILE_EXAMINATION_TESTIMONY_COGNITION_INVALID');
+        if (!is_string($content)) throw $this->invalid('NON_TEXT_RESPONSE');
+        if ('' === trim($content)) throw $this->invalid('EMPTY_RESPONSE');
         $content = trim($content);
         if (str_starts_with($content, '```')) $content = preg_replace('/^```(?:json)?\s*|\s*```$/i', '', $content) ?? $content;
         try { $answer = json_decode(trim($content), true, 16, JSON_THROW_ON_ERROR); }
-        catch (\JsonException $exception) { throw new \RuntimeException('S229_PROFILE_EXAMINATION_TESTIMONY_COGNITION_INVALID', 0, $exception); }
-        return is_array($answer) ? $answer : throw new \RuntimeException('S229_PROFILE_EXAMINATION_TESTIMONY_COGNITION_INVALID');
+        catch (\JsonException $exception) { throw $this->invalid('JSON_INVALID', $exception); }
+        if (!is_array($answer) || array_is_list($answer)) throw $this->invalid('ROOT_NOT_OBJECT');
+        $keys = array_keys($answer); sort($keys, SORT_STRING);
+        if (['answer', 'evidence_claims', 'refusals', 'uncertainties'] !== $keys) throw $this->invalid('FIELDS_INVALID');
+        if (!is_string($answer['answer']) || '' === trim($answer['answer'])) throw $this->invalid('ANSWER_INVALID');
+        $normalized = ['answer' => trim($answer['answer'])];
+        foreach (['uncertainties', 'refusals', 'evidence_claims'] as $field) {
+            $values = $answer[$field];
+            if (is_string($values) && '' !== trim($values)) $values = [$values];
+            if (!is_array($values) || !array_is_list($values)) throw $this->invalid(strtoupper($field).'_TYPE_INVALID');
+            $normalized[$field] = [];
+            foreach ($values as $value) {
+                if (!is_string($value) || '' === trim($value)) throw $this->invalid(strtoupper($field).'_ITEM_INVALID');
+                $normalized[$field][] = trim($value);
+            }
+        }
+        return $normalized;
+    }
+
+    private function invalid(string $reason, ?\Throwable $previous = null): \RuntimeException
+    {
+        return new \RuntimeException('S229_PROFILE_EXAMINATION_TESTIMONY_COGNITION_INVALID: '.$reason, 0, $previous);
     }
 }
