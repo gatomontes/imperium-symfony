@@ -41,19 +41,21 @@ The route is implemented through Alchemist commission acceptance. Profile deriva
 19. **The Bailiff admits and secures the exact Manifestation.** The occupied Bailiff revalidates the sealed delivery, non-operational restrictions, live custody, consumed authorities, and lineage, then admits the subject to `senate.stand` at `EXAMINATION_MANIFESTATION_ADMITTED_SECURED_PENDING_SENATE_EXAMINATION_OPENING`. Examination authority remains false.
 20. **The Lord Speaker opens the Profile examination.** The secured admission becomes one sealed case with Trust, Security, and Usability commissions and an explicit defect-attribution rubric. The route stops at `PROFILE_EXAMINATION_OPENED_PENDING_SENATOR_ACCEPTANCE`; no Senator authority is exercisable and testimony remains closed.
 21. **The canonical panel accepts.** Each occupied Senator validates and accepts the exact commission. Once Trust, Security, and Usability have all accepted, Senate seals `PROFILE_EXAMINATION_PANEL_ACCEPTED_PENDING_TESTIMONY_OPENING`; question and finding authorities remain non-exercisable until testimony is separately opened.
+22. **The Lord Speaker opens testimony.** The occupied Lord Speaker revalidates the exact case and all three sealed commission acceptances, consumes one testimony-opening authority, and seals `PROFILE_EXAMINATION_TESTIMONY_OPENED_PENDING_SENATOR_QUESTIONING`. Each accepted Senator's bounded question authority becomes exercisable; finding authority and deliberation remain closed, and no question or testimony turn occurs in this step.
 
 ## Current implementation checkpoint
 
-The implemented canonical route ends after step 21 at `PROFILE_EXAMINATION_PANEL_ACCEPTED_PENDING_TESTIMONY_OPENING`; refusal remains a sealed alternate terminal branch at `EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY`.
+The implemented canonical route ends after step 22 at `PROFILE_EXAMINATION_TESTIMONY_OPENED_PENDING_SENATOR_QUESTIONING`; refusal remains a sealed alternate terminal branch at `EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY`.
 
 - Garrison still holds the exact Persona at `ADMITTED_HELD`.
 - The commission and its acceptance have been consumed only to derive one deterministic, immutable Profile candidate at version 1.
 - The candidate preserves the exact Persona identity, immutable mission scope, limitations, custody lease, complete source lineage, and required return destination.
 - The exact sealed candidate has been returned to Conscription and independently accepted by the occupied ordinary Recruiter.
-- Acceptance consumes no downstream authority and does not assemble an examination manifestation.
-- Senate has accepted the exact request and granted Conscription one-use examination-only installation and assembly authority.
-- One sealed examination-only Manifestation has been assembled and delivered to Senate stand intake, but has not been admitted by the Bailiff.
-- No Senate Profile examination, Imperator Profile approval, installation, manifestation, Seat binding, deployment, or execution authority exists.
+- The exact examination-only Manifestation is secured on the Senate stand under active Bailiff proceeding security.
+- The Lord Speaker has opened the Profile examination, and Trust, Security, and Usability have accepted their exact commissions.
+- The Lord Speaker has consumed one testimony-opening authority; testimony is open and the accepted Senators may exercise only their bounded question authorities.
+- Finding authority and deliberation remain closed. No question has been authored or dispatched.
+- No Imperator Profile approval, operational installation, Seat binding, deployment, or execution authority exists.
 
 ## Capability-to-Profession Translation Boundary
 
