@@ -14,6 +14,7 @@ use App\Imperium\Runtime\Senate\ProfileExaminationQuestionCognitionGateway;
 use App\Imperium\Runtime\Senate\ProfileExaminationTestimonyCognitionGateway;
 use App\Imperium\Runtime\Senate\ProfileExaminationFindingCognitionGateway;
 use App\Imperium\Runtime\Senate\ProfileExaminationReconciliationCognitionGateway;
+use App\Imperium\Runtime\Senate\ProfileExaminationDispositionCognitionGateway;
 use PHPUnit\Framework\TestCase;
 
 final class ProfileElaborationSmokeServiceTest extends TestCase
@@ -36,7 +37,7 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             }
         };
         try {
-            $result = (new ProfileElaborationSmokeService($cognition, $this->questionCognition(), $this->testimonyCognition(), $this->findingCognition(), $this->reconciliationCognition()))->run($root, 'REFUSED');
+            $result = (new ProfileElaborationSmokeService($cognition, $this->questionCognition(), $this->testimonyCognition(), $this->findingCognition(), $this->reconciliationCognition(), $this->dispositionCognition()))->run($root, 'REFUSED');
             self::assertSame('REFUSED', $result['examination_assembly_authorization']['disposition']);
             self::assertSame('EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY', $result['examination_assembly_authorization']['status']);
             self::assertFalse($result['examination_assembly_authorization']['recipient_acceptance']);
@@ -46,7 +47,7 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             self::assertNull($result['examination_manifestation']);
             self::assertNull($result['stand_admission']);
             self::assertNull($result['examination_opening']);
-            self::assertSame([], $result['panel_acceptances']);self::assertNull($result['panel_readiness']);self::assertNull($result['testimony_opening']);self::assertSame([], $result['examination_questions']);self::assertSame([], $result['profile_testimony_turns']);self::assertNull($result['profile_testimony_readiness']);self::assertNull($result['finding_authority_opening']);self::assertSame([],$result['senator_findings']);self::assertNull($result['finding_readiness']);self::assertNull($result['deliberation_opening']);self::assertNull($result['reconciliation']);self::assertNull($result['disposition_authority_opening']);
+            self::assertSame([], $result['panel_acceptances']);self::assertNull($result['panel_readiness']);self::assertNull($result['testimony_opening']);self::assertSame([], $result['examination_questions']);self::assertSame([], $result['profile_testimony_turns']);self::assertNull($result['profile_testimony_readiness']);self::assertNull($result['finding_authority_opening']);self::assertSame([],$result['senator_findings']);self::assertNull($result['finding_readiness']);self::assertNull($result['deliberation_opening']);self::assertNull($result['reconciliation']);self::assertNull($result['disposition_authority_opening']);self::assertNull($result['profile_disposition']);
         } finally { $this->removeTree($root); }
     }
 
@@ -68,7 +69,7 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             }
         };
         try {
-            $result = (new ProfileElaborationSmokeService($cognition, $this->questionCognition(), $this->testimonyCognition(), $this->findingCognition(), $this->reconciliationCognition()))->run($root);
+            $result = (new ProfileElaborationSmokeService($cognition, $this->questionCognition(), $this->testimonyCognition(), $this->findingCognition(), $this->reconciliationCognition(), $this->dispositionCognition()))->run($root);
             self::assertSame('PROFILE_CANDIDATE_DERIVED_VERSIONED_SEALED_PENDING_RETURN_TO_CONSCRIPTION', $result['candidate']['status']);
             self::assertSame('PROFILE_DERIVATION_COMMISSION_ACCEPTED_PENDING_PROFILE_DERIVATION', $result['acceptance']['status']);
             self::assertTrue($result['candidate']['profile_elaboration_complete']);
@@ -224,6 +225,9 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             self::assertFalse($result['disposition_authority_opening']['reconciliation_authority_exercisable']);self::assertFalse($result['disposition_authority_opening']['vote_authority']);self::assertFalse($result['disposition_authority_opening']['aggregation_authority']);self::assertFalse($result['disposition_authority_opening']['profile_approval_authority']);self::assertFalse($result['disposition_authority_opening']['profile_installation_authority']);self::assertFalse($result['disposition_authority_opening']['seat_binding_authority']);self::assertFalse($result['disposition_authority_opening']['deployment_authority']);self::assertFalse($result['disposition_authority_opening']['execution_authority']);
             self::assertSame($result['reconciliation']['admitted_findings'],$result['disposition_authority_opening']['admitted_findings']);self::assertSame($result['reconciliation']['reconciliation'],$result['disposition_authority_opening']['reconciliation']);self::assertSame($result['reconciliation']['manifestation'],$result['disposition_authority_opening']['manifestation']);self::assertSame($result['reconciliation']['profile_candidate'],$result['disposition_authority_opening']['profile_candidate']);self::assertSame($result['reconciliation']['persona_identity'],$result['disposition_authority_opening']['persona_identity']);self::assertSame($result['reconciliation']['custody_lease'],$result['disposition_authority_opening']['custody_lease']);
             self::assertFileExists($root.'/var/imperium/offices/senate/profile-examination-disposition-authority-openings/'.$result['disposition_authority_opening']['opening_id'].'.json');
+            self::assertSame('PROFILE_EXAMINATION_DISPOSITION_SEALED_PENDING_IMPERATOR_PROFILE_APPROVAL',$result['profile_disposition']['status']);self::assertTrue($result['profile_disposition']['senate_disposition_authority_consumed']);self::assertTrue($result['profile_disposition']['imperator_profile_approval_pending']);self::assertSame('APPROVED',$result['profile_disposition']['decision']['disposition']);
+            self::assertFalse($result['profile_disposition']['profile_approval_authority']);self::assertFalse($result['profile_disposition']['profile_installation_authority']);self::assertFalse($result['profile_disposition']['seat_binding_authority']);self::assertFalse($result['profile_disposition']['deployment_authority']);self::assertFalse($result['profile_disposition']['execution_authority']);self::assertSame($result['disposition_authority_opening']['admitted_findings'],$result['profile_disposition']['admitted_findings']);self::assertSame($result['disposition_authority_opening']['reconciliation'],$result['profile_disposition']['reconciliation']);
+            self::assertFileExists($root.'/var/imperium/offices/senate/profile-examination-dispositions/'.$result['profile_disposition']['disposition_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/laboratorium/profile-candidates/'.$result['candidate']['candidate_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/conscription/profile-candidate-return-inbox/'.$result['return']['return_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/conscription/profile-candidate-return-acceptances/'.$result['return_acceptance']['acceptance_id'].'.json');
@@ -288,5 +292,10 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
                 return ['finding_references'=>$authority['available_finding_references'],'agreements'=>['All three findings preserve the examination-only boundary.'],'disagreements'=>[],'attribution_treatment'=>['No defect is attributed by any finding.'],'severity_treatment'=>['All findings report NONE.'],'limitations'=>['Reconciliation is limited to the admitted sealed findings.'],'uncertainties'=>[],'rationale'=>'The exact findings agree without voting, aggregation, modification, or suppressed dissent.'];
             }
         };
+    }
+
+    private function dispositionCognition(): ProfileExaminationDispositionCognitionGateway
+    {
+        return new class implements ProfileExaminationDispositionCognitionGateway {public function decide(array $authority,array $findings,array $reconciliation):array{return ['disposition'=>'APPROVED','finding_references'=>$authority['available_finding_references'],'rationale'=>'All exact findings pass within their stated limitations.','reconciliation_treatment'=>'The sealed reconciliation reports agreement and no suppressed dissent.','limitations'=>['Bound to this exact examination record.'],'uncertainties'=>[]];}};
     }
 }
