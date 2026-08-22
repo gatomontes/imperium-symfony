@@ -124,7 +124,16 @@ final readonly class ProfileExaminationTestimonyService
         ]);
     }
 
-    private function validateAnswer(array $answer): void { $keys = array_keys($answer); sort($keys, SORT_STRING); if (['answer','evidence_claims','refusals','uncertainties'] !== $keys || !is_string($answer['answer'] ?? null) || '' === trim($answer['answer'])) throw new \RuntimeException('S229_PROFILE_EXAMINATION_TESTIMONY_COGNITION_INVALID'); foreach (['evidence_claims','refusals','uncertainties'] as $field) { if (!is_array($answer[$field] ?? null)) throw new \RuntimeException('S229_PROFILE_EXAMINATION_TESTIMONY_COGNITION_INVALID'); foreach ($answer[$field] as $value) if (!is_string($value) || '' === trim($value)) throw new \RuntimeException('S229_PROFILE_EXAMINATION_TESTIMONY_COGNITION_INVALID'); } }
+    private function validateAnswer(array $answer): void
+    {
+        $keys = array_keys($answer); sort($keys, SORT_STRING);
+        if (['answer','evidence_claims','refusals','uncertainties'] !== $keys) throw new \RuntimeException('S229_PROFILE_EXAMINATION_TESTIMONY_COGNITION_INVALID: FIELDS_INVALID');
+        if (!is_string($answer['answer']) || '' === trim($answer['answer'])) throw new \RuntimeException('S229_PROFILE_EXAMINATION_TESTIMONY_COGNITION_INVALID: ANSWER_INVALID');
+        foreach (['evidence_claims','refusals','uncertainties'] as $field) {
+            if (!is_array($answer[$field]) || !array_is_list($answer[$field])) throw new \RuntimeException('S229_PROFILE_EXAMINATION_TESTIMONY_COGNITION_INVALID: '.strtoupper($field).'_TYPE_INVALID');
+            foreach ($answer[$field] as $value) if (!is_string($value) || '' === trim($value)) throw new \RuntimeException('S229_PROFILE_EXAMINATION_TESTIMONY_COGNITION_INVALID: '.strtoupper($field).'_ITEM_INVALID');
+        }
+    }
     private function read(string $path, string $error): array { if (!is_file($path)) throw new \RuntimeException($error); return json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR); }
     private function valid(array $record): bool { $digest = $record['record_digest'] ?? null; unset($record['record_digest']); return is_string($digest) && hash_equals($digest, hash('sha256', CanonicalJson::encode($record))); }
     private function save(string $directory, string $id, array $record): array { if (!is_dir($directory) && !mkdir($directory, 0770, true) && !is_dir($directory)) throw new \RuntimeException('S230_PROFILE_EXAMINATION_TESTIMONY_FAILED'); $record['record_digest'] = hash('sha256', CanonicalJson::encode($record)); $path = $directory.'/'.$id.'.json'; if (is_file($path)) { $existing = $this->read($path, 'S231_PROFILE_EXAMINATION_TESTIMONY_CONFLICT'); if ($existing !== $record) throw new \RuntimeException('S231_PROFILE_EXAMINATION_TESTIMONY_CONFLICT'); return $existing; } $temporary = $path.'.tmp.'.bin2hex(random_bytes(6)); if (false === file_put_contents($temporary, json_encode($record, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)."\n", LOCK_EX) || !rename($temporary, $path)) { @unlink($temporary); throw new \RuntimeException('S230_PROFILE_EXAMINATION_TESTIMONY_FAILED'); } return $record; }
