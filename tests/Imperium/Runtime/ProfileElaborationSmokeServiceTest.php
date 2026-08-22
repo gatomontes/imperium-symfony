@@ -44,7 +44,7 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             self::assertNull($result['examination_manifestation']);
             self::assertNull($result['stand_admission']);
             self::assertNull($result['examination_opening']);
-            self::assertSame([], $result['panel_acceptances']);self::assertNull($result['panel_readiness']);self::assertNull($result['testimony_opening']);self::assertSame([], $result['examination_questions']);self::assertSame([], $result['profile_testimony_turns']);self::assertNull($result['profile_testimony_readiness']);
+            self::assertSame([], $result['panel_acceptances']);self::assertNull($result['panel_readiness']);self::assertNull($result['testimony_opening']);self::assertSame([], $result['examination_questions']);self::assertSame([], $result['profile_testimony_turns']);self::assertNull($result['profile_testimony_readiness']);self::assertNull($result['finding_authority_opening']);
         } finally { $this->removeTree($root); }
     }
 
@@ -179,6 +179,18 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             self::assertFalse($result['profile_testimony_readiness']['senate_disposition_authority']);self::assertFalse($result['profile_testimony_readiness']['profile_approval_authority']);self::assertFalse($result['profile_testimony_readiness']['profile_installation_authority']);
             self::assertFalse($result['profile_testimony_readiness']['seat_binding_authority']);self::assertFalse($result['profile_testimony_readiness']['deployment_authority']);self::assertFalse($result['profile_testimony_readiness']['execution_authority']);
             self::assertFileExists($root.'/var/imperium/offices/senate/profile-examination-testimony-readiness/'.$result['profile_testimony_readiness']['readiness_id'].'.json');
+            self::assertSame('PROFILE_EXAMINATION_FINDING_AUTHORITIES_OPENED_PENDING_SENATOR_FINDINGS',$result['finding_authority_opening']['status']);
+            self::assertTrue($result['finding_authority_opening']['finding_phase_opening_authority_consumed']);self::assertTrue($result['finding_authority_opening']['senator_finding_authority_exercisable']);
+            self::assertSame([],$result['finding_authority_opening']['senator_findings']);self::assertFalse($result['finding_authority_opening']['deliberation_open']);self::assertFalse($result['finding_authority_opening']['senate_disposition_authority']);
+            self::assertFalse($result['finding_authority_opening']['profile_approval_authority']);self::assertFalse($result['finding_authority_opening']['profile_installation_authority']);self::assertFalse($result['finding_authority_opening']['seat_binding_authority']);
+            self::assertFalse($result['finding_authority_opening']['deployment_authority']);self::assertFalse($result['finding_authority_opening']['execution_authority']);
+            self::assertSame($result['profile_testimony_turns'][0]['manifestation'],$result['finding_authority_opening']['manifestation']);self::assertSame($result['profile_testimony_turns'][0]['profile_candidate'],$result['finding_authority_opening']['profile_candidate']);
+            self::assertSame($result['profile_testimony_turns'][0]['persona_identity'],$result['finding_authority_opening']['persona_identity']);self::assertSame($result['profile_testimony_turns'][0]['custody_lease'],$result['finding_authority_opening']['custody_lease']);
+            self::assertSame($result['profile_testimony_turns'][0]['return_destination'],$result['finding_authority_opening']['return_destination']);self::assertSame($result['profile_testimony_turns'][0]['defect_attribution_rubric'],$result['finding_authority_opening']['defect_attribution_rubric']);
+            self::assertCount(3,$result['finding_authority_opening']['finding_authorities']);
+            self::assertSame(['security','trust','usability'],array_column($result['finding_authority_opening']['finding_authorities'],'jurisdiction'));
+            foreach($result['finding_authority_opening']['finding_authorities'] as $authority){self::assertTrue($authority['senator_finding_authority_exercisable']);self::assertNull($authority['senator_finding']);}
+            self::assertFileExists($root.'/var/imperium/offices/senate/profile-examination-finding-authority-openings/'.$result['finding_authority_opening']['opening_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/laboratorium/profile-candidates/'.$result['candidate']['candidate_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/conscription/profile-candidate-return-inbox/'.$result['return']['return_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/conscription/profile-candidate-return-acceptances/'.$result['return_acceptance']['acceptance_id'].'.json');
