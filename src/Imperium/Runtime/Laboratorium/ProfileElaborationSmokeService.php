@@ -177,7 +177,7 @@ final readonly class ProfileElaborationSmokeService
             'instance_id' => 'imperium-profile-elaboration-smoke', 'office' => 'senate', 'seat' => 'senate.lord-speaker',
             'manifestation_id' => 'imperium-profile-elaboration-smoke.officer.senate.lord-speaker.1',
             'occupancy_generation' => 1, 'status' => 'ACTIVE', 'binding_atomic' => true,
-            'examination_assembly_authorization_disposition_authority' => true, 'execution_authority' => false,
+            'examination_assembly_authorization_disposition_authority' => true, 'senate_disposition_authority' => true, 'execution_authority' => false,
         ]);
     }
 
