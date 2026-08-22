@@ -9,6 +9,7 @@ use App\Bootstrap\StateStore;
 use App\Imperium\Runtime\Conscription\LaboratoriumProfileDerivationCommissionService;
 use App\Imperium\Runtime\Conscription\ProfileCandidateReturnAcceptanceService;
 use App\Imperium\Runtime\Conscription\ExaminationAssemblyAuthorizationRequestService;
+use App\Imperium\Runtime\Conscription\ExaminationManifestationAssemblyService;
 use App\Imperium\Runtime\Conscription\ProfileDerivationAuthorizationAcceptanceService;
 use App\Imperium\Runtime\Curia\ProceedingStore;
 use App\Imperium\Runtime\Curia\ProfileDerivationAuthorizationDecisionService;
@@ -116,8 +117,9 @@ final readonly class ProfileElaborationSmokeService
             $assemblyRequest['request_id'], $lordSpeaker['binding_id'], $senateDisposition,
             'ACCEPTED' === strtoupper(trim($senateDisposition)) ? 'Accept the exact examination-only assembly contract for Senate intake.' : 'Refuse the exact examination-only assembly contract without granting authority.',
         );
+        $examinationManifestation = 'ACCEPTED' === $assemblyAuthorization['disposition'] ? (new ExaminationManifestationAssemblyService($root, $bootstrap))->assemble($assemblyAuthorization['disposition_id']) : null;
 
-        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return, 'return_acceptance' => $returnAcceptance, 'examination_assembly_request' => $assemblyRequest, 'examination_assembly_authorization' => $assemblyAuthorization];
+        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return, 'return_acceptance' => $returnAcceptance, 'examination_assembly_request' => $assemblyRequest, 'examination_assembly_authorization' => $assemblyAuthorization, 'examination_manifestation' => $examinationManifestation];
     }
 
     private function missionPlan(): array

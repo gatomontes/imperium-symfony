@@ -37,10 +37,11 @@ The route is implemented through Alchemist commission acceptance. Profile deriva
 15. **The Recruiter accepts the exact returned candidate.** The occupied ordinary Recruiter independently revalidates the immutable return packet, candidate digest and seal, Persona identity, mission scope, lineage, and live Garrison custody lease. It consumes only the candidate-acceptance authority and records `PROFILE_CANDIDATE_ACCEPTED_PENDING_EXAMINATION_ASSEMBLY_AUTHORIZATION`. Acceptance grants no approval, installation, examination-assembly, Senate-examination, custody-release, deployment, or execution authority.
 16. **The Recruiter requests examination-assembly authority.** Conscription submits one sealed request to `senate.lord-speaker`, bound to the accepted candidate, exact Persona, version-0 generic Officer substrate, live lease, complete lineage, examination-only purpose, `senate.stand` target, and Conscription return destination. The request reaches `EXAMINATION_ASSEMBLY_AUTHORIZATION_REQUESTED_PENDING_SENATE_INTAKE`; Senate has not accepted it and no assembly authority exists.
 17. **The Lord Speaker decides Senate intake.** The occupied Lord Speaker revalidates the exact request, candidate, acceptance, scope, Persona, live custody, substrate, and source lineage, then records `ACCEPTED` or `REFUSED` with rationale. Refusal reaches `EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY`. Acceptance reaches `EXAMINATION_ASSEMBLY_AUTHORIZED_PENDING_CONSCRIPTION_ASSEMBLY` and grants one-use examination-only installation and assembly authorities; general Profile installation and all later authorities remain false.
+18. **Conscription assembles the examination Manifestation.** The occupied Recruiter mechanically consumes both examination-specific authorities, installs the exact candidate into generic Officer substrate version 0, seals the examination-only Manifestation, and delivers it to the Bailiff's stand intake at `EXAMINATION_MANIFESTATION_ASSEMBLED_DELIVERED_PENDING_SENATE_STAND_INTAKE`. No operational installation, stand admission, examination, approval, deployment, or execution occurs.
 
 ## Current implementation checkpoint
 
-The implemented canonical route ends after step 17 at `EXAMINATION_ASSEMBLY_AUTHORIZED_PENDING_CONSCRIPTION_ASSEMBLY`; refusal is a sealed alternate terminal branch at `EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY`.
+The implemented canonical route ends after step 18 at `EXAMINATION_MANIFESTATION_ASSEMBLED_DELIVERED_PENDING_SENATE_STAND_INTAKE`; refusal remains a sealed alternate terminal branch at `EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY`.
 
 - Garrison still holds the exact Persona at `ADMITTED_HELD`.
 - The commission and its acceptance have been consumed only to derive one deterministic, immutable Profile candidate at version 1.
@@ -48,7 +49,7 @@ The implemented canonical route ends after step 17 at `EXAMINATION_ASSEMBLY_AUTH
 - The exact sealed candidate has been returned to Conscription and independently accepted by the occupied ordinary Recruiter.
 - Acceptance consumes no downstream authority and does not assemble an examination manifestation.
 - Senate has accepted the exact request and granted Conscription one-use examination-only installation and assembly authority.
-- No examination manifestation has yet been assembled.
+- One sealed examination-only Manifestation has been assembled and delivered to Senate stand intake, but has not been admitted by the Bailiff.
 - No Senate Profile examination, Imperator Profile approval, installation, manifestation, Seat binding, deployment, or execution authority exists.
 
 ## Capability-to-Profession Translation Boundary
@@ -156,6 +157,12 @@ The request stops at `EXAMINATION_ASSEMBLY_AUTHORIZATION_REQUESTED_PENDING_SENAT
 The occupied Lord Speaker validates the exact request against the accepted candidate, live `ADMITTED_HELD` custody lease, immutable scope, generic Officer version 0, complete lineage, and active Senate occupancy. One immutable `imperium.senate-conscription-examination-assembly-authorization-disposition/v1` records either acceptance or refusal with rationale; a second conflicting disposition for the same request is rejected.
 
 Acceptance grants only `examination_profile_installation_authority` and `examination_assembly_authority` for the exact examination contract and stops at `EXAMINATION_ASSEMBLY_AUTHORIZED_PENDING_CONSCRIPTION_ASSEMBLY`. General Profile installation, Profile approval, Senate examination, custody release, Persona substitution, Seat binding, deployment, and execution remain false. Refusal grants nothing and stops at `EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY`.
+
+## Examination Manifestation assembly — implemented
+
+Conscription mechanically combines the exact custody-bound Persona, sealed Profile candidate, generic Officer substrate version 0, and Senate-approved examination contract. Both one-use examination authorities are consumed. The resulting ephemeral Manifestation contributes no new identity or authority, has no credentials or tools, forbids operational use, and is delivered to `senate.bailiff` at `senate.stand.intake`.
+
+The route stops at `EXAMINATION_MANIFESTATION_ASSEMBLED_DELIVERED_PENDING_SENATE_STAND_INTAKE`. Garrison retains canonical custody at `ADMITTED_HELD`; Bailiff admission, Senate examination, Profile approval, operational qualification, deployment, and execution have not occurred.
 
 For development verification, `imperium:dev:profile-elaboration-smoke` constructs an isolated synthetic state root under `var/imperium-dev/`, executes the authentic authorization, lease, commission, Alchemist elaboration, mechanical sealing, return, Recruiter acceptance, Senate-intake request, and Lord-Speaker disposition services, and preserves all resulting artifacts for inspection. It refuses non-development environments and never writes into the active `var/imperium/` state root.
 

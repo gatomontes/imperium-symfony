@@ -39,6 +39,7 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             self::assertFalse($result['examination_assembly_authorization']['examination_profile_installation_authority']);
             self::assertFalse($result['examination_assembly_authorization']['examination_assembly_authority']);
             self::assertFalse($result['examination_assembly_authorization']['examination_assembly_authority_exercisable']);
+            self::assertNull($result['examination_manifestation']);
         } finally { $this->removeTree($root); }
     }
 
@@ -108,11 +109,23 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             self::assertFalse($result['examination_assembly_authorization']['senate_examination_authority']);
             self::assertFalse($result['examination_assembly_authorization']['deployment_authority']);
             self::assertFalse($result['examination_assembly_authorization']['execution_authority']);
+            self::assertSame('EXAMINATION_MANIFESTATION_ASSEMBLED_DELIVERED_PENDING_SENATE_STAND_INTAKE', $result['examination_manifestation']['status']);
+            self::assertTrue($result['examination_manifestation']['examination_profile_installed']);
+            self::assertTrue($result['examination_manifestation']['examination_manifestation_assembled']);
+            self::assertTrue($result['examination_manifestation']['examination_profile_installation_authority_consumed']);
+            self::assertTrue($result['examination_manifestation']['examination_assembly_authority_consumed']);
+            self::assertSame(0, $result['examination_manifestation']['manifestation']['substrate']['version']);
+            self::assertFalse($result['examination_manifestation']['manifestation']['operational_use_permitted']);
+            self::assertNull($result['examination_manifestation']['recipient_acceptance']);
+            self::assertFalse($result['examination_manifestation']['senate_examination_authority']);
+            self::assertFalse($result['examination_manifestation']['deployment_authority']);
+            self::assertFalse($result['examination_manifestation']['execution_authority']);
             self::assertFileExists($root.'/var/imperium/offices/laboratorium/profile-candidates/'.$result['candidate']['candidate_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/conscription/profile-candidate-return-inbox/'.$result['return']['return_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/conscription/profile-candidate-return-acceptances/'.$result['return_acceptance']['acceptance_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/senate/examination-assembly-authorization-inbox/'.$result['examination_assembly_request']['request_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/conscription/examination-assembly-authorization-dispositions/'.$result['examination_assembly_authorization']['disposition_id'].'.json');
+            self::assertFileExists($root.'/var/imperium/offices/senate/examination-manifestation-intake/'.$result['examination_manifestation']['delivery_id'].'.json');
 
             $custodyPath = $root.'/var/imperium/offices/garrison/custody/'.$result['candidate']['custody_lease']['custody_id'].'.json';
             $custody = json_decode((string) file_get_contents($custodyPath), true, 512, JSON_THROW_ON_ERROR);
