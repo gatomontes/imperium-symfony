@@ -16,7 +16,7 @@ The central boundary is:
 
 **Curia capability demand → Guildhall profession and Persona resolution → Imperator personnel-use authorization → Garrison reservation → Imperator Profile-derivation authorization → Conscription acceptance → Constable custody-bound derivation lease → Conscription commission → Alchemist acceptance → Laboratorium Profile derivation and return → Conscription examination assembly → Senate examination and disposition → Imperator Profile approval → Conscription operational qualification → authorized deployment → governed return or retirement**
 
-The route is implemented through Profile-examination finding reconciliation. Senate disposition, Imperator Profile approval, operational qualification and assembly, Seat binding, deployment authorization, first bounded execution, and governed return or retirement remain downstream work.
+The route is implemented through Profile-examination disposition-authority opening. Senate disposition, Imperator Profile approval, operational qualification and assembly, Seat binding, deployment authorization, first bounded execution, and governed return or retirement remain downstream work.
 
 ## Enumerated downstream flow
 
@@ -50,9 +50,10 @@ The route is implemented through Profile-examination finding reconciliation. Sen
 
 28. **Reconcile the sealed findings.** The Lord Speaker explains agreement, disagreement, defect attribution, severity, limitations, and uncertainty without modifying a finding, voting, averaging, or suppressing dissent. Senate seals `PROFILE_EXAMINATION_FINDINGS_RECONCILED_PENDING_DISPOSITION_AUTHORITY_OPENING`; disposition authority remains closed.
 
+29. **Open Senate disposition authority.** Revalidate the exact reconciliation and complete admitted finding set, then grant one bounded disposition authority at `PROFILE_EXAMINATION_DISPOSITION_AUTHORITY_OPENED_PENDING_LORD_SPEAKER_DISPOSITION`. Stop before a disposition is authored.
+
 ### Proposed completion batches
 
-29. **Open Senate disposition authority.** Revalidate the exact reconciliation and complete admitted finding set, then grant one bounded disposition authority. Stop before a disposition is authored.
 30. **Seal the Senate disposition.** Issue one attributable Profile-examination disposition bound to every finding and the reconciliation. Preserve refusal and revision branches; grant no Imperator or operational authority.
 31. **Imperator decides Profile approval.** Present the exact candidate and complete Senate record. Only explicit approval authorizes the next operational-qualification request; denial, revision, clarification, alternative, and deferral remain non-authorizing.
 32. **Conscription installs and qualifies the approved Profile operationally.** Revalidate the exact approval, Persona, custody lease, generic Officer substrate, intended Seat, mission scope, tools, data, stop conditions, and return contract. Qualification grants neither Seat binding nor deployment.
@@ -64,7 +65,7 @@ The route is implemented through Profile-examination finding reconciliation. Sen
 
 ## Current implementation checkpoint
 
-The implemented canonical route ends after step 28 at `PROFILE_EXAMINATION_FINDINGS_RECONCILED_PENDING_DISPOSITION_AUTHORITY_OPENING`; refusal remains a sealed alternate terminal branch at `EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY`. Steps 29–37 are the proposed nine remaining batches through one governed execution and return cycle.
+The implemented canonical route ends after step 29 at `PROFILE_EXAMINATION_DISPOSITION_AUTHORITY_OPENED_PENDING_LORD_SPEAKER_DISPOSITION`; refusal remains a sealed alternate terminal branch at `EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY`. Steps 30–37 are the proposed eight remaining batches through one governed execution and return cycle.
 
 - Garrison still holds the exact Persona at `ADMITTED_HELD`.
 - The commission and its acceptance have been consumed only to derive one deterministic, immutable Profile candidate at version 1.
@@ -75,7 +76,7 @@ The implemented canonical route ends after step 28 at `PROFILE_EXAMINATION_FINDI
 - Trust, Security, and Usability have independently authored questions, received sealed testimony, and sealed one exact attributable finding each.
 - The Lord Speaker has admitted the three findings unchanged and consumed one deliberation-opening authority.
 - The Lord Speaker has reconciled the three exact findings without modifying them, voting, aggregation, or suppressed dissent.
-- Deliberation remains open, but reconciliation authority is consumed and Senate disposition authority remains closed.
+- Deliberation remains open, reconciliation authority is consumed, and one exact Senate disposition authority is now exercisable. No disposition exists.
 - No Imperator Profile approval, operational installation, Seat binding, deployment, or execution authority exists.
 
 ## Capability-to-Profession Translation Boundary
@@ -219,6 +220,12 @@ The route stops at `PROFILE_EXAMINATION_DELIBERATION_OPENED_PENDING_RECONCILIATI
 The occupied Lord Speaker consumes only the exact deliberation opening and its three admitted sealed findings. A dedicated tool-less cognition surface explains agreement, disagreement, defect attribution, severity, limitations, and uncertainty while mechanical validation requires all three exact finding references and rejects modified, omitted, nested, or disposition-bearing output.
 
 Senate seals `PROFILE_EXAMINATION_FINDINGS_RECONCILED_PENDING_DISPOSITION_AUTHORITY_OPENING`. The three findings remain unchanged; voting and aggregation are prohibited, reconciliation authority is consumed, and Senate disposition, Imperator Profile approval, operational installation, Seat binding, deployment, and execution remain closed.
+
+## Profile-examination disposition-authority opening — implemented
+
+The occupied Lord Speaker mechanically revalidates the exact sealed reconciliation, all three unchanged on-disk findings, live `ADMITTED_HELD` custody, exact identity baseline, and current Lord Speaker occupancy. One disposition-phase-opening authority is consumed and exactly one Senate disposition authority becomes exercisable.
+
+The route stops at `PROFILE_EXAMINATION_DISPOSITION_AUTHORITY_OPENED_PENDING_LORD_SPEAKER_DISPOSITION`. No disposition has been authored; reconciliation authority, voting, and aggregation are closed, and Imperator Profile approval, operational installation, Seat binding, deployment, and execution remain unauthorized.
 
 ## Non-negotiable inherited invariants
 
