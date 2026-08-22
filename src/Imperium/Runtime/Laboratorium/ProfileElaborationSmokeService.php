@@ -19,6 +19,7 @@ use App\Imperium\Runtime\Senate\ExaminationAssemblyAuthorizationDispositionServi
 use App\Imperium\Runtime\Senate\ExaminationManifestationStandAdmissionService;
 use App\Imperium\Runtime\Senate\ProfileExaminationOpeningService;
 use App\Imperium\Runtime\Senate\ProfileExaminationCommissionAcceptanceService;
+use App\Imperium\Runtime\Senate\ProfileExaminationTestimonyOpeningService;
 
 final readonly class ProfileElaborationSmokeService
 {
@@ -127,8 +128,9 @@ final readonly class ProfileElaborationSmokeService
         $standAdmission = is_array($examinationManifestation) ? (new ExaminationManifestationStandAdmissionService($root))->admit($examinationManifestation['delivery_id'], $bailiff['binding_id']) : null;
         $examinationOpening = is_array($standAdmission) ? (new ProfileExaminationOpeningService($root))->open($standAdmission['admission_id'], $lordSpeaker['binding_id']) : null;
         $panelAcceptances=[];$panelReadiness=null;if(is_array($examinationOpening)){foreach($examinationOpening['commissions'] as $commission){$role=substr($commission['recipient']['seat'],strlen('senate.committee.'));$accepted=(new ProfileExaminationCommissionAcceptanceService($root))->accept($commission['commission_id'],$senators[$role]['binding_id']);$panelAcceptances[]=$accepted['acceptance'];$panelReadiness=$accepted['panel_readiness'];}}
+        $testimonyOpening=is_array($panelReadiness)?(new ProfileExaminationTestimonyOpeningService($root))->open($panelReadiness['readiness_id'],$lordSpeaker['binding_id']):null;
 
-        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return, 'return_acceptance' => $returnAcceptance, 'examination_assembly_request' => $assemblyRequest, 'examination_assembly_authorization' => $assemblyAuthorization, 'examination_manifestation' => $examinationManifestation, 'stand_admission' => $standAdmission, 'examination_opening' => $examinationOpening,'panel_acceptances'=>$panelAcceptances,'panel_readiness'=>$panelReadiness];
+        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return, 'return_acceptance' => $returnAcceptance, 'examination_assembly_request' => $assemblyRequest, 'examination_assembly_authorization' => $assemblyAuthorization, 'examination_manifestation' => $examinationManifestation, 'stand_admission' => $standAdmission, 'examination_opening' => $examinationOpening,'panel_acceptances'=>$panelAcceptances,'panel_readiness'=>$panelReadiness,'testimony_opening'=>$testimonyOpening];
     }
 
     private function missionPlan(): array
@@ -180,7 +182,8 @@ final readonly class ProfileElaborationSmokeService
             'instance_id' => 'imperium-profile-elaboration-smoke', 'office' => 'senate', 'seat' => 'senate.lord-speaker',
             'manifestation_id' => 'imperium-profile-elaboration-smoke.officer.senate.lord-speaker.1',
             'occupancy_generation' => 1, 'status' => 'ACTIVE', 'binding_atomic' => true,
-            'examination_assembly_authorization_disposition_authority' => true, 'senate_disposition_authority' => true, 'execution_authority' => false,
+            'examination_assembly_authorization_disposition_authority' => true, 'senate_disposition_authority' => true,
+            'profile_examination_testimony_opening_authority' => true, 'execution_authority' => false,
         ]);
     }
 
