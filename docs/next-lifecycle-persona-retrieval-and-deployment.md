@@ -40,10 +40,11 @@ The route is implemented through Alchemist commission acceptance. Profile deriva
 18. **Conscription assembles the examination Manifestation.** The occupied Recruiter mechanically consumes both examination-specific authorities, installs the exact candidate into generic Officer substrate version 0, seals the examination-only Manifestation, and delivers it to the Bailiff's stand intake at `EXAMINATION_MANIFESTATION_ASSEMBLED_DELIVERED_PENDING_SENATE_STAND_INTAKE`. No operational installation, stand admission, examination, approval, deployment, or execution occurs.
 19. **The Bailiff admits and secures the exact Manifestation.** The occupied Bailiff revalidates the sealed delivery, non-operational restrictions, live custody, consumed authorities, and lineage, then admits the subject to `senate.stand` at `EXAMINATION_MANIFESTATION_ADMITTED_SECURED_PENDING_SENATE_EXAMINATION_OPENING`. Examination authority remains false.
 20. **The Lord Speaker opens the Profile examination.** The secured admission becomes one sealed case with Trust, Security, and Usability commissions and an explicit defect-attribution rubric. The route stops at `PROFILE_EXAMINATION_OPENED_PENDING_SENATOR_ACCEPTANCE`; no Senator authority is exercisable and testimony remains closed.
+21. **The canonical panel accepts.** Each occupied Senator validates and accepts the exact commission. Once Trust, Security, and Usability have all accepted, Senate seals `PROFILE_EXAMINATION_PANEL_ACCEPTED_PENDING_TESTIMONY_OPENING`; question and finding authorities remain non-exercisable until testimony is separately opened.
 
 ## Current implementation checkpoint
 
-The implemented canonical route ends after step 20 at `PROFILE_EXAMINATION_OPENED_PENDING_SENATOR_ACCEPTANCE`; refusal remains a sealed alternate terminal branch at `EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY`.
+The implemented canonical route ends after step 21 at `PROFILE_EXAMINATION_PANEL_ACCEPTED_PENDING_TESTIMONY_OPENING`; refusal remains a sealed alternate terminal branch at `EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY`.
 
 - Garrison still holds the exact Persona at `ADMITTED_HELD`.
 - The commission and its acceptance have been consumed only to derive one deterministic, immutable Profile candidate at version 1.
