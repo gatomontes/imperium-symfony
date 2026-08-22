@@ -241,6 +241,12 @@ services:
     App\Imperium\Runtime\Senate\PersonaWitnessTestimonyCognitionGateway:
         alias: App\Imperium\Runtime\Senate\SymfonyAiPersonaWitnessTestimonyCognitionGateway
 
+    App\Imperium\Runtime\Senate\ProfileExaminationQuestionCognitionGateway:
+        alias: App\Imperium\Runtime\Senate\SymfonyAiProfileExaminationQuestionCognitionGateway
+
+    App\Imperium\Runtime\Senate\ProfileExaminationTestimonyCognitionGateway:
+        alias: App\Imperium\Runtime\Senate\SymfonyAiProfileExaminationTestimonyCognitionGateway
+
     App\Imperium\Runtime\Senate\SymfonyAiSenatorFindingCognitionGateway:
         arguments:
             $practice: '@ai.agent.senator_finding_practice'
