@@ -110,10 +110,12 @@ The Lord Speaker then opens one sealed Profile-examination case and commissions 
 
 Each occupied Senator independently accepts the exact commission. After all three accept, Senate seals `PROFILE_EXAMINATION_PANEL_ACCEPTED_PENDING_TESTIMONY_OPENING`; acceptance confirms readiness only, so question and finding authorities remain non-exercisable and testimony remains closed.
 
-The downstream lifecycle is implemented through `PROFILE_EXAMINATION_PANEL_ACCEPTED_PENDING_TESTIMONY_OPENING`. The remaining design and implementation questions are, in order:
+The occupied Lord Speaker then revalidates the complete accepted panel and consumes one testimony-opening authority. Senate seals `PROFILE_EXAMINATION_TESTIMONY_OPENED_PENDING_SENATOR_QUESTIONING`; testimony is open and each accepted Senator's bounded question authority is exercisable, while finding authority and deliberation remain closed. No question has yet been authored or dispatched, and no approval, installation, deployment, or execution authority is granted.
 
-1. How does the Lord Speaker open the secured examination proceeding and commission the appropriate Senators without beginning testimony prematurely?
-2. How does Senate examine the complete operative and distinguish Persona defects from Profile, derivation, assembly, substrate, or compatibility defects?
+The downstream lifecycle is implemented through `PROFILE_EXAMINATION_TESTIMONY_OPENED_PENDING_SENATOR_QUESTIONING`. The remaining design and implementation questions are, in order:
+
+1. How does each Senator author and dispatch bounded questions, seal testimony, and produce jurisdictional findings under the shared defect-attribution rubric?
+2. How does Senate deliberate and distinguish Persona defects from Profile, derivation, assembly, substrate, or compatibility defects?
 3. How does Imperator approve the examined Profile without creating an unnecessary intervention in routine future routes?
 4. After approval, how does Conscription qualify the exact Persona, approved Profile, generic Officer substrate, and commission for operational use without inheriting selection or deployment authority?
 5. Who authorizes mission deployment, and what state transition changes the Persona's custody availability without implying ownership transfer?
