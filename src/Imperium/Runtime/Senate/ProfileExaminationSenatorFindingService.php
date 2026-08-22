@@ -115,18 +115,24 @@ final readonly class ProfileExaminationSenatorFindingService
     private function validateDecision(array $decision, array $rubric, string $evidenceReference): void
     {
         $keys = array_keys($decision); sort($keys, SORT_STRING);
-        if (['attributed_defect','disposition','evidence_references','limitations','rationale','severity','uncertainty'] !== $keys
-            || !in_array($decision['disposition'] ?? null, ['PASS', 'CONCERN', 'FAIL', 'UNRESOLVED'], true)
-            || !in_array($decision['severity'] ?? null, ['NONE', 'LOW', 'MEDIUM', 'HIGH', 'CRITICAL'], true)
-            || !is_string($decision['rationale'] ?? null) || '' === trim($decision['rationale'])
-            || [$evidenceReference] !== ($decision['evidence_references'] ?? null)
-            || !is_array($decision['limitations'] ?? null) || !array_is_list($decision['limitations'])
-            || !is_array($decision['uncertainty'] ?? null) || !array_is_list($decision['uncertainty'])
-            || ('PASS' === $decision['disposition'] ? null !== ($decision['attributed_defect'] ?? null) : !in_array($decision['attributed_defect'] ?? null, $rubric, true))
-            || ('PASS' === $decision['disposition'] && 'NONE' !== $decision['severity'])
-        ) throw new \RuntimeException('S250_PROFILE_EXAMINATION_FINDING_INVALID');
-        foreach (['limitations', 'uncertainty'] as $field) foreach ($decision[$field] as $value) if (!is_string($value) || '' === trim($value)) throw new \RuntimeException('S250_PROFILE_EXAMINATION_FINDING_INVALID');
+        if (['attributed_defect','disposition','evidence_references','limitations','rationale','severity','uncertainty'] !== $keys) throw $this->invalidDecision('FIELDS_INVALID');
+        if (!in_array($decision['disposition'] ?? null, ['PASS', 'CONCERN', 'FAIL', 'UNRESOLVED'], true)) throw $this->invalidDecision('DISPOSITION_INVALID');
+        if (!in_array($decision['severity'] ?? null, ['NONE', 'LOW', 'MEDIUM', 'HIGH', 'CRITICAL'], true)) throw $this->invalidDecision('SEVERITY_INVALID');
+        if (!is_string($decision['rationale'] ?? null) || '' === trim($decision['rationale'])) throw $this->invalidDecision('RATIONALE_INVALID');
+        if ([$evidenceReference] !== ($decision['evidence_references'] ?? null)) throw $this->invalidDecision('EVIDENCE_REFERENCES_INVALID');
+        foreach (['limitations', 'uncertainty'] as $field) {
+            if (!is_array($decision[$field] ?? null) || !array_is_list($decision[$field])) throw $this->invalidDecision(strtoupper($field).'_TYPE_INVALID');
+            foreach ($decision[$field] as $value) if (!is_string($value) || '' === trim($value)) throw $this->invalidDecision(strtoupper($field).'_ITEM_INVALID');
+        }
+        if ('PASS' === $decision['disposition']) {
+            if (null !== ($decision['attributed_defect'] ?? null)) throw $this->invalidDecision('PASS_ATTRIBUTED_DEFECT_INVALID');
+            if ('NONE' !== $decision['severity']) throw $this->invalidDecision('PASS_SEVERITY_INVALID');
+        } elseif (!in_array($decision['attributed_defect'] ?? null, $rubric, true)) {
+            throw $this->invalidDecision('ATTRIBUTED_DEFECT_INVALID');
+        }
     }
+
+    private function invalidDecision(string $reason): \RuntimeException { return new \RuntimeException('S250_PROFILE_EXAMINATION_FINDING_INVALID: '.$reason); }
 
     private function actor(array $binding): array { return ['seat' => $binding['seat'], 'binding_id' => $binding['binding_id'], 'binding_digest' => $binding['record_digest'], 'manifestation_id' => $binding['manifestation_id'], 'occupancy_generation' => $binding['occupancy_generation']]; }
     private function read(string $path, string $error): array { if (!is_file($path)) throw new \RuntimeException($error); return json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR); }
