@@ -16,7 +16,7 @@ The central boundary is:
 
 **Curia capability demand → Guildhall profession and Persona resolution → Imperator personnel-use authorization → Garrison reservation → Imperator Profile-derivation authorization → Conscription acceptance → Constable custody-bound derivation lease → Conscription commission → Alchemist acceptance → Laboratorium Profile derivation and return → Conscription examination assembly → Senate examination and disposition → Imperator Profile approval → Conscription operational qualification → authorized deployment → governed return or retirement**
 
-The route is implemented through Profile-examination disposition-authority opening. Senate disposition, Imperator Profile approval, operational qualification and assembly, Seat binding, deployment authorization, first bounded execution, and governed return or retirement remain downstream work.
+The route is implemented through the sealed Profile-examination disposition. Imperator Profile approval, operational qualification and assembly, Seat binding, deployment authorization, first bounded execution, and governed return or retirement remain downstream work.
 
 ## Enumerated downstream flow
 
@@ -52,9 +52,10 @@ The route is implemented through Profile-examination disposition-authority openi
 
 29. **Open Senate disposition authority.** Revalidate the exact reconciliation and complete admitted finding set, then grant one bounded disposition authority at `PROFILE_EXAMINATION_DISPOSITION_AUTHORITY_OPENED_PENDING_LORD_SPEAKER_DISPOSITION`. Stop before a disposition is authored.
 
+30. **Seal the Senate disposition.** Issue one attributable Profile-examination disposition bound to every finding and the reconciliation at `PROFILE_EXAMINATION_DISPOSITION_SEALED_PENDING_IMPERATOR_PROFILE_APPROVAL`. Preserve refusal and revision branches; grant no Imperator or operational authority.
+
 ### Proposed completion batches
 
-30. **Seal the Senate disposition.** Issue one attributable Profile-examination disposition bound to every finding and the reconciliation. Preserve refusal and revision branches; grant no Imperator or operational authority.
 31. **Imperator decides Profile approval.** Present the exact candidate and complete Senate record. Only explicit approval authorizes the next operational-qualification request; denial, revision, clarification, alternative, and deferral remain non-authorizing.
 32. **Conscription installs and qualifies the approved Profile operationally.** Revalidate the exact approval, Persona, custody lease, generic Officer substrate, intended Seat, mission scope, tools, data, stop conditions, and return contract. Qualification grants neither Seat binding nor deployment.
 33. **Conscription assembles the operational Manifestation.** Mechanically combine the exact Persona, approved operational Profile, and generic Officer substrate. Preserve identity and authority boundaries; stop before Seat occupancy.
@@ -65,7 +66,7 @@ The route is implemented through Profile-examination disposition-authority openi
 
 ## Current implementation checkpoint
 
-The implemented canonical route ends after step 29 at `PROFILE_EXAMINATION_DISPOSITION_AUTHORITY_OPENED_PENDING_LORD_SPEAKER_DISPOSITION`; refusal remains a sealed alternate terminal branch at `EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY`. Steps 30–37 are the proposed eight remaining batches through one governed execution and return cycle.
+The implemented canonical route ends after step 30 at `PROFILE_EXAMINATION_DISPOSITION_SEALED_PENDING_IMPERATOR_PROFILE_APPROVAL`; refusal remains a sealed alternate terminal branch at `EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY`. Steps 31–37 are the proposed seven remaining batches through one governed execution and return cycle.
 
 - Garrison still holds the exact Persona at `ADMITTED_HELD`.
 - The commission and its acceptance have been consumed only to derive one deterministic, immutable Profile candidate at version 1.
