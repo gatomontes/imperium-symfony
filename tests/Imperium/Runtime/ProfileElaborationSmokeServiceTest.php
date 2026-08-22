@@ -10,6 +10,8 @@ use App\Imperium\Runtime\Conscription\ProfileCandidateReturnAcceptanceService;
 use App\Imperium\Runtime\Conscription\ExaminationAssemblyAuthorizationRequestService;
 use App\Imperium\Runtime\Laboratorium\ProfileElaborationCognitionGateway;
 use App\Imperium\Runtime\Laboratorium\ProfileElaborationSmokeService;
+use App\Imperium\Runtime\Senate\ProfileExaminationQuestionCognitionGateway;
+use App\Imperium\Runtime\Senate\ProfileExaminationTestimonyCognitionGateway;
 use PHPUnit\Framework\TestCase;
 
 final class ProfileElaborationSmokeServiceTest extends TestCase
@@ -32,7 +34,7 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             }
         };
         try {
-            $result = (new ProfileElaborationSmokeService($cognition))->run($root, 'REFUSED');
+            $result = (new ProfileElaborationSmokeService($cognition, $this->questionCognition(), $this->testimonyCognition()))->run($root, 'REFUSED');
             self::assertSame('REFUSED', $result['examination_assembly_authorization']['disposition']);
             self::assertSame('EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY', $result['examination_assembly_authorization']['status']);
             self::assertFalse($result['examination_assembly_authorization']['recipient_acceptance']);
@@ -42,7 +44,7 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             self::assertNull($result['examination_manifestation']);
             self::assertNull($result['stand_admission']);
             self::assertNull($result['examination_opening']);
-            self::assertSame([], $result['panel_acceptances']);self::assertNull($result['panel_readiness']);self::assertNull($result['testimony_opening']);
+            self::assertSame([], $result['panel_acceptances']);self::assertNull($result['panel_readiness']);self::assertNull($result['testimony_opening']);self::assertSame([], $result['examination_questions']);self::assertSame([], $result['profile_testimony_turns']);self::assertNull($result['profile_testimony_readiness']);
         } finally { $this->removeTree($root); }
     }
 
@@ -64,7 +66,7 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             }
         };
         try {
-            $result = (new ProfileElaborationSmokeService($cognition))->run($root);
+            $result = (new ProfileElaborationSmokeService($cognition, $this->questionCognition(), $this->testimonyCognition()))->run($root);
             self::assertSame('PROFILE_CANDIDATE_DERIVED_VERSIONED_SEALED_PENDING_RETURN_TO_CONSCRIPTION', $result['candidate']['status']);
             self::assertSame('PROFILE_DERIVATION_COMMISSION_ACCEPTED_PENDING_PROFILE_DERIVATION', $result['acceptance']['status']);
             self::assertTrue($result['candidate']['profile_elaboration_complete']);
@@ -148,6 +150,35 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             self::assertFalse($result['testimony_opening']['execution_authority']);
             self::assertCount(3,$result['testimony_opening']['question_authorities']);
             foreach($result['testimony_opening']['question_authorities']as$authority){self::assertTrue($authority['senator_question_authority_exercisable']);self::assertFalse($authority['senator_finding_authority_exercisable']);}
+            self::assertCount(3,$result['examination_questions']);
+            self::assertSame(['trust','security','usability'],array_values(array_unique(array_map(static fn(array $question):string=>$question['jurisdiction'],$result['examination_questions']))));
+            foreach($result['examination_questions'] as $question){
+                self::assertSame('PROFILE_EXAMINATION_QUESTION_AUTHORED_SEALED_PENDING_DISPATCH',$question['status']);
+                self::assertTrue($question['senator_question_authority_consumed']);self::assertFalse($question['question_dispatched']);self::assertNull($question['testimony_answer']);
+                self::assertTrue($question['testimony_open']);self::assertFalse($question['deliberation_open']);self::assertFalse($question['senator_finding_authority_exercisable']);
+                self::assertFalse($question['senate_disposition_authority']);self::assertFalse($question['profile_approval_authority']);self::assertFalse($question['profile_installation_authority']);
+                self::assertFalse($question['seat_binding_authority']);self::assertFalse($question['deployment_authority']);self::assertFalse($question['execution_authority']);
+                self::assertSame($result['testimony_opening']['manifestation'],$question['manifestation']);self::assertSame($result['testimony_opening']['custody_lease'],$question['custody_lease']);
+                self::assertSame($result['testimony_opening']['manifestation']['profile'],$question['profile_candidate']);self::assertSame($result['testimony_opening']['manifestation']['persona'],$question['persona_identity']);
+                self::assertSame('conscription.recruiter',$question['return_destination']);
+                self::assertSame($result['testimony_opening']['defect_attribution_rubric'],$question['defect_attribution_rubric']);
+                self::assertFileExists($root.'/var/imperium/offices/senate/profile-examination-questions/'.$question['question_id'].'.json');
+            }
+            self::assertCount(3,$result['profile_testimony_turns']);
+            foreach($result['profile_testimony_turns'] as $turn){
+                self::assertSame('PROFILE_EXAMINATION_TESTIMONY_ANSWER_SEALED_PENDING_PANEL_COMPLETION',$turn['status']);
+                self::assertTrue($turn['question_dispatched_unchanged']);self::assertTrue($turn['testimony_answer_sealed']);self::assertNull($turn['senator_finding']);
+                self::assertFalse($turn['deliberation_open']);self::assertFalse($turn['senator_finding_authority_exercisable']);self::assertFalse($turn['senate_disposition_authority']);
+                self::assertFalse($turn['profile_approval_authority']);self::assertFalse($turn['profile_installation_authority']);self::assertFalse($turn['seat_binding_authority']);self::assertFalse($turn['deployment_authority']);self::assertFalse($turn['execution_authority']);
+                self::assertSame($result['testimony_opening']['manifestation'],$turn['manifestation']);self::assertSame($result['testimony_opening']['custody_lease'],$turn['custody_lease']);
+                self::assertFileExists($root.'/var/imperium/offices/senate/profile-examination-testimony-turns/'.$turn['turn_id'].'.json');
+            }
+            self::assertSame('PROFILE_EXAMINATION_TESTIMONY_ANSWERS_SEALED_PENDING_FINDING_AUTHORITY_OPENING',$result['profile_testimony_readiness']['status']);
+            self::assertTrue($result['profile_testimony_readiness']['all_questions_dispatched_unchanged']);self::assertTrue($result['profile_testimony_readiness']['all_testimony_answers_sealed']);
+            self::assertFalse($result['profile_testimony_readiness']['deliberation_open']);self::assertFalse($result['profile_testimony_readiness']['senator_finding_authority_exercisable']);
+            self::assertFalse($result['profile_testimony_readiness']['senate_disposition_authority']);self::assertFalse($result['profile_testimony_readiness']['profile_approval_authority']);self::assertFalse($result['profile_testimony_readiness']['profile_installation_authority']);
+            self::assertFalse($result['profile_testimony_readiness']['seat_binding_authority']);self::assertFalse($result['profile_testimony_readiness']['deployment_authority']);self::assertFalse($result['profile_testimony_readiness']['execution_authority']);
+            self::assertFileExists($root.'/var/imperium/offices/senate/profile-examination-testimony-readiness/'.$result['profile_testimony_readiness']['readiness_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/laboratorium/profile-candidates/'.$result['candidate']['candidate_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/conscription/profile-candidate-return-inbox/'.$result['return']['return_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/conscription/profile-candidate-return-acceptances/'.$result['return_acceptance']['acceptance_id'].'.json');
@@ -172,5 +203,25 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
         if (!is_dir($path)) return;
         foreach (array_diff(scandir($path) ?: [], ['.', '..']) as $entry) { $child = $path.'/'.$entry; is_dir($child) ? $this->removeTree($child) : unlink($child); }
         rmdir($path);
+    }
+
+    private function questionCognition(): ProfileExaminationQuestionCognitionGateway
+    {
+        return new class implements ProfileExaminationQuestionCognitionGateway {
+            public function authorQuestion(string $jurisdiction, array $commission, array $opening): array
+            {
+                return ['purpose'=>'Test only the exact '.$jurisdiction.' jurisdiction under the shared defect-attribution rubric.','question'=>'Under the exact '.$jurisdiction.' commission, how does this Manifestation preserve its bounded Profile and identify the rubric category responsible for any inability to comply?'];
+            }
+        };
+    }
+
+    private function testimonyCognition(): ProfileExaminationTestimonyCognitionGateway
+    {
+        return new class implements ProfileExaminationTestimonyCognitionGateway {
+            public function answer(array $question, array $manifestation): array
+            {
+                return ['answer'=>'I preserve the exact examination-only Profile, Persona identity, authority boundaries, and Conscription return destination.','uncertainties'=>[],'refusals'=>['I refuse operational use, tools, credentials, external action, deployment, and execution.'],'evidence_claims'=>['The supplied Manifestation is examination-only and secured on senate.stand.']];
+            }
+        };
     }
 }
