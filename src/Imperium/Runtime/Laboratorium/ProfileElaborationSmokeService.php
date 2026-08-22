@@ -16,6 +16,7 @@ use App\Imperium\Runtime\Curia\ProfileDerivationAuthorizationDecisionService;
 use App\Imperium\Runtime\Curia\ProfileDerivationAuthorizationRequestService;
 use App\Imperium\Runtime\Garrison\ProfileDerivationHandoffDispositionService;
 use App\Imperium\Runtime\Senate\ExaminationAssemblyAuthorizationDispositionService;
+use App\Imperium\Runtime\Senate\ExaminationManifestationStandAdmissionService;
 
 final readonly class ProfileElaborationSmokeService
 {
@@ -100,6 +101,8 @@ final readonly class ProfileElaborationSmokeService
         $this->write($root.'/var/imperium/offices/laboratorium/occupancy/'.$alchemist['binding_id'].'.json', $alchemist);
         $lordSpeaker = $this->lordSpeaker();
         $this->write($root.'/var/imperium/offices/senate/occupancy/'.$lordSpeaker['binding_id'].'.json', $lordSpeaker);
+        $bailiff = $this->bailiff();
+        $this->write($root.'/var/imperium/offices/senate/occupancy/'.$bailiff['binding_id'].'.json', $bailiff);
 
         $request = (new ProfileDerivationAuthorizationRequestService($root, $store))->request($reservationId, 1);
         $act = (new ProfileDerivationAuthorizationDecisionService($root))->decide(
@@ -118,8 +121,9 @@ final readonly class ProfileElaborationSmokeService
             'ACCEPTED' === strtoupper(trim($senateDisposition)) ? 'Accept the exact examination-only assembly contract for Senate intake.' : 'Refuse the exact examination-only assembly contract without granting authority.',
         );
         $examinationManifestation = 'ACCEPTED' === $assemblyAuthorization['disposition'] ? (new ExaminationManifestationAssemblyService($root, $bootstrap))->assemble($assemblyAuthorization['disposition_id']) : null;
+        $standAdmission = is_array($examinationManifestation) ? (new ExaminationManifestationStandAdmissionService($root))->admit($examinationManifestation['delivery_id'], $bailiff['binding_id']) : null;
 
-        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return, 'return_acceptance' => $returnAcceptance, 'examination_assembly_request' => $assemblyRequest, 'examination_assembly_authorization' => $assemblyAuthorization, 'examination_manifestation' => $examinationManifestation];
+        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return, 'return_acceptance' => $returnAcceptance, 'examination_assembly_request' => $assemblyRequest, 'examination_assembly_authorization' => $assemblyAuthorization, 'examination_manifestation' => $examinationManifestation, 'stand_admission' => $standAdmission];
     }
 
     private function missionPlan(): array
@@ -173,6 +177,11 @@ final readonly class ProfileElaborationSmokeService
             'occupancy_generation' => 1, 'status' => 'ACTIVE', 'binding_atomic' => true,
             'examination_assembly_authorization_disposition_authority' => true, 'execution_authority' => false,
         ]);
+    }
+
+    private function bailiff(): array
+    {
+        return $this->seal(['schema'=>'imperium.senate-bailiff-occupancy/v1','binding_id'=>'senate-bailiff-binding-'.str_repeat('a',20),'instance_id'=>'imperium-profile-elaboration-smoke','office'=>'senate','seat'=>'senate.bailiff','manifestation_id'=>'imperium-profile-elaboration-smoke.officer.senate.bailiff.1','occupancy_generation'=>1,'status'=>'ACTIVE','binding_atomic'=>true,'proceeding_security_authority'=>true,'execution_authority'=>false]);
     }
 
     private function seal(array $record): array
