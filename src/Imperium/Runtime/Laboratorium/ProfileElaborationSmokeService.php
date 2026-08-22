@@ -28,6 +28,8 @@ use App\Imperium\Runtime\Senate\ProfileExaminationFindingAuthorityOpeningService
 use App\Imperium\Runtime\Senate\ProfileExaminationFindingCognitionGateway;
 use App\Imperium\Runtime\Senate\ProfileExaminationSenatorFindingService;
 use App\Imperium\Runtime\Senate\ProfileExaminationDeliberationOpeningService;
+use App\Imperium\Runtime\Senate\ProfileExaminationReconciliationCognitionGateway;
+use App\Imperium\Runtime\Senate\ProfileExaminationReconciliationService;
 
 final readonly class ProfileElaborationSmokeService
 {
@@ -36,6 +38,7 @@ final readonly class ProfileElaborationSmokeService
         private ProfileExaminationQuestionCognitionGateway $questionCognition,
         private ProfileExaminationTestimonyCognitionGateway $testimonyCognition,
         private ProfileExaminationFindingCognitionGateway $findingCognition,
+        private ProfileExaminationReconciliationCognitionGateway $reconciliationCognition,
     ) {}
 
     public function run(string $root, string $senateDisposition = 'ACCEPTED'): array
@@ -147,8 +150,9 @@ final readonly class ProfileElaborationSmokeService
         $findingAuthorityOpening=is_array($testimonyReadiness)?(new ProfileExaminationFindingAuthorityOpeningService($root))->open($testimonyReadiness['readiness_id'],$lordSpeaker['binding_id']):null;
         $senatorFindings=[];$findingReadiness=null;if(is_array($findingAuthorityOpening)){foreach(['trust','security','usability'] as $jurisdiction){$issued=(new ProfileExaminationSenatorFindingService($root,$this->findingCognition))->issue($findingAuthorityOpening['opening_id'],$jurisdiction,$senators[$jurisdiction]['binding_id']);$senatorFindings[]=$issued['finding'];$findingReadiness=$issued['readiness'];}}
         $deliberationOpening=is_array($findingReadiness)?(new ProfileExaminationDeliberationOpeningService($root))->open($findingReadiness['readiness_id'],$lordSpeaker['binding_id']):null;
+        $reconciliation=is_array($deliberationOpening)?(new ProfileExaminationReconciliationService($root,$this->reconciliationCognition))->reconcile($deliberationOpening['deliberation_id'],$lordSpeaker['binding_id']):null;
 
-        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return, 'return_acceptance' => $returnAcceptance, 'examination_assembly_request' => $assemblyRequest, 'examination_assembly_authorization' => $assemblyAuthorization, 'examination_manifestation' => $examinationManifestation, 'stand_admission' => $standAdmission, 'examination_opening' => $examinationOpening,'panel_acceptances'=>$panelAcceptances,'panel_readiness'=>$panelReadiness,'testimony_opening'=>$testimonyOpening,'examination_questions'=>$examinationQuestions,'profile_testimony_turns'=>$testimonyTurns,'profile_testimony_readiness'=>$testimonyReadiness,'finding_authority_opening'=>$findingAuthorityOpening,'senator_findings'=>$senatorFindings,'finding_readiness'=>$findingReadiness,'deliberation_opening'=>$deliberationOpening];
+        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return, 'return_acceptance' => $returnAcceptance, 'examination_assembly_request' => $assemblyRequest, 'examination_assembly_authorization' => $assemblyAuthorization, 'examination_manifestation' => $examinationManifestation, 'stand_admission' => $standAdmission, 'examination_opening' => $examinationOpening,'panel_acceptances'=>$panelAcceptances,'panel_readiness'=>$panelReadiness,'testimony_opening'=>$testimonyOpening,'examination_questions'=>$examinationQuestions,'profile_testimony_turns'=>$testimonyTurns,'profile_testimony_readiness'=>$testimonyReadiness,'finding_authority_opening'=>$findingAuthorityOpening,'senator_findings'=>$senatorFindings,'finding_readiness'=>$findingReadiness,'deliberation_opening'=>$deliberationOpening,'reconciliation'=>$reconciliation];
     }
 
     private function missionPlan(): array

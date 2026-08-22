@@ -13,6 +13,7 @@ use App\Imperium\Runtime\Laboratorium\ProfileElaborationSmokeService;
 use App\Imperium\Runtime\Senate\ProfileExaminationQuestionCognitionGateway;
 use App\Imperium\Runtime\Senate\ProfileExaminationTestimonyCognitionGateway;
 use App\Imperium\Runtime\Senate\ProfileExaminationFindingCognitionGateway;
+use App\Imperium\Runtime\Senate\ProfileExaminationReconciliationCognitionGateway;
 use PHPUnit\Framework\TestCase;
 
 final class ProfileElaborationSmokeServiceTest extends TestCase
@@ -35,7 +36,7 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             }
         };
         try {
-            $result = (new ProfileElaborationSmokeService($cognition, $this->questionCognition(), $this->testimonyCognition(), $this->findingCognition()))->run($root, 'REFUSED');
+            $result = (new ProfileElaborationSmokeService($cognition, $this->questionCognition(), $this->testimonyCognition(), $this->findingCognition(), $this->reconciliationCognition()))->run($root, 'REFUSED');
             self::assertSame('REFUSED', $result['examination_assembly_authorization']['disposition']);
             self::assertSame('EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY', $result['examination_assembly_authorization']['status']);
             self::assertFalse($result['examination_assembly_authorization']['recipient_acceptance']);
@@ -45,7 +46,7 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             self::assertNull($result['examination_manifestation']);
             self::assertNull($result['stand_admission']);
             self::assertNull($result['examination_opening']);
-            self::assertSame([], $result['panel_acceptances']);self::assertNull($result['panel_readiness']);self::assertNull($result['testimony_opening']);self::assertSame([], $result['examination_questions']);self::assertSame([], $result['profile_testimony_turns']);self::assertNull($result['profile_testimony_readiness']);self::assertNull($result['finding_authority_opening']);self::assertSame([],$result['senator_findings']);self::assertNull($result['finding_readiness']);self::assertNull($result['deliberation_opening']);
+            self::assertSame([], $result['panel_acceptances']);self::assertNull($result['panel_readiness']);self::assertNull($result['testimony_opening']);self::assertSame([], $result['examination_questions']);self::assertSame([], $result['profile_testimony_turns']);self::assertNull($result['profile_testimony_readiness']);self::assertNull($result['finding_authority_opening']);self::assertSame([],$result['senator_findings']);self::assertNull($result['finding_readiness']);self::assertNull($result['deliberation_opening']);self::assertNull($result['reconciliation']);
         } finally { $this->removeTree($root); }
     }
 
@@ -67,7 +68,7 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             }
         };
         try {
-            $result = (new ProfileElaborationSmokeService($cognition, $this->questionCognition(), $this->testimonyCognition(), $this->findingCognition()))->run($root);
+            $result = (new ProfileElaborationSmokeService($cognition, $this->questionCognition(), $this->testimonyCognition(), $this->findingCognition(), $this->reconciliationCognition()))->run($root);
             self::assertSame('PROFILE_CANDIDATE_DERIVED_VERSIONED_SEALED_PENDING_RETURN_TO_CONSCRIPTION', $result['candidate']['status']);
             self::assertSame('PROFILE_DERIVATION_COMMISSION_ACCEPTED_PENDING_PROFILE_DERIVATION', $result['acceptance']['status']);
             self::assertTrue($result['candidate']['profile_elaboration_complete']);
@@ -213,6 +214,12 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             foreach($result['deliberation_opening']['admitted_findings'] as $admitted){$matching=array_values(array_filter($result['senator_findings'],static fn(array $finding):bool=>$finding['finding_id']===$admitted['finding_id']));self::assertCount(1,$matching);self::assertSame($matching[0],$admitted);}
             self::assertSame($result['finding_authority_opening']['manifestation'],$result['deliberation_opening']['manifestation']);self::assertSame($result['finding_authority_opening']['profile_candidate'],$result['deliberation_opening']['profile_candidate']);self::assertSame($result['finding_authority_opening']['persona_identity'],$result['deliberation_opening']['persona_identity']);self::assertSame($result['finding_authority_opening']['custody_lease'],$result['deliberation_opening']['custody_lease']);
             self::assertFileExists($root.'/var/imperium/offices/senate/profile-examination-deliberation-openings/'.$result['deliberation_opening']['deliberation_id'].'.json');
+            self::assertSame('PROFILE_EXAMINATION_FINDINGS_RECONCILED_PENDING_DISPOSITION_AUTHORITY_OPENING',$result['reconciliation']['status']);self::assertTrue($result['reconciliation']['reconciliation_authority_consumed']);self::assertTrue($result['reconciliation']['deliberation_open']);
+            self::assertFalse($result['reconciliation']['vote_authority']);self::assertFalse($result['reconciliation']['aggregation_authority']);self::assertFalse($result['reconciliation']['senate_disposition_authority']);
+            self::assertFalse($result['reconciliation']['profile_approval_authority']);self::assertFalse($result['reconciliation']['profile_installation_authority']);self::assertFalse($result['reconciliation']['seat_binding_authority']);self::assertFalse($result['reconciliation']['deployment_authority']);self::assertFalse($result['reconciliation']['execution_authority']);
+            self::assertSame($result['deliberation_opening']['admitted_findings'],$result['reconciliation']['admitted_findings']);self::assertSame($result['deliberation_opening']['manifestation'],$result['reconciliation']['manifestation']);self::assertSame($result['deliberation_opening']['profile_candidate'],$result['reconciliation']['profile_candidate']);self::assertSame($result['deliberation_opening']['persona_identity'],$result['reconciliation']['persona_identity']);self::assertSame($result['deliberation_opening']['custody_lease'],$result['reconciliation']['custody_lease']);
+            self::assertSame(array_map(static fn(array $finding):string=>'finding:'.$finding['jurisdiction'].':'.$finding['record_digest'],$result['reconciliation']['admitted_findings']),$result['reconciliation']['reconciliation']['finding_references']);
+            self::assertFileExists($root.'/var/imperium/offices/senate/profile-examination-reconciliations/'.$result['reconciliation']['reconciliation_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/laboratorium/profile-candidates/'.$result['candidate']['candidate_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/conscription/profile-candidate-return-inbox/'.$result['return']['return_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/conscription/profile-candidate-return-acceptances/'.$result['return_acceptance']['acceptance_id'].'.json');
@@ -265,6 +272,16 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             public function find(string $jurisdiction, array $authority, array $evidence): array
             {
                 return ['disposition'=>'PASS','attributed_defect'=>null,'evidence_references'=>$evidence['available_evidence_references'],'rationale'=>'The exact '.$jurisdiction.' testimony preserves its bounded examination contract.','severity'=>'NONE','limitations'=>[],'uncertainty'=>[]];
+            }
+        };
+    }
+
+    private function reconciliationCognition(): ProfileExaminationReconciliationCognitionGateway
+    {
+        return new class implements ProfileExaminationReconciliationCognitionGateway {
+            public function reconcile(array $authority,array $findings):array
+            {
+                return ['finding_references'=>$authority['available_finding_references'],'agreements'=>['All three findings preserve the examination-only boundary.'],'disagreements'=>[],'attribution_treatment'=>['No defect is attributed by any finding.'],'severity_treatment'=>['All findings report NONE.'],'limitations'=>['Reconciliation is limited to the admitted sealed findings.'],'uncertainties'=>[],'rationale'=>'The exact findings agree without voting, aggregation, modification, or suppressed dissent.'];
             }
         };
     }

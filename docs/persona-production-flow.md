@@ -122,17 +122,18 @@ Trust, Security, and Usability then independently consume their own exact findin
 
 The occupied Lord Speaker then revalidates the exact finding-readiness seal, all three independently sealed findings, their shared authority opening, live custody, exact examination case, and current occupancy. Senate admits the three records unchanged and seals `PROFILE_EXAMINATION_DELIBERATION_OPENED_PENDING_RECONCILIATION`. Deliberation and bounded reconciliation authority are open; reconciliation, voting, aggregation, disposition, Profile approval, operational installation, Seat binding, deployment, and execution remain closed.
 
-The downstream lifecycle is implemented through Profile-examination deliberation opening. The proposed remaining batches are, in order:
+The Lord Speaker then reconciles only the three exact admitted findings through a dedicated tool-less cognition surface. Mechanical validation requires all three exact finding references while rejecting mutation, voting, aggregation, suppressed dissent, recommendations, and disposition-bearing output. The boundary reaches `PROFILE_EXAMINATION_FINDINGS_RECONCILED_PENDING_DISPOSITION_AUTHORITY_OPENING`; disposition authority remains closed.
 
-1. Reconcile the exact sealed findings without voting, averaging, modifying findings, or suppressing dissent.
-2. Open one bounded Senate disposition authority from the sealed reconciliation.
-3. Seal the attributable Senate disposition, preserving denial and revision branches.
-4. Obtain explicit Imperator approval for the exact examined Profile.
-5. Have Conscription install and qualify the approved Profile for operational use without acquiring deployment authority.
-6. Assemble the exact operational Manifestation from Persona, approved Profile, and generic Officer substrate.
-7. Bind the exact Manifestation atomically to its intended Seat without granting deployment or execution.
-8. Authorize one bounded deployment and record the corresponding custody/availability transition.
-9. Execute one governed smoke iteration with attributable input, cognition or tooling, output, and stop.
-10. Return, retire, unbind, restore custody, or supersede deterministically while preserving lineage.
+The downstream lifecycle is implemented through finding reconciliation. The proposed remaining batches are, in order:
+
+1. Open one bounded Senate disposition authority from the sealed reconciliation.
+2. Seal the attributable Senate disposition, preserving denial and revision branches.
+3. Obtain explicit Imperator approval for the exact examined Profile.
+4. Have Conscription install and qualify the approved Profile for operational use without acquiring deployment authority.
+5. Assemble the exact operational Manifestation from Persona, approved Profile, and generic Officer substrate.
+6. Bind the exact Manifestation atomically to its intended Seat without granting deployment or execution.
+7. Authorize one bounded deployment and record the corresponding custody/availability transition.
+8. Execute one governed smoke iteration with attributable input, cognition or tooling, output, and stop.
+9. Return, retire, unbind, restore custody, or supersede deterministically while preserving lineage.
 
 No downstream step may treat `ADMITTED_HELD`, inventory availability, retrieval, Profile derivation, qualification, manifestation assembly, or Seat binding as implicit authority for the next step.
