@@ -177,6 +177,12 @@ The occupied Bailiff validates the exact sealed delivery, Manifestation restrict
 
 For development verification, `imperium:dev:profile-elaboration-smoke` constructs an isolated synthetic state root under `var/imperium-dev/`, executes the authentic authorization, lease, commission, Alchemist elaboration, mechanical sealing, return, Recruiter acceptance, Senate-intake request, and Lord-Speaker disposition services, and preserves all resulting artifacts for inspection. It refuses non-development environments and never writes into the active `var/imperium/` state root.
 
+## Profile-examination finding-authority opening — implemented
+
+After all three exact jurisdictional questions have been dispatched unchanged and their answers sealed, the occupied Lord Speaker revalidates the testimony readiness record, examination case, live `ADMITTED_HELD` custody lease, active Trust, Security, and Usability occupancies, commissions, acceptances, testimony-turn digests, shared defect-attribution rubric, and common identity baseline. The Lord Speaker then consumes one finding-phase-opening authority and creates one bounded finding authority for each exact Senator and jurisdiction.
+
+The route stops at `PROFILE_EXAMINATION_FINDING_AUTHORITIES_OPENED_PENDING_SENATOR_FINDINGS`. No Senator finding has been authored, and deliberation, Senate disposition, Imperator Profile approval, operational installation, Seat binding, deployment, and execution remain closed.
+
 ## Non-negotiable inherited invariants
 
 - preserve the exact admitted Persona ID, version, digest, custody record, Guildhall commission, and Senate confirmation;
