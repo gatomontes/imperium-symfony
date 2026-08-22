@@ -34,15 +34,17 @@ The route is implemented through Alchemist commission acceptance. Profile deriva
 12. **The Alchemist accepts the exact commission.** The occupied Alchemist independently validates the commission, lease, Persona, Profile scope, return destination, active occupancy, and digests. Acceptance reaches `PROFILE_DERIVATION_COMMISSION_ACCEPTED_PENDING_PROFILE_DERIVATION` and makes authority exercisable for one candidate only.
 13. **The Alchemist elaborates; Laboratorium seals the Profile candidate.** The occupied Alchemist cognitively elaborates the mission-specific operating posture, responsibilities, reasoning priorities, evidence discipline, tool-use behavior, input/output contracts, escalation, uncertainty, failure behavior, and Persona adaptations. Laboratorium machinery independently validates that elaboration against the accepted commission, active occupancy, exact Persona, immutable Profile scope, live custody lease, limitations, return destination, and source digests; only then does it version and seal the exact candidate. The candidate reaches `PROFILE_CANDIDATE_DERIVED_VERSIONED_SEALED_PENDING_RETURN_TO_CONSCRIPTION` without being returned or gaining downstream authority.
 14. **Laboratorium returns the exact sealed candidate.** Laboratorium revalidates the candidate, active Alchemist occupancy, live `ADMITTED_HELD` custody lease, immutable scope, authorization limitations, complete lineage, and exact `conscription.recruiter` destination. It consumes the candidate's one-use return authority and issues one sealed return record at `PROFILE_CANDIDATE_RETURNED_PENDING_CONSCRIPTION_ACCEPTANCE`. Delivery grants Conscription no acceptance, approval, installation, examination-assembly, Senate-examination, custody-release, deployment, or execution authority.
+15. **The Recruiter accepts the exact returned candidate.** The occupied ordinary Recruiter independently revalidates the immutable return packet, candidate digest and seal, Persona identity, mission scope, lineage, and live Garrison custody lease. It consumes only the candidate-acceptance authority and records `PROFILE_CANDIDATE_ACCEPTED_PENDING_EXAMINATION_ASSEMBLY_AUTHORIZATION`. Acceptance grants no approval, installation, examination-assembly, Senate-examination, custody-release, deployment, or execution authority.
 
 ## Current implementation checkpoint
 
-The implemented route ends after step 14 at `PROFILE_CANDIDATE_RETURNED_PENDING_CONSCRIPTION_ACCEPTANCE`.
+The implemented route ends after step 15 at `PROFILE_CANDIDATE_ACCEPTED_PENDING_EXAMINATION_ASSEMBLY_AUTHORIZATION`.
 
 - Garrison still holds the exact Persona at `ADMITTED_HELD`.
 - The commission and its acceptance have been consumed only to derive one deterministic, immutable Profile candidate at version 1.
 - The candidate preserves the exact Persona identity, immutable mission scope, limitations, custody lease, complete source lineage, and required return destination.
-- The exact sealed candidate has been returned to Conscription, but the Recruiter has not accepted it.
+- The exact sealed candidate has been returned to Conscription and independently accepted by the occupied ordinary Recruiter.
+- Acceptance consumes no downstream authority and does not assemble an examination manifestation.
 - No Senate Profile examination, Imperator Profile approval, installation, manifestation, Seat binding, deployment, or execution authority exists.
 
 ## Capability-to-Profession Translation Boundary
@@ -133,7 +135,13 @@ The candidate carries explicit one-use return authority derived from the accepte
 
 The return stops at `PROFILE_CANDIDATE_RETURNED_PENDING_CONSCRIPTION_ACCEPTANCE`. Conscription has received the packet but has not accepted it and gains no authority merely from delivery. Garrison retains the Persona at `ADMITTED_HELD`.
 
-For development verification, `imperium:dev:profile-elaboration-smoke` constructs an isolated synthetic state root under `var/imperium-dev/`, executes the authentic authorization, lease, commission, acceptance, Alchemist-elaboration, and mechanical-sealing services, and preserves all resulting artifacts for inspection. It refuses non-development environments and never writes into the active `var/imperium/` state root.
+## Conscription Profile-candidate acceptance — implemented
+
+The occupied ordinary Recruiter revalidates the sealed return and exact candidate against the active bootstrap identity and live custody record. The resulting `imperium.conscription-profile-candidate-return-acceptance/v1` preserves the complete return, candidate, Persona, scope, lease, and source lineage by digest.
+
+Acceptance stops at `PROFILE_CANDIDATE_ACCEPTED_PENDING_EXAMINATION_ASSEMBLY_AUTHORIZATION`. It consumes only the one exact acceptance act; Profile approval, installation, examination assembly, Senate examination, custody release, Persona substitution, Seat binding, deployment, and execution remain unauthorized. Garrison retains the Persona at `ADMITTED_HELD`.
+
+For development verification, `imperium:dev:profile-elaboration-smoke` constructs an isolated synthetic state root under `var/imperium-dev/`, executes the authentic authorization, lease, commission, Alchemist elaboration, mechanical sealing, return, and Recruiter-acceptance services, and preserves all resulting artifacts for inspection. It refuses non-development environments and never writes into the active `var/imperium/` state root.
 
 ## Non-negotiable inherited invariants
 

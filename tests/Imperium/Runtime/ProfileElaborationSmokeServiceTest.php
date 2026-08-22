@@ -6,6 +6,7 @@ namespace App\Tests\Imperium\Runtime;
 
 use App\Bootstrap\CanonicalJson;
 use App\Imperium\Runtime\Laboratorium\ProfileCandidateReturnService;
+use App\Imperium\Runtime\Conscription\ProfileCandidateReturnAcceptanceService;
 use App\Imperium\Runtime\Laboratorium\ProfileElaborationCognitionGateway;
 use App\Imperium\Runtime\Laboratorium\ProfileElaborationSmokeService;
 use PHPUnit\Framework\TestCase;
@@ -46,16 +47,28 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             self::assertFalse($result['return']['custody_release_authority']);
             self::assertFalse($result['return']['deployment_authority']);
             self::assertFalse($result['return']['execution_authority']);
+            self::assertSame('ACCEPTED_EXACT_RETURNED_PROFILE_CANDIDATE', $result['return_acceptance']['disposition']);
+            self::assertSame('PROFILE_CANDIDATE_ACCEPTED_PENDING_EXAMINATION_ASSEMBLY_AUTHORIZATION', $result['return_acceptance']['status']);
+            self::assertTrue($result['return_acceptance']['recipient_acceptance']);
+            self::assertTrue($result['return_acceptance']['profile_candidate_acceptance_authority_consumed']);
+            self::assertFalse($result['return_acceptance']['profile_approval_authority']);
+            self::assertFalse($result['return_acceptance']['profile_installation_authority']);
+            self::assertFalse($result['return_acceptance']['examination_assembly_authority']);
+            self::assertFalse($result['return_acceptance']['senate_examination_authority']);
+            self::assertFalse($result['return_acceptance']['custody_release_authority']);
+            self::assertFalse($result['return_acceptance']['deployment_authority']);
+            self::assertFalse($result['return_acceptance']['execution_authority']);
             self::assertFileExists($root.'/var/imperium/offices/laboratorium/profile-candidates/'.$result['candidate']['candidate_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/conscription/profile-candidate-return-inbox/'.$result['return']['return_id'].'.json');
+            self::assertFileExists($root.'/var/imperium/offices/conscription/profile-candidate-return-acceptances/'.$result['return_acceptance']['acceptance_id'].'.json');
 
             $custodyPath = $root.'/var/imperium/offices/garrison/custody/'.$result['candidate']['custody_lease']['custody_id'].'.json';
             $custody = json_decode((string) file_get_contents($custodyPath), true, 512, JSON_THROW_ON_ERROR);
             $custody['available'] = false; unset($custody['record_digest']);
             $custody['record_digest'] = hash('sha256', CanonicalJson::encode($custody));
             file_put_contents($custodyPath, json_encode($custody, JSON_THROW_ON_ERROR));
-            $this->expectExceptionMessage('L50_PROFILE_CANDIDATE_RETURN_CHAIN_INVALID');
-            (new ProfileCandidateReturnService($root))->returnCandidate($result['candidate']['candidate_id']);
+            $this->expectExceptionMessage('R87_PROFILE_CANDIDATE_RETURN_CHAIN_INVALID');
+            (new ProfileCandidateReturnAcceptanceService($root, new \App\Bootstrap\StateStore($root)))->accept($result['return']['return_id']);
         } finally { $this->removeTree($root); }
     }
 
