@@ -120,12 +120,19 @@ The occupied Lord Speaker then revalidates the complete sealed testimony baselin
 
 Trust, Security, and Usability then independently consume their own exact finding authorities. Each cognition surface receives only its own sealed testimony turn and returns one rubric-bound attributable decision with evidence references, rationale, severity, limitations, and uncertainty. Runtime validation preserves the exact case, examination-only Manifestation, Profile candidate, Persona identity, custody lease, commission, acceptance, jurisdiction, lineage, and return destination. After all three findings are sealed, the boundary reaches `PROFILE_EXAMINATION_SENATOR_FINDINGS_SEALED_PENDING_DELIBERATION_OPENING` without exposing the findings to one another or opening deliberation.
 
-The downstream lifecycle is implemented through the independent sealed Profile-examination findings. The remaining design and implementation questions are, in order:
+The occupied Lord Speaker then revalidates the exact finding-readiness seal, all three independently sealed findings, their shared authority opening, live custody, exact examination case, and current occupancy. Senate admits the three records unchanged and seals `PROFILE_EXAMINATION_DELIBERATION_OPENED_PENDING_RECONCILIATION`. Deliberation and bounded reconciliation authority are open; reconciliation, voting, aggregation, disposition, Profile approval, operational installation, Seat binding, deployment, and execution remain closed.
 
-1. How does Senate open deliberation and preserve disagreement while distinguishing Persona defects from Profile, derivation, assembly, substrate, or compatibility defects?
-2. How does Imperator approve the examined Profile without creating an unnecessary intervention in routine future routes?
-3. After approval, how does Conscription qualify the exact Persona, approved Profile, generic Officer substrate, and commission for operational use without inheriting selection or deployment authority?
-4. Who authorizes mission deployment, and what state transition changes the Persona's custody availability without implying ownership transfer?
-5. How are return, retirement, custody restoration, denial classification, and supersession recorded after use?
+The downstream lifecycle is implemented through Profile-examination deliberation opening. The proposed remaining batches are, in order:
+
+1. Reconcile the exact sealed findings without voting, averaging, modifying findings, or suppressing dissent.
+2. Open one bounded Senate disposition authority from the sealed reconciliation.
+3. Seal the attributable Senate disposition, preserving denial and revision branches.
+4. Obtain explicit Imperator approval for the exact examined Profile.
+5. Have Conscription install and qualify the approved Profile for operational use without acquiring deployment authority.
+6. Assemble the exact operational Manifestation from Persona, approved Profile, and generic Officer substrate.
+7. Bind the exact Manifestation atomically to its intended Seat without granting deployment or execution.
+8. Authorize one bounded deployment and record the corresponding custody/availability transition.
+9. Execute one governed smoke iteration with attributable input, cognition or tooling, output, and stop.
+10. Return, retire, unbind, restore custody, or supersede deterministically while preserving lineage.
 
 No downstream step may treat `ADMITTED_HELD`, inventory availability, retrieval, Profile derivation, qualification, manifestation assembly, or Seat binding as implicit authority for the next step.
