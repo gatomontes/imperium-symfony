@@ -18,6 +18,7 @@ use App\Imperium\Runtime\Garrison\ProfileDerivationHandoffDispositionService;
 use App\Imperium\Runtime\Senate\ExaminationAssemblyAuthorizationDispositionService;
 use App\Imperium\Runtime\Senate\ExaminationManifestationStandAdmissionService;
 use App\Imperium\Runtime\Senate\ProfileExaminationOpeningService;
+use App\Imperium\Runtime\Senate\ProfileExaminationCommissionAcceptanceService;
 
 final readonly class ProfileElaborationSmokeService
 {
@@ -104,6 +105,7 @@ final readonly class ProfileElaborationSmokeService
         $this->write($root.'/var/imperium/offices/senate/occupancy/'.$lordSpeaker['binding_id'].'.json', $lordSpeaker);
         $bailiff = $this->bailiff();
         $this->write($root.'/var/imperium/offices/senate/occupancy/'.$bailiff['binding_id'].'.json', $bailiff);
+        $senators=[]; foreach(['trust','security','usability'] as $role){$senators[$role]=$this->senator($role);$this->write($root.'/var/imperium/offices/senate/occupancy/'.$senators[$role]['binding_id'].'.json',$senators[$role]);}
 
         $request = (new ProfileDerivationAuthorizationRequestService($root, $store))->request($reservationId, 1);
         $act = (new ProfileDerivationAuthorizationDecisionService($root))->decide(
@@ -124,8 +126,9 @@ final readonly class ProfileElaborationSmokeService
         $examinationManifestation = 'ACCEPTED' === $assemblyAuthorization['disposition'] ? (new ExaminationManifestationAssemblyService($root, $bootstrap))->assemble($assemblyAuthorization['disposition_id']) : null;
         $standAdmission = is_array($examinationManifestation) ? (new ExaminationManifestationStandAdmissionService($root))->admit($examinationManifestation['delivery_id'], $bailiff['binding_id']) : null;
         $examinationOpening = is_array($standAdmission) ? (new ProfileExaminationOpeningService($root))->open($standAdmission['admission_id'], $lordSpeaker['binding_id']) : null;
+        $panelAcceptances=[];$panelReadiness=null;if(is_array($examinationOpening)){foreach($examinationOpening['commissions'] as $commission){$role=substr($commission['recipient']['seat'],strlen('senate.committee.'));$accepted=(new ProfileExaminationCommissionAcceptanceService($root))->accept($commission['commission_id'],$senators[$role]['binding_id']);$panelAcceptances[]=$accepted['acceptance'];$panelReadiness=$accepted['panel_readiness'];}}
 
-        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return, 'return_acceptance' => $returnAcceptance, 'examination_assembly_request' => $assemblyRequest, 'examination_assembly_authorization' => $assemblyAuthorization, 'examination_manifestation' => $examinationManifestation, 'stand_admission' => $standAdmission, 'examination_opening' => $examinationOpening];
+        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return, 'return_acceptance' => $returnAcceptance, 'examination_assembly_request' => $assemblyRequest, 'examination_assembly_authorization' => $assemblyAuthorization, 'examination_manifestation' => $examinationManifestation, 'stand_admission' => $standAdmission, 'examination_opening' => $examinationOpening,'panel_acceptances'=>$panelAcceptances,'panel_readiness'=>$panelReadiness];
     }
 
     private function missionPlan(): array
@@ -185,6 +188,7 @@ final readonly class ProfileElaborationSmokeService
     {
         return $this->seal(['schema'=>'imperium.senate-bailiff-occupancy/v1','binding_id'=>'senate-bailiff-binding-'.str_repeat('a',20),'instance_id'=>'imperium-profile-elaboration-smoke','office'=>'senate','seat'=>'senate.bailiff','manifestation_id'=>'imperium-profile-elaboration-smoke.officer.senate.bailiff.1','occupancy_generation'=>1,'status'=>'ACTIVE','binding_atomic'=>true,'proceeding_security_authority'=>true,'execution_authority'=>false]);
     }
+    private function senator(string $role):array{return $this->seal(['schema'=>'imperium.senate-senator-occupancy/v1','binding_id'=>'senate-'.$role.'-binding-'.substr(hash('sha256',$role),0,20),'instance_id'=>'imperium-profile-elaboration-smoke','office'=>'senate','seat'=>'senate.committee.'.$role,'manifestation_id'=>'imperium-profile-elaboration-smoke.officer.senate.'.$role.'.1','occupancy_generation'=>1,'status'=>'ACTIVE','binding_atomic'=>true,'senator_question_authority'=>true,'senator_finding_authority'=>true,'execution_authority'=>false]);}
 
     private function seal(array $record): array
     {

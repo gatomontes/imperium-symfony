@@ -42,6 +42,7 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             self::assertNull($result['examination_manifestation']);
             self::assertNull($result['stand_admission']);
             self::assertNull($result['examination_opening']);
+            self::assertSame([], $result['panel_acceptances']);self::assertNull($result['panel_readiness']);
         } finally { $this->removeTree($root); }
     }
 
@@ -133,6 +134,8 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             self::assertFalse($result['examination_opening']['case']['testimony_open']);
             self::assertCount(3,$result['examination_opening']['commissions']);
             foreach($result['examination_opening']['commissions'] as $commission){self::assertNull($commission['recipient_acceptance']);self::assertFalse($commission['senator_question_authority_exercisable']);self::assertFalse($commission['senator_finding_authority_exercisable']);}
+            self::assertCount(3,$result['panel_acceptances']);foreach($result['panel_acceptances']as$a){self::assertTrue($a['recipient_acceptance']);self::assertFalse($a['senator_question_authority_exercisable']);self::assertFalse($a['senator_finding_authority_exercisable']);}
+            self::assertSame('PROFILE_EXAMINATION_PANEL_ACCEPTED_PENDING_TESTIMONY_OPENING',$result['panel_readiness']['status']);self::assertTrue($result['panel_readiness']['panel_ready']);self::assertFalse($result['panel_readiness']['testimony_open']);
             self::assertFileExists($root.'/var/imperium/offices/laboratorium/profile-candidates/'.$result['candidate']['candidate_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/conscription/profile-candidate-return-inbox/'.$result['return']['return_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/conscription/profile-candidate-return-acceptances/'.$result['return_acceptance']['acceptance_id'].'.json');
