@@ -42,7 +42,7 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             self::assertNull($result['examination_manifestation']);
             self::assertNull($result['stand_admission']);
             self::assertNull($result['examination_opening']);
-            self::assertSame([], $result['panel_acceptances']);self::assertNull($result['panel_readiness']);
+            self::assertSame([], $result['panel_acceptances']);self::assertNull($result['panel_readiness']);self::assertNull($result['testimony_opening']);
         } finally { $this->removeTree($root); }
     }
 
@@ -136,6 +136,18 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             foreach($result['examination_opening']['commissions'] as $commission){self::assertNull($commission['recipient_acceptance']);self::assertFalse($commission['senator_question_authority_exercisable']);self::assertFalse($commission['senator_finding_authority_exercisable']);}
             self::assertCount(3,$result['panel_acceptances']);foreach($result['panel_acceptances']as$a){self::assertTrue($a['recipient_acceptance']);self::assertFalse($a['senator_question_authority_exercisable']);self::assertFalse($a['senator_finding_authority_exercisable']);}
             self::assertSame('PROFILE_EXAMINATION_PANEL_ACCEPTED_PENDING_TESTIMONY_OPENING',$result['panel_readiness']['status']);self::assertTrue($result['panel_readiness']['panel_ready']);self::assertFalse($result['panel_readiness']['testimony_open']);
+            self::assertSame('PROFILE_EXAMINATION_TESTIMONY_OPENED_PENDING_SENATOR_QUESTIONING',$result['testimony_opening']['status']);
+            self::assertTrue($result['testimony_opening']['profile_examination_testimony_opening_authority_consumed']);
+            self::assertTrue($result['testimony_opening']['testimony_open']);
+            self::assertFalse($result['testimony_opening']['deliberation_open']);
+            self::assertTrue($result['testimony_opening']['senator_question_authority_exercisable']);
+            self::assertFalse($result['testimony_opening']['senator_finding_authority_exercisable']);
+            self::assertFalse($result['testimony_opening']['profile_approval_authority']);
+            self::assertFalse($result['testimony_opening']['profile_installation_authority']);
+            self::assertFalse($result['testimony_opening']['deployment_authority']);
+            self::assertFalse($result['testimony_opening']['execution_authority']);
+            self::assertCount(3,$result['testimony_opening']['question_authorities']);
+            foreach($result['testimony_opening']['question_authorities']as$authority){self::assertTrue($authority['senator_question_authority_exercisable']);self::assertFalse($authority['senator_finding_authority_exercisable']);}
             self::assertFileExists($root.'/var/imperium/offices/laboratorium/profile-candidates/'.$result['candidate']['candidate_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/conscription/profile-candidate-return-inbox/'.$result['return']['return_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/conscription/profile-candidate-return-acceptances/'.$result['return_acceptance']['acceptance_id'].'.json');
@@ -143,6 +155,7 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             self::assertFileExists($root.'/var/imperium/offices/conscription/examination-assembly-authorization-dispositions/'.$result['examination_assembly_authorization']['disposition_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/senate/examination-manifestation-intake/'.$result['examination_manifestation']['delivery_id'].'.json');
             self::assertFileExists($root.'/var/imperium/offices/senate/examination-stand-admissions/'.$result['stand_admission']['admission_id'].'.json');
+            self::assertFileExists($root.'/var/imperium/offices/senate/profile-examination-testimony-openings/'.$result['testimony_opening']['opening_id'].'.json');
 
             $custodyPath = $root.'/var/imperium/offices/garrison/custody/'.$result['candidate']['custody_lease']['custody_id'].'.json';
             $custody = json_decode((string) file_get_contents($custodyPath), true, 512, JSON_THROW_ON_ERROR);
