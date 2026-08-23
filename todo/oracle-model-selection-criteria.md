@@ -49,6 +49,7 @@ Enable Curia to request model research from Oracle using explicit, pre-determine
 - [x] Seal one citation-bound evidence question and response per Trust, Security, and Usability jurisdiction without invoking a live witness or model, then separately open three independent finding authorities without authoring findings or opening deliberation.
 - [x] Seal independently authored Trust, Security, and Usability findings with evidence, severity, uncertainty, rubric-bound attribution, and mandatory Security blocking semantics while keeping peer findings invisible until panel completion and deliberation closed.
 - [x] Consume one exact Lord-Speaker authority to admit all three findings unchanged and open reconciliation-only deliberation while preserving mandatory Security blocks and keeping voting, aggregation, disposition, approval, and execution closed.
+- [x] Reconcile all three findings without voting, averaging, scoring, suppressed dissent, recommendation, or disposition, then mechanically open one bounded Lord-Speaker disposition authority while preserving mandatory Security blocks.
 
 ## Office boundaries
 
