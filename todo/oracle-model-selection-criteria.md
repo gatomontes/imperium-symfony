@@ -2,7 +2,14 @@
 
 ## Status
 
-Planned.
+Model-intelligence ledger implemented; criteria-bound evaluation remains planned.
+
+## Completed prerequisite
+
+- [x] Establish `Oracle` as the standing model-intelligence Office and `Augur` as its permanent Officer.
+- [x] Preserve independently attributable `KNOWN`, accessibility, and admissibility classifications for exact provider/model/version identities.
+- [x] Bind model claims to exact evidence sources and accessible status to Clavium assertions without exposing credentials.
+- [x] Seal versioned snapshots at `ORACLE_MODEL_INTELLIGENCE_SNAPSHOT_SEALED_NO_SELECTION_AUTHORITY` with no downstream authority.
 
 ## Objective
 
