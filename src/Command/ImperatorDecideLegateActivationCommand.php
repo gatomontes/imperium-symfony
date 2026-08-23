@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace App\Command;
 
-use App\Imperium\Runtime\Imperator\CitadelOfficerActivationAuthorizationDecisionService;
+use App\Imperium\Runtime\Imperator\LegateActivationAuthorizationDecisionService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -10,10 +10,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'imperium:imperator:decide-citadel-officer-activation', description: 'Decide activation authorization for one exact bound Citadel Officer.')]
-final class ImperatorDecideCitadelOfficerActivationCommand extends Command
+#[AsCommand(name: 'imperium:imperator:decide-legate-activation', description: 'Decide activation authorization for one exact bound Legate.')]
+final class ImperatorDecideLegateActivationCommand extends Command
 {
-    public function __construct(private readonly CitadelOfficerActivationAuthorizationDecisionService $service)
+    public function __construct(private readonly LegateActivationAuthorizationDecisionService $service)
     {
         parent::__construct();
     }
@@ -35,7 +35,7 @@ final class ImperatorDecideCitadelOfficerActivationCommand extends Command
             $output->writeln('<error>REFUSED</error> '.$error->getMessage());
             return self::FAILURE;
         }
-        $output->writeln($input->getOption('json') ? json_encode($decision, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR) : '<info>CITADEL_OFFICER_ACTIVATION_DECISION_SEALED</info> '.$decision['decision_id']);
+        $output->writeln($input->getOption('json') ? json_encode($decision, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR) : '<info>CITADEL_LEGATE_ACTIVATION_DECISION_SEALED</info> '.$decision['decision_id']);
         return self::SUCCESS;
     }
 }

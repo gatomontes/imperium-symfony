@@ -2,11 +2,11 @@
 
 ## Step 38
 
-The exact target Officer independently accepts or refuses the exact Step 37 commission. Runtime machinery revalidates the immutable commission, single-use acceptance authority, runtime activation, exact target binding, current sole occupancy, unexpired model-access attestation, instance, Manifestation, generation, contract, and record digests.
+The exact target Legate independently accepts or refuses the exact Step 37 commission. Runtime machinery revalidates the immutable commission, single-use acceptance authority, runtime activation, exact target binding, current sole occupancy, unexpired model-access attestation, instance, Manifestation, generation, contract, and record digests.
 
-Acceptance seals `CITADEL_OFFICER_GOVERNED_COMMISSION_ACCEPTED_PENDING_COGNITION_TURN_AUTHORIZATION`. The Officer is bound to the exact contract, but the commission remains non-exercisable until a later bounded cognition-turn authorization.
+Acceptance seals `CITADEL_LEGATE_GOVERNED_COMMISSION_ACCEPTED_PENDING_COGNITION_TURN_AUTHORIZATION`. The Legate is bound to the exact contract, but the commission remains non-exercisable until a later bounded cognition-turn authorization.
 
-Refusal seals `CITADEL_OFFICER_GOVERNED_COMMISSION_REFUSED_NO_AUTHORITY`. Both branches consume the exact acceptance authority and prohibit replay with a conflicting disposition or rationale.
+Refusal seals `CITADEL_LEGATE_GOVERNED_COMMISSION_REFUSED_NO_AUTHORITY`. Both branches consume the exact acceptance authority and prohibit replay with a conflicting disposition or rationale.
 
 ## Boundary
 

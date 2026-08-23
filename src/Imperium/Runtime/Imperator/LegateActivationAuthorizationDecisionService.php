@@ -5,7 +5,7 @@ namespace App\Imperium\Runtime\Imperator;
 use App\Bootstrap\CanonicalJson;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
-final readonly class CitadelOfficerActivationAuthorizationDecisionService
+final readonly class LegateActivationAuthorizationDecisionService
 {
     private const string IMPERATOR_ID = 'imperator-development-root';
     private const array DISPOSITIONS = ['AUTHORIZED', 'REFUSED', 'RETURNED_FOR_REVISION', 'ALTERNATIVE_PROPOSED', 'CLARIFICATION_REQUIRED', 'DEFERRED'];
@@ -25,7 +25,7 @@ final readonly class CitadelOfficerActivationAuthorizationDecisionService
         $this->approvals = $root.'/var/imperium/imperator/model-bound-profile-approval-decisions';
         $this->modelBindings = $root.'/var/imperium/offices/conscription/profile-model-bindings';
         $this->attestations = $root.'/var/imperium/offices/clavium/profile-model-access-attestations';
-        $this->decisions = $root.'/var/imperium/imperator/citadel-officer-activation-authorization-decisions';
+        $this->decisions = $root.'/var/imperium/imperator/citadel-legate-activation-authorization-decisions';
     }
 
     public function decide(string $bindingId, string $disposition, string $response, string $limitations, \DateTimeImmutable $decidedAt): array
@@ -54,13 +54,14 @@ final readonly class CitadelOfficerActivationAuthorizationDecisionService
         }
 
         $authorized = 'AUTHORIZED' === $disposition;
-        $id = 'citadel-officer-activation-authorization-decision-'.substr(hash('sha256', CanonicalJson::encode([$bindingId, $binding['record_digest'], self::IMPERATOR_ID, $disposition, $response, $limitations, $decidedAt->format(DATE_ATOM)])), 0, 20);
-        $authorityId = $authorized ? 'citadel-runtime-activation-authority-'.substr(hash('sha256', CanonicalJson::encode([$id, $bindingId, $binding['record_digest']])), 0, 20) : null;
+        $id = 'citadel-legate-activation-authorization-decision-'.substr(hash('sha256', CanonicalJson::encode([$bindingId, $binding['record_digest'], self::IMPERATOR_ID, $disposition, $response, $limitations, $decidedAt->format(DATE_ATOM)])), 0, 20);
+        $authorityId = $authorized ? 'citadel-legate-runtime-activation-authority-'.substr(hash('sha256', CanonicalJson::encode([$id, $bindingId, $binding['record_digest']])), 0, 20) : null;
 
         return $this->save($id, [
-            'schema' => 'imperium.imperator-citadel-officer-activation-authorization-decision/v1',
+            'schema' => 'imperium.imperator-citadel-legate-activation-authorization-decision/v1',
             'decision_id' => $id,
             'instance_id' => $binding['instance_id'],
+            'officer_class' => 'LEGATE',
             'case_id' => $binding['case_id'],
             'case_digest' => $binding['case_digest'],
             'actor' => ['kind' => 'imperator', 'id' => self::IMPERATOR_ID],
@@ -79,9 +80,9 @@ final readonly class CitadelOfficerActivationAuthorizationDecisionService
             'response' => $response,
             'limitations' => $limitations,
             'decided_at' => $decidedAt->format(DATE_ATOM),
-            'status' => $authorized ? 'MODEL_BOUND_MANIFESTATION_ACTIVATION_AUTHORIZED_PENDING_RUNTIME_ACTIVATION' : 'NON_AUTHORIZING_CITADEL_ACTIVATION_DISPOSITION_RECORDED',
+            'status' => $authorized ? 'MODEL_BOUND_CITADEL_LEGATE_ACTIVATION_AUTHORIZED_PENDING_RUNTIME_ACTIVATION' : 'NON_AUTHORIZING_CITADEL_LEGATE_ACTIVATION_DISPOSITION_RECORDED',
             'activation_authorized' => $authorized,
-            'runtime_activation_authority' => $authorized ? ['authority_id' => $authorityId, 'authority_single_use' => true, 'destination' => 'conscription.recruiter', 'purpose' => 'ACTIVATE_EXACT_BOUND_CITADEL_MANIFESTATION', 'consumed' => false] : null,
+            'runtime_activation_authority' => $authorized ? ['authority_id' => $authorityId, 'authority_single_use' => true, 'destination' => 'conscription.recruiter', 'purpose' => 'ACTIVATE_EXACT_BOUND_CITADEL_LEGATE_MANIFESTATION', 'consumed' => false] : null,
             'runtime_active' => false,
             'operational_use_permitted' => false,
             'tool_use_authority' => false,

@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[
     AsCommand(
         name: "imperium:operator:install-founding-personnel",
-        description: "Install operator-supplied founding Officers and operatives before Imperium becomes operational",
+        description: "Install operator-supplied founding Legates and Delegates before Imperium becomes operational",
     ),
 ]
 final class OperatorInstallFoundingPersonnelCommand extends Command

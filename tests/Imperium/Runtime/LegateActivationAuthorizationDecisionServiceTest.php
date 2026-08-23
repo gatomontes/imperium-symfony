@@ -3,21 +3,21 @@ declare(strict_types=1);
 namespace App\Tests\Imperium\Runtime;
 
 use App\Bootstrap\CanonicalJson;
-use App\Imperium\Runtime\Imperator\CitadelOfficerActivationAuthorizationDecisionService;
+use App\Imperium\Runtime\Imperator\LegateActivationAuthorizationDecisionService;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-final class CitadelOfficerActivationAuthorizationDecisionServiceTest extends TestCase
+final class LegateActivationAuthorizationDecisionServiceTest extends TestCase
 {
     public function testAuthorizationIsExactReplaySafeAndGrantsOnlyRuntimeActivationAuthority(): void
     {
         $root = sys_get_temp_dir().'/imperium-citadel-activation-'.bin2hex(random_bytes(5));
         try {
             $bindingId = $this->fixtures($root, '2026-08-24T20:00:00+00:00');
-            $service = new CitadelOfficerActivationAuthorizationDecisionService($root);
+            $service = new LegateActivationAuthorizationDecisionService($root);
             $at = new \DateTimeImmutable('2026-08-23T20:00:00+00:00');
-            $decision = $service->decide($bindingId, 'AUTHORIZED', 'Authorize exact Citadel Officer activation.', 'Activation only.', $at);
-            self::assertSame('MODEL_BOUND_MANIFESTATION_ACTIVATION_AUTHORIZED_PENDING_RUNTIME_ACTIVATION', $decision['status']);
+            $decision = $service->decide($bindingId, 'AUTHORIZED', 'Authorize exact Legate activation.', 'Activation only.', $at);
+            self::assertSame('MODEL_BOUND_CITADEL_LEGATE_ACTIVATION_AUTHORIZED_PENDING_RUNTIME_ACTIVATION', $decision['status']);
             self::assertTrue($decision['activation_authorized']);
             self::assertSame('conscription.recruiter', $decision['runtime_activation_authority']['destination']);
             self::assertTrue($decision['runtime_activation_authority']['authority_single_use']);
@@ -26,7 +26,7 @@ final class CitadelOfficerActivationAuthorizationDecisionServiceTest extends Tes
             foreach (['runtime_active', 'operational_use_permitted', 'tool_use_authority', 'credential_use_authority', 'provider_invocation_authority', 'external_action_authority', 'execution_authority', 'continuing_cognition_authority'] as $field) {
                 self::assertFalse($decision[$field]);
             }
-            self::assertSame($decision, $service->decide($bindingId, 'AUTHORIZED', 'Authorize exact Citadel Officer activation.', 'Activation only.', $at));
+            self::assertSame($decision, $service->decide($bindingId, 'AUTHORIZED', 'Authorize exact Legate activation.', 'Activation only.', $at));
             $this->expectExceptionMessage('I245_CITADEL_ACTIVATION_DECISION_CONFLICT');
             $service->decide($bindingId, 'DEFERRED', 'Defer.', 'No authority.', $at);
         } finally {
@@ -40,8 +40,8 @@ final class CitadelOfficerActivationAuthorizationDecisionServiceTest extends Tes
         $root = sys_get_temp_dir().'/imperium-citadel-nonauthorization-'.bin2hex(random_bytes(5));
         try {
             $bindingId = $this->fixtures($root, '2026-08-24T20:00:00+00:00');
-            $decision = (new CitadelOfficerActivationAuthorizationDecisionService($root))->decide($bindingId, $disposition, 'Record non-authorization.', 'No activation authority.', new \DateTimeImmutable('2026-08-23T20:00:00+00:00'));
-            self::assertSame('NON_AUTHORIZING_CITADEL_ACTIVATION_DISPOSITION_RECORDED', $decision['status']);
+            $decision = (new LegateActivationAuthorizationDecisionService($root))->decide($bindingId, $disposition, 'Record non-authorization.', 'No activation authority.', new \DateTimeImmutable('2026-08-23T20:00:00+00:00'));
+            self::assertSame('NON_AUTHORIZING_CITADEL_LEGATE_ACTIVATION_DISPOSITION_RECORDED', $decision['status']);
             self::assertFalse($decision['activation_authorized']);
             self::assertNull($decision['runtime_activation_authority']);
             self::assertFalse($decision['runtime_active']);
@@ -63,7 +63,7 @@ final class CitadelOfficerActivationAuthorizationDecisionServiceTest extends Tes
         try {
             $bindingId = $this->fixtures($root, '2026-08-23T19:59:59+00:00');
             $this->expectExceptionMessage('I244_CITADEL_ACTIVATION_CHAIN_INVALID');
-            (new CitadelOfficerActivationAuthorizationDecisionService($root))->decide($bindingId, 'AUTHORIZED', 'Attempt.', 'Activation only.', new \DateTimeImmutable('2026-08-23T20:00:00+00:00'));
+            (new LegateActivationAuthorizationDecisionService($root))->decide($bindingId, 'AUTHORIZED', 'Attempt.', 'Activation only.', new \DateTimeImmutable('2026-08-23T20:00:00+00:00'));
         } finally {
             $this->remove($root);
         }

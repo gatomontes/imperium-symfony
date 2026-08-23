@@ -5,21 +5,21 @@ declare(strict_types=1);
 namespace App\Tests\Imperium\Runtime;
 
 use App\Bootstrap\CanonicalJson;
-use App\Imperium\Runtime\Citadel\CitadelGovernedCommissionIssuanceService;
+use App\Imperium\Runtime\Citadel\LegateGovernedCommissionIssuanceService;
 use PHPUnit\Framework\TestCase;
 
-final class CitadelGovernedCommissionIssuanceServiceTest extends TestCase
+final class LegateGovernedCommissionIssuanceServiceTest extends TestCase
 {
     public function testAuthorizedOccupiedCallerIssuesExactPendingCommission(): void
     {
         $root = sys_get_temp_dir().'/imperium-citadel-commission-'.bin2hex(random_bytes(5));
         try {
             [$activationId, $issuerBindingId] = $this->fixtures($root, true, '2026-08-24T20:00:00+00:00');
-            $service = new CitadelGovernedCommissionIssuanceService($root);
+            $service = new LegateGovernedCommissionIssuanceService($root);
             $at = new \DateTimeImmutable('2026-08-23T20:00:00+00:00');
             $commission = $service->issue($activationId, $issuerBindingId, $this->contract(), $at);
 
-            self::assertSame('CITADEL_OFFICER_GOVERNED_COMMISSION_ISSUED_PENDING_OFFICER_ACCEPTANCE', $commission['status']);
+            self::assertSame('CITADEL_LEGATE_GOVERNED_COMMISSION_ISSUED_PENDING_LEGATE_ACCEPTANCE', $commission['status']);
             self::assertSame('curia.seneschal', $commission['issuer']['seat']);
             self::assertSame('foundry.artificer', $commission['target']['seat']);
             self::assertSame($this->contract(), $commission['contract']);
@@ -43,7 +43,7 @@ final class CitadelGovernedCommissionIssuanceServiceTest extends TestCase
         try {
             [$activationId, $issuerBindingId] = $this->fixtures($root, false, '2026-08-24T20:00:00+00:00');
             $this->expectExceptionMessage('CIT306_GOVERNED_COMMISSION_AUTHORITY_INVALID');
-            (new CitadelGovernedCommissionIssuanceService($root))->issue($activationId, $issuerBindingId, $this->contract(), new \DateTimeImmutable('2026-08-23T20:00:00+00:00'));
+            (new LegateGovernedCommissionIssuanceService($root))->issue($activationId, $issuerBindingId, $this->contract(), new \DateTimeImmutable('2026-08-23T20:00:00+00:00'));
         } finally {
             $this->remove($root);
         }
@@ -55,7 +55,7 @@ final class CitadelGovernedCommissionIssuanceServiceTest extends TestCase
         try {
             [$activationId, $issuerBindingId] = $this->fixtures($root, true, '2026-08-23T20:00:00+00:00');
             $this->expectExceptionMessage('CIT306_GOVERNED_COMMISSION_AUTHORITY_INVALID');
-            (new CitadelGovernedCommissionIssuanceService($root))->issue($activationId, $issuerBindingId, $this->contract(), new \DateTimeImmutable('2026-08-23T20:00:00+00:00'));
+            (new LegateGovernedCommissionIssuanceService($root))->issue($activationId, $issuerBindingId, $this->contract(), new \DateTimeImmutable('2026-08-23T20:00:00+00:00'));
         } finally {
             $this->remove($root);
         }
@@ -67,7 +67,7 @@ final class CitadelGovernedCommissionIssuanceServiceTest extends TestCase
         try {
             [$activationId, $issuerBindingId] = $this->fixtures($root, true, '2026-08-24T20:00:00+00:00');
             $this->expectExceptionMessage('CIT307_GOVERNED_COMMISSION_CONTRACT_INVALID');
-            (new CitadelGovernedCommissionIssuanceService($root))->issue($activationId, $issuerBindingId, ['task' => 'Do work.'], new \DateTimeImmutable('2026-08-23T20:00:00+00:00'));
+            (new LegateGovernedCommissionIssuanceService($root))->issue($activationId, $issuerBindingId, ['task' => 'Do work.'], new \DateTimeImmutable('2026-08-23T20:00:00+00:00'));
         } finally {
             $this->remove($root);
         }
@@ -122,9 +122,9 @@ final class CitadelGovernedCommissionIssuanceServiceTest extends TestCase
             'provider_access_evidence' => ['expires_at' => $expiresAt],
             'sealed' => true,
         ]);
-        $activationId = 'citadel-officer-runtime-activation-'.str_repeat('d', 20);
+        $activationId = 'citadel-legate-runtime-activation-'.str_repeat('d', 20);
         $activation = $this->record([
-            'schema' => 'imperium.conscription-citadel-officer-runtime-activation/v1',
+            'schema' => 'imperium.conscription-citadel-legate-runtime-activation/v1',
             'activation_id' => $activationId,
             'instance_id' => 'imperium-test',
             'case_id' => 'case-artificer',
@@ -134,7 +134,7 @@ final class CitadelGovernedCommissionIssuanceServiceTest extends TestCase
             'seat' => 'foundry.artificer',
             'manifestation_id' => 'manifestation-artificer',
             'occupancy_generation' => 1,
-            'status' => 'MODEL_BOUND_CITADEL_MANIFESTATION_RUNTIME_ACTIVE_PENDING_GOVERNED_COMMISSION',
+            'status' => 'MODEL_BOUND_CITADEL_LEGATE_RUNTIME_ACTIVE_PENDING_GOVERNED_COMMISSION',
             'runtime_active' => true,
             'commission_intake_available' => true,
             'governed_cognition_authority' => false,
@@ -145,7 +145,7 @@ final class CitadelGovernedCommissionIssuanceServiceTest extends TestCase
         $this->write($root.'/var/imperium/operational/occupancy/'.$targetBindingId.'.json', $targetBinding);
         $this->write($root.'/var/imperium/operational/occupancy/'.$issuerBindingId.'.json', $issuerBinding);
         $this->write($root.'/var/imperium/offices/clavium/profile-model-access-attestations/'.$attestationId.'.json', $attestation);
-        $this->write($root.'/var/imperium/operational/citadel-runtime-activations/'.$activationId.'.json', $activation);
+        $this->write($root.'/var/imperium/operational/citadel-legate-runtime-activations/'.$activationId.'.json', $activation);
 
         return [$activationId, $issuerBindingId];
     }

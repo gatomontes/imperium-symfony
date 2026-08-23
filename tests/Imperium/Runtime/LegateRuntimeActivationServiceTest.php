@@ -4,20 +4,20 @@ namespace App\Tests\Imperium\Runtime;
 
 use App\Bootstrap\CanonicalJson;
 use App\Bootstrap\StateStore;
-use App\Imperium\Runtime\Conscription\CitadelOfficerRuntimeActivationService;
+use App\Imperium\Runtime\Conscription\LegateRuntimeActivationService;
 use PHPUnit\Framework\TestCase;
 
-final class CitadelOfficerRuntimeActivationServiceTest extends TestCase
+final class LegateRuntimeActivationServiceTest extends TestCase
 {
     public function testMechanicallyActivatesExactBindingForCommissionIntakeOnly(): void
     {
-        $root = sys_get_temp_dir().'/imperium-citadel-runtime-'.bin2hex(random_bytes(5));
+        $root = sys_get_temp_dir().'/imperium-legate-runtime-'.bin2hex(random_bytes(5));
         try {
             $decisionId = $this->fixtures($root, true, '2026-08-24T20:00:00+00:00');
-            $service = new CitadelOfficerRuntimeActivationService($root, new StateStore($root));
+            $service = new LegateRuntimeActivationService($root, new StateStore($root));
             $at = new \DateTimeImmutable('2026-08-23T20:00:00+00:00');
             $activation = $service->activate($decisionId, $at);
-            self::assertSame('MODEL_BOUND_CITADEL_MANIFESTATION_RUNTIME_ACTIVE_PENDING_GOVERNED_COMMISSION', $activation['status']);
+            self::assertSame('MODEL_BOUND_CITADEL_LEGATE_RUNTIME_ACTIVE_PENDING_GOVERNED_COMMISSION', $activation['status']);
             self::assertTrue($activation['runtime_active']);
             self::assertTrue($activation['commission_intake_available']);
             self::assertSame('foundry.artificer', $activation['seat']);
@@ -35,11 +35,11 @@ final class CitadelOfficerRuntimeActivationServiceTest extends TestCase
 
     public function testNonAuthorizingDecisionCannotActivateRuntime(): void
     {
-        $root = sys_get_temp_dir().'/imperium-citadel-runtime-refused-'.bin2hex(random_bytes(5));
+        $root = sys_get_temp_dir().'/imperium-legate-runtime-refused-'.bin2hex(random_bytes(5));
         try {
             $decisionId = $this->fixtures($root, false, '2026-08-24T20:00:00+00:00');
             $this->expectExceptionMessage('R233_CITADEL_RUNTIME_ACTIVATION_CHAIN_INVALID');
-            (new CitadelOfficerRuntimeActivationService($root, new StateStore($root)))->activate($decisionId, new \DateTimeImmutable('2026-08-23T20:00:00+00:00'));
+            (new LegateRuntimeActivationService($root, new StateStore($root)))->activate($decisionId, new \DateTimeImmutable('2026-08-23T20:00:00+00:00'));
         } finally {
             $this->remove($root);
         }
@@ -47,11 +47,11 @@ final class CitadelOfficerRuntimeActivationServiceTest extends TestCase
 
     public function testExpiredAccessCannotActivateRuntime(): void
     {
-        $root = sys_get_temp_dir().'/imperium-citadel-runtime-expired-'.bin2hex(random_bytes(5));
+        $root = sys_get_temp_dir().'/imperium-legate-runtime-expired-'.bin2hex(random_bytes(5));
         try {
             $decisionId = $this->fixtures($root, true, '2026-08-23T19:59:59+00:00');
             $this->expectExceptionMessage('R233_CITADEL_RUNTIME_ACTIVATION_CHAIN_INVALID');
-            (new CitadelOfficerRuntimeActivationService($root, new StateStore($root)))->activate($decisionId, new \DateTimeImmutable('2026-08-23T20:00:00+00:00'));
+            (new LegateRuntimeActivationService($root, new StateStore($root)))->activate($decisionId, new \DateTimeImmutable('2026-08-23T20:00:00+00:00'));
         } finally {
             $this->remove($root);
         }
@@ -73,15 +73,15 @@ final class CitadelOfficerRuntimeActivationServiceTest extends TestCase
         $bindingId = 'model-bound-operational-seat-binding-'.str_repeat('1', 20);
         $manifestation = ['manifestation_id' => 'manifestation-artificer', 'profile' => $profile, 'intended_seat' => $profile['target']];
         $binding = $this->record(['schema' => 'imperium.model-bound-operational-manifestation-seat-binding/v1', 'binding_id' => $bindingId, 'instance_id' => 'imperium-test', 'case_id' => 'case', 'case_digest' => str_repeat('2', 64), 'seat' => 'foundry.artificer', 'manifestation_id' => 'manifestation-artificer', 'manifestation' => $manifestation, 'source_assembly' => ['id' => $assemblyId, 'digest' => $assembly['record_digest']], 'source_qualification' => ['id' => $qualificationId, 'digest' => $qualification['record_digest']], 'source_imperator_approval' => ['id' => $approvalId, 'digest' => $approval['record_digest']], 'source_model_binding' => ['id' => $modelBindingId, 'digest' => $modelBinding['record_digest']], 'source_access_attestation' => ['id' => $attestationId, 'digest' => $attestation['record_digest']], 'occupancy_generation' => 1, 'status' => 'OPERATIONAL_MANIFESTATION_BOUND_PENDING_DEPLOYMENT_AUTHORIZATION', 'binding_atomic' => true, 'seat_bound' => true, 'sealed' => true]);
-        $decisionId = 'citadel-officer-activation-authorization-decision-'.str_repeat('3', 20);
-        $decision = $this->record(['schema' => 'imperium.imperator-citadel-officer-activation-authorization-decision/v1', 'decision_id' => $decisionId, 'instance_id' => 'imperium-test', 'case_id' => 'case', 'case_digest' => str_repeat('2', 64), 'source_seat_binding' => ['id' => $bindingId, 'digest' => $binding['record_digest']], 'source_assembly' => ['id' => $assemblyId, 'digest' => $assembly['record_digest']], 'source_qualification' => ['id' => $qualificationId, 'digest' => $qualification['record_digest']], 'source_profile_approval' => ['id' => $approvalId, 'digest' => $approval['record_digest']], 'source_model_binding' => ['id' => $modelBindingId, 'digest' => $modelBinding['record_digest']], 'source_access_attestation' => ['id' => $attestationId, 'digest' => $attestation['record_digest']], 'seat' => 'foundry.artificer', 'manifestation_id' => 'manifestation-artificer', 'occupancy_generation' => 1, 'manifestation' => $manifestation, 'disposition' => $authorized ? 'AUTHORIZED' : 'REFUSED', 'status' => $authorized ? 'MODEL_BOUND_MANIFESTATION_ACTIVATION_AUTHORIZED_PENDING_RUNTIME_ACTIVATION' : 'NON_AUTHORIZING_CITADEL_ACTIVATION_DISPOSITION_RECORDED', 'activation_authorized' => $authorized, 'runtime_activation_authority' => $authorized ? ['authority_id' => 'citadel-runtime-activation-authority-'.str_repeat('4', 20), 'authority_single_use' => true, 'destination' => 'conscription.recruiter', 'purpose' => 'ACTIVATE_EXACT_BOUND_CITADEL_MANIFESTATION', 'consumed' => false] : null, 'runtime_active' => false, 'operational_use_permitted' => false, 'provider_invocation_authority' => false, 'execution_authority' => false, 'sealed' => true]);
+        $decisionId = 'citadel-legate-activation-authorization-decision-'.str_repeat('3', 20);
+        $decision = $this->record(['schema' => 'imperium.imperator-citadel-legate-activation-authorization-decision/v1', 'decision_id' => $decisionId, 'instance_id' => 'imperium-test', 'case_id' => 'case', 'case_digest' => str_repeat('2', 64), 'source_seat_binding' => ['id' => $bindingId, 'digest' => $binding['record_digest']], 'source_assembly' => ['id' => $assemblyId, 'digest' => $assembly['record_digest']], 'source_qualification' => ['id' => $qualificationId, 'digest' => $qualification['record_digest']], 'source_profile_approval' => ['id' => $approvalId, 'digest' => $approval['record_digest']], 'source_model_binding' => ['id' => $modelBindingId, 'digest' => $modelBinding['record_digest']], 'source_access_attestation' => ['id' => $attestationId, 'digest' => $attestation['record_digest']], 'seat' => 'foundry.artificer', 'manifestation_id' => 'manifestation-artificer', 'occupancy_generation' => 1, 'manifestation' => $manifestation, 'disposition' => $authorized ? 'AUTHORIZED' : 'REFUSED', 'status' => $authorized ? 'MODEL_BOUND_CITADEL_LEGATE_ACTIVATION_AUTHORIZED_PENDING_RUNTIME_ACTIVATION' : 'NON_AUTHORIZING_CITADEL_LEGATE_ACTIVATION_DISPOSITION_RECORDED', 'activation_authorized' => $authorized, 'runtime_activation_authority' => $authorized ? ['authority_id' => 'citadel-legate-runtime-activation-authority-'.str_repeat('4', 20), 'authority_single_use' => true, 'destination' => 'conscription.recruiter', 'purpose' => 'ACTIVATE_EXACT_BOUND_CITADEL_LEGATE_MANIFESTATION', 'consumed' => false] : null, 'runtime_active' => false, 'operational_use_permitted' => false, 'provider_invocation_authority' => false, 'execution_authority' => false, 'sealed' => true]);
         $this->write($root.'/var/imperium/offices/conscription/model-bound-operational-manifestation-assemblies/'.$assemblyId.'.json', $assembly);
         $this->write($root.'/var/imperium/offices/conscription/model-bound-operational-profile-qualifications/'.$qualificationId.'.json', $qualification);
         $this->write($root.'/var/imperium/imperator/model-bound-profile-approval-decisions/'.$approvalId.'.json', $approval);
         $this->write($root.'/var/imperium/offices/conscription/profile-model-bindings/'.$modelBindingId.'.json', $modelBinding);
         $this->write($root.'/var/imperium/offices/clavium/profile-model-access-attestations/'.$attestationId.'.json', $attestation);
         $this->write($root.'/var/imperium/operational/occupancy/'.$bindingId.'.json', $binding);
-        $this->write($root.'/var/imperium/imperator/citadel-officer-activation-authorization-decisions/'.$decisionId.'.json', $decision);
+        $this->write($root.'/var/imperium/imperator/citadel-legate-activation-authorization-decisions/'.$decisionId.'.json', $decision);
         if (!is_dir($root.'/var/imperium')) {
             mkdir($root.'/var/imperium', 0770, true);
         }

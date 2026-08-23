@@ -5,21 +5,21 @@ declare(strict_types=1);
 namespace App\Tests\Imperium\Runtime;
 
 use App\Bootstrap\CanonicalJson;
-use App\Imperium\Runtime\Citadel\CitadelGovernedCommissionDispositionService;
+use App\Imperium\Runtime\Citadel\LegateGovernedCommissionDispositionService;
 use PHPUnit\Framework\TestCase;
 
-final class CitadelGovernedCommissionDispositionServiceTest extends TestCase
+final class LegateGovernedCommissionDispositionServiceTest extends TestCase
 {
-    public function testExactTargetOfficerAcceptsWithoutReceivingCognitionAuthority(): void
+    public function testExactTargetLegateAcceptsWithoutReceivingCognitionAuthority(): void
     {
         $root = sys_get_temp_dir().'/imperium-citadel-accept-'.bin2hex(random_bytes(5));
         try {
             [$commissionId, $bindingId] = $this->fixtures($root, '2026-08-24T20:00:00+00:00');
-            $service = new CitadelGovernedCommissionDispositionService($root);
+            $service = new LegateGovernedCommissionDispositionService($root);
             $at = new \DateTimeImmutable('2026-08-23T20:00:00+00:00');
             $decision = $service->decide($commissionId, $bindingId, 'ACCEPTED', 'The exact contract is understood and bounded.', $at);
 
-            self::assertSame('CITADEL_OFFICER_GOVERNED_COMMISSION_ACCEPTED_PENDING_COGNITION_TURN_AUTHORIZATION', $decision['status']);
+            self::assertSame('CITADEL_LEGATE_GOVERNED_COMMISSION_ACCEPTED_PENDING_COGNITION_TURN_AUTHORIZATION', $decision['status']);
             self::assertSame('foundry.artificer', $decision['actor']['seat']);
             self::assertTrue($decision['commission_acceptance_authority']['consumed']);
             self::assertFalse($decision['commission_acceptance_authority']['continuing_authority']);
@@ -41,9 +41,9 @@ final class CitadelGovernedCommissionDispositionServiceTest extends TestCase
         $root = sys_get_temp_dir().'/imperium-citadel-refuse-'.bin2hex(random_bytes(5));
         try {
             [$commissionId, $bindingId] = $this->fixtures($root, '2026-08-24T20:00:00+00:00');
-            $decision = (new CitadelGovernedCommissionDispositionService($root))->decide($commissionId, $bindingId, 'REFUSED', 'Required evidence is absent.', new \DateTimeImmutable('2026-08-23T20:00:00+00:00'));
+            $decision = (new LegateGovernedCommissionDispositionService($root))->decide($commissionId, $bindingId, 'REFUSED', 'Required evidence is absent.', new \DateTimeImmutable('2026-08-23T20:00:00+00:00'));
 
-            self::assertSame('CITADEL_OFFICER_GOVERNED_COMMISSION_REFUSED_NO_AUTHORITY', $decision['status']);
+            self::assertSame('CITADEL_LEGATE_GOVERNED_COMMISSION_REFUSED_NO_AUTHORITY', $decision['status']);
             self::assertFalse($decision['commission_accepted']);
             self::assertFalse($decision['commission_bound']);
             self::assertFalse($decision['commission_exercisable']);
@@ -74,7 +74,7 @@ final class CitadelGovernedCommissionDispositionServiceTest extends TestCase
                 'sealed' => true,
             ]));
             $this->expectExceptionMessage('CIT327_GOVERNED_COMMISSION_DISPOSITION_CHAIN_INVALID');
-            (new CitadelGovernedCommissionDispositionService($root))->decide($commissionId, $otherId, 'ACCEPTED', 'Accept.', new \DateTimeImmutable('2026-08-23T20:00:00+00:00'));
+            (new LegateGovernedCommissionDispositionService($root))->decide($commissionId, $otherId, 'ACCEPTED', 'Accept.', new \DateTimeImmutable('2026-08-23T20:00:00+00:00'));
         } finally {
             $this->remove($root);
         }
@@ -86,7 +86,7 @@ final class CitadelGovernedCommissionDispositionServiceTest extends TestCase
         try {
             [$commissionId, $bindingId] = $this->fixtures($root, '2026-08-23T20:00:00+00:00');
             $this->expectExceptionMessage('CIT327_GOVERNED_COMMISSION_DISPOSITION_CHAIN_INVALID');
-            (new CitadelGovernedCommissionDispositionService($root))->decide($commissionId, $bindingId, 'ACCEPTED', 'Accept.', new \DateTimeImmutable('2026-08-23T20:00:00+00:00'));
+            (new LegateGovernedCommissionDispositionService($root))->decide($commissionId, $bindingId, 'ACCEPTED', 'Accept.', new \DateTimeImmutable('2026-08-23T20:00:00+00:00'));
         } finally {
             $this->remove($root);
         }
@@ -114,16 +114,16 @@ final class CitadelGovernedCommissionDispositionServiceTest extends TestCase
             'provider_access_evidence' => ['expires_at' => $expiresAt],
             'sealed' => true,
         ]);
-        $activationId = 'citadel-officer-runtime-activation-'.str_repeat('c', 20);
+        $activationId = 'citadel-legate-runtime-activation-'.str_repeat('c', 20);
         $activation = $this->record([
-            'schema' => 'imperium.conscription-citadel-officer-runtime-activation/v1',
+            'schema' => 'imperium.conscription-citadel-legate-runtime-activation/v1',
             'activation_id' => $activationId,
             'instance_id' => 'imperium-test',
             'source_access_attestation' => ['id' => $attestationId, 'digest' => $attestation['record_digest']],
             'seat' => 'foundry.artificer',
             'manifestation_id' => 'manifestation-artificer',
             'occupancy_generation' => 1,
-            'status' => 'MODEL_BOUND_CITADEL_MANIFESTATION_RUNTIME_ACTIVE_PENDING_GOVERNED_COMMISSION',
+            'status' => 'MODEL_BOUND_CITADEL_LEGATE_RUNTIME_ACTIVE_PENDING_GOVERNED_COMMISSION',
             'runtime_active' => true,
             'commission_intake_available' => true,
             'sealed' => true,
@@ -137,9 +137,9 @@ final class CitadelGovernedCommissionDispositionServiceTest extends TestCase
             'runtime_activation_id' => $activationId,
             'runtime_activation_digest' => $activation['record_digest'],
         ];
-        $commissionId = 'citadel-governed-commission-'.str_repeat('d', 20);
+        $commissionId = 'citadel-legate-governed-commission-'.str_repeat('d', 20);
         $commission = $this->record([
-            'schema' => 'imperium.citadel-governed-commission/v1',
+            'schema' => 'imperium.citadel-legate-governed-commission/v1',
             'commission_id' => $commissionId,
             'instance_id' => 'imperium-test',
             'case_id' => 'case-artificer',
@@ -149,10 +149,10 @@ final class CitadelGovernedCommissionDispositionServiceTest extends TestCase
             'source_runtime_activation' => ['id' => $activationId, 'digest' => $activation['record_digest']],
             'source_access_attestation' => ['id' => $attestationId, 'digest' => $attestation['record_digest']],
             'contract' => ['task' => 'Recommend.', 'purpose' => 'Answer.', 'inputs' => ['input'], 'evidence_requirements' => ['cite'], 'constraints' => ['no tools'], 'output_contract' => ['one answer'], 'stop_conditions' => ['evidence absent']],
-            'status' => 'CITADEL_OFFICER_GOVERNED_COMMISSION_ISSUED_PENDING_OFFICER_ACCEPTANCE',
+            'status' => 'CITADEL_LEGATE_GOVERNED_COMMISSION_ISSUED_PENDING_LEGATE_ACCEPTANCE',
             'commission_issued' => true,
             'commission_intake_available' => true,
-            'commission_acceptance_authority' => ['authority_id' => 'citadel-governed-commission-acceptance-authority-'.str_repeat('2', 20), 'authority_single_use' => true, 'destination' => 'foundry.artificer', 'purpose' => 'ACCEPT_ONE_EXACT_GOVERNED_COMMISSION', 'consumed' => false],
+            'commission_acceptance_authority' => ['authority_id' => 'citadel-legate-governed-commission-acceptance-authority-'.str_repeat('2', 20), 'authority_single_use' => true, 'destination' => 'foundry.artificer', 'purpose' => 'ACCEPT_ONE_EXACT_GOVERNED_COMMISSION', 'consumed' => false],
             'commission_accepted' => false,
             'commission_exercisable' => false,
             'governed_cognition_authority' => false,
@@ -162,8 +162,8 @@ final class CitadelGovernedCommissionDispositionServiceTest extends TestCase
         ]);
         $this->write($root.'/var/imperium/operational/occupancy/'.$bindingId.'.json', $binding);
         $this->write($root.'/var/imperium/offices/clavium/profile-model-access-attestations/'.$attestationId.'.json', $attestation);
-        $this->write($root.'/var/imperium/operational/citadel-runtime-activations/'.$activationId.'.json', $activation);
-        $this->write($root.'/var/imperium/operational/citadel-governed-commissions/'.$commissionId.'.json', $commission);
+        $this->write($root.'/var/imperium/operational/citadel-legate-runtime-activations/'.$activationId.'.json', $activation);
+        $this->write($root.'/var/imperium/operational/citadel-legate-governed-commissions/'.$commissionId.'.json', $commission);
 
         return [$commissionId, $bindingId];
     }

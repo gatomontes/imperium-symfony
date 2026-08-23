@@ -3,7 +3,7 @@
 ## Completed transitions
 
 32. Conscription consumes the exact Imperator qualification-request authority, revalidates the Senate approval, full sealed Profile model binding, unexpired access attestation, mission authorization, source Persona admission, immutable target Seat, and ordinary Recruiter occupancy, then seals `PROFILE_OPERATIONALLY_QUALIFIED_PENDING_MANIFESTATION_ASSEMBLY`.
-33. Conscription consumes the exact single-use assembly authority and mechanically combines the admitted source Persona, qualified Profile, and identity- and authority-neutral generic Officer version 0 at `OPERATIONAL_MANIFESTATION_ASSEMBLED_PENDING_SEAT_BINDING`.
+33. Conscription consumes the exact single-use assembly authority and mechanically combines the admitted source Persona, qualified Profile, and identity- and authority-neutral generic Officer version 0 as a `LEGATE` at `OPERATIONAL_MANIFESTATION_ASSEMBLED_PENDING_SEAT_BINDING`.
 34. Conscription consumes the exact single-use binding authority and atomically binds the Manifestation only to the Profile's immutable target Seat at occupancy generation 1. Existing occupancy fails closed; no replacement or supersession occurs.
 
 ## Current boundary

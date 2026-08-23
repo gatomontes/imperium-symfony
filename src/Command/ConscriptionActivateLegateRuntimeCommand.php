@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace App\Command;
 
-use App\Imperium\Runtime\Conscription\CitadelOfficerRuntimeActivationService;
+use App\Imperium\Runtime\Conscription\LegateRuntimeActivationService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -10,10 +10,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'imperium:conscription:activate-citadel-officer-runtime', description: 'Mechanically activate one exactly authorized bound Citadel Officer runtime.')]
-final class ConscriptionActivateCitadelOfficerRuntimeCommand extends Command
+#[AsCommand(name: 'imperium:conscription:activate-legate-runtime', description: 'Mechanically activate one exactly authorized bound Legate runtime.')]
+final class ConscriptionActivateLegateRuntimeCommand extends Command
 {
-    public function __construct(private readonly CitadelOfficerRuntimeActivationService $service)
+    public function __construct(private readonly LegateRuntimeActivationService $service)
     {
         parent::__construct();
     }
@@ -31,7 +31,7 @@ final class ConscriptionActivateCitadelOfficerRuntimeCommand extends Command
             $output->writeln('<error>REFUSED</error> '.$error->getMessage());
             return self::FAILURE;
         }
-        $output->writeln($input->getOption('json') ? json_encode($activation, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR) : '<info>CITADEL_OFFICER_RUNTIME_ACTIVE</info> '.$activation['activation_id']);
+        $output->writeln($input->getOption('json') ? json_encode($activation, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR) : '<info>CITADEL_LEGATE_RUNTIME_ACTIVE</info> '.$activation['activation_id']);
         return self::SUCCESS;
     }
 }

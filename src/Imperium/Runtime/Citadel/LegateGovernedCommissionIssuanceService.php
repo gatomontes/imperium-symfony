@@ -7,7 +7,7 @@ namespace App\Imperium\Runtime\Citadel;
 use App\Bootstrap\CanonicalJson;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
-final readonly class CitadelGovernedCommissionIssuanceService
+final readonly class LegateGovernedCommissionIssuanceService
 {
     private string $activations;
     private string $occupancy;
@@ -16,15 +16,15 @@ final readonly class CitadelGovernedCommissionIssuanceService
 
     public function __construct(#[Autowire('%kernel.project_dir%')] string $root)
     {
-        $this->activations = $root.'/var/imperium/operational/citadel-runtime-activations';
+        $this->activations = $root.'/var/imperium/operational/citadel-legate-runtime-activations';
         $this->occupancy = $root.'/var/imperium/operational/occupancy';
         $this->attestations = $root.'/var/imperium/offices/clavium/profile-model-access-attestations';
-        $this->commissions = $root.'/var/imperium/operational/citadel-governed-commissions';
+        $this->commissions = $root.'/var/imperium/operational/citadel-legate-governed-commissions';
     }
 
     public function issue(string $activationId, string $issuerBindingId, array $contract, \DateTimeImmutable $issuedAt): array
     {
-        if (!preg_match('/^citadel-officer-runtime-activation-[a-f0-9]{20}$/', $activationId)) {
+        if (!preg_match('/^citadel-legate-runtime-activation-[a-f0-9]{20}$/', $activationId)) {
             throw new \InvalidArgumentException('CIT301_RUNTIME_ACTIVATION_ID_INVALID');
         }
         if (!preg_match('/^[a-z0-9][a-z0-9-]{2,127}$/', $issuerBindingId)) {
@@ -55,7 +55,7 @@ final readonly class CitadelGovernedCommissionIssuanceService
             'runtime_activation_id' => $activationId,
             'runtime_activation_digest' => $activation['record_digest'],
         ];
-        $commissionId = 'citadel-governed-commission-'.substr(hash('sha256', CanonicalJson::encode([$activationId, $activation['record_digest'], $issuer, $target, $normalized])), 0, 20);
+        $commissionId = 'citadel-legate-governed-commission-'.substr(hash('sha256', CanonicalJson::encode([$activationId, $activation['record_digest'], $issuer, $target, $normalized])), 0, 20);
         $path = $this->commissions.'/'.$commissionId.'.json';
         if (is_file($path)) {
             $prior = $this->read($path, 'CIT309_GOVERNED_COMMISSION_CONFLICT');
@@ -67,10 +67,10 @@ final readonly class CitadelGovernedCommissionIssuanceService
             return $prior;
         }
 
-        $acceptanceAuthorityId = 'citadel-governed-commission-acceptance-authority-'.substr(hash('sha256', CanonicalJson::encode([$commissionId, $target])), 0, 20);
+        $acceptanceAuthorityId = 'citadel-legate-governed-commission-acceptance-authority-'.substr(hash('sha256', CanonicalJson::encode([$commissionId, $target])), 0, 20);
 
         return $this->save($commissionId, [
-            'schema' => 'imperium.citadel-governed-commission/v1',
+            'schema' => 'imperium.citadel-legate-governed-commission/v1',
             'commission_id' => $commissionId,
             'instance_id' => $activation['instance_id'],
             'case_id' => $activation['case_id'],
@@ -81,7 +81,7 @@ final readonly class CitadelGovernedCommissionIssuanceService
             'source_access_attestation' => $activation['source_access_attestation'],
             'contract' => $normalized,
             'issued_at' => $issuedAt->format(DATE_ATOM),
-            'status' => 'CITADEL_OFFICER_GOVERNED_COMMISSION_ISSUED_PENDING_OFFICER_ACCEPTANCE',
+            'status' => 'CITADEL_LEGATE_GOVERNED_COMMISSION_ISSUED_PENDING_LEGATE_ACCEPTANCE',
             'commission_issued' => true,
             'commission_intake_available' => true,
             'commission_acceptance_authority' => [
@@ -109,8 +109,8 @@ final readonly class CitadelGovernedCommissionIssuanceService
     private function validate(string $activationId, array $activation, array $targetBinding, array $attestation, string $issuerBindingId, array $issuerBinding, \DateTimeImmutable $issuedAt): void
     {
         $expiresAt = $attestation['provider_access_evidence']['expires_at'] ?? null;
-        if (!$this->valid($activation) || 'imperium.conscription-citadel-officer-runtime-activation/v1' !== ($activation['schema'] ?? null)
-            || $activationId !== ($activation['activation_id'] ?? null) || 'MODEL_BOUND_CITADEL_MANIFESTATION_RUNTIME_ACTIVE_PENDING_GOVERNED_COMMISSION' !== ($activation['status'] ?? null)
+        if (!$this->valid($activation) || 'imperium.conscription-citadel-legate-runtime-activation/v1' !== ($activation['schema'] ?? null)
+            || $activationId !== ($activation['activation_id'] ?? null) || 'MODEL_BOUND_CITADEL_LEGATE_RUNTIME_ACTIVE_PENDING_GOVERNED_COMMISSION' !== ($activation['status'] ?? null)
             || true !== ($activation['runtime_active'] ?? null) || true !== ($activation['commission_intake_available'] ?? null)
             || true === ($activation['governed_cognition_authority'] ?? null) || true === ($activation['provider_invocation_authority'] ?? null)
             || true === ($activation['execution_authority'] ?? null) || true !== ($activation['sealed'] ?? null)

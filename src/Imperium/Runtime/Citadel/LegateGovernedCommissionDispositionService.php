@@ -7,7 +7,7 @@ namespace App\Imperium\Runtime\Citadel;
 use App\Bootstrap\CanonicalJson;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
-final readonly class CitadelGovernedCommissionDispositionService
+final readonly class LegateGovernedCommissionDispositionService
 {
     private string $commissions;
     private string $activations;
@@ -17,16 +17,16 @@ final readonly class CitadelGovernedCommissionDispositionService
 
     public function __construct(#[Autowire('%kernel.project_dir%')] string $root)
     {
-        $this->commissions = $root.'/var/imperium/operational/citadel-governed-commissions';
-        $this->activations = $root.'/var/imperium/operational/citadel-runtime-activations';
+        $this->commissions = $root.'/var/imperium/operational/citadel-legate-governed-commissions';
+        $this->activations = $root.'/var/imperium/operational/citadel-legate-runtime-activations';
         $this->occupancy = $root.'/var/imperium/operational/occupancy';
         $this->attestations = $root.'/var/imperium/offices/clavium/profile-model-access-attestations';
-        $this->dispositions = $root.'/var/imperium/operational/citadel-governed-commission-dispositions';
+        $this->dispositions = $root.'/var/imperium/operational/citadel-legate-governed-commission-dispositions';
     }
 
     public function decide(string $commissionId, string $targetBindingId, string $disposition, string $rationale, \DateTimeImmutable $decidedAt): array
     {
-        if (!preg_match('/^citadel-governed-commission-[a-f0-9]{20}$/', $commissionId)) {
+        if (!preg_match('/^citadel-legate-governed-commission-[a-f0-9]{20}$/', $commissionId)) {
             throw new \InvalidArgumentException('CIT320_GOVERNED_COMMISSION_ID_INVALID');
         }
         if (!preg_match('/^[a-z0-9][a-z0-9-]{2,127}$/', $targetBindingId)) {
@@ -70,10 +70,10 @@ final readonly class CitadelGovernedCommissionDispositionService
             'manifestation_id' => $targetBinding['manifestation_id'],
             'occupancy_generation' => $targetBinding['occupancy_generation'],
         ];
-        $dispositionId = 'citadel-governed-commission-disposition-'.substr(hash('sha256', CanonicalJson::encode([$commissionId, $commission['record_digest'], $actor, $disposition, $rationale])), 0, 20);
+        $dispositionId = 'citadel-legate-governed-commission-disposition-'.substr(hash('sha256', CanonicalJson::encode([$commissionId, $commission['record_digest'], $actor, $disposition, $rationale])), 0, 20);
 
         return $this->save($dispositionId, [
-            'schema' => 'imperium.citadel-governed-commission-disposition/v1',
+            'schema' => 'imperium.citadel-legate-governed-commission-disposition/v1',
             'disposition_id' => $dispositionId,
             'instance_id' => $commission['instance_id'],
             'case_id' => $commission['case_id'],
@@ -94,8 +94,8 @@ final readonly class CitadelGovernedCommissionDispositionService
                 'continuing_authority' => false,
             ],
             'status' => $accepted
-                ? 'CITADEL_OFFICER_GOVERNED_COMMISSION_ACCEPTED_PENDING_COGNITION_TURN_AUTHORIZATION'
-                : 'CITADEL_OFFICER_GOVERNED_COMMISSION_REFUSED_NO_AUTHORITY',
+                ? 'CITADEL_LEGATE_GOVERNED_COMMISSION_ACCEPTED_PENDING_COGNITION_TURN_AUTHORIZATION'
+                : 'CITADEL_LEGATE_GOVERNED_COMMISSION_REFUSED_NO_AUTHORITY',
             'commission_accepted' => $accepted,
             'commission_bound' => $accepted,
             'commission_exercisable' => false,
@@ -117,9 +117,9 @@ final readonly class CitadelGovernedCommissionDispositionService
     {
         $authority = $commission['commission_acceptance_authority'] ?? [];
         $expiresAt = $attestation['provider_access_evidence']['expires_at'] ?? null;
-        if (!$this->valid($commission) || 'imperium.citadel-governed-commission/v1' !== ($commission['schema'] ?? null)
+        if (!$this->valid($commission) || 'imperium.citadel-legate-governed-commission/v1' !== ($commission['schema'] ?? null)
             || $commissionId !== ($commission['commission_id'] ?? null)
-            || 'CITADEL_OFFICER_GOVERNED_COMMISSION_ISSUED_PENDING_OFFICER_ACCEPTANCE' !== ($commission['status'] ?? null)
+            || 'CITADEL_LEGATE_GOVERNED_COMMISSION_ISSUED_PENDING_LEGATE_ACCEPTANCE' !== ($commission['status'] ?? null)
             || true !== ($commission['commission_issued'] ?? null) || true !== ($commission['commission_intake_available'] ?? null)
             || true !== ($authority['authority_single_use'] ?? null) || false !== ($authority['consumed'] ?? null)
             || 'ACCEPT_ONE_EXACT_GOVERNED_COMMISSION' !== ($authority['purpose'] ?? null)
@@ -127,8 +127,8 @@ final readonly class CitadelGovernedCommissionDispositionService
             || true === ($commission['commission_accepted'] ?? null) || true === ($commission['commission_exercisable'] ?? null)
             || true === ($commission['governed_cognition_authority'] ?? null) || true === ($commission['provider_invocation_authority'] ?? null)
             || true === ($commission['execution_authority'] ?? null) || true !== ($commission['sealed'] ?? null)
-            || !$this->valid($activation) || 'imperium.conscription-citadel-officer-runtime-activation/v1' !== ($activation['schema'] ?? null)
-            || 'MODEL_BOUND_CITADEL_MANIFESTATION_RUNTIME_ACTIVE_PENDING_GOVERNED_COMMISSION' !== ($activation['status'] ?? null)
+            || !$this->valid($activation) || 'imperium.conscription-citadel-legate-runtime-activation/v1' !== ($activation['schema'] ?? null)
+            || 'MODEL_BOUND_CITADEL_LEGATE_RUNTIME_ACTIVE_PENDING_GOVERNED_COMMISSION' !== ($activation['status'] ?? null)
             || true !== ($activation['runtime_active'] ?? null) || true !== ($activation['commission_intake_available'] ?? null) || true !== ($activation['sealed'] ?? null)
             || ($commission['instance_id'] ?? null) !== ($activation['instance_id'] ?? null)
             || ($commission['target']['runtime_activation_id'] ?? null) !== ($activation['activation_id'] ?? null)

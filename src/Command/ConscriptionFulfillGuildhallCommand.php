@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'imperium:conscription:fulfill-guildhall', description: 'Instantiate and qualify the four summoned canonical Guildhall Officers')]
+#[AsCommand(name: 'imperium:conscription:fulfill-guildhall', description: 'Instantiate and qualify the four summoned canonical Guildhall Legates')]
 final class ConscriptionFulfillGuildhallCommand extends Command
 {
     public function __construct(private readonly GuildhallConscriptionService $service)
