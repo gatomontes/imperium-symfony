@@ -74,6 +74,13 @@ final class ImperatorActsTest extends TestCase
         }
     }
 
+    public function testImperatorMayObjectToExactPlanAndReturnItForRevision(): void
+    {
+        $root = sys_get_temp_dir().DIRECTORY_SEPARATOR.'imperium-acts-'.bin2hex(random_bytes(6));mkdir($root, 0700, true);$store = new ProceedingStore($root);$store->persist(['proceeding_id' => 'proceeding-test-objection', 'instance_id' => 'imperium-test']);$store->appendTurn('proceeding-test-objection', 'response-test-plan', 1, ['seneschal' => ['disposition' => 'MISSION_PLAN_DRAFTED', 'mission_plan' => $this->missionPlan()],'resource_demands' => []]);$acts = new ImperatorActs($store);
+        try{$objection=$acts->objectToPlan('proceeding-test-objection',1,'The proposed model cost ceiling is unacceptable.','objection-test-0001');self::assertSame('OBJECTED_RETURNED_FOR_REVISION',$objection['disposition']);self::assertFalse($objection['readiness']['plan_approved']);self::assertTrue($objection['readiness']['unresolved_plan_objection']);self::assertFalse($objection['readiness']['commissioning_ready']);self::assertFalse($objection['grants_execution_authority']);}
+        finally{$this->removeTree($root);}
+    }
+
     private function removeTree(string $path): void
     {
         if (!is_dir($path)) {

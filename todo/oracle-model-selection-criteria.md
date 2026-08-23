@@ -20,6 +20,7 @@ Model-intelligence ledger implemented; criteria-bound evaluation remains planned
 - [x] Mechanically freeze the criteria-bound candidate universe and open one single-use eligibility-finding authority per surviving exact model version.
 - [x] Seal an evidence-only comparative matrix across every eligible exact model version without aggregate scoring, ordinal ranking, or a preferred candidate.
 - [x] Issue one evidence-bound Augur recommendation and return a single-use selection-decision authority to Curia without assigning or invoking a model.
+- [x] Convert Curia's exact model selection into a planning-only proposed binding for the complete dossier presented to Imperator; prohibit isolated binding approval and operational use.
 
 ## Objective
 
