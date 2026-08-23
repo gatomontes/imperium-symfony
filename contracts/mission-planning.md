@@ -84,6 +84,7 @@ Every proposed Mission Plan must have a stable identity, version, digest, status
 - included and excluded scope;
 - material facts, assumptions, unknowns, and dependencies;
 - Offices, roles, planned sorties, suitable personnel already available, and personnel gaps requiring construction;
+- every proposed exact provider/model/version binding, its Oracle evidence and recommendation lineage, Curial selection rationale, expected cost and limits, fallback policy, and unresolved objection;
 - tools, credentials, data, and other resources;
 - recipients, operation surfaces, ingress and egress points, and external effects;
 - classification of each external operation as deterministic boundary execution or external-cognition sortie;
@@ -93,6 +94,8 @@ Every proposed Mission Plan must have a stable identity, version, digest, status
 - expiry, revocation, interruption, and reauthorization conditions.
 
 Disclosure must be understandable enough for the Operator to know what is being approved. Hidden execution-relevant terms cannot acquire authorization through approval of the visible plan.
+
+The complete versioned planning dossier is presented to Imperator as one authorization object. Imperator may affirmatively approve that exact version, object to identified terms, or return it for revision. A Curial model-selection decision is planning evidence inside the dossier; it is not separately approved and cannot become an operational binding by itself.
 
 ## Valid approval
 
