@@ -18,4 +18,4 @@ Dedicated tests cover exact delivery and replay, immutable output preservation, 
 
 ## Next
 
-Step 43 is the original commissioner's independent review disposition. Acceptance or rejection must remain distinct from operational adoption, external action, execution, or authorization of another cognition turn. Any follow-up work requires a new exact governed commission.
+Step 43 is now complete. The original commissioner's independent acceptance or rejection closes the commission without operational adoption, external action, execution, or authorization of another cognition turn. Any follow-up work requires a new exact governed commission.

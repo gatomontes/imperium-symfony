@@ -64,9 +64,9 @@ Qualification consumes only the exact Step 31 request; assembly consumes only it
 
 The model-bound Citadel route now continues through step 35, **Legate activation authorization**. The Imperator decides against the exact generation-1 Seat binding and unexpired model-access lineage. Only `AUTHORIZED` reaches `MODEL_BOUND_CITADEL_LEGATE_ACTIVATION_AUTHORIZED_PENDING_RUNTIME_ACTIVATION`; every other branch is sealed and non-authorizing. This is not mission deployment or Garrison custody transfer.
 
-The model-bound Citadel route now continues through step 42, **sealed cognition-result delivery**. After one bounded cognition turn, runtime machinery delivers the exact sealed result only to the original commissioner's exact current binding for later independent review.
+The model-bound Citadel governed-commission route now completes at step 43, **independent commissioner review**. After exact delivery, the original commissioner consumes one single-use review authority and records acceptance or rejection with rationale; both branches close the commission terminally.
 
-The credential reference is never disclosed or transferred. Delivery preserves the output without accepting, rejecting, adopting, or acting on it. Tools, memory, network resources, external data, external action, execution, follow-up commissioning, autonomous cognition, and continuing-turn authority remain closed.
+The credential reference is never disclosed or transferred. Acceptance means only that the result satisfies the reviewed commission; it is not operational adoption. Rejection creates no silent retry. Tools, memory, network resources, external data, external action, execution, follow-up commissioning, autonomous cognition, and continuing-turn authority remain closed.
 
 ### Implemented completion steps
 
@@ -89,6 +89,8 @@ The credential reference is never disclosed or transferred. Delivery preserves t
 41. **The Legate performs exactly one governed cognition turn.** The target consumes the one-use cognition authority and credential lease through the exact configured model gateway. Runtime machinery seals the attributable contract-bound output and stop-condition result at `CITADEL_LEGATE_GOVERNED_COGNITION_TURN_COMPLETED_SEALED_NO_CONTINUING_AUTHORITY` or the corresponding stopped checkpoint. No tools, memory, network resource, external data, external action, execution, autonomous cognition, or continuing turn is authorized.
 
 42. **Deliver the exact sealed result to the original commissioner.** Runtime machinery revalidates the complete digest-bound commission, acceptance, authorization, provider activation, cognition turn, immutable contract, and the commissioner's exact current occupancy. It preserves the result unchanged at `CITADEL_LEGATE_COGNITION_RESULT_DELIVERED_PENDING_COMMISSIONER_REVIEW` and opens only one addressed, single-use review-disposition authority. Delivery does not accept, reject, operationally adopt, execute, or authorize follow-up work; cognition, provider invocation, credentials, tools, external action, execution, and continuing-turn authority remain closed.
+
+43. **The original commissioner independently accepts or rejects the delivered result.** The exact current commissioner consumes the one-use review-disposition authority and seals a required rationale. Acceptance reaches `CITADEL_LEGATE_COGNITION_RESULT_ACCEPTED_COMMISSION_CLOSED_NO_DOWNSTREAM_AUTHORITY`; rejection reaches `CITADEL_LEGATE_COGNITION_RESULT_REJECTED_COMMISSION_CLOSED_NO_DOWNSTREAM_AUTHORITY`. Both branches close the commission, prohibit conflicting replay, and grant no operational adoption, follow-up commission, cognition, provider invocation, credentials, tools, external action, execution, or continuing-turn authority.
 
 The mission-operative route diverges after its own binding: Seneschal deployment authorization and Constable custody transfer belong to that route and must not be inferred for a mission-independent Legate.
 
