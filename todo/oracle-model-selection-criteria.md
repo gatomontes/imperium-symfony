@@ -22,6 +22,7 @@ Model-intelligence ledger implemented; criteria-bound evaluation remains planned
 - [x] Issue one evidence-bound Augur recommendation and return a single-use selection-decision authority to Curia without assigning or invoking a model.
 - [x] Convert Curia's exact model selection into a planning-only proposed binding for the complete dossier presented to Imperator; prohibit isolated binding approval and operational use.
 - [x] Mechanically assemble the exact Mission Plan, proposed model bindings, resource demands, risks, costs, fallbacks, external effects, and provenance into one immutable dossier pending Imperator review.
+- [x] Render the dossier as a plain consecutive numbered list and bind Imperator approval or line-specific objection to the exact dossier and per-line digests.
 
 ## Objective
 
