@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Imperium\Runtime\Laboratorium;
 
+use App\Imperium\Runtime\Cognition\BoundedTransientCognitionCaller;
 use Symfony\AI\Agent\AgentInterface;
-use Symfony\AI\Platform\Message\Message;
-use Symfony\AI\Platform\Message\MessageBag;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class SymfonyAiProfileElaborationCognitionGateway implements ProfileElaborationCognitionGateway
@@ -18,7 +17,7 @@ final readonly class SymfonyAiProfileElaborationCognitionGateway implements Prof
         'uncertainty_behavior', 'failure_behavior', 'persona_adaptations',
     ];
 
-    public function __construct(#[Autowire(service: 'ai.agent.alchemist_profile_elaboration')] private AgentInterface $alchemist) {}
+    public function __construct(#[Autowire(service: 'ai.agent.alchemist_profile_elaboration')] private AgentInterface $alchemist, private ?BoundedTransientCognitionCaller $transientCaller = null) {}
 
     public function elaborate(array $acceptance, array $authorization): array
     {
@@ -31,7 +30,7 @@ final readonly class SymfonyAiProfileElaborationCognitionGateway implements Prof
             'Return only JSON with exactly: disposition, operating_posture, responsibilities, non_responsibilities, reasoning_priorities, evidence_discipline, tool_use_directives, input_handling, output_contract, escalation_conditions, uncertainty_behavior, failure_behavior, persona_adaptations.',
             'disposition must be PROFILE_ELABORATION_COMPLETE. operating_posture must be a non-empty string. Every other field must be a non-empty array of explicit non-empty strings.',
         ]);
-        $content = $this->alchemist->call(new MessageBag(Message::ofUser($prompt)))->getContent();
+        $content = ($this->transientCaller ?? new BoundedTransientCognitionCaller())->call($this->alchemist, $prompt, 'L40_PROFILE_ELABORATION_COGNITION_INVALID');
         if (!is_string($content) || '' === trim($content)) throw new \RuntimeException('L40_PROFILE_ELABORATION_COGNITION_INVALID');
         $content = trim($content);
         if (str_starts_with($content, '```')) $content = preg_replace('/^```(?:json)?\s*|\s*```$/i', '', $content) ?? $content;

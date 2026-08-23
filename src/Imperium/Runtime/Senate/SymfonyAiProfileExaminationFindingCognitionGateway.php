@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Imperium\Runtime\Senate;
 
+use App\Imperium\Runtime\Cognition\BoundedTransientCognitionCaller;
 use Symfony\AI\Agent\AgentInterface;
-use Symfony\AI\Platform\Message\Message;
-use Symfony\AI\Platform\Message\MessageBag;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class SymfonyAiProfileExaminationFindingCognitionGateway implements ProfileExaminationFindingCognitionGateway
@@ -15,6 +14,7 @@ final readonly class SymfonyAiProfileExaminationFindingCognitionGateway implemen
         #[Autowire(service: 'ai.agent.profile_finding_trust')] private AgentInterface $trust,
         #[Autowire(service: 'ai.agent.profile_finding_security')] private AgentInterface $security,
         #[Autowire(service: 'ai.agent.profile_finding_usability')] private AgentInterface $usability,
+        private ?BoundedTransientCognitionCaller $transientCaller = null,
     ) {}
 
     public function find(string $jurisdiction, array $authority, array $evidence): array
@@ -35,7 +35,7 @@ final readonly class SymfonyAiProfileExaminationFindingCognitionGateway implemen
             'Copy the one supplied available_evidence_references value exactly into evidence_references.',
             'Exact PASS response shape: {"disposition":"PASS","attributed_defect":null,"evidence_references":["testimony:<jurisdiction>:<digest>"],"rationale":"...","severity":"NONE","limitations":[],"uncertainty":[]}',
         ]);
-        $content = $agent->call(new MessageBag(Message::ofUser($prompt)))->getContent();
+        $content = ($this->transientCaller ?? new BoundedTransientCognitionCaller())->call($agent, $prompt, 'S242_PROFILE_EXAMINATION_FINDING_COGNITION_INVALID');
         if (!is_string($content)) throw $this->invalid('NON_TEXT_RESPONSE');
         if ('' === trim($content)) throw $this->invalid('EMPTY_RESPONSE');
         $content = trim($content);
