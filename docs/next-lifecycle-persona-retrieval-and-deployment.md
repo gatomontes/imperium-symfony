@@ -56,9 +56,11 @@ The canonical route is implemented end to end through terminal return, retiremen
 
 ### Current model-bound reconstruction checkpoint
 
-The explicit model-bound implementation now completes steps 1–30. The Senate leg is closed at `PROFILE_EXAMINATION_DISPOSITION_SEALED_PENDING_IMPERATOR_PROFILE_APPROVAL`: every exact finding and the reconciliation are preserved, the disposition authority is consumed, and a mandatory Security blocking condition mechanically prohibits `APPROVED`.
+The explicit model-bound implementation now completes steps 1–31. The Imperator Profile-approval leg is closed at either `IMPERATOR_PROFILE_APPROVED_PENDING_CONSCRIPTION_OPERATIONAL_QUALIFICATION` or a sealed `NON_APPROVING_IMPERATOR_PROFILE_DISPOSITION_RECORDED` branch. The exact Senate disposition, reconciliation, subject Profile, and all three unchanged findings are revalidated and digest-bound.
 
-The next model-bound transition is step 31, **Imperator decides Profile approval**. It must consume the complete Senate record without treating Senate approval as Imperator authority. Only an explicit Imperator approval of an `APPROVED` Senate disposition may open the bounded operational-qualification request; every other branch remains sealed and non-authorizing.
+Only an explicit Imperator `APPROVED` decision against an exact Senate `APPROVED` disposition opens one single-use request to `conscription.recruiter` for operational qualification. Senate approval remains distinct from Imperator approval, and the request is not qualification or operational authority. Every other Imperator branch is sealed and non-authorizing.
+
+The next model-bound transition is step 32, **Conscription operational qualification**. It remains unimplemented in this reconstruction checkpoint.
 
 ### Implemented completion steps
 
