@@ -42,6 +42,8 @@ Enable Curia to request model research from Oracle using explicit, pre-determine
 9. The authorized authority approves where required.
 10. Conscription seals the selected provider, model identifier, version, configuration, limits, fallback policy, and selection provenance into the Officer Profile.
 
+- [x] Consume each authorized model-binding authority by creating a new immutable Profile version with the exact approved model, configuration, and provenance, without activation, access, invocation, or execution.
+
 ## Office boundaries
 
 - **Curia:** defines the required outcome and evaluation criteria.
