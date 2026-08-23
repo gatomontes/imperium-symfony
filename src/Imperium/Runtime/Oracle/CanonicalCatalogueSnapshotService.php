@@ -24,7 +24,7 @@ final readonly class CanonicalCatalogueSnapshotService
         foreach($entries as$entry){
             if(!is_array($entry)||array_keys($entry)!==['evidence_id','clavium_assertion_id']||!$this->identifier($entry['evidence_id']))throw new \InvalidArgumentException('OR19_CATALOGUE_ENTRY_INVALID');
             $evidence=$this->read($this->evidenceDirectory.'/'.$entry['evidence_id'].'.json','OR20_ADMITTED_EVIDENCE_ABSENT');
-            if(array_keys($evidence)!==['schema','evidence_id','instance_id','provider','model_id','model_version','knowledge_sources','claims','admissibility','status','admitted_by','model_research_authority','sealed','record_digest']
+            if(array_keys($evidence)!==['schema','evidence_id','instance_id','provider','model_id','model_version','knowledge_sources','claims','admissibility','research_lineage','status','admitted_by','model_research_authority','sealed','record_digest']
                 ||!$this->digestMatches($evidence)||'imperium.oracle-admitted-model-evidence/v1'!==($evidence['schema']??null)
                 ||$instanceId!==($evidence['instance_id']??null)||'EVIDENCE_ADMITTED'!==($evidence['status']??null)
                 ||'oracle'!==($evidence['admitted_by']['office']??null)||!$this->identifier($evidence['admitted_by']['process']??null)
@@ -39,7 +39,7 @@ final readonly class CanonicalCatalogueSnapshotService
             }
             $records[]=['provider'=>$evidence['provider'],'model_id'=>$evidence['model_id'],'model_version'=>$evidence['model_version'],
                 'knowledge_sources'=>$evidence['knowledge_sources'],'claims'=>$evidence['claims'],
-                'accessibility'=>['status'=>$access,'clavium_assertion'=>$assertion],'admissibility'=>$evidence['admissibility']];
+                'accessibility'=>['status'=>$access,'clavium_assertion'=>$assertion],'admissibility'=>$evidence['admissibility'],'provenance'=>$evidence['research_lineage']];
         }
         return $this->ledger->sealSnapshot($instanceId,$records,$augurBinding,$priorSnapshotId);
     }

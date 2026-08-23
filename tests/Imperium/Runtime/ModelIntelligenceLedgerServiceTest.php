@@ -93,6 +93,7 @@ final class ModelIntelligenceLedgerServiceTest extends TestCase
             'accessibility' => ['status' => 'ACCESSIBLE', 'clavium_assertion' => $assertion],
             'admissibility' => ['status' => 'ADMISSIBLE', 'policy_refs' => ['imperium.model-policy/v1'],
                 'evidence_source_ids' => [$source['source_id']], 'reasons' => []],
+            'provenance' => null,
         ];
     }
 
@@ -105,6 +106,7 @@ final class ModelIntelligenceLedgerServiceTest extends TestCase
             'claims' => [],
             'accessibility' => ['status' => 'UNVERIFIED', 'clavium_assertion' => null],
             'admissibility' => ['status' => 'UNEVALUATED', 'policy_refs' => [], 'evidence_source_ids' => [], 'reasons' => []],
+            'provenance' => null,
         ];
     }
 
