@@ -1,1 +1,0 @@
-{"schema":"imperium.bootstrap-compatibility/v1","version":"1.0.0","charter_generation":"charter-development-1","php":">=8.4","symfony":"8.1.*","symfony_ai_bundle":"0.12.*","sodium":"required","composition":"primordial-development-1"}
