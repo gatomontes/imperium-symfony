@@ -58,7 +58,7 @@ The route is implemented through the sealed Profile-examination disposition. Imp
 
 31. **Imperator decides Profile approval.** Present the exact candidate and complete Senate record. Only explicit approval of a Senate `APPROVED` disposition authorizes the next operational-qualification request at `IMPERATOR_PROFILE_APPROVED_PENDING_CONSCRIPTION_OPERATIONAL_QUALIFICATION`; refusal, revision, clarification, alternative, and deferral are sealed but non-authorizing. Approval grants no installation, assembly, Seat-binding, deployment, or execution authority.
 32. **Conscription installs and qualifies the approved Profile operationally.** The occupied ordinary Recruiter consumes the exact qualification-request authority and revalidates the Imperator approval, Senate disposition, Persona, live custody lease, Profile candidate, mission scope, tools, data, stop conditions, and both return representations. The intended Seat is derived—not selected—from Curia's exact capability slot, and compatibility is limited to the identity- and authority-neutral generic Officer version-0 contract. The sealed boundary is `PROFILE_OPERATIONALLY_QUALIFIED_PENDING_MANIFESTATION_ASSEMBLY`: one Manifestation-assembly authority is exercisable, while Seat binding, deployment, custody transfer, and execution remain closed.
-33. **Conscription assembles the operational Manifestation.** Mechanically combine the exact Persona, approved operational Profile, and generic Officer substrate. Preserve identity and authority boundaries; stop before Seat occupancy.
+33. **Conscription assembles the operational Manifestation.** Consume the exact qualification's assembly authority and mechanically combine the custody-bound Persona, qualified operational Profile, and identity- and authority-neutral generic Officer version-0 substrate. Seal `OPERATIONAL_MANIFESTATION_ASSEMBLED_PENDING_SEAT_BINDING` with one bounded Seat-binding authority, while the Manifestation remains unbound and prohibited from operational use. No tool access, credentials, external action, deployment, custody transfer, or execution authority exists.
 34. **Bind the exact Manifestation to its intended Seat.** Validate atomic occupancy, compatibility, lineage, supersession rules, and the absence of conflicting occupancy. Seat binding grants no deployment or execution authority.
 35. **Authorize deployment and transfer bounded operational custody.** The proper mission authority approves the exact bound Manifestation for one defined mission use; Garrison records availability/custody effects without acquiring selection or execution authority.
 36. **Execute one bounded smoke iteration.** The bound Manifestation receives one exact input, performs only authorized internal cognition or tooling, produces one attributable output, and stops. This proves the complete governed route without implying continuing authority.
@@ -66,7 +66,7 @@ The route is implemented through the sealed Profile-examination disposition. Imp
 
 ## Current implementation checkpoint
 
-The implemented canonical route ends after step 32 at `PROFILE_OPERATIONALLY_QUALIFIED_PENDING_MANIFESTATION_ASSEMBLY`; refusal remains a sealed alternate terminal branch at `EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY`, and every non-approving Imperator disposition is recorded without downstream authority. Steps 33–37 are the proposed five remaining batches through one governed execution and return cycle.
+The implemented canonical route ends after step 33 at `OPERATIONAL_MANIFESTATION_ASSEMBLED_PENDING_SEAT_BINDING`; refusal remains a sealed alternate terminal branch at `EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY`, and every non-approving Imperator disposition is recorded without downstream authority. Steps 34–37 are the proposed four remaining batches through one governed execution and return cycle.
 
 - Garrison still holds the exact Persona at `ADMITTED_HELD`.
 - The commission and its acceptance have been consumed only to derive one deterministic, immutable Profile candidate at version 1.
@@ -80,7 +80,8 @@ The implemented canonical route ends after step 32 at `PROFILE_OPERATIONALLY_QUA
 - Senate has sealed an `APPROVED` disposition bound to every exact finding and the reconciliation.
 - The Imperator has explicitly approved that exact examined Profile, and Conscription has consumed the resulting qualification-request authority.
 - Conscription has installed and qualified the exact operational Profile for the Seat derived from Curia's immutable capability slot.
-- One bounded Manifestation-assembly authority is exercisable. Seat binding, deployment, custody transfer, and execution remain closed.
+- Conscription has consumed the assembly authority and sealed the exact operational Manifestation unbound.
+- One bounded Seat-binding authority is exercisable. Tool access, credentials, external action, deployment, custody transfer, and execution remain closed.
 
 ## Capability-to-Profession Translation Boundary
 
