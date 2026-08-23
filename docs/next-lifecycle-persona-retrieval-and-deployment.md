@@ -56,7 +56,7 @@ The canonical route is implemented end to end through terminal return, retiremen
 
 ### Current model-bound reconstruction checkpoint
 
-The explicit model-bound implementation now completes steps 1–41. An approving route activates one exact provider invocation through Clavium and consumes it for one sealed, attributable cognition turn. No downstream action or continuing turn survives.
+The explicit model-bound implementation now completes steps 1–43. An approving route activates one exact provider invocation through Clavium, consumes it for one sealed attributable cognition turn, delivers the unchanged result to the original commissioner, and terminally closes the commission after independent acceptance or rejection. No downstream action or continuing turn survives.
 
 Only an explicit Imperator `APPROVED` decision against an exact Senate `APPROVED` disposition opens one single-use request to `conscription.recruiter` for operational qualification. Senate approval remains distinct from Imperator approval, and the request is not qualification or operational authority. Every other Imperator branch is sealed and non-authorizing.
 
