@@ -1,0 +1,316 @@
+{
+  "schema": "imperium.bootstrap-manifest/v1",
+  "manifest_id": "71d6de7fba2799a0eb935c167b84e2cad4d7a2796e00258dc10f1a97a6e9c4af",
+  "unsigned_payload": {
+    "charter_generation": "charter-development-1",
+    "instance_class": "development",
+    "issued_at": "2026-08-08T00:00:00-04:00",
+    "expires_at": null,
+    "trust": {
+      "signature_policy": "imperium.launch-policy/development-v1",
+      "accepted_signers": [
+        {
+          "key_id": "imperator-development-root-1",
+          "public_key": "2HHW4YtFqK8fsFu7Zc1i6ztJpob4UaS653BUTwHAKjs=",
+          "public_key_digest": "4d393ab67e15b3024e4e99531e4a0c4c0f8aaf841fd41c70abc83f76db3047c8"
+        }
+      ],
+      "revocation_snapshot": {
+        "source_id": "charter-development-root",
+        "generation": "1",
+        "digest": "931c77491709e869bf24e086e5b2cdd2fde8cbfc119c37d223b6f90069a200bc",
+        "valid_at": "2026-08-08T00:00:00-04:00"
+      }
+    },
+    "launcher": {
+      "artifact": "/src/Bootstrap/Launcher.php",
+      "version": "1.0.0",
+      "digest": "2ba484a8294395d9bb066951dbb9ce02f40784b44cdf239cd014d29f42ceea42"
+    },
+    "mastermason": {
+      "artifact": "/src/Bootstrap/MasterMason.php",
+      "version": "1.0.0",
+      "digest": "81189469692e5e3c439fc399313b11eb7e42538bb0a3719ee0d91f1bc1d6a530",
+      "compatible_charter_generation": "charter-development-1"
+    },
+    "runtime": {
+      "bootstrap_state": {
+        "artifact": "/src/Bootstrap/BootstrapState.php",
+        "version": "1.0.0",
+        "digest": "13867aca32dd6010f7cb48960223f7035047f7cc9860b191a1207905b8a33e2d"
+      },
+      "canonical_json": {
+        "artifact": "/src/Bootstrap/CanonicalJson.php",
+        "version": "1.0.0",
+        "digest": "839a106922f9182706d5de7b59258013f2b78be683567703841b449de1805034"
+      },
+      "manifest_validator": {
+        "artifact": "/src/Bootstrap/ManifestValidator.php",
+        "version": "1.0.0",
+        "digest": "678410f6dd1c6b5d19196f27993d674afe7f0e4399d07de05029ee0336cd1eed"
+      },
+      "state_store": {
+        "artifact": "/src/Bootstrap/StateStore.php",
+        "version": "1.0.0",
+        "digest": "b35ef18b4908fa8d80fac6a9239450abafcae56c2b348aeb1853835aebe23e11"
+      },
+      "validation_exception": {
+        "artifact": "/src/Bootstrap/ValidationException.php",
+        "version": "1.0.0",
+        "digest": "ec0a78048b780b847d4f7727922f096168f3f5b0049955f73ff058157b9176af"
+      },
+      "validation_receipt": {
+        "artifact": "/src/Bootstrap/ValidationReceipt.php",
+        "version": "1.0.0",
+        "digest": "a3cd4ad753e85e1482fb91dc3ebe4612e213f73caaf92dc37394eea749820a2c"
+      }
+    },
+    "primordial": {
+      "constitutional_doctrine": {
+        "artifact": "/imperium-doctrine.md",
+        "version": "1.0.0",
+        "digest": "afe8e7767960eb46b4518763eaadd959c0564da4503a7a8e78cf07c87fb53751"
+      },
+      "mission_planning_contract": {
+        "artifact": "/contracts/mission-planning.md",
+        "version": "1.0.0",
+        "digest": "c673155a893b91252755e46cedb5517d9c7afecdaedd6f2be3d7a5e081b3487f"
+      },
+      "charter": {
+        "artifact": "/bootstrap/artifacts/charter.json",
+        "version": "1.0.0",
+        "digest": "36c34198adf1d0f37ff8165956af206463d64a739bd7ed0ab96f8e999b5aa9c7"
+      },
+      "personas": {
+        "recruiter": {
+          "artifact": "/bootstrap/artifacts/recruiter-persona.json",
+          "version": "1.0.0",
+          "digest": "7efc2a6ea16ce6ca83bb15a7c75060edb4dc7e6b110795e7a27f75d5e31c36a5"
+        },
+        "seneschal": {
+          "artifact": "/bootstrap/artifacts/seneschal-persona.json",
+          "version": "1.0.0",
+          "digest": "7db89a60fda53b2a250284e65daa3b901085ff21a09d419f26a482f65fb5123c"
+        },
+        "chamberlain": {
+          "artifact": "/bootstrap/artifacts/chamberlain-persona.json",
+          "version": "1.0.0",
+          "digest": "db4861e422b155076a08e484ff7f21a24afab7c48c0344aad249c3938632f817"
+        },
+        "isolde": {
+          "artifact": "/bootstrap/artifacts/isolde-persona.json",
+          "version": "1.0.0",
+          "digest": "38c8707ef2f5e3a57c1946065fe49654f097fd2ccac3638b536f77a0c89d22e1"
+        }
+      },
+      "offices": {
+        "conscription": {
+          "artifact": "/offices/conscription/doctrine.md",
+          "version": "1.0.0",
+          "digest": "c3819a655659749cf9864bca82855d5871ad1ff3f59917f6f02599fbef00be47"
+        },
+        "curia": {
+          "artifact": "/offices/curia/doctrine.md",
+          "version": "1.0.0",
+          "digest": "7bcb590f89b3af324bc1fa97d9279cb1446f2c2528f52348a55115e4306606ad"
+        }
+      },
+      "seats": {
+        "provisional_recruiter": {
+          "artifact": "/bootstrap/artifacts/provisional-recruiter-seat.json",
+          "version": "1.0.0",
+          "digest": "2ade6100cda30d0ce81cec5a14e4ac2db11e643e5c3bc6fcacff34373a55279c"
+        },
+        "ordinary_recruiter": {
+          "artifact": "/bootstrap/artifacts/ordinary-recruiter-seat.json",
+          "version": "1.0.0",
+          "digest": "d31e5a0e47444da58d19044ce51f8653bf586b20c18f3406627757973f2f4b54"
+        },
+        "seneschal": {
+          "artifact": "/bootstrap/artifacts/seneschal-seat.json",
+          "version": "1.0.0",
+          "digest": "8fe11e5bef2909b9be5b4dcaf15d379bcf17aed4923cecc6385c0a66716c3482"
+        },
+        "chamberlain": {
+          "artifact": "/bootstrap/artifacts/chamberlain-seat.json",
+          "version": "1.0.0",
+          "digest": "4f1a68c878e6c70a7f01b7d4efc6121392f5e7fac2c5394b59a66dece04f4bef"
+        },
+        "secretary": {
+          "artifact": "/bootstrap/artifacts/secretary-seat.json",
+          "version": "1.0.0",
+          "digest": "9a16cbabf4fa81199a5f0b8bc7276de3734fcc194472ec3534c198633c1335dc"
+        }
+      },
+      "profiles": {
+        "provisional_recruiter": {
+          "artifact": "/bootstrap/artifacts/provisional-recruiter-profile.json",
+          "version": "1.0.0",
+          "digest": "3fb1d2c6db54f6bb9a0dc492650c743b890aba84915d2791845d28e6de7180ab",
+          "attestations": {
+            "approval": {
+              "artifact": "/bootstrap/artifacts/provisional-recruiter-profile-approved.json",
+              "version": "1.0.0",
+              "digest": "52d407354dec4acb700c58bb5fbf090a0b0507e9fbc55929ee2b76fb1780296e"
+            },
+            "current_active": {
+              "artifact": "/bootstrap/artifacts/provisional-recruiter-profile-current-active.json",
+              "version": "1.0.0",
+              "digest": "2cccf89028273289602c660a97693456fb044c965307b39aae0f54f562a34505"
+            }
+          }
+        },
+        "ordinary_recruiter": {
+          "artifact": "/bootstrap/artifacts/ordinary-recruiter-profile.json",
+          "version": "1.0.0",
+          "digest": "392e0fe7354743562ce3a1ccc50b84b751686f1003bca03cc2c2927a0f3f1b88",
+          "attestations": {
+            "approval": {
+              "artifact": "/bootstrap/artifacts/ordinary-recruiter-profile-approved.json",
+              "version": "1.0.0",
+              "digest": "8ed19a4c2893a21f91060235c477377dc71830802b842c275335d32db593f01d"
+            },
+            "current_active": {
+              "artifact": "/bootstrap/artifacts/ordinary-recruiter-profile-current-active.json",
+              "version": "1.0.0",
+              "digest": "9f1f72d529045a1cdec21db12ba4e2390458090e58b5db562ca8420da4c3e964"
+            }
+          }
+        },
+        "seneschal": {
+          "artifact": "/bootstrap/artifacts/seneschal-profile.json",
+          "version": "1.0.0",
+          "digest": "ab3f285362e7367590f51c7047a5aa499cf30638f5f92325f5dfcd4d4544a14b",
+          "attestations": {
+            "approval": {
+              "artifact": "/bootstrap/artifacts/seneschal-profile-approved.json",
+              "version": "1.0.0",
+              "digest": "b1c83a29087a59e88c535f933fd1e8b6d6d3c7e31bc2c94b13daee7e8eb41c34"
+            },
+            "current_active": {
+              "artifact": "/bootstrap/artifacts/seneschal-profile-current-active.json",
+              "version": "1.0.0",
+              "digest": "0db84755b351fd160db5372e072ca3c2e1f4dc0c88fdf27941ecdae468a44884"
+            }
+          }
+        },
+        "chamberlain": {
+          "artifact": "/bootstrap/artifacts/chamberlain-profile.json",
+          "version": "1.0.0",
+          "digest": "585e14e0819ffd3de2af8cddb7a3d9f3cc5672a7c89a8e7f6e882895b4c10df7",
+          "attestations": {
+            "approval": {
+              "artifact": "/bootstrap/artifacts/chamberlain-profile-approved.json",
+              "version": "1.0.0",
+              "digest": "5b1d86620d6e1b6efcfd2c2e3f6179df45f9c8f613452bf35c4761e2b8464353"
+            },
+            "current_active": {
+              "artifact": "/bootstrap/artifacts/chamberlain-profile-current-active.json",
+              "version": "1.0.0",
+              "digest": "9c6ca4a3b6412cbee2d20353fdaf81fceeda85ce3c7a4e3ada035a9b36ed7841"
+            }
+          }
+        },
+        "secretary": {
+          "artifact": "/bootstrap/artifacts/secretary-profile.json",
+          "version": "1.0.0",
+          "digest": "013e41f9ed67a1cf5059fa9669c0dba3948efcc2247750fce2faa92b4a67410e",
+          "attestations": {
+            "approval": {
+              "artifact": "/bootstrap/artifacts/secretary-profile-approved.json",
+              "version": "1.0.0",
+              "digest": "1aaa827e92749590d480994cfef74d4cae80dc8276b33956667892b150f0eca0"
+            },
+            "current_active": {
+              "artifact": "/bootstrap/artifacts/secretary-profile-current-active.json",
+              "version": "1.0.0",
+              "digest": "a4dd2dc6ead9b46991a8f091c946544b349dce76e78249cfb55adf6971d4de18"
+            }
+          }
+        }
+      },
+      "substrates": {
+        "provisional_recruiter": {
+          "artifact": "/bootstrap/artifacts/provisional-recruiter-substrate.json",
+          "version": "1.0.0",
+          "digest": "1c61017181ab3139e90434b0ae1e9f97a2e9e5615ecdf0492fbcee055652d5b7"
+        },
+        "ordinary_recruiter": {
+          "artifact": "/bootstrap/artifacts/ordinary-recruiter-substrate.json",
+          "version": "1.0.0",
+          "digest": "21693e898dd5f21bae806ace33d32097de99795fce8f99a436a7398fba8e5864"
+        },
+        "seneschal": {
+          "artifact": "/bootstrap/artifacts/seneschal-substrate.json",
+          "version": "1.0.0",
+          "digest": "fd95d49724ffe4455414828612d81221dcc95047fa5a7ae3c8029dac44c04fe1"
+        },
+        "chamberlain": {
+          "artifact": "/bootstrap/artifacts/chamberlain-substrate.json",
+          "version": "1.0.0",
+          "digest": "b3a13088473bce6f1aa4deeabed10642e97050d116b84312ff92bbebf4b02a20"
+        },
+        "secretary": {
+          "artifact": "/bootstrap/artifacts/secretary-substrate.json",
+          "version": "1.0.0",
+          "digest": "6ed9096bc88fd2eceb3eda17e4f4c9f8d2272573d0b26bcf5c9e60a1b162c20c"
+        }
+      },
+      "succession_commission": {
+        "artifact": "/bootstrap/artifacts/recruiter-succession-commission.json",
+        "version": "1.0.0",
+        "digest": "8d037d7214f39a16ede01078dc43c7875587fa8e8ef796539aa18e8552c42f39"
+      },
+      "assembly_commissions": {
+        "seneschal": {
+          "artifact": "/bootstrap/artifacts/seneschal-assembly-commission.json",
+          "version": "1.0.0",
+          "digest": "f95d00bfd3ed785a6d56e26b2cb96d260042818ea0cd241f1b6741b498700851"
+        },
+        "chamberlain": {
+          "artifact": "/bootstrap/artifacts/chamberlain-assembly-commission.json",
+          "version": "1.0.0",
+          "digest": "879f2079872b2460413b89811ff33e58f9281e3417f519f78515d0a0c9f249e4"
+        },
+        "secretary": {
+          "artifact": "/bootstrap/artifacts/secretary-assembly-commission.json",
+          "version": "1.0.0",
+          "digest": "5c4f6485d41f08f69906378bbff00ec417bb5f5169392eb1031f1f6b2fd86838"
+        }
+      },
+      "routes": {
+        "artifact": "/bootstrap/artifacts/routes.json",
+        "version": "1.0.0",
+        "digest": "161e1fd8426bab655264684f5d763da2fa16dbd81347df2578fff68606c02577"
+      },
+      "bootstrap_machine": {
+        "artifact": "/bootstrap/artifacts/bootstrap-machine.json",
+        "version": "1.0.0",
+        "digest": "aa6e30910ac09ab9adb6f9a1b22ece0c600ba92952ec3e18201f0704d5097ebf"
+      },
+      "bootstrap_recovery_machine": {
+        "artifact": "/bootstrap/artifacts/bootstrap-recovery-machine.json",
+        "version": "1.0.0",
+        "digest": "8a9040211c180b29111c2a92deff1b0d891539fe61e37d0669cee20131a875be"
+      },
+      "runtime_concurrency_replay": {
+        "artifact": "/bootstrap/artifacts/runtime-concurrency-replay.json",
+        "version": "1.0.0",
+        "digest": "da1e2d0b94f582d514de54bd027d9d6e017c69aa642f7c4543f6af516b4aacd4"
+      }
+    },
+    "compatibility": {
+      "artifact": "/bootstrap/artifacts/compatibility.json",
+      "version": "1.0.0",
+      "digest": "46afee31b7588655eac014ef65a655b30960129a194eb569189dbdc56bfa24a6"
+    }
+  },
+  "signatures": [
+    {
+      "key_id": "imperator-development-root-1",
+      "algorithm": "ed25519",
+      "signed_payload_digest": "71d6de7fba2799a0eb935c167b84e2cad4d7a2796e00258dc10f1a97a6e9c4af",
+      "signature": "19brj36k8Hij2kqziHrts1oXcEZ24Asx02yCReyC+f37FtK2zzCmJdBK7QrQ1Ulv0chhQaNOm8wbN3C/RoqPAg=="
+    }
+  ]
+}
