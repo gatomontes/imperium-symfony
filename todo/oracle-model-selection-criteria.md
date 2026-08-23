@@ -47,6 +47,7 @@ Enable Curia to request model research from Oracle using explicit, pre-determine
 - [x] Open a Senate examination for the exact access-attested Profile revision, preserve the complete approved model-evidence chain, and issue fixed Trust, Security, and Usability commissions pending independent Senator acceptance without opening testimony, findings, deliberation, approval, activation, or execution.
 - [x] Independently accept the exact Trust, Security, and Usability commissions, seal panel readiness, then separately consume one Lord-Speaker testimony-opening authority to make only Senator questioning exercisable while findings and every operational authority remain closed.
 - [x] Seal one citation-bound evidence question and response per Trust, Security, and Usability jurisdiction without invoking a live witness or model, then separately open three independent finding authorities without authoring findings or opening deliberation.
+- [x] Seal independently authored Trust, Security, and Usability findings with evidence, severity, uncertainty, rubric-bound attribution, and mandatory Security blocking semantics while keeping peer findings invisible until panel completion and deliberation closed.
 
 ## Office boundaries
 
