@@ -232,6 +232,12 @@ The occupied Lord Speaker mechanically revalidates the exact sealed reconciliati
 
 The route stops at `PROFILE_EXAMINATION_DISPOSITION_AUTHORITY_OPENED_PENDING_LORD_SPEAKER_DISPOSITION`. No disposition has been authored; reconciliation authority, voting, and aggregation are closed, and Imperator Profile approval, operational installation, Seat binding, deployment, and execution remain unauthorized.
 
+## Profile-examination Senate disposition — implemented
+
+The occupied Lord Speaker consumes the exact single-use disposition authority and issues one attributable `APPROVED`, `RETURN_FOR_REVISION`, `REFUSED`, or `UNRESOLVED` disposition bound to every unchanged finding and the exact reconciliation. Runtime validation preserves all finding references and mechanically rejects `APPROVED` whenever the sealed mandatory Security blocking condition is true.
+
+Senate seals `PROFILE_EXAMINATION_DISPOSITION_SEALED_PENDING_IMPERATOR_PROFILE_APPROVAL`. The Senate authority is consumed; the record grants no Imperator Profile approval, Profile installation or activation, Seat binding, deployment, or execution authority.
+
 ## Non-negotiable inherited invariants
 
 - preserve the exact admitted Persona ID, version, digest, custody record, Guildhall commission, and Senate confirmation;
