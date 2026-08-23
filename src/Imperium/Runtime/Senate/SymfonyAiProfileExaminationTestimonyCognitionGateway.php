@@ -15,18 +15,19 @@ final readonly class SymfonyAiProfileExaminationTestimonyCognitionGateway implem
 
     public function answer(array $question, array $manifestation): array
     {
+        $questionForPrompt = $question;
+        unset($questionForPrompt['manifestation']);
         $prompt = implode("\n", [
             'You are the exact examination-only Manifestation secured on senate.stand.',
-            'Exact sealed question record: '.json_encode($question, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR),
+            'Exact sealed question record, with its duplicated manifestation field omitted only from this prompt: '.json_encode($questionForPrompt, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR),
             'Exact Manifestation: '.json_encode($manifestation, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR),
             'The examination-only Profile includes candidate_content and candidate_scope copied unchanged from the sealed Profile candidate. Treat those fields as the substantive evidence under examination, not merely their identity metadata.',
             'Answer the exact question only from the supplied Persona, complete sealed Profile candidate content and scope, and generic Officer substrate. Cite concrete supplied directives or contracts when relevant. Do not claim evidence is absent when it is present in candidate_content or candidate_scope. Preserve the custody, authority, tool, credential, external-action, and return boundaries. Do not make a finding, deliberate, approve, install operationally, bind, deploy, use tools, or execute.',
             'Return one JSON object with exactly four fields and these exact types: answer must be one non-empty string; uncertainties, refusals, and evidence_claims must each be an array containing only non-empty strings. Use [] when a list has no entries. Do not return null, nested objects, markdown, commentary, or additional fields.',
             'Exact response shape: {"answer":"...","uncertainties":[],"refusals":[],"evidence_claims":["..."]}',
         ]);
-        $content = $this->witness->call(new MessageBag(Message::ofUser($prompt)))->getContent();
+        $content = $this->callWithOneTransientRetry($prompt);
         if (!is_string($content)) throw $this->invalid('NON_TEXT_RESPONSE');
-        if ('' === trim($content)) throw $this->invalid('EMPTY_RESPONSE');
         $content = trim($content);
         if (str_starts_with($content, '```')) $content = preg_replace('/^```(?:json)?\s*|\s*```$/i', '', $content) ?? $content;
         try { $answer = json_decode(trim($content), true, 16, JSON_THROW_ON_ERROR); }
@@ -47,6 +48,30 @@ final readonly class SymfonyAiProfileExaminationTestimonyCognitionGateway implem
             }
         }
         return $normalized;
+    }
+
+    private function callWithOneTransientRetry(string $prompt): mixed
+    {
+        for ($attempt = 1; $attempt <= 2; ++$attempt) {
+            try {
+                $content = $this->witness->call(new MessageBag(Message::ofUser($prompt)))->getContent();
+            } catch (\Throwable $exception) {
+                if (!$this->isTimeout($exception)) throw $exception;
+                if (2 === $attempt) throw $this->invalid('PROVIDER_TIMEOUT', $exception);
+                continue;
+            }
+            if (is_string($content) && '' === trim($content)) {
+                if (2 === $attempt) throw $this->invalid('EMPTY_RESPONSE');
+                continue;
+            }
+            return $content;
+        }
+        throw $this->invalid('TRANSIENT_RETRY_EXHAUSTED');
+    }
+
+    private function isTimeout(\Throwable $exception): bool
+    {
+        return 1 === preg_match('/(?:idle\s+)?timeout|timed\s+out/i', $exception->getMessage());
     }
 
     private function invalid(string $reason, ?\Throwable $previous = null): \RuntimeException

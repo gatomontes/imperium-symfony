@@ -43,6 +43,41 @@ final class SymfonyAiProfileExaminationTestimonyCognitionGatewayTest extends Tes
         $this->gateway('Answer: bounded.')->answer([], []);
     }
 
+    public function testRetriesExactlyOnceAfterEmptyResponse(): void
+    {
+        $answer = ['answer' => 'Exact evidence supplied.', 'uncertainties' => [], 'refusals' => [], 'evidence_claims' => ['Candidate content is installed.']];
+        $agent = $this->createMock(AgentInterface::class);
+        $agent->expects(self::exactly(2))->method('call')->willReturnOnConsecutiveCalls(new TextResult(''), new TextResult(json_encode($answer, JSON_THROW_ON_ERROR)));
+        self::assertSame($answer, (new SymfonyAiProfileExaminationTestimonyCognitionGateway($agent))->answer([], []));
+    }
+
+    public function testExhaustedEmptyResponseRetryFailsClosed(): void
+    {
+        $agent = $this->createMock(AgentInterface::class);
+        $agent->expects(self::exactly(2))->method('call')->willReturn(new TextResult(''));
+        $this->expectExceptionMessage('S229_PROFILE_EXAMINATION_TESTIMONY_COGNITION_INVALID: EMPTY_RESPONSE');
+        (new SymfonyAiProfileExaminationTestimonyCognitionGateway($agent))->answer([], []);
+    }
+
+    public function testDoesNotRetryStructuralContractFailure(): void
+    {
+        $agent = $this->createMock(AgentInterface::class);
+        $agent->expects(self::once())->method('call')->willReturn(new TextResult('{"answer":"Bounded.","extra":true}'));
+        $this->expectExceptionMessage('S229_PROFILE_EXAMINATION_TESTIMONY_COGNITION_INVALID: FIELDS_INVALID');
+        (new SymfonyAiProfileExaminationTestimonyCognitionGateway($agent))->answer([], []);
+    }
+
+    public function testRetriesExactlyOnceAfterProviderTimeout(): void
+    {
+        $answer = ['answer' => 'Bounded.', 'uncertainties' => [], 'refusals' => [], 'evidence_claims' => []]; $calls = 0;
+        $agent = $this->createMock(AgentInterface::class);
+        $agent->expects(self::exactly(2))->method('call')->willReturnCallback(static function () use (&$calls, $answer): TextResult {
+            if (0 === $calls++) throw new \RuntimeException('Idle timeout reached for provider.');
+            return new TextResult(json_encode($answer, JSON_THROW_ON_ERROR));
+        });
+        self::assertSame($answer, (new SymfonyAiProfileExaminationTestimonyCognitionGateway($agent))->answer([], []));
+    }
+
     private function gateway(string $response): SymfonyAiProfileExaminationTestimonyCognitionGateway
     {
         $agent = $this->createStub(AgentInterface::class);
