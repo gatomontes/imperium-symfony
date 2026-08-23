@@ -37,6 +37,17 @@ final readonly class ImperatorActs
         return $this->withReadiness($this->store->persistAct($proceedingId, $actId, $act), $proceedingId, $turn);
     }
 
+    public function objectToPlan(string $proceedingId, int $turnSequence, string $objection, ?string $actId = null): array
+    {
+        [$proceeding, $turn] = $this->plan($proceedingId, $turnSequence);
+        $objection = trim($objection);
+        if ('' === $objection) throw new \InvalidArgumentException('C34_PLAN_OBJECTION_EMPTY: an exact objection is required.');
+        $actId ??= 'objection-'.substr(hash('sha256', CanonicalJson::encode([$proceedingId, $turnSequence, $turn['record_digest'], $objection, self::IMPERATOR_ID])), 0, 24);
+        $act = ['schema' => 'imperium.imperator-plan-objection/v1','kind' => 'PLAN_OBJECTION','proceeding_id' => $proceedingId,'instance_id' => $proceeding['instance_id'],'plan_turn' => $turnSequence,'plan_digest' => $turn['record_digest'],'actor' => ['kind' => 'imperator', 'id' => self::IMPERATOR_ID],'authority_basis' => 'development-local-cli','disposition' => 'OBJECTED_RETURNED_FOR_REVISION','objection' => $objection,'approves_plan' => false,'grants_resource_authority' => false,'grants_execution_authority' => false];
+
+        return $this->withReadiness($this->store->persistAct($proceedingId, $actId, $act), $proceedingId, $turn);
+    }
+
     public function authorizeResources(string $proceedingId, int $turnSequence, array $resources, ?string $limitations = null, ?string $actId = null): array
     {
         [$proceeding, $turn] = $this->plan($proceedingId, $turnSequence);
@@ -91,6 +102,7 @@ final readonly class ImperatorActs
     private function withReadiness(array $act, string $proceedingId, array $turn): array
     {
         $approved = false;
+        $objected = false;
         $authorized = [];
         foreach ($this->store->acts($proceedingId) as $record) {
             if (($record['plan_digest'] ?? null) !== $turn['record_digest']) {
@@ -98,6 +110,11 @@ final readonly class ImperatorActs
             }
             if ('PLAN_APPROVAL' === ($record['kind'] ?? null) && 'APPROVED' === ($record['disposition'] ?? null)) {
                 $approved = true;
+                $objected = false;
+            }
+            if ('PLAN_OBJECTION' === ($record['kind'] ?? null) && 'OBJECTED_RETURNED_FOR_REVISION' === ($record['disposition'] ?? null)) {
+                $approved = false;
+                $objected = true;
             }
             if ('RESOURCE_AUTHORIZATION' === ($record['kind'] ?? null) && 'AUTHORIZED' === ($record['disposition'] ?? null)) {
                 $authorized = array_values(array_unique([...$authorized, ...($record['resources'] ?? [])]));
@@ -107,6 +124,7 @@ final readonly class ImperatorActs
         $structured = is_array($turn['seneschal']['mission_plan'] ?? null);
         $act['readiness'] = [
             'plan_approved' => $approved,
+            'unresolved_plan_objection' => $objected,
             'plan_structured' => $structured,
             'resource_demands_satisfied' => [] === array_diff($demands, $authorized),
             'commissioning_ready' => $structured && $approved && [] === array_diff($demands, $authorized),
