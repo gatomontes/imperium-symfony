@@ -84,7 +84,7 @@ final readonly class ModelIntelligenceLedgerService
 
     private function validateRecord(mixed $record): array
     {
-        $keys = ['provider', 'model_id', 'model_version', 'knowledge_sources', 'claims', 'accessibility', 'admissibility'];
+        $keys = ['provider', 'model_id', 'model_version', 'knowledge_sources', 'claims', 'accessibility', 'admissibility', 'provenance'];
         if (!is_array($record) || array_keys($record) !== $keys
             || !$this->identifier($record['provider']) || !$this->identifier($record['model_id']) || !$this->identifier($record['model_version'])
         ) {
@@ -124,12 +124,13 @@ final readonly class ModelIntelligenceLedgerService
             throw new \RuntimeException('OR11_CLAVIUM_ASSERTION_INVALID');
         }
         $admissibility = $this->validateAdmissibility($record['admissibility'], array_keys($sources));
+        $provenance = $this->validateProvenance($record['provenance']);
 
         return [
             'model_ref' => $record['provider'].'/'.$record['model_id'].'@'.$record['model_version'],
             'provider' => $record['provider'], 'model_id' => $record['model_id'], 'model_version' => $record['model_version'],
             'knowledge' => ['status' => 'KNOWN', 'sources' => $sources, 'claims' => $claims],
-            'accessibility' => $accessibility, 'admissibility' => $admissibility,
+            'accessibility' => $accessibility, 'admissibility' => $admissibility, 'provenance' => $provenance,
         ];
     }
 
@@ -179,6 +180,17 @@ final readonly class ModelIntelligenceLedgerService
             || !$this->stringList($value['reasons'], 'ADMISSIBLE' === $value['status'] || 'UNEVALUATED' === $value['status'])
         ) throw new \InvalidArgumentException('OR12_ADMISSIBILITY_CLASSIFICATION_INVALID');
         return $value;
+    }
+
+    private function validateProvenance(mixed$value):?array
+    {
+        if(null===$value)return null;
+        $keys=['commission_id','commission_digest','authorization_id','authorization_digest','lazaretto_artifact_id','raw_payload_id','raw_payload_digest','sortie_id','manifestation_id','transformation'];
+        if(!is_array($value)||array_keys($value)!==$keys||[]!==array_filter($value,static fn($v)=>!is_string($v)||''===trim($v))
+            ||!preg_match('/^sha256:[a-f0-9]{64}$/',$value['commission_digest'])||!preg_match('/^sha256:[a-f0-9]{64}$/',$value['authorization_digest'])
+            ||!preg_match('/^[a-f0-9]{64}$/',$value['raw_payload_digest'])
+        )throw new \InvalidArgumentException('OR37_MODEL_PROVENANCE_INVALID');
+        return$value;
     }
 
     private function assertAugurAuthority(string $instanceId, array $binding): void
