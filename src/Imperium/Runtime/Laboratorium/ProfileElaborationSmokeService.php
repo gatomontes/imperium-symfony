@@ -158,7 +158,17 @@ final readonly class ProfileElaborationSmokeService
         $reconciliation=is_array($deliberationOpening)?(new ProfileExaminationReconciliationService($root,$this->reconciliationCognition))->reconcile($deliberationOpening['deliberation_id'],$lordSpeaker['binding_id']):null;
         $dispositionAuthorityOpening=is_array($reconciliation)?(new ProfileExaminationDispositionAuthorityOpeningService($root))->open($reconciliation['reconciliation_id'],$lordSpeaker['binding_id']):null;
         $profileDisposition=is_array($dispositionAuthorityOpening)?(new ProfileExaminationDispositionService($root,$this->dispositionCognition))->decide($dispositionAuthorityOpening['opening_id'],$lordSpeaker['binding_id']):null;
-        $profileApproval=is_array($profileDisposition)?(new ProfileApprovalDecisionService($root))->decide($profileDisposition['disposition_id'],'APPROVED','Approve the exact Senate-examined Profile for bounded operational qualification.','Approval grants only authority to request Conscription operational qualification.'):null;
+        $profileApproval=null;
+        if(is_array($profileDisposition)){
+            $senateVerdict=$profileDisposition['decision']['disposition']??null;
+            $imperatorDisposition=match($senateVerdict){'APPROVED'=>'APPROVED','RETURN_FOR_REVISION'=>'RETURNED_FOR_REVISION','REFUSED'=>'REFUSED','UNRESOLVED'=>'DEFERRED',default=>throw new \RuntimeException('DEV04_SMOKE_SENATE_PROFILE_DISPOSITION_INVALID')};
+            $approved='APPROVED'===$imperatorDisposition;
+            $profileApproval=(new ProfileApprovalDecisionService($root))->decide(
+                $profileDisposition['disposition_id'],$imperatorDisposition,
+                $approved?'Approve the exact Senate-examined Profile for bounded operational qualification.':'Record the Senate '.$senateVerdict.' verdict without granting downstream authority.',
+                $approved?'Approval grants only authority to request Conscription operational qualification.':'No operational qualification, installation, assembly, binding, deployment, or execution authority.',
+            );
+        }
 
         return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return, 'return_acceptance' => $returnAcceptance, 'examination_assembly_request' => $assemblyRequest, 'examination_assembly_authorization' => $assemblyAuthorization, 'examination_manifestation' => $examinationManifestation, 'stand_admission' => $standAdmission, 'examination_opening' => $examinationOpening,'panel_acceptances'=>$panelAcceptances,'panel_readiness'=>$panelReadiness,'testimony_opening'=>$testimonyOpening,'examination_questions'=>$examinationQuestions,'profile_testimony_turns'=>$testimonyTurns,'profile_testimony_readiness'=>$testimonyReadiness,'finding_authority_opening'=>$findingAuthorityOpening,'senator_findings'=>$senatorFindings,'finding_readiness'=>$findingReadiness,'deliberation_opening'=>$deliberationOpening,'reconciliation'=>$reconciliation,'disposition_authority_opening'=>$dispositionAuthorityOpening,'profile_disposition'=>$profileDisposition,'profile_approval'=>$profileApproval];
     }

@@ -251,6 +251,15 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
         } finally { $this->removeTree($root); }
     }
 
+    public function testNonApprovedLiveSenateVerdictIsSealedWithoutFailingTheSmokeRun():void
+    {
+        $root=sys_get_temp_dir().'/imperium-profile-elaboration-smoke-senate-refusal-'.bin2hex(random_bytes(6));
+        $cognition=new class implements ProfileElaborationCognitionGateway{public function elaborate(array $acceptance,array $authorization):array{return['disposition'=>'PROFILE_ELABORATION_COMPLETE','operating_posture'=>'Passive.','responsibilities'=>['Assess.'],'non_responsibilities'=>['No active scan.'],'reasoning_priorities'=>['Evidence.'],'evidence_discipline'=>['Attribute.'],'tool_use_directives'=>['Passive only.'],'input_handling'=>['URL only.'],'output_contract'=>['Report.'],'escalation_conditions'=>['Active work.'],'uncertainty_behavior'=>['State it.'],'failure_behavior'=>['Stop.'],'persona_adaptations'=>['No mutation.']];}};
+        try{$result=(new ProfileElaborationSmokeService($cognition,$this->questionCognition(),$this->testimonyCognition(),$this->findingCognition(),$this->reconciliationCognition(),$this->dispositionCognition('REFUSED')))->run($root);
+            self::assertSame('REFUSED',$result['profile_disposition']['decision']['disposition']);self::assertSame('NON_APPROVING_IMPERATOR_PROFILE_DISPOSITION_RECORDED',$result['profile_approval']['status']);self::assertSame('REFUSED',$result['profile_approval']['disposition']);self::assertFalse($result['profile_approval']['profile_approved']);self::assertFalse($result['profile_approval']['operational_qualification_request_authority']);self::assertFalse($result['profile_approval']['profile_installation_authority']);self::assertFalse($result['profile_approval']['manifestation_assembly_authority']);self::assertFalse($result['profile_approval']['seat_binding_authority']);self::assertFalse($result['profile_approval']['deployment_authority']);self::assertFalse($result['profile_approval']['execution_authority']);
+        }finally{$this->removeTree($root);}
+    }
+
     private function removeTree(string $path): void
     {
         if (!is_dir($path)) return;
@@ -298,8 +307,8 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
         };
     }
 
-    private function dispositionCognition(): ProfileExaminationDispositionCognitionGateway
+    private function dispositionCognition(string $disposition='APPROVED'): ProfileExaminationDispositionCognitionGateway
     {
-        return new class implements ProfileExaminationDispositionCognitionGateway {public function decide(array $authority,array $findings,array $reconciliation):array{return ['disposition'=>'APPROVED','finding_references'=>$authority['available_finding_references'],'rationale'=>'All exact findings pass within their stated limitations.','reconciliation_treatment'=>'The sealed reconciliation reports agreement and no suppressed dissent.','limitations'=>['Bound to this exact examination record.'],'uncertainties'=>[]];}};
+        return new class($disposition) implements ProfileExaminationDispositionCognitionGateway {public function __construct(private string$disposition){}public function decide(array $authority,array $findings,array $reconciliation):array{return ['disposition'=>$this->disposition,'finding_references'=>$authority['available_finding_references'],'rationale'=>'All exact findings are preserved within their stated limitations.','reconciliation_treatment'=>'The sealed reconciliation reports agreement and no suppressed dissent.','limitations'=>['Bound to this exact examination record.'],'uncertainties'=>[]];}};
     }
 }
