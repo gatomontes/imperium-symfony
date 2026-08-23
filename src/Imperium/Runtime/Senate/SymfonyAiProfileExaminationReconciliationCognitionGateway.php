@@ -34,7 +34,24 @@ final readonly class SymfonyAiProfileExaminationReconciliationCognitionGateway i
         if(!is_string($result['rationale'])||''===trim($result['rationale']))throw $this->invalid('RATIONALE_INVALID');
         $normalized=['rationale'=>trim($result['rationale'])];
         foreach(['finding_references','agreements','disagreements','attribution_treatment','severity_treatment','limitations','uncertainties'] as $field){$values=$result[$field];if(is_string($values)&&''!==trim($values))$values=[$values];if(!is_array($values)||!array_is_list($values))throw $this->invalid(strtoupper($field).'_TYPE_INVALID');$normalized[$field]=[];foreach($values as $value){if(!is_string($value)||''===trim($value))throw $this->invalid(strtoupper($field).'_ITEM_INVALID');$normalized[$field][]=trim($value);}}
+        $normalized['disagreements']=$this->preserveSealedFindingDisagreement($normalized['disagreements'],$findings);
         return ['finding_references'=>$normalized['finding_references'],'agreements'=>$normalized['agreements'],'disagreements'=>$normalized['disagreements'],'attribution_treatment'=>$normalized['attribution_treatment'],'severity_treatment'=>$normalized['severity_treatment'],'limitations'=>$normalized['limitations'],'uncertainties'=>$normalized['uncertainties'],'rationale'=>$normalized['rationale']];
+    }
+
+    private function preserveSealedFindingDisagreement(array $disagreements,array $findings):array
+    {
+        if([]!==$disagreements)return $disagreements;
+        $signatures=[];
+        foreach($findings as $finding){
+            $jurisdiction=$finding['jurisdiction']??null;$decision=$finding['decision']??null;
+            if(!is_string($jurisdiction)||!is_array($decision))continue;
+            $signatures[$jurisdiction]=[$decision['disposition']??null,$decision['attributed_defect']??null,$decision['severity']??null];
+        }
+        if(2>count(array_unique(array_map(static fn(array $signature):string=>json_encode($signature,JSON_UNESCAPED_SLASHES|JSON_THROW_ON_ERROR),$signatures))))return $disagreements;
+        ksort($signatures,SORT_STRING);
+        $parts=[];
+        foreach($signatures as $jurisdiction=>$signature)$parts[]=$jurisdiction.'='.json_encode($signature,JSON_UNESCAPED_SLASHES|JSON_THROW_ON_ERROR);
+        return ['Sealed finding signatures diverge: '.implode('; ',$parts).'.'];
     }
 
     private function invalid(string $reason,?\Throwable $previous=null):\RuntimeException{return new \RuntimeException('S262_PROFILE_EXAMINATION_RECONCILIATION_COGNITION_INVALID: '.$reason,0,$previous);}
