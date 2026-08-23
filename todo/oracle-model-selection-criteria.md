@@ -14,6 +14,7 @@ Model-intelligence ledger implemented; criteria-bound evaluation remains planned
 - [x] Bind an admitted, standing-Profile-qualified Augur Manifestation to `oracle.augur` without self-selection authority.
 - [x] Seal canonical Clavium provider-access assertions through deterministic machinery under an occupied Locksmith Seat.
 - [x] Prohibit credential disclosure and distinguish access evidence from use, invocation, admissibility, selection, and execution authority.
+- [x] Seal the first canonical Oracle catalogue path from admitted evidence and persisted Clavium assertions, without external research or downstream authority.
 
 ## Objective
 

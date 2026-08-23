@@ -8,7 +8,7 @@ use App\Bootstrap\CanonicalJson;
 
 final readonly class ModelIntelligenceLedgerService
 {
-    private const ACCESS_STATES = ['ACCESSIBLE', 'UNVERIFIED', 'UNAVAILABLE'];
+    private const ACCESS_STATES = ['ACCESSIBLE', 'RESTRICTED', 'UNVERIFIED', 'UNAVAILABLE'];
     private const ADMISSIBILITY_STATES = ['ADMISSIBLE', 'RESTRICTED', 'INADMISSIBLE', 'UNEVALUATED'];
 
     private string $directory;
@@ -68,7 +68,8 @@ final readonly class ModelIntelligenceLedgerService
             'actor' => $actor,
             'models' => $models,
             'classification_dimensions' => ['knowledge', 'accessibility', 'admissibility'],
-            'status' => 'ORACLE_MODEL_INTELLIGENCE_SNAPSHOT_SEALED_NO_SELECTION_AUTHORITY',
+            'status' => 'ORACLE_CANONICAL_CATALOGUE_SNAPSHOT_SEALED_NO_SELECTION_AUTHORITY',
+            'model_research_authority' => false,
             'requirement_commission_authority' => false,
             'eligibility_authority' => false,
             'recommendation_authority' => false,
@@ -138,15 +139,15 @@ final readonly class ModelIntelligenceLedgerService
             throw new \InvalidArgumentException('OR09_ACCESS_CLASSIFICATION_INVALID');
         }
         $assertion = $value['clavium_assertion'];
-        if ('ACCESSIBLE' !== $value['status']) {
-            if (null !== $assertion) throw new \RuntimeException('OR10_NONACCESSIBLE_MODEL_HAS_ACCESS_ASSERTION');
+        if (null === $assertion) {
+            if ('UNVERIFIED' !== $value['status']) throw new \RuntimeException('OR10_ACCESS_CLASSIFICATION_REQUIRES_ASSERTION');
             return $value;
         }
         if (!is_array($assertion) || 'imperium.clavium-provider-access-assertion/v1' !== ($assertion['schema'] ?? null)
             || !$this->identifier($assertion['assertion_id'] ?? null) || 'clavium' !== ($assertion['issuer']['office'] ?? null)
             || 'locksmith' !== ($assertion['issuer']['officer'] ?? null) || !$this->identifier($assertion['provider'])
             || !str_starts_with((string) $assertion['credential_ref'], 'clavium://') || !$this->stringList($assertion['scope'])
-            || 'ACCESS_AVAILABLE' !== ($assertion['status'] ?? null)
+            || !in_array($assertion['status'] ?? null, ['ACCESS_AVAILABLE', 'ACCESS_RESTRICTED', 'ACCESS_UNVERIFIED', 'ACCESS_UNAVAILABLE'], true)
             || 'CLAVIUM_PROVIDER_ACCESS_ASSERTION_SEALED_NO_USE_AUTHORITY' !== ($assertion['checkpoint'] ?? null)
             || false === \DateTimeImmutable::createFromFormat(\DateTimeInterface::ATOM, (string) ($assertion['observation']['observed_at'] ?? ''))
             || false === \DateTimeImmutable::createFromFormat(\DateTimeInterface::ATOM, (string) ($assertion['revalidation']['expires_at'] ?? ''))
@@ -163,6 +164,8 @@ final readonly class ModelIntelligenceLedgerService
         if (!hash_equals($assertionDigest, 'sha256:'.hash('sha256', CanonicalJson::encode($assertion)))) {
             throw new \RuntimeException('OR11_CLAVIUM_ASSERTION_INVALID');
         }
+        $expected = ['ACCESS_AVAILABLE' => 'ACCESSIBLE', 'ACCESS_RESTRICTED' => 'RESTRICTED', 'ACCESS_UNVERIFIED' => 'UNVERIFIED', 'ACCESS_UNAVAILABLE' => 'UNAVAILABLE'][$assertion['status']];
+        if ($expected !== $value['status']) throw new \RuntimeException('OR11_CLAVIUM_ASSERTION_INVALID');
         return $value;
     }
 

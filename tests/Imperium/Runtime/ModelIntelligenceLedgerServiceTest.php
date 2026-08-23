@@ -21,7 +21,7 @@ final class ModelIntelligenceLedgerServiceTest extends TestCase
             self::assertSame('imperium.oracle-model-intelligence-snapshot/v1', $snapshot['schema']);
             self::assertSame(1, $snapshot['snapshot_generation']);
             self::assertNull($snapshot['prior_snapshot']);
-            self::assertSame('ORACLE_MODEL_INTELLIGENCE_SNAPSHOT_SEALED_NO_SELECTION_AUTHORITY', $snapshot['status']);
+            self::assertSame('ORACLE_CANONICAL_CATALOGUE_SNAPSHOT_SEALED_NO_SELECTION_AUTHORITY', $snapshot['status']);
             self::assertSame(['knowledge', 'accessibility', 'admissibility'], $snapshot['classification_dimensions']);
             self::assertSame('oracle.augur', $snapshot['actor']['seat']);
             self::assertSame(['anthropic/claude-sonnet@4', 'openai/gpt-test@2026-08-01'], array_keys($snapshot['models']));
@@ -40,7 +40,7 @@ final class ModelIntelligenceLedgerServiceTest extends TestCase
             self::assertNull($unverified['accessibility']['clavium_assertion']);
             self::assertSame('UNEVALUATED', $unverified['admissibility']['status']);
 
-            foreach (['requirement_commission_authority', 'eligibility_authority', 'recommendation_authority', 'selection_authority', 'model_assignment_authority', 'profile_mutation_authority', 'credential_disclosure_authority', 'provider_invocation_authority', 'deployment_authority'] as $authority) {
+            foreach (['model_research_authority', 'requirement_commission_authority', 'eligibility_authority', 'recommendation_authority', 'selection_authority', 'model_assignment_authority', 'profile_mutation_authority', 'credential_disclosure_authority', 'provider_invocation_authority', 'deployment_authority'] as $authority) {
                 self::assertFalse($snapshot[$authority]);
             }
             self::assertFileExists($root.'/var/imperium/offices/oracle/model-intelligence-snapshots/'.$snapshot['snapshot_id'].'.json');
