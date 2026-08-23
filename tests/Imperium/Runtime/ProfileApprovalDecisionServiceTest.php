@@ -1,0 +1,20 @@
+<?php
+declare(strict_types=1);
+namespace App\Tests\Imperium\Runtime;
+use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\Imperator\ProfileApprovalDecisionService;
+use PHPUnit\Framework\TestCase;
+final class ProfileApprovalDecisionServiceTest extends TestCase
+{
+    public function testApprovalIsExactReplaySafeAndGrantsOnlyQualificationRequestAuthority():void
+    {
+        $root=sys_get_temp_dir().'/imperium-profile-approval-'.bin2hex(random_bytes(6));try{$source=$this->source($root,'APPROVED');$service=new ProfileApprovalDecisionService($root);$decision=$service->decide($source['disposition_id'],'APPROVED','Approve exact Profile.','Qualification request only.');
+            self::assertSame('IMPERATOR_PROFILE_APPROVED_PENDING_CONSCRIPTION_OPERATIONAL_QUALIFICATION',$decision['status']);self::assertTrue($decision['profile_approved']);self::assertTrue($decision['operational_qualification_request_authority']);self::assertFalse($decision['profile_installation_authority']);self::assertFalse($decision['manifestation_assembly_authority']);self::assertFalse($decision['seat_binding_authority']);self::assertFalse($decision['deployment_authority']);self::assertFalse($decision['execution_authority']);self::assertSame($decision,$service->decide($source['disposition_id'],'APPROVED','Approve exact Profile.','Qualification request only.'));
+            $this->expectExceptionMessage('I208_PROFILE_APPROVAL_DECISION_CONFLICT');$service->decide($source['disposition_id'],'DEFERRED','Defer.','No authority.');
+        }finally{$this->remove($root);}
+    }
+    public function testImperatorCannotApproveNonApprovedSenateDisposition():void{$root=sys_get_temp_dir().'/imperium-profile-approval-'.bin2hex(random_bytes(6));try{$source=$this->source($root,'REFUSED');$this->expectExceptionMessage('I205_SENATE_DISPOSITION_NOT_APPROVED');(new ProfileApprovalDecisionService($root))->decide($source['disposition_id'],'APPROVED','Approve.','Qualification only.');}finally{$this->remove($root);}}
+    public function testNonApprovingDispositionGrantsNoAuthority():void{$root=sys_get_temp_dir().'/imperium-profile-approval-'.bin2hex(random_bytes(6));try{$source=$this->source($root,'APPROVED');$d=(new ProfileApprovalDecisionService($root))->decide($source['disposition_id'],'RETURNED_FOR_REVISION','Revise exact Profile.','No operational authority.');self::assertSame('NON_APPROVING_IMPERATOR_PROFILE_DISPOSITION_RECORDED',$d['status']);self::assertFalse($d['profile_approved']);self::assertFalse($d['operational_qualification_request_authority']);}finally{$this->remove($root);}}
+    private function source(string$root,string$senateDisposition):array{$id='profile-examination-disposition-'.str_repeat('a',20);$r=['schema'=>'imperium.senate-profile-examination-disposition/v1','disposition_id'=>$id,'instance_id'=>'instance','case_id'=>'case','case_digest'=>str_repeat('b',64),'manifestation'=>['id'=>'manifestation'],'profile_candidate'=>['id'=>'candidate'],'persona_identity'=>['id'=>'persona'],'custody_lease'=>['id'=>'lease'],'return_destination'=>'conscription.recruiter','admitted_findings'=>[['jurisdiction'=>'security'],['jurisdiction'=>'trust'],['jurisdiction'=>'usability']],'reconciliation'=>['id'=>'reconciliation'],'decision'=>['disposition'=>$senateDisposition],'status'=>'PROFILE_EXAMINATION_DISPOSITION_SEALED_PENDING_IMPERATOR_PROFILE_APPROVAL','senate_disposition_authority_consumed'=>true,'imperator_profile_approval_pending'=>true,'profile_approval_authority'=>false,'profile_installation_authority'=>false,'seat_binding_authority'=>false,'deployment_authority'=>false,'execution_authority'=>false,'sealed'=>true];$r['record_digest']=hash('sha256',CanonicalJson::encode($r));$p=$root.'/var/imperium/offices/senate/profile-examination-dispositions';mkdir($p,0770,true);file_put_contents($p.'/'.$id.'.json',json_encode($r,JSON_THROW_ON_ERROR));return$r;}
+    private function remove(string$p):void{if(!is_dir($p))return;foreach(array_diff(scandir($p)?:[],['.','..'])as$e){$c=$p.'/'.$e;is_dir($c)?$this->remove($c):unlink($c);}rmdir($p);}
+}

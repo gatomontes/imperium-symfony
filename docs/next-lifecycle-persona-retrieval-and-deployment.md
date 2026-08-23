@@ -56,7 +56,7 @@ The route is implemented through the sealed Profile-examination disposition. Imp
 
 ### Proposed completion batches
 
-31. **Imperator decides Profile approval.** Present the exact candidate and complete Senate record. Only explicit approval authorizes the next operational-qualification request; denial, revision, clarification, alternative, and deferral remain non-authorizing.
+31. **Imperator decides Profile approval.** Present the exact candidate and complete Senate record. Only explicit approval of a Senate `APPROVED` disposition authorizes the next operational-qualification request at `IMPERATOR_PROFILE_APPROVED_PENDING_CONSCRIPTION_OPERATIONAL_QUALIFICATION`; refusal, revision, clarification, alternative, and deferral are sealed but non-authorizing. Approval grants no installation, assembly, Seat-binding, deployment, or execution authority.
 32. **Conscription installs and qualifies the approved Profile operationally.** Revalidate the exact approval, Persona, custody lease, generic Officer substrate, intended Seat, mission scope, tools, data, stop conditions, and return contract. Qualification grants neither Seat binding nor deployment.
 33. **Conscription assembles the operational Manifestation.** Mechanically combine the exact Persona, approved operational Profile, and generic Officer substrate. Preserve identity and authority boundaries; stop before Seat occupancy.
 34. **Bind the exact Manifestation to its intended Seat.** Validate atomic occupancy, compatibility, lineage, supersession rules, and the absence of conflicting occupancy. Seat binding grants no deployment or execution authority.
@@ -66,7 +66,7 @@ The route is implemented through the sealed Profile-examination disposition. Imp
 
 ## Current implementation checkpoint
 
-The implemented canonical route ends after step 30 at `PROFILE_EXAMINATION_DISPOSITION_SEALED_PENDING_IMPERATOR_PROFILE_APPROVAL`; refusal remains a sealed alternate terminal branch at `EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY`. Steps 31–37 are the proposed seven remaining batches through one governed execution and return cycle.
+The implemented canonical route ends after step 31 at `IMPERATOR_PROFILE_APPROVED_PENDING_CONSCRIPTION_OPERATIONAL_QUALIFICATION`; refusal remains a sealed alternate terminal branch at `EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY`, and every non-approving Imperator disposition is recorded without downstream authority. Steps 32–37 are the proposed six remaining batches through one governed execution and return cycle.
 
 - Garrison still holds the exact Persona at `ADMITTED_HELD`.
 - The commission and its acceptance have been consumed only to derive one deterministic, immutable Profile candidate at version 1.
@@ -77,8 +77,9 @@ The implemented canonical route ends after step 30 at `PROFILE_EXAMINATION_DISPO
 - Trust, Security, and Usability have independently authored questions, received sealed testimony, and sealed one exact attributable finding each.
 - The Lord Speaker has admitted the three findings unchanged and consumed one deliberation-opening authority.
 - The Lord Speaker has reconciled the three exact findings without modifying them, voting, aggregation, or suppressed dissent.
-- Deliberation remains open, reconciliation authority is consumed, and one exact Senate disposition authority is now exercisable. No disposition exists.
-- No Imperator Profile approval, operational installation, Seat binding, deployment, or execution authority exists.
+- Senate has sealed an `APPROVED` disposition bound to every exact finding and the reconciliation.
+- The Imperator has explicitly approved that exact examined Profile and exposed only one bounded operational-qualification request authority.
+- No operational installation, Manifestation assembly, Seat binding, deployment, or execution authority exists.
 
 ## Capability-to-Profession Translation Boundary
 
