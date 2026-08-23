@@ -56,7 +56,7 @@ The canonical route is implemented end to end through terminal return, retiremen
 
 ### Current model-bound reconstruction checkpoint
 
-The explicit model-bound implementation now completes steps 1–34. An approving route stops at `OPERATIONAL_MANIFESTATION_BOUND_PENDING_DEPLOYMENT_AUTHORIZATION`: the exact approved Profile is operationally qualified, mechanically assembled with its admitted source Persona and generic Officer version 0, and atomically bound only to its immutable target Seat.
+The explicit model-bound implementation now completes steps 1–38. An approving route has activated the exact bound Citadel Officer, issued one exact governed commission, and recorded the Officer's independent acceptance. No cognition authority exists.
 
 Only an explicit Imperator `APPROVED` decision against an exact Senate `APPROVED` disposition opens one single-use request to `conscription.recruiter` for operational qualification. Senate approval remains distinct from Imperator approval, and the request is not qualification or operational authority. Every other Imperator branch is sealed and non-authorizing.
 
@@ -64,9 +64,9 @@ Qualification consumes only the exact Step 31 request; assembly consumes only it
 
 The model-bound Citadel route now continues through step 35, **Citadel Officer activation authorization**. The Imperator decides against the exact generation-1 Seat binding and unexpired model-access lineage. Only `AUTHORIZED` reaches `MODEL_BOUND_MANIFESTATION_ACTIVATION_AUTHORIZED_PENDING_RUNTIME_ACTIVATION`; every other branch is sealed and non-authorizing. This is not mission deployment or Garrison custody transfer.
 
-The model-bound Citadel route now continues through step 36, **mechanical runtime activation**. Conscription consumes the exact single-use authorization, revalidates current generation-1 occupancy and unexpired model access, and seals `MODEL_BOUND_CITADEL_MANIFESTATION_RUNTIME_ACTIVE_PENDING_GOVERNED_COMMISSION`.
+The model-bound Citadel route now continues through step 38, **independent governed commission disposition**. Only the exact target Officer may consume the single-use acceptance authority. Acceptance seals `CITADEL_OFFICER_GOVERNED_COMMISSION_ACCEPTED_PENDING_COGNITION_TURN_AUTHORIZATION`; refusal seals `CITADEL_OFFICER_GOVERNED_COMMISSION_REFUSED_NO_AUTHORITY`.
 
-Runtime activation makes the Officer addressable for governed commission intake only. It grants no autonomous or governed cognition authority, provider invocation, credentials, tools, external action, execution, or continuing turn authority. The next transition is a separately governed commission and bounded cognition authorization.
+Acceptance binds the Officer to the exact contract but does not make the commission exercisable. Both branches grant no autonomous or governed cognition authority, provider invocation, credentials, tools, external action, execution, or continuing-turn authority.
 
 ### Implemented completion steps
 
@@ -78,7 +78,14 @@ Runtime activation makes the Officer addressable for governed commission intake 
 
 36. **Activate the exact Citadel Officer runtime mechanically.** Conscription consumes the exact Step 35 authority, proves the generation-1 binding remains the sole current occupancy for the immutable Seat, and revalidates the complete lineage and unexpired access attestation. The Officer reaches `MODEL_BOUND_CITADEL_MANIFESTATION_RUNTIME_ACTIVE_PENDING_GOVERNED_COMMISSION` with commission intake available, but no cognition, provider invocation, credential, tool, external-action, execution, or continuing-turn authority.
 
+37. **Issue one exact governed commission.** An actively occupied caller whose own binding explicitly authorizes commissions to the target Seat seals the exact task, purpose, inputs, evidence requirements, constraints, output contract, and stop conditions. The commission reaches `CITADEL_OFFICER_GOVERNED_COMMISSION_ISSUED_PENDING_OFFICER_ACCEPTANCE` with one single-use acceptance authority addressed only to the target Officer. Issuance grants no acceptance, cognition, provider invocation, credential, tool, external-action, execution, or continuing-turn authority.
+
+38. **The exact target Officer accepts or refuses the commission.** The target revalidates the commission, activation, exact current binding, unexpired model access, immutable contract, and single-use acceptance authority. Acceptance binds the Officer at `CITADEL_OFFICER_GOVERNED_COMMISSION_ACCEPTED_PENDING_COGNITION_TURN_AUTHORIZATION`; refusal reaches `CITADEL_OFFICER_GOVERNED_COMMISSION_REFUSED_NO_AUTHORITY`. Neither branch authorizes cognition, provider invocation, credentials, tools, external action, operational use, execution, or a continuing turn.
+
 The mission-operative route diverges after its own binding: Seneschal deployment authorization and Constable custody transfer belong to that route and must not be inferred for a mission-independent Citadel Officer.
+
+### Mission-operative completion steps
+
 36. **Execute one bounded smoke iteration.** The occupied Seneschal seals one exact HTTPS input and one-use execution authority against the deployed custody record. The bound Manifestation consumes it for one internal cognition iteration, produces one attributable output, evaluates its stop conditions, and stops at `OPERATIONAL_MANIFESTATION_BOUNDED_EXECUTION_COMPLETED_PENDING_RETURN`. No tool, credential, network, external action, undeclared data, or continuing execution authority exists.
 37. **Return, retire, and restore custody.** The occupied Seneschal seals the exact return, retirement, unbinding, and custody-restoration authorization against the completed bounded execution. The occupied Constable consumes it atomically, returns the Manifestation to its declared destination, retires it, terminates the Seat binding's live effect, restores the Persona/Profile custody record to `ADMITTED_HELD`, and seals the complete operational transcript at `OPERATIONAL_MANIFESTATION_RETURNED_RETIRED_CUSTODY_RESTORED`. No execution, redeployment, reuse, supersession, tool, credential, network, or external-action authority survives.
 
