@@ -27,12 +27,14 @@ Enable Curia to request model research from Oracle using explicit, pre-determine
 
 1. Curia defines a Model Requirement Commission for the Officer or mission function.
 2. The commission specifies the cognitive task, required capabilities, operational constraints, risk constraints, tool requirements, budget, latency, provider restrictions, data-residency requirements, and fallback expectations.
-3. Oracle receives the bounded commission and instructs Augur to evaluate only accessible and admissible model candidates against those criteria.
+3. Oracle receives the bounded commission, freezes the exact accessible and admissible candidate universe, and opens one single-use finding authority per surviving exact model version.
 4. Clavium supplies provider-access assertions or bounded access leases through its Locksmith; credentials and secret material remain in Clavium custody.
-5. Augur returns evidence, ranked candidates, capability fit, costs, latency, limitations, risks, and operating conditions.
-6. Curia selects or recommends a candidate.
-7. The authorized authority approves where required.
-8. Conscription seals the selected provider, model identifier, version, configuration, limits, fallback policy, and selection provenance into the Officer Profile.
+5. Augur issues one provenance-bound `ELIGIBLE`, `INELIGIBLE`, or `INDETERMINATE` finding per candidate. Findings do not rank, recommend, select, assign, or invoke.
+6. If no model is eligible, Oracle returns the result to Curia. Curia may issue an explicit default fallback order that acknowledges the failed or unproven criteria; it may not rewrite the finding or override provider, accessibility, or admissibility boundaries.
+7. Otherwise Oracle proceeds to separately authorized comparative assessment and recommendation.
+8. Curia selects or recommends a candidate.
+9. The authorized authority approves where required.
+10. Conscription seals the selected provider, model identifier, version, configuration, limits, fallback policy, and selection provenance into the Officer Profile.
 
 ## Office boundaries
 
