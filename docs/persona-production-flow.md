@@ -136,10 +136,11 @@ Conscription then consumes that exact assembly authority and combines the custod
 
 Conscription then consumes that exact binding authority and atomically occupies only the pre-derived mission Seat. The initial binding is occupancy generation 1 with no predecessor and no supersession authority. At `OPERATIONAL_MANIFESTATION_BOUND_PENDING_DEPLOYMENT_AUTHORIZATION`, the Manifestation is bound but still cannot operate: tools, credentials, external action, deployment, custody transfer, and execution remain closed.
 
-The downstream lifecycle is implemented through the sealed Senate disposition. The proposed remaining batches are, in order:
+The occupied Seneschal then binds one deployment authorization to that exact binding and one immutable mission-use contract. The occupied Constable independently validates and consumes it, changes the Persona custody fact from available `ADMITTED_HELD` to unavailable `DEPLOYED_BOUND`, and records the exact mission Seat and Manifestation as operational custodian. At `OPERATIONAL_MANIFESTATION_DEPLOYED_CUSTODY_TRANSITIONED_PENDING_BOUNDED_EXECUTION`, Curia has no custody or execution authority, Garrison has no selection or execution authority, and operational use, tools, credentials, external action, and execution remain closed.
 
-1. Authorize one bounded deployment and record the corresponding custody/availability transition.
-2. Execute one governed smoke iteration with attributable input, cognition or tooling, output, and stop.
-3. Return, retire, unbind, restore custody, or supersede deterministically while preserving lineage.
+The downstream lifecycle is implemented through bounded deployment and the Garrison custody transition. The proposed remaining batches are, in order:
+
+1. Execute one governed smoke iteration with attributable input, cognition or tooling, output, and stop.
+2. Return, retire, unbind, restore custody, or supersede deterministically while preserving lineage.
 
 No downstream step may treat `ADMITTED_HELD`, inventory availability, retrieval, Profile derivation, qualification, manifestation assembly, or Seat binding as implicit authority for the next step.
