@@ -1,0 +1,25 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Tests\Imperium\Runtime;
+
+use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\Curia\PlanningDossierAssemblyService;
+use App\Imperium\Runtime\Curia\ProceedingStore;
+use PHPUnit\Framework\TestCase;
+
+final class PlanningDossierAssemblyServiceTest extends TestCase
+{
+    public function testSealsCompletePlanningDossierWithoutGrantingAuthority():void
+    {
+        $root=sys_get_temp_dir().'/imperium-planning-dossier-'.bin2hex(random_bytes(6));$store=new ProceedingStore($root);$store->persist(['proceeding_id'=>'proceeding-dossier-test','instance_id'=>'imperium-test']);$turn=$store->appendTurn('proceeding-dossier-test','response-dossier-test',1,['seneschal'=>['disposition'=>'MISSION_PLAN_DRAFTED','mission_plan'=>$this->plan()],'resource_demands'=>['Oracle model research','OpenAI metered capacity']]);$decision=$this->digest(['schema'=>'imperium.curia-model-selection-planning-decision/v1','decision_id'=>'curia-model-selection-planning-decision-'.str_repeat('a',20),'status'=>'CURIA_PROPOSED_MODEL_BINDING_PENDING_PLANNING_DOSSIER_ASSEMBLY','planning_dossier_inclusion_required'=>true,'proposed_model_binding'=>['schema'=>'imperium.proposed-model-binding/v1','target'=>['type'=>'OFFICE_SEAT','id'=>'foundry.artificer','mission_id'=>null],'provider_model_version'=>'openai/gpt-test@2026-08-01','planning_only'=>true,'status'=>'PROPOSED_MODEL_BINDING_PENDING_PLAN_AUTHORIZATION']]);$this->write($root.'/var/imperium/offices/curia/model-selection-planning-decisions/'.$decision['decision_id'].'.json',$decision);$service=new PlanningDossierAssemblyService($store,$root);
+        try{$dossier=$service->assemble('proceeding-dossier-test',1,[$decision['decision_id']],$this->disclosures(),new \DateTimeImmutable('2026-08-23T17:00:00+00:00'));self::assertSame($dossier,$service->assemble('proceeding-dossier-test',1,[],[],new \DateTimeImmutable('2026-08-23T17:01:00+00:00')));self::assertSame('CURIA_PLANNING_DOSSIER_SEALED_PENDING_IMPERATOR_REVIEW',$dossier['status']);self::assertSame($turn['record_digest'],$dossier['source_plan']['turn_digest']);self::assertSame('openai/gpt-test@2026-08-01',$dossier['proposed_model_bindings'][$decision['decision_id']]['provider_model_version']);self::assertTrue($dossier['imperator_review_authority']['review_authority']);self::assertSame(['APPROVE_DOSSIER','OBJECT_RETURN_FOR_REVISION'],$dossier['imperator_review_authority']['permitted_dispositions']);self::assertFalse($dossier['legacy_plan_turn_approval_sufficient']);foreach(['dossier_approval','resource_authority','model_binding_authority','model_assignment_authority','profile_mutation_authority','credential_release_authority','provider_invocation_authority','deployment_authority','execution_authority']as$a)self::assertFalse($dossier[$a]);}
+        finally{$this->remove($root);}
+    }
+
+    private function plan():array{return['objective'=>'Construct attributable Persona artifacts.','scope'=>['Foundry Artificer cognition'],'deliverables'=>['Approved Persona artifact'],'constraints'=>['No silent model substitution'],'required_inputs'=>['Authorized specification'],'capability_requirements'=>['Structured output'],'tool_requirements'=>[],'data_requirements'=>['Internal planning evidence'],'office_participation'=>['Curia','Oracle','Foundry'],'stop_conditions'=>['Imperator objection']];}
+    private function disclosures():array{return['material_facts'=>['The target is the Foundry Artificer seat.'],'assumptions'=>['The frozen model snapshot remains valid through review.'],'unknowns'=>[],'dependencies'=>['Clavium provider-access assertion.'],'personnel'=>['Existing admitted Artificer Persona.'],'tools_credentials_data'=>['OpenAI credential remains in Clavium custody.'],'external_operations'=>['Provider invocation occurs only after mission authorization.'],'cost_time_retention_limits'=>['Maximum commissioned cost applies.'],'risks_contingencies_fallbacks'=>['No eligible model returns to Curia fallback procedure.'],'evidence_provenance_reporting'=>['Preserve Oracle commission and finding chain.'],'expiry_revocation_reauthorization'=>['Any changed model version requires reauthorization.']];}
+    private function digest(array$r):array{$r['record_digest']=hash('sha256',CanonicalJson::encode($r));return$r;}private function write(string$p,array$r):void{if(!is_dir(dirname($p)))mkdir(dirname($p),0770,true);file_put_contents($p,json_encode($r,JSON_THROW_ON_ERROR));}
+    private function remove(string$p):void{if(!is_dir($p))return;foreach(array_diff(scandir($p)?:[],['.','..'])as$e){$c=$p.'/'.$e;is_dir($c)?$this->remove($c):unlink($c);}rmdir($p);}
+}
