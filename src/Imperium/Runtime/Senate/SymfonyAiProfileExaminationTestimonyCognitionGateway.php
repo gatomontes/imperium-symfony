@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Imperium\Runtime\Senate;
 
+use App\Imperium\Runtime\Cognition\BoundedTransientCognitionCaller;
 use Symfony\AI\Agent\AgentInterface;
-use Symfony\AI\Platform\Message\Message;
-use Symfony\AI\Platform\Message\MessageBag;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class SymfonyAiProfileExaminationTestimonyCognitionGateway implements ProfileExaminationTestimonyCognitionGateway
 {
-    public function __construct(#[Autowire(service: 'ai.agent.profile_examination_witness')] private AgentInterface $witness) {}
+    public function __construct(#[Autowire(service: 'ai.agent.profile_examination_witness')] private AgentInterface $witness, private ?BoundedTransientCognitionCaller $transientCaller = null) {}
 
     public function answer(array $question, array $manifestation): array
     {
@@ -26,7 +25,7 @@ final readonly class SymfonyAiProfileExaminationTestimonyCognitionGateway implem
             'Return one JSON object with exactly four fields and these exact types: answer must be one non-empty string; uncertainties, refusals, and evidence_claims must each be an array containing only non-empty strings. Use [] when a list has no entries. Do not return null, nested objects, markdown, commentary, or additional fields.',
             'Exact response shape: {"answer":"...","uncertainties":[],"refusals":[],"evidence_claims":["..."]}',
         ]);
-        $content = $this->callWithOneTransientRetry($prompt);
+        $content = ($this->transientCaller ?? new BoundedTransientCognitionCaller())->call($this->witness, $prompt, 'S229_PROFILE_EXAMINATION_TESTIMONY_COGNITION_INVALID');
         if (!is_string($content)) throw $this->invalid('NON_TEXT_RESPONSE');
         $content = trim($content);
         if (str_starts_with($content, '```')) $content = preg_replace('/^```(?:json)?\s*|\s*```$/i', '', $content) ?? $content;
@@ -48,30 +47,6 @@ final readonly class SymfonyAiProfileExaminationTestimonyCognitionGateway implem
             }
         }
         return $normalized;
-    }
-
-    private function callWithOneTransientRetry(string $prompt): mixed
-    {
-        for ($attempt = 1; $attempt <= 2; ++$attempt) {
-            try {
-                $content = $this->witness->call(new MessageBag(Message::ofUser($prompt)))->getContent();
-            } catch (\Throwable $exception) {
-                if (!$this->isTimeout($exception)) throw $exception;
-                if (2 === $attempt) throw $this->invalid('PROVIDER_TIMEOUT', $exception);
-                continue;
-            }
-            if (is_string($content) && '' === trim($content)) {
-                if (2 === $attempt) throw $this->invalid('EMPTY_RESPONSE');
-                continue;
-            }
-            return $content;
-        }
-        throw $this->invalid('TRANSIENT_RETRY_EXHAUSTED');
-    }
-
-    private function isTimeout(\Throwable $exception): bool
-    {
-        return 1 === preg_match('/(?:idle\s+)?timeout|timed\s+out/i', $exception->getMessage());
     }
 
     private function invalid(string $reason, ?\Throwable $previous = null): \RuntimeException

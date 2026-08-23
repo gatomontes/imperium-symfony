@@ -45,6 +45,14 @@ final class SymfonyAiProfileExaminationFindingCognitionGatewayTest extends TestC
         $this->gateway('Finding: PASS')->find('trust', [], []);
     }
 
+    public function testFindingStageUsesSharedBoundedTransientRetry(): void
+    {
+        $finding = ['disposition'=>'PASS','attributed_defect'=>null,'evidence_references'=>['testimony:trust:digest'],'rationale'=>'Boundaries preserved.','severity'=>'NONE','limitations'=>[],'uncertainty'=>[]];
+        $agent = $this->createMock(AgentInterface::class);
+        $agent->expects(self::exactly(2))->method('call')->willReturnOnConsecutiveCalls(new TextResult(''), new TextResult(json_encode($finding, JSON_THROW_ON_ERROR)));
+        self::assertSame($finding, (new SymfonyAiProfileExaminationFindingCognitionGateway($agent, $agent, $agent))->find('trust', [], []));
+    }
+
     private function gateway(string $response): SymfonyAiProfileExaminationFindingCognitionGateway
     {
         $agent = $this->createStub(AgentInterface::class);
