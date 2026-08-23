@@ -21,6 +21,7 @@ Every Profile binds:
 - Laboratorium transformation case, specification version, and Alchemist
   disposition;
 - the cognitive payload and qualification or examination contract;
+- an optional exact, authorization-derived model binding specification containing no secret or credential material;
 - limitations, `DERIVED_FROM`, and optional `SUPERSEDES` lineage; and
 - `content_digest`, computed over the canonical envelope with the
   `content_digest` value omitted.
