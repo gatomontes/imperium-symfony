@@ -142,14 +142,22 @@ final readonly class ModelIntelligenceLedgerService
             if (null !== $assertion) throw new \RuntimeException('OR10_NONACCESSIBLE_MODEL_HAS_ACCESS_ASSERTION');
             return $value;
         }
-        if (!is_array($assertion) || array_keys($assertion) !== ['assertion_id', 'issuer', 'provider', 'credential_ref', 'scope', 'valid_at', 'record_digest']
-            || !$this->identifier($assertion['assertion_id']) || 'clavium' !== ($assertion['issuer']['office'] ?? null)
+        if (!is_array($assertion) || 'imperium.clavium-provider-access-assertion/v1' !== ($assertion['schema'] ?? null)
+            || !$this->identifier($assertion['assertion_id'] ?? null) || 'clavium' !== ($assertion['issuer']['office'] ?? null)
             || 'locksmith' !== ($assertion['issuer']['officer'] ?? null) || !$this->identifier($assertion['provider'])
             || !str_starts_with((string) $assertion['credential_ref'], 'clavium://') || !$this->stringList($assertion['scope'])
-            || false === \DateTimeImmutable::createFromFormat(\DateTimeInterface::ATOM, (string) $assertion['valid_at'])
+            || 'ACCESS_AVAILABLE' !== ($assertion['status'] ?? null)
+            || 'CLAVIUM_PROVIDER_ACCESS_ASSERTION_SEALED_NO_USE_AUTHORITY' !== ($assertion['checkpoint'] ?? null)
+            || false === \DateTimeImmutable::createFromFormat(\DateTimeInterface::ATOM, (string) ($assertion['observation']['observed_at'] ?? ''))
+            || false === \DateTimeImmutable::createFromFormat(\DateTimeInterface::ATOM, (string) ($assertion['revalidation']['expires_at'] ?? ''))
+            || true === ($assertion['credential_use_authority'] ?? null) || true === ($assertion['credential_disclosure_authority'] ?? null)
+            || true === ($assertion['provider_invocation_authority'] ?? null) || true === ($assertion['model_selection_authority'] ?? null)
             || !preg_match('/^sha256:[a-f0-9]{64}$/', (string) $assertion['record_digest'])
             || isset($assertion['secret']) || isset($assertion['token']) || isset($assertion['api_key'])
         ) throw new \RuntimeException('OR11_CLAVIUM_ASSERTION_INVALID');
+        if (new \DateTimeImmutable($assertion['revalidation']['expires_at']) <= new \DateTimeImmutable($assertion['observation']['observed_at'])) {
+            throw new \RuntimeException('OR11_CLAVIUM_ASSERTION_INVALID');
+        }
         $assertionDigest = $assertion['record_digest'];
         unset($assertion['record_digest']);
         if (!hash_equals($assertionDigest, 'sha256:'.hash('sha256', CanonicalJson::encode($assertion)))) {

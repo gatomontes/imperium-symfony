@@ -73,9 +73,14 @@ final class ModelIntelligenceLedgerServiceTest extends TestCase
     {
         $source = $this->source('openai-model-page', 'provider-documentation', 'https://provider.test/models/gpt-test');
         $assertion = [
-            'assertion_id' => 'clavium-access-openai-1', 'issuer' => ['office' => 'clavium', 'officer' => 'locksmith'],
+            'schema' => 'imperium.clavium-provider-access-assertion/v1', 'assertion_id' => 'clavium-access-openai-1', 'instance_id' => 'imperium-test',
+            'issuer' => ['office' => 'clavium', 'officer' => 'locksmith', 'seat' => 'clavium.locksmith', 'binding_id' => 'binding', 'manifestation_id' => 'manifestation', 'occupancy_generation' => 1],
             'provider' => 'openai', 'credential_ref' => 'clavium://providers/openai/default', 'scope' => ['model.invoke'],
-            'valid_at' => '2026-08-23T12:00:00+00:00',
+            'observation' => ['method' => 'test', 'observed_at' => '2026-08-23T12:00:00+00:00', 'evidence' => ['non_empty_secret_present' => true]],
+            'status' => 'ACCESS_AVAILABLE', 'checkpoint' => 'CLAVIUM_PROVIDER_ACCESS_ASSERTION_SEALED_NO_USE_AUTHORITY', 'restrictions' => [],
+            'revalidation' => ['expires_at' => '2026-08-24T12:00:00+00:00', 'conditions' => ['expiry']],
+            'credential_possession_transferred' => false, 'credential_use_authority' => false, 'credential_disclosure_authority' => false,
+            'provider_invocation_authority' => false, 'model_admissibility_authority' => false, 'model_selection_authority' => false, 'execution_authority' => false, 'sealed' => true,
         ];
         $assertion['record_digest'] = 'sha256:'.hash('sha256', CanonicalJson::encode($assertion));
         return [
