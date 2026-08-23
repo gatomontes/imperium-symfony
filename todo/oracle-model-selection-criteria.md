@@ -10,6 +10,8 @@ Model-intelligence ledger implemented; criteria-bound evaluation remains planned
 - [x] Preserve independently attributable `KNOWN`, accessibility, and admissibility classifications for exact provider/model/version identities.
 - [x] Bind model claims to exact evidence sources and accessible status to Clavium assertions without exposing credentials.
 - [x] Seal versioned snapshots at `ORACLE_MODEL_INTELLIGENCE_SNAPSHOT_SEALED_NO_SELECTION_AUTHORITY` with no downstream authority.
+- [x] Resolve the first-Augur bootstrap boundary through one exact Imperator/Charter-authorized provisional model assignment.
+- [x] Bind an admitted, standing-Profile-qualified Augur Manifestation to `oracle.augur` without self-selection authority.
 
 ## Objective
 

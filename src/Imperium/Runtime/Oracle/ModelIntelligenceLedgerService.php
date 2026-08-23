@@ -173,7 +173,8 @@ final readonly class ModelIntelligenceLedgerService
     private function assertAugurAuthority(string $instanceId, array $binding): void
     {
         if ('oracle.augur' !== ($binding['seat'] ?? null) || 'oracle' !== ($binding['office'] ?? null)
-            || 'ACTIVE' !== ($binding['status'] ?? null) || true !== ($binding['model_intelligence_stewardship_authority'] ?? null)
+            || !in_array($binding['status'] ?? null, ['ACTIVE', 'ORACLE_AUGUR_BOUND_ACTIVE_NO_MODEL_SELECTION_AUTHORITY'], true)
+            || true !== ($binding['model_intelligence_stewardship_authority'] ?? null)
             || true === ($binding['model_selection_authority'] ?? null) || $instanceId !== ($binding['instance_id'] ?? null)
         ) throw new \RuntimeException('OR13_AUGUR_AUTHORITY_INVALID');
     }
