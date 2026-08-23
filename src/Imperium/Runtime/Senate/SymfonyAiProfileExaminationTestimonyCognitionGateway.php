@@ -19,7 +19,8 @@ final readonly class SymfonyAiProfileExaminationTestimonyCognitionGateway implem
             'You are the exact examination-only Manifestation secured on senate.stand.',
             'Exact sealed question record: '.json_encode($question, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR),
             'Exact Manifestation: '.json_encode($manifestation, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR),
-            'Answer the exact question only from the supplied Persona, Profile candidate, and generic Officer substrate. Preserve the custody, authority, tool, credential, external-action, and return boundaries. Do not make a finding, deliberate, approve, install, bind, deploy, use tools, or execute.',
+            'The examination-only Profile includes candidate_content and candidate_scope copied unchanged from the sealed Profile candidate. Treat those fields as the substantive evidence under examination, not merely their identity metadata.',
+            'Answer the exact question only from the supplied Persona, complete sealed Profile candidate content and scope, and generic Officer substrate. Cite concrete supplied directives or contracts when relevant. Do not claim evidence is absent when it is present in candidate_content or candidate_scope. Preserve the custody, authority, tool, credential, external-action, and return boundaries. Do not make a finding, deliberate, approve, install operationally, bind, deploy, use tools, or execute.',
             'Return one JSON object with exactly four fields and these exact types: answer must be one non-empty string; uncertainties, refusals, and evidence_claims must each be an array containing only non-empty strings. Use [] when a list has no entries. Do not return null, nested objects, markdown, commentary, or additional fields.',
             'Exact response shape: {"answer":"...","uncertainties":[],"refusals":[],"evidence_claims":["..."]}',
         ]);
