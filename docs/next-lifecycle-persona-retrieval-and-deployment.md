@@ -64,9 +64,9 @@ Qualification consumes only the exact Step 31 request; assembly consumes only it
 
 The model-bound Citadel route now continues through step 35, **Legate activation authorization**. The Imperator decides against the exact generation-1 Seat binding and unexpired model-access lineage. Only `AUTHORIZED` reaches `MODEL_BOUND_CITADEL_LEGATE_ACTIVATION_AUTHORIZED_PENDING_RUNTIME_ACTIVATION`; every other branch is sealed and non-authorizing. This is not mission deployment or Garrison custody transfer.
 
-The model-bound Citadel route now continues through step 41, **one bounded cognition turn**. Clavium first activates the exact invocation under an opaque credential lease, then the target Legate consumes both single-use authorities for one model call and sealed output.
+The model-bound Citadel route now continues through step 42, **sealed cognition-result delivery**. After one bounded cognition turn, runtime machinery delivers the exact sealed result only to the original commissioner's exact current binding for later independent review.
 
-The credential reference is never disclosed or transferred. The completed turn leaves tools, memory, network resources, external data, external action, execution, autonomous cognition, and continuing-turn authority closed.
+The credential reference is never disclosed or transferred. Delivery preserves the output without accepting, rejecting, adopting, or acting on it. Tools, memory, network resources, external data, external action, execution, follow-up commissioning, autonomous cognition, and continuing-turn authority remain closed.
 
 ### Implemented completion steps
 
@@ -87,6 +87,8 @@ The credential reference is never disclosed or transferred. The completed turn l
 40. **Clavium activates the exact provider invocation.** The occupied Locksmith consumes the Step 39 activation authority and verifies the assigned model, provider-access assertion, Profile attestation, target, and governing expiries. It creates one opaque, single-use credential lease at `CITADEL_LEGATE_PROVIDER_INVOCATION_ACTIVATED_PENDING_ONE_BOUNDED_COGNITION_TURN`; the credential reference is represented only by digest and is neither disclosed nor transferred. No provider call or cognition occurs.
 
 41. **The Legate performs exactly one governed cognition turn.** The target consumes the one-use cognition authority and credential lease through the exact configured model gateway. Runtime machinery seals the attributable contract-bound output and stop-condition result at `CITADEL_LEGATE_GOVERNED_COGNITION_TURN_COMPLETED_SEALED_NO_CONTINUING_AUTHORITY` or the corresponding stopped checkpoint. No tools, memory, network resource, external data, external action, execution, autonomous cognition, or continuing turn is authorized.
+
+42. **Deliver the exact sealed result to the original commissioner.** Runtime machinery revalidates the complete digest-bound commission, acceptance, authorization, provider activation, cognition turn, immutable contract, and the commissioner's exact current occupancy. It preserves the result unchanged at `CITADEL_LEGATE_COGNITION_RESULT_DELIVERED_PENDING_COMMISSIONER_REVIEW` and opens only one addressed, single-use review-disposition authority. Delivery does not accept, reject, operationally adopt, execute, or authorize follow-up work; cognition, provider invocation, credentials, tools, external action, execution, and continuing-turn authority remain closed.
 
 The mission-operative route diverges after its own binding: Seneschal deployment authorization and Constable custody transfer belong to that route and must not be inferred for a mission-independent Legate.
 
