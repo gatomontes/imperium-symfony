@@ -18,6 +18,7 @@ Model-intelligence ledger implemented; criteria-bound evaluation remains planned
 - [x] Authorize bounded Oracle research through an exact Imperator commission, Iron Gate sortie, Lazaretto admission, and single-use authority consumption.
 - [x] Bind Curia's exact model requirements to one canonical catalogue snapshot and seal Oracle acceptance without evaluation or selection authority.
 - [x] Mechanically freeze the criteria-bound candidate universe and open one single-use eligibility-finding authority per surviving exact model version.
+- [x] Seal an evidence-only comparative matrix across every eligible exact model version without aggregate scoring, ordinal ranking, or a preferred candidate.
 
 ## Objective
 
