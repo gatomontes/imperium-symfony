@@ -16,7 +16,7 @@ The central boundary is:
 
 **Curia capability demand → Guildhall profession and Persona resolution → Imperator personnel-use authorization → Garrison reservation → Imperator Profile-derivation authorization → Conscription acceptance → Constable custody-bound derivation lease → Conscription commission → Alchemist acceptance → Laboratorium Profile derivation and return → Conscription examination assembly → Senate examination and disposition → Imperator Profile approval → Conscription operational qualification → authorized deployment → governed return or retirement**
 
-The route is implemented through the sealed Profile-examination disposition. Imperator Profile approval, operational qualification and assembly, Seat binding, deployment authorization, first bounded execution, and governed return or retirement remain downstream work.
+The canonical route is implemented end to end through terminal return, retirement, unbinding, and custody restoration.
 
 ## Enumerated downstream flow
 
@@ -62,11 +62,11 @@ The route is implemented through the sealed Profile-examination disposition. Imp
 34. **Bind the exact Manifestation to its intended Seat.** Conscription consumes the assembly's exact Seat-binding authority, revalidates live custody and the complete qualification/assembly lineage, proves the pre-derived Seat is empty, and commits one atomic generation-1 occupancy with no predecessor or implicit supersession. The boundary is `OPERATIONAL_MANIFESTATION_BOUND_PENDING_DEPLOYMENT_AUTHORIZATION`. Binding grants no operational use, tool access, credentials, external action, deployment, custody transfer, or execution authority.
 35. **Authorize deployment and transfer bounded operational custody.** The occupied Seneschal authorizes the exact bound Manifestation for one immutable mission-use contract. The occupied Constable independently consumes that authorization, marks the Persona unavailable at `DEPLOYED_BOUND`, and records the exact operational custodian at `OPERATIONAL_MANIFESTATION_DEPLOYED_CUSTODY_TRANSITIONED_PENDING_BOUNDED_EXECUTION`. Curia gains no custody or execution authority; Garrison gains no selection or execution authority; operational use, tools, credentials, external action, and execution remain closed.
 36. **Execute one bounded smoke iteration.** The occupied Seneschal seals one exact HTTPS input and one-use execution authority against the deployed custody record. The bound Manifestation consumes it for one internal cognition iteration, produces one attributable output, evaluates its stop conditions, and stops at `OPERATIONAL_MANIFESTATION_BOUNDED_EXECUTION_COMPLETED_PENDING_RETURN`. No tool, credential, network, external action, undeclared data, or continuing execution authority exists.
-37. **Return, retire, or restore custody.** Consume the one-use operational authority, unbind or retire the Manifestation as required, record disposition and lineage, and restore or supersede the Persona/Profile custody state deterministically.
+37. **Return, retire, and restore custody.** The occupied Seneschal seals the exact return, retirement, unbinding, and custody-restoration authorization against the completed bounded execution. The occupied Constable consumes it atomically, returns the Manifestation to its declared destination, retires it, terminates the Seat binding's live effect, restores the Persona/Profile custody record to `ADMITTED_HELD`, and seals the complete operational transcript at `OPERATIONAL_MANIFESTATION_RETURNED_RETIRED_CUSTODY_RESTORED`. No execution, redeployment, reuse, supersession, tool, credential, network, or external-action authority survives.
 
 ## Current implementation checkpoint
 
-The implemented canonical route ends after step 36 at `OPERATIONAL_MANIFESTATION_BOUNDED_EXECUTION_COMPLETED_PENDING_RETURN`; refusal remains a sealed alternate terminal branch at `EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY`, and every non-approving Imperator disposition is recorded without downstream authority. Step 37 is the one remaining batch through deterministic return and custody restoration.
+The implemented canonical route now completes step 37 at `OPERATIONAL_MANIFESTATION_RETURNED_RETIRED_CUSTODY_RESTORED`; refusal remains a sealed alternate terminal branch at `EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY`, and every non-approving Imperator disposition is recorded without downstream authority.
 
 - Garrison has changed the exact Persona custody fact from available `ADMITTED_HELD` to unavailable `DEPLOYED_BOUND` and recorded the bound mission Manifestation as operational custodian.
 - The commission and its acceptance have been consumed only to derive one deterministic, immutable Profile candidate at version 1.
@@ -82,7 +82,7 @@ The implemented canonical route ends after step 36 at `OPERATIONAL_MANIFESTATION
 - Conscription has installed and qualified the exact operational Profile for the Seat derived from Curia's immutable capability slot.
 - Conscription has consumed the exact Seat-binding authority and atomically bound the Manifestation to its pre-derived Seat at occupancy generation 1.
 - The occupied Seneschal has authorized one exact immutable mission use, and the occupied Constable has consumed the deployment and custody-transition authority. Operational use, tool access, credentials, external action, supersession, and execution remain closed.
-- The occupied Seneschal has sealed one exact input authorization, and the bound Manifestation has consumed it for one attributable internal cognition iteration. No continuing execution authority exists; return, retirement, unbinding, and custody restoration remain pending.
+- The occupied Seneschal has sealed the exact terminal authorization, and the occupied Constable has returned and retired the Manifestation, ended the Seat binding's live effect, restored custody, and sealed the operational transcript. No continuing or reusable authority exists.
 
 ## Capability-to-Profession Translation Boundary
 
