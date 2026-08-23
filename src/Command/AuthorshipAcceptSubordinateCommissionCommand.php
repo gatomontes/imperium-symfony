@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name:'imperium:authorship:accept-subordinate',description:'Have the addressed resident Officer accept one exact subordinate Persona authorship commission')]
+#[AsCommand(name:'imperium:authorship:accept-subordinate',description:'Have the addressed resident Legate accept one exact subordinate Persona authorship commission')]
 final class AuthorshipAcceptSubordinateCommissionCommand extends Command{
 public function __construct(private readonly SubordinateAuthorshipCommissionAcceptanceService$service){
 parent::__construct();
@@ -50,4 +50,3 @@ return self::SUCCESS;
 }
 
 }
-

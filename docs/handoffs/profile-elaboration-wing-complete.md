@@ -89,7 +89,7 @@ The Profile-elaboration-to-bounded-deployment wing is finished. Do not reopen, e
 The next chat should first choose the next independent architectural wing. Plausible candidates already identified elsewhere include:
 
 - Oracle/Augur model research, cataloging, and criteria-bound model selection;
-- model assignment to permanent Citadel Officers versus mission-specific Manifestations;
+- model assignment to permanent Legates versus mission-specific Manifestations;
 - Risk Seats and their distinct jurisdictions;
 - VPS/runtime load measurement before choosing more expensive Officer models;
 - the next mission lifecycle built on the now-proven personnel route.

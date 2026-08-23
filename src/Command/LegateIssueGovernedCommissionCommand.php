@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Imperium\Runtime\Citadel\CitadelGovernedCommissionIssuanceService;
+use App\Imperium\Runtime\Citadel\LegateGovernedCommissionIssuanceService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -12,10 +12,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'imperium:citadel:issue-governed-commission', description: 'Issue one exact governed commission to an active Citadel Officer, pending independent acceptance.')]
-final class CitadelIssueGovernedCommissionCommand extends Command
+#[AsCommand(name: 'imperium:legate:issue-governed-commission', description: 'Issue one exact governed commission to an active Legate, pending independent acceptance.')]
+final class LegateIssueGovernedCommissionCommand extends Command
 {
-    public function __construct(private readonly CitadelGovernedCommissionIssuanceService $service)
+    public function __construct(private readonly LegateGovernedCommissionIssuanceService $service)
     {
         parent::__construct();
     }
@@ -53,7 +53,7 @@ final class CitadelIssueGovernedCommissionCommand extends Command
         }
         $output->writeln($input->getOption('json')
             ? json_encode($commission, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)
-            : '<info>GOVERNED_COMMISSION_ISSUED_PENDING_OFFICER_ACCEPTANCE</info> '.$commission['commission_id']);
+            : '<info>GOVERNED_COMMISSION_ISSUED_PENDING_LEGATE_ACCEPTANCE</info> '.$commission['commission_id']);
 
         return self::SUCCESS;
     }
