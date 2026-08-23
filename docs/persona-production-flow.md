@@ -130,13 +130,14 @@ The Lord Speaker consumes the exact authority and seals one attributable `APPROV
 
 The Imperator then decides approval against that exact immutable Senate record. Only an explicit Imperator `APPROVED` decision following a Senate `APPROVED` disposition reaches `IMPERATOR_PROFILE_APPROVED_PENDING_CONSCRIPTION_OPERATIONAL_QUALIFICATION` and grants one bounded authority to request Conscription qualification. Refusal, revision, clarification, an alternative, or deferral remains sealed and non-authorizing. Installation, Manifestation assembly, Seat binding, deployment, and execution remain closed.
 
+The occupied ordinary Recruiter then consumes that exact request authority, revalidates the complete approval and custody chain, and installs the approved Profile into an operational qualification contract. The intended Seat is derived from Curia's immutable capability slot; Conscription cannot redirect it. The result reaches `PROFILE_OPERATIONALLY_QUALIFIED_PENDING_MANIFESTATION_ASSEMBLY` with one bounded assembly authority. Seat binding, deployment, custody transfer, and execution remain closed.
+
 The downstream lifecycle is implemented through the sealed Senate disposition. The proposed remaining batches are, in order:
 
-1. Have Conscription install and qualify the approved Profile for operational use without acquiring deployment authority.
-2. Assemble the exact operational Manifestation from Persona, approved Profile, and generic Officer substrate.
-3. Bind the exact Manifestation atomically to its intended Seat without granting deployment or execution.
-4. Authorize one bounded deployment and record the corresponding custody/availability transition.
-5. Execute one governed smoke iteration with attributable input, cognition or tooling, output, and stop.
-6. Return, retire, unbind, restore custody, or supersede deterministically while preserving lineage.
+1. Assemble the exact operational Manifestation from Persona, approved Profile, and generic Officer substrate.
+2. Bind the exact Manifestation atomically to its intended Seat without granting deployment or execution.
+3. Authorize one bounded deployment and record the corresponding custody/availability transition.
+4. Execute one governed smoke iteration with attributable input, cognition or tooling, output, and stop.
+5. Return, retire, unbind, restore custody, or supersede deterministically while preserving lineage.
 
 No downstream step may treat `ADMITTED_HELD`, inventory availability, retrieval, Profile derivation, qualification, manifestation assembly, or Seat binding as implicit authority for the next step.

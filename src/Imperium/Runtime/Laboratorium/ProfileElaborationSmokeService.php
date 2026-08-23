@@ -11,6 +11,7 @@ use App\Imperium\Runtime\Conscription\ProfileCandidateReturnAcceptanceService;
 use App\Imperium\Runtime\Conscription\ExaminationAssemblyAuthorizationRequestService;
 use App\Imperium\Runtime\Conscription\ExaminationManifestationAssemblyService;
 use App\Imperium\Runtime\Conscription\ProfileDerivationAuthorizationAcceptanceService;
+use App\Imperium\Runtime\Conscription\OperationalProfileQualificationService;
 use App\Imperium\Runtime\Curia\ProceedingStore;
 use App\Imperium\Runtime\Curia\ProfileDerivationAuthorizationDecisionService;
 use App\Imperium\Runtime\Curia\ProfileDerivationAuthorizationRequestService;
@@ -169,8 +170,9 @@ final readonly class ProfileElaborationSmokeService
                 $approved?'Approval grants only authority to request Conscription operational qualification.':'No operational qualification, installation, assembly, binding, deployment, or execution authority.',
             );
         }
+        $operationalQualification=is_array($profileApproval)&&true===($profileApproval['operational_qualification_request_authority']??null)?(new OperationalProfileQualificationService($root,$bootstrap))->qualify($profileApproval['decision_id']):null;
 
-        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return, 'return_acceptance' => $returnAcceptance, 'examination_assembly_request' => $assemblyRequest, 'examination_assembly_authorization' => $assemblyAuthorization, 'examination_manifestation' => $examinationManifestation, 'stand_admission' => $standAdmission, 'examination_opening' => $examinationOpening,'panel_acceptances'=>$panelAcceptances,'panel_readiness'=>$panelReadiness,'testimony_opening'=>$testimonyOpening,'examination_questions'=>$examinationQuestions,'profile_testimony_turns'=>$testimonyTurns,'profile_testimony_readiness'=>$testimonyReadiness,'finding_authority_opening'=>$findingAuthorityOpening,'senator_findings'=>$senatorFindings,'finding_readiness'=>$findingReadiness,'deliberation_opening'=>$deliberationOpening,'reconciliation'=>$reconciliation,'disposition_authority_opening'=>$dispositionAuthorityOpening,'profile_disposition'=>$profileDisposition,'profile_approval'=>$profileApproval];
+        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return, 'return_acceptance' => $returnAcceptance, 'examination_assembly_request' => $assemblyRequest, 'examination_assembly_authorization' => $assemblyAuthorization, 'examination_manifestation' => $examinationManifestation, 'stand_admission' => $standAdmission, 'examination_opening' => $examinationOpening,'panel_acceptances'=>$panelAcceptances,'panel_readiness'=>$panelReadiness,'testimony_opening'=>$testimonyOpening,'examination_questions'=>$examinationQuestions,'profile_testimony_turns'=>$testimonyTurns,'profile_testimony_readiness'=>$testimonyReadiness,'finding_authority_opening'=>$findingAuthorityOpening,'senator_findings'=>$senatorFindings,'finding_readiness'=>$findingReadiness,'deliberation_opening'=>$deliberationOpening,'reconciliation'=>$reconciliation,'disposition_authority_opening'=>$dispositionAuthorityOpening,'profile_disposition'=>$profileDisposition,'profile_approval'=>$profileApproval,'operational_qualification'=>$operationalQualification];
     }
 
     private function missionPlan(): array
