@@ -13,7 +13,7 @@ Enable Curia to request model research from Oracle using explicit, pre-determine
 1. Curia defines a Model Requirement Commission for the Officer or mission function.
 2. The commission specifies the cognitive task, required capabilities, operational constraints, risk constraints, tool requirements, budget, latency, provider restrictions, data-residency requirements, and fallback expectations.
 3. Oracle receives the bounded commission and instructs Augur to evaluate only accessible and admissible model candidates against those criteria.
-4. Locksmith supplies provider-access assertions or bounded access leases; credentials and secret material remain in Locksmith custody.
+4. Clavium supplies provider-access assertions or bounded access leases through its Locksmith; credentials and secret material remain in Clavium custody.
 5. Augur returns evidence, ranked candidates, capability fit, costs, latency, limitations, risks, and operating conditions.
 6. Curia selects or recommends a candidate.
 7. The authorized authority approves where required.
@@ -24,7 +24,7 @@ Enable Curia to request model research from Oracle using explicit, pre-determine
 - **Curia:** defines the required outcome and evaluation criteria.
 - **Oracle:** manages model intelligence and the evaluation commission; it does not assign, authorize, substitute, or deploy models.
 - **Augur:** performs bounded research and evaluation and reports evidence; it does not command model use.
-- **Locksmith:** detects and controls provider credentials and issues bounded access assertions or leases; it never discloses secret material to Oracle or Augur.
+- **Clavium:** detects and controls provider credentials and issues bounded access assertions or leases through its Locksmith; neither the Office nor its Officer discloses secret material to Oracle or Augur.
 - **Conscription:** seals the approved model binding into the Profile.
 - **Officer:** executes only under the sealed model assignment.
 

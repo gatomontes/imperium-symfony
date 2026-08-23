@@ -6,12 +6,12 @@ Normalize Imperium terminology so institutional Offices are not named after the 
 
 ## Confirmed naming
 
-- [ ] Rename the credential-custody Office from `Locksmith` to `Clavium`.
-- [ ] Retain `Locksmith` as the cognition/Officer belonging to the Clavium.
-- [ ] Preserve the Clavium domain: credentials, secrets, keys, access grants, rotation, revocation, and capability provisioning.
-- [ ] Retain `Armory` as the tool-custody Office.
-- [ ] Name `Armorer` as the cognition/Officer belonging to the Armory.
-- [ ] Preserve the Armory domain: tool custody, cataloging, validation, provisioning, restriction, and retirement.
+- [x] Rename the credential-custody Office from `Locksmith` to `Clavium`.
+- [x] Retain `Locksmith` as the cognition/Officer belonging to the Clavium.
+- [x] Preserve the Clavium domain: credentials, secrets, keys, access grants, rotation, revocation, and capability provisioning.
+- [x] Retain `Armory` as the tool-custody Office.
+- [x] Name `Armorer` as the cognition/Officer belonging to the Armory.
+- [x] Preserve the Armory domain: tool custody, cataloging, validation, provisioning, restriction, and retirement.
 
 ## Repository-wide normalization
 
@@ -24,8 +24,8 @@ Normalize Imperium terminology so institutional Offices are not named after the 
 
 ## Verification
 
-- [ ] Prove current artifacts emit `Clavium` as the competent Office and `Locksmith` as its cognition/Officer.
-- [ ] Prove current artifacts emit `Armory` as the competent Office and `Armorer` as its cognition/Officer.
+- [x] Prove current artifacts emit `Clavium` as the competent Office and `Locksmith` as its cognition/Officer.
+- [x] Prove current artifacts emit `Armory` as the competent Office and `Armorer` as its cognition/Officer.
 - [ ] Search the repository for remaining ambiguous institutional names and classify every intentional exception.
 - [ ] Run the relevant contract, workflow, and semantic-integrity tests after normalization.
 

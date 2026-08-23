@@ -601,7 +601,7 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                         "senate",
                         "senator-security",
                     ],
-                    ["armory.warden", "armory", "warden"],
+                    ["armory.armorer", "armory", "armorer"],
                     ["curia.seneschal", "curia", "seneschal"],
                 ]
                 as [$seat, $office, $role]

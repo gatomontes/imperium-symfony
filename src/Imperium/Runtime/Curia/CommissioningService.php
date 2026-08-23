@@ -80,7 +80,7 @@ final readonly class CommissioningService
                 'forbidden_effects' => ['persona construction', 'recruitment', 'manifestation', 'reservation', 'deployment'],
             ],
             'armory' => [
-                'target' => 'armory',
+                'target' => 'armory.armorer',
                 'purpose' => 'Determine admissible passive methodology, checklists, and tooling under the exact Mission Plan constraints.',
                 'authorized_resources' => $this->armoryResources($demands),
                 'expected_products' => ['Tooling Disposition'],
