@@ -138,9 +138,10 @@ Conscription then consumes that exact binding authority and atomically occupies 
 
 The occupied Seneschal then binds one deployment authorization to that exact binding and one immutable mission-use contract. The occupied Constable independently validates and consumes it, changes the Persona custody fact from available `ADMITTED_HELD` to unavailable `DEPLOYED_BOUND`, and records the exact mission Seat and Manifestation as operational custodian. At `OPERATIONAL_MANIFESTATION_DEPLOYED_CUSTODY_TRANSITIONED_PENDING_BOUNDED_EXECUTION`, Curia has no custody or execution authority, Garrison has no selection or execution authority, and operational use, tools, credentials, external action, and execution remain closed.
 
+The occupied Seneschal then seals one exact HTTPS input and one-use execution authorization against that deployed custody record. The bound Manifestation consumes it for exactly one internal cognition iteration, produces one attributable output, evaluates the installed stop conditions, and stops at `OPERATIONAL_MANIFESTATION_BOUNDED_EXECUTION_COMPLETED_PENDING_RETURN`. The iteration uses no tool, credential, network, external action, memory, or undeclared data and leaves no continuing execution authority.
+
 The downstream lifecycle is implemented through bounded deployment and the Garrison custody transition. The proposed remaining batches are, in order:
 
-1. Execute one governed smoke iteration with attributable input, cognition or tooling, output, and stop.
-2. Return, retire, unbind, restore custody, or supersede deterministically while preserving lineage.
+1. Return, retire, unbind, restore custody, or supersede deterministically while preserving lineage.
 
 No downstream step may treat `ADMITTED_HELD`, inventory availability, retrieval, Profile derivation, qualification, manifestation assembly, or Seat binding as implicit authority for the next step.

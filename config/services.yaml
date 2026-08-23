@@ -256,6 +256,9 @@ services:
     App\Imperium\Runtime\Senate\ProfileExaminationDispositionCognitionGateway:
         alias: App\Imperium\Runtime\Senate\SymfonyAiProfileExaminationDispositionCognitionGateway
 
+    App\Imperium\Runtime\Mission\OperationalExecutionCognitionGateway:
+        alias: App\Imperium\Runtime\Mission\SymfonyAiOperationalExecutionCognitionGateway
+
     App\Imperium\Runtime\Senate\SymfonyAiSenatorFindingCognitionGateway:
         arguments:
             $practice: '@ai.agent.senator_finding_practice'
