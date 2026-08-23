@@ -18,10 +18,17 @@ final class BoundedTransientCognitionCallerTest extends TestCase
         self::assertSame('{"ok":true}', (new BoundedTransientCognitionCaller())->call($agent, 'prompt', 'STAGE_INVALID'));
     }
 
-    public function testTwoEmptyResponsesFailClosedWithStageDiagnostic(): void
+    public function testTwoEmptyResponsesCanRecoverOnTheThirdAttempt(): void
     {
         $agent = $this->createMock(AgentInterface::class);
-        $agent->expects(self::exactly(2))->method('call')->willReturn(new TextResult(''));
+        $agent->expects(self::exactly(3))->method('call')->willReturnOnConsecutiveCalls(new TextResult(''), new TextResult(''), new TextResult('{"ok":true}'));
+        self::assertSame('{"ok":true}', (new BoundedTransientCognitionCaller())->call($agent, 'prompt', 'STAGE_INVALID'));
+    }
+
+    public function testThreeEmptyResponsesFailClosedWithStageDiagnostic(): void
+    {
+        $agent = $this->createMock(AgentInterface::class);
+        $agent->expects(self::exactly(3))->method('call')->willReturn(new TextResult(''));
         $this->expectExceptionMessage('STAGE_INVALID: EMPTY_RESPONSE');
         (new BoundedTransientCognitionCaller())->call($agent, 'prompt', 'STAGE_INVALID');
     }
@@ -36,10 +43,10 @@ final class BoundedTransientCognitionCallerTest extends TestCase
         self::assertSame('{"ok":true}', (new BoundedTransientCognitionCaller())->call($agent, 'prompt', 'STAGE_INVALID'));
     }
 
-    public function testTwoProviderTimeoutsFailClosedWithStageDiagnostic(): void
+    public function testThreeProviderTimeoutsFailClosedWithStageDiagnostic(): void
     {
         $agent = $this->createMock(AgentInterface::class);
-        $agent->expects(self::exactly(2))->method('call')->willThrowException(new \RuntimeException('Request timed out.'));
+        $agent->expects(self::exactly(3))->method('call')->willThrowException(new \RuntimeException('Request timed out.'));
         $this->expectExceptionMessage('STAGE_INVALID: PROVIDER_TIMEOUT');
         (new BoundedTransientCognitionCaller())->call($agent, 'prompt', 'STAGE_INVALID');
     }

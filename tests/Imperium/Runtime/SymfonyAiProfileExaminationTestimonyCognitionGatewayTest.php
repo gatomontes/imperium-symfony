@@ -51,10 +51,10 @@ final class SymfonyAiProfileExaminationTestimonyCognitionGatewayTest extends Tes
         self::assertSame($answer, (new SymfonyAiProfileExaminationTestimonyCognitionGateway($agent))->answer([], []));
     }
 
-    public function testExhaustedEmptyResponseRetryFailsClosed(): void
+    public function testExhaustedEmptyResponseRetriesFailClosed(): void
     {
         $agent = $this->createMock(AgentInterface::class);
-        $agent->expects(self::exactly(2))->method('call')->willReturn(new TextResult(''));
+        $agent->expects(self::exactly(3))->method('call')->willReturn(new TextResult(''));
         $this->expectExceptionMessage('S229_PROFILE_EXAMINATION_TESTIMONY_COGNITION_INVALID: EMPTY_RESPONSE');
         (new SymfonyAiProfileExaminationTestimonyCognitionGateway($agent))->answer([], []);
     }
