@@ -54,6 +54,12 @@ The canonical route is implemented end to end through terminal return, retiremen
 
 30. **Seal the Senate disposition.** Issue one attributable Profile-examination disposition bound to every finding and the reconciliation at `PROFILE_EXAMINATION_DISPOSITION_SEALED_PENDING_IMPERATOR_PROFILE_APPROVAL`. Preserve refusal and revision branches; grant no Imperator or operational authority.
 
+### Current model-bound reconstruction checkpoint
+
+The explicit model-bound implementation now completes steps 1–30. The Senate leg is closed at `PROFILE_EXAMINATION_DISPOSITION_SEALED_PENDING_IMPERATOR_PROFILE_APPROVAL`: every exact finding and the reconciliation are preserved, the disposition authority is consumed, and a mandatory Security blocking condition mechanically prohibits `APPROVED`.
+
+The next model-bound transition is step 31, **Imperator decides Profile approval**. It must consume the complete Senate record without treating Senate approval as Imperator authority. Only an explicit Imperator approval of an `APPROVED` Senate disposition may open the bounded operational-qualification request; every other branch remains sealed and non-authorizing.
+
 ### Implemented completion steps
 
 31. **Imperator decides Profile approval.** Present the exact candidate and complete Senate record. Only explicit approval of a Senate `APPROVED` disposition authorizes the next operational-qualification request at `IMPERATOR_PROFILE_APPROVED_PENDING_CONSCRIPTION_OPERATIONAL_QUALIFICATION`; refusal, revision, clarification, alternative, and deferral are sealed but non-authorizing. Approval grants no installation, assembly, Seat-binding, deployment, or execution authority.
