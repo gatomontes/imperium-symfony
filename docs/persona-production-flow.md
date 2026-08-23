@@ -132,12 +132,13 @@ The Imperator then decides approval against that exact immutable Senate record. 
 
 The occupied ordinary Recruiter then consumes that exact request authority, revalidates the complete approval and custody chain, and installs the approved Profile into an operational qualification contract. The intended Seat is derived from Curia's immutable capability slot; Conscription cannot redirect it. The result reaches `PROFILE_OPERATIONALLY_QUALIFIED_PENDING_MANIFESTATION_ASSEMBLY` with one bounded assembly authority. Seat binding, deployment, custody transfer, and execution remain closed.
 
+Conscription then consumes that exact assembly authority and combines the custody-bound Persona, qualified operational Profile, and generic Officer version-0 substrate without adding identity or operational authority. The result is sealed at `OPERATIONAL_MANIFESTATION_ASSEMBLED_PENDING_SEAT_BINDING` with one bounded Seat-binding authority. The Manifestation remains unbound and has no tool access, credentials, external-action, deployment, custody-transfer, operational-use, or execution authority.
+
 The downstream lifecycle is implemented through the sealed Senate disposition. The proposed remaining batches are, in order:
 
-1. Assemble the exact operational Manifestation from Persona, approved Profile, and generic Officer substrate.
-2. Bind the exact Manifestation atomically to its intended Seat without granting deployment or execution.
-3. Authorize one bounded deployment and record the corresponding custody/availability transition.
-4. Execute one governed smoke iteration with attributable input, cognition or tooling, output, and stop.
-5. Return, retire, unbind, restore custody, or supersede deterministically while preserving lineage.
+1. Bind the exact Manifestation atomically to its intended Seat without granting deployment or execution.
+2. Authorize one bounded deployment and record the corresponding custody/availability transition.
+3. Execute one governed smoke iteration with attributable input, cognition or tooling, output, and stop.
+4. Return, retire, unbind, restore custody, or supersede deterministically while preserving lineage.
 
 No downstream step may treat `ADMITTED_HELD`, inventory availability, retrieval, Profile derivation, qualification, manifestation assembly, or Seat binding as implicit authority for the next step.
