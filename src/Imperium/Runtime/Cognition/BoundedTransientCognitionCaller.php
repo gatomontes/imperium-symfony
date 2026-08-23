@@ -12,21 +12,29 @@ final class BoundedTransientCognitionCaller
 {
     public function call(AgentInterface $agent, string $prompt, string $errorPrefix): mixed
     {
-        for ($attempt = 1; $attempt <= 2; ++$attempt) {
+        $maximumAttempts = 3;
+        for ($attempt = 1; $attempt <= $maximumAttempts; ++$attempt) {
             try {
                 $content = $agent->call(new MessageBag(Message::ofUser($prompt)))->getContent();
             } catch (\Throwable $exception) {
                 if (!$this->isTimeout($exception)) throw $exception;
-                if (2 === $attempt) throw new \RuntimeException($errorPrefix.': PROVIDER_TIMEOUT', 0, $exception);
+                if ($maximumAttempts === $attempt) throw new \RuntimeException($errorPrefix.': PROVIDER_TIMEOUT', 0, $exception);
+                $this->backoff($attempt);
                 continue;
             }
             if (is_string($content) && '' === trim($content)) {
-                if (2 === $attempt) throw new \RuntimeException($errorPrefix.': EMPTY_RESPONSE');
+                if ($maximumAttempts === $attempt) throw new \RuntimeException($errorPrefix.': EMPTY_RESPONSE');
+                $this->backoff($attempt);
                 continue;
             }
             return $content;
         }
         throw new \RuntimeException($errorPrefix.': TRANSIENT_RETRY_EXHAUSTED');
+    }
+
+    private function backoff(int $attempt): void
+    {
+        usleep(100_000 * $attempt);
     }
 
     private function isTimeout(\Throwable $exception): bool
