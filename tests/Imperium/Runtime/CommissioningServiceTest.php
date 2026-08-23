@@ -37,6 +37,7 @@ final class CommissioningServiceTest extends TestCase
             self::assertSame(['guildhall', 'armory'], array_keys($result['commissions']));
             self::assertSame('ISSUED_PENDING_RECIPIENT', $result['commissions']['guildhall']['status']);
             self::assertSame('planning-only', $result['commissions']['armory']['phase']);
+            self::assertSame('armory.armorer', $result['commissions']['armory']['target']);
             self::assertFalse($result['execution_authority']);
             self::assertContains('persona construction', $result['commissions']['guildhall']['forbidden_effects']);
             self::assertSame('FUNCTIONAL_CAPABILITIES', $result['commissions']['guildhall']['source_language']);

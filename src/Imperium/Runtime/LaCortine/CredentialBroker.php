@@ -10,7 +10,7 @@ interface CredentialBroker
      * Issue an opaque, bounded capability for infrastructure use.
      *
      * Implementations must never return credential secret material. The
-     * credential reference identifies Locksmith custody; the returned object
+     * credential reference identifies Clavium custody; the returned object
      * only identifies the authority to cause the scoped authenticated action.
      */
     public function issue(

@@ -49,7 +49,7 @@ final class EnvironmentCredentialBroker implements CredentialBroker
 
         $secret = $_SERVER[$name] ?? $_ENV[$name] ?? getenv($name);
         if (!is_string($secret) || '' === $secret) {
-            throw new \RuntimeException('CREDENTIAL_UNAVAILABLE: Locksmith-referenced environment secret is unavailable.');
+            throw new \RuntimeException('CREDENTIAL_UNAVAILABLE: Clavium-referenced environment secret is unavailable.');
         }
 
         // Consume before provider execution so a failed external attempt cannot replay a one-use capability.

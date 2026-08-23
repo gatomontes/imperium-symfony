@@ -116,7 +116,7 @@ final class LaCortineRuntimeTest extends TestCase
     {
         $capability = new CredentialCapability(
             'cap-1',
-            'locksmith://email/provider-account',
+            'clavium://email/provider-account',
             'commission-1',
             'email.send',
             new \DateTimeImmutable('+1 minute'),
@@ -125,7 +125,7 @@ final class LaCortineRuntimeTest extends TestCase
         $metadata = $capability->metadata();
         self::assertArrayNotHasKey('secret', $metadata);
         self::assertArrayNotHasKey('token', $metadata);
-        self::assertSame('locksmith://email/provider-account', $metadata['credential_ref']);
+        self::assertSame('clavium://email/provider-account', $metadata['credential_ref']);
     }
 
     private function request(OutboundExecutionMode $mode, \DateTimeImmutable $now): OutboundRequest

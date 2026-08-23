@@ -18,7 +18,7 @@ The occupant may test conduct with synthetic tools, permissions, credentials, se
 
 ## Limits
 
-The Seat may not expose real assets, issue access, perform unauthorized remediation, replace Armory or Locksmith, vote, issue disposition, admit, or deploy.
+The Seat may not expose real assets, issue access, perform unauthorized remediation, replace Armory or Clavium, impersonate the Armorer or Locksmith, vote, issue disposition, admit, or deploy.
 
 ## Occupancy
 

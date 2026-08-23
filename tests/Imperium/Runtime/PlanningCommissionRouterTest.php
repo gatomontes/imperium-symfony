@@ -15,7 +15,7 @@ final class PlanningCommissionRouterTest extends TestCase
         $root = sys_get_temp_dir().'/imperium-router-'.bin2hex(random_bytes(6));
         $store = new ProceedingStore($root);
         $store->persist(['proceeding_id' => 'proceeding-router-test', 'instance_id' => 'instance-router-test']);
-        foreach (['guildhall' => 'guildhall.guildmaster', 'armory' => 'armory'] as $name => $target) {
+        foreach (['guildhall' => 'guildhall.guildmaster', 'armory' => 'armory.armorer'] as $name => $target) {
             $store->persistCommission('proceeding-router-test', 'planning-'.$name.'-12345678', [
                 'schema' => 'imperium.planning-commission/v1',
                 'phase' => 'planning-only',
@@ -32,6 +32,7 @@ final class PlanningCommissionRouterTest extends TestCase
             $result = $router->deliver('proceeding-router-test');
             self::assertSame($result, $router->deliver('proceeding-router-test'));
             self::assertSame(['armory', 'guildhall'], array_keys($result['deliveries']));
+            self::assertSame('armory.armorer', $result['deliveries']['armory']['target']);
             foreach ($result['deliveries'] as $delivery) {
                 self::assertSame('DELIVERED_PENDING_RECIPIENT', $delivery['status']);
                 self::assertNull($delivery['recipient_acceptance']);

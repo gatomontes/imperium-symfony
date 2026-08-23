@@ -97,12 +97,12 @@ A sortie's compromise must not create a path into trusted cognition or persisten
 
 Credentials are infrastructure secrets, not cognitive possessions.
 
-Locksmith retains credential custody and credential policy. An operative, Officer, Curia, Iron Gate, or sortie does not acquire ownership merely because an authenticated action is authorized.
+Clavium retains credential custody and credential policy through its Locksmith. An operative, Officer, Curia, Iron Gate, or sortie does not acquire ownership merely because an authenticated action is authorized.
 
 For an authorized external operation, Runtime should prefer one of these patterns in descending order of isolation:
 
-1. a boundary service uses the Locksmith-controlled credential on behalf of the caller without exposing the secret;
-2. Locksmith issues or brokers a short-lived, scoped capability bound to the exact commission; or
+1. a boundary service uses the Clavium-controlled credential on behalf of the caller without exposing the secret;
+2. Clavium, acting through its Locksmith, issues or brokers a short-lived, scoped capability bound to the exact commission; or
 3. where the provider offers no stronger mechanism, La Cortine injects the minimum required credential into the disposable execution environment for the shortest possible lifetime.
 
 Long-lived credentials must not be placed in prompts, mission artifacts, deliberation records, Persona/Profile artifacts, or returned payloads.

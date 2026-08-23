@@ -64,7 +64,7 @@ Valid approval of the exact Planning Charter produces a Planning Authorization r
 
 Resource-bearing planning may proceed only through exact, least-necessary planning commissions derived from that record. Each commission must satisfy the commission requirements below and must be labeled planning-only. It may investigate, retrieve evidence, or estimate execution requirements within its exact bounds; it may not perform, rehearse through real effects, or silently begin the proposed mission.
 
-Armory possession does not authorize tool use. Locksmith custody does not authorize credential release. Guildhall, Hagiography, or another Office's institutional jurisdiction does not authorize its participation in a particular planning proceeding. Each requires a valid derived planning commission and Runtime enforcement at the relevant boundary.
+Armory possession does not authorize tool use. Clavium custody does not authorize credential release. Guildhall, Hagiography, or another Office's institutional jurisdiction does not authorize its participation in a particular planning proceeding. Each requires a valid derived planning commission and Runtime enforcement at the relevant boundary.
 
 Any external planning operation must cross La Cortine through Iron Gate and return through Lazaretto. Internal cognition does not continue inside a sortie. No raw external payload may be delivered directly into Curia or another internal cognitive proceeding.
 
@@ -132,7 +132,7 @@ A sortie commission must bind the exact sortie manifestation identity once creat
 
 ## Credential-use rule
 
-A commission may authorize use of a credential without exposing or transferring the secret itself. Locksmith retains custody. La Cortine should prefer credential brokering or short-lived scoped capabilities; direct injection of long-lived secrets into cognition is prohibited.
+A commission may authorize use of a credential without exposing or transferring the secret itself. Clavium retains custody through its Locksmith. La Cortine should prefer credential brokering or short-lived scoped capabilities; direct injection of long-lived secrets into cognition is prohibited.
 
 An authenticated external API operation may still be a single external request. Internal credential retrieval, brokering, or attachment at the boundary does not create a second external authorization step unless the provider protocol itself requires one.
 

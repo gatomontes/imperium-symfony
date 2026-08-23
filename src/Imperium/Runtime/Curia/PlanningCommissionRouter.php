@@ -48,7 +48,7 @@ final readonly class PlanningCommissionRouter
 
             $office = match ($target) {
                 'guildhall.guildmaster' => 'guildhall',
-                'armory' => 'armory',
+                'armory.armorer' => 'armory',
                 default => throw new \RuntimeException('C53_DELIVERY_TARGET_CLOSED: no route exists for '.$target.'.'),
             };
             $deliveries[$office] = $this->persistEnvelope($office, $commissionId, [

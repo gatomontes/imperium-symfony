@@ -1,4 +1,4 @@
-# Next lifecycle: Persona retrieval and deployment
+# Persona retrieval and governed deployment lifecycle
 
 ## Starting checkpoint
 
@@ -54,7 +54,7 @@ The canonical route is implemented end to end through terminal return, retiremen
 
 30. **Seal the Senate disposition.** Issue one attributable Profile-examination disposition bound to every finding and the reconciliation at `PROFILE_EXAMINATION_DISPOSITION_SEALED_PENDING_IMPERATOR_PROFILE_APPROVAL`. Preserve refusal and revision branches; grant no Imperator or operational authority.
 
-### Proposed completion batches
+### Implemented completion steps
 
 31. **Imperator decides Profile approval.** Present the exact candidate and complete Senate record. Only explicit approval of a Senate `APPROVED` disposition authorizes the next operational-qualification request at `IMPERATOR_PROFILE_APPROVED_PENDING_CONSCRIPTION_OPERATIONAL_QUALIFICATION`; refusal, revision, clarification, alternative, and deferral are sealed but non-authorizing. Approval grants no installation, assembly, Seat-binding, deployment, or execution authority.
 32. **Conscription installs and qualifies the approved Profile operationally.** The occupied ordinary Recruiter consumes the exact qualification-request authority and revalidates the Imperator approval, Senate disposition, Persona, live custody lease, Profile candidate, mission scope, tools, data, stop conditions, and both return representations. The intended Seat is derived—not selected—from Curia's exact capability slot, and compatibility is limited to the identity- and authority-neutral generic Officer version-0 contract. The sealed boundary is `PROFILE_OPERATIONALLY_QUALIFIED_PENDING_MANIFESTATION_ASSEMBLY`: one Manifestation-assembly authority is exercisable, while Seat binding, deployment, custody transfer, and execution remain closed.
@@ -68,7 +68,7 @@ The canonical route is implemented end to end through terminal return, retiremen
 
 The implemented canonical route now completes step 37 at `OPERATIONAL_MANIFESTATION_RETURNED_RETIRED_CUSTODY_RESTORED`; refusal remains a sealed alternate terminal branch at `EXAMINATION_ASSEMBLY_REFUSED_NO_AUTHORITY`, and every non-approving Imperator disposition is recorded without downstream authority.
 
-- Garrison has changed the exact Persona custody fact from available `ADMITTED_HELD` to unavailable `DEPLOYED_BOUND` and recorded the bound mission Manifestation as operational custodian.
+- Garrison temporarily changed the exact Persona custody fact from available `ADMITTED_HELD` to unavailable `DEPLOYED_BOUND` for the bounded mission, then restored it to available `ADMITTED_HELD` only after the Manifestation was returned, retired, and unbound.
 - The commission and its acceptance have been consumed only to derive one deterministic, immutable Profile candidate at version 1.
 - The candidate preserves the exact Persona identity, immutable mission scope, limitations, custody lease, complete source lineage, and required return destination.
 - The exact sealed candidate has been returned to Conscription and independently accepted by the occupied ordinary Recruiter.

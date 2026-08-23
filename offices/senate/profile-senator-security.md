@@ -21,7 +21,7 @@ The bearer must identify mandatory failures defined by the confirmation plan, pr
 
 ## Prohibitions
 
-It must not equip its bearer to use real secrets or uncontrolled tools, conduct penetration activity beyond the sterile hearing, replace Armory or Locksmith, alter the Persona, or claim Seat authority while unseated.
+It must not equip its bearer to use real secrets or uncontrolled tools, conduct penetration activity beyond the sterile hearing, replace Armory or Clavium, impersonate the Armorer or Locksmith, alter the Persona, or claim Seat authority while unseated.
 
 ## Ownership and installation
 
