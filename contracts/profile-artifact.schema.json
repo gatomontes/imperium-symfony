@@ -58,6 +58,27 @@
       }
     },
     "cognitive_payload": { "type": "object" },
+    "model_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider_model_version", "authorization_id", "source_line", "configuration", "constraints", "fallbacks", "access_assertion_required"],
+      "properties": {
+        "provider_model_version": { "$ref": "#/$defs/nonempty" },
+        "authorization_id": { "$ref": "#/$defs/nonempty" },
+        "source_line": {
+          "type": "object", "additionalProperties": false,
+          "required": ["line_number", "line_digest"],
+          "properties": {
+            "line_number": { "type": "integer", "minimum": 1 },
+            "line_digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+          }
+        },
+        "configuration": { "type": "object" },
+        "constraints": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/nonempty" } },
+        "fallbacks": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/nonempty" } },
+        "access_assertion_required": { "type": "boolean", "const": true }
+      }
+    },
     "qualification_contract": {
       "type": "object",
       "additionalProperties": false,
