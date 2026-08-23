@@ -134,11 +134,12 @@ The occupied ordinary Recruiter then consumes that exact request authority, reva
 
 Conscription then consumes that exact assembly authority and combines the custody-bound Persona, qualified operational Profile, and generic Officer version-0 substrate without adding identity or operational authority. The result is sealed at `OPERATIONAL_MANIFESTATION_ASSEMBLED_PENDING_SEAT_BINDING` with one bounded Seat-binding authority. The Manifestation remains unbound and has no tool access, credentials, external-action, deployment, custody-transfer, operational-use, or execution authority.
 
+Conscription then consumes that exact binding authority and atomically occupies only the pre-derived mission Seat. The initial binding is occupancy generation 1 with no predecessor and no supersession authority. At `OPERATIONAL_MANIFESTATION_BOUND_PENDING_DEPLOYMENT_AUTHORIZATION`, the Manifestation is bound but still cannot operate: tools, credentials, external action, deployment, custody transfer, and execution remain closed.
+
 The downstream lifecycle is implemented through the sealed Senate disposition. The proposed remaining batches are, in order:
 
-1. Bind the exact Manifestation atomically to its intended Seat without granting deployment or execution.
-2. Authorize one bounded deployment and record the corresponding custody/availability transition.
-3. Execute one governed smoke iteration with attributable input, cognition or tooling, output, and stop.
-4. Return, retire, unbind, restore custody, or supersede deterministically while preserving lineage.
+1. Authorize one bounded deployment and record the corresponding custody/availability transition.
+2. Execute one governed smoke iteration with attributable input, cognition or tooling, output, and stop.
+3. Return, retire, unbind, restore custody, or supersede deterministically while preserving lineage.
 
 No downstream step may treat `ADMITTED_HELD`, inventory availability, retrieval, Profile derivation, qualification, manifestation assembly, or Seat binding as implicit authority for the next step.
