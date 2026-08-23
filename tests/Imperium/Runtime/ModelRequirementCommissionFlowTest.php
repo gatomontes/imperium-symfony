@@ -1,0 +1,44 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Tests\Imperium\Runtime;
+
+use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\Curia\ModelRequirementCommissionService;
+use App\Imperium\Runtime\Oracle\ModelRequirementCommissionAcceptanceService;
+use PHPUnit\Framework\TestCase;
+
+final class ModelRequirementCommissionFlowTest extends TestCase
+{
+    public function testCuriaIssuesExactCriteriaAndOracleAcceptsWithoutEvaluationOrSelection():void
+    {
+        $root=sys_get_temp_dir().'/imperium-model-requirement-'.bin2hex(random_bytes(6));$issued=new \DateTimeImmutable('2026-08-23T12:00:00+00:00');
+        try{
+            $snapshot=$this->snapshot();$seneschal=$this->seneschal();$augur=$this->augur();
+            $this->write($root.'/var/imperium/offices/oracle/model-intelligence-snapshots/'.$snapshot['snapshot_id'].'.json',$snapshot);$this->write($root.'/var/imperium/offices/curia/occupancy/'.$seneschal['binding_id'].'.json',$seneschal);$this->write($root.'/var/imperium/offices/oracle/occupancy/'.$augur['binding_id'].'.json',$augur);
+            $service=new ModelRequirementCommissionService($root);$commission=$service->issue($snapshot['snapshot_id'],$seneschal['binding_id'],$this->target(),$this->criteria(),$issued,$issued->modify('+1 day'));
+            self::assertSame($commission,$service->issue($snapshot['snapshot_id'],$seneschal['binding_id'],$this->target(),$this->criteria(),$issued,$issued->modify('+1 day')));self::assertSame('ISSUED_PENDING_ORACLE_ACCEPTANCE',$commission['status']);self::assertSame($snapshot['record_digest'],$commission['catalogue_snapshot']['digest']);self::assertArrayNotHasKey('preferred_model',$commission);self::assertSame('SILENT_SUBSTITUTION_PROHIBITED',$commission['criteria']['substitution_policy']);
+            $acceptance=(new ModelRequirementCommissionAcceptanceService($root))->accept($commission['commission_id'],$augur['binding_id'],$issued->modify('+1 minute'));
+            self::assertSame($acceptance,(new ModelRequirementCommissionAcceptanceService($root))->accept($commission['commission_id'],$augur['binding_id'],$issued->modify('+2 minutes')));
+            self::assertSame('CURIA_MODEL_REQUIREMENT_COMMISSION_ACCEPTED_PENDING_ORACLE_EVALUATION',$acceptance['status']);self::assertSame($commission['criteria'],$acceptance['criteria']);self::assertSame($commission['target'],$acceptance['target']);
+            foreach(['criteria_reinterpretation_authority','scope_expansion_authority','evaluation_authority','research_authority','recommendation_authority','selection_authority','model_assignment_authority','profile_mutation_authority','provider_invocation_authority','deployment_authority','execution_authority']as$a)self::assertFalse($acceptance[$a]);
+        }finally{$this->remove($root);}
+    }
+
+    public function testOracleRejectsAcceptanceWhenPinnedSnapshotChanges():void
+    {
+        $root=sys_get_temp_dir().'/imperium-model-requirement-invalid-'.bin2hex(random_bytes(6));$issued=new \DateTimeImmutable('2026-08-23T12:00:00+00:00');
+        try{$snapshot=$this->snapshot();$seneschal=$this->seneschal();$augur=$this->augur();$this->write($root.'/var/imperium/offices/oracle/model-intelligence-snapshots/'.$snapshot['snapshot_id'].'.json',$snapshot);$this->write($root.'/var/imperium/offices/curia/occupancy/'.$seneschal['binding_id'].'.json',$seneschal);$this->write($root.'/var/imperium/offices/oracle/occupancy/'.$augur['binding_id'].'.json',$augur);$commission=(new ModelRequirementCommissionService($root))->issue($snapshot['snapshot_id'],$seneschal['binding_id'],$this->target(),$this->criteria(),$issued,$issued->modify('+1 day'));$snapshot['models']['openai/gpt-test@2026-08-01']['admissibility']['status']='INADMISSIBLE';$snapshot=$this->digest($snapshot);$this->write($root.'/var/imperium/offices/oracle/model-intelligence-snapshots/'.$snapshot['snapshot_id'].'.json',$snapshot);
+            $this->expectException(\RuntimeException::class);$this->expectExceptionMessage('OR43_MODEL_REQUIREMENT_ACCEPTANCE_CHAIN_INVALID');(new ModelRequirementCommissionAcceptanceService($root))->accept($commission['commission_id'],$augur['binding_id'],$issued->modify('+1 minute'));
+        }finally{$this->remove($root);}
+    }
+
+    private function target():array{return['type'=>'OFFICE_SEAT','id'=>'foundry.artificer','mission_id'=>null];}
+    private function criteria():array{return['cognitive_task'=>'Construct attributable Persona artifacts.','required_capabilities'=>['structured-output','long-context'],'prohibited_capabilities'=>['autonomous-tool-use'],'required_tools'=>[],'minimum_context_tokens'=>64000,'data_classification'=>'INTERNAL','data_residency'=>'ANY_APPROVED_REGION','permitted_providers'=>['openai','anthropic'],'max_cost_per_million_tokens'=>25,'max_latency_ms'=>15000,'minimum_reliability'=>0.99,'fallback_policy'=>'Return to Curia if no candidate qualifies.','substitution_policy'=>'SILENT_SUBSTITUTION_PROHIBITED','evaluation_rubric'=>['capability-fit','reliability','cost','latency','risk'],'minimum_evidence_sources'=>2];}
+    private function snapshot():array{return$this->digest(['schema'=>'imperium.oracle-model-intelligence-snapshot/v1','snapshot_id'=>'oracle-model-intelligence-'.str_repeat('a',20),'snapshot_generation'=>1,'prior_snapshot'=>null,'instance_id'=>'imperium-test','steward'=>'oracle','actor'=>['office'=>'oracle','seat'=>'oracle.augur'],'models'=>['openai/gpt-test@2026-08-01'=>['admissibility'=>['status'=>'ADMISSIBLE']]],'classification_dimensions'=>['knowledge','accessibility','admissibility'],'status'=>'ORACLE_CANONICAL_CATALOGUE_SNAPSHOT_SEALED_NO_SELECTION_AUTHORITY','model_research_authority'=>false,'selection_authority'=>false]);}
+    private function seneschal():array{return$this->digest(['schema'=>'imperium.curia-seneschal-occupancy/v1','binding_id'=>'curia-seneschal-binding-'.str_repeat('b',20),'instance_id'=>'imperium-test','office'=>'curia','seat'=>'curia.seneschal','manifestation_id'=>'seneschal-manifestation','occupancy_generation'=>1,'status'=>'ACTIVE','model_requirement_commission_authority'=>true,'execution_authority'=>false]);}
+    private function augur():array{return$this->digest(['schema'=>'imperium.oracle-augur-occupancy/v1','binding_id'=>'oracle-augur-binding-'.str_repeat('c',20),'instance_id'=>'imperium-test','office'=>'oracle','seat'=>'oracle.augur','manifestation_id'=>'augur-manifestation','occupancy_generation'=>1,'status'=>'ORACLE_AUGUR_BOUND_ACTIVE_NO_MODEL_SELECTION_AUTHORITY','model_requirement_commission_acceptance_authority'=>true,'selection_authority'=>false]);}
+    private function digest(array$r):array{unset($r['record_digest']);$r['record_digest']=hash('sha256',CanonicalJson::encode($r));return$r;}private function write(string$p,array$r):void{if(!is_dir(dirname($p)))mkdir(dirname($p),0770,true);file_put_contents($p,json_encode($r,JSON_THROW_ON_ERROR));}
+    private function remove(string$p):void{if(!is_dir($p))return;foreach(array_diff(scandir($p)?:[],['.','..'])as$e){$c=$p.'/'.$e;is_dir($c)?$this->remove($c):unlink($c);}rmdir($p);}
+}

@@ -233,6 +233,7 @@ final readonly class ProfileElaborationSmokeService
             'instance_id'=>'imperium-profile-elaboration-smoke','office'=>'curia','seat'=>'curia.seneschal',
             'manifestation_id'=>'imperium-profile-elaboration-smoke.officer.curia.seneschal.1','occupancy_generation'=>1,
             'status'=>'ACTIVE','binding_atomic'=>true,'operational_deployment_authorization_authority'=>true,
+            'model_requirement_commission_authority'=>true,
             'bounded_execution_authorization_authority'=>true,
             'operational_return_authorization_authority'=>true,
             'persona_selection_authority'=>false,'custody_authority'=>false,'execution_authority'=>false,

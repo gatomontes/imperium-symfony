@@ -26,6 +26,7 @@ final class AugurResidentActivationServiceTest extends TestCase
             self::assertSame('ORACLE_AUGUR_BOUND_ACTIVE_NO_MODEL_SELECTION_AUTHORITY',$binding['status']);
             self::assertTrue($binding['binding_atomic']);self::assertSame(1,$binding['occupancy_generation']);
             self::assertTrue($binding['model_intelligence_stewardship_authority']);self::assertTrue($binding['catalogue_snapshot_authority']);
+            self::assertTrue($binding['model_requirement_commission_acceptance_authority']);
             foreach(['model_research_authority','recommendation_authority','selection_authority','self_selection_authority','model_assignment_authority','profile_mutation_authority','credential_disclosure_authority','provider_invocation_authority','deployment_authority','execution_authority']as$field)self::assertFalse($binding[$field]);
             self::assertSame('PROVISIONAL_FOUNDING_EXCEPTION',$assignment['assignment_class']);
             self::assertTrue($assignment['replacement_requires_governed_oracle_evaluation']);self::assertFalse($assignment['silent_substitution_permitted']);
