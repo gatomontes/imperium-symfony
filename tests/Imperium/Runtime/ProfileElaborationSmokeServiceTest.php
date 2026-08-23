@@ -128,6 +128,10 @@ final class ProfileElaborationSmokeServiceTest extends TestCase
             self::assertTrue($result['examination_manifestation']['examination_profile_installation_authority_consumed']);
             self::assertTrue($result['examination_manifestation']['examination_assembly_authority_consumed']);
             self::assertSame(0, $result['examination_manifestation']['manifestation']['substrate']['version']);
+            self::assertSame($result['candidate']['profile'], $result['examination_manifestation']['manifestation']['profile']['candidate_content']);
+            self::assertSame($result['candidate']['profile_scope'], $result['examination_manifestation']['manifestation']['profile']['candidate_scope']);
+            self::assertSame($result['candidate']['record_digest'], $result['examination_manifestation']['manifestation']['profile']['candidate_digest']);
+            self::assertSame('EXAMINATION_ONLY', $result['examination_manifestation']['manifestation']['profile']['installation_class']);
             self::assertFalse($result['examination_manifestation']['manifestation']['operational_use_permitted']);
             self::assertNull($result['examination_manifestation']['recipient_acceptance']);
             self::assertFalse($result['examination_manifestation']['senate_examination_authority']);
