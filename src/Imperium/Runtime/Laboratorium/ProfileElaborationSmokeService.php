@@ -18,9 +18,12 @@ use App\Imperium\Runtime\Curia\ProceedingStore;
 use App\Imperium\Runtime\Curia\ProfileDerivationAuthorizationDecisionService;
 use App\Imperium\Runtime\Curia\ProfileDerivationAuthorizationRequestService;
 use App\Imperium\Runtime\Curia\OperationalDeploymentAuthorizationService;
+use App\Imperium\Runtime\Curia\BoundedExecutionAuthorizationService;
 use App\Imperium\Runtime\Imperator\ProfileApprovalDecisionService;
 use App\Imperium\Runtime\Garrison\ProfileDerivationHandoffDispositionService;
 use App\Imperium\Runtime\Garrison\OperationalCustodyTransitionService;
+use App\Imperium\Runtime\Mission\OperationalExecutionCognitionGateway;
+use App\Imperium\Runtime\Mission\BoundedOperationalExecutionService;
 use App\Imperium\Runtime\Senate\ExaminationAssemblyAuthorizationDispositionService;
 use App\Imperium\Runtime\Senate\ExaminationManifestationStandAdmissionService;
 use App\Imperium\Runtime\Senate\ProfileExaminationOpeningService;
@@ -49,6 +52,7 @@ final readonly class ProfileElaborationSmokeService
         private ProfileExaminationFindingCognitionGateway $findingCognition,
         private ProfileExaminationReconciliationCognitionGateway $reconciliationCognition,
         private ProfileExaminationDispositionCognitionGateway $dispositionCognition,
+        private OperationalExecutionCognitionGateway $operationalExecutionCognition,
     ) {}
 
     public function run(string $root, string $senateDisposition = 'ACCEPTED'): array
@@ -181,8 +185,10 @@ final readonly class ProfileElaborationSmokeService
         $operationalSeatBinding=is_array($operationalManifestation)?(new OperationalManifestationSeatBindingService($root,$bootstrap))->bind($operationalManifestation['assembly_id']):null;
         $deploymentAuthorization=is_array($operationalSeatBinding)?(new OperationalDeploymentAuthorizationService($root))->authorize($operationalSeatBinding['binding_id'],$seneschal['binding_id'],['objective'=>'Perform one passive assessment of the supplied public target.','input_contract'=>'One explicitly supplied public URL.','output_contract'=>'One attributable evidence-bound assessment.','stop_condition'=>'Stop before authentication, active scanning, external action, or any undeclared input.']):null;
         $operationalCustodyTransition=is_array($deploymentAuthorization)?(new OperationalCustodyTransitionService($root))->transition($deploymentAuthorization['authorization_id'],$constable['binding_id']):null;
+        $boundedExecutionAuthorization=is_array($operationalCustodyTransition)?(new BoundedExecutionAuthorizationService($root))->authorize($operationalCustodyTransition['transition_id'],$seneschal['binding_id'],['target_url'=>'https://example.test/public-app']):null;
+        $boundedExecution=is_array($boundedExecutionAuthorization)?(new BoundedOperationalExecutionService($root,$this->operationalExecutionCognition))->execute($boundedExecutionAuthorization['authorization_id']):null;
 
-        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return, 'return_acceptance' => $returnAcceptance, 'examination_assembly_request' => $assemblyRequest, 'examination_assembly_authorization' => $assemblyAuthorization, 'examination_manifestation' => $examinationManifestation, 'stand_admission' => $standAdmission, 'examination_opening' => $examinationOpening,'panel_acceptances'=>$panelAcceptances,'panel_readiness'=>$panelReadiness,'testimony_opening'=>$testimonyOpening,'examination_questions'=>$examinationQuestions,'profile_testimony_turns'=>$testimonyTurns,'profile_testimony_readiness'=>$testimonyReadiness,'finding_authority_opening'=>$findingAuthorityOpening,'senator_findings'=>$senatorFindings,'finding_readiness'=>$findingReadiness,'deliberation_opening'=>$deliberationOpening,'reconciliation'=>$reconciliation,'disposition_authority_opening'=>$dispositionAuthorityOpening,'profile_disposition'=>$profileDisposition,'profile_approval'=>$profileApproval,'operational_qualification'=>$operationalQualification,'operational_manifestation'=>$operationalManifestation,'operational_seat_binding'=>$operationalSeatBinding,'deployment_authorization'=>$deploymentAuthorization,'operational_custody_transition'=>$operationalCustodyTransition];
+        return ['state_root' => $root, 'acceptance' => $acceptance, 'candidate' => $candidate, 'return' => $return, 'return_acceptance' => $returnAcceptance, 'examination_assembly_request' => $assemblyRequest, 'examination_assembly_authorization' => $assemblyAuthorization, 'examination_manifestation' => $examinationManifestation, 'stand_admission' => $standAdmission, 'examination_opening' => $examinationOpening,'panel_acceptances'=>$panelAcceptances,'panel_readiness'=>$panelReadiness,'testimony_opening'=>$testimonyOpening,'examination_questions'=>$examinationQuestions,'profile_testimony_turns'=>$testimonyTurns,'profile_testimony_readiness'=>$testimonyReadiness,'finding_authority_opening'=>$findingAuthorityOpening,'senator_findings'=>$senatorFindings,'finding_readiness'=>$findingReadiness,'deliberation_opening'=>$deliberationOpening,'reconciliation'=>$reconciliation,'disposition_authority_opening'=>$dispositionAuthorityOpening,'profile_disposition'=>$profileDisposition,'profile_approval'=>$profileApproval,'operational_qualification'=>$operationalQualification,'operational_manifestation'=>$operationalManifestation,'operational_seat_binding'=>$operationalSeatBinding,'deployment_authorization'=>$deploymentAuthorization,'operational_custody_transition'=>$operationalCustodyTransition,'bounded_execution_authorization'=>$boundedExecutionAuthorization,'bounded_execution'=>$boundedExecution];
     }
 
     private function missionPlan(): array
@@ -222,6 +228,7 @@ final readonly class ProfileElaborationSmokeService
             'instance_id'=>'imperium-profile-elaboration-smoke','office'=>'curia','seat'=>'curia.seneschal',
             'manifestation_id'=>'imperium-profile-elaboration-smoke.officer.curia.seneschal.1','occupancy_generation'=>1,
             'status'=>'ACTIVE','binding_atomic'=>true,'operational_deployment_authorization_authority'=>true,
+            'bounded_execution_authorization_authority'=>true,
             'persona_selection_authority'=>false,'custody_authority'=>false,'execution_authority'=>false,
         ]);
     }
