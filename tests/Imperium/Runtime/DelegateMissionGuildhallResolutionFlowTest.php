@@ -40,12 +40,15 @@ use App\Imperium\Runtime\Senate\DelegateMissionUsabilityQuestionDispatchService;
 use App\Imperium\Runtime\Senate\DelegateMissionUsabilityTestimonyResponseService;
 use App\Imperium\Runtime\Senate\DelegateMissionFindingAuthorityOpeningService;
 use App\Imperium\Runtime\Senate\DelegateMissionSenatorFindingService;
+use App\Imperium\Runtime\Senate\DelegateMissionDeliberationOpeningService;
+use App\Imperium\Runtime\Senate\DelegateMissionFindingReconciliationService;
 use App\Imperium\Runtime\Senate\DelegateMissionTrustQuestionAuthorshipService;
 use App\Imperium\Runtime\Senate\DelegateMissionTrustQuestionDispatchAuthorizationService;
 use App\Imperium\Runtime\Senate\DelegateMissionTrustQuestionDispatchService;
 use App\Imperium\Runtime\Senate\DelegateMissionTrustTestimonyResponseService;
 use App\Imperium\Runtime\Senate\ProfileExaminationQuestionCognitionGateway;
 use App\Imperium\Runtime\Senate\ProfileExaminationFindingCognitionGateway;
+use App\Imperium\Runtime\Senate\ProfileExaminationReconciliationCognitionGateway;
 use App\Imperium\Runtime\Senate\ProfileExaminationTestimonyCognitionGateway;
 use PHPUnit\Framework\TestCase;
 
@@ -1201,6 +1204,62 @@ final class DelegateMissionGuildhallResolutionFlowTest extends TestCase
         }
     }
 
+    public function testDelegateDeliberationReconcilesWithoutDispositionAuthority(): void
+    {
+        [$root, $readiness] = $this->delegateFindingReadinessFixture();
+        try {
+            $opening = (new DelegateMissionDeliberationOpeningService($root))->open($readiness['readiness_id'], 'senate-lord-speaker-binding-'.str_repeat('4', 20), new \DateTimeImmutable('2026-08-26T11:00:00+00:00'));
+            self::assertSame('DELEGATE_MISSION_DELIBERATION_OPENED_PENDING_FINDING_RECONCILIATION', $opening['status']);
+            self::assertCount(3, $opening['admitted_findings']);
+            self::assertTrue($opening['mandatory_security_blocking_condition']);
+            self::assertTrue($opening['reconciliation_authority']['authority_exercisable']);
+            self::assertFalse($opening['reconciliation_authority']['voting_included']);
+            self::assertFalse($opening['senate_disposition_authority']);
+
+            $cognition = new class implements ProfileExaminationReconciliationCognitionGateway {
+                public function reconcile(array $authority, array $findings): array
+                {
+                    return [
+                        'agreements' => ['All findings address the same sealed Delegate candidate.'],
+                        'attribution_treatment' => ['Preserve the Security attribution to profile_elaboration.'],
+                        'disagreements' => ['Trust and Usability pass while Security fails.'],
+                        'finding_references' => $authority['available_finding_references'],
+                        'limitations' => ['No operational trial was permitted.'],
+                        'mandatory_security_blocking_condition_preserved' => $authority['mandatory_security_blocking_condition'],
+                        'rationale' => 'The independent findings are reconciled without voting or averaging away the Security block.',
+                        'severity_treatment' => ['Preserve the Security HIGH severity unchanged.'],
+                        'uncertainties' => [],
+                    ];
+                }
+            };
+            $result = (new DelegateMissionFindingReconciliationService($root, $cognition))->reconcile($opening['deliberation_id'], 'senate-lord-speaker-binding-'.str_repeat('4', 20), new \DateTimeImmutable('2026-08-26T12:00:00+00:00'));
+            self::assertSame('DELEGATE_MISSION_FINDINGS_RECONCILED_PENDING_DISPOSITION_AUTHORITY_OPENING', $result['status']);
+            self::assertTrue($result['mandatory_security_blocking_condition']);
+            self::assertTrue($result['reconciliation']['mandatory_security_blocking_condition_preserved']);
+            self::assertTrue($result['disposition_phase_opening_authority']['authority_exercisable']);
+            foreach (['vote_authority', 'aggregation_authority', 'senate_disposition_authority', 'profile_approval_authority', 'profile_installation_authority', 'mission_seat_binding_authority', 'deployment_authority', 'execution_authority'] as $field) self::assertFalse($result[$field], $field.' must remain false');
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    private function delegateFindingReadinessFixture(): array
+    {
+        [$root, $usabilityTurn, $bindings] = $this->usabilityTestimonyTurnFixture();
+        $opening = (new DelegateMissionFindingAuthorityOpeningService($root))->open($usabilityTurn['turn_id'], 'senate-lord-speaker-binding-'.str_repeat('4', 20), new \DateTimeImmutable());
+        $cognition = new class implements ProfileExaminationFindingCognitionGateway {
+            public function find(string $jurisdiction, array $authority, array $evidence): array
+            {
+                $blocking = 'security' === $jurisdiction;
+                return ['disposition' => $blocking ? 'FAIL' : 'PASS', 'attributed_defect' => $blocking ? 'profile_elaboration' : null, 'evidence_references' => $evidence['available_evidence_references'], 'rationale' => $blocking ? 'Security failure.' : 'Pass.', 'severity' => $blocking ? 'HIGH' : 'NONE', 'limitations' => [], 'uncertainty' => []];
+            }
+        };
+        $service = new DelegateMissionSenatorFindingService($root, $cognition); $readiness = null;
+        foreach (['trust', 'security', 'usability'] as $jurisdiction) $readiness = $service->issue($opening['opening_id'], $jurisdiction, $bindings[$jurisdiction], new \DateTimeImmutable())['readiness'] ?? $readiness;
+
+        return [$root, $readiness];
+    }
+
     private function usabilityTestimonyTurnFixture(): array
     {
         [$root, $commission, $usabilityBindingId] = $this->usabilityQuestionCommissionFixture();
@@ -1432,6 +1491,7 @@ final class DelegateMissionGuildhallResolutionFlowTest extends TestCase
             'delegate_first_question_commission_issuance_authority' => true,
             'delegate_subsequent_question_commission_issuance_authority' => true,
             'delegate_finding_phase_opening_authority' => true,
+            'delegate_deliberation_opening_authority' => true,
             'delegate_question_dispatch_authorization_disposition_authority' => true,
             'execution_authority' => false,
             'sealed' => true,
