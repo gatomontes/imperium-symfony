@@ -32,6 +32,12 @@ use App\Imperium\Runtime\Senate\DelegateMissionSecurityQuestionAuthorshipService
 use App\Imperium\Runtime\Senate\DelegateMissionSecurityQuestionDispatchAuthorizationService;
 use App\Imperium\Runtime\Senate\DelegateMissionSecurityQuestionDispatchService;
 use App\Imperium\Runtime\Senate\DelegateMissionSecurityTestimonyResponseService;
+use App\Imperium\Runtime\Senate\DelegateMissionUsabilityQuestionCommissionIssuanceService;
+use App\Imperium\Runtime\Senate\DelegateMissionUsabilityQuestionCommissionDispositionService;
+use App\Imperium\Runtime\Senate\DelegateMissionUsabilityQuestionAuthorshipService;
+use App\Imperium\Runtime\Senate\DelegateMissionUsabilityQuestionDispatchAuthorizationService;
+use App\Imperium\Runtime\Senate\DelegateMissionUsabilityQuestionDispatchService;
+use App\Imperium\Runtime\Senate\DelegateMissionUsabilityTestimonyResponseService;
 use App\Imperium\Runtime\Senate\DelegateMissionTrustQuestionAuthorshipService;
 use App\Imperium\Runtime\Senate\DelegateMissionTrustQuestionDispatchAuthorizationService;
 use App\Imperium\Runtime\Senate\DelegateMissionTrustQuestionDispatchService;
@@ -1086,6 +1092,105 @@ final class DelegateMissionGuildhallResolutionFlowTest extends TestCase
         } finally {
             $this->remove($root);
         }
+    }
+
+    public function testUsabilityQuestionLegEndsAtThreeJurisdictionTestimonyReadiness(): void
+    {
+        [$root, $commission, $usabilitySenatorBindingId] = $this->usabilityQuestionCommissionFixture();
+        try {
+            $disposition = (new DelegateMissionUsabilityQuestionCommissionDispositionService($root))->decide($commission['commission_id'], $usabilitySenatorBindingId, 'ACCEPTED', 'Accept exact bounded usability question commission.', new \DateTimeImmutable('2026-08-26T02:00:00+00:00'));
+            self::assertSame('DELEGATE_MISSION_USABILITY_QUESTION_COMMISSION_ACCEPTED_PENDING_USABILITY_QUESTION_AUTHORSHIP', $disposition['status']);
+            self::assertTrue($disposition['question_authorship_authority']['authority_exercisable']);
+
+            $questionCognition = new class implements ProfileExaminationQuestionCognitionGateway {
+                public function authorQuestion(string $jurisdiction, array $commission, array $opening): array
+                {
+                    return ['purpose' => 'Examine exact usability boundaries.', 'question' => 'How will you produce a useful result without obscuring uncertainty or exceeding the requested output contract?'];
+                }
+            };
+            $question = (new DelegateMissionUsabilityQuestionAuthorshipService($root, $questionCognition))->author($disposition['disposition_id'], $usabilitySenatorBindingId, new \DateTimeImmutable('2026-08-26T03:00:00+00:00'));
+            self::assertSame('DELEGATE_MISSION_USABILITY_QUESTION_AUTHORED_SEALED_PENDING_DISPATCH_AUTHORIZATION', $question['status']);
+            self::assertSame(3, $question['question_sequence']);
+
+            $decision = (new DelegateMissionUsabilityQuestionDispatchAuthorizationService($root))->decide($question['question_id'], 'senate-lord-speaker-binding-'.str_repeat('4', 20), 'AUTHORIZED', 'Authorize exact unchanged usability question.', new \DateTimeImmutable('2026-08-26T04:00:00+00:00'));
+            self::assertSame('DELEGATE_MISSION_USABILITY_QUESTION_DISPATCH_AUTHORIZED_PENDING_BAILIFF_DISPATCH', $decision['status']);
+
+            $dispatch = (new DelegateMissionUsabilityQuestionDispatchService($root))->dispatch($decision['decision_id'], 'senate-bailiff-binding-'.str_repeat('3', 20), new \DateTimeImmutable('2026-08-26T05:00:00+00:00'));
+            self::assertSame('DELEGATE_MISSION_USABILITY_QUESTION_DISPATCHED_UNCHANGED_PENDING_TESTIMONY_RESPONSE', $dispatch['status']);
+            self::assertTrue($dispatch['question_dispatched_unchanged']);
+
+            $testimonyCognition = new class implements ProfileExaminationTestimonyCognitionGateway {
+                public function answer(array $question, array $manifestation): array
+                {
+                    return ['answer' => 'I follow the sealed output contract, disclose uncertainty, and return without improvising absent inputs.', 'evidence_claims' => ['The Profile requires evidence-backed reporting.'], 'refusals' => ['I refuse to hide uncertainty for apparent completeness.'], 'uncertainties' => ['Usefulness depends on the approved inputs being available.']];
+                }
+            };
+            $turn = (new DelegateMissionUsabilityTestimonyResponseService($root, $testimonyCognition))->respond($dispatch['dispatch_id'], new \DateTimeImmutable('2026-08-26T06:00:00+00:00'));
+            self::assertSame('DELEGATE_MISSION_USABILITY_TESTIMONY_RESPONSE_SEALED_PENDING_FINDING_AUTHORITY_OPENING', $turn['status']);
+            self::assertSame(['trust', 'security', 'usability'], $turn['testimony_readiness']['jurisdictions']);
+            self::assertTrue($turn['testimony_readiness']['all_questions_dispatched_unchanged']);
+            self::assertTrue($turn['testimony_readiness']['all_responses_sealed']);
+            self::assertFalse($turn['testimony_readiness']['finding_authored']);
+            self::assertTrue($turn['finding_phase_opening_authority']['authority_exercisable']);
+            self::assertFalse($turn['finding_phase_opening_authority']['consumed']);
+            self::assertFalse($turn['next_question_commission_authority']);
+            foreach (['findings_authority', 'deliberation_authority', 'profile_approval_authority', 'profile_activation_authority', 'profile_installation_authority', 'mission_seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'mission_plan_amendment_authority', 'follow_up_commission_authority', 'continuing_turn_authority'] as $field) self::assertFalse($turn[$field], $field.' must remain false');
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testUsabilitySenatorRefusalOpensNoQuestionAuthority(): void
+    {
+        [$root, $commission, $usabilitySenatorBindingId] = $this->usabilityQuestionCommissionFixture();
+        try {
+            $disposition = (new DelegateMissionUsabilityQuestionCommissionDispositionService($root))->decide($commission['commission_id'], $usabilitySenatorBindingId, 'REFUSED', 'Refuse exact commission.', new \DateTimeImmutable());
+            self::assertSame('DELEGATE_MISSION_USABILITY_QUESTION_COMMISSION_REFUSED_NO_QUESTION_AUTHORITY', $disposition['status']);
+            self::assertNull($disposition['question_authorship_authority']);
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    private function usabilityQuestionCommissionFixture(): array
+    {
+        [$root, $securityTurn] = $this->securityTestimonyTurnFixture();
+        $usabilitySenatorBindingId = 'senate-committee-usability-binding-'.str_repeat('9', 20);
+        $this->write($root.'/var/imperium/offices/senate/occupancy/'.$usabilitySenatorBindingId.'.json', $this->record([
+            'schema' => 'imperium.senate-committee-occupancy/v1', 'binding_id' => $usabilitySenatorBindingId,
+            'instance_id' => 'imperium-test', 'office' => 'senate', 'seat' => 'senate.committee.usability',
+            'officer_class' => 'LEGATE', 'manifestation_id' => 'manifestation-usability-senator', 'occupancy_generation' => 1,
+            'status' => 'ACTIVE', 'binding_atomic' => true,
+            'delegate_question_commission_acceptance_disposition_authority' => true,
+            'senator_question_authority' => true, 'execution_authority' => false, 'sealed' => true,
+        ]));
+        $commission = (new DelegateMissionUsabilityQuestionCommissionIssuanceService($root))->issue($securityTurn['turn_id'], 'senate-lord-speaker-binding-'.str_repeat('4', 20), $usabilitySenatorBindingId, new \DateTimeImmutable());
+
+        return [$root, $commission, $usabilitySenatorBindingId];
+    }
+
+    private function securityTestimonyTurnFixture(): array
+    {
+        [$root, $commission, $securitySenatorBindingId] = $this->securityQuestionCommissionFixture();
+        $disposition = (new DelegateMissionSecurityQuestionCommissionDispositionService($root))->decide($commission['commission_id'], $securitySenatorBindingId, 'ACCEPTED', 'Accept exact bounded security question commission.', new \DateTimeImmutable());
+        $questionCognition = new class implements ProfileExaminationQuestionCognitionGateway {
+            public function authorQuestion(string $jurisdiction, array $commission, array $opening): array
+            {
+                return ['purpose' => 'Examine security.', 'question' => 'How will you preserve protected capability boundaries?'];
+            }
+        };
+        $question = (new DelegateMissionSecurityQuestionAuthorshipService($root, $questionCognition))->author($disposition['disposition_id'], $securitySenatorBindingId, new \DateTimeImmutable());
+        $decision = (new DelegateMissionSecurityQuestionDispatchAuthorizationService($root))->decide($question['question_id'], 'senate-lord-speaker-binding-'.str_repeat('4', 20), 'AUTHORIZED', 'Authorize.', new \DateTimeImmutable());
+        $dispatch = (new DelegateMissionSecurityQuestionDispatchService($root))->dispatch($decision['decision_id'], 'senate-bailiff-binding-'.str_repeat('3', 20), new \DateTimeImmutable());
+        $testimonyCognition = new class implements ProfileExaminationTestimonyCognitionGateway {
+            public function answer(array $question, array $manifestation): array
+            {
+                return ['answer' => 'I stop without exact protected capability authority.', 'evidence_claims' => [], 'refusals' => [], 'uncertainties' => []];
+            }
+        };
+        $turn = (new DelegateMissionSecurityTestimonyResponseService($root, $testimonyCognition))->respond($dispatch['dispatch_id'], new \DateTimeImmutable());
+
+        return [$root, $turn];
     }
 
     private function securityQuestionCommissionFixture(): array
