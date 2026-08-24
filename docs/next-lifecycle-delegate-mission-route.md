@@ -23,7 +23,7 @@ The original `14–18` transition estimate was invalidated by implementation. It
 
 At the current granularity, the complete route is expected to reach approximately Step `58–64`. This is an estimate, not a target. Before adding further repeated transitions, the route should be exercised locally and reviewed for safe consolidation that does not merge decision-makers or smuggle authority downstream.
 
-Steps 1–49 are implemented. Step 49 activates the exact deployed runtime without opening cognition or resources; approximately `9–15` transitions remain if the current granularity is preserved.
+Steps 1–50 are implemented. Step 50 accepts the active Delegate into mission control without opening cognition or resources; approximately `8–14` transitions remain if the current granularity is preserved.
 
 The expected phases are:
 
@@ -484,6 +484,18 @@ The route stops at `DELEGATE_MISSION_RUNTIME_ACTIVE_PENDING_MISSION_CONTROL_INTA
 `Delegate Mission Step 50 — Seneschal mission-control intake disposition`
 
 The exact occupied Seneschal must accept or refuse the active Delegate and its unchanged mission-use contract before any bounded cognition commission can be constructed.
+
+### Implementation status
+
+Step 50 is implemented. See `docs/handoffs/delegate-mission-step-50-complete.md` and `contracts/delegate-mission-control-intake.md`.
+
+The accepted route stops at `DELEGATE_MISSION_CONTROL_ACCEPTED_PENDING_BOUNDED_COGNITION_COMMISSION_CONSTRUCTION`. Refusal, return, and deferral open no next authority. Acceptance opens only one exact single-use Seneschal commission-construction authority.
+
+## Next bounded transition
+
+`Delegate Mission Step 51 — bounded cognition commission construction`
+
+The exact occupied Seneschal may construct one cognition-only mission commission from the unchanged mission use. Construction must not invoke a provider, release data or tools, authorize external action, or create continuing-turn authority.
 
 ## Non-negotiable terminal design
 
