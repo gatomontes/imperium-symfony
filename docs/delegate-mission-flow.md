@@ -9,7 +9,7 @@
 
 Curia states mission capabilities but never chooses a profession or Persona. Guildhall resolves profession and Persona suitability. Garrison owns custody and availability facts. Conscription assembles and qualifies but does not select personnel. Imperator decides protected personnel, Profile, deployment, resource, perimeter, and action commitments.
 
-## Implemented flow through Step 43
+## Implemented flow through Step 46
 
 ### Demand and personnel resolution
 
@@ -81,19 +81,23 @@ Curia states mission capabilities but never chooses a profession or Persona. Gui
 
 43. Imperator independently approves or records a non-approving disposition. Approval opens only one exact Conscription operational-qualification request.
 
+### Operational construction
+
+44. Conscription qualifies and installs the exact approved operational Profile.
+45. Conscription assembles one operational Delegate Manifestation on generic Officer v0.
+46. Conscription atomically binds it to the immutable mission Seat while leaving it inert.
+
 ## Current checkpoint
 
-`DELEGATE_MISSION_PROFILE_APPROVED_PENDING_CONSCRIPTION_OPERATIONAL_QUALIFICATION`
+`DELEGATE_MISSION_MANIFESTATION_BOUND_PENDING_DEPLOYMENT_AUTHORIZATION`
 
-The exact approved route carries one single-use operational-qualification request to Conscription. The Profile is not yet qualified or installed. Manifestation assembly, mission Seat binding, custody transfer, deployment, resource, perimeter, external-action, execution, Mission Plan amendment, follow-up commission, and continuing-turn authority remain closed. Any non-approving Imperator disposition opens nothing.
+The exact Delegate Manifestation is bound at generation 1 but remains inert. Garrison custody remains `ADMITTED_HELD`; deployment, custody transfer, operational use, provider invocation, data, tools, credentials, perimeter crossing, external action, execution, Mission Plan amendment, follow-up commission, and continuing-turn authority remain closed.
 
 ## Expected remaining phases
 
-1. operational qualification;
-2. operational Delegate assembly and exact mission Seat binding;
-3. deployment authorization and Garrison custody transition;
-4. bounded mission cognition and separately authorized resources/actions;
-5. result delivery and mission disposition;
-6. return, Seat unbinding, credential revocation, custody restoration, and Delegate termination.
+1. deployment authorization and Garrison custody transition;
+2. bounded mission cognition and separately authorized resources/actions;
+3. result delivery and mission disposition;
+4. return, Seat unbinding, credential revocation, custody restoration, and Delegate termination.
 
 The route is not operational merely because examination testimony exists. Every operational authority remains separately gated.
