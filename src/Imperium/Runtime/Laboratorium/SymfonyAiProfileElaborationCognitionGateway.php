@@ -22,8 +22,8 @@ final readonly class SymfonyAiProfileElaborationCognitionGateway implements Prof
     public function elaborate(array $acceptance, array $authorization): array
     {
         $prompt = implode("\n", [
-            'Exact accepted Profile-derivation commission: '.$this->encode($acceptance),
-            'Exact Imperator authorization and limitations: '.$this->encode($authorization),
+            'Exact accepted Profile-derivation authority or disposition: '.$this->encode($acceptance),
+            'Exact governing commission and authorization context: '.$this->encode($authorization),
             'Elaborate only the mission-specific cognitive Profile content for the exact Persona and immutable Profile scope supplied above.',
             'Adapt the Persona to the mission without changing identity, profession, scope, constraints, stop conditions, authority, custody, tools, data access, or return destination.',
             'Do not version, seal, approve, install, assemble, examine, spawn, bind, deploy, execute, use tools, or claim that any of those actions occurred.',

@@ -1,0 +1,1130 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Tests\Imperium\Runtime;
+
+use App\Bootstrap\CanonicalJson;
+use App\Bootstrap\StateStore;
+use App\Imperium\Runtime\Conscription\DelegateMissionProfileDerivationCommissionRequestService;
+use App\Imperium\Runtime\Conscription\DelegateMissionProfileCandidateIntakeDispositionService;
+use App\Imperium\Runtime\Conscription\DelegateMissionExaminationPreparationHandoffService;
+use App\Imperium\Runtime\Conscription\DelegateMissionExaminationManifestationAssemblyService;
+use App\Imperium\Runtime\Curia\DelegateMissionProfileScopeAuthorizationRequestService;
+use App\Imperium\Runtime\Curia\DelegateMissionPersonnelUseRequestService;
+use App\Imperium\Runtime\Guildhall\DelegateMissionCapabilityDemandIntakeService;
+use App\Imperium\Runtime\Guildhall\DelegateMissionPersonnelUseAcceptanceService;
+use App\Imperium\Runtime\Guildhall\DelegateMissionPersonnelResolutionService;
+use App\Imperium\Runtime\Garrison\DelegateMissionPersonaReservationDispositionService;
+use App\Imperium\Runtime\Imperator\DelegateMissionProfileScopeDecisionService;
+use App\Imperium\Runtime\Imperator\DelegateMissionPersonnelUseDecisionService;
+use App\Imperium\Runtime\Laboratorium\DelegateMissionProfileDerivationCommissionDispositionService;
+use App\Imperium\Runtime\Laboratorium\DelegateMissionProfileCandidateDerivationReturnService;
+use App\Imperium\Runtime\Laboratorium\ProfileElaborationCognitionGateway;
+use App\Imperium\Runtime\Senate\DelegateMissionExaminationPreparationIntakeDispositionService;
+use App\Imperium\Runtime\Senate\DelegateMissionExaminationStandAdmissionDispositionService;
+use App\Imperium\Runtime\Senate\DelegateMissionProfileExaminationOpeningService;
+use PHPUnit\Framework\TestCase;
+
+final class DelegateMissionGuildhallResolutionFlowTest extends TestCase
+{
+    public function testGuildmasterAcceptsExactDemandWithoutYetResolvingPersonnel(): void
+    {
+        [$root, $demandId, $bindingId] = $this->fixtures();
+        try {
+            $service = new DelegateMissionCapabilityDemandIntakeService($root);
+            $intake = $service->decide($demandId, $bindingId, 'ACCEPTED', 'Guildhall accepts the exact functional demand.', new \DateTimeImmutable('2026-08-24T02:00:00+00:00'));
+
+            self::assertSame('DELEGATE_MISSION_CAPABILITY_DEMAND_ACCEPTED_PENDING_PROFESSION_AND_PERSONA_SUITABILITY_RESOLUTION', $intake['status']);
+            self::assertSame('LEGATE', $intake['actor']['officer_class']);
+            self::assertSame('DELEGATE', $intake['officer_class']);
+            self::assertTrue($intake['demand_accepted']);
+            self::assertTrue($intake['personnel_resolution_authority']['authority_exercisable']);
+            self::assertFalse($intake['personnel_resolution_authority']['consumed']);
+            foreach (['profession_determined', 'persona_selected', 'persona_suitability_determined', 'personnel_use_authority', 'reservation_authority', 'retrieval_authority', 'custody_transfer_authority', 'profile_derivation_authority', 'manifestation_assembly_authority', 'seat_binding_authority', 'deployment_authority', 'cognition_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'continuing_turn_authority'] as $field) {
+                self::assertFalse($intake[$field], $field.' must remain false');
+            }
+            self::assertSame($intake, $service->decide($demandId, $bindingId, 'ACCEPTED', 'Guildhall accepts the exact functional demand.', new \DateTimeImmutable('2026-08-24T03:00:00+00:00')));
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testRefusalClosesExactDemandWithoutResolutionAuthority(): void
+    {
+        [$root, $demandId, $bindingId] = $this->fixtures();
+        try {
+            $intake = (new DelegateMissionCapabilityDemandIntakeService($root))->decide($demandId, $bindingId, 'REFUSED', 'The demand is outside Guildhall competence as sealed.', new \DateTimeImmutable());
+
+            self::assertSame('DELEGATE_MISSION_CAPABILITY_DEMAND_REFUSED_NO_PERSONNEL_AUTHORITY', $intake['status']);
+            self::assertTrue($intake['demand_refused']);
+            self::assertNull($intake['personnel_resolution_authority']);
+            self::assertFalse($intake['personnel_use_authority']);
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testAcceptedDemandResolvesProfessionAndExactSuitablePersonaAgainstGarrisonFacts(): void
+    {
+        [$root, $demandId, $bindingId, $responseId, $custodyId] = $this->fixtures();
+        try {
+            $intake = (new DelegateMissionCapabilityDemandIntakeService($root))->decide($demandId, $bindingId, 'ACCEPTED', 'Guildhall accepts the exact functional demand.', new \DateTimeImmutable());
+            $service = new DelegateMissionPersonnelResolutionService($root);
+            $resolution = $service->resolve(
+                $intake['disposition_id'],
+                $bindingId,
+                $responseId,
+                'Passive web application security assessor',
+                $custodyId,
+                'SUITABLE',
+                ['Passive assessment discipline', 'Evidence-bound reporting'],
+                ['garrison-custody-fact', 'admitted-persona-qualification-record'],
+                'The exact available admitted Persona satisfies the profession and bounded mission criteria.',
+                new \DateTimeImmutable('2026-08-24T02:30:00+00:00'),
+            );
+
+            self::assertSame('DELEGATE_MISSION_PROFESSION_AND_PERSONA_SUITABILITY_RESOLVED_PENDING_PERSONNEL_USE_REQUEST', $resolution['status']);
+            self::assertSame('DELEGATE', $resolution['officer_class']);
+            self::assertSame('Passive web application security assessor', $resolution['profession']);
+            self::assertSame(['Analyze public behavior'], $resolution['capability_correlation']['capability_requirements']);
+            self::assertSame('mission.delegate.passive-assessment', $resolution['capability_correlation']['mission_seat']);
+            self::assertSame($custodyId, $resolution['persona']['custody_id']);
+            self::assertSame('persona-passive-assessor', $resolution['persona']['persona_id']);
+            self::assertTrue($resolution['profession_determined']);
+            self::assertTrue($resolution['persona_suitability_determined']);
+            self::assertTrue($resolution['persona_suitable']);
+            self::assertTrue($resolution['personnel_resolution_authority']['consumed']);
+            self::assertTrue($resolution['personnel_use_request_authority']['authority_exercisable']);
+            self::assertSame('curia.seneschal', $resolution['personnel_use_request_authority']['recipient']);
+            foreach (['personnel_use_authority', 'reservation_authority', 'retrieval_authority', 'custody_transfer_authority', 'profile_derivation_authority', 'manifestation_assembly_authority', 'seat_binding_authority', 'deployment_authority', 'cognition_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'continuing_turn_authority'] as $field) {
+                self::assertFalse($resolution[$field], $field.' must remain false');
+            }
+            self::assertSame($resolution, $service->resolve($intake['disposition_id'], $bindingId, $responseId, 'Passive web application security assessor', $custodyId, 'SUITABLE', ['Passive assessment discipline', 'Evidence-bound reporting'], ['garrison-custody-fact', 'admitted-persona-qualification-record'], 'The exact available admitted Persona satisfies the profession and bounded mission criteria.', new \DateTimeImmutable('2026-08-24T04:00:00+00:00')));
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testRefusedIntakeCannotResolvePersonnel(): void
+    {
+        [$root, $demandId, $bindingId, $responseId, $custodyId] = $this->fixtures();
+        try {
+            $intake = (new DelegateMissionCapabilityDemandIntakeService($root))->decide($demandId, $bindingId, 'REFUSED', 'Refused.', new \DateTimeImmutable());
+            $this->expectExceptionMessage('G508_DELEGATE_MISSION_PERSONNEL_RESOLUTION_CHAIN_INVALID');
+            (new DelegateMissionPersonnelResolutionService($root))->resolve($intake['disposition_id'], $bindingId, $responseId, 'Assessor', $custodyId, 'SUITABLE', ['Criterion'], ['Evidence'], 'Attempt after refusal.', new \DateTimeImmutable());
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testPersonaAbsentFromExactGarrisonFactsCannotBeSelected(): void
+    {
+        [$root, $demandId, $bindingId, $responseId] = $this->fixtures();
+        try {
+            $intake = (new DelegateMissionCapabilityDemandIntakeService($root))->decide($demandId, $bindingId, 'ACCEPTED', 'Accepted.', new \DateTimeImmutable());
+            $this->expectExceptionMessage('G507_DELEGATE_MISSION_PERSONA_NOT_IN_GARRISON_FACTS');
+            (new DelegateMissionPersonnelResolutionService($root))->resolve($intake['disposition_id'], $bindingId, $responseId, 'Assessor', 'custody-not-reported', 'SUITABLE', ['Criterion'], ['Evidence'], 'Attempt substitution.', new \DateTimeImmutable());
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testPersonnelGapBranchGrantsNoPersonnelUseRequestAuthority(): void
+    {
+        [$root, $demandId, $bindingId, $responseId] = $this->fixtures();
+        try {
+            $intake = (new DelegateMissionCapabilityDemandIntakeService($root))->decide($demandId, $bindingId, 'ACCEPTED', 'Accepted.', new \DateTimeImmutable());
+            $resolution = (new DelegateMissionPersonnelResolutionService($root))->resolve($intake['disposition_id'], $bindingId, $responseId, 'Independent specialist reviewer', null, 'NO_SUITABLE_PERSONA', ['Independent review experience'], ['garrison-inventory-snapshot'], 'No admitted available Persona satisfies the exact profession.', new \DateTimeImmutable());
+
+            self::assertSame('DELEGATE_MISSION_PROFESSION_RESOLVED_PERSONNEL_GAP_IDENTIFIED_NO_PERSONNEL_AUTHORITY', $resolution['status']);
+            self::assertTrue($resolution['profession_determined']);
+            self::assertTrue($resolution['persona_suitability_determined']);
+            self::assertFalse($resolution['persona_suitable']);
+            self::assertNull($resolution['persona']);
+            self::assertNull($resolution['personnel_use_request_authority']);
+            self::assertFalse($resolution['personnel_use_authority']);
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testCuriaPresentsExactIdentityBearingCommitmentWithoutPersonnelUseAuthority(): void
+    {
+        [$root, $demandId, $bindingId, $responseId, $custodyId] = $this->fixtures();
+        try {
+            $intake = (new DelegateMissionCapabilityDemandIntakeService($root))->decide($demandId, $bindingId, 'ACCEPTED', 'Accepted.', new \DateTimeImmutable());
+            $resolution = (new DelegateMissionPersonnelResolutionService($root))->resolve($intake['disposition_id'], $bindingId, $responseId, 'Passive web application security assessor', $custodyId, 'SUITABLE', ['Passive assessment discipline'], ['garrison-custody-fact'], 'The exact Persona is suitable.', new \DateTimeImmutable());
+            $service = new DelegateMissionPersonnelUseRequestService($root);
+            $request = $service->present($resolution['resolution_id'], new \DateTimeImmutable('2026-08-24T03:00:00+00:00'));
+
+            self::assertSame('DELEGATE_MISSION_PERSONNEL_USE_REQUEST_PRESENTED_PENDING_IMPERATOR_DECISION', $request['status']);
+            self::assertSame('DELEGATE', $request['officer_class']);
+            self::assertSame('PRESENTATION_ONLY', $request['requester']['role']);
+            self::assertTrue($request['recipient']['decision_pending']);
+            self::assertSame('Passive web application security assessor', $request['personnel_commitment']['profession']);
+            self::assertSame($custodyId, $request['personnel_commitment']['persona']['custody_id']);
+            self::assertSame('persona-passive-assessor', $request['personnel_commitment']['persona']['persona_id']);
+            self::assertSame(['Analyze public behavior'], $request['personnel_commitment']['capability_requirements']);
+            self::assertSame('mission.delegate.passive-assessment', $request['personnel_commitment']['mission_seat']);
+            self::assertTrue($request['personnel_use_request_authority']['consumed']);
+            foreach (['imperator_decision_recorded', 'personnel_use_authority', 'reservation_authority', 'retrieval_authority', 'custody_transfer_authority', 'profile_derivation_authority', 'profile_examination_authority', 'profile_approval_authority', 'profile_installation_authority', 'profile_qualification_authority', 'manifestation_assembly_authority', 'seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'cognition_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'continuing_turn_authority'] as $field) {
+                self::assertFalse($request[$field], $field.' must remain false');
+            }
+            self::assertFalse($request['personnel_resolution_boundary']['curia_profession_selection_authority']);
+            self::assertFalse($request['personnel_resolution_boundary']['curia_persona_selection_authority']);
+            self::assertFalse($request['personnel_resolution_boundary']['curia_substitution_authority']);
+            self::assertSame($request, $service->present($resolution['resolution_id'], new \DateTimeImmutable('2026-08-24T04:00:00+00:00')));
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testPersonnelGapCannotBePresentedForImperatorPersonnelUseDecision(): void
+    {
+        [$root, $demandId, $bindingId, $responseId] = $this->fixtures();
+        try {
+            $intake = (new DelegateMissionCapabilityDemandIntakeService($root))->decide($demandId, $bindingId, 'ACCEPTED', 'Accepted.', new \DateTimeImmutable());
+            $resolution = (new DelegateMissionPersonnelResolutionService($root))->resolve($intake['disposition_id'], $bindingId, $responseId, 'Independent specialist reviewer', null, 'NO_SUITABLE_PERSONA', ['Independent review experience'], ['garrison-inventory-snapshot'], 'No suitable Persona.', new \DateTimeImmutable());
+
+            $this->expectExceptionMessage('CUR512_DELEGATE_MISSION_PERSONNEL_USE_CHAIN_INVALID');
+            (new DelegateMissionPersonnelUseRequestService($root))->present($resolution['resolution_id'], new \DateTimeImmutable());
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testCuriaPresentationFailsClosedOnCapabilityDemandDrift(): void
+    {
+        [$root, $demandId, $bindingId, $responseId, $custodyId] = $this->fixtures();
+        try {
+            $intake = (new DelegateMissionCapabilityDemandIntakeService($root))->decide($demandId, $bindingId, 'ACCEPTED', 'Accepted.', new \DateTimeImmutable());
+            $resolution = (new DelegateMissionPersonnelResolutionService($root))->resolve($intake['disposition_id'], $bindingId, $responseId, 'Assessor', $custodyId, 'SUITABLE', ['Criterion'], ['Evidence'], 'Suitable.', new \DateTimeImmutable());
+            $path = $root.'/var/imperium/offices/curia/delegate-mission-capability-demands/'.$demandId.'.json';
+            $demand = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+            unset($demand['record_digest']);
+            $demand['demand']['capability_requirements'] = ['Changed capability'];
+            $this->write($path, $this->record($demand));
+
+            $this->expectExceptionMessage('CUR512_DELEGATE_MISSION_PERSONNEL_USE_CHAIN_INVALID');
+            (new DelegateMissionPersonnelUseRequestService($root))->present($resolution['resolution_id'], new \DateTimeImmutable());
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testImperatorAuthorizesOnlyTheExactDelegatePersonnelCommitment(): void
+    {
+        [$root, $request] = $this->personnelUseRequestFixture();
+        try {
+            $service = new DelegateMissionPersonnelUseDecisionService($root);
+            $decision = $service->decide($request['request_id'], 'AUTHORIZED', 'Authorize this exact Delegate personnel commitment.', 'Bound to the disclosed mission Seat, duration, and lifecycle conditions.', new \DateTimeImmutable('2026-08-24T04:00:00+00:00'));
+
+            self::assertSame('DELEGATE_MISSION_PERSONNEL_USE_AUTHORIZED_PENDING_GUILDHALL_ACCEPTANCE', $decision['status']);
+            self::assertSame('DELEGATE', $decision['officer_class']);
+            self::assertTrue($decision['imperator_decision_recorded']);
+            self::assertTrue($decision['personnel_use_authorized']);
+            self::assertTrue($decision['personnel_use_authority_exercisable']);
+            self::assertTrue($decision['personnel_use_authority']['authority_exercisable']);
+            self::assertFalse($decision['personnel_use_authority']['consumed']);
+            self::assertSame('guildhall.guildmaster', $decision['personnel_use_authority']['holder']);
+            self::assertSame($request['personnel_commitment'], $decision['personnel_commitment']);
+            foreach (['guildhall_acceptance_authority', 'reservation_authority', 'retrieval_authority', 'custody_transfer_authority', 'profile_derivation_authority', 'profile_examination_authority', 'profile_approval_authority', 'profile_installation_authority', 'profile_qualification_authority', 'manifestation_assembly_authority', 'seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'cognition_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'continuing_turn_authority'] as $field) {
+                self::assertFalse($decision[$field], $field.' must remain false');
+            }
+            self::assertSame($decision, $service->decide($request['request_id'], 'AUTHORIZED', 'Authorize this exact Delegate personnel commitment.', 'Bound to the disclosed mission Seat, duration, and lifecycle conditions.', new \DateTimeImmutable('2026-08-24T05:00:00+00:00')));
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testEveryOtherImperatorDispositionRemainsNonAuthorizing(): void
+    {
+        foreach (['REFUSED', 'RETURNED_FOR_REVISION', 'ALTERNATIVE_PROPOSED', 'CLARIFICATION_REQUIRED', 'DEFERRED'] as $disposition) {
+            [$root, $request] = $this->personnelUseRequestFixture();
+            try {
+                $decision = (new DelegateMissionPersonnelUseDecisionService($root))->decide($request['request_id'], $disposition, 'Record this exact non-authorizing response.', null, new \DateTimeImmutable());
+                self::assertSame('DELEGATE_MISSION_NON_AUTHORIZING_IMPERATOR_PERSONNEL_USE_DISPOSITION_RECORDED', $decision['status']);
+                self::assertFalse($decision['personnel_use_authorized']);
+                self::assertNull($decision['personnel_use_authority']);
+                self::assertFalse($decision['personnel_use_authority_exercisable']);
+                self::assertFalse($decision['reservation_authority']);
+                self::assertFalse($decision['execution_authority']);
+            } finally {
+                $this->remove($root);
+            }
+        }
+    }
+
+    public function testAuthorizedDispositionRequiresExplicitLimitations(): void
+    {
+        [$root, $request] = $this->personnelUseRequestFixture();
+        try {
+            $this->expectExceptionMessage('I511_DELEGATE_MISSION_PERSONNEL_USE_DISPOSITION_INVALID');
+            (new DelegateMissionPersonnelUseDecisionService($root))->decide($request['request_id'], 'AUTHORIZED', 'Authorize.', null, new \DateTimeImmutable());
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testGuildmasterAcceptsAuthorizedCommitmentAndRequestsReservationWithoutReserving(): void
+    {
+        [$root, $request, $bindingId] = $this->personnelUseRequestFixture();
+        try {
+            $decision = (new DelegateMissionPersonnelUseDecisionService($root))->decide($request['request_id'], 'AUTHORIZED', 'Authorize this exact commitment.', 'Exact disclosed mission bounds only.', new \DateTimeImmutable());
+            $service = new DelegateMissionPersonnelUseAcceptanceService($root);
+            $result = $service->accept($decision['decision_id'], $bindingId, new \DateTimeImmutable('2026-08-24T05:00:00+00:00'));
+            $acceptance = $result['acceptance'];
+            $reservation = $result['reservation_request'];
+
+            self::assertSame('DELEGATE_MISSION_PERSONNEL_USE_AUTHORIZATION_ACCEPTED_RESERVATION_REQUESTED_PENDING_CONSTABLE_DISPOSITION', $acceptance['status']);
+            self::assertSame('LEGATE', $acceptance['guildmaster']['officer_class']);
+            self::assertTrue($acceptance['authorization_accepted']);
+            self::assertTrue($acceptance['personnel_use_authority']['consumed']);
+            self::assertFalse($acceptance['persona_reserved']);
+            self::assertFalse($acceptance['reservation_authority']);
+            self::assertSame('DELEGATE_MISSION_PERSONA_RESERVATION_REQUESTED_PENDING_CONSTABLE_DISPOSITION', $reservation['status']);
+            self::assertSame('garrison.constable', $reservation['recipient']['seat']);
+            self::assertTrue($reservation['recipient']['disposition_pending']);
+            self::assertTrue($reservation['reservation_requested']);
+            self::assertFalse($reservation['persona_reserved']);
+            self::assertFalse($reservation['reservation_authority']);
+            self::assertSame($request['personnel_commitment'], $reservation['personnel_commitment']);
+            foreach (['retrieval_authority', 'custody_transfer_authority', 'profile_derivation_authority', 'manifestation_assembly_authority', 'seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'cognition_authority', 'provider_invocation_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'continuing_turn_authority'] as $field) {
+                self::assertFalse($reservation[$field], $field.' must remain false');
+            }
+            self::assertSame($result, $service->accept($decision['decision_id'], $bindingId, new \DateTimeImmutable('2026-08-24T06:00:00+00:00')));
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testGuildhallCannotAcceptNonAuthorizingImperatorDisposition(): void
+    {
+        [$root, $request, $bindingId] = $this->personnelUseRequestFixture();
+        try {
+            $decision = (new DelegateMissionPersonnelUseDecisionService($root))->decide($request['request_id'], 'ALTERNATIVE_PROPOSED', 'Consider another exact commitment.', null, new \DateTimeImmutable());
+            $this->expectExceptionMessage('G513_DELEGATE_MISSION_PERSONNEL_USE_ACCEPTANCE_CHAIN_INVALID');
+            (new DelegateMissionPersonnelUseAcceptanceService($root))->accept($decision['decision_id'], $bindingId, new \DateTimeImmutable());
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testReplacementGuildmasterCannotAcceptPriorAuthorization(): void
+    {
+        [$root, $request] = $this->personnelUseRequestFixture();
+        try {
+            $decision = (new DelegateMissionPersonnelUseDecisionService($root))->decide($request['request_id'], 'AUTHORIZED', 'Authorize.', 'Exact bounds.', new \DateTimeImmutable());
+            $replacementId = 'guildhall-binding-'.str_repeat('9', 20);
+            $bindings = [];
+            foreach (['guildhall.guildmaster', 'guildhall.committee.disciplinary-fit', 'guildhall.committee.composition', 'guildhall.committee.boundary-challenge'] as $seat) {
+                $bindings[$seat] = ['seat' => $seat, 'officer_class' => 'LEGATE', 'manifestation_id' => 'replacement-'.substr(hash('sha256', $seat), 0, 12), 'occupancy_generation' => 2, 'status' => 'ACTIVE'];
+            }
+            $this->write($root.'/var/imperium/offices/guildhall/occupancy/'.$replacementId.'.json', $this->record(['schema' => 'imperium.guildhall-seat-binding-cohort/v1', 'binding_id' => $replacementId, 'instance_id' => 'imperium-test', 'office' => 'guildhall', 'bindings' => $bindings, 'office_status' => 'ACTIVE', 'binding_atomic' => true, 'execution_authority' => false]));
+
+            $this->expectExceptionMessage('G513_DELEGATE_MISSION_PERSONNEL_USE_ACCEPTANCE_CHAIN_INVALID');
+            (new DelegateMissionPersonnelUseAcceptanceService($root))->accept($decision['decision_id'], $replacementId, new \DateTimeImmutable());
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testConstableReservesExactPersonaWhileRetainingCustody(): void
+    {
+        [$root, $reservationRequest, $constableBindingId] = $this->reservationRequestFixture();
+        try {
+            $service = new DelegateMissionPersonaReservationDispositionService($root);
+            $disposition = $service->decide($reservationRequest['request_id'], $constableBindingId, new \DateTimeImmutable('2026-08-24T06:00:00+00:00'));
+
+            self::assertSame('RESERVED', $disposition['disposition']);
+            self::assertSame('DELEGATE_MISSION_PERSONA_RESERVED_PENDING_PROFILE_SCOPE_CONSTRUCTION', $disposition['status']);
+            self::assertTrue($disposition['persona_reserved']);
+            self::assertTrue($disposition['reservation_effect_committed']);
+            self::assertSame('ADMITTED_HELD', $disposition['custody']['state']);
+            self::assertSame('garrison', $disposition['custody']['retained_by']);
+            self::assertTrue($disposition['profile_scope_construction_authority']['authority_exercisable']);
+            self::assertFalse($disposition['profile_scope_construction_authority']['consumed']);
+            foreach (['substitution_authority', 'retrieval_authority', 'custody_transfer_authority', 'profile_derivation_authority', 'profile_examination_authority', 'profile_approval_authority', 'profile_installation_authority', 'manifestation_assembly_authority', 'seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'cognition_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'continuing_turn_authority'] as $field) {
+                self::assertFalse($disposition[$field], $field.' must remain false');
+            }
+            self::assertSame($disposition, $service->decide($reservationRequest['request_id'], $constableBindingId, new \DateTimeImmutable('2026-08-24T07:00:00+00:00')));
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testConstableReportsUnavailablePersonaWithoutAuthority(): void
+    {
+        [$root, $reservationRequest, $constableBindingId, $custodyId] = $this->reservationRequestFixture(false);
+        try {
+            $disposition = (new DelegateMissionPersonaReservationDispositionService($root))->decide($reservationRequest['request_id'], $constableBindingId, new \DateTimeImmutable());
+            self::assertSame('PERSONA_UNAVAILABLE', $disposition['disposition']);
+            self::assertSame('DELEGATE_MISSION_RESERVATION_REFUSED_PERSONA_UNAVAILABLE_NO_AUTHORITY', $disposition['status']);
+            self::assertSame($custodyId, $disposition['custody']['id']);
+            self::assertFalse($disposition['persona_reserved']);
+            self::assertFalse($disposition['reservation_effect_committed']);
+            self::assertNull($disposition['profile_scope_construction_authority']);
+            self::assertFalse($disposition['profile_derivation_authority']);
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testExistingReservationProducesFactualConflictRefusal(): void
+    {
+        [$root, $reservationRequest, $constableBindingId, $custodyId] = $this->reservationRequestFixture();
+        try {
+            $legacyId = 'persona-reservation-disposition-'.str_repeat('8', 20);
+            $this->write($root.'/var/imperium/offices/garrison/persona-reservation-dispositions/'.$legacyId.'.json', $this->record(['schema' => 'imperium.garrison-persona-reservation-disposition/v1', 'disposition_id' => $legacyId, 'custody_id' => $custodyId, 'persona_reserved' => true, 'status' => 'RESERVED_PENDING_PROFILE_DERIVATION_AUTHORIZATION', 'sealed' => true]));
+            $disposition = (new DelegateMissionPersonaReservationDispositionService($root))->decide($reservationRequest['request_id'], $constableBindingId, new \DateTimeImmutable());
+
+            self::assertSame('PERSONA_ALREADY_RESERVED', $disposition['disposition']);
+            self::assertSame('DELEGATE_MISSION_RESERVATION_REFUSED_PERSONA_ALREADY_RESERVED_NO_AUTHORITY', $disposition['status']);
+            self::assertFalse($disposition['persona_reserved']);
+            self::assertNull($disposition['profile_scope_construction_authority']);
+            self::assertFalse($disposition['retrieval_authority']);
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testCuriaConstructsExactImmutableDelegateProfileScopeRequest(): void
+    {
+        [$root, $reservationRequest, $constableBindingId] = $this->reservationRequestFixture();
+        try {
+            $reservation = (new DelegateMissionPersonaReservationDispositionService($root))->decide($reservationRequest['request_id'], $constableBindingId, new \DateTimeImmutable());
+            $service = new DelegateMissionProfileScopeAuthorizationRequestService($root);
+            $request = $service->construct($reservation['disposition_id'], new \DateTimeImmutable('2026-08-24T08:00:00+00:00'));
+
+            self::assertSame('DELEGATE_MISSION_PROFILE_SCOPE_REQUEST_PRESENTED_PENDING_IMPERATOR_DECISION', $request['status']);
+            self::assertSame('DELEGATE', $request['profile_scope']['officer_class']);
+            self::assertSame('Passive web application security assessor', $request['profile_scope']['profession']);
+            self::assertSame('persona-passive-assessor', $request['profile_scope']['persona']['persona_id']);
+            self::assertSame('mission.delegate.passive-assessment', $request['profile_scope']['mission_seat']);
+            self::assertSame(['Analyze public behavior'], $request['profile_scope']['capability_requirements']);
+            self::assertSame(['Restore Persona to Garrison custody'], $request['profile_scope']['custody_restoration_conditions']);
+            self::assertTrue($request['profile_scope_construction_authority']['consumed']);
+            foreach (['profile_derivation_authority', 'profile_instantiation_authority', 'profile_activation_authority', 'profile_examination_authority', 'profile_approval_authority', 'manifestation_assembly_authority', 'seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'cognition_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'mission_plan_amendment_authority', 'follow_up_commission_authority', 'continuing_turn_authority'] as $field) {
+                self::assertFalse($request[$field], $field.' must remain false');
+            }
+            self::assertSame($request, $service->construct($reservation['disposition_id'], new \DateTimeImmutable('2026-08-24T09:00:00+00:00')));
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testImperatorAuthorizesOnlyExactDelegateProfileDerivationScope(): void
+    {
+        [$root, $request] = $this->profileScopeRequestFixture();
+        try {
+            $service = new DelegateMissionProfileScopeDecisionService($root);
+            $decision = $service->decide($request['request_id'], 'AUTHORIZED', 'Authorize one exact Delegate Profile derivation.', 'No scope expansion.', new \DateTimeImmutable('2026-08-24T10:00:00+00:00'));
+
+            self::assertSame('DELEGATE_MISSION_PROFILE_DERIVATION_AUTHORIZED_PENDING_CONSCRIPTION_ACCEPTANCE', $decision['status']);
+            self::assertTrue($decision['profile_derivation_authorized']);
+            self::assertTrue($decision['profile_derivation_authority_exercisable']);
+            self::assertSame('conscription.recruiter', $decision['profile_derivation_authority']['holder']);
+            self::assertFalse($decision['profile_derivation_authority']['consumed']);
+            self::assertFalse($decision['profile_derived']);
+            foreach (['profile_instantiation_authority', 'profile_activation_authority', 'profile_examination_authority', 'profile_approval_authority', 'profile_installation_authority', 'manifestation_assembly_authority', 'seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'cognition_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'mission_plan_amendment_authority', 'follow_up_commission_authority', 'continuing_turn_authority'] as $field) {
+                self::assertFalse($decision[$field], $field.' must remain false');
+            }
+            self::assertSame($decision, $service->decide($request['request_id'], 'AUTHORIZED', 'Authorize one exact Delegate Profile derivation.', 'No scope expansion.', new \DateTimeImmutable('2026-08-24T11:00:00+00:00')));
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testNonAuthorizingProfileScopeDispositionGrantsNothing(): void
+    {
+        [$root, $request] = $this->profileScopeRequestFixture();
+        try {
+            $decision = (new DelegateMissionProfileScopeDecisionService($root))->decide($request['request_id'], 'CLARIFICATION_REQUIRED', 'Clarify the exact duration trigger.', null, new \DateTimeImmutable());
+
+            self::assertSame('DELEGATE_MISSION_NON_AUTHORIZING_IMPERATOR_PROFILE_SCOPE_DISPOSITION_RECORDED', $decision['status']);
+            self::assertFalse($decision['profile_derivation_authorized']);
+            self::assertFalse($decision['profile_derivation_authority_exercisable']);
+            self::assertNull($decision['profile_derivation_authority']);
+            self::assertTrue($decision['curia_followup_required']);
+            self::assertFalse($decision['execution_authority']);
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testRecruiterAcceptsExactAuthorizationAndRequestsCustodyBoundCommission(): void
+    {
+        [$root, $decision, $bootstrap] = $this->authorizedProfileScopeDecisionFixture();
+        try {
+            $service = new DelegateMissionProfileDerivationCommissionRequestService($root, $bootstrap);
+            $result = $service->decide($decision['decision_id'], 'ACCEPTED', 'Accept exact authorized scope.', new \DateTimeImmutable('2026-08-24T12:00:00+00:00'));
+            $acceptance = $result['acceptance'];
+            $commission = $result['commission_request'];
+
+            self::assertSame('LEGATE', $acceptance['actor']['officer_class']);
+            self::assertSame('DELEGATE', $acceptance['officer_class']);
+            self::assertTrue($acceptance['profile_derivation_authority']['consumed']);
+            self::assertSame('DELEGATE_MISSION_PROFILE_DERIVATION_ACCEPTED_COMMISSION_REQUESTED_PENDING_ALCHEMIST_ACCEPTANCE', $acceptance['status']);
+            self::assertSame('laboratorium.alchemist', $commission['recipient']['seat']);
+            self::assertTrue($commission['recipient']['acceptance_pending']);
+            self::assertTrue($commission['laboratorium_acceptance_disposition_authority']['authority_exercisable']);
+            self::assertFalse($commission['laboratorium_acceptance_disposition_authority']['consumed']);
+            self::assertSame('ADMITTED_HELD', $commission['custody_lease']['custody_state']);
+            self::assertSame('garrison', $commission['custody_lease']['custodian']);
+            self::assertSame('PROFILE_DERIVATION_ONLY_NO_CUSTODY_TRANSFER', $commission['custody_lease']['scope']);
+            self::assertTrue($commission['profile_derivation_authority']);
+            self::assertFalse($commission['profile_derivation_authority_exercisable']);
+            self::assertFalse($commission['profile_derived']);
+            foreach (['custody_transfer_authority', 'persona_substitution_authority', 'profile_instantiation_authority', 'profile_activation_authority', 'profile_examination_authority', 'profile_approval_authority', 'profile_installation_authority', 'manifestation_assembly_authority', 'seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'cognition_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'continuing_turn_authority'] as $field) {
+                self::assertFalse($commission[$field], $field.' must remain false');
+            }
+            self::assertSame($result, $service->decide($decision['decision_id'], 'ACCEPTED', 'Accept exact authorized scope.', new \DateTimeImmutable('2026-08-24T13:00:00+00:00')));
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testRecruiterRefusalCreatesNoLaboratoriumCommission(): void
+    {
+        [$root, $decision, $bootstrap] = $this->authorizedProfileScopeDecisionFixture();
+        try {
+            $result = (new DelegateMissionProfileDerivationCommissionRequestService($root, $bootstrap))->decide($decision['decision_id'], 'REFUSED', 'Custody-bound lineage requires review.', new \DateTimeImmutable());
+
+            self::assertSame('DELEGATE_MISSION_PROFILE_DERIVATION_AUTHORIZATION_REFUSED_BY_CONSCRIPTION_NO_AUTHORITY', $result['acceptance']['status']);
+            self::assertTrue($result['acceptance']['profile_derivation_authority']['consumed']);
+            self::assertNull($result['acceptance']['commission_request']);
+            self::assertNull($result['commission_request']);
+            self::assertFalse($result['acceptance']['execution_authority']);
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testAlchemistAcceptsExactCommissionWithoutDerivingProfile(): void
+    {
+        [$root, $commission, $bindingId] = $this->laboratoriumCommissionFixture();
+        try {
+            $service = new DelegateMissionProfileDerivationCommissionDispositionService($root);
+            $disposition = $service->decide($commission['request_id'], $bindingId, 'ACCEPTED', 'Accept exact custody-bound derivation commission.', new \DateTimeImmutable('2026-08-24T14:00:00+00:00'));
+
+            self::assertSame('LEGATE', $disposition['alchemist']['officer_class']);
+            self::assertSame('DELEGATE', $disposition['officer_class']);
+            self::assertSame('DELEGATE_MISSION_PROFILE_DERIVATION_COMMISSION_ACCEPTED_PENDING_PROFILE_DERIVATION', $disposition['status']);
+            self::assertTrue($disposition['recipient_acceptance']);
+            self::assertTrue($disposition['laboratorium_acceptance_disposition_authority']['consumed']);
+            self::assertTrue($disposition['profile_derivation_authority_exercisable']);
+            self::assertSame('laboratorium.alchemist', $disposition['profile_derivation_authority']['holder']);
+            self::assertFalse($disposition['profile_derivation_authority']['consumed']);
+            self::assertFalse($disposition['profile_derived']);
+            self::assertFalse($disposition['profile_candidate_created']);
+            foreach (['custody_transfer_authority', 'persona_substitution_authority', 'profile_instantiation_authority', 'profile_activation_authority', 'profile_examination_authority', 'profile_approval_authority', 'profile_installation_authority', 'manifestation_assembly_authority', 'seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'cognition_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'mission_plan_amendment_authority', 'follow_up_commission_authority', 'continuing_turn_authority'] as $field) {
+                self::assertFalse($disposition[$field], $field.' must remain false');
+            }
+            self::assertSame($disposition, $service->decide($commission['request_id'], $bindingId, 'ACCEPTED', 'Accept exact custody-bound derivation commission.', new \DateTimeImmutable('2026-08-24T15:00:00+00:00')));
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testAlchemistRefusalMakesDerivationNonExercisable(): void
+    {
+        [$root, $commission, $bindingId] = $this->laboratoriumCommissionFixture();
+        try {
+            $disposition = (new DelegateMissionProfileDerivationCommissionDispositionService($root))->decide($commission['request_id'], $bindingId, 'REFUSED', 'Exact commission cannot be accepted.', new \DateTimeImmutable());
+
+            self::assertSame('DELEGATE_MISSION_PROFILE_DERIVATION_COMMISSION_REFUSED_NO_AUTHORITY', $disposition['status']);
+            self::assertFalse($disposition['recipient_acceptance']);
+            self::assertNull($disposition['profile_derivation_authority']);
+            self::assertFalse($disposition['profile_derivation_authority_exercisable']);
+            self::assertFalse($disposition['profile_derived']);
+            self::assertFalse($disposition['execution_authority']);
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testAlchemistDerivesSealedCandidateAndReturnsItWithoutDownstreamAuthority(): void
+    {
+        [$root, $disposition] = $this->acceptedLaboratoriumCommissionFixture();
+        try {
+            $service = new DelegateMissionProfileCandidateDerivationReturnService($root, $this->profileElaboration());
+            $result = $service->deriveAndReturn($disposition['disposition_id'], new \DateTimeImmutable('2026-08-24T16:00:00+00:00'));
+            $candidate = $result['candidate'];
+            $return = $result['return'];
+
+            self::assertSame('DELEGATE_MISSION_PROFILE_CANDIDATE_DERIVED_VERSIONED_SEALED', $candidate['status']);
+            self::assertSame(1, $candidate['profile_version']);
+            self::assertNull($candidate['supersedes']);
+            self::assertSame('DELEGATE', $candidate['profile']['officer_class']);
+            self::assertSame('mission.delegate.passive-assessment', $candidate['profile']['assignment']['mission_seat']);
+            self::assertSame(['Restore Persona to Garrison custody'], $candidate['profile']['termination']['custody_restoration_conditions']);
+            self::assertSame('PROFILE_ELABORATION_COMPLETE', $candidate['profile']['elaboration']['disposition']);
+            self::assertTrue($candidate['profile_derivation_authority']['consumed']);
+            self::assertTrue($candidate['profile_derived']);
+            self::assertTrue($candidate['profile_candidate_created']);
+            self::assertSame('DELEGATE_MISSION_PROFILE_CANDIDATE_RETURNED_PENDING_CONSCRIPTION_INTAKE', $return['status']);
+            self::assertTrue($return['profile_candidate_returned']);
+            self::assertTrue($return['profile_candidate_intake_disposition_authority']['authority_exercisable']);
+            self::assertFalse($return['profile_candidate_intake_disposition_authority']['consumed']);
+            foreach (['profile_approval_authority', 'profile_activation_authority', 'profile_installation_authority', 'profile_examination_authority', 'manifestation_assembly_authority', 'seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'cognition_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'mission_plan_amendment_authority', 'follow_up_commission_authority', 'continuing_turn_authority'] as $field) {
+                self::assertFalse($candidate[$field], $field.' must remain false');
+            }
+            self::assertSame($result, $service->deriveAndReturn($disposition['disposition_id'], new \DateTimeImmutable('2026-08-24T17:00:00+00:00')));
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testProfileDerivationRefusesLiveCustodyDrift(): void
+    {
+        [$root, $disposition] = $this->acceptedLaboratoriumCommissionFixture();
+        try {
+            $custodyId = $disposition['custody_lease']['custody_id'];
+            $path = $root.'/var/imperium/offices/garrison/custody/'.$custodyId.'.json';
+            $custody = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+            unset($custody['record_digest']);
+            $custody['available'] = false;
+            $this->write($path, $this->record($custody));
+
+            $this->expectExceptionMessage('L526_DELEGATE_MISSION_PROFILE_DERIVATION_CHAIN_INVALID');
+            (new DelegateMissionProfileCandidateDerivationReturnService($root, $this->profileElaboration()))->deriveAndReturn($disposition['disposition_id'], new \DateTimeImmutable());
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testRecruiterAcceptsExactReturnedCandidateForExaminationPreparation(): void
+    {
+        [$root, $result] = $this->derivedProfileCandidateFixture();
+        try {
+            $service = new DelegateMissionProfileCandidateIntakeDispositionService($root, new StateStore($root));
+            $intake = $service->decide($result['return']['return_id'], 'ACCEPTED', 'Accept exact sealed candidate.', new \DateTimeImmutable('2026-08-24T18:00:00+00:00'));
+
+            self::assertSame('LEGATE', $intake['actor']['officer_class']);
+            self::assertSame('DELEGATE', $intake['officer_class']);
+            self::assertSame('DELEGATE_MISSION_PROFILE_CANDIDATE_ACCEPTED_PENDING_EXAMINATION_PREPARATION', $intake['status']);
+            self::assertTrue($intake['recipient_acceptance']);
+            self::assertTrue($intake['profile_candidate_intake_disposition_authority']['consumed']);
+            self::assertTrue($intake['examination_preparation_authority']['authority_exercisable']);
+            self::assertFalse($intake['examination_preparation_authority']['consumed']);
+            foreach (['senate_intake_authority', 'senate_examination_authority', 'profile_approval_authority', 'profile_activation_authority', 'profile_installation_authority', 'manifestation_assembly_authority', 'seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'cognition_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'mission_plan_amendment_authority', 'follow_up_commission_authority', 'continuing_turn_authority'] as $field) {
+                self::assertFalse($intake[$field], $field.' must remain false');
+            }
+            self::assertSame($intake, $service->decide($result['return']['return_id'], 'ACCEPTED', 'Accept exact sealed candidate.', new \DateTimeImmutable('2026-08-24T19:00:00+00:00')));
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testRecruiterRefusesReturnedCandidateWithoutExaminationAuthority(): void
+    {
+        [$root, $result] = $this->derivedProfileCandidateFixture();
+        try {
+            $intake = (new DelegateMissionProfileCandidateIntakeDispositionService($root, new StateStore($root)))->decide($result['return']['return_id'], 'REFUSED', 'Candidate intake refused.', new \DateTimeImmutable());
+
+            self::assertSame('DELEGATE_MISSION_PROFILE_CANDIDATE_REFUSED_NO_AUTHORITY', $intake['status']);
+            self::assertFalse($intake['recipient_acceptance']);
+            self::assertNull($intake['examination_preparation_authority']);
+            self::assertFalse($intake['senate_examination_authority']);
+            self::assertFalse($intake['execution_authority']);
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testRecruiterConstructsExaminationOnlySenateHandoff(): void
+    {
+        [$root, $intake] = $this->acceptedProfileCandidateIntakeFixture();
+        try {
+            $service = new DelegateMissionExaminationPreparationHandoffService($root, new StateStore($root));
+            $handoff = $service->prepare($intake['disposition_id'], new \DateTimeImmutable('2026-08-24T20:00:00+00:00'));
+
+            self::assertSame('DELEGATE_MISSION_EXAMINATION_PREPARATION_HANDED_OFF_PENDING_SENATE_INTAKE', $handoff['status']);
+            self::assertSame('senate.lord-speaker', $handoff['recipient']['seat']);
+            self::assertTrue($handoff['recipient']['intake_pending']);
+            self::assertSame('SENATE_EXAMINATION_ONLY', $handoff['examination_only_assembly_contract']['purpose']);
+            self::assertSame(['kind' => 'generic-officer', 'version' => 0, 'identity_contribution' => false, 'authority_contribution' => false], $handoff['examination_only_assembly_contract']['substrate']);
+            self::assertFalse($handoff['examination_only_assembly_contract']['operational_use_permitted']);
+            self::assertTrue($handoff['examination_preparation_authority']['consumed']);
+            self::assertTrue($handoff['senate_intake_disposition_authority']['authority_exercisable']);
+            self::assertFalse($handoff['senate_intake_disposition_authority']['consumed']);
+            foreach (['senate_intake_accepted', 'senate_examination_authority', 'examination_profile_installation_authority', 'examination_manifestation_assembly_authority', 'profile_approval_authority', 'profile_activation_authority', 'profile_installation_authority', 'manifestation_assembly_authority', 'seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'cognition_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'mission_plan_amendment_authority', 'follow_up_commission_authority', 'continuing_turn_authority'] as $field) {
+                self::assertFalse($handoff[$field], $field.' must remain false');
+            }
+            self::assertSame($handoff, $service->prepare($intake['disposition_id'], new \DateTimeImmutable('2026-08-24T21:00:00+00:00')));
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testLordSpeakerAcceptsHandoffWithoutAssemblingExaminationManifestation(): void
+    {
+        [$root, $handoff, $bindingId] = $this->examinationPreparationHandoffFixture();
+        try {
+            $service = new DelegateMissionExaminationPreparationIntakeDispositionService($root);
+            $disposition = $service->decide($handoff['handoff_id'], $bindingId, 'ACCEPTED', 'Accept exact examination preparation.', new \DateTimeImmutable('2026-08-24T22:00:00+00:00'));
+
+            self::assertSame('LEGATE', $disposition['lord_speaker']['officer_class']);
+            self::assertSame('DELEGATE', $disposition['officer_class']);
+            self::assertSame('DELEGATE_MISSION_EXAMINATION_PREPARATION_ACCEPTED_PENDING_CONSCRIPTION_ASSEMBLY', $disposition['status']);
+            self::assertTrue($disposition['senate_intake_accepted']);
+            self::assertTrue($disposition['senate_intake_disposition_authority']['consumed']);
+            self::assertTrue($disposition['examination_only_assembly_authority']['authority_exercisable']);
+            self::assertFalse($disposition['examination_only_assembly_authority']['consumed']);
+            self::assertFalse($disposition['examination_manifestation_assembled']);
+            foreach (['senate_examination_authority', 'profile_approval_authority', 'profile_activation_authority', 'profile_installation_authority', 'manifestation_assembly_authority', 'seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'cognition_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'mission_plan_amendment_authority', 'follow_up_commission_authority', 'continuing_turn_authority'] as $field) {
+                self::assertFalse($disposition[$field], $field.' must remain false');
+            }
+            self::assertSame($disposition, $service->decide($handoff['handoff_id'], $bindingId, 'ACCEPTED', 'Accept exact examination preparation.', new \DateTimeImmutable('2026-08-24T23:00:00+00:00')));
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testLordSpeakerRefusalCreatesNoAssemblyAuthority(): void
+    {
+        [$root, $handoff, $bindingId] = $this->examinationPreparationHandoffFixture();
+        try {
+            $disposition = (new DelegateMissionExaminationPreparationIntakeDispositionService($root))->decide($handoff['handoff_id'], $bindingId, 'REFUSED', 'Senate intake refused.', new \DateTimeImmutable());
+
+            self::assertSame('DELEGATE_MISSION_EXAMINATION_PREPARATION_REFUSED_NO_AUTHORITY', $disposition['status']);
+            self::assertFalse($disposition['senate_intake_accepted']);
+            self::assertNull($disposition['examination_only_assembly_authority']);
+            self::assertFalse($disposition['senate_examination_authority']);
+            self::assertFalse($disposition['execution_authority']);
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testRecruiterAssemblesAndDeliversExaminationOnlyManifestation(): void
+    {
+        [$root, $authorization] = $this->acceptedExaminationPreparationFixture();
+        try {
+            $service = new DelegateMissionExaminationManifestationAssemblyService($root, new StateStore($root));
+            $delivery = $service->assemble($authorization['disposition_id'], new \DateTimeImmutable('2026-08-25T00:00:00+00:00'));
+            $manifestation = $delivery['manifestation'];
+
+            self::assertSame('DELEGATE_MISSION_EXAMINATION_MANIFESTATION_ASSEMBLED_DELIVERED_PENDING_SENATE_STAND_INTAKE', $delivery['status']);
+            self::assertSame('senate.bailiff', $delivery['recipient']['seat']);
+            self::assertTrue($delivery['recipient']['acceptance_pending']);
+            self::assertSame('DELEGATE', $manifestation['officer_class']);
+            self::assertSame('EXAMINATION_ONLY', $manifestation['profile']['installation_class']);
+            self::assertSame('SENATE_EXAMINATION_ONLY', $manifestation['purpose']);
+            self::assertFalse($manifestation['mission_seat_bound']);
+            self::assertFalse($manifestation['operational_use_permitted']);
+            self::assertFalse($manifestation['cognition_permitted']);
+            self::assertTrue($delivery['examination_only_assembly_authority']['consumed']);
+            self::assertTrue($delivery['examination_profile_installed']);
+            self::assertTrue($delivery['examination_manifestation_assembled']);
+            self::assertTrue($delivery['examination_manifestation_delivered']);
+            self::assertTrue($delivery['senate_stand_intake_disposition_authority']['authority_exercisable']);
+            foreach (['senate_stand_accepted', 'senate_examination_authority', 'profile_approval_authority', 'profile_activation_authority', 'profile_installation_authority', 'operational_profile_installation_authority', 'manifestation_assembly_authority', 'seat_binding_authority', 'mission_seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'cognition_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'mission_plan_amendment_authority', 'follow_up_commission_authority', 'continuing_turn_authority'] as $field) {
+                self::assertFalse($delivery[$field], $field.' must remain false');
+            }
+            self::assertSame($delivery, $service->assemble($authorization['disposition_id'], new \DateTimeImmutable('2026-08-25T01:00:00+00:00')));
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testBailiffAdmitsAndSecuresManifestationWithoutOpeningExamination(): void
+    {
+        [$root, $delivery, $bindingId] = $this->examinationManifestationDeliveryFixture();
+        try {
+            $service = new DelegateMissionExaminationStandAdmissionDispositionService($root);
+            $admission = $service->decide($delivery['delivery_id'], $bindingId, 'ADMITTED', 'Admit exact secured examination Manifestation.', new \DateTimeImmutable('2026-08-25T02:00:00+00:00'));
+
+            self::assertSame('LEGATE', $admission['bailiff']['officer_class']);
+            self::assertSame('DELEGATE', $admission['officer_class']);
+            self::assertSame('DELEGATE_MISSION_EXAMINATION_MANIFESTATION_ADMITTED_SECURED_PENDING_EXAMINATION_OPENING', $admission['status']);
+            self::assertTrue($admission['stand_admission']);
+            self::assertTrue($admission['proceeding_security_active']);
+            self::assertTrue($admission['senate_stand_intake_disposition_authority']['consumed']);
+            self::assertTrue($admission['senate_examination_opening_authority']['authority_exercisable']);
+            self::assertFalse($admission['senate_examination_opening_authority']['consumed']);
+            foreach (['examination_opened', 'senate_examination_authority', 'examination_cognition_authority', 'testimony_authority', 'findings_authority', 'profile_approval_authority', 'profile_activation_authority', 'profile_installation_authority', 'operational_profile_installation_authority', 'manifestation_assembly_authority', 'seat_binding_authority', 'mission_seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'cognition_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'mission_plan_amendment_authority', 'follow_up_commission_authority', 'continuing_turn_authority'] as $field) {
+                self::assertFalse($admission[$field], $field.' must remain false');
+            }
+            self::assertSame($admission, $service->decide($delivery['delivery_id'], $bindingId, 'ADMITTED', 'Admit exact secured examination Manifestation.', new \DateTimeImmutable('2026-08-25T03:00:00+00:00')));
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testBailiffRefusalOpensNoExaminationAuthority(): void
+    {
+        [$root, $delivery, $bindingId] = $this->examinationManifestationDeliveryFixture();
+        try {
+            $admission = (new DelegateMissionExaminationStandAdmissionDispositionService($root))->decide($delivery['delivery_id'], $bindingId, 'REFUSED', 'Stand admission refused.', new \DateTimeImmutable());
+
+            self::assertSame('DELEGATE_MISSION_EXAMINATION_MANIFESTATION_REFUSED_AT_STAND_NO_AUTHORITY', $admission['status']);
+            self::assertFalse($admission['stand_admission']);
+            self::assertFalse($admission['proceeding_security_active']);
+            self::assertNull($admission['senate_examination_opening_authority']);
+            self::assertFalse($admission['senate_examination_authority']);
+            self::assertFalse($admission['execution_authority']);
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testLordSpeakerOpensBoundedExaminationBeforeAnyQuestionOrCognition(): void
+    {
+        [$root, $admission, $bindingId] = $this->admittedExaminationManifestationFixture();
+        try {
+            $service = new DelegateMissionProfileExaminationOpeningService($root);
+            $opening = $service->open($admission['disposition_id'], $bindingId, new \DateTimeImmutable('2026-08-25T04:00:00+00:00'));
+
+            self::assertSame('LEGATE', $opening['lord_speaker']['officer_class']);
+            self::assertSame('DELEGATE', $opening['officer_class']);
+            self::assertSame('DELEGATE_MISSION_PROFILE_EXAMINATION_OPENED_PENDING_FIRST_QUESTION_COMMISSION', $opening['status']);
+            self::assertTrue($opening['examination_opened']);
+            self::assertTrue($opening['bounded_hearing_contract_sealed']);
+            self::assertTrue($opening['senate_examination_opening_authority']['consumed']);
+            self::assertSame(['trust', 'security', 'usability'], $opening['hearing_contract']['jurisdictions']);
+            self::assertSame(1, $opening['hearing_contract']['question_limits']['maximum_questions_per_jurisdiction']);
+            self::assertSame(3, $opening['hearing_contract']['question_limits']['maximum_total_questions']);
+            self::assertSame('conscription.recruiter', $opening['hearing_contract']['return_destination']);
+            self::assertTrue($opening['first_question_commission_authority']['authority_exercisable']);
+            self::assertFalse($opening['first_question_commission_authority']['consumed']);
+            foreach (['question_commission_issued', 'question_authored', 'question_dispatched', 'senate_examination_authority', 'examination_cognition_authority', 'testimony_authority', 'findings_authority', 'profile_approval_authority', 'profile_activation_authority', 'profile_installation_authority', 'operational_profile_installation_authority', 'manifestation_assembly_authority', 'seat_binding_authority', 'mission_seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'cognition_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'mission_plan_amendment_authority', 'follow_up_commission_authority', 'continuing_turn_authority'] as $field) {
+                self::assertFalse($opening[$field], $field.' must remain false');
+            }
+            self::assertSame($opening, $service->open($admission['disposition_id'], $bindingId, new \DateTimeImmutable('2026-08-25T05:00:00+00:00')));
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    private function admittedExaminationManifestationFixture(): array
+    {
+        [$root, $delivery, $bailiffBindingId] = $this->examinationManifestationDeliveryFixture();
+        $admission = (new DelegateMissionExaminationStandAdmissionDispositionService($root))->decide($delivery['delivery_id'], $bailiffBindingId, 'ADMITTED', 'Admit exact secured examination Manifestation.', new \DateTimeImmutable());
+
+        return [$root, $admission, 'senate-lord-speaker-binding-'.str_repeat('4', 20)];
+    }
+
+    private function examinationManifestationDeliveryFixture(): array
+    {
+        [$root, $authorization] = $this->acceptedExaminationPreparationFixture();
+        $delivery = (new DelegateMissionExaminationManifestationAssemblyService($root, new StateStore($root)))->assemble($authorization['disposition_id'], new \DateTimeImmutable());
+        $bindingId = 'senate-bailiff-binding-'.str_repeat('3', 20);
+        $this->write($root.'/var/imperium/offices/senate/occupancy/'.$bindingId.'.json', $this->record([
+            'schema' => 'imperium.senate-bailiff-occupancy/v1',
+            'binding_id' => $bindingId,
+            'instance_id' => 'imperium-test',
+            'office' => 'senate',
+            'seat' => 'senate.bailiff',
+            'officer_class' => 'LEGATE',
+            'manifestation_id' => 'manifestation-bailiff',
+            'occupancy_generation' => 1,
+            'status' => 'ACTIVE',
+            'binding_atomic' => true,
+            'delegate_examination_stand_intake_disposition_authority' => true,
+            'proceeding_security_authority' => true,
+            'execution_authority' => false,
+            'sealed' => true,
+        ]));
+
+        return [$root, $delivery, $bindingId];
+    }
+
+    private function acceptedExaminationPreparationFixture(): array
+    {
+        [$root, $handoff, $bindingId] = $this->examinationPreparationHandoffFixture();
+        $authorization = (new DelegateMissionExaminationPreparationIntakeDispositionService($root))->decide($handoff['handoff_id'], $bindingId, 'ACCEPTED', 'Accept exact examination preparation.', new \DateTimeImmutable());
+
+        return [$root, $authorization];
+    }
+
+    private function examinationPreparationHandoffFixture(): array
+    {
+        [$root, $intake] = $this->acceptedProfileCandidateIntakeFixture();
+        $handoff = (new DelegateMissionExaminationPreparationHandoffService($root, new StateStore($root)))->prepare($intake['disposition_id'], new \DateTimeImmutable());
+        $bindingId = 'senate-lord-speaker-binding-'.str_repeat('4', 20);
+        $this->write($root.'/var/imperium/offices/senate/occupancy/'.$bindingId.'.json', $this->record([
+            'schema' => 'imperium.senate-lord-speaker-occupancy/v1',
+            'binding_id' => $bindingId,
+            'instance_id' => 'imperium-test',
+            'office' => 'senate',
+            'seat' => 'senate.lord-speaker',
+            'officer_class' => 'LEGATE',
+            'manifestation_id' => 'manifestation-lord-speaker',
+            'occupancy_generation' => 1,
+            'status' => 'ACTIVE',
+            'binding_atomic' => true,
+            'delegate_examination_preparation_intake_disposition_authority' => true,
+            'delegate_profile_examination_opening_authority' => true,
+            'execution_authority' => false,
+            'sealed' => true,
+        ]));
+
+        return [$root, $handoff, $bindingId];
+    }
+
+    private function acceptedProfileCandidateIntakeFixture(): array
+    {
+        [$root, $result] = $this->derivedProfileCandidateFixture();
+        $intake = (new DelegateMissionProfileCandidateIntakeDispositionService($root, new StateStore($root)))->decide($result['return']['return_id'], 'ACCEPTED', 'Accept exact sealed candidate.', new \DateTimeImmutable());
+
+        return [$root, $intake];
+    }
+
+    private function derivedProfileCandidateFixture(): array
+    {
+        [$root, $disposition] = $this->acceptedLaboratoriumCommissionFixture();
+        $result = (new DelegateMissionProfileCandidateDerivationReturnService($root, $this->profileElaboration()))->deriveAndReturn($disposition['disposition_id'], new \DateTimeImmutable());
+
+        return [$root, $result];
+    }
+
+    private function profileElaboration(): ProfileElaborationCognitionGateway
+    {
+        return new class implements ProfileElaborationCognitionGateway {
+            public function elaborate(array $acceptance, array $authorization): array
+            {
+                return [
+                    'disposition' => 'PROFILE_ELABORATION_COMPLETE',
+                    'operating_posture' => 'Operate only within the exact passive assessment scope.',
+                    'responsibilities' => ['Perform the exact bounded assessment.'],
+                    'non_responsibilities' => ['Do not execute external changes.'],
+                    'reasoning_priorities' => ['Preserve evidence and scope.'],
+                    'evidence_discipline' => ['Cite every finding.'],
+                    'tool_use_directives' => ['Request separately authorized tools only.'],
+                    'input_handling' => ['Reject inputs outside the approved perimeter.'],
+                    'output_contract' => ['Return one evidence-backed report.'],
+                    'escalation_conditions' => ['Escalate on authentication boundaries.'],
+                    'uncertainty_behavior' => ['State uncertainty explicitly.'],
+                    'failure_behavior' => ['Stop and return without improvisation.'],
+                    'persona_adaptations' => ['Apply passive assessment discipline.'],
+                ];
+            }
+        };
+    }
+
+    private function acceptedLaboratoriumCommissionFixture(): array
+    {
+        [$root, $commission, $bindingId] = $this->laboratoriumCommissionFixture();
+        $disposition = (new DelegateMissionProfileDerivationCommissionDispositionService($root))->decide($commission['request_id'], $bindingId, 'ACCEPTED', 'Accept exact custody-bound derivation commission.', new \DateTimeImmutable());
+
+        return [$root, $disposition];
+    }
+
+    private function laboratoriumCommissionFixture(): array
+    {
+        [$root, $decision, $bootstrap] = $this->authorizedProfileScopeDecisionFixture();
+        $commission = (new DelegateMissionProfileDerivationCommissionRequestService($root, $bootstrap))->decide($decision['decision_id'], 'ACCEPTED', 'Accept exact authorized scope.', new \DateTimeImmutable())['commission_request'];
+        $bindingId = 'laboratorium-alchemist-binding-'.str_repeat('6', 20);
+        $this->write($root.'/var/imperium/offices/laboratorium/occupancy/'.$bindingId.'.json', $this->record([
+            'schema' => 'imperium.laboratorium-alchemist-occupancy/v1',
+            'binding_id' => $bindingId,
+            'instance_id' => 'imperium-test',
+            'office' => 'laboratorium',
+            'seat' => 'laboratorium.alchemist',
+            'officer_class' => 'LEGATE',
+            'manifestation_id' => 'manifestation-alchemist',
+            'occupancy_generation' => 1,
+            'status' => 'ACTIVE',
+            'binding_atomic' => true,
+            'profile_derivation_commission_acceptance_authority' => true,
+            'execution_authority' => false,
+            'sealed' => true,
+        ]));
+
+        return [$root, $commission, $bindingId];
+    }
+
+    private function authorizedProfileScopeDecisionFixture(): array
+    {
+        [$root, $request] = $this->profileScopeRequestFixture();
+        $decision = (new DelegateMissionProfileScopeDecisionService($root))->decide($request['request_id'], 'AUTHORIZED', 'Authorize.', 'No scope expansion.', new \DateTimeImmutable());
+        $bootstrap = new StateStore($root);
+        $bootstrap->write([
+            'state' => 'CURIA_READY',
+            'binding' => ['instance_id' => 'imperium-test'],
+            'events' => [[
+                'transition' => 'T04',
+                'result' => 'SUCCESS',
+                'output' => ['successor' => ['manifestation_id' => 'manifestation-recruiter', 'seat' => 'conscription.recruiter', 'occupancy_generation' => 2, 'authority' => 'ordinary-recruiter']],
+            ]],
+        ]);
+
+        return [$root, $decision, $bootstrap];
+    }
+
+    private function profileScopeRequestFixture(): array
+    {
+        [$root, $reservationRequest, $constableBindingId] = $this->reservationRequestFixture();
+        $reservation = (new DelegateMissionPersonaReservationDispositionService($root))->decide($reservationRequest['request_id'], $constableBindingId, new \DateTimeImmutable());
+        $request = (new DelegateMissionProfileScopeAuthorizationRequestService($root))->construct($reservation['disposition_id'], new \DateTimeImmutable());
+
+        return [$root, $request];
+    }
+
+    private function personnelUseRequestFixture(): array
+    {
+        [$root, $demandId, $bindingId, $responseId, $custodyId] = $this->fixtures();
+        $intake = (new DelegateMissionCapabilityDemandIntakeService($root))->decide($demandId, $bindingId, 'ACCEPTED', 'Accepted.', new \DateTimeImmutable());
+        $resolution = (new DelegateMissionPersonnelResolutionService($root))->resolve($intake['disposition_id'], $bindingId, $responseId, 'Passive web application security assessor', $custodyId, 'SUITABLE', ['Passive assessment discipline'], ['garrison-custody-fact'], 'The exact Persona is suitable.', new \DateTimeImmutable());
+        $request = (new DelegateMissionPersonnelUseRequestService($root))->present($resolution['resolution_id'], new \DateTimeImmutable());
+
+        return [$root, $request, $bindingId];
+    }
+
+    private function reservationRequestFixture(bool $available = true): array
+    {
+        [$root, $request, $guildmasterBindingId] = $this->personnelUseRequestFixture();
+        $decision = (new DelegateMissionPersonnelUseDecisionService($root))->decide($request['request_id'], 'AUTHORIZED', 'Authorize.', 'Exact disclosed mission bounds.', new \DateTimeImmutable());
+        $reservationRequest = (new DelegateMissionPersonnelUseAcceptanceService($root))->accept($decision['decision_id'], $guildmasterBindingId, new \DateTimeImmutable())['reservation_request'];
+        $custodyId = $reservationRequest['personnel_commitment']['persona']['custody_id'];
+        if (!$available) {
+            $path = $root.'/var/imperium/offices/garrison/custody/'.$custodyId.'.json';
+            $custody = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+            unset($custody['record_digest']);
+            $custody['available'] = false;
+            $this->write($path, $this->record($custody));
+        }
+        $constableBindingId = 'garrison-constable-binding-'.str_repeat('7', 20);
+        $this->write($root.'/var/imperium/offices/garrison/occupancy/'.$constableBindingId.'.json', $this->record([
+            'schema' => 'imperium.garrison-constable-occupancy/v1',
+            'binding_id' => $constableBindingId,
+            'instance_id' => 'imperium-test',
+            'seat' => 'garrison.constable',
+            'officer_class' => 'LEGATE',
+            'manifestation_id' => 'manifestation-constable',
+            'occupancy_generation' => 1,
+            'status' => 'ACTIVE',
+            'persona_reservation_disposition_authority' => true,
+            'selection_authority' => false,
+            'execution_authority' => false,
+            'sealed' => true,
+        ]));
+
+        return [$root, $reservationRequest, $constableBindingId, $custodyId];
+    }
+
+    private function fixtures(): array
+    {
+        $root = sys_get_temp_dir().'/imperium-delegate-guildhall-'.bin2hex(random_bytes(5));
+        $demandId = 'delegate-mission-capability-demand-'.str_repeat('a', 20);
+        $bindingId = 'guildhall-binding-'.str_repeat('b', 20);
+        $responseId = 'garrison-response-'.str_repeat('c', 20);
+        $custodyId = 'garrison-custody-passive-assessor';
+        $demand = $this->record([
+            'schema' => 'imperium.delegate-mission-capability-demand/v1',
+            'demand_id' => $demandId,
+            'instance_id' => 'imperium-test',
+            'officer_class' => 'DELEGATE',
+            'authority_source' => ['mission_authorization' => ['id' => 'mission-authorization-'.str_repeat('d', 20), 'digest' => str_repeat('1', 64)]],
+            'mission_plan' => ['proceeding_id' => 'proceeding-delegate', 'turn_sequence' => 1, 'turn_digest' => str_repeat('2', 64), 'dossier_id' => 'curia-planning-dossier-'.str_repeat('e', 20), 'dossier_version' => 1, 'dossier_digest' => str_repeat('3', 64), 'plan_digest' => str_repeat('4', 64)],
+            'demand' => [
+                'objective' => 'Assess exact public surface.',
+                'scope' => ['Public application behavior only'],
+                'deliverables' => ['Sealed assessment report'],
+                'constraints' => ['Passive observation only'],
+                'required_inputs' => ['Approved public endpoint list'],
+                'capability_requirements' => ['Analyze public behavior'],
+                'expected_outcomes' => ['Evidence-backed findings'],
+                'mission_seat' => 'mission.delegate.passive-assessment',
+                'bounded_duration' => ['maximum' => 4, 'unit' => 'hours', 'starts_when' => 'Delegate deployment is authorized', 'expires_when' => 'Four hours elapse'],
+                'data_requirements' => ['Public responses'],
+                'tool_requirements' => ['Passive HTTP client'],
+                'credential_requirements' => ['None'],
+                'perimeter_requirements' => ['Approved public endpoints only'],
+                'stop_conditions' => ['Unexpected authentication boundary'],
+                'return_conditions' => ['Mission disposition or interruption'],
+                'unbinding_conditions' => ['Return accepted'],
+                'custody_restoration_conditions' => ['Restore Persona to Garrison custody'],
+                'retirement_conditions' => ['Delegate unbound and manifestation terminated'],
+            ],
+            'consumer' => ['office' => 'guildhall', 'seat' => 'guildhall.guildmaster', 'intake_pending' => true, 'delivered' => false],
+            'status' => 'DELEGATE_MISSION_CAPABILITY_DEMAND_SEALED_PENDING_GUILDHALL_INTAKE_NO_PERSONNEL_AUTHORITY',
+            'guildhall_intake_authority' => false,
+            'profession_determination_authority' => false,
+            'persona_selection_authority' => false,
+            'personnel_use_authority' => false,
+            'execution_authority' => false,
+            'sealed' => true,
+        ]);
+        $bindings = [];
+        foreach (['guildhall.guildmaster', 'guildhall.committee.disciplinary-fit', 'guildhall.committee.composition', 'guildhall.committee.boundary-challenge'] as $seat) {
+            $bindings[$seat] = ['seat' => $seat, 'officer_class' => 'LEGATE', 'manifestation_id' => 'guildhall.guildmaster' === $seat ? 'manifestation-guildmaster' : 'manifestation-'.substr(hash('sha256', $seat), 0, 12), 'occupancy_generation' => 1, 'status' => 'ACTIVE'];
+        }
+        $binding = $this->record([
+            'schema' => 'imperium.guildhall-seat-binding-cohort/v1',
+            'binding_id' => $bindingId,
+            'instance_id' => 'imperium-test',
+            'office' => 'guildhall',
+            'bindings' => $bindings,
+            'office_status' => 'ACTIVE',
+            'binding_atomic' => true,
+            'execution_authority' => false,
+        ]);
+        $custody = $this->record([
+            'schema' => 'imperium.garrison-persona-custody/v1',
+            'custody_id' => $custodyId,
+            'instance_id' => 'imperium-test',
+            'persona_id' => 'persona-passive-assessor',
+            'persona_version' => '1.0.0',
+            'persona_digest' => 'sha256:'.str_repeat('5', 64),
+            'custody_state' => 'ADMITTED_HELD',
+            'available' => true,
+            'sealed' => true,
+        ]);
+        $response = $this->record([
+            'schema' => 'imperium.garrison-inventory-response/v1',
+            'response_id' => $responseId,
+            'instance_id' => 'imperium-test',
+            'proceeding_id' => 'proceeding-delegate',
+            'source_inquiry_id' => 'garrison-inquiry-'.str_repeat('f', 20),
+            'source_inquiry_digest' => str_repeat('6', 64),
+            'responder' => ['office' => 'garrison', 'seat' => 'garrison.constable', 'manifestation_id' => 'manifestation-constable', 'occupancy_generation' => 1, 'occupancy_digest' => str_repeat('7', 64)],
+            'recipient' => ['office' => 'guildhall', 'seat' => 'guildhall.guildmaster', 'manifestation_id' => 'manifestation-guildmaster', 'occupancy_generation' => 1],
+            'inventory_records' => [$custody],
+            'ledger_finding' => 'EXACT_ADMITTED_PERSONA_CUSTODY_RECORDS_ATTACHED',
+            'status' => 'AUTHORITATIVE_INVENTORY_FACTS_DELIVERED',
+            'authoritative_inventory_response' => true,
+            'ranking_authority' => false,
+            'selection_authority' => false,
+            'reservation_authority' => false,
+            'retrieval_authority' => false,
+            'spawning_authority' => false,
+            'execution_authority' => false,
+        ]);
+        $this->write($root.'/var/imperium/offices/curia/delegate-mission-capability-demands/'.$demandId.'.json', $demand);
+        $this->write($root.'/var/imperium/offices/guildhall/occupancy/'.$bindingId.'.json', $binding);
+        $this->write($root.'/var/imperium/offices/guildhall/inventory-responses/'.$responseId.'.json', $response);
+        $this->write($root.'/var/imperium/offices/garrison/custody/'.$custodyId.'.json', $custody);
+
+        return [$root, $demandId, $bindingId, $responseId, $custodyId];
+    }
+
+    private function record(array $record): array
+    {
+        $record['record_digest'] = hash('sha256', CanonicalJson::encode($record));
+
+        return $record;
+    }
+
+    private function write(string $path, array $record): void
+    {
+        if (!is_dir(dirname($path))) {
+            mkdir(dirname($path), 0770, true);
+        }
+        file_put_contents($path, json_encode($record, JSON_THROW_ON_ERROR));
+    }
+
+    private function remove(string $path): void
+    {
+        if (!is_dir($path)) {
+            return;
+        }
+        foreach (array_diff(scandir($path) ?: [], ['.', '..']) as $entry) {
+            $child = $path.'/'.$entry;
+            is_dir($child) ? $this->remove($child) : unlink($child);
+        }
+        rmdir($path);
+    }
+}
