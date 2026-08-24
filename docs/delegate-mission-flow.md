@@ -9,7 +9,7 @@
 
 Curia states mission capabilities but never chooses a profession or Persona. Guildhall resolves profession and Persona suitability. Garrison owns custody and availability facts. Conscription assembles and qualifies but does not select personnel. Imperator decides protected personnel, Profile, deployment, resource, perimeter, and action commitments.
 
-## Implemented flow through Step 64
+## Implemented flow through Step 65
 
 ### Demand and personnel resolution
 
@@ -110,10 +110,11 @@ Curia states mission capabilities but never chooses a profession or Persona. Gui
 62. The ordinary Recruiter seals the exact selected model and configuration to the Delegate mission target and turn 1.
 63. Clavium attests expiring access to the exact bound provider/model without releasing credentials.
 64. Imperator authorizes only the attested model and frozen turn-one requirements.
+65. Clavium creates one expiring, single-use credential lease and exact provider activation.
 
 ## Current checkpoint
 
-`DELEGATE_MISSION_RESOURCE_AND_INVOCATION_AUTHORIZED_PENDING_SCOPED_ACTIVATION`
+`DELEGATE_MISSION_PROVIDER_INVOCATION_ACTIVATED_PENDING_ONE_BOUNDED_COGNITION_TURN`
 
 The exact Delegate runtime is active, access is attested, and Imperator has authorized the exact bound turn. Only one scoped Clavium activation authority is open; no credential is released and no provider, resource, external action, or cognition has executed.
 
