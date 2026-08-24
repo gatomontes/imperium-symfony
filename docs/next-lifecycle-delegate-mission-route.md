@@ -23,7 +23,7 @@ The original `14–18` transition estimate was invalidated by implementation. It
 
 At the current granularity, the complete route is expected to reach approximately Step `58–64`. This is an estimate, not a target. Before adding further repeated transitions, the route should be exercised locally and reviewed for safe consolidation that does not merge decision-makers or smuggle authority downstream.
 
-Steps 1–42 are implemented. Step 42 completes the Senate-disposition leg; approximately `16–22` transitions remain if the current granularity is preserved.
+Steps 1–43 are implemented. Step 43 completes sovereign Profile approval; approximately `15–21` transitions remain if the current granularity is preserved.
 
 The expected phases are:
 
@@ -436,6 +436,18 @@ The route stops at `DELEGATE_MISSION_SENATE_DISPOSITION_SEALED_PENDING_IMPERATOR
 `Delegate Mission Step 43 — Imperator Profile-approval decision`
 
 Imperator independently decides the exact Senate disposition and sealed Delegate Profile candidate. Senate disposition is evidence, not sovereign approval; Step 43 must stop before operational qualification or installation.
+
+### Implementation status
+
+Step 43 is implemented. See `docs/handoffs/delegate-mission-step-43-complete.md` and `contracts/delegate-mission-profile-approval-decision.md`.
+
+The approved route stops at `DELEGATE_MISSION_PROFILE_APPROVED_PENDING_CONSCRIPTION_OPERATIONAL_QUALIFICATION`. Only one exact request authority for Conscription exists; no operational Profile, Manifestation, mission Seat, deployment, or execution authority exists.
+
+## Next bounded transition
+
+`Delegate Mission Step 44 — Conscription operational qualification`
+
+The exact occupied Recruiter consumes the Step 43 request and qualifies the approved Profile against the immutable mission scope, live custody, generic Officer v0 substrate, intended mission Seat, resource limits, stop conditions, and return design. It must stop before operational Manifestation assembly.
 
 ## Non-negotiable terminal design
 
