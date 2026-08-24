@@ -9,7 +9,7 @@
 
 Curia states mission capabilities but never chooses a profession or Persona. Guildhall resolves profession and Persona suitability. Garrison owns custody and availability facts. Conscription assembles and qualifies but does not select personnel. Imperator decides protected personnel, Profile, deployment, resource, perimeter, and action commitments.
 
-## Implemented flow through Step 40
+## Implemented flow through Step 42
 
 ### Demand and personnel resolution
 
@@ -72,20 +72,24 @@ Curia states mission capabilities but never chooses a profession or Persona. Gui
 39. The Lord Speaker admits the three findings unchanged and opens bounded reconciliation.
 40. Tool-less cognition reconciles them without voting, aggregation, mutation, or disposition.
 
+### Senate disposition leg
+
+41. The Lord Speaker opens one bounded disposition authority without authoring a verdict.
+42. The Lord Speaker seals one attributable disposition; the mandatory Security block mechanically prohibits approval.
+
 ## Current checkpoint
 
-`DELEGATE_MISSION_FINDINGS_RECONCILED_PENDING_DISPOSITION_AUTHORITY_OPENING`
+`DELEGATE_MISSION_SENATE_DISPOSITION_SEALED_PENDING_IMPERATOR_PROFILE_APPROVAL`
 
-Only the Lord Speaker's single-use authority to open the separate Senate-disposition phase exists. The three findings and mandatory Security block remain unchanged. Voting, aggregation, Senate disposition, Profile approval, operational-use, mission Seat, deployment, resource, perimeter, external-action, execution, Mission Plan amendment, follow-up commission, and continuing-turn authority remain closed.
+The Senate disposition is sealed and its authority consumed. The three findings, reconciliation, and mandatory Security block remain unchanged. Imperator Profile approval, operational qualification, Profile installation, mission Seat, deployment, resource, perimeter, external-action, execution, Mission Plan amendment, follow-up commission, and continuing-turn authority remain closed.
 
 ## Expected remaining phases
 
-1. Senate disposition;
-2. Imperator Profile approval and operational qualification;
-3. operational Delegate assembly and exact mission Seat binding;
-4. deployment authorization and Garrison custody transition;
-5. bounded mission cognition and separately authorized resources/actions;
-6. result delivery and mission disposition;
-7. return, Seat unbinding, credential revocation, custody restoration, and Delegate termination.
+1. Imperator Profile approval and operational qualification;
+2. operational Delegate assembly and exact mission Seat binding;
+3. deployment authorization and Garrison custody transition;
+4. bounded mission cognition and separately authorized resources/actions;
+5. result delivery and mission disposition;
+6. return, Seat unbinding, credential revocation, custody restoration, and Delegate termination.
 
 The route is not operational merely because examination testimony exists. Every operational authority remains separately gated.

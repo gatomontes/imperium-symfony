@@ -23,7 +23,7 @@ The original `14–18` transition estimate was invalidated by implementation. It
 
 At the current granularity, the complete route is expected to reach approximately Step `58–64`. This is an estimate, not a target. Before adding further repeated transitions, the route should be exercised locally and reviewed for safe consolidation that does not merge decision-makers or smuggle authority downstream.
 
-Steps 1–40 are implemented. Step 40 completes bounded finding reconciliation; approximately `18–24` transitions remain if the current granularity is preserved.
+Steps 1–42 are implemented. Step 42 completes the Senate-disposition leg; approximately `16–22` transitions remain if the current granularity is preserved.
 
 The expected phases are:
 
@@ -424,6 +424,18 @@ The route stops at `DELEGATE_MISSION_FINDINGS_RECONCILED_PENDING_DISPOSITION_AUT
 `Delegate Mission Step 41 — disposition-authority opening`
 
 The exact Lord Speaker consumes the Step 40 authority to open exactly one Senate-disposition authority. It must stop before disposition cognition or authorship.
+
+### Implementation status
+
+Steps 41–42 are implemented. See `docs/handoffs/delegate-mission-steps-41-42-complete.md`, `docs/handoffs/delegate-mission-senate-disposition-leg-complete.md`, and the corresponding contracts.
+
+The route stops at `DELEGATE_MISSION_SENATE_DISPOSITION_SEALED_PENDING_IMPERATOR_PROFILE_APPROVAL`. The Security block is mechanically binding, and the Senate disposition grants no Imperator or operational authority.
+
+## Next bounded transition
+
+`Delegate Mission Step 43 — Imperator Profile-approval decision`
+
+Imperator independently decides the exact Senate disposition and sealed Delegate Profile candidate. Senate disposition is evidence, not sovereign approval; Step 43 must stop before operational qualification or installation.
 
 ## Non-negotiable terminal design
 
