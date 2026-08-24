@@ -23,7 +23,7 @@ The original `14–18` transition estimate was invalidated by implementation. It
 
 At the current granularity, the complete route is expected to reach approximately Step `58–64`. This is an estimate, not a target. Before adding further repeated transitions, the route should be exercised locally and reviewed for safe consolidation that does not merge decision-makers or smuggle authority downstream.
 
-Steps 1–24 are implemented. Step 24 completes the first trust-question leg; approximately `34–40` transitions remain if the current granularity is preserved.
+Steps 1–40 are implemented. Step 40 completes bounded finding reconciliation; approximately `18–24` transitions remain if the current granularity is preserved.
 
 The expected phases are:
 
@@ -412,6 +412,18 @@ The route stops at `DELEGATE_MISSION_SENATOR_FINDINGS_SEALED_PENDING_DELIBERATIO
 `Delegate Mission Step 39 — deliberation opening`
 
 The Lord Speaker admits all three sealed findings unchanged into one bounded deliberation record. It must preserve disagreement, severity, attribution, limitations, uncertainty, and the mandatory Security blocking condition, and stop before reconciliation cognition.
+
+### Implementation status
+
+Steps 39–40 are implemented. See `docs/handoffs/delegate-mission-steps-39-40-complete.md`, `docs/handoffs/delegate-mission-deliberation-reconciliation-leg-complete.md`, and the corresponding contracts.
+
+The route stops at `DELEGATE_MISSION_FINDINGS_RECONCILED_PENDING_DISPOSITION_AUTHORITY_OPENING`. Reconciliation preserves the three findings and Security block without voting or aggregation. No Senate disposition authority is yet open.
+
+## Next bounded transition
+
+`Delegate Mission Step 41 — disposition-authority opening`
+
+The exact Lord Speaker consumes the Step 40 authority to open exactly one Senate-disposition authority. It must stop before disposition cognition or authorship.
 
 ## Non-negotiable terminal design
 
