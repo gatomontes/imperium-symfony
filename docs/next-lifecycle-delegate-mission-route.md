@@ -23,7 +23,7 @@ The original `14–18` transition estimate was invalidated by implementation. It
 
 At the current granularity, the complete route is expected to reach approximately Step `58–64`. This is an estimate, not a target. Before adding further repeated transitions, the route should be exercised locally and reviewed for safe consolidation that does not merge decision-makers or smuggle authority downstream.
 
-Steps 1–57 are implemented. Steps 56–57 reuse the governed Oracle acceptance and frozen evaluation-case contracts without weakening Delegate lineage; approximately `5–11` transitions remain.
+Steps 1–60 are implemented. Steps 58–60 reuse governed Oracle eligibility, comparison, and recommendation while leaving selection with Curia; approximately `4–8` transitions remain.
 
 The expected phases are:
 
@@ -544,6 +544,18 @@ The route stops at `ORACLE_MODEL_EVALUATION_CASE_OPENED_PENDING_AUGUR_ELIGIBILIT
 `Delegate Mission Step 58 — evidence-bound Oracle eligibility findings`
 
 The Augur must issue one independent finding for every frozen candidate authority. Completion may open comparative assessment only when at least one candidate is eligible.
+
+### Implementation status
+
+Steps 58–60 are implemented by the existing governed Oracle finding, comparison, and recommendation services. See `docs/handoffs/delegate-mission-oracle-judgment-leg-complete.md` and `contracts/delegate-mission-oracle-judgment.md`.
+
+The route stops at `ORACLE_MODEL_RECOMMENDATION_SEALED_PENDING_CURIA_SELECTION_DECISION`. Oracle's recommendation is attributable and evidence-bound, but it is not a selection, assignment, or invocation.
+
+## Next bounded transition
+
+`Delegate Mission Step 61 — Curia exact model-selection decision`
+
+The occupied Seneschal may select only an eligible model identified by the frozen Oracle route, reject all candidates, or return a new commission. Selection must remain distinct from binding, access attestation, and invocation authorization.
 
 ## Non-negotiable terminal design
 
