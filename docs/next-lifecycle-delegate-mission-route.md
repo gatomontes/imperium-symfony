@@ -23,7 +23,7 @@ The original `14–18` transition estimate was invalidated by implementation. It
 
 At the current granularity, the complete route is expected to reach approximately Step `58–64`. This is an estimate, not a target. Before adding further repeated transitions, the route should be exercised locally and reviewed for safe consolidation that does not merge decision-makers or smuggle authority downstream.
 
-Steps 1–61 are implemented. Step 61 assigns the evidence-bound selection decision to Curia without binding or invocation; approximately `3–7` transitions remain.
+Steps 1–62 are implemented. Step 62 seals Curia's exact selection to Delegate turn 1 without access or invocation; approximately `2–6` transitions remain.
 
 The expected phases are:
 
@@ -568,6 +568,18 @@ The selected route stops at `DELEGATE_MISSION_MODEL_SELECTED_PENDING_CONSCRIPTIO
 `Delegate Mission Step 62 — exact Delegate turn model-binding seal`
 
 Conscription must seal the selected provider/model version and configuration to the exact Delegate Manifestation, Seat, bounded commission, and turn sequence without mutating the approved Profile or granting access.
+
+### Implementation status
+
+Step 62 is implemented. See `docs/handoffs/delegate-mission-step-62-complete.md` and `contracts/delegate-mission-model-binding.md`.
+
+The route stops at `DELEGATE_MISSION_MODEL_BINDING_SEALED_PENDING_ACCESS_ATTESTATION`. Only one exact single-use Clavium access-attestation authority is open; assignment, access, credentials, invocation, resources, and execution remain unauthorized.
+
+## Next bounded transition
+
+`Delegate Mission Step 63 — exact bound-model access attestation`
+
+Clavium must attest whether access to the exact bound provider/model version is available, under which restrictions, and until what expiry. Attestation must not release credentials or invoke the provider.
 
 ## Non-negotiable terminal design
 
