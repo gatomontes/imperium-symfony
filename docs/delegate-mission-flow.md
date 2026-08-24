@@ -9,7 +9,7 @@
 
 Curia states mission capabilities but never chooses a profession or Persona. Guildhall resolves profession and Persona suitability. Garrison owns custody and availability facts. Conscription assembles and qualifies but does not select personnel. Imperator decides protected personnel, Profile, deployment, resource, perimeter, and action commitments.
 
-## Implemented flow through Step 48
+## Implemented flow through Step 49
 
 ### Demand and personnel resolution
 
@@ -92,11 +92,15 @@ Curia states mission capabilities but never chooses a profession or Persona. Gui
 47. The Seneschal authorizes or refuses the exact bounded deployment.
 48. The Constable independently transitions custody to deployed-and-bound while leaving the Delegate inactive.
 
+### Runtime activation
+
+49. Conscription mechanically revalidates the exact generation-1 binding and live deployed custody, activates the runtime, and opens only one exact Seneschal mission-control intake authority.
+
 ## Current checkpoint
 
-`DELEGATE_MISSION_DEPLOYED_CUSTODY_TRANSITIONED_PENDING_MISSION_ACTIVATION`
+`DELEGATE_MISSION_RUNTIME_ACTIVE_PENDING_MISSION_CONTROL_INTAKE`
 
-The exact Delegate is bound and deployed, and custody is `DELEGATE_MISSION_DEPLOYED_BOUND`, but the Delegate remains inactive. Operational use, cognition, provider invocation, data, tools, credentials, perimeter crossing, external action, execution, Mission Plan amendment, follow-up commission, and continuing-turn authority remain closed.
+The exact Delegate runtime is active and custody remains `DELEGATE_MISSION_DEPLOYED_BOUND`, but no mission turn exists. Operational use, cognition, provider invocation, data, tools, credentials, perimeter crossing, external action, execution, Mission Plan amendment, follow-up commission, and continuing-turn authority remain closed.
 
 ## Expected remaining phases
 
