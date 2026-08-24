@@ -9,7 +9,7 @@
 
 Curia states mission capabilities but never chooses a profession or Persona. Guildhall resolves profession and Persona suitability. Garrison owns custody and availability facts. Conscription assembles and qualifies but does not select personnel. Imperator decides protected personnel, Profile, deployment, resource, perimeter, and action commitments.
 
-## Implemented flow through Step 52
+## Implemented flow through Step 55
 
 ### Demand and personnel resolution
 
@@ -98,12 +98,15 @@ Curia states mission capabilities but never chooses a profession or Persona. Gui
 50. The exact occupied Seneschal accepts, refuses, returns, or defers the unchanged active Delegate mission-control intake. Acceptance opens only one bounded-cognition commission-construction authority.
 51. The exact occupied Seneschal constructs one sealed, single-iteration cognition-only commission directly from the unchanged mission use without invoking it or releasing resources.
 52. Curia mechanically assesses exact resource and invocation readiness, preserves the resource requirements, detects the absent model binding, and opens only an Oracle model-requirement commission authority.
+53. The Seneschal presents explicit proposed model-selection criteria to Imperator.
+54. Imperator authorizes, amends-and-authorizes, refuses, returns, or defers the exact criteria.
+55. The Seneschal issues the exact authorized commission against one pinned Oracle catalogue snapshot.
 
 ## Current checkpoint
 
-`DELEGATE_MISSION_RESOURCE_REQUIREMENTS_ASSESSED_PENDING_ORACLE_MODEL_REQUIREMENT_COMMISSION`
+`ISSUED_PENDING_ORACLE_ACCEPTANCE`
 
-The exact Delegate runtime is active, one sealed cognition-only commission exists, and its resources are enumerated. Provider invocation is explicitly blocked because no exact model binding exists. No resource has been released. Operational use, cognition, provider invocation, data, tools, credentials, perimeter crossing, external action, execution, Mission Plan amendment, follow-up commission, and continuing-turn authority remain closed.
+The exact Delegate runtime is active, one sealed cognition-only commission exists, its resources are enumerated, and an Imperator-authorized model-requirement commission is waiting in Oracle's inbox against a pinned catalogue snapshot. No model is accepted, evaluated, recommended, selected, assigned, or invoked, and no resource has been released.
 
 ## Expected remaining phases
 
