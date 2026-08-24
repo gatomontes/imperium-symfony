@@ -43,6 +43,7 @@ final readonly class DelegateMissionModelSelectionDecisionService
 
         $authority = $recommendation['curia_selection_decision_authority'] ?? [];
         $eligible = $authority['eligible_models'] ?? [];
+        $runtimeBindings = $recommendation['runtime_bindings'] ?? [];
         $selected = 'SELECT_ELIGIBLE_MODEL' === $disposition;
         if (!$this->validDigest($recommendation) || !$this->validDigest($seneschal)
             || 'imperium.oracle-model-recommendation/v1' !== ($recommendation['schema'] ?? null)
@@ -52,12 +53,14 @@ final readonly class DelegateMissionModelSelectionDecisionService
             || true !== ($authority['authority_single_use'] ?? null)
             || !in_array($disposition, $authority['permitted_decisions'] ?? [], true)
             || $eligible !== ($recommendation['eligible_models'] ?? null)
+            || array_keys($runtimeBindings) !== $eligible
             || true === ($recommendation['selection_authority'] ?? null)
             || 'imperium.curia-seneschal-occupancy/v1' !== ($seneschal['schema'] ?? null)
             || $bindingId !== ($seneschal['binding_id'] ?? null) || 'ACTIVE' !== ($seneschal['status'] ?? null)
             || true !== ($seneschal['delegate_mission_model_selection_decision_authority'] ?? null)
             || true === ($seneschal['execution_authority'] ?? null)
             || ($selected && (!is_string($model) || !in_array($model, $eligible, true)))
+            || ($selected && !$this->validRuntimeBinding($runtimeBindings[$model] ?? null))
             || (!$selected && (null !== $model || [] !== $configuration))) {
             throw new \RuntimeException('C304_DELEGATE_MODEL_SELECTION_CHAIN_INVALID');
         }
@@ -69,7 +72,7 @@ final readonly class DelegateMissionModelSelectionDecisionService
         return $this->save($decisionId, [
             'schema' => 'imperium.curia-delegate-mission-model-selection-decision/v1', 'decision_id' => $decisionId, 'instance_id' => $seneschal['instance_id'], 'decision_maker' => $actor,
             'source_recommendation' => ['id' => $recommendationId, 'digest' => $recommendation['record_digest']], 'source_commission' => $recommendation['commission'], 'source_comparative_assessment' => $recommendation['comparative_assessment'],
-            'eligible_models' => $eligible, 'recommended_model' => $recommendation['recommended_model'], 'disposition' => $disposition, 'selected_model' => $selected ? $model : null, 'configuration' => $selected ? $configuration : [], 'rationale' => $rationale,
+            'eligible_models' => $eligible, 'runtime_bindings' => $runtimeBindings, 'recommended_model' => $recommendation['recommended_model'], 'disposition' => $disposition, 'selected_model' => $selected ? $model : null, 'selected_runtime_binding' => $selected ? $runtimeBindings[$model] : null, 'configuration' => $selected ? $configuration : [], 'rationale' => $rationale,
             'selection_authority' => ['id' => $authorityId, 'consumed' => true, 'continuing_authority' => false], 'decided_at' => $decidedAt->format(DATE_ATOM),
             'status' => $selected ? 'DELEGATE_MISSION_MODEL_SELECTED_PENDING_CONSCRIPTION_BINDING_SEAL' : 'DELEGATE_MISSION_MODEL_NOT_SELECTED', 'model_selected' => $selected,
             'model_binding_sealing_authority' => $selected ? ['authority_id' => $sealAuthorityId, 'authority_single_use' => true, 'authority_exercisable' => true, 'holder' => 'conscription.recruiter', 'purpose' => 'SEAL_EXACT_SELECTED_MODEL_TO_DELEGATE_MISSION_TURN_ONE', 'consumed' => false, 'continuing_authority' => false] : null,
@@ -90,6 +93,15 @@ final readonly class DelegateMissionModelSelectionDecisionService
         $digest = $record['record_digest'] ?? null;
         unset($record['record_digest']);
         return is_string($digest) && hash_equals($digest, hash('sha256', CanonicalJson::encode($record)));
+    }
+
+    private function validRuntimeBinding(mixed $binding): bool
+    {
+        return is_array($binding)
+            && array_keys($binding) === ['provider', 'platform_service', 'runtime_model']
+            && is_string($binding['provider']) && '' !== trim($binding['provider'])
+            && is_string($binding['platform_service']) && str_starts_with($binding['platform_service'], 'ai.platform.')
+            && is_string($binding['runtime_model']) && '' !== trim($binding['runtime_model']);
     }
 
     private function save(string $decisionId, array $record): array

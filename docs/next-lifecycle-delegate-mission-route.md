@@ -23,7 +23,7 @@ The original `14–18` transition estimate was invalidated by implementation. It
 
 At the current granularity, the complete route is expected to reach approximately Step `58–64`. This is an estimate, not a target. Before adding further repeated transitions, the route should be exercised locally and reviewed for safe consolidation that does not merge decision-makers or smuggle authority downstream.
 
-Steps 1–65 are implemented. Step 65 creates one expiring, single-use credential lease without invocation; approximately `1–3` transitions remain.
+Steps 1–66 are implemented. Step 66 consumes the exact lease in one Symfony AI invocation and seals the bounded result; approximately `1–2` transitions remain.
 
 The expected phases are:
 
@@ -598,6 +598,18 @@ Clavium may create one expiring, single-use credential lease and activation for 
 Step 65 is implemented. See `docs/handoffs/delegate-mission-step-65-complete.md`.
 
 The route stops at `DELEGATE_MISSION_PROVIDER_INVOCATION_ACTIVATED_PENDING_ONE_BOUNDED_COGNITION_TURN`. Step 66 must exercise that exact authority through a governed cognition gateway and consume the lease atomically.
+
+## Next bounded transition
+
+`Delegate Mission Step 66 — one governed provider invocation and bounded cognition turn`
+
+Citadel revalidates the exact commission, binding, access attestation, runtime mapping, target, lease, and single-turn authority before invoking the explicitly named Symfony AI platform and runtime model. Catalogue identity is never passed to the provider as the executable model name.
+
+### Implementation status
+
+Step 66 is implemented. See `docs/handoffs/delegate-mission-step-66-complete.md` and `contracts/delegate-mission-bounded-cognition-turn.md`.
+
+The route stops at `DELEGATE_MISSION_BOUNDED_COGNITION_TURN_COMPLETE_PENDING_CURIA_DISPOSITION`. Step 67 must dispose the exact sealed result and open only its governed return path.
 
 ## Non-negotiable terminal design
 
