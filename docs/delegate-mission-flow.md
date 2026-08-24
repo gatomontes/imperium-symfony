@@ -9,7 +9,7 @@
 
 Curia states mission capabilities but never chooses a profession or Persona. Guildhall resolves profession and Persona suitability. Garrison owns custody and availability facts. Conscription assembles and qualifies but does not select personnel. Imperator decides protected personnel, Profile, deployment, resource, perimeter, and action commitments.
 
-## Implemented flow through Step 36
+## Implemented flow through Step 38
 
 ### Demand and personnel resolution
 
@@ -62,11 +62,16 @@ Curia states mission capabilities but never chooses a profession or Persona. Gui
 35. The exact Bailiff dispatches the sealed usability question unchanged.
 36. The examination-only Manifestation seals one structured usability response and three-jurisdiction testimony readiness.
 
+### Independent findings leg
+
+37. The Lord Speaker opens three separate identity- and jurisdiction-bound finding authorities.
+38. Each exact Senator independently seals one finding; completion seals panel readiness without opening deliberation.
+
 ## Current checkpoint
 
-`DELEGATE_MISSION_USABILITY_TESTIMONY_RESPONSE_SEALED_PENDING_FINDING_AUTHORITY_OPENING`
+`DELEGATE_MISSION_SENATOR_FINDINGS_SEALED_PENDING_DELIBERATION_OPENING`
 
-Only the Lord Speaker's single-use authority to open the separate finding phase is open. No finding has been authored. Deliberation, Profile approval, operational-use, mission Seat, deployment, resource, perimeter, external-action, execution, Mission Plan amendment, follow-up commission, and continuing-turn authority remain closed.
+Only the Lord Speaker's single-use authority to open the separate deliberation phase is open. The three findings remain independent and unchanged. Reconciliation, voting, aggregation, Senate disposition, Profile approval, operational-use, mission Seat, deployment, resource, perimeter, external-action, execution, Mission Plan amendment, follow-up commission, and continuing-turn authority remain closed.
 
 ## Expected remaining phases
 
