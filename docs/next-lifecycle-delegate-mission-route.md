@@ -23,7 +23,7 @@ The original `14–18` transition estimate was invalidated by implementation. It
 
 At the current granularity, the complete route is expected to reach approximately Step `58–64`. This is an estimate, not a target. Before adding further repeated transitions, the route should be exercised locally and reviewed for safe consolidation that does not merge decision-makers or smuggle authority downstream.
 
-Steps 1–64 are implemented. Steps 63–64 attest exact access and obtain Imperator authorization without activation or invocation; approximately `2–4` transitions remain.
+Steps 1–65 are implemented. Step 65 creates one expiring, single-use credential lease without invocation; approximately `1–3` transitions remain.
 
 The expected phases are:
 
@@ -592,6 +592,12 @@ The route stops at `DELEGATE_MISSION_RESOURCE_AND_INVOCATION_AUTHORIZED_PENDING_
 `Delegate Mission Step 65 — scoped provider-invocation activation`
 
 Clavium may create one expiring, single-use credential lease and activation for the exact binding and turn. Secret material must remain undisclosed and possession must not transfer.
+
+### Implementation status
+
+Step 65 is implemented. See `docs/handoffs/delegate-mission-step-65-complete.md`.
+
+The route stops at `DELEGATE_MISSION_PROVIDER_INVOCATION_ACTIVATED_PENDING_ONE_BOUNDED_COGNITION_TURN`. Step 66 must exercise that exact authority through a governed cognition gateway and consume the lease atomically.
 
 ## Non-negotiable terminal design
 
