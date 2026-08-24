@@ -8,4 +8,4 @@ The binding is generation 1 and cannot supersede an occupied Seat. The Delegate 
 
 Operator-local verification through Step 43 is green on PHP 8.4.14. Steps 44–46 await the next local PHPUnit run because this environment has no PHP binary.
 
-Step 47 is the separate Imperator deployment-authorization decision.
+Step 47 is the separate Seneschal deployment-authorization decision.
