@@ -9,7 +9,7 @@
 
 Curia states mission capabilities but never chooses a profession or Persona. Guildhall resolves profession and Persona suitability. Garrison owns custody and availability facts. Conscription assembles and qualifies but does not select personnel. Imperator decides protected personnel, Profile, deployment, resource, perimeter, and action commitments.
 
-## Implemented flow through Step 50
+## Implemented flow through Step 52
 
 ### Demand and personnel resolution
 
@@ -96,12 +96,14 @@ Curia states mission capabilities but never chooses a profession or Persona. Gui
 
 49. Conscription mechanically revalidates the exact generation-1 binding and live deployed custody, activates the runtime, and opens only one exact Seneschal mission-control intake authority.
 50. The exact occupied Seneschal accepts, refuses, returns, or defers the unchanged active Delegate mission-control intake. Acceptance opens only one bounded-cognition commission-construction authority.
+51. The exact occupied Seneschal constructs one sealed, single-iteration cognition-only commission directly from the unchanged mission use without invoking it or releasing resources.
+52. Curia mechanically assesses exact resource and invocation readiness, preserves the resource requirements, detects the absent model binding, and opens only an Oracle model-requirement commission authority.
 
 ## Current checkpoint
 
-`DELEGATE_MISSION_CONTROL_ACCEPTED_PENDING_BOUNDED_COGNITION_COMMISSION_CONSTRUCTION`
+`DELEGATE_MISSION_RESOURCE_REQUIREMENTS_ASSESSED_PENDING_ORACLE_MODEL_REQUIREMENT_COMMISSION`
 
-The exact Delegate runtime is active, mission-control intake is accepted, and custody remains `DELEGATE_MISSION_DEPLOYED_BOUND`, but no cognition commission or mission turn exists. Operational use, cognition, provider invocation, data, tools, credentials, perimeter crossing, external action, execution, Mission Plan amendment, follow-up commission, and continuing-turn authority remain closed.
+The exact Delegate runtime is active, one sealed cognition-only commission exists, and its resources are enumerated. Provider invocation is explicitly blocked because no exact model binding exists. No resource has been released. Operational use, cognition, provider invocation, data, tools, credentials, perimeter crossing, external action, execution, Mission Plan amendment, follow-up commission, and continuing-turn authority remain closed.
 
 ## Expected remaining phases
 

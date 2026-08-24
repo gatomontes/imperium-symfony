@@ -23,7 +23,7 @@ The original `14–18` transition estimate was invalidated by implementation. It
 
 At the current granularity, the complete route is expected to reach approximately Step `58–64`. This is an estimate, not a target. Before adding further repeated transitions, the route should be exercised locally and reviewed for safe consolidation that does not merge decision-makers or smuggle authority downstream.
 
-Steps 1–50 are implemented. Step 50 accepts the active Delegate into mission control without opening cognition or resources; approximately `8–14` transitions remain if the current granularity is preserved.
+Steps 1–52 are implemented. Step 52 exposes the missing exact model binding and routes resolution to Oracle; approximately `8–14` transitions remain because model resolution cannot be skipped.
 
 The expected phases are:
 
@@ -496,6 +496,30 @@ The accepted route stops at `DELEGATE_MISSION_CONTROL_ACCEPTED_PENDING_BOUNDED_C
 `Delegate Mission Step 51 — bounded cognition commission construction`
 
 The exact occupied Seneschal may construct one cognition-only mission commission from the unchanged mission use. Construction must not invoke a provider, release data or tools, authorize external action, or create continuing-turn authority.
+
+### Implementation status
+
+Step 51 is implemented. See `docs/handoffs/delegate-mission-step-51-complete.md` and `contracts/delegate-mission-bounded-cognition-commission.md`.
+
+The route stops at `DELEGATE_MISSION_BOUNDED_COGNITION_COMMISSION_CONSTRUCTED_PENDING_RESOURCE_AND_INVOCATION_AUTHORIZATION`. The commission is sealed and single-iteration, but cognition and every resource or action authority remain false.
+
+## Next bounded transition
+
+`Delegate Mission Step 52 — resource and invocation readiness assessment`
+
+Curia mechanically preserves the commission's exact resource requirements and determines whether an exact model binding exists before any authorization request can be competent. It must not select a model, release a resource, or invoke cognition.
+
+### Implementation status
+
+Step 52 is implemented. See `docs/handoffs/delegate-mission-step-52-complete.md` and `contracts/delegate-mission-resource-invocation-readiness.md`.
+
+The assessment correctly stops at `DELEGATE_MISSION_RESOURCE_REQUIREMENTS_ASSESSED_PENDING_ORACLE_MODEL_REQUIREMENT_COMMISSION` because the Delegate chain contains no exact model binding. It opens only one Oracle model-requirement commission authority; resource and invocation authorization remain unavailable.
+
+## Next bounded transition
+
+`Delegate Mission Step 53 — Oracle model-requirement commission issuance`
+
+The exact occupied Seneschal must commission Oracle with criteria derived from the immutable turn contract and operational Profile. Commissioning does not permit Oracle to select or assign a model and grants no provider invocation.
 
 ## Non-negotiable terminal design
 
