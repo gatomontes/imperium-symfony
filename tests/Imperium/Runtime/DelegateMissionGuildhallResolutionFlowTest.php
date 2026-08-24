@@ -18,6 +18,8 @@ use App\Imperium\Runtime\Curia\DelegateMissionProfileScopeAuthorizationRequestSe
 use App\Imperium\Runtime\Curia\DelegateMissionPersonnelUseRequestService;
 use App\Imperium\Runtime\Curia\DelegateMissionDeploymentAuthorizationService;
 use App\Imperium\Runtime\Curia\DelegateMissionControlIntakeDispositionService;
+use App\Imperium\Runtime\Curia\DelegateMissionBoundedCognitionCommissionService;
+use App\Imperium\Runtime\Curia\DelegateMissionResourceInvocationReadinessAssessmentService;
 use App\Imperium\Runtime\Guildhall\DelegateMissionCapabilityDemandIntakeService;
 use App\Imperium\Runtime\Guildhall\DelegateMissionPersonnelUseAcceptanceService;
 use App\Imperium\Runtime\Guildhall\DelegateMissionPersonnelResolutionService;
@@ -1390,9 +1392,46 @@ final class DelegateMissionGuildhallResolutionFlowTest extends TestCase
         } finally {$this->remove($root);}
     }
 
+    public function testSeneschalConstructsOneExactDelegateCognitionCommissionWithoutInvokingIt(): void
+    {
+        [$root,$disposition]=$this->acceptedDelegateMissionControlFixture();
+        try {
+            $service=new DelegateMissionBoundedCognitionCommissionService($root);$commission=$service->construct($disposition['disposition_id'],'curia-seneschal-binding-'.str_repeat('a',20),new \DateTimeImmutable('2026-08-26T23:00:00+00:00'));self::assertSame('DELEGATE_MISSION_BOUNDED_COGNITION_COMMISSION_CONSTRUCTED_PENDING_RESOURCE_AND_INVOCATION_AUTHORIZATION',$commission['status']);self::assertSame(1,$commission['commission_contract']['turn_sequence']);self::assertSame(1,$commission['commission_contract']['maximum_iterations']);self::assertSame('Assess exact public surface.',$commission['commission_contract']['objective']);self::assertFalse($commission['commission_contract']['fresh_operator_instruction_allowed']);self::assertFalse($commission['commission_contract']['resource_release_allowed']);self::assertTrue($commission['resource_and_invocation_authorization_request_authority']['authority_exercisable']);foreach(['operational_use_permitted','cognition_authority','provider_invocation_authority','data_access_authority','tool_use_authority','credential_use_authority','perimeter_crossing_authority','external_action_authority','execution_authority','continuing_turn_authority']as$field)self::assertFalse($commission[$field],$field.' must remain false');self::assertSame($commission,$service->construct($disposition['disposition_id'],'curia-seneschal-binding-'.str_repeat('a',20),new \DateTimeImmutable('2026-08-27T00:00:00+00:00')));
+        } finally {$this->remove($root);}
+    }
+
+    public function testDelegateCognitionCommissionRejectsNonAcceptedMissionControl(): void
+    {
+        [$root,$transition]=$this->deployedDelegateMissionFixture();
+        try {
+            $activation=(new DelegateMissionRuntimeActivationService($root,new StateStore($root)))->activate($transition['transition_id'],new \DateTimeImmutable());$disposition=(new DelegateMissionControlIntakeDispositionService($root))->decide($activation['activation_id'],'curia-seneschal-binding-'.str_repeat('a',20),'REFUSED','Refuse.',new \DateTimeImmutable());$this->expectExceptionMessage('C264_DELEGATE_MISSION_COGNITION_COMMISSION_CHAIN_INVALID');(new DelegateMissionBoundedCognitionCommissionService($root))->construct($disposition['disposition_id'],'curia-seneschal-binding-'.str_repeat('a',20),new \DateTimeImmutable());
+        } finally {$this->remove($root);}
+    }
+
+    public function testDelegateResourceReadinessRecordsMissingModelBindingWithoutRequestingInvocation(): void
+    {
+        [$root,$disposition]=$this->acceptedDelegateMissionControlFixture();
+        try {
+            $seneschal='curia-seneschal-binding-'.str_repeat('a',20);$commission=(new DelegateMissionBoundedCognitionCommissionService($root))->construct($disposition['disposition_id'],$seneschal,new \DateTimeImmutable());$service=new DelegateMissionResourceInvocationReadinessAssessmentService($root);$assessment=$service->assess($commission['commission_id'],$seneschal,new \DateTimeImmutable('2026-08-27T01:00:00+00:00'));self::assertSame('DELEGATE_MISSION_RESOURCE_REQUIREMENTS_ASSESSED_PENDING_ORACLE_MODEL_REQUIREMENT_COMMISSION',$assessment['status']);self::assertSame('MODEL_BINDING_ABSENT',$assessment['model_binding_status']);self::assertSame('BLOCKED_PENDING_EXACT_MODEL_BINDING',$assessment['provider_invocation_readiness']);self::assertSame(['Public responses'],$assessment['resource_requirements']['data']);self::assertSame(['Passive HTTP client'],$assessment['resource_requirements']['tools']);self::assertTrue($assessment['oracle_model_requirement_commission_authority']['authority_exercisable']);self::assertFalse($assessment['resource_authorization_request_authority']);foreach(['operational_use_permitted','cognition_authority','provider_invocation_authority','data_access_authority','tool_use_authority','credential_use_authority','perimeter_crossing_authority','external_action_authority','execution_authority','continuing_turn_authority']as$field)self::assertFalse($assessment[$field],$field.' must remain false');self::assertSame($assessment,$service->assess($commission['commission_id'],$seneschal,new \DateTimeImmutable('2026-08-27T02:00:00+00:00')));
+        } finally {$this->remove($root);}
+    }
+
+    public function testDelegateResourceReadinessRejectsSilentlyInjectedModelBinding(): void
+    {
+        [$root,$disposition]=$this->acceptedDelegateMissionControlFixture();
+        try {
+            $seneschal='curia-seneschal-binding-'.str_repeat('a',20);$commission=(new DelegateMissionBoundedCognitionCommissionService($root))->construct($disposition['disposition_id'],$seneschal,new \DateTimeImmutable());$path=$root.'/var/imperium/offices/curia/delegate-mission-control-intake-dispositions/'.$disposition['disposition_id'].'.json';$changed=$disposition;unset($changed['record_digest']);$changed['manifestation']['profile']['model_binding']=['provider'=>'silently-injected'];$this->write($path,$this->record($changed));$this->expectExceptionMessage('C275_DELEGATE_MISSION_READINESS_CHAIN_INVALID');(new DelegateMissionResourceInvocationReadinessAssessmentService($root))->assess($commission['commission_id'],$seneschal,new \DateTimeImmutable());
+        } finally {$this->remove($root);}
+    }
+
+    private function acceptedDelegateMissionControlFixture(): array
+    {
+        [$root,$transition]=$this->deployedDelegateMissionFixture();$activation=(new DelegateMissionRuntimeActivationService($root,new StateStore($root)))->activate($transition['transition_id'],new \DateTimeImmutable());$disposition=(new DelegateMissionControlIntakeDispositionService($root))->decide($activation['activation_id'],'curia-seneschal-binding-'.str_repeat('a',20),'ACCEPTED','Accept exact active Delegate mission control.',new \DateTimeImmutable());return[$root,$disposition];
+    }
+
     private function deployedDelegateMissionFixture(): array
     {
-        [$root,$senate]=$this->delegateSenateDispositionFixture(false,'APPROVED');$approval=(new DelegateMissionProfileApprovalDecisionService($root))->decide($senate['disposition_id'],'APPROVED','Approve exact Delegate Profile.','Qualification request only.',new \DateTimeImmutable());$state=new StateStore($root);$q=(new DelegateMissionOperationalProfileQualificationService($root,$state))->qualify($approval['decision_id'],new \DateTimeImmutable());$a=(new DelegateMissionOperationalManifestationAssemblyService($root,$state))->assemble($q['qualification_id'],new \DateTimeImmutable());$binding=(new DelegateMissionOperationalManifestationSeatBindingService($root,$state))->bind($a['assembly_id'],new \DateTimeImmutable());$seneschal='curia-seneschal-binding-'.str_repeat('a',20);$this->write($root.'/var/imperium/offices/curia/occupancy/'.$seneschal.'.json',$this->record(['schema'=>'imperium.curia-seneschal-occupancy/v1','binding_id'=>$seneschal,'instance_id'=>'imperium-test','seat'=>'curia.seneschal','officer_class'=>'LEGATE','manifestation_id'=>'manifestation-seneschal','occupancy_generation'=>1,'status'=>'ACTIVE','delegate_mission_deployment_authorization_authority'=>true,'delegate_mission_control_intake_disposition_authority'=>true,'execution_authority'=>false,'sealed'=>true]));$authorization=(new DelegateMissionDeploymentAuthorizationService($root))->decide($binding['binding_id'],$seneschal,'AUTHORIZED','Authorize the exact bounded mission deployment.',new \DateTimeImmutable());$transition=(new DelegateMissionOperationalCustodyTransitionService($root))->transition($authorization['authorization_id'],'garrison-constable-binding-'.str_repeat('7',20),new \DateTimeImmutable());return[$root,$transition];
+        [$root,$senate]=$this->delegateSenateDispositionFixture(false,'APPROVED');$approval=(new DelegateMissionProfileApprovalDecisionService($root))->decide($senate['disposition_id'],'APPROVED','Approve exact Delegate Profile.','Qualification request only.',new \DateTimeImmutable());$state=new StateStore($root);$q=(new DelegateMissionOperationalProfileQualificationService($root,$state))->qualify($approval['decision_id'],new \DateTimeImmutable());$a=(new DelegateMissionOperationalManifestationAssemblyService($root,$state))->assemble($q['qualification_id'],new \DateTimeImmutable());$binding=(new DelegateMissionOperationalManifestationSeatBindingService($root,$state))->bind($a['assembly_id'],new \DateTimeImmutable());$seneschal='curia-seneschal-binding-'.str_repeat('a',20);$this->write($root.'/var/imperium/offices/curia/occupancy/'.$seneschal.'.json',$this->record(['schema'=>'imperium.curia-seneschal-occupancy/v1','binding_id'=>$seneschal,'instance_id'=>'imperium-test','seat'=>'curia.seneschal','officer_class'=>'LEGATE','manifestation_id'=>'manifestation-seneschal','occupancy_generation'=>1,'status'=>'ACTIVE','delegate_mission_deployment_authorization_authority'=>true,'delegate_mission_control_intake_disposition_authority'=>true,'delegate_mission_cognition_commission_construction_authority'=>true,'delegate_mission_resource_invocation_readiness_assessment_authority'=>true,'execution_authority'=>false,'sealed'=>true]));$authorization=(new DelegateMissionDeploymentAuthorizationService($root))->decide($binding['binding_id'],$seneschal,'AUTHORIZED','Authorize the exact bounded mission deployment.',new \DateTimeImmutable());$transition=(new DelegateMissionOperationalCustodyTransitionService($root))->transition($authorization['authorization_id'],'garrison-constable-binding-'.str_repeat('7',20),new \DateTimeImmutable());return[$root,$transition];
     }
 
     private function delegateSenateDispositionFixture(bool $securityFails,string $disposition): array
