@@ -23,7 +23,7 @@ The original `14–18` transition estimate was invalidated by implementation. It
 
 At the current granularity, the complete route is expected to reach approximately Step `58–64`. This is an estimate, not a target. Before adding further repeated transitions, the route should be exercised locally and reviewed for safe consolidation that does not merge decision-makers or smuggle authority downstream.
 
-Steps 1–55 are implemented. Steps 53–55 add explicit Imperator-authorized selection criteria and deliver the exact commission to Oracle; approximately `7–13` transitions remain.
+Steps 1–57 are implemented. Steps 56–57 reuse the governed Oracle acceptance and frozen evaluation-case contracts without weakening Delegate lineage; approximately `5–11` transitions remain.
 
 The expected phases are:
 
@@ -532,6 +532,18 @@ The route stops at Oracle inbox checkpoint `ISSUED_PENDING_ORACLE_ACCEPTANCE`. T
 `Delegate Mission Step 56 — exact Augur commission acceptance`
 
 The occupied Augur may accept the unchanged commission against the still-current pinned snapshot. Acceptance opens only Oracle evaluation-case construction.
+
+### Implementation status
+
+Steps 56–57 are implemented by the existing governed Oracle acceptance and evaluation-case services. See `docs/handoffs/delegate-mission-oracle-intake-leg-complete.md` and `contracts/delegate-mission-oracle-intake-evaluation.md`.
+
+The route stops at `ORACLE_MODEL_EVALUATION_CASE_OPENED_PENDING_AUGUR_ELIGIBILITY_FINDINGS`. Candidate inclusion is frozen from the pinned catalogue snapshot and authorized criteria; no recommendation, selection, assignment, or invocation authority exists.
+
+## Next bounded transition
+
+`Delegate Mission Step 58 — evidence-bound Oracle eligibility findings`
+
+The Augur must issue one independent finding for every frozen candidate authority. Completion may open comparative assessment only when at least one candidate is eligible.
 
 ## Non-negotiable terminal design
 
