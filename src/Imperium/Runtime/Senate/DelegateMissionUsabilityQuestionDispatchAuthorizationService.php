@@ -93,7 +93,7 @@ final readonly class DelegateMissionUsabilityQuestionDispatchAuthorizationServic
             || true !== ($q['question_cognition_completed'] ?? null) || true !== ($q['question_authored'] ?? null) || false !== ($q['question_dispatched'] ?? null)
             || !is_array($authority) || true !== ($authority['authority_single_use'] ?? null) || true !== ($authority['authority_exercisable'] ?? null)
             || 'senate.lord-speaker' !== ($authority['holder'] ?? null) || 'DECIDE_DISPATCH_OF_ONE_SEALED_USABILITY_EXAMINATION_QUESTION' !== ($authority['purpose'] ?? null) || false !== ($authority['consumed'] ?? null)
-            || ($a['record_digest'] ?? null) !== ($q['source_stand_admission']['digest'] ?? null) || true !== ($a['proceeding_usability_active'] ?? null)
+            || ($a['record_digest'] ?? null) !== ($q['source_stand_admission']['digest'] ?? null) || true !== ($a['proceeding_security_active'] ?? null)
             || ($l['binding_id'] ?? null) !== $bindingId || 'senate.lord-speaker' !== ($l['seat'] ?? null) || 'ACTIVE' !== ($l['status'] ?? null) || true !== ($l['binding_atomic'] ?? null)
             || true !== ($l['delegate_question_dispatch_authorization_disposition_authority'] ?? null) || true === ($l['execution_authority'] ?? null)
             || ($a['bailiff']['binding_id'] ?? null) !== ($b['binding_id'] ?? null) || ($a['bailiff']['binding_digest'] ?? null) !== ($b['record_digest'] ?? null)
