@@ -23,7 +23,7 @@ The original `14–18` transition estimate was invalidated by implementation. It
 
 At the current granularity, the complete route is expected to reach approximately Step `58–64`. This is an estimate, not a target. Before adding further repeated transitions, the route should be exercised locally and reviewed for safe consolidation that does not merge decision-makers or smuggle authority downstream.
 
-Steps 1–43 are implemented. Step 43 completes sovereign Profile approval; approximately `15–21` transitions remain if the current granularity is preserved.
+Steps 1–46 are implemented. Step 46 completes operational construction and inert mission-Seat binding; approximately `12–18` transitions remain if the current granularity is preserved.
 
 The expected phases are:
 
@@ -448,6 +448,18 @@ The approved route stops at `DELEGATE_MISSION_PROFILE_APPROVED_PENDING_CONSCRIPT
 `Delegate Mission Step 44 — Conscription operational qualification`
 
 The exact occupied Recruiter consumes the Step 43 request and qualifies the approved Profile against the immutable mission scope, live custody, generic Officer v0 substrate, intended mission Seat, resource limits, stop conditions, and return design. It must stop before operational Manifestation assembly.
+
+### Implementation status
+
+Steps 44–46 are implemented. See `docs/handoffs/delegate-mission-operational-construction-leg-complete.md` and `contracts/delegate-mission-operational-construction.md`.
+
+The route stops at `DELEGATE_MISSION_MANIFESTATION_BOUND_PENDING_DEPLOYMENT_AUTHORIZATION`. The generation-1 binding is exact and inert; no deployment, custody-transfer, operational-use, resource, external-action, or execution authority exists.
+
+## Next bounded transition
+
+`Delegate Mission Step 47 — Imperator deployment-authorization decision`
+
+Imperator decides whether the exact bound Delegate may proceed toward deployment. Authorization must remain distinct from the Constable's later custody transition and from operational execution.
 
 ## Non-negotiable terminal design
 

@@ -10,6 +10,9 @@ use App\Imperium\Runtime\Conscription\DelegateMissionProfileDerivationCommission
 use App\Imperium\Runtime\Conscription\DelegateMissionProfileCandidateIntakeDispositionService;
 use App\Imperium\Runtime\Conscription\DelegateMissionExaminationPreparationHandoffService;
 use App\Imperium\Runtime\Conscription\DelegateMissionExaminationManifestationAssemblyService;
+use App\Imperium\Runtime\Conscription\DelegateMissionOperationalProfileQualificationService;
+use App\Imperium\Runtime\Conscription\DelegateMissionOperationalManifestationAssemblyService;
+use App\Imperium\Runtime\Conscription\DelegateMissionOperationalManifestationSeatBindingService;
 use App\Imperium\Runtime\Curia\DelegateMissionProfileScopeAuthorizationRequestService;
 use App\Imperium\Runtime\Curia\DelegateMissionPersonnelUseRequestService;
 use App\Imperium\Runtime\Guildhall\DelegateMissionCapabilityDemandIntakeService;
@@ -1321,6 +1324,21 @@ final class DelegateMissionGuildhallResolutionFlowTest extends TestCase
         } finally {
             $this->remove($root);
         }
+    }
+
+    public function testDelegateOperationalConstructionStopsBeforeDeployment(): void
+    {
+        [$root,$senate]=$this->delegateSenateDispositionFixture(false,'APPROVED');
+        try {
+            $approval=(new DelegateMissionProfileApprovalDecisionService($root))->decide($senate['disposition_id'],'APPROVED','Approve exact Delegate Profile.','Qualification request only.',new \DateTimeImmutable('2026-08-26T15:00:00+00:00'));
+            $state=new StateStore($root);$qualification=(new DelegateMissionOperationalProfileQualificationService($root,$state))->qualify($approval['decision_id'],new \DateTimeImmutable('2026-08-26T16:00:00+00:00'));
+            self::assertSame('DELEGATE_MISSION_PROFILE_OPERATIONALLY_QUALIFIED_PENDING_MANIFESTATION_ASSEMBLY',$qualification['status']);self::assertTrue($qualification['profile_installed']);self::assertTrue($qualification['manifestation_assembly_authority']['authority_exercisable']);self::assertFalse($qualification['mission_seat_binding_authority']);
+            $assembly=(new DelegateMissionOperationalManifestationAssemblyService($root,$state))->assemble($qualification['qualification_id'],new \DateTimeImmutable('2026-08-26T17:00:00+00:00'));
+            self::assertSame('DELEGATE_MISSION_OPERATIONAL_MANIFESTATION_ASSEMBLED_PENDING_MISSION_SEAT_BINDING',$assembly['status']);self::assertSame('DELEGATE',$assembly['manifestation']['officer_class']);self::assertTrue($assembly['mission_seat_binding_authority']['authority_exercisable']);self::assertFalse($assembly['seat_bound']);
+            $binding=(new DelegateMissionOperationalManifestationSeatBindingService($root,$state))->bind($assembly['assembly_id'],new \DateTimeImmutable('2026-08-26T18:00:00+00:00'));
+            self::assertSame('DELEGATE_MISSION_MANIFESTATION_BOUND_PENDING_DEPLOYMENT_AUTHORIZATION',$binding['status']);self::assertSame('mission.delegate.passive-assessment',$binding['seat']);self::assertTrue($binding['seat_bound']);self::assertTrue($binding['deployment_authorization_pending']);
+            foreach(['operational_use_permitted','deployment_authority','custody_transfer_authority','tool_use_authority','credential_use_authority','perimeter_crossing_authority','external_action_authority','execution_authority']as$field)self::assertFalse($binding[$field],$field.' must remain false');
+        } finally {$this->remove($root);}
     }
 
     private function delegateSenateDispositionFixture(bool $securityFails,string $disposition): array
