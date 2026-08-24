@@ -9,7 +9,7 @@
 
 Curia states mission capabilities but never chooses a profession or Persona. Guildhall resolves profession and Persona suitability. Garrison owns custody and availability facts. Conscription assembles and qualifies but does not select personnel. Imperator decides protected personnel, Profile, deployment, resource, perimeter, and action commitments.
 
-## Implemented flow through Step 42
+## Implemented flow through Step 43
 
 ### Demand and personnel resolution
 
@@ -77,15 +77,19 @@ Curia states mission capabilities but never chooses a profession or Persona. Gui
 41. The Lord Speaker opens one bounded disposition authority without authoring a verdict.
 42. The Lord Speaker seals one attributable disposition; the mandatory Security block mechanically prohibits approval.
 
+### Imperator Profile decision
+
+43. Imperator independently approves or records a non-approving disposition. Approval opens only one exact Conscription operational-qualification request.
+
 ## Current checkpoint
 
-`DELEGATE_MISSION_SENATE_DISPOSITION_SEALED_PENDING_IMPERATOR_PROFILE_APPROVAL`
+`DELEGATE_MISSION_PROFILE_APPROVED_PENDING_CONSCRIPTION_OPERATIONAL_QUALIFICATION`
 
-The Senate disposition is sealed and its authority consumed. The three findings, reconciliation, and mandatory Security block remain unchanged. Imperator Profile approval, operational qualification, Profile installation, mission Seat, deployment, resource, perimeter, external-action, execution, Mission Plan amendment, follow-up commission, and continuing-turn authority remain closed.
+The exact approved route carries one single-use operational-qualification request to Conscription. The Profile is not yet qualified or installed. Manifestation assembly, mission Seat binding, custody transfer, deployment, resource, perimeter, external-action, execution, Mission Plan amendment, follow-up commission, and continuing-turn authority remain closed. Any non-approving Imperator disposition opens nothing.
 
 ## Expected remaining phases
 
-1. Imperator Profile approval and operational qualification;
+1. operational qualification;
 2. operational Delegate assembly and exact mission Seat binding;
 3. deployment authorization and Garrison custody transition;
 4. bounded mission cognition and separately authorized resources/actions;
