@@ -9,7 +9,7 @@
 
 Curia states mission capabilities but never chooses a profession or Persona. Guildhall resolves profession and Persona suitability. Garrison owns custody and availability facts. Conscription assembles and qualifies but does not select personnel. Imperator decides protected personnel, Profile, deployment, resource, perimeter, and action commitments.
 
-## Implemented flow through Step 30
+## Implemented flow through Step 36
 
 ### Demand and personnel resolution
 
@@ -53,16 +53,24 @@ Curia states mission capabilities but never chooses a profession or Persona. Gui
 29. The exact Bailiff dispatches the sealed security question unchanged.
 30. The examination-only Manifestation seals one structured security response.
 
+### Usability-question leg
+
+31. The Lord Speaker issues one identity-bound usability-question commission.
+32. The exact usability Senator accepts or refuses the commission.
+33. The accepting Senator authors and seals one bounded usability question.
+34. The Lord Speaker authorizes or refuses dispatch.
+35. The exact Bailiff dispatches the sealed usability question unchanged.
+36. The examination-only Manifestation seals one structured usability response and three-jurisdiction testimony readiness.
+
 ## Current checkpoint
 
-`DELEGATE_MISSION_SECURITY_TESTIMONY_RESPONSE_SEALED_PENDING_USABILITY_QUESTION_COMMISSION`
+`DELEGATE_MISSION_USABILITY_TESTIMONY_RESPONSE_SEALED_PENDING_FINDING_AUTHORITY_OPENING`
 
-Only the Lord Speaker's single-use authority to begin the usability-question leg is open. No finding, deliberation, Profile approval, operational-use, mission Seat, deployment, resource, perimeter, external-action, execution, Mission Plan amendment, follow-up commission, or continuing-turn authority exists.
+Only the Lord Speaker's single-use authority to open the separate finding phase is open. No finding has been authored. Deliberation, Profile approval, operational-use, mission Seat, deployment, resource, perimeter, external-action, execution, Mission Plan amendment, follow-up commission, and continuing-turn authority remain closed.
 
 ## Expected remaining phases
 
-1. security and usability question legs;
-2. jurisdiction-bound findings and panel readiness;
+1. jurisdiction-bound findings and panel readiness;
 3. reconciliation and Senate disposition;
 4. Imperator Profile approval and operational qualification;
 5. operational Delegate assembly and exact mission Seat binding;

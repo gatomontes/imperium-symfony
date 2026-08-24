@@ -389,6 +389,18 @@ The accepted route authors one bounded security question, obtains a separate Lor
 
 The Lord Speaker consumes the exact Step 30 authority to issue one bounded commission to the exact occupied usability Senator. It must stop before recipient acceptance or question authorship.
 
+### Implementation status
+
+Steps 31–36 are implemented. See `docs/handoffs/delegate-mission-steps-31-36-complete.md`, `docs/handoffs/delegate-mission-usability-question-leg-complete.md`, and the corresponding usability-question contracts.
+
+The route stops at `DELEGATE_MISSION_USABILITY_TESTIMONY_RESPONSE_SEALED_PENDING_FINDING_AUTHORITY_OPENING`. All three jurisdictional responses are sealed, but no finding authority is yet open.
+
+## Next bounded transition
+
+`Delegate Mission Step 37 — three-jurisdiction finding-authority opening`
+
+The Lord Speaker consumes the exact Step 36 authority only after independently revalidating the three testimony turns, exact jurisdictional occupancies, hearing contract, custody, identity baseline, and shared defect-attribution rubric. The transition may open one separate finding authority for each exact Senator and must stop before any finding cognition or authorship.
+
 ## Non-negotiable terminal design
 
 Before deployment becomes possible, the route must already define return, interruption, expiry, credential revocation, Seat unbinding, custody restoration, and Delegate termination. A successful mission does not leave a temporary Officer resident by accident.
