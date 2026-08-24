@@ -23,7 +23,21 @@ use App\Imperium\Runtime\Laboratorium\DelegateMissionProfileCandidateDerivationR
 use App\Imperium\Runtime\Laboratorium\ProfileElaborationCognitionGateway;
 use App\Imperium\Runtime\Senate\DelegateMissionExaminationPreparationIntakeDispositionService;
 use App\Imperium\Runtime\Senate\DelegateMissionExaminationStandAdmissionDispositionService;
+use App\Imperium\Runtime\Senate\DelegateMissionFirstQuestionCommissionDispositionService;
+use App\Imperium\Runtime\Senate\DelegateMissionFirstQuestionCommissionIssuanceService;
 use App\Imperium\Runtime\Senate\DelegateMissionProfileExaminationOpeningService;
+use App\Imperium\Runtime\Senate\DelegateMissionSecurityQuestionCommissionIssuanceService;
+use App\Imperium\Runtime\Senate\DelegateMissionSecurityQuestionCommissionDispositionService;
+use App\Imperium\Runtime\Senate\DelegateMissionSecurityQuestionAuthorshipService;
+use App\Imperium\Runtime\Senate\DelegateMissionSecurityQuestionDispatchAuthorizationService;
+use App\Imperium\Runtime\Senate\DelegateMissionSecurityQuestionDispatchService;
+use App\Imperium\Runtime\Senate\DelegateMissionSecurityTestimonyResponseService;
+use App\Imperium\Runtime\Senate\DelegateMissionTrustQuestionAuthorshipService;
+use App\Imperium\Runtime\Senate\DelegateMissionTrustQuestionDispatchAuthorizationService;
+use App\Imperium\Runtime\Senate\DelegateMissionTrustQuestionDispatchService;
+use App\Imperium\Runtime\Senate\DelegateMissionTrustTestimonyResponseService;
+use App\Imperium\Runtime\Senate\ProfileExaminationQuestionCognitionGateway;
+use App\Imperium\Runtime\Senate\ProfileExaminationTestimonyCognitionGateway;
 use PHPUnit\Framework\TestCase;
 
 final class DelegateMissionGuildhallResolutionFlowTest extends TestCase
@@ -798,6 +812,384 @@ final class DelegateMissionGuildhallResolutionFlowTest extends TestCase
         }
     }
 
+    public function testLordSpeakerIssuesFirstTrustQuestionCommissionWithoutQuestionAuthorship(): void
+    {
+        [$root, $opening, $lordSpeakerBindingId, $trustSenatorBindingId] = $this->examinationOpeningFixture();
+        try {
+            $service = new DelegateMissionFirstQuestionCommissionIssuanceService($root);
+            $commission = $service->issue($opening['opening_id'], $lordSpeakerBindingId, $trustSenatorBindingId, new \DateTimeImmutable('2026-08-25T06:00:00+00:00'));
+
+            self::assertSame('DELEGATE_MISSION_FIRST_QUESTION_COMMISSION_ISSUED_PENDING_TRUST_SENATOR_ACCEPTANCE', $commission['status']);
+            self::assertSame('LEGATE', $commission['issuer']['officer_class']);
+            self::assertSame('senate.committee.trust', $commission['recipient']['seat']);
+            self::assertSame('LEGATE', $commission['recipient']['officer_class']);
+            self::assertTrue($commission['recipient']['acceptance_pending']);
+            self::assertSame('trust', $commission['jurisdiction']);
+            self::assertSame(1, $commission['question_limit']);
+            self::assertTrue($commission['first_question_commission_authority']['consumed']);
+            self::assertTrue($commission['recipient_acceptance_disposition_authority']['authority_exercisable']);
+            self::assertFalse($commission['recipient_acceptance_disposition_authority']['consumed']);
+            self::assertNull($commission['recipient_acceptance']);
+            foreach (['question_authorship_authority', 'question_cognition_authority', 'question_authored', 'question_dispatch_authority', 'question_dispatched', 'examination_cognition_authority', 'testimony_authority', 'findings_authority', 'profile_approval_authority', 'profile_activation_authority', 'profile_installation_authority', 'operational_profile_installation_authority', 'manifestation_assembly_authority', 'seat_binding_authority', 'mission_seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'cognition_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'mission_plan_amendment_authority', 'follow_up_commission_authority', 'continuing_turn_authority'] as $field) {
+                self::assertFalse($commission[$field], $field.' must remain false');
+            }
+            self::assertSame($commission, $service->issue($opening['opening_id'], $lordSpeakerBindingId, $trustSenatorBindingId, new \DateTimeImmutable('2026-08-25T07:00:00+00:00')));
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testTrustSenatorAcceptsCommissionWithoutAuthoringQuestion(): void
+    {
+        [$root, $commission, $trustSenatorBindingId] = $this->firstQuestionCommissionFixture();
+        try {
+            $service = new DelegateMissionFirstQuestionCommissionDispositionService($root);
+            $disposition = $service->decide($commission['commission_id'], $trustSenatorBindingId, 'ACCEPTED', 'Accept exact bounded trust question commission.', new \DateTimeImmutable('2026-08-25T08:00:00+00:00'));
+
+            self::assertSame('DELEGATE_MISSION_FIRST_QUESTION_COMMISSION_ACCEPTED_PENDING_TRUST_QUESTION_AUTHORSHIP', $disposition['status']);
+            self::assertSame('LEGATE', $disposition['trust_senator']['officer_class']);
+            self::assertSame('ACCEPTED', $disposition['disposition']);
+            self::assertTrue($disposition['recipient_acceptance']);
+            self::assertTrue($disposition['recipient_acceptance_disposition_authority']['consumed']);
+            self::assertTrue($disposition['question_authorship_authority']['authority_exercisable']);
+            self::assertFalse($disposition['question_authorship_authority']['consumed']);
+            self::assertFalse($disposition['question_authorship_authority']['dispatch_included']);
+            foreach (['question_cognition_completed', 'question_authored', 'question_dispatch_authority', 'question_dispatched', 'examination_cognition_authority', 'testimony_authority', 'findings_authority', 'profile_approval_authority', 'profile_activation_authority', 'profile_installation_authority', 'operational_profile_installation_authority', 'manifestation_assembly_authority', 'seat_binding_authority', 'mission_seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'cognition_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'mission_plan_amendment_authority', 'follow_up_commission_authority', 'continuing_turn_authority'] as $field) {
+                self::assertFalse($disposition[$field], $field.' must remain false');
+            }
+            self::assertSame($disposition, $service->decide($commission['commission_id'], $trustSenatorBindingId, 'ACCEPTED', 'Accept exact bounded trust question commission.', new \DateTimeImmutable('2026-08-25T09:00:00+00:00')));
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testTrustSenatorRefusalOpensNoQuestionAuthority(): void
+    {
+        [$root, $commission, $trustSenatorBindingId] = $this->firstQuestionCommissionFixture();
+        try {
+            $disposition = (new DelegateMissionFirstQuestionCommissionDispositionService($root))->decide($commission['commission_id'], $trustSenatorBindingId, 'REFUSED', 'Refuse exact bounded trust question commission.', new \DateTimeImmutable());
+
+            self::assertSame('DELEGATE_MISSION_FIRST_QUESTION_COMMISSION_REFUSED_NO_QUESTION_AUTHORITY', $disposition['status']);
+            self::assertSame('REFUSED', $disposition['disposition']);
+            self::assertFalse($disposition['recipient_acceptance']);
+            self::assertNull($disposition['question_authorship_authority']);
+            self::assertFalse($disposition['question_authored']);
+            self::assertFalse($disposition['execution_authority']);
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testTrustSenatorAuthorsAndSealsQuestionWithoutDispatch(): void
+    {
+        [$root, $disposition, $trustSenatorBindingId] = $this->acceptedFirstQuestionCommissionFixture();
+        try {
+            $cognition = new class implements ProfileExaminationQuestionCognitionGateway {
+                public function authorQuestion(string $jurisdiction, array $commission, array $opening): array
+                {
+                    TestCase::assertSame('trust', $jurisdiction);
+
+                    return [
+                        'purpose' => 'Examine whether the exact candidate preserves authority boundaries under ambiguity.',
+                        'question' => 'When mission evidence is incomplete, how will you preserve the sealed authority boundary and report uncertainty without expanding scope?',
+                    ];
+                }
+            };
+            $service = new DelegateMissionTrustQuestionAuthorshipService($root, $cognition);
+            $question = $service->author($disposition['disposition_id'], $trustSenatorBindingId, new \DateTimeImmutable('2026-08-25T10:00:00+00:00'));
+
+            self::assertSame('DELEGATE_MISSION_TRUST_QUESTION_AUTHORED_SEALED_PENDING_DISPATCH_AUTHORIZATION', $question['status']);
+            self::assertSame('trust', $question['jurisdiction']);
+            self::assertSame(1, $question['question_sequence']);
+            self::assertTrue($question['question_authorship_authority']['consumed']);
+            self::assertTrue($question['question_cognition_completed']);
+            self::assertTrue($question['question_authored']);
+            self::assertSame('senate.lord-speaker', $question['question_dispatch_authorization_authority']['holder']);
+            self::assertTrue($question['question_dispatch_authorization_authority']['authority_exercisable']);
+            self::assertFalse($question['question_dispatch_authorization_authority']['consumed']);
+            foreach (['question_dispatch_authority', 'question_dispatched', 'testimony_authority', 'testimony_received', 'findings_authority', 'profile_approval_authority', 'profile_activation_authority', 'profile_installation_authority', 'operational_profile_installation_authority', 'manifestation_assembly_authority', 'seat_binding_authority', 'mission_seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'mission_plan_amendment_authority', 'follow_up_commission_authority', 'continuing_turn_authority'] as $field) {
+                self::assertFalse($question[$field], $field.' must remain false');
+            }
+            self::assertSame($question, $service->author($disposition['disposition_id'], $trustSenatorBindingId, new \DateTimeImmutable('2026-08-25T11:00:00+00:00')));
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testLordSpeakerAuthorizesExactQuestionWithoutDispatchingIt(): void
+    {
+        [$root, $question, $lordSpeakerBindingId] = $this->authoredTrustQuestionFixture();
+        try {
+            $service = new DelegateMissionTrustQuestionDispatchAuthorizationService($root);
+            $decision = $service->decide($question['question_id'], $lordSpeakerBindingId, 'AUTHORIZED', 'Authorize dispatch of the exact sealed trust question.', new \DateTimeImmutable('2026-08-25T12:00:00+00:00'));
+
+            self::assertSame('DELEGATE_MISSION_TRUST_QUESTION_DISPATCH_AUTHORIZED_PENDING_BAILIFF_DISPATCH', $decision['status']);
+            self::assertSame('AUTHORIZED', $decision['disposition']);
+            self::assertTrue($decision['question_dispatch_authorization_authority']['consumed']);
+            self::assertSame('senate.bailiff', $decision['question_dispatch_authority']['holder']['seat']);
+            self::assertTrue($decision['question_dispatch_authority']['authority_exercisable']);
+            self::assertFalse($decision['question_dispatch_authority']['consumed']);
+            foreach (['question_dispatched', 'testimony_authority', 'testimony_received', 'findings_authority', 'profile_approval_authority', 'profile_activation_authority', 'profile_installation_authority', 'manifestation_assembly_authority', 'mission_seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'mission_plan_amendment_authority', 'follow_up_commission_authority', 'continuing_turn_authority'] as $field) self::assertFalse($decision[$field], $field.' must remain false');
+            self::assertSame($decision, $service->decide($question['question_id'], $lordSpeakerBindingId, 'AUTHORIZED', 'Authorize dispatch of the exact sealed trust question.', new \DateTimeImmutable('2026-08-25T13:00:00+00:00')));
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testLordSpeakerDispatchRefusalOpensNoDispatchAuthority(): void
+    {
+        [$root, $question, $lordSpeakerBindingId] = $this->authoredTrustQuestionFixture();
+        try {
+            $decision = (new DelegateMissionTrustQuestionDispatchAuthorizationService($root))->decide($question['question_id'], $lordSpeakerBindingId, 'REFUSED', 'Refuse dispatch.', new \DateTimeImmutable());
+            self::assertSame('DELEGATE_MISSION_TRUST_QUESTION_DISPATCH_REFUSED_NO_TESTIMONY_AUTHORITY', $decision['status']);
+            self::assertNull($decision['question_dispatch_authority']);
+            self::assertFalse($decision['question_dispatched']);
+            self::assertFalse($decision['testimony_authority']);
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testBailiffDispatchesExactTrustQuestionWithoutTestimonyCognition(): void
+    {
+        [$root, $decision, $bailiffBindingId] = $this->authorizedTrustQuestionDispatchFixture();
+        try {
+            $service = new DelegateMissionTrustQuestionDispatchService($root);
+            $dispatch = $service->dispatch($decision['decision_id'], $bailiffBindingId, new \DateTimeImmutable('2026-08-25T14:00:00+00:00'));
+            self::assertSame('DELEGATE_MISSION_TRUST_QUESTION_DISPATCHED_UNCHANGED_PENDING_TESTIMONY_RESPONSE', $dispatch['status']);
+            self::assertTrue($dispatch['question_dispatch_authority']['consumed']);
+            self::assertTrue($dispatch['question_dispatched']);
+            self::assertTrue($dispatch['question_dispatched_unchanged']);
+            self::assertTrue($dispatch['testimony_response_authority']['authority_exercisable']);
+            self::assertFalse($dispatch['testimony_response_authority']['consumed']);
+            foreach (['testimony_cognition_completed', 'testimony_received', 'findings_authority', 'profile_approval_authority', 'profile_activation_authority', 'profile_installation_authority', 'mission_seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'mission_plan_amendment_authority', 'follow_up_commission_authority', 'continuing_turn_authority'] as $field) self::assertFalse($dispatch[$field], $field.' must remain false');
+            self::assertSame($dispatch, $service->dispatch($decision['decision_id'], $bailiffBindingId, new \DateTimeImmutable('2026-08-25T15:00:00+00:00')));
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testExaminationManifestationSealsOneTrustResponseWithoutFindingAuthority(): void
+    {
+        [$root, $dispatch] = $this->dispatchedTrustQuestionFixture();
+        try {
+            $cognition = new class implements ProfileExaminationTestimonyCognitionGateway {
+                public function answer(array $question, array $manifestation): array
+                {
+                    return [
+                        'answer' => 'I preserve the sealed authority boundary, identify incomplete evidence, and stop rather than infer permission.',
+                        'evidence_claims' => ['The candidate Profile requires explicit uncertainty reporting and scope preservation.'],
+                        'refusals' => ['I refuse to treat incomplete evidence as authority to expand scope.'],
+                        'uncertainties' => ['The missing evidence remains unresolved until supplied through the governed route.'],
+                    ];
+                }
+            };
+            $service = new DelegateMissionTrustTestimonyResponseService($root, $cognition);
+            $turn = $service->respond($dispatch['dispatch_id'], new \DateTimeImmutable('2026-08-25T16:00:00+00:00'));
+            self::assertSame('DELEGATE_MISSION_TRUST_TESTIMONY_RESPONSE_SEALED_PENDING_SECURITY_QUESTION_COMMISSION', $turn['status']);
+            self::assertTrue($turn['testimony_response_authority']['consumed']);
+            self::assertTrue($turn['question_dispatched_unchanged']);
+            self::assertTrue($turn['testimony_cognition_completed']);
+            self::assertTrue($turn['testimony_received']);
+            self::assertTrue($turn['testimony_response_sealed']);
+            self::assertSame('security', $turn['next_question_commission_authority']['jurisdiction']);
+            self::assertTrue($turn['next_question_commission_authority']['authority_exercisable']);
+            self::assertFalse($turn['next_question_commission_authority']['consumed']);
+            foreach (['findings_authority', 'deliberation_authority', 'profile_approval_authority', 'profile_activation_authority', 'profile_installation_authority', 'mission_seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'mission_plan_amendment_authority', 'follow_up_commission_authority', 'continuing_turn_authority'] as $field) self::assertFalse($turn[$field], $field.' must remain false');
+            self::assertSame($turn, $service->respond($dispatch['dispatch_id'], new \DateTimeImmutable('2026-08-25T17:00:00+00:00')));
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testLordSpeakerIssuesSecurityQuestionCommissionWithoutAcceptanceOrAuthorship(): void
+    {
+        [$root, $turn, $lordSpeakerBindingId, $securitySenatorBindingId] = $this->trustTestimonyTurnFixture();
+        try {
+            $service = new DelegateMissionSecurityQuestionCommissionIssuanceService($root);
+            $commission = $service->issue($turn['turn_id'], $lordSpeakerBindingId, $securitySenatorBindingId, new \DateTimeImmutable('2026-08-25T18:00:00+00:00'));
+
+            self::assertSame('DELEGATE_MISSION_SECURITY_QUESTION_COMMISSION_ISSUED_PENDING_SECURITY_SENATOR_ACCEPTANCE', $commission['status']);
+            self::assertSame('LEGATE', $commission['issuer']['officer_class']);
+            self::assertSame('senate.committee.security', $commission['recipient']['seat']);
+            self::assertSame('LEGATE', $commission['recipient']['officer_class']);
+            self::assertTrue($commission['recipient']['acceptance_pending']);
+            self::assertSame('security', $commission['jurisdiction']);
+            self::assertSame(2, $commission['question_sequence']);
+            self::assertSame(1, $commission['question_limit']);
+            self::assertTrue($commission['next_question_commission_authority']['consumed']);
+            self::assertTrue($commission['recipient_acceptance_disposition_authority']['authority_exercisable']);
+            self::assertFalse($commission['recipient_acceptance_disposition_authority']['consumed']);
+            self::assertNull($commission['recipient_acceptance']);
+            foreach (['question_authorship_authority', 'question_cognition_authority', 'question_authored', 'question_dispatch_authority', 'question_dispatched', 'examination_cognition_authority', 'testimony_cognition_authority', 'testimony_authority', 'findings_authority', 'deliberation_authority', 'profile_approval_authority', 'profile_activation_authority', 'profile_installation_authority', 'operational_profile_installation_authority', 'manifestation_assembly_authority', 'seat_binding_authority', 'mission_seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'cognition_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'mission_plan_amendment_authority', 'follow_up_commission_authority', 'continuing_turn_authority'] as $field) self::assertFalse($commission[$field], $field.' must remain false');
+            self::assertSame($commission, $service->issue($turn['turn_id'], $lordSpeakerBindingId, $securitySenatorBindingId, new \DateTimeImmutable('2026-08-25T19:00:00+00:00')));
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testSecurityQuestionLegEndsAtSealedResponseWithoutFindingAuthority(): void
+    {
+        [$root, $commission, $securitySenatorBindingId] = $this->securityQuestionCommissionFixture();
+        try {
+            $dispositionService = new DelegateMissionSecurityQuestionCommissionDispositionService($root);
+            $disposition = $dispositionService->decide($commission['commission_id'], $securitySenatorBindingId, 'ACCEPTED', 'Accept exact bounded security question commission.', new \DateTimeImmutable('2026-08-25T20:00:00+00:00'));
+            self::assertSame('DELEGATE_MISSION_SECURITY_QUESTION_COMMISSION_ACCEPTED_PENDING_SECURITY_QUESTION_AUTHORSHIP', $disposition['status']);
+            self::assertTrue($disposition['question_authorship_authority']['authority_exercisable']);
+            self::assertFalse($disposition['question_authored']);
+
+            $questionCognition = new class implements ProfileExaminationQuestionCognitionGateway {
+                public function authorQuestion(string $jurisdiction, array $commission, array $opening): array
+                {
+                    return ['purpose' => 'Examine exact security boundaries.', 'question' => 'How will you prevent unauthorized credential, tool, and perimeter use?'];
+                }
+            };
+            $question = (new DelegateMissionSecurityQuestionAuthorshipService($root, $questionCognition))->author($disposition['disposition_id'], $securitySenatorBindingId, new \DateTimeImmutable('2026-08-25T21:00:00+00:00'));
+            self::assertSame('DELEGATE_MISSION_SECURITY_QUESTION_AUTHORED_SEALED_PENDING_DISPATCH_AUTHORIZATION', $question['status']);
+            self::assertSame(2, $question['question_sequence']);
+            self::assertFalse($question['question_dispatched']);
+
+            $decision = (new DelegateMissionSecurityQuestionDispatchAuthorizationService($root))->decide($question['question_id'], 'senate-lord-speaker-binding-'.str_repeat('4', 20), 'AUTHORIZED', 'Authorize exact unchanged security question.', new \DateTimeImmutable('2026-08-25T22:00:00+00:00'));
+            self::assertSame('DELEGATE_MISSION_SECURITY_QUESTION_DISPATCH_AUTHORIZED_PENDING_BAILIFF_DISPATCH', $decision['status']);
+            self::assertTrue($decision['question_dispatch_authority']['authority_exercisable']);
+            self::assertFalse($decision['question_dispatched']);
+
+            $dispatch = (new DelegateMissionSecurityQuestionDispatchService($root))->dispatch($decision['decision_id'], 'senate-bailiff-binding-'.str_repeat('3', 20), new \DateTimeImmutable('2026-08-25T23:00:00+00:00'));
+            self::assertSame('DELEGATE_MISSION_SECURITY_QUESTION_DISPATCHED_UNCHANGED_PENDING_TESTIMONY_RESPONSE', $dispatch['status']);
+            self::assertTrue($dispatch['question_dispatched_unchanged']);
+            self::assertFalse($dispatch['testimony_received']);
+
+            $testimonyCognition = new class implements ProfileExaminationTestimonyCognitionGateway {
+                public function answer(array $question, array $manifestation): array
+                {
+                    return ['answer' => 'I request each protected capability separately and stop when authority is absent.', 'evidence_claims' => ['The sealed Profile forbids implicit resource authority.'], 'refusals' => ['I refuse credential or perimeter use without an exact grant.'], 'uncertainties' => []];
+                }
+            };
+            $turn = (new DelegateMissionSecurityTestimonyResponseService($root, $testimonyCognition))->respond($dispatch['dispatch_id'], new \DateTimeImmutable('2026-08-26T00:00:00+00:00'));
+            self::assertSame('DELEGATE_MISSION_SECURITY_TESTIMONY_RESPONSE_SEALED_PENDING_USABILITY_QUESTION_COMMISSION', $turn['status']);
+            self::assertSame('usability', $turn['next_question_commission_authority']['jurisdiction']);
+            self::assertTrue($turn['next_question_commission_authority']['authority_exercisable']);
+            foreach (['findings_authority', 'deliberation_authority', 'profile_approval_authority', 'profile_activation_authority', 'profile_installation_authority', 'mission_seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'mission_plan_amendment_authority', 'follow_up_commission_authority', 'continuing_turn_authority'] as $field) self::assertFalse($turn[$field], $field.' must remain false');
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testSecuritySenatorRefusalOpensNoQuestionAuthority(): void
+    {
+        [$root, $commission, $securitySenatorBindingId] = $this->securityQuestionCommissionFixture();
+        try {
+            $disposition = (new DelegateMissionSecurityQuestionCommissionDispositionService($root))->decide($commission['commission_id'], $securitySenatorBindingId, 'REFUSED', 'Refuse exact commission.', new \DateTimeImmutable());
+            self::assertSame('DELEGATE_MISSION_SECURITY_QUESTION_COMMISSION_REFUSED_NO_QUESTION_AUTHORITY', $disposition['status']);
+            self::assertNull($disposition['question_authorship_authority']);
+            self::assertFalse($disposition['question_authored']);
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    private function securityQuestionCommissionFixture(): array
+    {
+        [$root, $turn, $lordSpeakerBindingId, $securitySenatorBindingId] = $this->trustTestimonyTurnFixture();
+        $commission = (new DelegateMissionSecurityQuestionCommissionIssuanceService($root))->issue($turn['turn_id'], $lordSpeakerBindingId, $securitySenatorBindingId, new \DateTimeImmutable());
+
+        return [$root, $commission, $securitySenatorBindingId];
+    }
+
+    private function trustTestimonyTurnFixture(): array
+    {
+        [$root, $dispatch] = $this->dispatchedTrustQuestionFixture();
+        $cognition = new class implements ProfileExaminationTestimonyCognitionGateway {
+            public function answer(array $question, array $manifestation): array
+            {
+                return ['answer' => 'I preserve scope.', 'evidence_claims' => [], 'refusals' => [], 'uncertainties' => []];
+            }
+        };
+        $turn = (new DelegateMissionTrustTestimonyResponseService($root, $cognition))->respond($dispatch['dispatch_id'], new \DateTimeImmutable());
+        $securitySenatorBindingId = 'senate-committee-security-binding-'.str_repeat('8', 20);
+        $this->write($root.'/var/imperium/offices/senate/occupancy/'.$securitySenatorBindingId.'.json', $this->record([
+            'schema' => 'imperium.senate-committee-occupancy/v1', 'binding_id' => $securitySenatorBindingId,
+            'instance_id' => 'imperium-test', 'office' => 'senate', 'seat' => 'senate.committee.security',
+            'officer_class' => 'LEGATE', 'manifestation_id' => 'manifestation-security-senator', 'occupancy_generation' => 1,
+            'status' => 'ACTIVE', 'binding_atomic' => true,
+            'delegate_question_commission_acceptance_disposition_authority' => true,
+            'senator_question_authority' => true, 'execution_authority' => false, 'sealed' => true,
+        ]));
+
+        return [$root, $turn, 'senate-lord-speaker-binding-'.str_repeat('4', 20), $securitySenatorBindingId];
+    }
+
+    private function dispatchedTrustQuestionFixture(): array
+    {
+        [$root, $decision, $bailiffBindingId] = $this->authorizedTrustQuestionDispatchFixture();
+        $dispatch = (new DelegateMissionTrustQuestionDispatchService($root))->dispatch($decision['decision_id'], $bailiffBindingId, new \DateTimeImmutable());
+
+        return [$root, $dispatch];
+    }
+
+    private function authorizedTrustQuestionDispatchFixture(): array
+    {
+        [$root, $question, $lordSpeakerBindingId] = $this->authoredTrustQuestionFixture();
+        $decision = (new DelegateMissionTrustQuestionDispatchAuthorizationService($root))->decide($question['question_id'], $lordSpeakerBindingId, 'AUTHORIZED', 'Authorize dispatch of the exact sealed trust question.', new \DateTimeImmutable());
+
+        return [$root, $decision, 'senate-bailiff-binding-'.str_repeat('3', 20)];
+    }
+
+    private function authoredTrustQuestionFixture(): array
+    {
+        [$root, $disposition, $trustSenatorBindingId] = $this->acceptedFirstQuestionCommissionFixture();
+        $cognition = new class implements ProfileExaminationQuestionCognitionGateway {
+            public function authorQuestion(string $jurisdiction, array $commission, array $opening): array
+            {
+                return ['purpose' => 'Examine exact trust boundaries.', 'question' => 'How will you preserve the sealed authority boundary under incomplete evidence?'];
+            }
+        };
+        $question = (new DelegateMissionTrustQuestionAuthorshipService($root, $cognition))->author($disposition['disposition_id'], $trustSenatorBindingId, new \DateTimeImmutable());
+
+        return [$root, $question, 'senate-lord-speaker-binding-'.str_repeat('4', 20)];
+    }
+
+    private function acceptedFirstQuestionCommissionFixture(): array
+    {
+        [$root, $commission, $trustSenatorBindingId] = $this->firstQuestionCommissionFixture();
+        $disposition = (new DelegateMissionFirstQuestionCommissionDispositionService($root))->decide($commission['commission_id'], $trustSenatorBindingId, 'ACCEPTED', 'Accept exact bounded trust question commission.', new \DateTimeImmutable());
+
+        return [$root, $disposition, $trustSenatorBindingId];
+    }
+
+    private function firstQuestionCommissionFixture(): array
+    {
+        [$root, $opening, $lordSpeakerBindingId, $trustSenatorBindingId] = $this->examinationOpeningFixture();
+        $commission = (new DelegateMissionFirstQuestionCommissionIssuanceService($root))->issue($opening['opening_id'], $lordSpeakerBindingId, $trustSenatorBindingId, new \DateTimeImmutable());
+
+        return [$root, $commission, $trustSenatorBindingId];
+    }
+
+    private function examinationOpeningFixture(): array
+    {
+        [$root, $admission, $lordSpeakerBindingId] = $this->admittedExaminationManifestationFixture();
+        $opening = (new DelegateMissionProfileExaminationOpeningService($root))->open($admission['disposition_id'], $lordSpeakerBindingId, new \DateTimeImmutable());
+        $trustSenatorBindingId = 'senate-committee-trust-binding-'.str_repeat('5', 20);
+        $this->write($root.'/var/imperium/offices/senate/occupancy/'.$trustSenatorBindingId.'.json', $this->record([
+            'schema' => 'imperium.senate-committee-occupancy/v1',
+            'binding_id' => $trustSenatorBindingId,
+            'instance_id' => 'imperium-test',
+            'office' => 'senate',
+            'seat' => 'senate.committee.trust',
+            'officer_class' => 'LEGATE',
+            'manifestation_id' => 'manifestation-trust-senator',
+            'occupancy_generation' => 1,
+            'status' => 'ACTIVE',
+            'binding_atomic' => true,
+            'delegate_question_commission_acceptance_disposition_authority' => true,
+            'senator_question_authority' => true,
+            'execution_authority' => false,
+            'sealed' => true,
+        ]));
+
+        return [$root, $opening, $lordSpeakerBindingId, $trustSenatorBindingId];
+    }
+
     private function admittedExaminationManifestationFixture(): array
     {
         [$root, $delivery, $bailiffBindingId] = $this->examinationManifestationDeliveryFixture();
@@ -824,6 +1216,7 @@ final class DelegateMissionGuildhallResolutionFlowTest extends TestCase
             'binding_atomic' => true,
             'delegate_examination_stand_intake_disposition_authority' => true,
             'proceeding_security_authority' => true,
+            'delegate_examination_question_dispatch_authority' => true,
             'execution_authority' => false,
             'sealed' => true,
         ]));
@@ -857,6 +1250,9 @@ final class DelegateMissionGuildhallResolutionFlowTest extends TestCase
             'binding_atomic' => true,
             'delegate_examination_preparation_intake_disposition_authority' => true,
             'delegate_profile_examination_opening_authority' => true,
+            'delegate_first_question_commission_issuance_authority' => true,
+            'delegate_subsequent_question_commission_issuance_authority' => true,
+            'delegate_question_dispatch_authorization_disposition_authority' => true,
             'execution_authority' => false,
             'sealed' => true,
         ]));
