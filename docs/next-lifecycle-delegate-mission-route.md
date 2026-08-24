@@ -23,7 +23,7 @@ The original `14–18` transition estimate was invalidated by implementation. It
 
 At the current granularity, the complete route is expected to reach approximately Step `58–64`. This is an estimate, not a target. Before adding further repeated transitions, the route should be exercised locally and reviewed for safe consolidation that does not merge decision-makers or smuggle authority downstream.
 
-Steps 1–48 are implemented. Step 48 completes deployment and independent Garrison custody transition; approximately `10–16` transitions remain if the current granularity is preserved.
+Steps 1–49 are implemented. Step 49 activates the exact deployed runtime without opening cognition or resources; approximately `9–15` transitions remain if the current granularity is preserved.
 
 The expected phases are:
 
@@ -472,6 +472,18 @@ The route stops at `DELEGATE_MISSION_DEPLOYED_CUSTODY_TRANSITIONED_PENDING_MISSI
 `Delegate Mission Step 49 — bounded mission activation`
 
 Activation must prove the exact binding and deployed custody are current, then open only the next bounded mission-control authority. It must not imply cognition, provider invocation, or resource access.
+
+### Implementation status
+
+Step 49 is implemented. See `docs/handoffs/delegate-mission-step-49-complete.md` and `contracts/delegate-mission-runtime-activation.md`.
+
+The route stops at `DELEGATE_MISSION_RUNTIME_ACTIVE_PENDING_MISSION_CONTROL_INTAKE`. One exact single-use Seneschal mission-control intake authority is open; cognition, provider invocation, data, tools, credentials, perimeter crossing, external action, execution, and continuing turns remain unauthorized.
+
+## Next bounded transition
+
+`Delegate Mission Step 50 — Seneschal mission-control intake disposition`
+
+The exact occupied Seneschal must accept or refuse the active Delegate and its unchanged mission-use contract before any bounded cognition commission can be constructed.
 
 ## Non-negotiable terminal design
 
