@@ -9,7 +9,7 @@
 
 Curia states mission capabilities but never chooses a profession or Persona. Guildhall resolves profession and Persona suitability. Garrison owns custody and availability facts. Conscription assembles and qualifies but does not select personnel. Imperator decides protected personnel, Profile, deployment, resource, perimeter, and action commitments.
 
-## Implemented flow through Step 60
+## Implemented flow through Step 61
 
 ### Demand and personnel resolution
 
@@ -106,12 +106,13 @@ Curia states mission capabilities but never chooses a profession or Persona. Gui
 58. The Augur seals one independent evidence-bound eligibility finding per frozen candidate.
 59. Oracle seals a comparative assessment without aggregate scoring, ranking, or a winner.
 60. The Augur issues one attributable recommendation while retaining no selection authority.
+61. The exact occupied Seneschal selects one frozen eligible model, rejects all candidates, or returns a new commission.
 
 ## Current checkpoint
 
-`ORACLE_MODEL_RECOMMENDATION_SEALED_PENDING_CURIA_SELECTION_DECISION`
+`DELEGATE_MISSION_MODEL_SELECTED_PENDING_CONSCRIPTION_BINDING_SEAL`
 
-The exact Delegate runtime is active and Oracle has completed evidence-bound eligibility, comparison, and recommendation against the pinned universe. Curia has not selected a model; no model is assigned or invoked, and no resource has been released.
+The exact Delegate runtime is active and Curia has selected one frozen eligible model. Selection opens only one exact Conscription binding-seal authority; no model is assigned or invoked, no credential is released, and no resource is available.
 
 ## Expected remaining phases
 
