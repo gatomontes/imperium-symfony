@@ -23,7 +23,7 @@ The original `14–18` transition estimate was invalidated by implementation. It
 
 At the current granularity, the complete route is expected to reach approximately Step `58–64`. This is an estimate, not a target. Before adding further repeated transitions, the route should be exercised locally and reviewed for safe consolidation that does not merge decision-makers or smuggle authority downstream.
 
-Steps 1–60 are implemented. Steps 58–60 reuse governed Oracle eligibility, comparison, and recommendation while leaving selection with Curia; approximately `4–8` transitions remain.
+Steps 1–61 are implemented. Step 61 assigns the evidence-bound selection decision to Curia without binding or invocation; approximately `3–7` transitions remain.
 
 The expected phases are:
 
@@ -556,6 +556,18 @@ The route stops at `ORACLE_MODEL_RECOMMENDATION_SEALED_PENDING_CURIA_SELECTION_D
 `Delegate Mission Step 61 — Curia exact model-selection decision`
 
 The occupied Seneschal may select only an eligible model identified by the frozen Oracle route, reject all candidates, or return a new commission. Selection must remain distinct from binding, access attestation, and invocation authorization.
+
+### Implementation status
+
+Step 61 is implemented. See `docs/handoffs/delegate-mission-step-61-complete.md` and `contracts/delegate-mission-model-selection.md`.
+
+The selected route stops at `DELEGATE_MISSION_MODEL_SELECTED_PENDING_CONSCRIPTION_BINDING_SEAL`. Only one exact single-use Conscription model-binding sealing authority is open; assignment, access, invocation, resources, and execution remain unauthorized.
+
+## Next bounded transition
+
+`Delegate Mission Step 62 — exact Delegate turn model-binding seal`
+
+Conscription must seal the selected provider/model version and configuration to the exact Delegate Manifestation, Seat, bounded commission, and turn sequence without mutating the approved Profile or granting access.
 
 ## Non-negotiable terminal design
 
