@@ -15,10 +15,12 @@ use App\Imperium\Runtime\Conscription\DelegateMissionOperationalManifestationAss
 use App\Imperium\Runtime\Conscription\DelegateMissionOperationalManifestationSeatBindingService;
 use App\Imperium\Runtime\Curia\DelegateMissionProfileScopeAuthorizationRequestService;
 use App\Imperium\Runtime\Curia\DelegateMissionPersonnelUseRequestService;
+use App\Imperium\Runtime\Curia\DelegateMissionDeploymentAuthorizationService;
 use App\Imperium\Runtime\Guildhall\DelegateMissionCapabilityDemandIntakeService;
 use App\Imperium\Runtime\Guildhall\DelegateMissionPersonnelUseAcceptanceService;
 use App\Imperium\Runtime\Guildhall\DelegateMissionPersonnelResolutionService;
 use App\Imperium\Runtime\Garrison\DelegateMissionPersonaReservationDispositionService;
+use App\Imperium\Runtime\Garrison\DelegateMissionOperationalCustodyTransitionService;
 use App\Imperium\Runtime\Imperator\DelegateMissionProfileScopeDecisionService;
 use App\Imperium\Runtime\Imperator\DelegateMissionPersonnelUseDecisionService;
 use App\Imperium\Runtime\Imperator\DelegateMissionProfileApprovalDecisionService;
@@ -1341,6 +1343,17 @@ final class DelegateMissionGuildhallResolutionFlowTest extends TestCase
         } finally {$this->remove($root);}
     }
 
+    public function testSeneschalDeploysThenConstableTransitionsCustodyWithoutMissionUse(): void
+    {
+        [$root,$senate]=$this->delegateSenateDispositionFixture(false,'APPROVED');
+        try {
+            $approval=(new DelegateMissionProfileApprovalDecisionService($root))->decide($senate['disposition_id'],'APPROVED','Approve exact Delegate Profile.','Qualification request only.',new \DateTimeImmutable());$state=new StateStore($root);$q=(new DelegateMissionOperationalProfileQualificationService($root,$state))->qualify($approval['decision_id'],new \DateTimeImmutable());$a=(new DelegateMissionOperationalManifestationAssemblyService($root,$state))->assemble($q['qualification_id'],new \DateTimeImmutable());$binding=(new DelegateMissionOperationalManifestationSeatBindingService($root,$state))->bind($a['assembly_id'],new \DateTimeImmutable());
+            $seneschal='curia-seneschal-binding-'.str_repeat('a',20);$this->write($root.'/var/imperium/offices/curia/occupancy/'.$seneschal.'.json',$this->record(['schema'=>'imperium.curia-seneschal-occupancy/v1','binding_id'=>$seneschal,'instance_id'=>'imperium-test','seat'=>'curia.seneschal','officer_class'=>'LEGATE','manifestation_id'=>'manifestation-seneschal','occupancy_generation'=>1,'status'=>'ACTIVE','delegate_mission_deployment_authorization_authority'=>true,'execution_authority'=>false,'sealed'=>true]));
+            $authorization=(new DelegateMissionDeploymentAuthorizationService($root))->decide($binding['binding_id'],$seneschal,'AUTHORIZED','Authorize the exact bounded mission deployment.',new \DateTimeImmutable('2026-08-26T19:00:00+00:00'));self::assertSame('DELEGATE_MISSION_DEPLOYMENT_AUTHORIZED_PENDING_GARRISON_CUSTODY_TRANSITION',$authorization['status']);self::assertSame('Assess exact public surface.',$authorization['mission_use']['objective']);self::assertTrue($authorization['garrison_custody_transition_authority']['authority_exercisable']);self::assertFalse($authorization['operational_use_permitted']);
+            $constable='garrison-constable-binding-'.str_repeat('7',20);$transition=(new DelegateMissionOperationalCustodyTransitionService($root))->transition($authorization['authorization_id'],$constable,new \DateTimeImmutable('2026-08-26T20:00:00+00:00'));self::assertSame('DELEGATE_MISSION_DEPLOYED_CUSTODY_TRANSITIONED_PENDING_MISSION_ACTIVATION',$transition['status']);self::assertSame('DELEGATE_MISSION_DEPLOYED_BOUND',$transition['operational_custody']['state']);self::assertFalse($transition['operational_custody']['available']);self::assertTrue($transition['deployed']);foreach(['operational_use_permitted','mission_activation_authority','cognition_authority','provider_invocation_authority','data_access_authority','tool_use_authority','credential_use_authority','perimeter_crossing_authority','external_action_authority','execution_authority']as$field)self::assertFalse($transition[$field],$field.' must remain false');
+        } finally {$this->remove($root);}
+    }
+
     private function delegateSenateDispositionFixture(bool $securityFails,string $disposition): array
     {
         [$root,$reconciliation]=$this->delegateFindingReconciliationFixture($securityFails);$binding='senate-lord-speaker-binding-'.str_repeat('4',20);$opening=(new DelegateMissionDispositionAuthorityOpeningService($root))->open($reconciliation['reconciliation_id'],$binding,new \DateTimeImmutable());$cognition=new class($disposition) implements ProfileExaminationDispositionCognitionGateway {public function __construct(private string$disposition){}public function decide(array$authority,array$findings,array$reconciliation):array{return['disposition'=>$this->disposition,'finding_references'=>$authority['available_finding_references'],'limitations'=>[],'rationale'=>'Issue the exact bounded Senate disposition.','reconciliation_treatment'=>'Preserve the complete reconciliation unchanged.','uncertainties'=>[]];}};
@@ -1755,6 +1768,7 @@ final class DelegateMissionGuildhallResolutionFlowTest extends TestCase
             'occupancy_generation' => 1,
             'status' => 'ACTIVE',
             'persona_reservation_disposition_authority' => true,
+            'delegate_mission_operational_custody_transition_authority' => true,
             'selection_authority' => false,
             'execution_authority' => false,
             'sealed' => true,

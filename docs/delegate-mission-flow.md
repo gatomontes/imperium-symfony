@@ -9,7 +9,7 @@
 
 Curia states mission capabilities but never chooses a profession or Persona. Guildhall resolves profession and Persona suitability. Garrison owns custody and availability facts. Conscription assembles and qualifies but does not select personnel. Imperator decides protected personnel, Profile, deployment, resource, perimeter, and action commitments.
 
-## Implemented flow through Step 46
+## Implemented flow through Step 48
 
 ### Demand and personnel resolution
 
@@ -87,17 +87,21 @@ Curia states mission capabilities but never chooses a profession or Persona. Gui
 45. Conscription assembles one operational Delegate Manifestation on generic Officer v0.
 46. Conscription atomically binds it to the immutable mission Seat while leaving it inert.
 
+### Deployment and custody
+
+47. The Seneschal authorizes or refuses the exact bounded deployment.
+48. The Constable independently transitions custody to deployed-and-bound while leaving the Delegate inactive.
+
 ## Current checkpoint
 
-`DELEGATE_MISSION_MANIFESTATION_BOUND_PENDING_DEPLOYMENT_AUTHORIZATION`
+`DELEGATE_MISSION_DEPLOYED_CUSTODY_TRANSITIONED_PENDING_MISSION_ACTIVATION`
 
-The exact Delegate Manifestation is bound at generation 1 but remains inert. Garrison custody remains `ADMITTED_HELD`; deployment, custody transfer, operational use, provider invocation, data, tools, credentials, perimeter crossing, external action, execution, Mission Plan amendment, follow-up commission, and continuing-turn authority remain closed.
+The exact Delegate is bound and deployed, and custody is `DELEGATE_MISSION_DEPLOYED_BOUND`, but the Delegate remains inactive. Operational use, cognition, provider invocation, data, tools, credentials, perimeter crossing, external action, execution, Mission Plan amendment, follow-up commission, and continuing-turn authority remain closed.
 
 ## Expected remaining phases
 
-1. deployment authorization and Garrison custody transition;
-2. bounded mission cognition and separately authorized resources/actions;
-3. result delivery and mission disposition;
-4. return, Seat unbinding, credential revocation, custody restoration, and Delegate termination.
+1. bounded mission activation and cognition with separately authorized resources/actions;
+2. result delivery and mission disposition;
+3. return, Seat unbinding, credential revocation, custody restoration, and Delegate termination.
 
 The route is not operational merely because examination testimony exists. Every operational authority remains separately gated.
