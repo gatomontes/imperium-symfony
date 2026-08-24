@@ -17,9 +17,13 @@ A mission Delegate is not a permanent Office Legate. It exists only for the exac
 - Conscription assembles and qualifies; it does not select personnel or authorize use.
 - Imperator decides protected personnel-use, Profile, deployment, tool, credential, perimeter, and action commitments where competent authority is required.
 
-## Estimated route
+## Current route estimate
 
-The Delegate mission route is expected to require approximately `14–18` bounded transitions. The exact count must follow the authority chain rather than an arbitrary target.
+The original `14–18` transition estimate was invalidated by implementation. It understated identity-bound acceptance, examination authorship, dispatch, testimony, findings, operational activation, mission work, and terminal retirement boundaries.
+
+At the current granularity, the complete route is expected to reach approximately Step `58–64`. This is an estimate, not a target. Before adding further repeated transitions, the route should be exercised locally and reviewed for safe consolidation that does not merge decision-makers or smuggle authority downstream.
+
+Steps 1–24 are implemented. Step 24 completes the first trust-question leg; approximately `34–40` transitions remain if the current granularity is preserved.
 
 The expected phases are:
 
@@ -288,6 +292,102 @@ The route stops at `DELEGATE_MISSION_PROFILE_EXAMINATION_OPENED_PENDING_FIRST_QU
 `Delegate Mission Step 19 — first jurisdiction-bound question commission`
 
 The occupied Lord Speaker consumes the Step 18 authority to commission exactly one first question within the sealed trust jurisdiction and hearing limits. Commissioning must stop before question authorship, cognition, dispatch, or testimony.
+
+### Implementation status
+
+Step 19 is implemented. See `docs/handoffs/delegate-mission-step-19-complete.md` and `contracts/delegate-mission-first-question-commission.md`.
+
+The route stops at `DELEGATE_MISSION_FIRST_QUESTION_COMMISSION_ISSUED_PENDING_TRUST_SENATOR_ACCEPTANCE`. Only the exact recipient's single-use acceptance-or-refusal authority is open.
+
+## Next bounded transition
+
+`Delegate Mission Step 20 — trust Senator first-question commission disposition`
+
+The exact occupied trust Senator independently accepts or refuses the sealed Step 19 commission. Acceptance may open only one bounded question-authorship authority; refusal opens nothing. Neither branch authors or dispatches a question.
+
+### Implementation status
+
+Step 20 is implemented. See `docs/handoffs/delegate-mission-step-20-complete.md` and `contracts/delegate-mission-first-question-commission-disposition.md`.
+
+Acceptance stops at `DELEGATE_MISSION_FIRST_QUESTION_COMMISSION_ACCEPTED_PENDING_TRUST_QUESTION_AUTHORSHIP`; refusal stops at `DELEGATE_MISSION_FIRST_QUESTION_COMMISSION_REFUSED_NO_QUESTION_AUTHORITY`.
+
+## Next bounded transition
+
+`Delegate Mission Step 21 — bounded trust-question authorship`
+
+The exact accepting trust Senator consumes the Step 20 authority to author and seal one question within the unchanged hearing contract. Authorship must stop before dispatch, testimony, or findings.
+
+### Implementation status
+
+Step 21 is implemented. See `docs/handoffs/delegate-mission-step-21-complete.md` and `contracts/delegate-mission-trust-question-authorship.md`.
+
+The route stops at `DELEGATE_MISSION_TRUST_QUESTION_AUTHORED_SEALED_PENDING_DISPATCH_AUTHORIZATION`. Only the Lord Speaker's exact single-use dispatch-decision authority is open; the question has not been asked.
+
+## Next bounded transition
+
+`Delegate Mission Step 22 — trust-question dispatch authorization disposition`
+
+The current exact Lord Speaker authorizes or refuses dispatch of the sealed Step 21 question. Authorization may open only one dispatch authority and must stop before the question is asked or testimony begins.
+
+### Implementation status
+
+Step 22 is implemented. See `docs/handoffs/delegate-mission-step-22-complete.md` and `contracts/delegate-mission-trust-question-dispatch-authorization.md`.
+
+Authorization stops at `DELEGATE_MISSION_TRUST_QUESTION_DISPATCH_AUTHORIZED_PENDING_BAILIFF_DISPATCH`; refusal opens no testimony path.
+
+## Next bounded transition
+
+`Delegate Mission Step 23 — secured unchanged trust-question dispatch`
+
+The exact identity-bound Bailiff consumes the Step 22 authority and dispatches the sealed question unchanged. Dispatch may open only one bounded response authority and must stop before testimony cognition.
+
+### Implementation status
+
+Step 23 is implemented. See `docs/handoffs/delegate-mission-step-23-complete.md` and `contracts/delegate-mission-trust-question-dispatch.md`.
+
+The route stops at `DELEGATE_MISSION_TRUST_QUESTION_DISPATCHED_UNCHANGED_PENDING_TESTIMONY_RESPONSE`.
+
+## Next bounded transition
+
+`Delegate Mission Step 24 — sealed bounded trust response`
+
+The examination-only Manifestation consumes the exact response authority and returns one structured answer with evidence claims, refusals, and uncertainties. No finding authority may open merely from one response.
+
+### Implementation status
+
+Step 24 is implemented. See `docs/handoffs/delegate-mission-step-24-complete.md`, `docs/handoffs/delegate-mission-first-trust-question-leg-complete.md`, and `contracts/delegate-mission-trust-testimony-response.md`.
+
+The trust-question leg stops at `DELEGATE_MISSION_TRUST_TESTIMONY_RESPONSE_SEALED_PENDING_SECURITY_QUESTION_COMMISSION`. No finding authority exists.
+
+## Next bounded transition
+
+`Delegate Mission Step 25 — security-question commission issuance`
+
+The Lord Speaker consumes the exact Step 24 authority to issue one bounded commission to the exact occupied security Senator. It must stop before recipient acceptance or question authorship.
+
+### Implementation status
+
+Step 25 is implemented. See `docs/handoffs/delegate-mission-step-25-complete.md` and `contracts/delegate-mission-security-question-commission.md`.
+
+The route stops at `DELEGATE_MISSION_SECURITY_QUESTION_COMMISSION_ISSUED_PENDING_SECURITY_SENATOR_ACCEPTANCE`. Only the exact recipient's single-use acceptance-or-refusal authority is open.
+
+## Next bounded transition
+
+`Delegate Mission Step 26 — security Senator commission disposition`
+
+The exact occupied security Senator independently accepts or refuses the sealed Step 25 commission. Acceptance may open only one bounded security-question authorship authority and must stop before cognition or authorship.
+
+### Implementation status
+
+Steps 26–30 are implemented. See `docs/handoffs/delegate-mission-steps-26-30-complete.md`, `docs/handoffs/delegate-mission-security-question-leg-complete.md`, and the corresponding security-question contracts.
+
+The accepted route authors one bounded security question, obtains a separate Lord Speaker dispatch decision, dispatches unchanged through the exact Bailiff, and seals one structured response. The leg stops at `DELEGATE_MISSION_SECURITY_TESTIMONY_RESPONSE_SEALED_PENDING_USABILITY_QUESTION_COMMISSION`.
+
+## Next bounded transition
+
+`Delegate Mission Step 31 — usability-question commission issuance`
+
+The Lord Speaker consumes the exact Step 30 authority to issue one bounded commission to the exact occupied usability Senator. It must stop before recipient acceptance or question authorship.
 
 ## Non-negotiable terminal design
 
