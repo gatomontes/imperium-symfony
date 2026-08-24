@@ -38,11 +38,14 @@ use App\Imperium\Runtime\Senate\DelegateMissionUsabilityQuestionAuthorshipServic
 use App\Imperium\Runtime\Senate\DelegateMissionUsabilityQuestionDispatchAuthorizationService;
 use App\Imperium\Runtime\Senate\DelegateMissionUsabilityQuestionDispatchService;
 use App\Imperium\Runtime\Senate\DelegateMissionUsabilityTestimonyResponseService;
+use App\Imperium\Runtime\Senate\DelegateMissionFindingAuthorityOpeningService;
+use App\Imperium\Runtime\Senate\DelegateMissionSenatorFindingService;
 use App\Imperium\Runtime\Senate\DelegateMissionTrustQuestionAuthorshipService;
 use App\Imperium\Runtime\Senate\DelegateMissionTrustQuestionDispatchAuthorizationService;
 use App\Imperium\Runtime\Senate\DelegateMissionTrustQuestionDispatchService;
 use App\Imperium\Runtime\Senate\DelegateMissionTrustTestimonyResponseService;
 use App\Imperium\Runtime\Senate\ProfileExaminationQuestionCognitionGateway;
+use App\Imperium\Runtime\Senate\ProfileExaminationFindingCognitionGateway;
 use App\Imperium\Runtime\Senate\ProfileExaminationTestimonyCognitionGateway;
 use PHPUnit\Framework\TestCase;
 
@@ -1152,6 +1155,74 @@ final class DelegateMissionGuildhallResolutionFlowTest extends TestCase
         }
     }
 
+    public function testIndependentDelegateFindingsSealPanelReadinessWithoutDeliberation(): void
+    {
+        [$root, $usabilityTurn, $bindings] = $this->usabilityTestimonyTurnFixture();
+        try {
+            $openingService = new DelegateMissionFindingAuthorityOpeningService($root);
+            $opening = $openingService->open($usabilityTurn['turn_id'], 'senate-lord-speaker-binding-'.str_repeat('4', 20), new \DateTimeImmutable('2026-08-26T07:00:00+00:00'));
+            self::assertSame('DELEGATE_MISSION_FINDING_AUTHORITIES_OPENED_PENDING_INDEPENDENT_SENATOR_FINDINGS', $opening['status']);
+            self::assertSame(['trust', 'security', 'usability'], array_column($opening['finding_authorities'], 'jurisdiction'));
+            self::assertTrue($opening['finding_phase_opening_authority']['consumed']);
+            self::assertTrue($opening['findings_authority']);
+            self::assertFalse($opening['deliberation_authority']);
+
+            $cognition = new class implements ProfileExaminationFindingCognitionGateway {
+                public function find(string $jurisdiction, array $authority, array $evidence): array
+                {
+                    $blocking = 'security' === $jurisdiction;
+                    return [
+                        'disposition' => $blocking ? 'FAIL' : 'PASS',
+                        'attributed_defect' => $blocking ? 'profile_elaboration' : null,
+                        'evidence_references' => $evidence['available_evidence_references'],
+                        'rationale' => $blocking ? 'The security testimony does not resolve the protected-capability failure.' : 'The sealed testimony satisfies this jurisdiction.',
+                        'severity' => $blocking ? 'HIGH' : 'NONE',
+                        'limitations' => [], 'uncertainty' => [],
+                    ];
+                }
+            };
+            $service = new DelegateMissionSenatorFindingService($root, $cognition);
+            $readiness = null;
+            foreach (['trust', 'security', 'usability'] as $index => $jurisdiction) {
+                $result = $service->issue($opening['opening_id'], $jurisdiction, $bindings[$jurisdiction], new \DateTimeImmutable(sprintf('2026-08-26T%02d:00:00+00:00', 8 + $index)));
+                self::assertFalse($result['finding']['peer_findings_visible_at_authorship']);
+                self::assertFalse($result['finding']['deliberation_authority']);
+                if ($index < 2) self::assertNull($result['readiness']);
+                $readiness = $result['readiness'];
+            }
+            self::assertIsArray($readiness);
+            self::assertSame('DELEGATE_MISSION_SENATOR_FINDINGS_SEALED_PENDING_DELIBERATION_OPENING', $readiness['status']);
+            self::assertTrue($readiness['all_finding_authorities_consumed']);
+            self::assertTrue($readiness['mandatory_security_blocking_condition']);
+            self::assertTrue($readiness['deliberation_opening_authority']['authority_exercisable']);
+            foreach (['deliberation_authority', 'reconciliation_authority', 'vote_authority', 'aggregation_authority', 'senate_disposition_authority', 'profile_approval_authority', 'profile_installation_authority', 'mission_seat_binding_authority', 'deployment_authority', 'execution_authority'] as $field) self::assertFalse($readiness[$field], $field.' must remain false');
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    private function usabilityTestimonyTurnFixture(): array
+    {
+        [$root, $commission, $usabilityBindingId] = $this->usabilityQuestionCommissionFixture();
+        $disposition = (new DelegateMissionUsabilityQuestionCommissionDispositionService($root))->decide($commission['commission_id'], $usabilityBindingId, 'ACCEPTED', 'Accept.', new \DateTimeImmutable());
+        $questionCognition = new class implements ProfileExaminationQuestionCognitionGateway {
+            public function authorQuestion(string $jurisdiction, array $commission, array $opening): array { return ['purpose' => 'Examine usability.', 'question' => 'How will you preserve useful bounded output?']; }
+        };
+        $question = (new DelegateMissionUsabilityQuestionAuthorshipService($root, $questionCognition))->author($disposition['disposition_id'], $usabilityBindingId, new \DateTimeImmutable());
+        $decision = (new DelegateMissionUsabilityQuestionDispatchAuthorizationService($root))->decide($question['question_id'], 'senate-lord-speaker-binding-'.str_repeat('4', 20), 'AUTHORIZED', 'Authorize.', new \DateTimeImmutable());
+        $dispatch = (new DelegateMissionUsabilityQuestionDispatchService($root))->dispatch($decision['decision_id'], 'senate-bailiff-binding-'.str_repeat('3', 20), new \DateTimeImmutable());
+        $testimony = new class implements ProfileExaminationTestimonyCognitionGateway {
+            public function answer(array $question, array $manifestation): array { return ['answer' => 'I preserve the output contract.', 'evidence_claims' => [], 'refusals' => [], 'uncertainties' => []]; }
+        };
+        $turn = (new DelegateMissionUsabilityTestimonyResponseService($root, $testimony))->respond($dispatch['dispatch_id'], new \DateTimeImmutable());
+
+        return [$root, $turn, [
+            'trust' => 'senate-committee-trust-binding-'.str_repeat('5', 20),
+            'security' => 'senate-committee-security-binding-'.str_repeat('8', 20),
+            'usability' => $usabilityBindingId,
+        ]];
+    }
+
     private function usabilityQuestionCommissionFixture(): array
     {
         [$root, $securityTurn] = $this->securityTestimonyTurnFixture();
@@ -1163,6 +1234,7 @@ final class DelegateMissionGuildhallResolutionFlowTest extends TestCase
             'status' => 'ACTIVE', 'binding_atomic' => true,
             'delegate_question_commission_acceptance_disposition_authority' => true,
             'senator_question_authority' => true, 'execution_authority' => false, 'sealed' => true,
+            'senator_finding_authority' => true,
         ]));
         $commission = (new DelegateMissionUsabilityQuestionCommissionIssuanceService($root))->issue($securityTurn['turn_id'], 'senate-lord-speaker-binding-'.str_repeat('4', 20), $usabilitySenatorBindingId, new \DateTimeImmutable());
 
@@ -1219,6 +1291,7 @@ final class DelegateMissionGuildhallResolutionFlowTest extends TestCase
             'status' => 'ACTIVE', 'binding_atomic' => true,
             'delegate_question_commission_acceptance_disposition_authority' => true,
             'senator_question_authority' => true, 'execution_authority' => false, 'sealed' => true,
+            'senator_finding_authority' => true,
         ]));
 
         return [$root, $turn, 'senate-lord-speaker-binding-'.str_repeat('4', 20), $securitySenatorBindingId];
@@ -1288,6 +1361,7 @@ final class DelegateMissionGuildhallResolutionFlowTest extends TestCase
             'binding_atomic' => true,
             'delegate_question_commission_acceptance_disposition_authority' => true,
             'senator_question_authority' => true,
+            'senator_finding_authority' => true,
             'execution_authority' => false,
             'sealed' => true,
         ]));
@@ -1357,6 +1431,7 @@ final class DelegateMissionGuildhallResolutionFlowTest extends TestCase
             'delegate_profile_examination_opening_authority' => true,
             'delegate_first_question_commission_issuance_authority' => true,
             'delegate_subsequent_question_commission_issuance_authority' => true,
+            'delegate_finding_phase_opening_authority' => true,
             'delegate_question_dispatch_authorization_disposition_authority' => true,
             'execution_authority' => false,
             'sealed' => true,

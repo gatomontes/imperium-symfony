@@ -401,6 +401,18 @@ The route stops at `DELEGATE_MISSION_USABILITY_TESTIMONY_RESPONSE_SEALED_PENDING
 
 The Lord Speaker consumes the exact Step 36 authority only after independently revalidating the three testimony turns, exact jurisdictional occupancies, hearing contract, custody, identity baseline, and shared defect-attribution rubric. The transition may open one separate finding authority for each exact Senator and must stop before any finding cognition or authorship.
 
+### Implementation status
+
+Steps 37–38 are implemented. See `docs/handoffs/delegate-mission-steps-37-38-complete.md`, `docs/handoffs/delegate-mission-independent-findings-leg-complete.md`, and the corresponding finding contracts.
+
+The route stops at `DELEGATE_MISSION_SENATOR_FINDINGS_SEALED_PENDING_DELIBERATION_OPENING`. The three findings remain independent and unchanged; only one Lord Speaker deliberation-opening authority exists.
+
+## Next bounded transition
+
+`Delegate Mission Step 39 — deliberation opening`
+
+The Lord Speaker admits all three sealed findings unchanged into one bounded deliberation record. It must preserve disagreement, severity, attribution, limitations, uncertainty, and the mandatory Security blocking condition, and stop before reconciliation cognition.
+
 ## Non-negotiable terminal design
 
 Before deployment becomes possible, the route must already define return, interruption, expiry, credential revocation, Seat unbinding, custody restoration, and Delegate termination. A successful mission does not leave a temporary Officer resident by accident.

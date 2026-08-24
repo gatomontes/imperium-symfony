@@ -73,6 +73,15 @@ final readonly class DelegateMissionProfileExaminationOpeningService
                 'manifestation_id' => $admission['manifestation']['manifestation_id'],
             ],
             'jurisdictions' => ['trust', 'security', 'usability'],
+            'defect_attribution_rubric' => [
+                'persona',
+                'profile_elaboration',
+                'profile_derivation_and_sealing',
+                'conscription_assembly',
+                'generic_officer_substrate',
+                'persona_profile_compatibility',
+                'insufficient_evidence',
+            ],
             'evidence_rules' => [
                 'exact_sealed_candidate_and_authority_lineage_only' => true,
                 'questions_and_responses_must_be_attributable_and_sealed' => true,
