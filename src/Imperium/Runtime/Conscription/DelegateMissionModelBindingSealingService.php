@@ -52,6 +52,8 @@ final readonly class DelegateMissionModelBindingSealingService
             || true !== ($decision['model_selected'] ?? null)
             || !is_string($decision['selected_model'] ?? null)
             || !in_array($decision['selected_model'], $decision['eligible_models'] ?? [], true)
+            || !is_array($decision['selected_runtime_binding'] ?? null)
+            || ($decision['runtime_bindings'][$decision['selected_model']] ?? null) !== $decision['selected_runtime_binding']
             || $authorityId !== ($authority['authority_id'] ?? null)
             || true !== ($authority['authority_single_use'] ?? null) || true !== ($authority['authority_exercisable'] ?? null)
             || false !== ($authority['consumed'] ?? null) || 'conscription.recruiter' !== ($authority['holder'] ?? null)
@@ -77,7 +79,7 @@ final readonly class DelegateMissionModelBindingSealingService
         return $this->save($bindingId, [
             'schema' => 'imperium.conscription-delegate-mission-model-binding/v1', 'binding_id' => $bindingId, 'instance_id' => $instanceId, 'binder' => $actor,
             'source_selection_decision' => ['id' => $decisionId, 'digest' => $decision['record_digest']], 'source_recommendation' => $decision['source_recommendation'], 'source_oracle_commission' => ['id' => $oracleCommissionId, 'digest' => $oracleCommission['record_digest']], 'source_commission' => ['id' => $commissionId, 'digest' => $commission['record_digest']],
-            'target' => $target, 'provider_model_version' => $decision['selected_model'], 'configuration' => $decision['configuration'],
+            'target' => $target, 'provider_model_version' => $decision['selected_model'], 'runtime_binding' => $decision['selected_runtime_binding'], 'configuration' => $decision['configuration'],
             'binding_authority' => ['id' => $authorityId, 'consumed' => true, 'continuing_authority' => false], 'sealed_at' => $sealedAt->format(DATE_ATOM),
             'status' => 'DELEGATE_MISSION_MODEL_BINDING_SEALED_PENDING_ACCESS_ATTESTATION', 'model_binding_sealed' => true,
             'model_access_attestation_authority' => ['authority_id' => $attestationAuthorityId, 'authority_single_use' => true, 'authority_exercisable' => true, 'holder' => 'clavium.locksmith', 'purpose' => 'ATTEST_ACCESS_TO_EXACT_BOUND_MODEL_WITHOUT_RELEASING_CREDENTIALS', 'consumed' => false, 'continuing_authority' => false],
