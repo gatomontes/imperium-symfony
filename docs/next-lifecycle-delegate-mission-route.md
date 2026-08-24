@@ -23,7 +23,7 @@ The original `14–18` transition estimate was invalidated by implementation. It
 
 At the current granularity, the complete route is expected to reach approximately Step `58–64`. This is an estimate, not a target. Before adding further repeated transitions, the route should be exercised locally and reviewed for safe consolidation that does not merge decision-makers or smuggle authority downstream.
 
-Steps 1–66 are implemented. Step 66 consumes the exact lease in one Symfony AI invocation and seals the bounded result; approximately `1–2` transitions remain.
+Steps 1–69 are implemented. Step 69 terminates the temporary Delegate, unbinds its Seat, and restores Persona custody. The route is complete.
 
 The expected phases are:
 
@@ -610,6 +610,18 @@ Citadel revalidates the exact commission, binding, access attestation, runtime m
 Step 66 is implemented. See `docs/handoffs/delegate-mission-step-66-complete.md` and `contracts/delegate-mission-bounded-cognition-turn.md`.
 
 The route stops at `DELEGATE_MISSION_BOUNDED_COGNITION_TURN_COMPLETE_PENDING_CURIA_DISPOSITION`. Step 67 must dispose the exact sealed result and open only its governed return path.
+
+## Terminal transitions
+
+`Delegate Mission Steps 67–69 — result disposition, return authorization, and terminal retirement`
+
+Curia disposes the exact bounded result without inventing continuation, then separately authorizes the predeclared return contract. Garrison consumes that authority to restore Persona custody, unbind the mission Seat, and retire the temporary Manifestation.
+
+### Implementation status
+
+Steps 67–69 are implemented. See `docs/handoffs/delegate-mission-route-complete.md` and `contracts/delegate-mission-result-return-and-retirement.md`.
+
+The terminal checkpoint is `DELEGATE_MISSION_RETURNED_UNBOUND_CUSTODY_RESTORED_RETIRED_TERMINAL`. No authority survives for continuation, redeployment, or reuse; another mission requires a fresh Delegate lifecycle.
 
 ## Non-negotiable terminal design
 
