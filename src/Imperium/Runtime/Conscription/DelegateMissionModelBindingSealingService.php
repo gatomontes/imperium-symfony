@@ -12,12 +12,14 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 final readonly class DelegateMissionModelBindingSealingService
 {
     private string $decisions;
+    private string $oracleCommissions;
     private string $commissions;
     private string $bindings;
 
     public function __construct(#[Autowire('%kernel.project_dir%')] string $root, private StateStore $state)
     {
         $this->decisions = $root.'/var/imperium/offices/curia/delegate-mission-model-selection-decisions';
+        $this->oracleCommissions = $root.'/var/imperium/offices/curia/model-requirement-commissions';
         $this->commissions = $root.'/var/imperium/offices/curia/delegate-mission-bounded-cognition-commissions';
         $this->bindings = $root.'/var/imperium/offices/conscription/delegate-mission-model-bindings';
     }
@@ -36,11 +38,13 @@ final readonly class DelegateMissionModelBindingSealingService
             }
         }
 
-        $commissionId = $decision['source_commission']['id'] ?? '';
+        $oracleCommissionId = $decision['source_commission']['id'] ?? '';
+        $oracleCommission = $this->read($this->oracleCommissions.'/'.$oracleCommissionId.'.json', 'R282_DELEGATE_ORACLE_COMMISSION_ABSENT');
+        $commissionId = $oracleCommission['delegate_lineage']['bounded_commission']['id'] ?? '';
         $commission = $this->read($this->commissions.'/'.$commissionId.'.json', 'R282_DELEGATE_MODEL_COMMISSION_ABSENT');
         [$instanceId, $recruiter] = $this->recruiter();
         $authority = $decision['model_binding_sealing_authority'] ?? [];
-        if (!$this->validDigest($decision) || !$this->validDigest($commission)
+        if (!$this->validDigest($decision) || !$this->validDigest($oracleCommission) || !$this->validDigest($commission)
             || 'imperium.curia-delegate-mission-model-selection-decision/v1' !== ($decision['schema'] ?? null)
             || $decisionId !== ($decision['decision_id'] ?? null)
             || $instanceId !== ($decision['instance_id'] ?? null)
@@ -53,9 +57,13 @@ final readonly class DelegateMissionModelBindingSealingService
             || false !== ($authority['consumed'] ?? null) || 'conscription.recruiter' !== ($authority['holder'] ?? null)
             || 'SEAL_EXACT_SELECTED_MODEL_TO_DELEGATE_MISSION_TURN_ONE' !== ($authority['purpose'] ?? null)
             || true === ($decision['model_assignment_authority'] ?? null) || true === ($decision['provider_invocation_authority'] ?? null)
+            || 'imperium.curia-model-requirement-commission/v1' !== ($oracleCommission['schema'] ?? null)
+            || $oracleCommissionId !== ($oracleCommission['commission_id'] ?? null)
+            || ($decision['source_commission']['digest'] ?? null) !== ($oracleCommission['record_digest'] ?? null)
+            || $instanceId !== ($oracleCommission['instance_id'] ?? null)
             || 'imperium.curia-delegate-mission-bounded-cognition-commission/v1' !== ($commission['schema'] ?? null)
             || $commissionId !== ($commission['commission_id'] ?? null)
-            || ($decision['source_commission']['digest'] ?? null) !== ($commission['record_digest'] ?? null)
+            || ($oracleCommission['delegate_lineage']['bounded_commission']['digest'] ?? null) !== ($commission['record_digest'] ?? null)
             || $instanceId !== ($commission['instance_id'] ?? null) || 1 !== ($commission['commission_contract']['turn_sequence'] ?? null)
             || true === ($commission['commission_contract']['provider_invocation_allowed'] ?? null)) {
             throw new \RuntimeException('R283_DELEGATE_MODEL_BINDING_CHAIN_INVALID');
@@ -68,7 +76,7 @@ final readonly class DelegateMissionModelBindingSealingService
 
         return $this->save($bindingId, [
             'schema' => 'imperium.conscription-delegate-mission-model-binding/v1', 'binding_id' => $bindingId, 'instance_id' => $instanceId, 'binder' => $actor,
-            'source_selection_decision' => ['id' => $decisionId, 'digest' => $decision['record_digest']], 'source_recommendation' => $decision['source_recommendation'], 'source_commission' => ['id' => $commissionId, 'digest' => $commission['record_digest']],
+            'source_selection_decision' => ['id' => $decisionId, 'digest' => $decision['record_digest']], 'source_recommendation' => $decision['source_recommendation'], 'source_oracle_commission' => ['id' => $oracleCommissionId, 'digest' => $oracleCommission['record_digest']], 'source_commission' => ['id' => $commissionId, 'digest' => $commission['record_digest']],
             'target' => $target, 'provider_model_version' => $decision['selected_model'], 'configuration' => $decision['configuration'],
             'binding_authority' => ['id' => $authorityId, 'consumed' => true, 'continuing_authority' => false], 'sealed_at' => $sealedAt->format(DATE_ATOM),
             'status' => 'DELEGATE_MISSION_MODEL_BINDING_SEALED_PENDING_ACCESS_ATTESTATION', 'model_binding_sealed' => true,
