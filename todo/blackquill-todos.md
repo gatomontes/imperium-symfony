@@ -71,7 +71,7 @@ Preserve independent authorities, emitted records, and cross-office handoffs. Co
 - [x] Replace the trust, security, and usability question implementations with jurisdiction-parameterized engines. *(Authorship completed in Step 13; subsequent commission issuance completed in Step 14; subsequent commission disposition completed in Step 15; dispatch authorization completed in Step 16; physical dispatch completed in Step 17; testimony response completed in Step 18.)*
 
   Closeout Step 19 reserves `S790`–`S795` for the six shared engines' unsupported-jurisdiction fail-stop errors, without changing any established jurisdiction-specific runtime error.
-- [ ] Consolidate operational qualification, assembly, and binding mechanics (Steps 44-46) into a transactional workflow with explicit checkpoints.
+- [ ] Consolidate operational qualification, assembly, and binding mechanics (Steps 44-46) into a transactional workflow with explicit checkpoints. *(Step 20 added the atomic `CodexImperiiStore` foundation; service migration and the transition coordinator remain.)*
 - [ ] Consolidate commission construction and readiness mechanics (Steps 51-52).
 - [ ] Consolidate result disposition and return-authorization mechanics (Steps 67-68).
 - [ ] Keep Oracle catalogue identity separate from runtime model binding.
@@ -80,9 +80,9 @@ Preserve independent authorities, emitted records, and cross-office handoffs. Co
 ## Shared persistence primitives
 
 - [ ] Extract an `ImmutableRecordStore`.
-- [ ] Extract a `MutableStateStore`.
+- [x] Extract a `MutableStateStore`.
 - [ ] Extract an `AuthorityConsumptionStore`.
-- [ ] Extract an `AtomicTransition` coordinator.
+- [x] Extract an `AtomicTransition` coordinator.
 - [ ] Extract a `RecordReferenceValidator`.
 - [ ] Remove duplicated filesystem scanning, decoding, validation, locking, and write code after migration.
 

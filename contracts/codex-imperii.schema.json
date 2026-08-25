@@ -8,7 +8,9 @@
     "schema",
     "codex_id",
     "instance_id",
+    "generation",
     "current_checkpoint",
+    "last_advance_fingerprint",
     "folia",
     "record_digest"
   ],
@@ -16,7 +18,12 @@
     "schema": { "const": "imperium.codex-imperii/v1" },
     "codex_id": { "type": "string", "pattern": "^codex-imperii-[a-f0-9]{20}$" },
     "instance_id": { "type": "string", "minLength": 1 },
+    "generation": { "type": "integer", "minimum": 1 },
     "current_checkpoint": { "type": "string", "minLength": 1 },
+    "last_advance_fingerprint": {
+      "type": ["string", "null"],
+      "pattern": "^[a-f0-9]{64}$"
+    },
     "folia": {
       "type": "array",
       "items": {

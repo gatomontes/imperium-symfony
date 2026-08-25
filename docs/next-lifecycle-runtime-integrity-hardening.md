@@ -131,3 +131,7 @@ Trust, Security, and Usability testimony responses now share one jurisdiction-pa
 ## Hardening Step 19
 
 The Senate question-engine consolidation sub-leg is closed. Unsupported-jurisdiction failures for the six shared engines now occupy the dedicated contiguous `S790`–`S795` range, avoiding collisions with the preserved Usability runtime errors in `S700`–`S719`. Focused boundary tests and the full Delegate flow protect both the shared mechanics and the independent jurisdiction contracts.
+
+## Hardening Step 20
+
+The Steps 44–46 transactional sub-leg now has its persistence foundation. `CodexImperiiStore` owns one digest-bound Codex per Imperium instance, appends ordered Folia through compare-and-swap checkpoint advances, increments a monotonic generation, returns exact replays, and fails stopped on omission, substitution, reordering, duplicate identity, stale checkpoint, or conflicting replay. The three operational services remain unmigrated until their complete transition coordinator is introduced.
