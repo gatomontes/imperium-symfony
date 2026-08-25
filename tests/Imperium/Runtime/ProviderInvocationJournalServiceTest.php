@@ -32,6 +32,8 @@ final class ProviderInvocationJournalServiceTest extends TestCase
         self::assertTrue($started['external_io_started']);
         self::assertFalse($started['automatic_replay_permitted']);
         self::assertNull($started['provider_response_identity']);
+        self::assertFileDoesNotExist($this->root.'/var/imperium/runtime/provider-invocation-journal.lock');
+        self::assertNotEmpty(glob($this->root.'/var/imperium/runtime/transition-locks/*.lock') ?: []);
 
         $sealed = $journal->sealResponse($claim, 'provider response', new \DateTimeImmutable('2026-08-25T13:00:01+00:00'));
         self::assertSame('PROVIDER_RESPONSE_IDENTITY_SEALED_PENDING_RESULT_PROCESSING', $sealed['status']);
@@ -86,6 +88,31 @@ final class ProviderInvocationJournalServiceTest extends TestCase
 
         $this->expectExceptionMessage('CLV410_PROVIDER_INVOCATION_CLAIM_INVALID');
         (new ProviderInvocationJournalService($this->root))->start($claim, new \DateTimeImmutable());
+    }
+
+    public function testTamperedJournalCannotParticipateInTransition(): void
+    {
+        $claim = $this->claim();
+        $journal = new ProviderInvocationJournalService($this->root);
+        $journal->start($claim, new \DateTimeImmutable());
+        $path = $this->root.'/var/imperium/runtime/provider-invocation-journal/'.$claim['claim_id'].'.json';
+        $record = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+        $record['external_io_started'] = false;
+        file_put_contents($path, json_encode($record, JSON_THROW_ON_ERROR));
+
+        $this->expectExceptionMessage('CLV414_PROVIDER_INVOCATION_JOURNAL_TRANSITION_INVALID');
+        $journal->markUnknown($claim, new \DateTimeImmutable());
+    }
+
+    public function testResolvedJournalRejectsStaleSecondTerminalTransition(): void
+    {
+        $claim = $this->claim();
+        $journal = new ProviderInvocationJournalService($this->root);
+        $journal->start($claim, new \DateTimeImmutable());
+        $journal->sealResponse($claim, 'provider response', new \DateTimeImmutable());
+
+        $this->expectExceptionMessage('CLV414_PROVIDER_INVOCATION_JOURNAL_TRANSITION_INVALID');
+        $journal->markUnknown($claim, new \DateTimeImmutable());
     }
 
     private function claim(): array
