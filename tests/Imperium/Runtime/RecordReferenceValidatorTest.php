@@ -59,6 +59,16 @@ final class RecordReferenceValidatorTest extends TestCase
         (new RecordReferenceValidator($this->root))->requireIntact($record, 'CALLER_TAMPER_ERROR');
     }
 
+    public function testIntactSupportsExplicitDigestPrefixWithoutWeakeningDefault(): void
+    {
+        $record = ['source_id' => 'source-123'];
+        $record['record_digest'] = 'sha256:'.hash('sha256', CanonicalJson::encode($record));
+        $validator = new RecordReferenceValidator($this->root);
+
+        self::assertTrue($validator->isIntact($record, 'sha256:'));
+        self::assertFalse($validator->isIntact($record));
+    }
+
     public function testResolvedIdentitySubstitutionFailsWithCallerVocabulary(): void
     {
         $record = $this->write('var/imperium/evidence/source-123.json', [

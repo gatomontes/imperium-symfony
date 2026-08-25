@@ -167,3 +167,7 @@ The complete Citadel Legate governed-cognition chain now delegates path-containe
 ## Hardening Step 28
 
 Exact reference resolution now verifies the referenced record's own canonical digest and may also require an explicit identity field to equal the reference identity. The fourteen-record Delegate terminal operational-evidence audit adopts this stronger primitive, removing its private JSON/digest/source implementation while retaining every evidence record, terminal invariant, and established `AUD300`–`AUD315` failure contract.
+
+## Hardening Step 29
+
+The credential-adjacent Delegate Clavium services now use canonical record loading and digest integrity for model-access attestation and provider-invocation activation. The validator supports Clavium's explicit `sha256:` provider-assertion digest prefix without weakening the unprefixed runtime-record default. Credential references remain undisclosed and untransferred, invocation remains single-turn and unperformed at activation, and all established `CLV320`–`CLV339` contracts remain intact.

@@ -126,7 +126,7 @@ Preserve independent authorities, emitted records, and cross-office handoffs. Co
 
 - [ ] Run the complete PHPUnit suite locally and in CI.
 - [ ] Run concurrency and crash-recovery suites repeatedly.
-- [ ] Demonstrate that direct provider invocation without a valid credential lease is impossible.
+- [ ] Demonstrate that direct provider invocation without a valid credential lease is impossible. *(The Delegate Clavium attestation/activation boundary now uses canonical record integrity while retaining undisclosed, untransferred, single-use leases; a live bypass demonstration is still required.)*
 - [ ] Demonstrate recovery from an unknown provider outcome without duplicate invocation.
 - [ ] Demonstrate deterministic recovery from every partial terminal transition.
 - [ ] Capture and retain evidence for the terminal audit's stated scope.
