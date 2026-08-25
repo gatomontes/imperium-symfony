@@ -306,3 +306,6 @@ services:
 
     App\Imperium\Runtime\Citadel\DelegateMissionCognitionGateway:
         alias: App\Imperium\Runtime\Citadel\SymfonyAiDelegateMissionCognitionGateway
+
+    App\Imperium\Runtime\Citadel\DelegateProviderInvoker:
+        alias: App\Imperium\Runtime\Citadel\SymfonyAiBrokeredDelegateProviderInvoker

@@ -107,6 +107,7 @@ final readonly class ProviderInvocationClaimService
                 'lease_id' => $activation['credential_lease']['lease_id'],
                 'consumed' => true,
                 'consumed_at' => $claimedAt->format(DATE_ATOM),
+                'expires_at' => $activation['credential_lease']['expires_at'],
                 'continuing_authority' => false,
             ],
             'turn_authority_consumption' => [

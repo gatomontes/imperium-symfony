@@ -28,7 +28,7 @@ The critical path is:
 
 Hardening Step 1, the durable invocation-claim foundation, is implemented. It introduces the canonical claim contract and one locked, atomic, single-winner transition that persists `INVOCATION_CLAIMED_PENDING_EXTERNAL_IO`, consumes the exact opaque lease and turn authority in the claim, and establishes a stable idempotency key before any external I/O.
 
-The existing Delegate cognition gateway has not yet been migrated onto this boundary. Direct Symfony platform injection therefore remains present until Hardening Step 2 introduces the broker-mediated adapter and makes a valid claim mandatory for invocation.
+Hardening Step 2 is implemented. The Delegate bounded-turn service now creates the durable claim before entering the cognition gateway, and the gateway depends on a claim-aware brokered provider invoker instead of a credential-bearing `PlatformInterface`. External-I/O start, response identity, and unknown outcome are durably journaled with automatic replay prohibited. Other resident and Legate gateways remain to be migrated before credential custody is system-wide.
 
 ### Problem
 
