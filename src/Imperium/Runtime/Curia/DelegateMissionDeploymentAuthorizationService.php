@@ -1,8 +1,166 @@
 <?php
-declare(strict_types=1);namespace App\Imperium\Runtime\Curia;use App\Bootstrap\CanonicalJson;use App\Imperium\Runtime\Persistence\AtomicTransition;use App\Imperium\Runtime\Persistence\ImmutableRecordStore;use App\Imperium\Runtime\Persistence\RecordReferenceValidator;use Symfony\Component\DependencyInjection\Attribute\Autowire;
+
+declare(strict_types=1);
+
+namespace App\Imperium\Runtime\Curia;
+
+use App\Bootstrap\CanonicalJson;
+
+use App\Imperium\Runtime\Persistence\AtomicTransition;
+
+use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
+
+use App\Imperium\Runtime\Persistence\RecordReferenceValidator;
+
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+
 final readonly class DelegateMissionDeploymentAuthorizationService
-{private string$b;private string$o;private string$a;private RecordReferenceValidator$v;private ImmutableRecordStore$records;public function __construct(#[Autowire('%kernel.project_dir%')]string$root,?RecordReferenceValidator$v=null,?ImmutableRecordStore$records=null){$this->b=$root.'/var/imperium/mission/occupancy';$this->o=$root.'/var/imperium/offices/curia/occupancy';$this->a=$root.'/var/imperium/offices/curia/delegate-mission-deployment-authorizations';$this->v=$v??new RecordReferenceValidator($root);$this->records=$records??new ImmutableRecordStore($root,new AtomicTransition($root));}
-public function decide(string$bindingId,string$seneschalBindingId,string$disposition,string$rationale,\DateTimeImmutable$at):array{if(!preg_match('/^delegate-mission-operational-seat-binding-[a-f0-9]{20}$/',$bindingId))throw new\InvalidArgumentException('C240_DELEGATE_MISSION_BINDING_ID_INVALID');$disposition=strtoupper(trim($disposition));$rationale=trim($rationale);if(!in_array($disposition,['AUTHORIZED','REFUSED','RETURNED_FOR_REVISION','DEFERRED'],true)||''===$rationale)throw new\InvalidArgumentException('C241_DELEGATE_MISSION_DEPLOYMENT_DISPOSITION_INVALID');$b=$this->read($this->b.'/'.$bindingId.'.json','C242_DELEGATE_MISSION_BINDING_ABSENT');$s=$this->read($this->o.'/'.$seneschalBindingId.'.json','C243_DELEGATE_MISSION_SENESCHAL_ABSENT');if(!$this->ok($b)||!$this->ok($s)||'imperium.delegate-mission-operational-manifestation-seat-binding/v1'!==($b['schema']??null)||'DELEGATE_MISSION_MANIFESTATION_BOUND_PENDING_DEPLOYMENT_AUTHORIZATION'!==($b['status']??null)||true!==($b['seat_bound']??null)||true!==($b['deployment_authorization_pending']??null)||true===($b['deployment_authority']??null)||'imperium.curia-seneschal-occupancy/v1'!==($s['schema']??null)||$seneschalBindingId!==($s['binding_id']??null)||($b['instance_id']??null)!==($s['instance_id']??null)||'curia.seneschal'!==($s['seat']??null)||'ACTIVE'!==($s['status']??null)||true!==($s['delegate_mission_deployment_authorization_authority']??null)||true===($s['execution_authority']??null))throw new\RuntimeException('C244_DELEGATE_MISSION_DEPLOYMENT_CHAIN_INVALID');foreach(glob($this->a.'/*.json')?:[]as$p){$x=$this->read($p,'C249_DELEGATE_MISSION_DEPLOYMENT_CONFLICT');if(($x['source_binding']['id']??null)===$bindingId){if(($x['disposition']??null)===$disposition&&($x['rationale']??null)===$rationale)return$x;throw new\RuntimeException('C249_DELEGATE_MISSION_DEPLOYMENT_CONFLICT');}}$authorized='AUTHORIZED'===$disposition;$actor=['seat'=>'curia.seneschal','binding_id'=>$seneschalBindingId,'binding_digest'=>$s['record_digest'],'manifestation_id'=>$s['manifestation_id'],'occupancy_generation'=>$s['occupancy_generation']];$id='delegate-mission-deployment-authorization-'.substr(hash('sha256',CanonicalJson::encode([$bindingId,$b['record_digest'],$actor,$disposition,$rationale])),0,20);$mission=$b['manifestation']['profile']['profile']['assignment'];$use=['objective'=>$mission['objective'],'scope'=>$mission['scope'],'deliverables'=>$mission['deliverables'],'required_inputs'=>$mission['required_inputs'],'expected_outcomes'=>$mission['expected_outcomes'],'bounded_duration'=>$mission['bounded_duration'],'stop_conditions'=>$b['manifestation']['profile']['profile_scope']['stop_conditions']];return$this->save($id,['schema'=>'imperium.curia-delegate-mission-deployment-authorization/v1','authorization_id'=>$id,'instance_id'=>$b['instance_id'],'officer_class'=>$b['officer_class'],'authorizer'=>$actor,'source_binding'=>['id'=>$bindingId,'digest'=>$b['record_digest']],'seat'=>$b['seat'],'manifestation_id'=>$b['manifestation_id'],'manifestation'=>$b['manifestation'],'persona'=>$b['persona'],'custody_lease'=>$b['custody_lease'],'source_assembly'=>$b['source_assembly'],'source_qualification'=>$b['source_qualification'],'source_imperator_approval'=>$b['source_imperator_approval'],'source_senate_disposition'=>$b['source_senate_disposition'],'source_profile_candidate'=>$b['source_profile_candidate'],'mission_use'=>$use,'disposition'=>$disposition,'rationale'=>$rationale,'decided_at'=>$at->format(DATE_ATOM),'status'=>$authorized?'DELEGATE_MISSION_DEPLOYMENT_AUTHORIZED_PENDING_GARRISON_CUSTODY_TRANSITION':'DELEGATE_MISSION_DEPLOYMENT_NOT_AUTHORIZED','deployment_authority'=>$authorized,'garrison_custody_transition_authority'=>$authorized?['authority_id'=>'delegate-mission-custody-transition-authority-'.substr(hash('sha256',CanonicalJson::encode([$id,$b['record_digest']])),0,20),'authority_single_use'=>true,'authority_exercisable'=>true,'holder'=>'garrison.constable','consumed'=>false,'continuing_authority'=>false]:null,'operational_use_permitted'=>false,'tool_use_authority'=>false,'credential_use_authority'=>false,'perimeter_crossing_authority'=>false,'external_action_authority'=>false,'execution_authority'=>false,'return_authority'=>false,'unbinding_authority'=>false,'sealed'=>true]);}
-private function read($p,$e):array{return$this->v->read($p,$e);}
-private function ok(array$r):bool{return$this->v->isIntact($r);}
-private function save($id,array$r):array{try{return$this->records->put('var/imperium/offices/curia/delegate-mission-deployment-authorizations',$id,$r);}catch(\RuntimeException$e){if('PST111_IMMUTABLE_RECORD_CONFLICT'===$e->getMessage())throw new\RuntimeException('C249_DELEGATE_MISSION_DEPLOYMENT_CONFLICT',0,$e);throw$e;}}}
+{
+    private string $b;
+    private string $o;
+    private string $a;
+    private RecordReferenceValidator $v;
+    private ImmutableRecordStore $records;
+    public function __construct(#[Autowire('%kernel.project_dir%')]string $root,
+    ?RecordReferenceValidator $v = null,
+    ?ImmutableRecordStore $records = null) {
+        $this->b = $root.'/var/imperium/mission/occupancy';
+        $this->o = $root.'/var/imperium/offices/curia/occupancy';
+        $this->a = $root.'/var/imperium/offices/curia/delegate-mission-deployment-authorizations';
+        $this->v = $v ?? new RecordReferenceValidator($root);
+        $this->records = $records ?? new ImmutableRecordStore($root,
+        new AtomicTransition($root));
+    }
+    public function decide(string $bindingId,
+    string $seneschalBindingId,
+    string $disposition,
+    string $rationale,
+    \DateTimeImmutable $at): array {
+        if (!preg_match('/^delegate-mission-operational-seat-binding-[a-f0-9]{20}$/',
+        $bindingId)) throw new \InvalidArgumentException('C240_DELEGATE_MISSION_BINDING_ID_INVALID');
+        $disposition = strtoupper(trim($disposition));
+        $rationale = trim($rationale);
+        if (!in_array($disposition,
+        ['AUTHORIZED',
+        'REFUSED',
+        'RETURNED_FOR_REVISION',
+        'DEFERRED'],
+        true) ||
+        '' === $rationale) throw new \InvalidArgumentException('C241_DELEGATE_MISSION_DEPLOYMENT_DISPOSITION_INVALID');
+        $b = $this->read($this->b.'/'.$bindingId.'.json',
+        'C242_DELEGATE_MISSION_BINDING_ABSENT');
+        $s = $this->read($this->o.'/'.$seneschalBindingId.'.json',
+        'C243_DELEGATE_MISSION_SENESCHAL_ABSENT');
+        if (!$this->ok($b) ||
+        !$this->ok($s) ||
+        'imperium.delegate-mission-operational-manifestation-seat-binding/v1' !== ($b['schema'] ?? null) ||
+        'DELEGATE_MISSION_MANIFESTATION_BOUND_PENDING_DEPLOYMENT_AUTHORIZATION' !== ($b['status'] ?? null) ||
+        true !== ($b['seat_bound'] ?? null) ||
+        true !== ($b['deployment_authorization_pending'] ?? null) ||
+        true === ($b['deployment_authority'] ?? null) ||
+        'imperium.curia-seneschal-occupancy/v1' !== ($s['schema'] ?? null) ||
+        $seneschalBindingId !== ($s['binding_id'] ?? null) ||
+        ($b['instance_id'] ?? null) !== ($s['instance_id'] ?? null) ||
+        'curia.seneschal' !== ($s['seat'] ?? null) ||
+        'ACTIVE' !== ($s['status'] ?? null) ||
+        true !== ($s['delegate_mission_deployment_authorization_authority'] ?? null) ||
+        true === ($s['execution_authority'] ?? null)) throw new \RuntimeException('C244_DELEGATE_MISSION_DEPLOYMENT_CHAIN_INVALID');
+        foreach (glob($this->a.'/*.json') ? :[] as $p) {
+            $x = $this->read($p,
+            'C249_DELEGATE_MISSION_DEPLOYMENT_CONFLICT');
+            if (($x['source_binding']['id'] ?? null) === $bindingId) {
+                if (($x['disposition'] ?? null) === $disposition &&
+                ($x['rationale'] ?? null) === $rationale) return $x;
+                throw new \RuntimeException('C249_DELEGATE_MISSION_DEPLOYMENT_CONFLICT');
+            }
+        }
+        $authorized = 'AUTHORIZED' === $disposition;
+        $actor = ['seat' => 'curia.seneschal',
+        'binding_id' => $seneschalBindingId,
+        'binding_digest' => $s['record_digest'],
+        'manifestation_id' => $s['manifestation_id'],
+        'occupancy_generation' => $s['occupancy_generation']];
+        $id = 'delegate-mission-deployment-authorization-'.substr(hash('sha256',
+        CanonicalJson::encode([$bindingId,
+        $b['record_digest'],
+        $actor,
+        $disposition,
+        $rationale])),
+        0,
+        20);
+        $mission = $b['manifestation']['profile']['profile']['assignment'];
+        $use = ['objective' => $mission['objective'],
+        'scope' => $mission['scope'],
+        'deliverables' => $mission['deliverables'],
+        'required_inputs' => $mission['required_inputs'],
+        'expected_outcomes' => $mission['expected_outcomes'],
+        'bounded_duration' => $mission['bounded_duration'],
+        'stop_conditions' => $b['manifestation']['profile']['profile_scope']['stop_conditions']];
+        return $this->save($id,
+        ['schema' => 'imperium.curia-delegate-mission-deployment-authorization/v1',
+        'authorization_id' => $id,
+        'instance_id' => $b['instance_id'],
+        'officer_class' => $b['officer_class'],
+        'authorizer' => $actor,
+        'source_binding' => ['id' => $bindingId,
+        'digest' => $b['record_digest']],
+        'seat' => $b['seat'],
+        'manifestation_id' => $b['manifestation_id'],
+        'manifestation' => $b['manifestation'],
+        'persona' => $b['persona'],
+        'custody_lease' => $b['custody_lease'],
+        'source_assembly' => $b['source_assembly'],
+        'source_qualification' => $b['source_qualification'],
+        'source_imperator_approval' => $b['source_imperator_approval'],
+        'source_senate_disposition' => $b['source_senate_disposition'],
+        'source_profile_candidate' => $b['source_profile_candidate'],
+        'mission_use' => $use,
+        'disposition' => $disposition,
+        'rationale' => $rationale,
+        'decided_at' => $at->format(DATE_ATOM),
+        'status' => $authorized?'DELEGATE_MISSION_DEPLOYMENT_AUTHORIZED_PENDING_GARRISON_CUSTODY_TRANSITION':'DELEGATE_MISSION_DEPLOYMENT_NOT_AUTHORIZED',
+        'deployment_authority' => $authorized,
+        'garrison_custody_transition_authority' => $authorized?['authority_id' => 'delegate-mission-custody-transition-authority-'.substr(hash('sha256',
+        CanonicalJson::encode([$id,
+        $b['record_digest']])),
+        0,
+        20),
+        'authority_single_use' => true,
+        'authority_exercisable' => true,
+        'holder' => 'garrison.constable',
+        'consumed' => false,
+        'continuing_authority' => false] : null,
+        'operational_use_permitted' => false,
+        'tool_use_authority' => false,
+        'credential_use_authority' => false,
+        'perimeter_crossing_authority' => false,
+        'external_action_authority' => false,
+        'execution_authority' => false,
+        'return_authority' => false,
+        'unbinding_authority' => false,
+        'sealed' => true]);
+    }
+    private function read($p,
+    $e): array {
+        return $this->v->read($p,
+        $e);
+    }
+    private function ok(array $r): bool
+    {
+        return $this->v->isIntact($r);
+    }
+    private function save($id,
+    array $r): array {
+        try {
+            return $this->records->put('var/imperium/offices/curia/delegate-mission-deployment-authorizations',
+            $id,
+            $r);
+        }
+        catch (\RuntimeException $e) {
+            if ('PST111_IMMUTABLE_RECORD_CONFLICT' === $e->getMessage()) throw new \RuntimeException('C249_DELEGATE_MISSION_DEPLOYMENT_CONFLICT',
+            0,
+            $e);
+            throw $e;
+        }
+    }
+}

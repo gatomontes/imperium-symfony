@@ -15,6 +15,11 @@ final class DelegateRuntimeSourceFormattingTest extends TestCase
         'Conscription/ModelBoundOperationalManifestationAssemblyService.php',
         'Conscription/ModelBoundOperationalManifestationSeatBindingService.php',
         'Senate/ModelBoundProfileDispositionAuthorityOpeningService.php',
+        'Conscription/DelegateMissionRuntimeActivationService.php',
+        'Curia/DelegateMissionDeploymentAuthorizationService.php',
+        'Curia/OperationalDeploymentAuthorizationService.php',
+        'Garrison/DelegateMissionOperationalCustodyTransitionService.php',
+        'Garrison/OperationalCustodyTransitionService.php',
     ];
 
     public function testExpandedCriticalClassesRemainPhysicallyReadable(): void
