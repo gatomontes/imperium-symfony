@@ -46,6 +46,8 @@ Hardening Step 9 is implemented. A provider-independent forward-recovery service
 
 Hardening Step 10 is implemented. Delegate Mission terminal return now advances through a durable, forward-only retirement transaction. Custody restoration, binding retirement, and immutable terminal recording are individually checkpointed; interruption at every checkpoint resumes to one terminal state without rollback or renewed authority.
 
+Hardening Step 11 is implemented. The former terminal audit is now explicitly the fourteen-record terminal operational-evidence audit. Its result declares the bounded completeness claim and exclusion of non-operational pre-deployment governance; the precise command is canonical while the old command remains a compatibility alias.
+
 ### Problem
 
 The current Clavium lease records permission but does not technically control the only route to provider credentials. The provider call can also complete before the result/turn is durably recorded. A process death in that interval creates an unknown outcome and may cause a repeated external call.

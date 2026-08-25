@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Imperium\Runtime\Audit\DelegateMissionTerminalAuditService;
+use App\Imperium\Runtime\Audit\DelegateMissionOperationalEvidenceAuditService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -12,10 +12,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'imperium:delegate:audit-terminal', description: 'Verify a persisted terminal Delegate mission chain without mutation')]
+#[AsCommand(name: 'imperium:delegate:audit-operational-evidence', aliases: ['imperium:delegate:audit-terminal'], description: 'Verify the fourteen-record terminal operational-evidence subchain without mutation')]
 final class DelegateMissionAuditTerminalCommand extends Command
 {
-    public function __construct(private readonly DelegateMissionTerminalAuditService $audit) { parent::__construct(); }
+    public function __construct(private readonly DelegateMissionOperationalEvidenceAuditService $audit) { parent::__construct(); }
 
     protected function configure(): void
     {
@@ -37,6 +37,7 @@ final class DelegateMissionAuditTerminalCommand extends Command
         $output->writeln('<info>VALID</info> '.$result['terminal_id']);
         $output->writeln('Checkpoint: '.$result['terminal_checkpoint']);
         $output->writeln('Verified records: '.$result['verified_records']);
+        $output->writeln('Scope: '.$result['completeness_claim']);
         $output->writeln('Continuing authority: false');
         return self::SUCCESS;
     }
