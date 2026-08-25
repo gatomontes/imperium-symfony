@@ -9,7 +9,7 @@
 
 Curia states mission capabilities but never chooses a profession or Persona. Guildhall resolves profession and Persona suitability. Garrison owns custody and availability facts. Conscription assembles and qualifies but does not select personnel. Imperator decides protected personnel, Profile, deployment, resource, perimeter, and action commitments.
 
-## Implemented flow through Step 65
+## Implemented terminal flow through Step 69
 
 ### Demand and personnel resolution
 
@@ -112,16 +112,26 @@ Curia states mission capabilities but never chooses a profession or Persona. Gui
 64. Imperator authorizes only the attested model and frozen turn-one requirements.
 65. Clavium creates one expiring, single-use credential lease and exact provider activation.
 
-## Current checkpoint
+### Cognition and terminal return
 
-`DELEGATE_MISSION_PROVIDER_INVOCATION_ACTIVATED_PENDING_ONE_BOUNDED_COGNITION_TURN`
+66. Citadel invokes the exact sealed Symfony AI platform/runtime model once, consumes the lease and turn authority, and seals the bounded result.
+67. The exact occupied Seneschal disposes the result consistently with its completed, stopped, or failed provider disposition and opens no continuation.
+68. The Seneschal separately authorizes only the Profile's predeclared return, unbinding, custody-restoration, and retirement contract.
+69. Garrison consumes the terminal authority, restores the Persona to available `ADMITTED_HELD` custody, unbinds the mission Seat, and retires the temporary Delegate Manifestation.
 
-The exact Delegate runtime is active, access is attested, and Imperator has authorized the exact bound turn. Only one scoped Clavium activation authority is open; no credential is released and no provider, resource, external action, or cognition has executed.
+## Terminal checkpoint
 
-## Expected remaining phases
+`DELEGATE_MISSION_RETURNED_UNBOUND_CUSTODY_RESTORED_RETIRED_TERMINAL`
 
-1. bounded mission activation and cognition with separately authorized resources/actions;
-2. result delivery and mission disposition;
-3. return, Seat unbinding, credential revocation, custody restoration, and Delegate termination.
+The Persona is again held and available in Garrison. The mission Seat is unbound and the temporary Manifestation is retired. No cognition, provider, credential, tool, perimeter, external-action, execution, continuation, redeployment, or reuse authority survives.
 
-The route is not operational merely because examination testimony exists. Every operational authority remains separately gated.
+## Operational verification
+
+The read-only terminal audit verifies the persisted operational lineage and live terminal state without replaying side effects:
+
+```bash
+php bin/console imperium:delegate:audit-terminal <terminal-id>
+php bin/console imperium:delegate:audit-terminal <terminal-id> --json
+```
+
+It validates fourteen digest-bound records from terminal retirement back through return, result disposition, cognition, provider activation, model access and binding, bounded commission, runtime activation, custody transition, deployment, and the current terminal binding/custody state.
