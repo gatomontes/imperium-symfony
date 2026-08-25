@@ -20,7 +20,7 @@ final readonly class AtomicTransition
         if (!preg_match('/^[a-z0-9][a-z0-9._:-]{2,180}$/', $scope)) {
             throw new \InvalidArgumentException('PST100_ATOMIC_TRANSITION_SCOPE_INVALID');
         }
-        if (!is_dir($this->locks) && !mkdir($this->locks, 0770, true) && !is_dir($this->locks)) {
+        if (!is_dir($this->locks) && !@mkdir($this->locks, 0770, true) && !is_dir($this->locks)) {
             throw new \RuntimeException('PST101_ATOMIC_TRANSITION_LOCK_STORAGE_FAILED');
         }
         $path = $this->locks.'/'.hash('sha256', $scope).'.lock';
