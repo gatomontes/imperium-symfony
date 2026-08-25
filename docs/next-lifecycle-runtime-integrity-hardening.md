@@ -48,6 +48,8 @@ Hardening Step 10 is implemented. Delegate Mission terminal return now advances 
 
 Hardening Step 11 is implemented. The former terminal audit is now explicitly the fourteen-record terminal operational-evidence audit. Its result declares the bounded completeness claim and exclusion of non-operational pre-deployment governance; the precise command is canonical while the old command remains a compatibility alias.
 
+Hardening Step 12 is implemented. A canonical replay-fingerprint primitive and contract now govern the critical hardened boundaries. Provider claims and terminal retirement require the complete authoritative-input fingerprint for replay, while recovered turns additionally bind exact replay to the recovery authorization that produced them. Changed inputs or a different recovery authority fail stopped instead of inheriting an existing result.
+
 ### Problem
 
 The current Clavium lease records permission but does not technically control the only route to provider credentials. The provider call can also complete before the result/turn is durably recorded. A process death in that interval creates an unknown outcome and may cause a repeated external call.

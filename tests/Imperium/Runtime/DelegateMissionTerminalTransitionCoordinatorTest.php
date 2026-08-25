@@ -93,6 +93,21 @@ final class DelegateMissionTerminalTransitionCoordinatorTest extends TestCase
         self::assertCount(1, glob($this->root.'/var/imperium/offices/garrison/delegate-mission-terminal-returns/*.json') ?: []);
     }
 
+    public function testChangedAuthoritativeInputCannotReplayExistingTransition(): void
+    {
+        $priorCustody = $this->writeState('var/imperium/offices/garrison/custody/custody-123.json', ['custody_id' => 'custody-123', 'custody_state' => 'DEPLOYED', 'available' => false]);
+        $restoredCustody = $this->seal(['custody_id' => 'custody-123', 'custody_state' => 'ADMITTED_HELD', 'available' => true]);
+        $priorBinding = $this->writeState('var/imperium/mission/occupancy/binding-123.json', ['binding_id' => 'binding-123', 'status' => 'BOUND', 'seat_bound' => true]);
+        $retiredBinding = $this->seal(['binding_id' => 'binding-123', 'status' => 'RETIRED', 'seat_bound' => false]);
+        $terminal = ['terminal_id' => 'terminal-123', 'status' => 'TERMINAL'];
+        $service = new DelegateMissionTerminalTransitionCoordinator($this->root);
+        $service->run('authorization-123', 'terminal-123', $terminal, $priorCustody, $restoredCustody, $priorBinding, $retiredBinding);
+
+        $terminal['status'] = 'CONFLICTING_TERMINAL';
+        $this->expectExceptionMessage('GA309_DELEGATE_TERMINAL_RETURN_CONFLICT');
+        $service->run('authorization-123', 'terminal-123', $terminal, $priorCustody, $restoredCustody, $priorBinding, $retiredBinding);
+    }
+
     private function writeState(string $path, array $record): array
     {
         $record = $this->seal($record);

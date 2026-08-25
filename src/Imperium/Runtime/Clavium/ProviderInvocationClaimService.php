@@ -7,6 +7,7 @@ namespace App\Imperium\Runtime\Clavium;
 use App\Bootstrap\CanonicalJson;
 use App\Imperium\Runtime\Persistence\AtomicTransition;
 use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
+use App\Imperium\Runtime\Persistence\ReplayFingerprint;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class ProviderInvocationClaimService
@@ -56,30 +57,27 @@ final readonly class ProviderInvocationClaimService
             $turnAuthorityId,
         ])), 0, 20);
         $path = $this->claims.'/'.$claimId.'.json';
-        $fingerprint = hash('sha256', CanonicalJson::encode([
+        $authoritativeInputs = [
             'activation_id' => $activationId,
             'activation_digest' => $activation['record_digest'],
             'turn_authority_id' => $turnAuthorityId,
             'lease_id' => $activation['credential_lease']['lease_id'],
-        ]));
+        ];
+        $fingerprint = ReplayFingerprint::of($authoritativeInputs);
 
         foreach (glob($this->claims.'/*.json') ?: [] as $existingPath) {
             $existing = $this->read($existingPath, 'CLV403_PROVIDER_INVOCATION_CLAIM_CONFLICT');
             if (($existing['source_activation']['id'] ?? null) !== $activationId) {
                 continue;
             }
-            if (($existing['claim_fingerprint'] ?? null) !== $fingerprint) {
-                throw new \RuntimeException('CLV403_PROVIDER_INVOCATION_CLAIM_CONFLICT');
-            }
+            ReplayFingerprint::requireMatch($existing['claim_fingerprint'] ?? null, $authoritativeInputs, 'CLV403_PROVIDER_INVOCATION_CLAIM_CONFLICT');
 
             return $existing;
         }
 
         if (is_file($path)) {
             $existing = $this->records->read('var/imperium/runtime/provider-invocations', $claimId);
-            if (($existing['claim_fingerprint'] ?? null) !== $fingerprint) {
-                throw new \RuntimeException('CLV403_PROVIDER_INVOCATION_CLAIM_CONFLICT');
-            }
+            ReplayFingerprint::requireMatch($existing['claim_fingerprint'] ?? null, $authoritativeInputs, 'CLV403_PROVIDER_INVOCATION_CLAIM_CONFLICT');
 
             return $existing;
         }
