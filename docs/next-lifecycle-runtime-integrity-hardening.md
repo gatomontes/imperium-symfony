@@ -119,3 +119,7 @@ Security and Usability subsequent-question commission acceptance and refusal now
 ## Hardening Step 16
 
 Trust, Security, and Usability question-dispatch authorization/refusal now share one jurisdiction-parameterized Lord Speaker decision engine. The existing public services, exact error families, question lineage, Bailiff authority, and jurisdiction-specific evidence records remain intact.
+
+## Hardening Step 17
+
+Trust, Security, and Usability physical question dispatch now share one jurisdiction-parameterized Bailiff engine. It consumes the exact dispatch authority, preserves the sealed question unchanged, and creates one manifestation-bound testimony-response authority without granting wider cognition or execution authority.
