@@ -20,6 +20,8 @@ The assessor is read-only. It grants no mission, provider, credential, turn, con
 
 The journal contention test launches two independent PHP subprocesses behind one start gate. Both contend for the same durable claim and journal identity through the real filesystem transition locks. Exactly one process creates `INVOCATION_IN_FLIGHT`; the other receives `CLV412_PROVIDER_INVOCATION_ALREADY_STARTED`. The test uses `PHP_BINARY` and `proc_open` so it runs on Windows and Unix-like PHP environments.
 
+Shared persistence directory creation tolerates a simultaneous creator without emitting diagnostics. A competing process must lose only through the governed transition result; filesystem race warnings are neither evidence nor part of the process contract.
+
 ## Verification
 
 Static diff validation passes. PHP is unavailable in the Codex environment. Operator-local PHPUnit confirmation remains required.

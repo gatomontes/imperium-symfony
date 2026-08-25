@@ -48,9 +48,11 @@ final class ProviderInvocationJournalConcurrencyTest extends TestCase
         $results = [];
         for ($i = 0; $i < 2; ++$i) {
             $results[] = stream_get_contents($pipes[$i][1]);
+            $errors = stream_get_contents($pipes[$i][2]);
             fclose($pipes[$i][1]);
             fclose($pipes[$i][2]);
             self::assertSame(0, proc_close($processes[$i]));
+            self::assertSame('', $errors, 'Contending transition emitted process diagnostics.');
         }
         sort($results);
         self::assertSame(['CLV412_PROVIDER_INVOCATION_ALREADY_STARTED', 'STARTED'], $results);

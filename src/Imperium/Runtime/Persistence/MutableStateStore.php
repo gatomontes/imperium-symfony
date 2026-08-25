@@ -65,7 +65,7 @@ final readonly class MutableStateStore
 
     private function commit(string $path, array $record): void
     {
-        if (!is_dir(dirname($path)) && !mkdir(dirname($path), 0770, true) && !is_dir(dirname($path))) {
+        if (!is_dir(dirname($path)) && !@mkdir(dirname($path), 0770, true) && !is_dir(dirname($path))) {
             throw new \RuntimeException('PST124_MUTABLE_STATE_COMMIT_FAILED');
         }
         $temporary = $path.'.tmp.'.bin2hex(random_bytes(6));

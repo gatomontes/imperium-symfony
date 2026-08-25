@@ -79,7 +79,7 @@ final readonly class ImmutableRecordStore
 
     private function commit(string $path, array $record): void
     {
-        if (!is_dir(dirname($path)) && !mkdir(dirname($path), 0770, true) && !is_dir(dirname($path))) {
+        if (!is_dir(dirname($path)) && !@mkdir(dirname($path), 0770, true) && !is_dir(dirname($path))) {
             throw new \RuntimeException('PST114_IMMUTABLE_RECORD_COMMIT_FAILED');
         }
         $temporary = $path.'.tmp.'.bin2hex(random_bytes(6));
