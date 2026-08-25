@@ -40,6 +40,8 @@ Hardening Step 6 is implemented. Provider invocation journaling now uses shared 
 
 Hardening Step 7 is implemented. A read-only recovery assessor now classifies every durable provider boundary without granting replay authority, and a cross-platform subprocess contention test proves that two journal starters produce exactly one winner. Crash fixtures cover absence before claim, claimed-without-journal, in-flight provider I/O, response-sealed-before-turn, and completed-turn states.
 
+Hardening Step 8 is implemented. Provider responses are now sealed in immutable, credential-free, claim-bound envelopes before journal response sealing and downstream result processing. The recovery assessor distinguishes unknown in-flight outcomes from recoverable envelope-backed responses, and bounded-turn records now use `ImmutableRecordStore` for exact replay and conflicting-result rejection.
+
 ### Problem
 
 The current Clavium lease records permission but does not technically control the only route to provider credentials. The provider call can also complete before the result/turn is durably recorded. A process death in that interval creates an unknown outcome and may cause a repeated external call.

@@ -8,6 +8,7 @@ use App\Bootstrap\CanonicalJson;
 use App\Imperium\Runtime\Citadel\DelegateSymfonyPlatformAdapter;
 use App\Imperium\Runtime\Citadel\SymfonyAiBrokeredDelegateProviderInvoker;
 use App\Imperium\Runtime\Clavium\ProviderInvocationJournalService;
+use App\Imperium\Runtime\Clavium\ProviderResponseEnvelopeService;
 use App\Imperium\Runtime\Clock;
 use App\Imperium\Runtime\LaCortine\CredentialBroker;
 use App\Imperium\Runtime\LaCortine\CredentialCapability;
@@ -46,6 +47,7 @@ final class SymfonyAiBrokeredDelegateProviderInvokerTest extends TestCase
         $invoker = new SymfonyAiBrokeredDelegateProviderInvoker(
             $broker,
             new ProviderInvocationJournalService($this->root),
+            new ProviderResponseEnvelopeService($this->root),
             $adapter,
             $this->clock(),
         );
@@ -64,6 +66,11 @@ final class SymfonyAiBrokeredDelegateProviderInvokerTest extends TestCase
         self::assertSame('PROVIDER_RESPONSE_IDENTITY_SEALED_PENDING_RESULT_PROCESSING', $journal['status']);
         self::assertStringNotContainsString('test-secret-never-persisted', CanonicalJson::encode($journal));
         self::assertStringNotContainsString($response, CanonicalJson::encode($journal));
+        $envelope = $this->envelope($claim['claim_id']);
+        self::assertSame($response, $envelope['response']);
+        self::assertSame($journal['provider_response_identity'], $envelope['provider_response_identity']);
+        self::assertFalse($envelope['automatic_provider_replay_permitted']);
+        self::assertStringNotContainsString('test-secret-never-persisted', CanonicalJson::encode($envelope));
     }
 
     public function testCredentialFailureBeforeCallbackProducesExplicitPreIoFailure(): void
@@ -80,7 +87,7 @@ final class SymfonyAiBrokeredDelegateProviderInvokerTest extends TestCase
             }
         };
         $adapter = $this->unreachableAdapter();
-        $invoker = new SymfonyAiBrokeredDelegateProviderInvoker($broker, new ProviderInvocationJournalService($this->root), $adapter, $this->clock());
+        $invoker = new SymfonyAiBrokeredDelegateProviderInvoker($broker, new ProviderInvocationJournalService($this->root), new ProviderResponseEnvelopeService($this->root), $adapter, $this->clock());
 
         try {
             $invoker->invoke($claim, 'deepseek-v4-flash', new MessageBag(Message::ofUser('bounded')), []);
@@ -107,6 +114,7 @@ final class SymfonyAiBrokeredDelegateProviderInvokerTest extends TestCase
         $invoker = new SymfonyAiBrokeredDelegateProviderInvoker(
             $this->successfulBroker(),
             new ProviderInvocationJournalService($this->root),
+            new ProviderResponseEnvelopeService($this->root),
             $adapter,
             $this->clock(),
         );
@@ -196,6 +204,11 @@ final class SymfonyAiBrokeredDelegateProviderInvokerTest extends TestCase
     private function journal(string $claimId): array
     {
         return json_decode((string) file_get_contents($this->root.'/var/imperium/runtime/provider-invocation-journal/'.$claimId.'.json'), true, 512, JSON_THROW_ON_ERROR);
+    }
+
+    private function envelope(string $claimId): array
+    {
+        return json_decode((string) file_get_contents($this->root.'/var/imperium/runtime/provider-response-envelopes/'.$claimId.'.json'), true, 512, JSON_THROW_ON_ERROR);
     }
 
     private function remove(string $path): void

@@ -12,7 +12,7 @@ Make a durable provider-invocation claim mandatory for the Delegate Symfony AI p
 4. The credential broker resolves the provider secret only inside its callback.
 5. The invoker durably records `INVOCATION_IN_FLIGHT` immediately before constructing and calling the ephemeral Symfony AI platform.
 6. The stable persisted idempotency key is attached to the provider HTTP request.
-7. A returned response is represented durably by its identity digest before JSON result processing.
+7. A returned credential-free response is sealed in an immutable claim-bound envelope, then represented in the journal by the same identity digest before JSON result processing.
 8. Any exception after `INVOCATION_IN_FLIGHT` becomes `PROVIDER_OUTCOME_UNKNOWN_REPLAY_PROHIBITED`.
 
 ## Credential boundary
@@ -27,7 +27,7 @@ The production invoker creates an ephemeral Symfony Generic platform inside `Cre
 - absence of an invocation journal means the brokered adapter did not reach either a classified pre-I/O failure or external-I/O start;
 - `INVOCATION_IN_FLIGHT` after process death is an unknown outcome;
 - `PROVIDER_OUTCOME_UNKNOWN_REPLAY_PROHIBITED` cannot be automatically replayed;
-- `PROVIDER_RESPONSE_IDENTITY_SEALED_PENDING_RESULT_PROCESSING` proves response receipt without persisting response content in the journal; and
+- `PROVIDER_RESPONSE_IDENTITY_SEALED_PENDING_RESULT_PROCESSING` proves response receipt without persisting response content in the journal; the exact content exists only in the immutable recovery envelope; and
 - an existing journal blocks a second provider start for the same claim.
 
 ## Exclusions

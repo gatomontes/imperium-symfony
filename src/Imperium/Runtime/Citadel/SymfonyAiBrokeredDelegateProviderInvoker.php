@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Citadel;
 
 use App\Imperium\Runtime\Clavium\ProviderInvocationJournalService;
+use App\Imperium\Runtime\Clavium\ProviderResponseEnvelopeService;
 use App\Imperium\Runtime\Clock;
 use App\Imperium\Runtime\LaCortine\CredentialBroker;
 use Symfony\AI\Platform\Message\MessageBag;
@@ -14,6 +15,7 @@ final readonly class SymfonyAiBrokeredDelegateProviderInvoker implements Delegat
     public function __construct(
         private CredentialBroker $credentialBroker,
         private ProviderInvocationJournalService $journal,
+        private ProviderResponseEnvelopeService $responses,
         private DelegateSymfonyPlatformAdapter $platform,
         private Clock $clock,
     ) {
@@ -57,7 +59,9 @@ final readonly class SymfonyAiBrokeredDelegateProviderInvoker implements Delegat
                         throw new \RuntimeException('CT322_DELEGATE_PROVIDER_OUTCOME_UNKNOWN');
                     }
 
-                    $this->journal->sealResponse($claim, $text, $this->clock->now());
+                    $sealedAt = $this->clock->now();
+                    $this->responses->seal($claim, $text, $sealedAt);
+                    $this->journal->sealResponse($claim, $text, $sealedAt);
 
                     return $text;
                 },
