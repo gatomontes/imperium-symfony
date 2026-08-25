@@ -32,6 +32,8 @@ Hardening Step 2 is implemented. The Delegate bounded-turn service now creates t
 
 Hardening Step 3 is implemented. The Symfony platform adapter is independently testable, invocation timestamps use an injected clock, credential-resolution failure produces explicit pre-I/O evidence, and provider diagnostics are suppressed after both pre-I/O and unknown-outcome failures. Step 4 begins the shared transactional persistence primitives needed to replace local filesystem transition mechanics.
 
+Hardening Step 4 is implemented. Shared atomic-transition, immutable-record, mutable-state compare-and-swap, and authority-consumption primitives now exist with focused contract tests. Existing services remain explicitly unmigrated until their complete transitions are moved onto these primitives.
+
 ### Problem
 
 The current Clavium lease records permission but does not technically control the only route to provider credentials. The provider call can also complete before the result/turn is durably recorded. A process death in that interval creates an unknown outcome and may cause a repeated external call.
