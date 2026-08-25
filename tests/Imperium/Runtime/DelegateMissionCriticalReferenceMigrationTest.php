@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Imperium\Runtime;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class DelegateMissionCriticalReferenceMigrationTest extends TestCase
 {
-    /**
-     * @dataProvider criticalBoundaryProvider
-     */
+    #[DataProvider('criticalBoundaryProvider')]
     public function testCriticalBoundaryUsesCanonicalReferenceValidation(
         string $relativePath,
         string $conflictError,
