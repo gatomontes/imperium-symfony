@@ -129,7 +129,7 @@ final readonly class DelegateMissionSubsequentQuestionCommissionIssuanceEngine
 
     private function config(string $jurisdiction): array
     {
-        if (!in_array($jurisdiction, ['security', 'usability'], true)) throw new \InvalidArgumentException('S701_DELEGATE_MISSION_SUBSEQUENT_QUESTION_JURISDICTION_INVALID');
+        if (!in_array($jurisdiction, ['security', 'usability'], true)) throw new \InvalidArgumentException('S791_DELEGATE_MISSION_SUBSEQUENT_QUESTION_JURISDICTION_INVALID');
         $base = 'security' === $jurisdiction ? 600 : 660;
         $upper = strtoupper($jurisdiction);
         $prior = 'security' === $jurisdiction ? 'trust' : 'security';

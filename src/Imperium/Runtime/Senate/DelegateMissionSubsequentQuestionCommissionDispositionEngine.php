@@ -127,7 +127,7 @@ final readonly class DelegateMissionSubsequentQuestionCommissionDispositionEngin
         return match ($jurisdiction) {
             'security' => $this->config('security', 61, 2),
             'usability' => $this->config('usability', 67, 3),
-            default => throw new \InvalidArgumentException('S702_DELEGATE_MISSION_SUBSEQUENT_QUESTION_DISPOSITION_JURISDICTION_INVALID'),
+            default => throw new \InvalidArgumentException('S792_DELEGATE_MISSION_SUBSEQUENT_QUESTION_DISPOSITION_JURISDICTION_INVALID'),
         };
     }
 

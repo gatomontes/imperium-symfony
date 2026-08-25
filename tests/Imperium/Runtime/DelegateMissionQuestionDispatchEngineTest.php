@@ -12,7 +12,7 @@ final class DelegateMissionQuestionDispatchEngineTest extends TestCase
     public function testUnknownJurisdictionFailsBeforeEvidenceAccess(): void
     {
         $engine = new DelegateMissionQuestionDispatchEngine(sys_get_temp_dir().'/imperium-question-dispatch-'.bin2hex(random_bytes(4)));
-        $this->expectExceptionMessage('S790_DELEGATE_MISSION_QUESTION_DISPATCH_JURISDICTION_INVALID');
+        $this->expectExceptionMessage('S794_DELEGATE_MISSION_QUESTION_DISPATCH_JURISDICTION_INVALID');
         $engine->dispatch('unknown', 'not-read', 'not-read', new \DateTimeImmutable());
     }
 }

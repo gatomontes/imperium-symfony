@@ -70,7 +70,7 @@ final readonly class DelegateMissionTestimonyResponseEngine
 
     private function configuration(string $jurisdiction): array
     {
-        [$base, $sequence, $next] = match ($jurisdiction) { 'trust' => [59, 1, 'security'], 'security' => [65, 2, 'usability'], 'usability' => [71, 3, null], default => throw new \InvalidArgumentException('S791_DELEGATE_MISSION_TESTIMONY_RESPONSE_JURISDICTION_INVALID') };
+        [$base, $sequence, $next] = match ($jurisdiction) { 'trust' => [59, 1, 'security'], 'security' => [65, 2, 'usability'], 'usability' => [71, 3, null], default => throw new \InvalidArgumentException('S795_DELEGATE_MISSION_TESTIMONY_RESPONSE_JURISDICTION_INVALID') };
         $upper = strtoupper($jurisdiction); $prefix = 'S'.$base;
         return ['upper' => $upper, 'sequence' => $sequence, 'next_jurisdiction' => $next, 'senator_key' => $jurisdiction.'_senator', 'dispatch_status' => 'DELEGATE_MISSION_'.$upper.'_QUESTION_DISPATCHED_UNCHANGED_PENDING_TESTIMONY_RESPONSE', 'response_purpose' => 'ANSWER_ONE_DISPATCHED_'.$upper.'_EXAMINATION_QUESTION', 'errors' => [$prefix.'0_DELEGATE_MISSION_QUESTION_DISPATCH_ID_INVALID', $prefix.'1_DELEGATE_MISSION_QUESTION_DISPATCH_ABSENT', $prefix.'2_DELEGATE_MISSION_QUESTION_ABSENT', $prefix.'3_DELEGATE_MISSION_PROFILE_CANDIDATE_ABSENT', $prefix.'4_DELEGATE_MISSION_EXAMINATION_CUSTODY_ABSENT', $prefix.'5_DELEGATE_MISSION_'.$upper.'_TESTIMONY_CHAIN_INVALID', $prefix.'6_DELEGATE_MISSION_'.$upper.'_TESTIMONY_COGNITION_INVALID', $prefix.'7', $prefix.'8_DELEGATE_MISSION_'.$upper.'_TESTIMONY_PERSISTENCE_FAILED', $prefix.'9_DELEGATE_MISSION_'.$upper.'_TESTIMONY_CONFLICT']];
     }

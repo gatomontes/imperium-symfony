@@ -20,7 +20,7 @@ final class DelegateMissionJurisdictionQuestionAuthorshipEngineTest extends Test
         };
         $engine = new DelegateMissionJurisdictionQuestionAuthorshipEngine(sys_get_temp_dir().'/imperium-jurisdiction-'.bin2hex(random_bytes(4)), $gateway);
 
-        $this->expectExceptionMessage('S700_DELEGATE_MISSION_QUESTION_JURISDICTION_INVALID');
+        $this->expectExceptionMessage('S790_DELEGATE_MISSION_QUESTION_JURISDICTION_INVALID');
         $engine->author('politics', 'irrelevant', 'irrelevant', new \DateTimeImmutable());
     }
 }

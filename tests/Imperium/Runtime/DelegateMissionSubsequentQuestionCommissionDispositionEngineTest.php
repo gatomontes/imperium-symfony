@@ -15,7 +15,7 @@ final class DelegateMissionSubsequentQuestionCommissionDispositionEngineTest ext
         $engine = new DelegateMissionSubsequentQuestionCommissionDispositionEngine($root);
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('S702_DELEGATE_MISSION_SUBSEQUENT_QUESTION_DISPOSITION_JURISDICTION_INVALID');
+        $this->expectExceptionMessage('S792_DELEGATE_MISSION_SUBSEQUENT_QUESTION_DISPOSITION_JURISDICTION_INVALID');
 
         $engine->decide('trust', 'not-read', 'not-read', 'ACCEPTED', 'not-read', new \DateTimeImmutable());
     }

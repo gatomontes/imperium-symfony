@@ -15,7 +15,7 @@ final class DelegateMissionTestimonyResponseEngineTest extends TestCase
         $cognition = $this->createMock(ProfileExaminationTestimonyCognitionGateway::class);
         $cognition->expects(self::never())->method('answer');
         $engine = new DelegateMissionTestimonyResponseEngine(sys_get_temp_dir().'/imperium-testimony-'.bin2hex(random_bytes(4)), $cognition);
-        $this->expectExceptionMessage('S791_DELEGATE_MISSION_TESTIMONY_RESPONSE_JURISDICTION_INVALID');
+        $this->expectExceptionMessage('S795_DELEGATE_MISSION_TESTIMONY_RESPONSE_JURISDICTION_INVALID');
         $engine->respond('unknown', 'not-read', new \DateTimeImmutable());
     }
 }

@@ -127,3 +127,7 @@ Trust, Security, and Usability physical question dispatch now share one jurisdic
 ## Hardening Step 18
 
 Trust, Security, and Usability testimony responses now share one jurisdiction-parameterized engine and the existing cognition gateway. Trust and Security retain their bounded next-question commission handoffs; Usability alone validates the complete three-turn chain and creates the finding-phase opening authority.
+
+## Hardening Step 19
+
+The Senate question-engine consolidation sub-leg is closed. Unsupported-jurisdiction failures for the six shared engines now occupy the dedicated contiguous `S790`–`S795` range, avoiding collisions with the preserved Usability runtime errors in `S700`–`S719`. Focused boundary tests and the full Delegate flow protect both the shared mechanics and the independent jurisdiction contracts.
