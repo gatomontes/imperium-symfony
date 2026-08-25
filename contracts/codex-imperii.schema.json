@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://imperium.local/contracts/codex-imperii.schema.json",
+  "title": "Codex Imperii",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "codex_id",
+    "instance_id",
+    "current_checkpoint",
+    "folia",
+    "record_digest"
+  ],
+  "properties": {
+    "schema": { "const": "imperium.codex-imperii/v1" },
+    "codex_id": { "type": "string", "pattern": "^codex-imperii-[a-f0-9]{20}$" },
+    "instance_id": { "type": "string", "minLength": 1 },
+    "current_checkpoint": { "type": "string", "minLength": 1 },
+    "folia": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "folium_id",
+          "folium_schema",
+          "office",
+          "storage_reference",
+          "digest",
+          "relation",
+          "sequence"
+        ],
+        "properties": {
+          "folium_id": { "type": "string", "minLength": 1 },
+          "folium_schema": { "type": "string", "minLength": 1 },
+          "office": { "type": "string", "minLength": 1 },
+          "storage_reference": { "type": "string", "minLength": 1 },
+          "digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "relation": { "type": "string", "minLength": 1 },
+          "sequence": { "type": "integer", "minimum": 1 }
+        }
+      }
+    },
+    "record_digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}

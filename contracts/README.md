@@ -4,6 +4,11 @@ This directory defines machine-readable exchange contracts shared by Offices.
 The contracts do not create cognitive authority. They make the identity,
 lineage, state, and evidence required by doctrine structurally explicit.
 
+- [`codex-imperii.md`](codex-imperii.md) defines the canonical digest-bound
+  compilation of the Folia belonging to one Imperium instance.
+- [`codex-imperii.schema.json`](codex-imperii.schema.json) validates its
+  identity, checkpoint, ordered Folium references, and canonical digest.
+
 - [`mission-planning.md`](mission-planning.md) converts Operator intent into
   separately disclosed and approved Planning Charter and Mission Plan phases;
   it defines Planning Authorization, Mission Authorization, their distinct

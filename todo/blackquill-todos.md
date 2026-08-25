@@ -117,7 +117,7 @@ Preserve independent authorities, emitted records, and cross-office handoffs. Co
 
 - [ ] Establish one canonical lifecycle document.
 - [ ] Establish one authority and consumption matrix.
-- [ ] Establish one record-schema catalogue.
+- [ ] Establish one record-schema catalogue. *(The canonical Folium/Folia/Codex Imperii vocabulary and Codex contract are now defined; the catalogue must use them.)*
 - [ ] Establish one terminal-audit specification.
 - [ ] Archive historical step handoffs once their durable content is incorporated.
 - [ ] Mark generated or historical documents clearly so they cannot compete with current contracts.
