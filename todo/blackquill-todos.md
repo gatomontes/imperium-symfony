@@ -102,6 +102,15 @@ Preserve independent authorities, emitted records, and cross-office handoffs. Co
 - [x] Review the approximately 20 Delegate classes currently at ten lines or fewer for compressed logic. *(Cleanup Batches 1–3 expand twenty-one severe candidates across construction, deployment, and the model-bound Senate chain.)*
 - [ ] Replace repeated magic strings with bounded types or canonical constants where doing so improves validation.
 
+## Codex runtime-source audit — 2026-08-25
+
+- [x] Inventory every PHP source under `src/Imperium/Runtime`. *(376 files audited at merged commit `7bafa498a18f10d122771c65b13b7250c8be9f51`.)*
+- [x] Separate confirmed token damage from readability debt. *(The cleanup regression that split `<=>` was repaired in PR #329; the audit found no second literal `<= >` occurrence.)*
+- [ ] Expand the 18 remaining severely compressed runtime files identified in `docs/handoffs/runtime-source-audit-codex.md`.
+- [ ] Reduce the 146 runtime files containing at least one physical line longer than 240 characters.
+- [ ] Widen the formatting regression guard only as audited clusters become compliant; do not conceal legacy debt behind an allowlist.
+- [ ] Complete a final runtime-wide rescan before marking PSR-12/readability cleanup complete.
+
 ## Test hardening
 
 - [ ] Add concurrency tests for duplicate submissions and authority consumption. *(Provider journal start and the Steps 44–46 operational Folium boundary now have multi-process single-winner proofs; remaining consumable authorities still require coverage.)*
