@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Citadel;
 
 use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\Persistence\RecordReferenceValidator;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class LegateCognitionResultDeliveryService
@@ -16,8 +17,9 @@ final readonly class LegateCognitionResultDeliveryService
     private string $providerActivations;
     private string $occupancy;
     private string $deliveries;
+    private RecordReferenceValidator $validator;
 
-    public function __construct(#[Autowire('%kernel.project_dir%')] string $root)
+    public function __construct(#[Autowire('%kernel.project_dir%')] string $root, ?RecordReferenceValidator $validator = null)
     {
         $this->turns = $root.'/var/imperium/operational/citadel-legate-bounded-cognition-turns';
         $this->commissions = $root.'/var/imperium/operational/citadel-legate-governed-commissions';
@@ -26,6 +28,7 @@ final readonly class LegateCognitionResultDeliveryService
         $this->providerActivations = $root.'/var/imperium/offices/clavium/citadel-legate-provider-invocation-activations';
         $this->occupancy = $root.'/var/imperium/operational/occupancy';
         $this->deliveries = $root.'/var/imperium/operational/citadel-legate-cognition-result-deliveries';
+        $this->validator = $validator ?? new RecordReferenceValidator($root);
     }
 
     public function deliver(string $turnId, string $commissionerBindingId, \DateTimeImmutable $deliveredAt): array
@@ -158,29 +161,17 @@ final readonly class LegateCognitionResultDeliveryService
 
     private function source(string $directory, array $reference, string $error): array
     {
-        $record = $this->read($directory.'/'.($reference['id'] ?? '').'.json', $error);
-        if (!$this->valid($record) || ($reference['digest'] ?? null) !== ($record['record_digest'] ?? null)) {
-            throw new \RuntimeException('CIT425_COGNITION_RESULT_DELIVERY_CHAIN_INVALID');
-        }
-
-        return $record;
+        return $this->validator->resolve($directory, $reference, $error, 'CIT425_COGNITION_RESULT_DELIVERY_CHAIN_INVALID');
     }
 
     private function read(string $path, string $error): array
     {
-        if (!is_file($path)) {
-            throw new \RuntimeException($error);
-        }
-
-        return json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+        return $this->validator->read($path, $error);
     }
 
     private function valid(array $record): bool
     {
-        $digest = $record['record_digest'] ?? null;
-        unset($record['record_digest']);
-
-        return is_string($digest) && hash_equals($digest, hash('sha256', CanonicalJson::encode($record)));
+        return $this->validator->isIntact($record);
     }
 
     private function save(string $id, array $record): array

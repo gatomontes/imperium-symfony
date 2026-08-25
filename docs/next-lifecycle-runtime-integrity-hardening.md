@@ -159,3 +159,7 @@ A canonical `RecordReferenceValidator` now owns runtime path containment, record
 ## Hardening Step 26
 
 The critical Citadel bounded-cognition turn and Garrison terminal-return boundaries now use the canonical record-reference validator. Replay is no longer accepted on identity alone: the turn requires the exact activation digest and turn authority, while terminal return and recovery require the exact authorization digest, terminal authority, and Constable binding. Mismatches retain the established `CT309` and `GA309` fail-stopped conflicts, and Garrison's obsolete direct file-replacement path has been removed in favor of its recoverable transition coordinator.
+
+## Hardening Step 27
+
+The complete Citadel Legate governed-cognition chain now delegates path-contained reads, canonical digest verification, and exact source resolution to `RecordReferenceValidator`: commission issuance, commission disposition, turn authorization, bounded cognition, and result delivery. Their independent actors, authority transitions, replay semantics, outputs, and established `CIT3xx`/`CIT4xx` failure contracts remain unchanged.
