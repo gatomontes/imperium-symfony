@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Citadel;
 
 use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\Persistence\RecordReferenceValidator;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class LegateGovernedCommissionDispositionService
@@ -14,14 +15,16 @@ final readonly class LegateGovernedCommissionDispositionService
     private string $occupancy;
     private string $attestations;
     private string $dispositions;
+    private RecordReferenceValidator $validator;
 
-    public function __construct(#[Autowire('%kernel.project_dir%')] string $root)
+    public function __construct(#[Autowire('%kernel.project_dir%')] string $root, ?RecordReferenceValidator $validator = null)
     {
         $this->commissions = $root.'/var/imperium/operational/citadel-legate-governed-commissions';
         $this->activations = $root.'/var/imperium/operational/citadel-legate-runtime-activations';
         $this->occupancy = $root.'/var/imperium/operational/occupancy';
         $this->attestations = $root.'/var/imperium/offices/clavium/profile-model-access-attestations';
         $this->dispositions = $root.'/var/imperium/operational/citadel-legate-governed-commission-dispositions';
+        $this->validator = $validator ?? new RecordReferenceValidator($root);
     }
 
     public function decide(string $commissionId, string $targetBindingId, string $disposition, string $rationale, \DateTimeImmutable $decidedAt): array
@@ -167,29 +170,17 @@ final readonly class LegateGovernedCommissionDispositionService
 
     private function source(string $directory, array $reference, string $error): array
     {
-        $record = $this->read($directory.'/'.($reference['id'] ?? '').'.json', $error);
-        if (!$this->valid($record) || ($reference['digest'] ?? null) !== ($record['record_digest'] ?? null)) {
-            throw new \RuntimeException('CIT327_GOVERNED_COMMISSION_DISPOSITION_CHAIN_INVALID');
-        }
-
-        return $record;
+        return $this->validator->resolve($directory, $reference, $error, 'CIT327_GOVERNED_COMMISSION_DISPOSITION_CHAIN_INVALID');
     }
 
     private function read(string $path, string $error): array
     {
-        if (!is_file($path)) {
-            throw new \RuntimeException($error);
-        }
-
-        return json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+        return $this->validator->read($path, $error);
     }
 
     private function valid(array $record): bool
     {
-        $digest = $record['record_digest'] ?? null;
-        unset($record['record_digest']);
-
-        return is_string($digest) && hash_equals($digest, hash('sha256', CanonicalJson::encode($record)));
+        return $this->validator->isIntact($record);
     }
 
     private function save(string $id, array $record): array

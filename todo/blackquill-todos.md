@@ -84,7 +84,7 @@ Preserve independent authorities, emitted records, and cross-office handoffs. Co
 - [ ] Extract an `AuthorityConsumptionStore`.
 - [x] Extract an `AtomicTransition` coordinator.
 - [x] Extract a `RecordReferenceValidator`. *(Step 25 establishes the canonical primitive and migrates the consolidated Steps 51–52 and 67–68 substrates first.)*
-- [ ] Remove duplicated filesystem scanning, decoding, validation, locking, and write code after migration.
+- [ ] Remove duplicated filesystem scanning, decoding, validation, locking, and write code after migration. *(Canonical read/digest/source validation now covers the consolidated Curia mechanics, critical Delegate turn/return boundaries, and the complete Citadel Legate governed-cognition chain; scanning and persistence remain for later bounded migrations.)*
 
 ## Provider boundary
 
