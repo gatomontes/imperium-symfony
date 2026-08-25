@@ -28,8 +28,8 @@ final class DelegateRuntimeSourceFormattingTest extends TestCase
             }
 
             $source = (string) file_get_contents($file->getPathname());
-            self::assertDoesNotMatchRegularExpression(
-                '/\\bnew\\\\[A-Za-z_]/',
+            self::assertStringNotContainsString(
+                'new\\',
                 $source,
                 $file->getPathname().' contains malformed namespace-qualified construction.',
             );
@@ -47,9 +47,9 @@ final class DelegateRuntimeSourceFormattingTest extends TestCase
 
             $source = implode("\n", $lines);
             self::assertDoesNotMatchRegularExpression(
-                '/declare\\(strict_types=1\\);\\s*namespace/',
+                '/declare\\(strict_types=1\\);[ \\t]*namespace/',
                 $source,
-                $relative.' compresses the declaration and namespace.',
+                $relative.' compresses the declaration and namespace onto one line.',
             );
 
             foreach ($lines as $number => $line) {
