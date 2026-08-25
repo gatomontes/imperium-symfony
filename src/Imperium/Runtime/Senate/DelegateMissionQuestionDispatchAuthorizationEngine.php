@@ -62,7 +62,7 @@ final readonly class DelegateMissionQuestionDispatchAuthorizationEngine
 
     private function configuration(string $jurisdiction): array
     {
-        [$base, $sequence] = match ($jurisdiction) { 'trust' => [57, 1], 'security' => [63, 2], 'usability' => [69, 3], default => throw new \InvalidArgumentException('S703_DELEGATE_MISSION_QUESTION_DISPATCH_AUTHORIZATION_JURISDICTION_INVALID') };
+        [$base, $sequence] = match ($jurisdiction) { 'trust' => [57, 1], 'security' => [63, 2], 'usability' => [69, 3], default => throw new \InvalidArgumentException('S793_DELEGATE_MISSION_QUESTION_DISPATCH_AUTHORIZATION_JURISDICTION_INVALID') };
         $upper = strtoupper($jurisdiction); $prefix = 'S'.$base;
         return ['jurisdiction' => $jurisdiction, 'upper' => $upper, 'sequence' => $sequence, 'senator_key' => $jurisdiction.'_senator', 'question_status' => 'DELEGATE_MISSION_'.$upper.'_QUESTION_AUTHORED_SEALED_PENDING_DISPATCH_AUTHORIZATION', 'decision_purpose' => 'DECIDE_DISPATCH_OF_ONE_SEALED_'.$upper.'_EXAMINATION_QUESTION', 'errors' => [$prefix.'0_DELEGATE_MISSION_QUESTION_ID_INVALID', $prefix.'1_DELEGATE_MISSION_LORD_SPEAKER_BINDING_ID_INVALID', $prefix.'2_DELEGATE_MISSION_QUESTION_DISPATCH_DISPOSITION_INVALID', $prefix.'3_DELEGATE_MISSION_QUESTION_ABSENT', $prefix.'4_DELEGATE_MISSION_STAND_ADMISSION_ABSENT', $prefix.'5_DELEGATE_MISSION_LORD_SPEAKER_UNAVAILABLE', $prefix.'6_DELEGATE_MISSION_BAILIFF_UNAVAILABLE', $prefix.'7_DELEGATE_MISSION_QUESTION_DISPATCH_DECISION_CHAIN_INVALID', $prefix.'8_DELEGATE_MISSION_QUESTION_DISPATCH_DECISION_PERSISTENCE_FAILED', $prefix.'9_DELEGATE_MISSION_QUESTION_DISPATCH_DECISION_CONFLICT']];
     }

@@ -12,7 +12,7 @@ final class DelegateMissionQuestionDispatchAuthorizationEngineTest extends TestC
     public function testUnknownJurisdictionFailsBeforeEvidenceAccess(): void
     {
         $engine = new DelegateMissionQuestionDispatchAuthorizationEngine(sys_get_temp_dir().'/imperium-dispatch-authorization-'.bin2hex(random_bytes(4)));
-        $this->expectExceptionMessage('S703_DELEGATE_MISSION_QUESTION_DISPATCH_AUTHORIZATION_JURISDICTION_INVALID');
+        $this->expectExceptionMessage('S793_DELEGATE_MISSION_QUESTION_DISPATCH_AUTHORIZATION_JURISDICTION_INVALID');
         $engine->decide('unknown', 'not-read', 'not-read', 'AUTHORIZED', 'not-read', new \DateTimeImmutable());
     }
 }

@@ -185,7 +185,7 @@ final readonly class DelegateMissionJurisdictionQuestionAuthorshipEngine
 
     private function config(string $jurisdiction): array
     {
-        $base = match ($jurisdiction) {'trust' => 560, 'security' => 620, 'usability' => 680, default => throw new \InvalidArgumentException('S700_DELEGATE_MISSION_QUESTION_JURISDICTION_INVALID')};
+        $base = match ($jurisdiction) {'trust' => 560, 'security' => 620, 'usability' => 680, default => throw new \InvalidArgumentException('S790_DELEGATE_MISSION_QUESTION_JURISDICTION_INVALID')};
         $upper = strtoupper($jurisdiction);
         return [
             'jurisdiction' => $jurisdiction,

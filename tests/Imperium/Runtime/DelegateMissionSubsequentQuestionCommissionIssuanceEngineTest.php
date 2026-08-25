@@ -13,7 +13,7 @@ final class DelegateMissionSubsequentQuestionCommissionIssuanceEngineTest extend
     {
         $engine = new DelegateMissionSubsequentQuestionCommissionIssuanceEngine(sys_get_temp_dir().'/imperium-subsequent-question-'.bin2hex(random_bytes(4)));
 
-        $this->expectExceptionMessage('S701_DELEGATE_MISSION_SUBSEQUENT_QUESTION_JURISDICTION_INVALID');
+        $this->expectExceptionMessage('S791_DELEGATE_MISSION_SUBSEQUENT_QUESTION_JURISDICTION_INVALID');
         $engine->issue('trust', 'irrelevant', 'irrelevant', 'irrelevant', new \DateTimeImmutable());
     }
 }
