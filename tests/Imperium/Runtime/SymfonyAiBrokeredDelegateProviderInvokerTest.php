@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Imperium\Runtime;
 
 use App\Bootstrap\CanonicalJson;
-use App\Imperium\Runtime\Citadel\DelegateSymfonyPlatformAdapter;
+use App\Imperium\Runtime\Citadel\DeepSeekDelegatePlatformAdapter;
 use App\Imperium\Runtime\Citadel\SymfonyAiBrokeredDelegateProviderInvoker;
 use App\Imperium\Runtime\Clavium\ProviderInvocationJournalService;
 use App\Imperium\Runtime\Clavium\ProviderResponseEnvelopeService;
@@ -34,7 +34,7 @@ final class SymfonyAiBrokeredDelegateProviderInvokerTest extends TestCase
     {
         $claim = $this->claim();
         $broker = $this->successfulBroker();
-        $adapter = new class implements DelegateSymfonyPlatformAdapter {
+        $adapter = new class implements DeepSeekDelegatePlatformAdapter {
             public array $received = [];
 
             public function invoke(string $secret, string $runtimeModel, MessageBag $messages, array $configuration, string $idempotencyKey): string
@@ -105,7 +105,7 @@ final class SymfonyAiBrokeredDelegateProviderInvokerTest extends TestCase
     public function testAdapterFailureAfterStartBecomesUnknownAndDiagnosticIsSuppressed(): void
     {
         $claim = $this->claim();
-        $adapter = new class implements DelegateSymfonyPlatformAdapter {
+        $adapter = new class implements DeepSeekDelegatePlatformAdapter {
             public function invoke(string $secret, string $runtimeModel, MessageBag $messages, array $configuration, string $idempotencyKey): string
             {
                 throw new \RuntimeException('provider diagnostic containing test-secret-never-persisted');
@@ -165,9 +165,9 @@ final class SymfonyAiBrokeredDelegateProviderInvokerTest extends TestCase
         };
     }
 
-    private function unreachableAdapter(): DelegateSymfonyPlatformAdapter
+    private function unreachableAdapter(): DeepSeekDelegatePlatformAdapter
     {
-        return new class implements DelegateSymfonyPlatformAdapter {
+        return new class implements DeepSeekDelegatePlatformAdapter {
             public function invoke(string $secret, string $runtimeModel, MessageBag $messages, array $configuration, string $idempotencyKey): string
             {
                 throw new \LogicException('Adapter must not be reached.');

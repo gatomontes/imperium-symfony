@@ -310,7 +310,7 @@ services:
     App\Imperium\Runtime\Citadel\DelegateProviderInvoker:
         alias: App\Imperium\Runtime\Citadel\SymfonyAiBrokeredDelegateProviderInvoker
 
-    App\Imperium\Runtime\Citadel\DelegateSymfonyPlatformAdapter:
+    App\Imperium\Runtime\Citadel\DeepSeekDelegatePlatformAdapter:
         alias: App\Imperium\Runtime\Citadel\DeepSeekSymfonyPlatformAdapter
 
     App\Imperium\Runtime\Clock:
