@@ -8,6 +8,7 @@ use App\Bootstrap\CanonicalJson;
 use App\Imperium\Runtime\Persistence\AtomicTransition;
 use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
 use App\Imperium\Runtime\Persistence\ReplayFingerprint;
+use App\Imperium\Runtime\Persistence\RecordReferenceValidator;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class ProviderInvocationClaimService
@@ -16,17 +17,20 @@ final readonly class ProviderInvocationClaimService
     private string $claims;
     private AtomicTransition $atomic;
     private ImmutableRecordStore $records;
+    private RecordReferenceValidator $validator;
 
     public function __construct(
         #[Autowire('%kernel.project_dir%')]
         string $root,
         ?AtomicTransition $atomic = null,
         ?ImmutableRecordStore $records = null,
+        ?RecordReferenceValidator $validator = null,
     ) {
         $this->activations = $root.'/var/imperium/offices/clavium/delegate-mission-provider-invocation-activations';
         $this->claims = $root.'/var/imperium/runtime/provider-invocations';
         $this->atomic = $atomic ?? new AtomicTransition($root);
         $this->records = $records ?? new ImmutableRecordStore($root, $this->atomic);
+        $this->validator = $validator ?? new RecordReferenceValidator($root);
     }
 
     public function claim(
@@ -67,6 +71,9 @@ final readonly class ProviderInvocationClaimService
 
         foreach (glob($this->claims.'/*.json') ?: [] as $existingPath) {
             $existing = $this->read($existingPath, 'CLV403_PROVIDER_INVOCATION_CLAIM_CONFLICT');
+            if (!$this->hasValidDigest($existing)) {
+                throw new \RuntimeException('CLV403_PROVIDER_INVOCATION_CLAIM_CONFLICT');
+            }
             if (($existing['source_activation']['id'] ?? null) !== $activationId) {
                 continue;
             }
@@ -158,18 +165,11 @@ final readonly class ProviderInvocationClaimService
 
     private function read(string $path, string $error): array
     {
-        if (!is_file($path)) {
-            throw new \RuntimeException($error);
-        }
-
-        return json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+        return $this->validator->read($path, $error);
     }
 
     private function hasValidDigest(array $record): bool
     {
-        $digest = $record['record_digest'] ?? null;
-        unset($record['record_digest']);
-
-        return is_string($digest) && hash_equals($digest, hash('sha256', CanonicalJson::encode($record)));
+        return $this->validator->isIntact($record);
     }
 }

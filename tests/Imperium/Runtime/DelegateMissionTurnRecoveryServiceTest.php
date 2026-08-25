@@ -76,6 +76,18 @@ final class DelegateMissionTurnRecoveryServiceTest extends TestCase
         $service->recover($otherId, new \DateTimeImmutable('2026-08-25T15:01:00+00:00'));
     }
 
+    public function testTamperedRecoveryAuthorizationFailsBeforeTransition(): void
+    {
+        $authorizationId = $this->seed();
+        $path = $this->root.'/var/imperium/runtime/provider-turn-recovery-authorizations/'.$authorizationId.'.json';
+        $authorization = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+        $authorization['status'] = 'TAMPERED';
+        file_put_contents($path, json_encode($authorization, JSON_THROW_ON_ERROR));
+
+        $this->expectExceptionMessage('CT330_DELEGATE_TURN_RECOVERY_AUTHORIZATION_INVALID');
+        (new DelegateMissionTurnRecoveryService($this->root))->recover($authorizationId, new \DateTimeImmutable('2026-08-25T15:00:00+00:00'));
+    }
+
     private function seed(?string $response = null): string
     {
         $response ??= json_encode(['disposition' => 'COMPLETED', 'output' => 'Recovered.', 'evidence_references' => [], 'uncertainties' => [], 'stop_condition_triggered' => false, 'stop_rationale' => null], JSON_THROW_ON_ERROR);
