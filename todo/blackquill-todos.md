@@ -79,7 +79,7 @@ Preserve independent authorities, emitted records, and cross-office handoffs. Co
 
 ## Shared persistence primitives
 
-- [ ] Extract an `ImmutableRecordStore`.
+- [x] Extract an `ImmutableRecordStore`.
 - [x] Extract a `MutableStateStore`.
 - [ ] Extract an `AuthorityConsumptionStore`.
 - [x] Extract an `AtomicTransition` coordinator.
@@ -104,7 +104,7 @@ Preserve independent authorities, emitted records, and cross-office handoffs. Co
 
 ## Test hardening
 
-- [ ] Add concurrency tests for duplicate submissions and authority consumption.
+- [ ] Add concurrency tests for duplicate submissions and authority consumption. *(Provider journal start and the Steps 44–46 operational Folium boundary now have multi-process single-winner proofs; remaining consumable authorities still require coverage.)*
 - [ ] Add crash/fault-injection tests for every multi-write transition.
 - [ ] Add tamper tests for records, references, hashes, identities, and timestamps.
 - [ ] Add expiry-boundary tests using an injected clock.

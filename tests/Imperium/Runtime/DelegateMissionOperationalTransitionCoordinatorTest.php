@@ -98,6 +98,34 @@ final class DelegateMissionOperationalTransitionCoordinatorTest extends TestCase
         $service->recordAssembly($assembly);
     }
 
+    public function testImmutableFoliumCommitResumesAfterIndexInterruption(): void
+    {
+        $qualification = $this->qualification();
+        unset($qualification['record_digest']);
+        $fault = new class implements OperationalTransitionFaultInjector {
+            public function at(string $checkpoint): void
+            {
+                if ('BEFORE_QUALIFICATION_INDEXED' === $checkpoint) {
+                    throw new \RuntimeException('INJECTED_OPERATIONAL_TRANSITION_FAILURE');
+                }
+            }
+        };
+
+        try {
+            (new DelegateMissionOperationalTransitionCoordinator($this->root, faults: $fault))
+                ->commitQualification($qualification['qualification_id'], $qualification);
+            self::fail('The first Codex index attempt must be interrupted.');
+        } catch (\RuntimeException $exception) {
+            self::assertSame('INJECTED_OPERATIONAL_TRANSITION_FAILURE', $exception->getMessage());
+        }
+
+        $stored = (new DelegateMissionOperationalTransitionCoordinator($this->root))
+            ->commitQualification($qualification['qualification_id'], $qualification);
+
+        self::assertFileExists($this->root.'/var/imperium/codex-imperii.json');
+        self::assertSame($qualification['qualification_id'], $stored['qualification_id']);
+    }
+
     private function qualification(): array
     {
         return $this->seal([
