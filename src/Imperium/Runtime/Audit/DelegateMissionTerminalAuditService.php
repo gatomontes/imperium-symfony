@@ -25,7 +25,7 @@ final readonly class DelegateMissionTerminalAuditService
         $attestation = $this->source('var/imperium/offices/clavium/delegate-mission-model-access-attestations', $activation['source_access_attestation'] ?? [], 'AUD307_DELEGATE_ACCESS_ATTESTATION_INVALID');
         $modelBinding = $this->source('var/imperium/offices/conscription/delegate-mission-model-bindings', $activation['source_model_binding'] ?? [], 'AUD308_DELEGATE_MODEL_BINDING_INVALID');
         $commission = $this->source('var/imperium/offices/curia/delegate-mission-bounded-cognition-commissions', $turn['source_commission'] ?? [], 'AUD309_DELEGATE_COMMISSION_INVALID');
-        $runtime = $this->source('var/imperium/offices/conscription/delegate-mission-runtime-activations', $commission['source_activation'] ?? [], 'AUD310_DELEGATE_RUNTIME_ACTIVATION_INVALID');
+        $runtime = $this->source('var/imperium/mission/delegate-mission-runtime-activations', $commission['source_activation'] ?? [], 'AUD310_DELEGATE_RUNTIME_ACTIVATION_INVALID');
         $custodyTransition = $this->source('var/imperium/offices/garrison/delegate-mission-operational-custody-transitions', $runtime['source_custody_transition'] ?? [], 'AUD311_DELEGATE_CUSTODY_TRANSITION_INVALID');
         $deployment = $this->source('var/imperium/offices/curia/delegate-mission-deployment-authorizations', $custodyTransition['source_deployment_authorization'] ?? [], 'AUD312_DELEGATE_DEPLOYMENT_INVALID');
         $operationalBinding = $this->record('var/imperium/mission/occupancy', (string) ($return['source_binding']['id'] ?? ''), 'AUD313_DELEGATE_OPERATIONAL_BINDING_INVALID');
