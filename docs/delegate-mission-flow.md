@@ -135,3 +135,15 @@ php bin/console imperium:delegate:audit-terminal <terminal-id> --json
 ```
 
 It validates fourteen digest-bound records from terminal retirement back through return, result disposition, cognition, provider activation, model access and binding, bounded commission, runtime activation, custody transition, deployment, and the current terminal binding/custody state.
+
+## Post-implementation review status
+
+The 69-step lifecycle and its governance boundaries are complete, but the Blackquill runtime-integrity review found that several recorded controls are not yet enforced strongly enough under process failure or concurrent execution. In particular:
+
+- credential custody does not yet technically mediate every provider invocation;
+- a crash after the external provider call but before durable result persistence can permit duplicate invocation;
+- filesystem read/validate/transition/write sequences are not transactional as a whole;
+- terminal record, custody, and binding updates can tear across partial failure; and
+- the terminal audit's current fourteen-record operational scope must either be named explicitly or expanded.
+
+These findings do not create Delegate Mission Step 70. The mission route remains terminally closed. Remediation belongs to the separately named **runtime-integrity hardening lifecycle** described in `docs/next-lifecycle-runtime-integrity-hardening.md` and tracked in `todo/blackquill-todos.md`.
