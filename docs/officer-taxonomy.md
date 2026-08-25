@@ -11,6 +11,8 @@ Every Legate is an Officer. Every Delegate is an Officer. `Officer` alone must n
 
 ## Record convention
 
+The canonical record vocabulary is defined separately in [the record taxonomy](record-taxonomy.md): each authoritative JSON record is a Folium, multiple records are Folia, and the instance-wide digest-bound compilation is the Codex Imperii.
+
 New qualification, assembly, binding, activation, commission, and cognition records must carry an explicit `officer_class` value once tenure is known. Permanent Office routes use `LEGATE`; examination-only and mission-operational routes use `DELEGATE`.
 
 The legacy-compatible `artifact_class: officer` and `generic-officer` substrate identifiers remain canonical. They describe the shared Officer substrate, not appointment class, and therefore must not be renamed to either Legate or Delegate.
