@@ -5,21 +5,17 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Citadel;
 
 use App\Imperium\Runtime\Clavium\ProviderInvocationJournalService;
+use App\Imperium\Runtime\Clock;
 use App\Imperium\Runtime\LaCortine\CredentialBroker;
-use Symfony\AI\Platform\Bridge\Generic\Factory;
-use Symfony\AI\Platform\Bridge\Generic\ModelCatalog;
 use Symfony\AI\Platform\Message\MessageBag;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final readonly class SymfonyAiBrokeredDelegateProviderInvoker implements DelegateProviderInvoker
 {
     public function __construct(
         private CredentialBroker $credentialBroker,
         private ProviderInvocationJournalService $journal,
-        private ModelCatalog $modelCatalog,
-        #[Autowire(service: 'ai.deepseek.client')]
-        private HttpClientInterface $httpClient,
+        private DelegateSymfonyPlatformAdapter $platform,
+        private Clock $clock,
     ) {
     }
 
@@ -31,44 +27,49 @@ final readonly class SymfonyAiBrokeredDelegateProviderInvoker implements Delegat
     ): string {
         $this->assertClaimScope($claim, $runtimeModel);
         $expiresAt = new \DateTimeImmutable($claim['lease_consumption']['expires_at']);
-        $capability = $this->credentialBroker->issue(
-            'env:DEEPSEEK_API_KEY',
-            $claim['claim_id'],
-            'deepseek.model.invoke',
-            $expiresAt,
-        );
+        $providerOperationStarted = false;
+        try {
+            $capability = $this->credentialBroker->issue(
+                'env:DEEPSEEK_API_KEY',
+                $claim['claim_id'],
+                'deepseek.model.invoke',
+                $expiresAt,
+            );
+            return $this->credentialBroker->consume(
+                $capability,
+                function (mixed $secret) use ($claim, $runtimeModel, $messages, $configuration, &$providerOperationStarted): string {
+                    if (!is_string($secret) || '' === $secret) {
+                        throw new \RuntimeException('CT321_DELEGATE_PROVIDER_CREDENTIAL_UNAVAILABLE');
+                    }
 
-        return $this->credentialBroker->consume(
-            $capability,
-            function (mixed $secret) use ($claim, $runtimeModel, $messages, $configuration): string {
-                if (!is_string($secret) || '' === $secret) {
-                    throw new \RuntimeException('CT321_DELEGATE_PROVIDER_CREDENTIAL_UNAVAILABLE');
-                }
+                    $providerOperationStarted = true;
+                    $this->journal->start($claim, $this->clock->now());
+                    try {
+                        $text = $this->platform->invoke(
+                            $secret,
+                            $runtimeModel,
+                            $messages,
+                            $configuration,
+                            $claim['provider_request']['idempotency_key'],
+                        );
+                    } catch (\Throwable) {
+                        $this->journal->markUnknown($claim, $this->clock->now());
+                        throw new \RuntimeException('CT322_DELEGATE_PROVIDER_OUTCOME_UNKNOWN');
+                    }
 
-                $this->journal->start($claim, new \DateTimeImmutable());
-                try {
-                    $client = $this->httpClient->withOptions([
-                        'headers' => ['Idempotency-Key' => $claim['provider_request']['idempotency_key']],
-                    ]);
-                    $platform = Factory::createPlatform(
-                        baseUrl: 'https://api.deepseek.com',
-                        apiKey: $secret,
-                        httpClient: $client,
-                        modelCatalog: $this->modelCatalog,
-                        supportsEmbeddings: false,
-                        name: 'deepseek',
-                    );
-                    $text = $platform->invoke($runtimeModel, $messages, $configuration)->asText();
-                } catch (\Throwable $exception) {
-                    $this->journal->markUnknown($claim, new \DateTimeImmutable());
-                    throw new \RuntimeException('CT322_DELEGATE_PROVIDER_OUTCOME_UNKNOWN');
-                }
+                    $this->journal->sealResponse($claim, $text, $this->clock->now());
 
-                $this->journal->sealResponse($claim, $text, new \DateTimeImmutable());
+                    return $text;
+                },
+            );
+        } catch (\Throwable $exception) {
+            if (!$providerOperationStarted) {
+                $this->journal->markPreIoFailure($claim, 'CREDENTIAL_RESOLUTION_FAILED', $this->clock->now());
+                throw new \RuntimeException('CT323_DELEGATE_PROVIDER_PRE_IO_FAILURE');
+            }
 
-                return $text;
-            },
-        );
+            throw $exception;
+        }
     }
 
     private function assertClaimScope(array $claim, string $runtimeModel): void

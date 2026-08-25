@@ -49,6 +49,22 @@ final class ProviderInvocationJournalServiceTest extends TestCase
         $journal->start($claim, new \DateTimeImmutable());
     }
 
+    public function testPreIoFailureIsExplicitAndContainsNoCredentialMaterial(): void
+    {
+        $claim = $this->claim();
+        $failure = (new ProviderInvocationJournalService($this->root))->markPreIoFailure(
+            $claim,
+            'CREDENTIAL_RESOLUTION_FAILED',
+            new \DateTimeImmutable('2026-08-25T13:00:00+00:00'),
+        );
+
+        self::assertSame('INVOCATION_FAILED_PRE_IO_REPLAY_PROHIBITED', $failure['status']);
+        self::assertFalse($failure['external_io_started']);
+        self::assertFalse($failure['automatic_replay_permitted']);
+        self::assertSame('CREDENTIAL_RESOLUTION_FAILED', $failure['failure_code']);
+        self::assertStringNotContainsString('DEEPSEEK_API_KEY', CanonicalJson::encode($failure));
+    }
+
     public function testUnknownOutcomeIsTerminallyReplayProhibited(): void
     {
         $claim = $this->claim();
