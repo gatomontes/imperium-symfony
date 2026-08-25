@@ -52,6 +52,8 @@ Hardening Step 12 is implemented. A canonical replay-fingerprint primitive and c
 
 Hardening Step 13 is implemented. Trust, Security, and Usability question authorship now use one jurisdiction-parameterized engine behind their existing public services. The engine preserves each jurisdiction's exact Senator seat, accepted checkpoint, question sequence, prior-testimony lineage, authority purpose, output schema, status, and error vocabulary; an unsupported jurisdiction fails before evidence access or cognition.
 
+Hardening Step 14 is implemented. Security and Usability subsequent-question commission issuance now share one parameterized engine behind stable public services. The engine preserves the prior Trust/Security testimony chain, exact Lord Speaker and recipient Senator authorities, jurisdiction sequence, commission schema, statuses, and error vocabulary. Trust is deliberately rejected because its first-question commission derives from the examination opening rather than prior testimony.
+
 ### Problem
 
 The current Clavium lease records permission but does not technically control the only route to provider credentials. The provider call can also complete before the result/turn is durably recorded. A process death in that interval creates an unknown outcome and may cause a repeated external call.
