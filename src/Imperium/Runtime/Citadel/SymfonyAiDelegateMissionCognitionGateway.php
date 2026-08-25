@@ -6,18 +6,15 @@ namespace App\Imperium\Runtime\Citadel;
 
 use Symfony\AI\Platform\Message\Message;
 use Symfony\AI\Platform\Message\MessageBag;
-use Symfony\AI\Platform\PlatformInterface;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class SymfonyAiDelegateMissionCognitionGateway implements DelegateMissionCognitionGateway
 {
     public function __construct(
-        #[Autowire(service: 'ai.platform.generic.deepseek')]
-        private PlatformInterface $deepseek,
+        private DelegateProviderInvoker $provider,
     ) {
     }
 
-    public function invoke(array $activation, array $commission): array
+    public function invoke(array $claim, array $activation, array $commission): array
     {
         $runtime = $activation['model']['runtime_binding'] ?? [];
         if (!is_array($runtime) || ['provider', 'platform_service', 'runtime_model'] !== array_keys($runtime)
@@ -26,12 +23,12 @@ final readonly class SymfonyAiDelegateMissionCognitionGateway implements Delegat
             || !is_string($runtime['runtime_model']) || '' === trim($runtime['runtime_model'])) {
             throw new \RuntimeException('CT310_DELEGATE_RUNTIME_PLATFORM_UNSUPPORTED');
         }
-        $result = $this->deepseek->invoke(
+        $text = trim($this->provider->invoke(
+            $claim,
             $runtime['runtime_model'],
             new MessageBag(Message::ofUser($this->prompt($commission))),
             $activation['model']['configuration'] ?? [],
-        );
-        $text = trim($result->asText());
+        ));
         if (str_starts_with($text, '```')) {
             $text = preg_replace('/^```(?:json)?\s*|\s*```$/i', '', $text) ?? $text;
         }
