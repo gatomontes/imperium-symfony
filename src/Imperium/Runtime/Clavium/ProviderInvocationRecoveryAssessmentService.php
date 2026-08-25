@@ -14,6 +14,7 @@ final readonly class ProviderInvocationRecoveryAssessmentService
     private const CLAIMS = 'var/imperium/runtime/provider-invocations';
     private const JOURNAL = 'var/imperium/runtime/provider-invocation-journal';
     private const TURNS = 'var/imperium/operational/delegate-mission-bounded-cognition-turns';
+    private const RESPONSES = 'var/imperium/runtime/provider-response-envelopes';
 
     private ImmutableRecordStore $records;
     private MutableStateStore $state;
@@ -59,12 +60,48 @@ final readonly class ProviderInvocationRecoveryAssessmentService
         }
 
         return match ($journal['status'] ?? null) {
-            'INVOCATION_IN_FLIGHT' => $this->result($claim, 'PROVIDER_OUTCOME_UNKNOWN_GOVERNED_RESOLUTION_REQUIRED', true, true),
-            'PROVIDER_RESPONSE_IDENTITY_SEALED_PENDING_RESULT_PROCESSING' => $this->result($claim, 'RESPONSE_RECEIVED_TURN_PERSISTENCE_RECOVERY_REQUIRED', true, false),
+            'INVOCATION_IN_FLIGHT' => $this->inFlightResult($claim),
+            'PROVIDER_RESPONSE_IDENTITY_SEALED_PENDING_RESULT_PROCESSING' => $this->responseResult($claim, $journal),
             'PROVIDER_OUTCOME_UNKNOWN_REPLAY_PROHIBITED' => $this->result($claim, 'UNKNOWN_OUTCOME_RECORDED_GOVERNED_RESOLUTION_REQUIRED', true, true),
             'INVOCATION_FAILED_PRE_IO_REPLAY_PROHIBITED' => $this->result($claim, 'PRE_IO_FAILURE_RECORDED_FRESH_AUTHORIZATION_REQUIRED', true, false),
             default => throw new \RuntimeException('CLV421_PROVIDER_RECOVERY_EVIDENCE_INVALID'),
         };
+    }
+
+    private function inFlightResult(array $claim): array
+    {
+        try {
+            $envelope = $this->records->read(self::RESPONSES, $claim['claim_id']);
+        } catch (\RuntimeException) {
+            return $this->result($claim, 'PROVIDER_OUTCOME_UNKNOWN_GOVERNED_RESOLUTION_REQUIRED', true, true);
+        }
+        $this->assertEnvelope($claim, $envelope);
+
+        return $this->result($claim, 'RESPONSE_ENVELOPE_SEALED_PENDING_JOURNAL_AND_TURN_RECOVERY', true, false);
+    }
+
+    private function responseResult(array $claim, array $journal): array
+    {
+        try {
+            $envelope = $this->records->read(self::RESPONSES, $claim['claim_id']);
+        } catch (\RuntimeException $exception) {
+            throw new \RuntimeException('CLV422_PROVIDER_RESPONSE_ENVELOPE_ABSENT', 0, $exception);
+        }
+        $this->assertEnvelope($claim, $envelope);
+        if (($journal['provider_response_identity'] ?? null) !== $envelope['provider_response_identity']) {
+            throw new \RuntimeException('CLV421_PROVIDER_RECOVERY_EVIDENCE_INVALID');
+        }
+
+        return $this->result($claim, 'RESPONSE_ENVELOPE_AVAILABLE_FOR_TURN_PERSISTENCE_RECOVERY', true, false);
+    }
+
+    private function assertEnvelope(array $claim, array $envelope): void
+    {
+        if (($envelope['claim']['digest'] ?? null) !== $claim['record_digest']
+            || false !== ($envelope['automatic_provider_replay_permitted'] ?? null)
+            || true === ($envelope['credential_material_present'] ?? null)) {
+            throw new \RuntimeException('CLV421_PROVIDER_RECOVERY_EVIDENCE_INVALID');
+        }
     }
 
     private function completedTurn(string $claimId, string $claimDigest): ?array

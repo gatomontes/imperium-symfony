@@ -7,6 +7,7 @@ namespace App\Tests\Imperium\Runtime;
 use App\Bootstrap\CanonicalJson;
 use App\Imperium\Runtime\Clavium\ProviderInvocationJournalService;
 use App\Imperium\Runtime\Clavium\ProviderInvocationRecoveryAssessmentService;
+use App\Imperium\Runtime\Clavium\ProviderResponseEnvelopeService;
 use PHPUnit\Framework\TestCase;
 
 final class ProviderInvocationRecoveryAssessmentServiceTest extends TestCase
@@ -51,9 +52,21 @@ final class ProviderInvocationRecoveryAssessmentServiceTest extends TestCase
     {
         $journal = new ProviderInvocationJournalService($this->root);
         $journal->start($this->claim, new \DateTimeImmutable());
+        (new ProviderResponseEnvelopeService($this->root))->seal($this->claim, 'response', new \DateTimeImmutable());
         $journal->sealResponse($this->claim, 'response', new \DateTimeImmutable());
         $result = (new ProviderInvocationRecoveryAssessmentService($this->root))->assess($this->claim['claim_id']);
-        self::assertSame('RESPONSE_RECEIVED_TURN_PERSISTENCE_RECOVERY_REQUIRED', $result['status']);
+        self::assertSame('RESPONSE_ENVELOPE_AVAILABLE_FOR_TURN_PERSISTENCE_RECOVERY', $result['status']);
+        self::assertFalse($result['automatic_replay_permitted']);
+    }
+
+    public function testCrashAfterEnvelopeBeforeJournalSealPreservesRecoverableResponse(): void
+    {
+        (new ProviderInvocationJournalService($this->root))->start($this->claim, new \DateTimeImmutable());
+        (new ProviderResponseEnvelopeService($this->root))->seal($this->claim, 'response', new \DateTimeImmutable());
+
+        $result = (new ProviderInvocationRecoveryAssessmentService($this->root))->assess($this->claim['claim_id']);
+        self::assertSame('RESPONSE_ENVELOPE_SEALED_PENDING_JOURNAL_AND_TURN_RECOVERY', $result['status']);
+        self::assertFalse($result['provider_outcome_may_be_unknown']);
         self::assertFalse($result['automatic_replay_permitted']);
     }
 
