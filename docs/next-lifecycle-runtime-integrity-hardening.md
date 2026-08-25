@@ -34,6 +34,8 @@ Hardening Step 3 is implemented. The Symfony platform adapter is independently t
 
 Hardening Step 4 is implemented. Shared atomic-transition, immutable-record, mutable-state compare-and-swap, and authority-consumption primitives now exist with focused contract tests. Existing services remain explicitly unmigrated until their complete transitions are moved onto these primitives.
 
+Hardening Step 5 is implemented. Durable provider-invocation claiming now uses the shared `AtomicTransition` and `ImmutableRecordStore`; its legacy private lock and commit implementation have been removed without changing the claim schema or checkpoint.
+
 ### Problem
 
 The current Clavium lease records permission but does not technically control the only route to provider credentials. The provider call can also complete before the result/turn is durably recorded. A process death in that interval creates an unknown outcome and may cause a repeated external call.

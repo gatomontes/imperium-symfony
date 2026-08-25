@@ -39,6 +39,8 @@ final class ProviderInvocationClaimServiceTest extends TestCase
         self::assertFalse($claim['credential_material_present']);
         self::assertStringNotContainsString('clavium://', CanonicalJson::encode($claim));
         self::assertStringNotContainsString('DEEPSEEK_API_KEY', CanonicalJson::encode($claim));
+        self::assertFileDoesNotExist($this->root.'/var/imperium/runtime/provider-invocations.lock');
+        self::assertNotEmpty(glob($this->root.'/var/imperium/runtime/transition-locks/*.lock') ?: []);
     }
 
     public function testTwoClaimantsProduceOneStableClaim(): void

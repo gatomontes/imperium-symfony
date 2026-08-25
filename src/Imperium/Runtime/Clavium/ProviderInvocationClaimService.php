@@ -5,21 +5,27 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Clavium;
 
 use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\Persistence\AtomicTransition;
+use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class ProviderInvocationClaimService
 {
     private string $activations;
     private string $claims;
-    private string $lockPath;
+    private AtomicTransition $atomic;
+    private ImmutableRecordStore $records;
 
     public function __construct(
         #[Autowire('%kernel.project_dir%')]
         string $root,
+        ?AtomicTransition $atomic = null,
+        ?ImmutableRecordStore $records = null,
     ) {
         $this->activations = $root.'/var/imperium/offices/clavium/delegate-mission-provider-invocation-activations';
         $this->claims = $root.'/var/imperium/runtime/provider-invocations';
-        $this->lockPath = $root.'/var/imperium/runtime/provider-invocations.lock';
+        $this->atomic = $atomic ?? new AtomicTransition($root);
+        $this->records = $records ?? new ImmutableRecordStore($root, $this->atomic);
     }
 
     public function claim(
@@ -27,23 +33,10 @@ final readonly class ProviderInvocationClaimService
         string $turnAuthorityId,
         \DateTimeImmutable $claimedAt,
     ): array {
-        $this->prepareStorage();
-
-        $lock = fopen($this->lockPath, 'c+');
-        if (false === $lock || !flock($lock, LOCK_EX)) {
-            if (is_resource($lock)) {
-                fclose($lock);
-            }
-
-            throw new \RuntimeException('CLV401_PROVIDER_INVOCATION_CLAIM_LOCK_FAILED');
-        }
-
-        try {
-            return $this->claimWhileLocked($activationId, $turnAuthorityId, $claimedAt);
-        } finally {
-            flock($lock, LOCK_UN);
-            fclose($lock);
-        }
+        return $this->atomic->run(
+            'provider-invocation-claim:'.hash('sha256', $activationId),
+            fn (): array => $this->claimWhileLocked($activationId, $turnAuthorityId, $claimedAt),
+        );
     }
 
     private function claimWhileLocked(
@@ -83,7 +76,7 @@ final readonly class ProviderInvocationClaimService
         }
 
         if (is_file($path)) {
-            $existing = $this->read($path, 'CLV403_PROVIDER_INVOCATION_CLAIM_CONFLICT');
+            $existing = $this->records->read('var/imperium/runtime/provider-invocations', $claimId);
             if (($existing['claim_fingerprint'] ?? null) !== $fingerprint) {
                 throw new \RuntimeException('CLV403_PROVIDER_INVOCATION_CLAIM_CONFLICT');
             }
@@ -132,7 +125,7 @@ final readonly class ProviderInvocationClaimService
             'sealed' => true,
         ];
 
-        return $this->writeAtomically($path, $record);
+        return $this->records->put('var/imperium/runtime/provider-invocations', $claimId, $record);
     }
 
     private function assertActivationIsClaimable(
@@ -163,28 +156,6 @@ final readonly class ProviderInvocationClaimService
         ) {
             throw new \RuntimeException('CLV404_PROVIDER_INVOCATION_CLAIM_CHAIN_INVALID');
         }
-    }
-
-    private function prepareStorage(): void
-    {
-        if (!is_dir($this->claims) && !mkdir($this->claims, 0770, true) && !is_dir($this->claims)) {
-            throw new \RuntimeException('CLV405_PROVIDER_INVOCATION_CLAIM_STORAGE_FAILED');
-        }
-    }
-
-    private function writeAtomically(string $path, array $record): array
-    {
-        $record['record_digest'] = hash('sha256', CanonicalJson::encode($record));
-        $temporary = $path.'.tmp.'.bin2hex(random_bytes(6));
-        $json = json_encode($record, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)."\n";
-
-        if (false === file_put_contents($temporary, $json, LOCK_EX) || !rename($temporary, $path)) {
-            @unlink($temporary);
-
-            throw new \RuntimeException('CLV405_PROVIDER_INVOCATION_CLAIM_STORAGE_FAILED');
-        }
-
-        return $record;
     }
 
     private function read(string $path, string $error): array
