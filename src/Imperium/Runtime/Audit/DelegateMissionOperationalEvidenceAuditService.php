@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace App\Imperium\Runtime\Audit;
 
-use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\Persistence\RecordReferenceValidator;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class DelegateMissionOperationalEvidenceAuditService
 {
-    public function __construct(#[Autowire('%kernel.project_dir%')] private string $root) {}
+    private RecordReferenceValidator $validator;
+
+    public function __construct(#[Autowire('%kernel.project_dir%')] private string $root, ?RecordReferenceValidator $validator = null)
+    {
+        $this->validator = $validator ?? new RecordReferenceValidator($root);
+    }
 
     public function audit(string $terminalId): array
     {
@@ -73,27 +78,18 @@ final readonly class DelegateMissionOperationalEvidenceAuditService
 
     private function source(string $directory, array $reference, string $idField, string $error): array
     {
-        $record = $this->record($directory, (string) ($reference['id'] ?? ''), $error);
-        if (($reference['id'] ?? null) !== ($record[$idField] ?? null)
-            || ($reference['digest'] ?? null) !== $record['record_digest']) {
-            throw new \RuntimeException($error);
-        }
-        return $record;
+        return $this->validator->resolve($this->root.'/'.$directory, $reference, $error, $error, $idField);
     }
 
     private function record(string $directory, string $id, string $error): array
     {
-        $path = $this->root.'/'.$directory.'/'.$id.'.json';
-        if ('' === $id || !is_file($path)) {
+        if ('' === $id) {
             throw new \RuntimeException($error);
         }
-        $record = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
-        $digest = $record['record_digest'] ?? null;
-        unset($record['record_digest']);
-        if (!is_string($digest) || !hash_equals($digest, hash('sha256', CanonicalJson::encode($record)))) {
-            throw new \RuntimeException($error);
-        }
-        $record['record_digest'] = $digest;
-        return $record;
+
+        return $this->validator->requireIntact(
+            $this->validator->read($this->root.'/'.$directory.'/'.$id.'.json', $error),
+            $error,
+        );
     }
 }

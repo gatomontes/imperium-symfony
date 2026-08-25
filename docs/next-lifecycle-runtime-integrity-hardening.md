@@ -163,3 +163,7 @@ The critical Citadel bounded-cognition turn and Garrison terminal-return boundar
 ## Hardening Step 27
 
 The complete Citadel Legate governed-cognition chain now delegates path-contained reads, canonical digest verification, and exact source resolution to `RecordReferenceValidator`: commission issuance, commission disposition, turn authorization, bounded cognition, and result delivery. Their independent actors, authority transitions, replay semantics, outputs, and established `CIT3xx`/`CIT4xx` failure contracts remain unchanged.
+
+## Hardening Step 28
+
+Exact reference resolution now verifies the referenced record's own canonical digest and may also require an explicit identity field to equal the reference identity. The fourteen-record Delegate terminal operational-evidence audit adopts this stronger primitive, removing its private JSON/digest/source implementation while retaining every evidence record, terminal invariant, and established `AUD300`–`AUD315` failure contract.

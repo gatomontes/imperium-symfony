@@ -59,6 +59,42 @@ final class RecordReferenceValidatorTest extends TestCase
         (new RecordReferenceValidator($this->root))->requireIntact($record, 'CALLER_TAMPER_ERROR');
     }
 
+    public function testResolvedIdentitySubstitutionFailsWithCallerVocabulary(): void
+    {
+        $record = $this->write('var/imperium/evidence/source-123.json', [
+            'source_id' => 'substituted-source',
+        ]);
+
+        $this->expectExceptionMessage('CALLER_REFERENCE_INVALID');
+        (new RecordReferenceValidator($this->root))->resolve(
+            $this->root.'/var/imperium/evidence',
+            ['id' => 'source-123', 'digest' => $record['record_digest']],
+            'ABSENT',
+            'CALLER_REFERENCE_INVALID',
+            'source_id',
+        );
+    }
+
+    public function testResolvedRecordTamperFailsWithCallerVocabulary(): void
+    {
+        $record = $this->write('var/imperium/evidence/source-123.json', ['source_id' => 'source-123']);
+        $tampered = $record;
+        $tampered['source_id'] = 'tampered';
+        file_put_contents(
+            $this->root.'/var/imperium/evidence/source-123.json',
+            json_encode($tampered, JSON_THROW_ON_ERROR),
+        );
+
+        $this->expectExceptionMessage('CALLER_REFERENCE_INVALID');
+        (new RecordReferenceValidator($this->root))->resolve(
+            $this->root.'/var/imperium/evidence',
+            ['id' => 'source-123', 'digest' => $record['record_digest']],
+            'ABSENT',
+            'CALLER_REFERENCE_INVALID',
+            'source_id',
+        );
+    }
+
     public function testPathEscapeIsRejected(): void
     {
         $this->expectExceptionMessage('PST131_RECORD_PATH_INVALID');
