@@ -96,10 +96,10 @@ Preserve independent authorities, emitted records, and cross-office handoffs. Co
 
 ## Code quality
 
-- [ ] Format all Delegate lifecycle classes to normal PSR-12-readable source. *(Cleanup Batches 1–2 expand the critical construction and deployment corridors plus one compressed Senate authority service; remaining compressed legacy classes still require migration.)*
-- [ ] Expand compressed one-line classes and methods. *(Cleanup Batches 1–2 expand eleven heavily compressed runtime services into bounded readable source.)*
+- [ ] Format all Delegate lifecycle classes to normal PSR-12-readable source. *(Cleanup Batches 1–3 expand the critical construction/deployment corridors and the complete compressed model-bound Senate chain; remaining runtime-wide audit and minor legacy formatting remain.)*
+- [ ] Expand compressed one-line classes and methods. *(Cleanup Batches 1–3 expand twenty-one heavily compressed runtime services into bounded readable source.)*
 - [ ] Add linting/format checks that prevent malformed namespace-qualified construction such as `new\DateTimeImmutable`.
-- [ ] Review the approximately 20 Delegate classes currently at ten lines or fewer for compressed logic. *(The critical construction/deployment cluster is complete; remaining Senate/model-bound candidates are next.)*
+- [x] Review the approximately 20 Delegate classes currently at ten lines or fewer for compressed logic. *(Cleanup Batches 1–3 expand twenty-one severe candidates across construction, deployment, and the model-bound Senate chain.)*
 - [ ] Replace repeated magic strings with bounded types or canonical constants where doing so improves validation.
 
 ## Test hardening
