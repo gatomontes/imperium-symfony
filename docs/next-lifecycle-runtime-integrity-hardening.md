@@ -123,3 +123,7 @@ Trust, Security, and Usability question-dispatch authorization/refusal now share
 ## Hardening Step 17
 
 Trust, Security, and Usability physical question dispatch now share one jurisdiction-parameterized Bailiff engine. It consumes the exact dispatch authority, preserves the sealed question unchanged, and creates one manifestation-bound testimony-response authority without granting wider cognition or execution authority.
+
+## Hardening Step 18
+
+Trust, Security, and Usability testimony responses now share one jurisdiction-parameterized engine and the existing cognition gateway. Trust and Security retain their bounded next-question commission handoffs; Usability alone validates the complete three-turn chain and creates the finding-phase opening authority.
