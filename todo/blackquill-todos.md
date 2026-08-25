@@ -83,7 +83,7 @@ Preserve independent authorities, emitted records, and cross-office handoffs. Co
 - [x] Extract a `MutableStateStore`.
 - [ ] Extract an `AuthorityConsumptionStore`.
 - [x] Extract an `AtomicTransition` coordinator.
-- [ ] Extract a `RecordReferenceValidator`.
+- [x] Extract a `RecordReferenceValidator`. *(Step 25 establishes the canonical primitive and migrates the consolidated Steps 51–52 and 67–68 substrates first.)*
 - [ ] Remove duplicated filesystem scanning, decoding, validation, locking, and write code after migration.
 
 ## Provider boundary

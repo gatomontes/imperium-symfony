@@ -4,40 +4,33 @@ declare(strict_types=1);
 
 namespace App\Imperium\Runtime\Curia;
 
-use App\Bootstrap\CanonicalJson;
 use App\Imperium\Runtime\Persistence\AtomicTransition;
 use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
+use App\Imperium\Runtime\Persistence\RecordReferenceValidator;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class DelegateMissionCommissionReadinessRecordMechanics
 {
     private ImmutableRecordStore $records;
+    private RecordReferenceValidator $validator;
 
     public function __construct(
-        #[Autowire('%kernel.project_dir%')] private string $root,
+        #[Autowire('%kernel.project_dir%')] string $root,
         ?ImmutableRecordStore $records = null,
+        ?RecordReferenceValidator $validator = null,
     ) {
         $this->records = $records ?? new ImmutableRecordStore($root, new AtomicTransition($root));
+        $this->validator = $validator ?? new RecordReferenceValidator($root);
     }
 
     public function read(string $absolutePath, string $absentError): array
     {
-        if (!str_starts_with($absolutePath, $this->root.'/var/imperium/') || str_contains($absolutePath, '..')) {
-            throw new \InvalidArgumentException('C250_DELEGATE_MISSION_RECORD_PATH_INVALID');
-        }
-        if (!is_file($absolutePath)) {
-            throw new \RuntimeException($absentError);
-        }
-
-        return json_decode((string) file_get_contents($absolutePath), true, 512, JSON_THROW_ON_ERROR);
+        return $this->validator->read($absolutePath, $absentError);
     }
 
     public function isIntact(array $record): bool
     {
-        $digest = $record['record_digest'] ?? null;
-        unset($record['record_digest']);
-
-        return is_string($digest) && hash_equals($digest, hash('sha256', CanonicalJson::encode($record)));
+        return $this->validator->isIntact($record);
     }
 
     public function saveCommission(string $id, array $record): array

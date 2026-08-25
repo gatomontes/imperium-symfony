@@ -151,3 +151,7 @@ Steps 51–52 now share one bounded record-mechanics substrate for safe reads, c
 ## Hardening Step 24
 
 Steps 67–68 now share bounded result/return record mechanics: path-safe reads, canonical digest verification, exact source resolution, immutable persistence, and established conflict mapping. Result disposition still decides only `ACCEPTED`, `STOPPED`, or `FAILED`; return authorization separately proves the predeclared termination contract and opens only Garrison's terminal-transition authority. Replay now rejects changed disposition, rationale, actor, source digest, or authority instead of inheriting an earlier result.
+
+## Hardening Step 25
+
+A canonical `RecordReferenceValidator` now owns runtime path containment, record loading, digest integrity, caller-vocabulary tamper failure, and exact identity/digest reference resolution. The Steps 51–52 and Steps 67–68 shared substrates are its first adopters, removing their duplicate implementations while leaving their Office-specific schemas, chain rules, and error contracts above the persistence layer.
