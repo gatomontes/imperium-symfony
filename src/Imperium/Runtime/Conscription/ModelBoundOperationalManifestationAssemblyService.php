@@ -1,8 +1,172 @@
 <?php
-declare(strict_types=1);namespace App\Imperium\Runtime\Conscription;use App\Bootstrap\{BootstrapState,CanonicalJson,StateStore};use App\Imperium\Runtime\Identity\OfficerClass;use Symfony\Component\DependencyInjection\Attribute\Autowire;
+
+declare(strict_types=1);
+
+namespace App\Imperium\Runtime\Conscription;
+
+use App\Bootstrap\{BootstrapState,CanonicalJson,StateStore};
+
+use App\Imperium\Runtime\Identity\OfficerClass;
+
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+
 final readonly class ModelBoundOperationalManifestationAssemblyService
 {
- private string$q;private string$a;public function __construct(#[Autowire('%kernel.project_dir%')]string$root,private StateStore$b){$this->q=$root.'/var/imperium/offices/conscription/model-bound-operational-profile-qualifications';$this->a=$root.'/var/imperium/offices/conscription/model-bound-operational-manifestation-assemblies';}
- public function assemble(string$id):array{if(!preg_match('/^model-bound-operational-profile-qualification-[a-f0-9]{20}$/',$id))throw new \InvalidArgumentException('R210_MODEL_BOUND_QUALIFICATION_ID_INVALID');$q=$this->read($this->q.'/'.$id.'.json','R211_MODEL_BOUND_QUALIFICATION_ABSENT');foreach(glob($this->a.'/*.json')?:[]as$p){$x=$this->read($p,'R215_MODEL_BOUND_ASSEMBLY_CONFLICT');if(($x['source_qualification']['id']??null)===$id){if(($x['source_qualification']['digest']??null)!==($q['record_digest']??null))throw new \RuntimeException('R215_MODEL_BOUND_ASSEMBLY_CONFLICT');return$x;}}[$instance,$r]=$this->recruiter();$auth=$q['manifestation_assembly_authority']??[];if(!$this->ok($q)||'imperium.conscription-model-bound-operational-profile-qualification/v1'!==($q['schema']??null)||$instance!==($q['instance_id']??null)||'PROFILE_OPERATIONALLY_QUALIFIED_PENDING_MANIFESTATION_ASSEMBLY'!==($q['status']??null)||true!==($q['profile_installation_scope_consumed']??null)||true!==($q['profile_installed']??null)||true!==($q['profile_operationally_qualified']??null)||true!==($auth['authority_single_use']??null)||false!==($auth['consumed']??null)||true!==($q['manifestation_assembly_authority_exercisable']??null)||true===($q['seat_binding_authority']??null)||true===($q['deployment_authority']??null)||true===($q['execution_authority']??null)||true!==($q['sealed']??null)||'seat'!==($q['intended_seat']['kind']??null)||($q['operational_profile']['target']??null)!==$q['intended_seat']||($q['operational_profile']['source_persona']??null)!==$q['source_persona'])throw new \RuntimeException('R212_MODEL_BOUND_ASSEMBLY_CHAIN_INVALID');$actor=['seat'=>'conscription.recruiter','manifestation_id'=>$r['manifestation_id'],'occupancy_generation'=>$r['occupancy_generation']];$mid='model-bound-operational-manifestation-'.substr(hash('sha256',CanonicalJson::encode([$id,$q['record_digest'],$q['source_persona'],$q['operational_profile'],$q['substrate_contract']])),0,20);$m=['manifestation_id'=>$mid,'instance_id'=>$instance,'officer_class'=>OfficerClass::Legate->value,'persona'=>$q['source_persona'],'profile'=>$q['operational_profile'],'substrate'=>$q['substrate_contract'],'intended_seat'=>$q['intended_seat'],'status'=>'ASSEMBLED_UNBOUND','seat_bound'=>false,'operational_use_permitted'=>false,'tool_access_granted'=>false,'credentials_granted'=>false,'external_action_authority'=>false,'deployment_authority'=>false,'custody_transfer_authority'=>false,'execution_authority'=>false];$bind='model-bound-seat-binding-authority-'.substr(hash('sha256',CanonicalJson::encode([$mid,$q['record_digest']])),0,20);$aid='model-bound-operational-manifestation-assembly-'.substr(hash('sha256',CanonicalJson::encode([$id,$q['record_digest'],$actor,$m])),0,20);return$this->save($aid,['schema'=>'imperium.conscription-model-bound-operational-manifestation-assembly/v1','assembly_id'=>$aid,'instance_id'=>$instance,'case_id'=>$q['case_id'],'case_digest'=>$q['case_digest'],'assembler'=>$actor,'source_qualification'=>['id'=>$id,'digest'=>$q['record_digest']],'source_imperator_approval'=>$q['source_imperator_approval'],'source_senate_disposition'=>$q['source_senate_disposition'],'source_model_binding'=>$q['source_model_binding'],'source_access_attestation'=>$q['source_access_attestation'],'manifestation'=>$m,'manifestation_assembly_authority'=>['id'=>$auth['authority_id'],'consumed'=>true,'continuing_authority'=>false],'status'=>'OPERATIONAL_MANIFESTATION_ASSEMBLED_PENDING_SEAT_BINDING','operational_manifestation_assembled'=>true,'seat_binding_authority'=>['authority_id'=>$bind,'authority_single_use'=>true,'consumed'=>false],'seat_binding_authority_exercisable'=>true,'seat_bound'=>false,'deployment_authority'=>false,'custody_transfer_authority'=>false,'tool_use_authority'=>false,'credential_use_authority'=>false,'external_action_authority'=>false,'execution_authority'=>false,'sealed'=>true]);}
- private function recruiter():array{$s=$this->b->read();if(!is_array($s)||BootstrapState::CuriaReady->value!==($s['state']??null))throw new \RuntimeException('R213_MODEL_BOUND_RECRUITER_UNAVAILABLE');for($i=count($s['events']??[])-1;$i>=0;--$i){$r='T04'===($s['events'][$i]['transition']??null)&&'SUCCESS'===($s['events'][$i]['result']??null)?($s['events'][$i]['output']['successor']??null):null;if(is_array($r)&&'conscription.recruiter'===($r['seat']??null)&&'ordinary-recruiter'===($r['authority']??null))return[(string)$s['binding']['instance_id'],$r];}throw new \RuntimeException('R213_MODEL_BOUND_RECRUITER_UNAVAILABLE');}private function read($p,$e):array{if(!is_file($p))throw new \RuntimeException($e);return json_decode((string)file_get_contents($p),true,512,JSON_THROW_ON_ERROR);}private function ok(array$r):bool{$d=$r['record_digest']??null;unset($r['record_digest']);return is_string($d)&&hash_equals($d,hash('sha256',CanonicalJson::encode($r)));}private function save($id,array$r):array{if(!is_dir($this->a))mkdir($this->a,0770,true);$r['record_digest']=hash('sha256',CanonicalJson::encode($r));file_put_contents($this->a.'/'.$id.'.json',json_encode($r,JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_THROW_ON_ERROR)."\n",LOCK_EX);return$r;}
+    private string $q;
+    private string $a;
+    public function __construct(#[Autowire('%kernel.project_dir%')]string $root,
+    private StateStore $b) {
+        $this->q = $root.'/var/imperium/offices/conscription/model-bound-operational-profile-qualifications';
+        $this->a = $root.'/var/imperium/offices/conscription/model-bound-operational-manifestation-assemblies';
+    }
+    public function assemble(string $id): array
+    {
+        if (!preg_match('/^model-bound-operational-profile-qualification-[a-f0-9]{20}$/',
+        $id)) throw new \InvalidArgumentException('R210_MODEL_BOUND_QUALIFICATION_ID_INVALID');
+        $q = $this->read($this->q.'/'.$id.'.json',
+        'R211_MODEL_BOUND_QUALIFICATION_ABSENT');
+        foreach (glob($this->a.'/*.json') ? :[] as $p) {
+            $x = $this->read($p,
+            'R215_MODEL_BOUND_ASSEMBLY_CONFLICT');
+            if (($x['source_qualification']['id'] ?? null) === $id) {
+                if (($x['source_qualification']['digest'] ?? null) !== ($q['record_digest'] ?? null)) throw new \RuntimeException('R215_MODEL_BOUND_ASSEMBLY_CONFLICT');
+                return $x;
+            }
+        }
+        [$instance,
+        $r] = $this->recruiter();
+        $auth = $q['manifestation_assembly_authority'] ?? [];
+        if (!$this->ok($q) ||
+        'imperium.conscription-model-bound-operational-profile-qualification/v1' !== ($q['schema'] ?? null) ||
+        $instance !== ($q['instance_id'] ?? null) ||
+        'PROFILE_OPERATIONALLY_QUALIFIED_PENDING_MANIFESTATION_ASSEMBLY' !== ($q['status'] ?? null) ||
+        true !== ($q['profile_installation_scope_consumed'] ?? null) ||
+        true !== ($q['profile_installed'] ?? null) ||
+        true !== ($q['profile_operationally_qualified'] ?? null) ||
+        true !== ($auth['authority_single_use'] ?? null) ||
+        false !== ($auth['consumed'] ?? null) ||
+        true !== ($q['manifestation_assembly_authority_exercisable'] ?? null) ||
+        true === ($q['seat_binding_authority'] ?? null) ||
+        true === ($q['deployment_authority'] ?? null) ||
+        true === ($q['execution_authority'] ?? null) ||
+        true !== ($q['sealed'] ?? null) ||
+        'seat' !== ($q['intended_seat']['kind'] ?? null) ||
+        ($q['operational_profile']['target'] ?? null) !== $q['intended_seat'] ||
+        ($q['operational_profile']['source_persona'] ?? null) !== $q['source_persona']) throw new \RuntimeException('R212_MODEL_BOUND_ASSEMBLY_CHAIN_INVALID');
+        $actor = ['seat' => 'conscription.recruiter',
+        'manifestation_id' => $r['manifestation_id'],
+        'occupancy_generation' => $r['occupancy_generation']];
+        $mid = 'model-bound-operational-manifestation-'.substr(hash('sha256',
+        CanonicalJson::encode([$id,
+        $q['record_digest'],
+        $q['source_persona'],
+        $q['operational_profile'],
+        $q['substrate_contract']])),
+        0,
+        20);
+        $m = ['manifestation_id' => $mid,
+        'instance_id' => $instance,
+        'officer_class' => OfficerClass::Legate->value,
+        'persona' => $q['source_persona'],
+        'profile' => $q['operational_profile'],
+        'substrate' => $q['substrate_contract'],
+        'intended_seat' => $q['intended_seat'],
+        'status' => 'ASSEMBLED_UNBOUND',
+        'seat_bound' => false,
+        'operational_use_permitted' => false,
+        'tool_access_granted' => false,
+        'credentials_granted' => false,
+        'external_action_authority' => false,
+        'deployment_authority' => false,
+        'custody_transfer_authority' => false,
+        'execution_authority' => false];
+        $bind = 'model-bound-seat-binding-authority-'.substr(hash('sha256',
+        CanonicalJson::encode([$mid,
+        $q['record_digest']])),
+        0,
+        20);
+        $aid = 'model-bound-operational-manifestation-assembly-'.substr(hash('sha256',
+        CanonicalJson::encode([$id,
+        $q['record_digest'],
+        $actor,
+        $m])),
+        0,
+        20);
+        return $this->save($aid,
+        ['schema' => 'imperium.conscription-model-bound-operational-manifestation-assembly/v1',
+        'assembly_id' => $aid,
+        'instance_id' => $instance,
+        'case_id' => $q['case_id'],
+        'case_digest' => $q['case_digest'],
+        'assembler' => $actor,
+        'source_qualification' => ['id' => $id,
+        'digest' => $q['record_digest']],
+        'source_imperator_approval' => $q['source_imperator_approval'],
+        'source_senate_disposition' => $q['source_senate_disposition'],
+        'source_model_binding' => $q['source_model_binding'],
+        'source_access_attestation' => $q['source_access_attestation'],
+        'manifestation' => $m,
+        'manifestation_assembly_authority' => ['id' => $auth['authority_id'],
+        'consumed' => true,
+        'continuing_authority' => false],
+        'status' => 'OPERATIONAL_MANIFESTATION_ASSEMBLED_PENDING_SEAT_BINDING',
+        'operational_manifestation_assembled' => true,
+        'seat_binding_authority' => ['authority_id' => $bind,
+        'authority_single_use' => true,
+        'consumed' => false],
+        'seat_binding_authority_exercisable' => true,
+        'seat_bound' => false,
+        'deployment_authority' => false,
+        'custody_transfer_authority' => false,
+        'tool_use_authority' => false,
+        'credential_use_authority' => false,
+        'external_action_authority' => false,
+        'execution_authority' => false,
+        'sealed' => true]);
+    }
+    private function recruiter(): array
+    {
+        $s = $this->b->read();
+        if (!is_array($s) ||
+        BootstrapState::CuriaReady->value !== ($s['state'] ?? null)) throw new \RuntimeException('R213_MODEL_BOUND_RECRUITER_UNAVAILABLE');
+        for ($i = count($s['events'] ?? [])-1;$i >= 0;--$i) {
+            $r = 'T04' === ($s['events'][$i]['transition'] ?? null) &&
+            'SUCCESS' === ($s['events'][$i]['result'] ?? null) ? ($s['events'][$i]['output']['successor'] ?? null) : null;
+            if (is_array($r) &&
+            'conscription.recruiter' === ($r['seat'] ?? null) &&
+            'ordinary-recruiter' === ($r['authority'] ?? null)) return[(string)$s['binding']['instance_id'],
+            $r];
+        }
+        throw new \RuntimeException('R213_MODEL_BOUND_RECRUITER_UNAVAILABLE');
+    }
+    private function read($p,
+    $e): array {
+        if (!is_file($p)) throw new \RuntimeException($e);
+        return json_decode((string)file_get_contents($p),
+        true,
+        512,
+        JSON_THROW_ON_ERROR);
+    }
+    private function ok(array $r): bool
+    {
+        $d = $r['record_digest'] ?? null;
+        unset($r['record_digest']);
+        return is_string($d) &&
+        hash_equals($d,
+        hash('sha256',
+        CanonicalJson::encode($r)));
+    }
+    private function save($id,
+    array $r): array {
+        if (!is_dir($this->a))mkdir($this->a,
+        0770,
+        true);
+        $r['record_digest'] = hash('sha256',
+        CanonicalJson::encode($r));
+        file_put_contents($this->a.'/'.$id.'.json',
+        json_encode($r,
+        JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_THROW_ON_ERROR)."\n",
+        LOCK_EX);
+        return $r;
+    }
 }

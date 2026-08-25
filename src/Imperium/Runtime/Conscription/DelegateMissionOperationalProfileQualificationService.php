@@ -1,9 +1,192 @@
 <?php
-declare(strict_types=1);namespace App\Imperium\Runtime\Conscription;
-use App\Bootstrap\{BootstrapState,CanonicalJson,StateStore};use App\Imperium\Runtime\Identity\OfficerClass;use Symfony\Component\DependencyInjection\Attribute\Autowire;
+
+declare(strict_types=1);
+
+namespace App\Imperium\Runtime\Conscription;
+
+use App\Bootstrap\{BootstrapState,CanonicalJson,StateStore};
+
+use App\Imperium\Runtime\Identity\OfficerClass;
+
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+
 final readonly class DelegateMissionOperationalProfileQualificationService
 {
- private string$a;private string$p;private string$c;private string$q;private DelegateMissionOperationalTransitionCoordinator$t;public function __construct(#[Autowire('%kernel.project_dir%')]string$root,private StateStore$b,?DelegateMissionOperationalTransitionCoordinator$coordinator=null){$this->a=$root.'/var/imperium/imperator/delegate-mission-profile-approval-decisions';$this->p=$root.'/var/imperium/offices/laboratorium/delegate-mission-profile-candidates';$this->c=$root.'/var/imperium/offices/garrison/custody';$this->q=$root.'/var/imperium/offices/conscription/delegate-mission-operational-profile-qualifications';$this->t=$coordinator??new DelegateMissionOperationalTransitionCoordinator($root);}
- public function qualify(string$id,\DateTimeImmutable$at):array{if(!preg_match('/^delegate-mission-profile-approval-decision-[a-f0-9]{20}$/',$id))throw new\InvalidArgumentException('R240_DELEGATE_MISSION_PROFILE_APPROVAL_ID_INVALID');$a=$this->read($this->a.'/'.$id.'.json','R241_DELEGATE_MISSION_PROFILE_APPROVAL_ABSENT');foreach(glob($this->q.'/*.json')?:[]as$x){$v=$this->read($x,'R249_DELEGATE_MISSION_QUALIFICATION_CONFLICT');if(($v['source_imperator_approval']['id']??null)===$id){if(($v['source_imperator_approval']['digest']??null)!==($a['record_digest']??null))throw new\RuntimeException('R249_DELEGATE_MISSION_QUALIFICATION_CONFLICT');return$this->t->recordQualification($v);}}$pid=$a['source_profile_candidate']['id']??'';$p=$this->read($this->p.'/'.$pid.'.json','R242_DELEGATE_MISSION_PROFILE_CANDIDATE_ABSENT');$cid=$a['custody_lease']['custody_id']??'';$c=$this->read($this->c.'/'.$cid.'.json','R243_DELEGATE_MISSION_CUSTODY_ABSENT');[$instance,$r]=$this->recruiter();$auth=$a['operational_qualification_request']??[];if(!$this->ok($a)||!$this->ok($p)||!$this->ok($c)||'imperium.imperator-delegate-mission-profile-approval-decision/v1'!==($a['schema']??null)||$instance!==($a['instance_id']??null)||'APPROVED'!==($a['disposition']??null)||'DELEGATE_MISSION_PROFILE_APPROVED_PENDING_CONSCRIPTION_OPERATIONAL_QUALIFICATION'!==($a['status']??null)||true!==($a['profile_approved']??null)||true!==($a['operational_qualification_request_authority']??null)||true!==($auth['authority_single_use']??null)||true!==($auth['authority_exercisable']??null)||false!==($auth['consumed']??null)||'conscription.recruiter'!==($auth['destination']??null)||'REQUEST_ONE_EXACT_DELEGATE_OPERATIONAL_PROFILE_QUALIFICATION'!==($auth['purpose']??null)||($a['source_profile_candidate']['digest']??null)!==$p['record_digest']||'imperium.laboratorium-delegate-mission-profile-candidate/v1'!==($p['schema']??null)||OfficerClass::Delegate->value!==($p['officer_class']??null)||true!==($p['profile_derived']??null)||($a['custody_lease']??null)!==($p['custody_lease']??null)||($a['source_profile_candidate']['id']??null)!==($p['candidate_id']??null)||($a['custody_lease']['custody_digest']??null)!==$c['record_digest']||'ADMITTED_HELD'!==($c['custody_state']??null)||true!==($c['available']??null)||($p['instance_id']??null)!==$instance||true!==($a['sealed']??null))throw new\RuntimeException('R244_DELEGATE_MISSION_QUALIFICATION_CHAIN_INVALID');$scope=$p['profile_scope']??[];if(!is_string($scope['mission_seat']??null)||''===trim($scope['mission_seat'])||[]===($scope['stop_conditions']??[])||[]===($scope['return_conditions']??[])||[]===($scope['unbinding_conditions']??[])||[]===($scope['custody_restoration_conditions']??[])||[]===($scope['retirement_conditions']??[]))throw new\RuntimeException('R244_DELEGATE_MISSION_QUALIFICATION_CHAIN_INVALID');$actor=['seat'=>'conscription.recruiter','manifestation_id'=>$r['manifestation_id'],'occupancy_generation'=>$r['occupancy_generation']];$profile=['profile_id'=>$p['profile_id'],'profile_version'=>$p['profile_version'],'candidate_id'=>$p['candidate_id'],'candidate_digest'=>$p['record_digest'],'installation_class'=>'DELEGATE_OPERATIONAL_QUALIFIED','profile'=>$p['profile'],'profile_scope'=>$scope,'intended_seat'=>['seat'=>$scope['mission_seat'],'seat_class'=>'mission.delegate'],'substrate_contract'=>['kind'=>'generic-officer','version'=>0,'identity_contribution'=>false,'authority_contribution'=>false]];$assembly='delegate-mission-manifestation-assembly-authority-'.substr(hash('sha256',CanonicalJson::encode([$id,$a['record_digest'],$p['record_digest'],$profile])),0,20);$qid='delegate-mission-operational-profile-qualification-'.substr(hash('sha256',CanonicalJson::encode([$id,$a['record_digest'],$p['record_digest'],$c['record_digest'],$actor,$profile])),0,20);$record=$this->save($qid,['schema'=>'imperium.conscription-delegate-mission-operational-profile-qualification/v1','qualification_id'=>$qid,'instance_id'=>$instance,'officer_class'=>OfficerClass::Delegate->value,'qualifier'=>$actor,'source_imperator_approval'=>['id'=>$id,'digest'=>$a['record_digest']],'source_senate_disposition'=>$a['source_senate_disposition'],'source_profile_candidate'=>['id'=>$p['candidate_id'],'digest'=>$p['record_digest']],'persona'=>$p['persona'],'custody_lease'=>$p['custody_lease'],'operational_profile'=>$profile,'qualification_request_authority'=>['id'=>$auth['authority_id'],'consumed'=>true,'continuing_authority'=>false],'qualified_at'=>$at->format(DATE_ATOM),'status'=>'DELEGATE_MISSION_PROFILE_OPERATIONALLY_QUALIFIED_PENDING_MANIFESTATION_ASSEMBLY','profile_installed'=>true,'profile_operationally_qualified'=>true,'manifestation_assembly_authority'=>['authority_id'=>$assembly,'authority_single_use'=>true,'authority_exercisable'=>true,'consumed'=>false,'continuing_authority'=>false],'mission_seat_binding_authority'=>false,'deployment_authority'=>false,'custody_transfer_authority'=>false,'operational_use_authority'=>false,'tool_use_authority'=>false,'credential_use_authority'=>false,'perimeter_crossing_authority'=>false,'external_action_authority'=>false,'execution_authority'=>false,'sealed'=>true]);return$record;}
- private function recruiter():array{$s=$this->b->read();if(!is_array($s)||BootstrapState::CuriaReady->value!==($s['state']??null))throw new\RuntimeException('R245_DELEGATE_MISSION_RECRUITER_UNAVAILABLE');for($i=count($s['events']??[])-1;$i>=0;--$i){$r='T04'===($s['events'][$i]['transition']??null)&&'SUCCESS'===($s['events'][$i]['result']??null)?($s['events'][$i]['output']['successor']??null):null;if(is_array($r)&&'conscription.recruiter'===($r['seat']??null)&&'ordinary-recruiter'===($r['authority']??null))return[(string)$s['binding']['instance_id'],$r];}throw new\RuntimeException('R245_DELEGATE_MISSION_RECRUITER_UNAVAILABLE');}private function read($p,$e):array{if(!is_file($p))throw new\RuntimeException($e);return json_decode((string)file_get_contents($p),true,512,JSON_THROW_ON_ERROR);}private function ok(array$r):bool{$d=$r['record_digest']??null;unset($r['record_digest']);return is_string($d)&&hash_equals($d,hash('sha256',CanonicalJson::encode($r)));}private function save($id,array$r):array{return$this->t->commitQualification($id,$r);}
+    private string $a;
+    private string $p;
+    private string $c;
+    private string $q;
+    private DelegateMissionOperationalTransitionCoordinator $t;
+    public function __construct(#[Autowire('%kernel.project_dir%')]string $root,
+    private StateStore $b,
+    ?DelegateMissionOperationalTransitionCoordinator $coordinator = null) {
+        $this->a = $root.'/var/imperium/imperator/delegate-mission-profile-approval-decisions';
+        $this->p = $root.'/var/imperium/offices/laboratorium/delegate-mission-profile-candidates';
+        $this->c = $root.'/var/imperium/offices/garrison/custody';
+        $this->q = $root.'/var/imperium/offices/conscription/delegate-mission-operational-profile-qualifications';
+        $this->t = $coordinator ?? new DelegateMissionOperationalTransitionCoordinator($root);
+    }
+    public function qualify(string $id,
+    \DateTimeImmutable $at): array {
+        if (!preg_match('/^delegate-mission-profile-approval-decision-[a-f0-9]{20}$/',
+        $id)) throw new \InvalidArgumentException('R240_DELEGATE_MISSION_PROFILE_APPROVAL_ID_INVALID');
+        $a = $this->read($this->a.'/'.$id.'.json',
+        'R241_DELEGATE_MISSION_PROFILE_APPROVAL_ABSENT');
+        foreach (glob($this->q.'/*.json') ? :[] as $x) {
+            $v = $this->read($x,
+            'R249_DELEGATE_MISSION_QUALIFICATION_CONFLICT');
+            if (($v['source_imperator_approval']['id'] ?? null) === $id) {
+                if (($v['source_imperator_approval']['digest'] ?? null) !== ($a['record_digest'] ?? null)) throw new \RuntimeException('R249_DELEGATE_MISSION_QUALIFICATION_CONFLICT');
+                return $this->t->recordQualification($v);
+            }
+        }
+        $pid = $a['source_profile_candidate']['id'] ?? '';
+        $p = $this->read($this->p.'/'.$pid.'.json',
+        'R242_DELEGATE_MISSION_PROFILE_CANDIDATE_ABSENT');
+        $cid = $a['custody_lease']['custody_id'] ?? '';
+        $c = $this->read($this->c.'/'.$cid.'.json',
+        'R243_DELEGATE_MISSION_CUSTODY_ABSENT');
+        [$instance,
+        $r] = $this->recruiter();
+        $auth = $a['operational_qualification_request'] ?? [];
+        if (!$this->ok($a) ||
+        !$this->ok($p) ||
+        !$this->ok($c) ||
+        'imperium.imperator-delegate-mission-profile-approval-decision/v1' !== ($a['schema'] ?? null) ||
+        $instance !== ($a['instance_id'] ?? null) ||
+        'APPROVED' !== ($a['disposition'] ?? null) ||
+        'DELEGATE_MISSION_PROFILE_APPROVED_PENDING_CONSCRIPTION_OPERATIONAL_QUALIFICATION' !== ($a['status'] ?? null) ||
+        true !== ($a['profile_approved'] ?? null) ||
+        true !== ($a['operational_qualification_request_authority'] ?? null) ||
+        true !== ($auth['authority_single_use'] ?? null) ||
+        true !== ($auth['authority_exercisable'] ?? null) ||
+        false !== ($auth['consumed'] ?? null) ||
+        'conscription.recruiter' !== ($auth['destination'] ?? null) ||
+        'REQUEST_ONE_EXACT_DELEGATE_OPERATIONAL_PROFILE_QUALIFICATION' !== ($auth['purpose'] ?? null) ||
+        ($a['source_profile_candidate']['digest'] ?? null) !== $p['record_digest'] ||
+        'imperium.laboratorium-delegate-mission-profile-candidate/v1' !== ($p['schema'] ?? null) ||
+        OfficerClass::Delegate->value !== ($p['officer_class'] ?? null) ||
+        true !== ($p['profile_derived'] ?? null) ||
+        ($a['custody_lease'] ?? null) !== ($p['custody_lease'] ?? null) ||
+        ($a['source_profile_candidate']['id'] ?? null) !== ($p['candidate_id'] ?? null) ||
+        ($a['custody_lease']['custody_digest'] ?? null) !== $c['record_digest'] ||
+        'ADMITTED_HELD' !== ($c['custody_state'] ?? null) ||
+        true !== ($c['available'] ?? null) ||
+        ($p['instance_id'] ?? null) !== $instance ||
+        true !== ($a['sealed'] ?? null)) throw new \RuntimeException('R244_DELEGATE_MISSION_QUALIFICATION_CHAIN_INVALID');
+        $scope = $p['profile_scope'] ?? [];
+        if (!is_string($scope['mission_seat'] ?? null) ||
+        '' === trim($scope['mission_seat']) ||
+        [] === ($scope['stop_conditions'] ?? []) ||
+        [] === ($scope['return_conditions'] ?? []) ||
+        [] === ($scope['unbinding_conditions'] ?? []) ||
+        [] === ($scope['custody_restoration_conditions'] ?? []) ||
+        [] === ($scope['retirement_conditions'] ?? [])) throw new \RuntimeException('R244_DELEGATE_MISSION_QUALIFICATION_CHAIN_INVALID');
+        $actor = ['seat' => 'conscription.recruiter',
+        'manifestation_id' => $r['manifestation_id'],
+        'occupancy_generation' => $r['occupancy_generation']];
+        $profile = ['profile_id' => $p['profile_id'],
+        'profile_version' => $p['profile_version'],
+        'candidate_id' => $p['candidate_id'],
+        'candidate_digest' => $p['record_digest'],
+        'installation_class' => 'DELEGATE_OPERATIONAL_QUALIFIED',
+        'profile' => $p['profile'],
+        'profile_scope' => $scope,
+        'intended_seat' => ['seat' => $scope['mission_seat'],
+        'seat_class' => 'mission.delegate'],
+        'substrate_contract' => ['kind' => 'generic-officer',
+        'version' => 0,
+        'identity_contribution' => false,
+        'authority_contribution' => false]];
+        $assembly = 'delegate-mission-manifestation-assembly-authority-'.substr(hash('sha256',
+        CanonicalJson::encode([$id,
+        $a['record_digest'],
+        $p['record_digest'],
+        $profile])),
+        0,
+        20);
+        $qid = 'delegate-mission-operational-profile-qualification-'.substr(hash('sha256',
+        CanonicalJson::encode([$id,
+        $a['record_digest'],
+        $p['record_digest'],
+        $c['record_digest'],
+        $actor,
+        $profile])),
+        0,
+        20);
+        $record = $this->save($qid,
+        ['schema' => 'imperium.conscription-delegate-mission-operational-profile-qualification/v1',
+        'qualification_id' => $qid,
+        'instance_id' => $instance,
+        'officer_class' => OfficerClass::Delegate->value,
+        'qualifier' => $actor,
+        'source_imperator_approval' => ['id' => $id,
+        'digest' => $a['record_digest']],
+        'source_senate_disposition' => $a['source_senate_disposition'],
+        'source_profile_candidate' => ['id' => $p['candidate_id'],
+        'digest' => $p['record_digest']],
+        'persona' => $p['persona'],
+        'custody_lease' => $p['custody_lease'],
+        'operational_profile' => $profile,
+        'qualification_request_authority' => ['id' => $auth['authority_id'],
+        'consumed' => true,
+        'continuing_authority' => false],
+        'qualified_at' => $at->format(DATE_ATOM),
+        'status' => 'DELEGATE_MISSION_PROFILE_OPERATIONALLY_QUALIFIED_PENDING_MANIFESTATION_ASSEMBLY',
+        'profile_installed' => true,
+        'profile_operationally_qualified' => true,
+        'manifestation_assembly_authority' => ['authority_id' => $assembly,
+        'authority_single_use' => true,
+        'authority_exercisable' => true,
+        'consumed' => false,
+        'continuing_authority' => false],
+        'mission_seat_binding_authority' => false,
+        'deployment_authority' => false,
+        'custody_transfer_authority' => false,
+        'operational_use_authority' => false,
+        'tool_use_authority' => false,
+        'credential_use_authority' => false,
+        'perimeter_crossing_authority' => false,
+        'external_action_authority' => false,
+        'execution_authority' => false,
+        'sealed' => true]);
+        return $record;
+    }
+    private function recruiter(): array
+    {
+        $s = $this->b->read();
+        if (!is_array($s) ||
+        BootstrapState::CuriaReady->value !== ($s['state'] ?? null)) throw new \RuntimeException('R245_DELEGATE_MISSION_RECRUITER_UNAVAILABLE');
+        for ($i = count($s['events'] ?? [])-1;$i >= 0;--$i) {
+            $r = 'T04' === ($s['events'][$i]['transition'] ?? null) &&
+            'SUCCESS' === ($s['events'][$i]['result'] ?? null) ? ($s['events'][$i]['output']['successor'] ?? null) : null;
+            if (is_array($r) &&
+            'conscription.recruiter' === ($r['seat'] ?? null) &&
+            'ordinary-recruiter' === ($r['authority'] ?? null)) return[(string)$s['binding']['instance_id'],
+            $r];
+        }
+        throw new \RuntimeException('R245_DELEGATE_MISSION_RECRUITER_UNAVAILABLE');
+    }
+    private function read($p,
+    $e): array {
+        if (!is_file($p)) throw new \RuntimeException($e);
+        return json_decode((string)file_get_contents($p),
+        true,
+        512,
+        JSON_THROW_ON_ERROR);
+    }
+    private function ok(array $r): bool
+    {
+        $d = $r['record_digest'] ?? null;
+        unset($r['record_digest']);
+        return is_string($d) &&
+        hash_equals($d,
+        hash('sha256',
+        CanonicalJson::encode($r)));
+    }
+    private function save($id,
+    array $r): array {
+        return $this->t->commitQualification($id,
+        $r);
+    }
 }
