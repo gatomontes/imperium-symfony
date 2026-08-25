@@ -309,3 +309,9 @@ services:
 
     App\Imperium\Runtime\Citadel\DelegateProviderInvoker:
         alias: App\Imperium\Runtime\Citadel\SymfonyAiBrokeredDelegateProviderInvoker
+
+    App\Imperium\Runtime\Citadel\DelegateSymfonyPlatformAdapter:
+        alias: App\Imperium\Runtime\Citadel\DeepSeekSymfonyPlatformAdapter
+
+    App\Imperium\Runtime\Clock:
+        alias: App\Imperium\Runtime\SystemClock

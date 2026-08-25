@@ -30,6 +30,8 @@ Hardening Step 1, the durable invocation-claim foundation, is implemented. It in
 
 Hardening Step 2 is implemented. The Delegate bounded-turn service now creates the durable claim before entering the cognition gateway, and the gateway depends on a claim-aware brokered provider invoker instead of a credential-bearing `PlatformInterface`. External-I/O start, response identity, and unknown outcome are durably journaled with automatic replay prohibited. Other resident and Legate gateways remain to be migrated before credential custody is system-wide.
 
+Hardening Step 3 is implemented. The Symfony platform adapter is independently testable, invocation timestamps use an injected clock, credential-resolution failure produces explicit pre-I/O evidence, and provider diagnostics are suppressed after both pre-I/O and unknown-outcome failures. Step 4 begins the shared transactional persistence primitives needed to replace local filesystem transition mechanics.
+
 ### Problem
 
 The current Clavium lease records permission but does not technically control the only route to provider credentials. The provider call can also complete before the result/turn is durably recorded. A process death in that interval creates an unknown outcome and may cause a repeated external call.

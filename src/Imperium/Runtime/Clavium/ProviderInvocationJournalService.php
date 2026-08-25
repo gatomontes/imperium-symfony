@@ -44,6 +44,31 @@ final readonly class ProviderInvocationJournalService
         });
     }
 
+    public function markPreIoFailure(array $claim, string $failureCode, \DateTimeImmutable $at): array
+    {
+        return $this->locked(function () use ($claim, $failureCode, $at): array {
+            $authoritative = $this->authoritativeClaim($claim);
+            $path = $this->path($authoritative['claim_id']);
+            if (is_file($path) || !preg_match('/^[A-Z][A-Z0-9_]{2,80}$/', $failureCode)) {
+                throw new \RuntimeException('CLV414_PROVIDER_INVOCATION_JOURNAL_TRANSITION_INVALID');
+            }
+
+            return $this->write($path, [
+                'schema' => 'imperium.clavium-provider-invocation-journal/v1',
+                'claim' => ['id' => $authoritative['claim_id'], 'digest' => $authoritative['record_digest']],
+                'idempotency_key' => $authoritative['provider_request']['idempotency_key'],
+                'external_io_started' => false,
+                'provider_response_identity' => null,
+                'failure_code' => $failureCode,
+                'started_at' => null,
+                'resolved_at' => $at->format(DATE_ATOM),
+                'status' => 'INVOCATION_FAILED_PRE_IO_REPLAY_PROHIBITED',
+                'automatic_replay_permitted' => false,
+                'sealed' => true,
+            ]);
+        });
+    }
+
     public function sealResponse(array $claim, string $response, \DateTimeImmutable $at): array
     {
         return $this->transition($claim, 'INVOCATION_IN_FLIGHT', function (array $record) use ($response, $at): array {

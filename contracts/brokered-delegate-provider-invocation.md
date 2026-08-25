@@ -23,7 +23,8 @@ The production invoker creates an ephemeral Symfony Generic platform inside `Cre
 
 ## Recovery semantics
 
-- absence of an invocation journal means external I/O did not begin through this adapter;
+- `INVOCATION_FAILED_PRE_IO_REPLAY_PROHIBITED` records credential issuance or resolution failure before the provider callback starts;
+- absence of an invocation journal means the brokered adapter did not reach either a classified pre-I/O failure or external-I/O start;
 - `INVOCATION_IN_FLIGHT` after process death is an unknown outcome;
 - `PROVIDER_OUTCOME_UNKNOWN_REPLAY_PROHIBITED` cannot be automatically replayed;
 - `PROVIDER_RESPONSE_IDENTITY_SEALED_PENDING_RESULT_PROCESSING` proves response receipt without persisting response content in the journal; and
