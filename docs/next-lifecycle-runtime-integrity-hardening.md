@@ -175,3 +175,7 @@ The credential-adjacent Delegate Clavium services now use canonical record loadi
 ## Hardening Step 30
 
 The at-most-once provider claim now uses canonical record loading and rejects a tampered stored claim before replay-fingerprint evaluation. The paired turn-recovery tests prove that tampered recovery authorization fails before transition, sealed provider responses are processed without reinvocation, and a different authorization cannot inherit an existing recovered turn. Atomic single-winner claiming, immutable persistence, `CLV402`–`CLV404`, and `CT330`–`CT333` contracts remain unchanged.
+
+## Hardening Step 31
+
+The Garrison deployment custody mutation and its operational-transition Folium now form one recoverable, forward-only transaction. Compare-and-swap protects the exact prior custody digest, immutable persistence protects the transition, replay fingerprints reject changed authoritative input, and every interruption checkpoint resumes to one completed deployed state. The public transition service uses canonical validation and retains `GA240`–`GA249` plus the rule that deployment grants no cognition, provider, tool, credential, external-action, execution, return, or unbinding authority.
