@@ -133,6 +133,24 @@ final class SymfonyAiBrokeredDelegateProviderInvokerTest extends TestCase
         self::assertStringNotContainsString('test-secret-never-persisted', CanonicalJson::encode($journal));
     }
 
+    public function testDirectInvokerRejectsUnknownConfigurationBeforeCredentialResolution(): void
+    {
+        $broker = new class implements CredentialBroker {
+            public function issue(string $credentialRef, string $commissionId, string $operation, \DateTimeImmutable $expiresAt, int $maxUses = 1): CredentialCapability
+            {
+                throw new \LogicException('Credential resolution must not be reached.');
+            }
+            public function consume(CredentialCapability $capability, callable $providerOperation): mixed
+            {
+                throw new \LogicException('Credential consumption must not be reached.');
+            }
+        };
+        $invoker = new SymfonyAiBrokeredDelegateProviderInvoker($broker, new ProviderInvocationJournalService($this->root), new ProviderResponseEnvelopeService($this->root), $this->unreachableAdapter(), $this->clock());
+
+        $this->expectExceptionMessage('CT312_DELEGATE_MODEL_CONFIGURATION_INVALID');
+        $invoker->invoke($this->claim(), 'deepseek-v4-flash', new MessageBag(Message::ofUser('bounded')), ['tools' => true]);
+    }
+
     private function successfulBroker(): CredentialBroker
     {
         return new class implements CredentialBroker {

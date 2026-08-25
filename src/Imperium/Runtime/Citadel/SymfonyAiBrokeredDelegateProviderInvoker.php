@@ -18,6 +18,7 @@ final readonly class SymfonyAiBrokeredDelegateProviderInvoker implements Delegat
         private ProviderResponseEnvelopeService $responses,
         private DelegateSymfonyPlatformAdapter $platform,
         private Clock $clock,
+        private ?DeepSeekDelegateModelConfiguration $configuration = null,
     ) {
     }
 
@@ -28,6 +29,7 @@ final readonly class SymfonyAiBrokeredDelegateProviderInvoker implements Delegat
         array $configuration,
     ): string {
         $this->assertClaimScope($claim, $runtimeModel);
+        $configuration = ($this->configuration ?? new DeepSeekDelegateModelConfiguration())->normalize($runtimeModel, $configuration);
         $expiresAt = new \DateTimeImmutable($claim['lease_consumption']['expires_at']);
         $providerOperationStarted = false;
         try {

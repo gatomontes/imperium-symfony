@@ -88,9 +88,9 @@ Preserve independent authorities, emitted records, and cross-office handoffs. Co
 
 ## Provider boundary
 
-- [ ] Replace the arbitrary model-configuration array with provider- and model-specific validated configuration.
-- [ ] Allowlist supported configuration keys and value ranges.
-- [ ] Reject unknown or unsupported options before invocation.
+- [x] Replace the arbitrary model-configuration array with provider- and model-specific validated configuration. *(Step 33 establishes the exact Delegate DeepSeek contract.)*
+- [x] Allowlist supported configuration keys and value ranges. *(Only numeric `temperature` from `0.0` through `2.0` is supported for `deepseek-v4-flash`.)*
+- [x] Reject unknown or unsupported options before invocation. *(Both the gateway and brokered invoker fail with `CT312` before credential resolution or provider I/O.)*
 - [ ] Keep the current registry honest as a strict DeepSeek adapter until a second provider proves the abstraction.
 - [ ] Add adapter contract tests before claiming provider neutrality.
 

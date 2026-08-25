@@ -11,6 +11,7 @@ final readonly class SymfonyAiDelegateMissionCognitionGateway implements Delegat
 {
     public function __construct(
         private DelegateProviderInvoker $provider,
+        private ?DeepSeekDelegateModelConfiguration $configuration = null,
     ) {
     }
 
@@ -23,11 +24,15 @@ final readonly class SymfonyAiDelegateMissionCognitionGateway implements Delegat
             || !is_string($runtime['runtime_model']) || '' === trim($runtime['runtime_model'])) {
             throw new \RuntimeException('CT310_DELEGATE_RUNTIME_PLATFORM_UNSUPPORTED');
         }
+        $configuration = ($this->configuration ?? new DeepSeekDelegateModelConfiguration())->normalize(
+            $runtime['runtime_model'],
+            $activation['model']['configuration'] ?? [],
+        );
         $text = trim($this->provider->invoke(
             $claim,
             $runtime['runtime_model'],
             new MessageBag(Message::ofUser($this->prompt($commission))),
-            $activation['model']['configuration'] ?? [],
+            $configuration,
         ));
         if (str_starts_with($text, '```')) {
             $text = preg_replace('/^```(?:json)?\s*|\s*```$/i', '', $text) ?? $text;
