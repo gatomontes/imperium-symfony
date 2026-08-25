@@ -106,7 +106,7 @@ Preserve independent authorities, emitted records, and cross-office handoffs. Co
 
 - [ ] Add concurrency tests for duplicate submissions and authority consumption. *(Provider journal start and the Steps 44–46 operational Folium boundary now have multi-process single-winner proofs; remaining consumable authorities still require coverage.)*
 - [ ] Add crash/fault-injection tests for every multi-write transition.
-- [ ] Add tamper tests for records, references, hashes, identities, and timestamps.
+- [ ] Add tamper tests for records, references, hashes, identities, and timestamps. *(Canonical validation now protects the Steps 51–52, Steps 67–68, bounded-turn, and terminal-return reference boundaries; remaining runtime services still require migration and direct tamper coverage.)*
 - [ ] Add expiry-boundary tests using an injected clock.
 - [ ] Add fail-stopped tests for missing, stale, superseded, malformed, and mismatched evidence.
 - [ ] Cover the many exception paths directly; the suite currently exercises only a small fraction explicitly.

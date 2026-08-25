@@ -155,3 +155,7 @@ Steps 67–68 now share bounded result/return record mechanics: path-safe reads,
 ## Hardening Step 25
 
 A canonical `RecordReferenceValidator` now owns runtime path containment, record loading, digest integrity, caller-vocabulary tamper failure, and exact identity/digest reference resolution. The Steps 51–52 and Steps 67–68 shared substrates are its first adopters, removing their duplicate implementations while leaving their Office-specific schemas, chain rules, and error contracts above the persistence layer.
+
+## Hardening Step 26
+
+The critical Citadel bounded-cognition turn and Garrison terminal-return boundaries now use the canonical record-reference validator. Replay is no longer accepted on identity alone: the turn requires the exact activation digest and turn authority, while terminal return and recovery require the exact authorization digest, terminal authority, and Constable binding. Mismatches retain the established `CT309` and `GA309` fail-stopped conflicts, and Garrison's obsolete direct file-replacement path has been removed in favor of its recoverable transition coordinator.
