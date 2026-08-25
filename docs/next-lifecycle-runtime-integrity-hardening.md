@@ -183,3 +183,7 @@ The Garrison deployment custody mutation and its operational-transition Folium n
 ## Hardening Step 32
 
 The deployment corridor persistence migration is closed. Curia deployment authorization and Conscription runtime activation now use canonical validation and immutable record commits around Garrison's recoverable custody transaction. Same-identity conflicts retain `C249` and `R279`, activation commit failure retains `R278`, and no corridor checkpoint grants operational cognition, provider invocation, tools, credentials, perimeter crossing, external action, execution, return, or unbinding authority.
+
+## Hardening Step 33
+
+Delegate provider configuration is now governed by an explicit DeepSeek adapter contract instead of an arbitrary array. Only `deepseek-v4-flash` with numeric `temperature` in `0.0`–`2.0` is accepted; omission normalizes to `0.2`, and every unknown key, wrong type, unsupported model, or out-of-range value fails as `CT312` before credential resolution or provider I/O. Gateway and brokered-invoker enforcement provide defense in depth without pretending provider neutrality.

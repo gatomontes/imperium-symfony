@@ -76,4 +76,24 @@ final class SymfonyAiDelegateMissionCognitionGatewayTest extends TestCase
             [],
         );
     }
+
+    public function testUnknownConfigurationFailsBeforeProviderInvoker(): void
+    {
+        $provider = new class implements DelegateProviderInvoker {
+            public function invoke(array $claim, string $runtimeModel, MessageBag $messages, array $configuration): string
+            {
+                throw new \LogicException('Provider invoker must not be reached.');
+            }
+        };
+
+        $this->expectExceptionMessage('CT312_DELEGATE_MODEL_CONFIGURATION_INVALID');
+        (new SymfonyAiDelegateMissionCognitionGateway($provider))->invoke(
+            [],
+            ['model' => [
+                'runtime_binding' => ['provider' => 'deepseek', 'platform_service' => 'ai.platform.generic.deepseek', 'runtime_model' => 'deepseek-v4-flash'],
+                'configuration' => ['temperature' => 0.2, 'tools' => true],
+            ]],
+            [],
+        );
+    }
 }
