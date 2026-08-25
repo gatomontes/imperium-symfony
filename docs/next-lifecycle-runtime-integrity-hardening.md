@@ -171,3 +171,7 @@ Exact reference resolution now verifies the referenced record's own canonical di
 ## Hardening Step 29
 
 The credential-adjacent Delegate Clavium services now use canonical record loading and digest integrity for model-access attestation and provider-invocation activation. The validator supports Clavium's explicit `sha256:` provider-assertion digest prefix without weakening the unprefixed runtime-record default. Credential references remain undisclosed and untransferred, invocation remains single-turn and unperformed at activation, and all established `CLV320`–`CLV339` contracts remain intact.
+
+## Hardening Step 30
+
+The at-most-once provider claim now uses canonical record loading and rejects a tampered stored claim before replay-fingerprint evaluation. The paired turn-recovery tests prove that tampered recovery authorization fails before transition, sealed provider responses are processed without reinvocation, and a different authorization cannot inherit an existing recovered turn. Atomic single-winner claiming, immutable persistence, `CLV402`–`CLV404`, and `CT330`–`CT333` contracts remain unchanged.

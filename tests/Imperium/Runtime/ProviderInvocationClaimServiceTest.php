@@ -100,6 +100,19 @@ final class ProviderInvocationClaimServiceTest extends TestCase
         $service->claim($activationId, $authorityId, new \DateTimeImmutable('2026-08-25T12:01:00+00:00'));
     }
 
+    public function testTamperedStoredClaimFailsStoppedInsteadOfReplaying(): void
+    {
+        [$activationId, $authorityId] = $this->seedActivation();
+        $service = new ProviderInvocationClaimService($this->root);
+        $claim = $service->claim($activationId, $authorityId, new \DateTimeImmutable('2026-08-25T12:00:00+00:00'));
+        $path = $this->root.'/var/imperium/runtime/provider-invocations/'.$claim['claim_id'].'.json';
+        $claim['status'] = 'TAMPERED';
+        file_put_contents($path, json_encode($claim, JSON_THROW_ON_ERROR));
+
+        $this->expectExceptionMessage('CLV403_PROVIDER_INVOCATION_CLAIM_CONFLICT');
+        $service->claim($activationId, $authorityId, new \DateTimeImmutable('2026-08-25T12:01:00+00:00'));
+    }
+
     private function seedActivation(string $expiresAt = '2026-08-25T13:00:00+00:00'): array
     {
         $activationId = 'delegate-mission-provider-invocation-activation-'.str_repeat('a', 20);
