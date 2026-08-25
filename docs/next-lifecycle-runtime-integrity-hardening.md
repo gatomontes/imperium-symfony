@@ -50,6 +50,8 @@ Hardening Step 11 is implemented. The former terminal audit is now explicitly th
 
 Hardening Step 12 is implemented. A canonical replay-fingerprint primitive and contract now govern the critical hardened boundaries. Provider claims and terminal retirement require the complete authoritative-input fingerprint for replay, while recovered turns additionally bind exact replay to the recovery authorization that produced them. Changed inputs or a different recovery authority fail stopped instead of inheriting an existing result.
 
+Hardening Step 13 is implemented. Trust, Security, and Usability question authorship now use one jurisdiction-parameterized engine behind their existing public services. The engine preserves each jurisdiction's exact Senator seat, accepted checkpoint, question sequence, prior-testimony lineage, authority purpose, output schema, status, and error vocabulary; an unsupported jurisdiction fails before evidence access or cognition.
+
 ### Problem
 
 The current Clavium lease records permission but does not technically control the only route to provider credentials. The provider call can also complete before the result/turn is durably recorded. A process death in that interval creates an unknown outcome and may cause a repeated external call.

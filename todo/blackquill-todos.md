@@ -68,7 +68,7 @@ The current terminal sequence can tear, leaving records, custody, and bindings i
 
 Preserve independent authorities, emitted records, and cross-office handoffs. Consolidate implementation mechanics, not governance boundaries.
 
-- [ ] Replace the trust, security, and usability question implementations with a jurisdiction-parameterized question engine.
+- [ ] Replace the trust, security, and usability question implementations with jurisdiction-parameterized engines. *(Authorship mechanics completed in Hardening Step 13; commission, dispatch, and testimony mechanics remain separate pending migration.)*
 - [ ] Consolidate operational qualification, assembly, and binding mechanics (Steps 44-46) into a transactional workflow with explicit checkpoints.
 - [ ] Consolidate commission construction and readiness mechanics (Steps 51-52).
 - [ ] Consolidate result disposition and return-authorization mechanics (Steps 67-68).
