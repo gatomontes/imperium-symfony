@@ -135,3 +135,7 @@ The Senate question-engine consolidation sub-leg is closed. Unsupported-jurisdic
 ## Hardening Step 20
 
 The Steps 44–46 transactional sub-leg now has its persistence foundation. `CodexImperiiStore` owns one digest-bound Codex per Imperium instance, appends ordered Folia through compare-and-swap checkpoint advances, increments a monotonic generation, returns exact replays, and fails stopped on omission, substitution, reordering, duplicate identity, stale checkpoint, or conflicting replay. The three operational services remain unmigrated until their complete transition coordinator is introduced.
+
+## Hardening Step 21
+
+Delegate Mission operational qualification, manifestation assembly, and mission-seat binding now route both first execution and replay through one recoverable transition coordinator. The coordinator validates each sealed Folium, requires exact predecessor identity and digest, advances the Codex through the three established runtime checkpoints, and resumes safely when interrupted immediately before or after any index transition. No checkpoint grants deployment or operational-use authority.
