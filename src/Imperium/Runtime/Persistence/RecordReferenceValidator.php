@@ -50,13 +50,16 @@ final readonly class RecordReferenceValidator
         array $reference,
         string $absentError,
         string $mismatchError,
+        ?string $identityField = null,
     ): array {
         $id = $reference['id'] ?? null;
         if (!is_string($id) || !preg_match('/^[a-zA-Z0-9][a-zA-Z0-9._-]{2,220}$/', $id)) {
             throw new \RuntimeException($mismatchError);
         }
         $record = $this->read($absoluteDirectory.'/'.$id.'.json', $absentError);
-        if (($reference['digest'] ?? null) !== ($record['record_digest'] ?? null)) {
+        if (!$this->isIntact($record)
+            || ($reference['digest'] ?? null) !== ($record['record_digest'] ?? null)
+            || (null !== $identityField && $id !== ($record[$identityField] ?? null))) {
             throw new \RuntimeException($mismatchError);
         }
 
