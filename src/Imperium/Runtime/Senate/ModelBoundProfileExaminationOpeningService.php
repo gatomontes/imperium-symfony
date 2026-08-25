@@ -191,7 +191,7 @@ final readonly class ModelBoundProfileExaminationOpeningService
                 $order = array_flip($case['panel']);
                 usort($c,
                 static fn(array $a,
-                array $b): int => ($order[$a['recipient']['seat']] ?? PHP_INT_MAX) <= >($order[$b['recipient']['seat']] ?? PHP_INT_MAX));
+                array $b): int => ($order[$a['recipient']['seat']] ?? PHP_INT_MAX) <=> ($order[$b['recipient']['seat']] ?? PHP_INT_MAX));
                 return['case' => $case,
                 'commissions' => $c];
             }
