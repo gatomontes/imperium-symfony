@@ -187,3 +187,8 @@ The deployment corridor persistence migration is closed. Curia deployment author
 ## Hardening Step 33
 
 Delegate provider configuration is now governed by an explicit DeepSeek adapter contract instead of an arbitrary array. Only `deepseek-v4-flash` with numeric `temperature` in `0.0`–`2.0` is accepted; omission normalizes to `0.2`, and every unknown key, wrong type, unsupported model, or out-of-range value fails as `CT312` before credential resolution or provider I/O. Gateway and brokered-invoker enforcement provide defense in depth without pretending provider neutrality.
+
+
+## Hardening Step 34
+
+The provider-boundary honesty sub-leg is closed. The misleading provider-neutral Symfony platform interface is removed; dependency injection and the brokered invoker now require an explicit DeepSeek Delegate adapter contract whose provider, platform service, runtime model, credential reference, and operation are canonical constants. The concrete adapter revalidates configuration immediately before Symfony AI platform creation, and contract tests prove the registry identity without claiming neutrality. A second provider must introduce and prove its own adapter contract before any shared abstraction is justified.

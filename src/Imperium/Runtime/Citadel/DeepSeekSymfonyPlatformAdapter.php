@@ -10,12 +10,13 @@ use Symfony\AI\Platform\Message\MessageBag;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-final readonly class DeepSeekSymfonyPlatformAdapter implements DelegateSymfonyPlatformAdapter
+final readonly class DeepSeekSymfonyPlatformAdapter implements DeepSeekDelegatePlatformAdapter
 {
     public function __construct(
         private ModelCatalog $modelCatalog,
         #[Autowire(service: 'ai.deepseek.client')]
         private HttpClientInterface $httpClient,
+        private ?DeepSeekDelegateModelConfiguration $configuration = null,
     ) {
     }
 
@@ -26,6 +27,10 @@ final readonly class DeepSeekSymfonyPlatformAdapter implements DelegateSymfonyPl
         array $configuration,
         string $idempotencyKey,
     ): string {
+        $configuration = ($this->configuration ?? new DeepSeekDelegateModelConfiguration())->normalize(
+            $runtimeModel,
+            $configuration,
+        );
         $client = $this->httpClient->withOptions([
             'headers' => ['Idempotency-Key' => $idempotencyKey],
         ]);

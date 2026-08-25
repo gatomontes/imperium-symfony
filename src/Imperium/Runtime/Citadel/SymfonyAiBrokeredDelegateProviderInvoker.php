@@ -16,7 +16,7 @@ final readonly class SymfonyAiBrokeredDelegateProviderInvoker implements Delegat
         private CredentialBroker $credentialBroker,
         private ProviderInvocationJournalService $journal,
         private ProviderResponseEnvelopeService $responses,
-        private DelegateSymfonyPlatformAdapter $platform,
+        private DeepSeekDelegatePlatformAdapter $platform,
         private Clock $clock,
         private ?DeepSeekDelegateModelConfiguration $configuration = null,
     ) {
@@ -34,9 +34,9 @@ final readonly class SymfonyAiBrokeredDelegateProviderInvoker implements Delegat
         $providerOperationStarted = false;
         try {
             $capability = $this->credentialBroker->issue(
-                'env:DEEPSEEK_API_KEY',
+                DeepSeekDelegatePlatformAdapter::CREDENTIAL_REFERENCE,
                 $claim['claim_id'],
-                'deepseek.model.invoke',
+                DeepSeekDelegatePlatformAdapter::OPERATION,
                 $expiresAt,
             );
             return $this->credentialBroker->consume(
@@ -86,8 +86,9 @@ final readonly class SymfonyAiBrokeredDelegateProviderInvoker implements Delegat
             || !is_string($claim['lease_consumption']['expires_at'] ?? null)
             || false !== ($claim['provider_request']['external_io_started'] ?? null)
             || !is_string($claim['provider_request']['idempotency_key'] ?? null)
-            || 'deepseek' !== ($claim['model']['runtime_binding']['provider'] ?? null)
-            || 'ai.platform.generic.deepseek' !== ($claim['model']['runtime_binding']['platform_service'] ?? null)
+            || DeepSeekDelegatePlatformAdapter::PROVIDER !== ($claim['model']['runtime_binding']['provider'] ?? null)
+            || DeepSeekDelegatePlatformAdapter::PLATFORM_SERVICE !== ($claim['model']['runtime_binding']['platform_service'] ?? null)
+            || DeepSeekDelegatePlatformAdapter::RUNTIME_MODEL !== $runtimeModel
             || $runtimeModel !== ($claim['model']['runtime_binding']['runtime_model'] ?? null)) {
             throw new \RuntimeException('CT320_DELEGATE_PROVIDER_CLAIM_SCOPE_INVALID');
         }
