@@ -7,3 +7,5 @@ Steps 67–69 separately seal Curia's result disposition, Curia's exact return a
 Terminal checkpoint: `DELEGATE_MISSION_RETURNED_UNBOUND_CUSTODY_RESTORED_RETIRED_TERMINAL`
 
 No provider, credential, cognition, tool, perimeter, external-action, execution, continuing-turn, redeployment, reuse, or supersession authority survives. The Delegate route is closed; any later mission requires a fresh lifecycle from a new capability demand.
+
+Production verification is available through the read-only `imperium:delegate:audit-terminal <terminal-id>` command. It validates fourteen digest-bound operational and terminal records without replaying cognition, credentials, custody changes, or other side effects.
