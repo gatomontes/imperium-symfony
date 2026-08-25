@@ -2,7 +2,7 @@
 
 ## Status
 
-The Delegate mission route is terminally complete through Step 69. The post-implementation Blackquill review is complete and recorded in `todo/blackquill-todos.md`.
+Complete through Hardening Step 35. The Delegate mission route remains terminally complete through Step 69; this separate lifecycle did not reopen it. The post-implementation Blackquill review and residual evidence/cleanup gates remain recorded in `todo/blackquill-todos.md`.
 
 This is a new technical-hardening lifecycle. It is not Delegate Mission Step 70, does not reopen a retired Delegate, and grants no new mission, cognition, provider, credential, tool, perimeter, execution, continuation, redeployment, or reuse authority.
 
@@ -192,3 +192,8 @@ Delegate provider configuration is now governed by an explicit DeepSeek adapter 
 ## Hardening Step 34
 
 The provider-boundary honesty sub-leg is closed. The misleading provider-neutral Symfony platform interface is removed; dependency injection and the brokered invoker now require an explicit DeepSeek Delegate adapter contract whose provider, platform service, runtime model, credential reference, and operation are canonical constants. The concrete adapter revalidates configuration immediately before Symfony AI platform creation, and contract tests prove the registry identity without claiming neutrality. A second provider must introduce and prove its own adapter contract before any shared abstraction is justified.
+
+
+## Hardening Step 35
+
+The implementation hardening leg is closed with canonical documentation and explicit evidence boundaries. The 69-step flow is reconciled with the enforced runtime state; one authority-consumption matrix, one record-schema-family catalogue, one terminal operational-evidence audit specification, and one historical-handoff precedence rule now govern active documentation. The operator reported the complete local PHPUnit suite clear after Step 34; this documentation-only step changes no runtime behavior. Live retained evidence and broader legacy cleanup remain backlog work, not invented Delegate authority or an automatic continuation of this leg.

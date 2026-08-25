@@ -115,12 +115,12 @@ Preserve independent authorities, emitted records, and cross-office handoffs. Co
 
 ## Documentation reduction
 
-- [ ] Establish one canonical lifecycle document.
-- [ ] Establish one authority and consumption matrix.
-- [ ] Establish one record-schema catalogue. *(The canonical Folium/Folia/Codex Imperii vocabulary and Codex contract are now defined; the catalogue must use them.)*
-- [ ] Establish one terminal-audit specification. *(The fourteen-record operational subchain now uses canonical integrity and exact identity/digest resolution; its durable specification still needs consolidation with the wider lifecycle audit.)*
-- [ ] Archive historical step handoffs once their durable content is incorporated.
-- [ ] Mark generated or historical documents clearly so they cannot compete with current contracts.
+- [x] Establish one canonical lifecycle document. *(`docs/delegate-mission-flow.md`, reconciled in Step 35.)*
+- [x] Establish one authority and consumption matrix. *(`docs/delegate-mission-authority-consumption-matrix.md`.)*
+- [x] Establish one record-schema catalogue. *(`docs/delegate-mission-record-schema-catalogue.md` uses the canonical Folium/Folia/Codex Imperii vocabulary.)*
+- [x] Establish one terminal-audit specification. *(`docs/delegate-mission-terminal-operational-evidence-audit.md` states the exact fourteen-record claim and exclusions.)*
+- [x] Archive historical step handoffs once their durable content is incorporated. *(Retained in place for provenance and classified as historical by `docs/handoffs/README.md`.)*
+- [x] Mark generated or historical documents clearly so they cannot compete with current contracts. *(`docs/handoffs/README.md` defines precedence and canonical reading order.)*
 
 ## Final evidence gate
 

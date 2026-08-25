@@ -29,3 +29,8 @@ These are not additional Delegate mission steps. Step 69 remains terminal, and a
 Begin the separately named **runtime-integrity hardening lifecycle**. Its first leg is credential mediation and durable provider-invocation claiming. Do not begin consolidation or cosmetic cleanup before this boundary is made real and proven under crash and concurrency tests.
 
 See `docs/next-lifecycle-runtime-integrity-hardening.md` and `docs/handoffs/delegate-mission-runtime-integrity-review-complete.md`.
+
+
+## Superseding runtime-integrity status
+
+The separately named runtime-integrity hardening lifecycle is now complete through Hardening Step 35. Its implementation supersedes the risks described above without changing Delegate Mission Step 69 or granting any continuing authority. See `docs/handoffs/runtime-integrity-hardening-leg-complete.md` for the durable closeout and `todo/blackquill-todos.md` for residual operational evidence and non-critical cleanup.

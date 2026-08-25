@@ -136,14 +136,29 @@ php bin/console imperium:delegate:audit-operational-evidence <terminal-id> --jso
 
 It validates exactly fourteen digest-bound records from terminal retirement back through return, result disposition, cognition, provider activation, model access and binding, bounded commission, runtime activation, custody transition, deployment, and the current terminal binding/custody state. Pre-deployment governance Steps 1–52 are explicitly outside this audit's completeness claim. The former command name remains only as a compatibility alias.
 
-## Post-implementation review status
+## Runtime-integrity hardening status
 
-The 69-step lifecycle and its governance boundaries are complete, but the Blackquill runtime-integrity review found that several recorded controls are not yet enforced strongly enough under process failure or concurrent execution. In particular:
+The separate runtime-integrity hardening lifecycle is complete through Hardening Step 35. It did not create Delegate Mission Step 70 or reopen the terminal Delegate.
 
-- credential custody does not yet technically mediate every provider invocation;
-- a crash after the external provider call but before durable result persistence can permit duplicate invocation;
-- filesystem read/validate/transition/write sequences are not transactional as a whole;
-- terminal record, custody, and binding updates can tear across partial failure; and
-- the fourteen-record audit has been corrected and explicitly named as terminal operational-evidence verification.
+The critical runtime corridors now enforce:
 
-These findings do not create Delegate Mission Step 70. The mission route remains terminally closed. Remediation belongs to the separately named **runtime-integrity hardening lifecycle** described in `docs/next-lifecycle-runtime-integrity-hardening.md` and tracked in `todo/blackquill-todos.md`.
+- broker-only credential resolution behind an exact consumed Clavium lease;
+- durable, single-winner invocation claiming before provider I/O;
+- stable provider idempotency identity and fail-stopped unknown outcomes;
+- immutable response envelopes and provider-free forward recovery;
+- shared atomic transition, immutable-record, mutable-state compare-and-swap, authority-consumption, replay-fingerprint, and reference-validation primitives;
+- recoverable operational construction, deployment custody, and terminal retirement transitions;
+- exact replay rejection when authoritative input changes;
+- canonical validation across the Citadel, Clavium, deployment, and terminal-audit corridors;
+- a strict DeepSeek-only runtime adapter and model-configuration contract; and
+- an explicitly bounded fourteen-record terminal operational-evidence audit.
+
+The operator reported the complete local PHPUnit suite clear after Hardening Step 34. Live provider-bypass, retained unknown-outcome recovery, repeated crash/concurrency, and production evidence capture remain operational evidence gates, not additional implementation steps.
+
+Canonical references:
+
+- authority consumption: `docs/delegate-mission-authority-consumption-matrix.md`;
+- record schemas: `docs/delegate-mission-record-schema-catalogue.md`;
+- terminal audit: `docs/delegate-mission-terminal-operational-evidence-audit.md`;
+- hardening closeout: `docs/handoffs/runtime-integrity-hardening-leg-complete.md`; and
+- residual evidence backlog: `todo/blackquill-todos.md`.
