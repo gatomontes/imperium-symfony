@@ -17,25 +17,6 @@ final class DelegateRuntimeSourceFormattingTest extends TestCase
         'Senate/ModelBoundProfileDispositionAuthorityOpeningService.php',
     ];
 
-    public function testRuntimeSourceRejectsMalformedNamespaceQualifiedConstruction(): void
-    {
-        $runtime = dirname(__DIR__, 3).'/src/Imperium/Runtime';
-        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($runtime));
-
-        foreach ($iterator as $file) {
-            if (!$file->isFile() || 'php' !== $file->getExtension()) {
-                continue;
-            }
-
-            $source = (string) file_get_contents($file->getPathname());
-            self::assertStringNotContainsString(
-                'new\\',
-                $source,
-                $file->getPathname().' contains malformed namespace-qualified construction.',
-            );
-        }
-    }
-
     public function testExpandedCriticalClassesRemainPhysicallyReadable(): void
     {
         $runtime = dirname(__DIR__, 3).'/src/Imperium/Runtime';
@@ -46,6 +27,11 @@ final class DelegateRuntimeSourceFormattingTest extends TestCase
             self::assertGreaterThan(40, count($lines), $relative.' has been recompressed.');
 
             $source = implode("\n", $lines);
+            self::assertStringNotContainsString(
+                'new\\',
+                $source,
+                $relative.' contains malformed namespace-qualified construction.',
+            );
             self::assertDoesNotMatchRegularExpression(
                 '/declare\\(strict_types=1\\);[ \\t]*namespace/',
                 $source,
