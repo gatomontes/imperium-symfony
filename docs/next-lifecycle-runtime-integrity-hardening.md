@@ -111,3 +111,7 @@ This lifecycle is complete only when credential custody, provider invocation, au
 ## Starting instruction
 
 Read the completed route, flow, Blackquill backlog, and review handoff. Inspect the current provider gateway, Clavium activation/lease services, Symfony AI platform registration, bounded cognition-turn service, and their tests before proposing changes. State the exact credential boundary, durable state machine, recovery semantics, and migration sequence before implementation.
+
+## Hardening Step 15
+
+Security and Usability subsequent-question commission acceptance and refusal now pass through one jurisdiction-parameterized engine. Existing service constructors and jurisdiction-specific error/status contracts remain intact. Trust is deliberately excluded because its first-question authority originates from the examination opening rather than a subsequent testimony turn.
