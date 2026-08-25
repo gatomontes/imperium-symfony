@@ -179,3 +179,7 @@ The at-most-once provider claim now uses canonical record loading and rejects a 
 ## Hardening Step 31
 
 The Garrison deployment custody mutation and its operational-transition Folium now form one recoverable, forward-only transaction. Compare-and-swap protects the exact prior custody digest, immutable persistence protects the transition, replay fingerprints reject changed authoritative input, and every interruption checkpoint resumes to one completed deployed state. The public transition service uses canonical validation and retains `GA240`–`GA249` plus the rule that deployment grants no cognition, provider, tool, credential, external-action, execution, return, or unbinding authority.
+
+## Hardening Step 32
+
+The deployment corridor persistence migration is closed. Curia deployment authorization and Conscription runtime activation now use canonical validation and immutable record commits around Garrison's recoverable custody transaction. Same-identity conflicts retain `C249` and `R279`, activation commit failure retains `R278`, and no corridor checkpoint grants operational cognition, provider invocation, tools, credentials, perimeter crossing, external action, execution, return, or unbinding authority.
