@@ -28,12 +28,12 @@ final readonly class RecordReferenceValidator
         return $record;
     }
 
-    public function isIntact(array $record): bool
+    public function isIntact(array $record, string $digestPrefix = ''): bool
     {
         $digest = $record['record_digest'] ?? null;
         unset($record['record_digest']);
 
-        return is_string($digest) && hash_equals($digest, hash('sha256', CanonicalJson::encode($record)));
+        return is_string($digest) && hash_equals($digest, $digestPrefix.hash('sha256', CanonicalJson::encode($record)));
     }
 
     public function requireIntact(array $record, string $error): array
