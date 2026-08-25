@@ -125,16 +125,16 @@ Curia states mission capabilities but never chooses a profession or Persona. Gui
 
 The Persona is again held and available in Garrison. The mission Seat is unbound and the temporary Manifestation is retired. No cognition, provider, credential, tool, perimeter, external-action, execution, continuation, redeployment, or reuse authority survives.
 
-## Operational verification
+## Terminal operational-evidence verification
 
-The read-only terminal audit verifies the persisted operational lineage and live terminal state without replaying side effects:
+The read-only operational-evidence audit verifies the persisted operational lineage and live terminal state without replaying side effects. It is not a comprehensive audit of all 69 lifecycle steps:
 
 ```bash
-php bin/console imperium:delegate:audit-terminal <terminal-id>
-php bin/console imperium:delegate:audit-terminal <terminal-id> --json
+php bin/console imperium:delegate:audit-operational-evidence <terminal-id>
+php bin/console imperium:delegate:audit-operational-evidence <terminal-id> --json
 ```
 
-It validates fourteen digest-bound records from terminal retirement back through return, result disposition, cognition, provider activation, model access and binding, bounded commission, runtime activation, custody transition, deployment, and the current terminal binding/custody state.
+It validates exactly fourteen digest-bound records from terminal retirement back through return, result disposition, cognition, provider activation, model access and binding, bounded commission, runtime activation, custody transition, deployment, and the current terminal binding/custody state. Pre-deployment governance Steps 1–52 are explicitly outside this audit's completeness claim. The former command name remains only as a compatibility alias.
 
 ## Post-implementation review status
 
@@ -144,6 +144,6 @@ The 69-step lifecycle and its governance boundaries are complete, but the Blackq
 - a crash after the external provider call but before durable result persistence can permit duplicate invocation;
 - filesystem read/validate/transition/write sequences are not transactional as a whole;
 - terminal record, custody, and binding updates can tear across partial failure; and
-- the terminal audit's current fourteen-record operational scope must either be named explicitly or expanded.
+- the fourteen-record audit has been corrected and explicitly named as terminal operational-evidence verification.
 
 These findings do not create Delegate Mission Step 70. The mission route remains terminally closed. Remediation belongs to the separately named **runtime-integrity hardening lifecycle** described in `docs/next-lifecycle-runtime-integrity-hardening.md` and tracked in `todo/blackquill-todos.md`.

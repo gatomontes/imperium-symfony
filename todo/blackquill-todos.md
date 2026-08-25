@@ -48,13 +48,13 @@ The current scan/read/validate/write pattern is not transactional. Per-write `LO
 
 The current terminal sequence can tear, leaving records, custody, and bindings in disagreement.
 
-### 5. Correct terminal audit scope and naming
+### 5. Correct terminal audit scope and naming — completed in Hardening Step 11
 
-- [ ] Decide whether the terminal audit must validate all 69 lifecycle steps or only operational evidence.
-- [ ] If comprehensive, expand it to verify every required record and cross-reference.
-- [ ] If intentionally limited, rename it to state its actual 14-record operational scope.
-- [ ] Document completeness guarantees and exclusions.
-- [ ] Add omission, substitution, tampering, and stale-reference tests.
+- [x] Decide whether the terminal audit must validate all 69 lifecycle steps or only operational evidence.
+- [x] If comprehensive, expand it to verify every required record and cross-reference. *(Not selected; the claim is intentionally bounded.)*
+- [x] If intentionally limited, rename it to state its actual 14-record operational scope.
+- [x] Document completeness guarantees and exclusions.
+- [x] Preserve fail-stopped omission, substitution, tampering, and stale-reference validation; source identity is now checked as well as digest.
 
 ## Consistency and replay safety
 

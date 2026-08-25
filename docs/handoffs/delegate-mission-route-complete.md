@@ -8,7 +8,7 @@ Terminal checkpoint: `DELEGATE_MISSION_RETURNED_UNBOUND_CUSTODY_RESTORED_RETIRED
 
 No provider, credential, cognition, tool, perimeter, external-action, execution, continuing-turn, redeployment, reuse, or supersession authority survives. The Delegate route is closed; any later mission requires a fresh lifecycle from a new capability demand.
 
-Production verification is available through the read-only `imperium:delegate:audit-terminal <terminal-id>` command. It validates fourteen digest-bound operational and terminal records without replaying cognition, credentials, custody changes, or other side effects.
+Production verification is available through the read-only `imperium:delegate:audit-operational-evidence <terminal-id>` command. It validates exactly fourteen digest-bound operational and terminal records without replaying cognition, credentials, custody changes, or other side effects; it makes no comprehensive claim over all 69 steps. The former command name is retained only as a compatibility alias.
 
 ## Post-implementation Blackquill review
 
