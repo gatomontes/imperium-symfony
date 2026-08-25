@@ -1,26 +1,210 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Imperium\Runtime\Senate;
+
 use App\Bootstrap\CanonicalJson;
 
 final readonly class ModelBoundProfileExaminationCommissionAcceptanceService
 {
- private string $commissions;private string $cases;private string $occupancy;private string $acceptances;private string $readiness;
- public function __construct(string$root){$s=$root.'/var/imperium/offices/senate';$this->commissions=$s.'/profile-examination-commission-inbox';$this->cases=$s.'/profile-examination-cases';$this->occupancy=$s.'/occupancy';$this->acceptances=$s.'/model-bound-profile-examination-commission-acceptances';$this->readiness=$s.'/model-bound-profile-examination-panel-readiness';}
- public function accept(string$commissionId,string$senatorBindingId,\DateTimeImmutable$acceptedAt):array
- {
-  $c=$this->read($this->commissions.'/'.$commissionId.'.json','S247_MODEL_BOUND_EXAMINATION_COMMISSION_ABSENT');$caseId=$c['case_id']??'';$case=$this->read($this->cases.'/'.$caseId.'.json','S248_MODEL_BOUND_EXAMINATION_CASE_ABSENT');$b=$this->read($this->occupancy.'/'.$senatorBindingId.'.json','S249_MODEL_BOUND_EXAMINATION_SENATOR_UNAVAILABLE');
-  if(!$this->ok($c)||!$this->ok($case)||!$this->ok($b)||'imperium.senate-model-bound-profile-examination-commission/v1'!==($c['schema']??null)||'ISSUED_PENDING_SENATOR_ACCEPTANCE'!==($c['status']??null)||null!==($c['recipient_acceptance']??null)||true!==($c['senator_question_authority']??null)||false!==($c['senator_question_authority_exercisable']??null)||false!==($c['senator_finding_authority']??null)
-   ||'imperium.senate-model-bound-profile-examination-case/v1'!==($case['schema']??null)||'PROFILE_EXAMINATION_OPENED_PENDING_SENATOR_ACCEPTANCE'!==($case['status']??null)||($c['case_digest']??null)!==($case['record_digest']??null)||($c['subject_profile']??null)!==($case['subject_profile']??null)||($c['evidence_chain']??null)!==($case['evidence_chain']??null)
-   ||($c['recipient']['seat']??null)!==($b['seat']??null)||!in_array($b['seat']??null,$case['panel']??[],true)||'ACTIVE'!==($b['status']??null)||true!==($b['binding_atomic']??null)||true!==($b['senator_question_authority']??null)||true===($b['execution_authority']??null)||($c['instance_id']??null)!==($b['instance_id']??null))throw new \RuntimeException('S250_MODEL_BOUND_EXAMINATION_ACCEPTANCE_CHAIN_INVALID');
-  foreach(glob($this->acceptances.'/model-bound-profile-examination-acceptance-*.json')?:[]as$p){$x=$this->read($p,'S252_MODEL_BOUND_EXAMINATION_ACCEPTANCE_CONFLICT');if(($x['source_commission']['id']??null)===$commissionId)return['acceptance'=>$x,'panel_readiness'=>$this->ready($case,$acceptedAt)];}
-  $actor=['seat'=>$b['seat'],'binding_id'=>$senatorBindingId,'binding_digest'=>$b['record_digest'],'manifestation_id'=>$b['manifestation_id'],'occupancy_generation'=>$b['occupancy_generation']];$id='model-bound-profile-examination-acceptance-'.substr(hash('sha256',CanonicalJson::encode([$commissionId,$c['record_digest'],$actor])),0,20);
-  $a=$this->save($this->acceptances,$id,['schema'=>'imperium.senate-model-bound-profile-examination-acceptance/v1','acceptance_id'=>$id,'instance_id'=>$c['instance_id'],'case_id'=>$caseId,'case_digest'=>$case['record_digest'],'source_commission'=>['id'=>$commissionId,'digest'=>$c['record_digest']],'senator'=>$actor,'subject_profile'=>$case['subject_profile'],'evidence_chain'=>$case['evidence_chain'],'examination_rubric'=>$case['examination_rubric'],'accepted_at'=>$acceptedAt->format(DATE_ATOM),'disposition'=>'ACCEPTED_EXACT_MODEL_BOUND_PROFILE_EXAMINATION_COMMISSION','status'=>'PROFILE_EXAMINATION_COMMISSION_ACCEPTED_PENDING_PANEL_READINESS','recipient_acceptance'=>true,'senator_question_authority'=>true,'senator_question_authority_exercisable'=>false,'senator_finding_authority'=>false,'senator_finding_authority_exercisable'=>false,'testimony_open'=>false,'deliberation_open'=>false,'profile_approval_authority'=>false,'profile_installation_authority'=>false,'profile_activation_authority'=>false,'credential_use_authority'=>false,'provider_invocation_authority'=>false,'deployment_authority'=>false,'execution_authority'=>false,'sealed'=>true]);return['acceptance'=>$a,'panel_readiness'=>$this->ready($case,$acceptedAt)];
- }
- private function ready(array$case,\DateTimeImmutable$at):?array
- {
-  $found=[];foreach(glob($this->acceptances.'/model-bound-profile-examination-acceptance-*.json')?:[]as$p){$a=$this->read($p,'S252_MODEL_BOUND_EXAMINATION_ACCEPTANCE_CONFLICT');if(!$this->ok($a))throw new \RuntimeException('S252_MODEL_BOUND_EXAMINATION_ACCEPTANCE_CONFLICT');if(($a['case_id']??null)===$case['case_id'])$found[$a['senator']['seat']]=$a;}foreach($case['panel']as$s)if(!isset($found[$s]))return null;$ordered=[];foreach($case['panel']as$s)$ordered[]=$found[$s];$authorityId='profile-examination-testimony-opening-authority-'.substr(hash('sha256',CanonicalJson::encode([$case['case_id'],$case['record_digest'],array_column($ordered,'record_digest')])),0,20);$id='model-bound-profile-examination-panel-readiness-'.substr(hash('sha256',CanonicalJson::encode([$case['case_id'],$case['record_digest'],$authorityId])),0,20);$readyAt=max(array_column($ordered,'accepted_at'));
-  return$this->save($this->readiness,$id,['schema'=>'imperium.senate-model-bound-profile-examination-panel-readiness/v1','readiness_id'=>$id,'instance_id'=>$case['instance_id'],'case_id'=>$case['case_id'],'case_digest'=>$case['record_digest'],'subject_profile'=>$case['subject_profile'],'evidence_chain'=>$case['evidence_chain'],'accepted_panel'=>array_map(static fn(array$a):array=>['seat'=>$a['senator']['seat'],'acceptance_id'=>$a['acceptance_id'],'acceptance_digest'=>$a['record_digest']],$ordered),'testimony_opening_authority'=>['authority_id'=>$authorityId,'authority_single_use'=>true,'lord_speaker_consumption_required'=>true,'status'=>'OPEN_PENDING_TESTIMONY_OPENING'],'ready_at'=>$readyAt,'status'=>'PROFILE_EXAMINATION_PANEL_ACCEPTED_PENDING_TESTIMONY_OPENING','panel_ready'=>true,'testimony_open'=>false,'deliberation_open'=>false,'senator_question_authority_exercisable'=>false,'senator_finding_authority_exercisable'=>false,'profile_approval_authority'=>false,'profile_installation_authority'=>false,'profile_activation_authority'=>false,'credential_use_authority'=>false,'provider_invocation_authority'=>false,'deployment_authority'=>false,'execution_authority'=>false,'sealed'=>true]);
- }
- private function read(string$p,string$e):array{if(!is_file($p))throw new \RuntimeException($e);return json_decode((string)file_get_contents($p),true,512,JSON_THROW_ON_ERROR);}private function ok(array$r):bool{$d=$r['record_digest']??null;unset($r['record_digest']);return is_string($d)&&hash_equals($d,hash('sha256',CanonicalJson::encode($r)));}private function save(string$d,string$id,array$r):array{if(!is_dir($d)&&!mkdir($d,0770,true)&&!is_dir($d))throw new \RuntimeException('S251_MODEL_BOUND_EXAMINATION_ACCEPTANCE_FAILED');$r['record_digest']=hash('sha256',CanonicalJson::encode($r));$p=$d.'/'.$id.'.json';if(is_file($p)){if($this->read($p,'S252_MODEL_BOUND_EXAMINATION_ACCEPTANCE_CONFLICT')!==$r)throw new \RuntimeException('S252_MODEL_BOUND_EXAMINATION_ACCEPTANCE_CONFLICT');return$r;}file_put_contents($p,json_encode($r,JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_THROW_ON_ERROR)."\n",LOCK_EX);return$r;}
+    private string $commissions;
+    private string $cases;
+    private string $occupancy;
+    private string $acceptances;
+    private string $readiness;
+    public function __construct(string $root)
+    {
+        $s = $root.'/var/imperium/offices/senate';
+        $this->commissions = $s.'/profile-examination-commission-inbox';
+        $this->cases = $s.'/profile-examination-cases';
+        $this->occupancy = $s.'/occupancy';
+        $this->acceptances = $s.'/model-bound-profile-examination-commission-acceptances';
+        $this->readiness = $s.'/model-bound-profile-examination-panel-readiness';
+    }
+    public function accept(string $commissionId,
+    string $senatorBindingId,
+    \DateTimeImmutable $acceptedAt): array {
+        $c = $this->read($this->commissions.'/'.$commissionId.'.json',
+        'S247_MODEL_BOUND_EXAMINATION_COMMISSION_ABSENT');
+        $caseId = $c['case_id'] ?? '';
+        $case = $this->read($this->cases.'/'.$caseId.'.json',
+        'S248_MODEL_BOUND_EXAMINATION_CASE_ABSENT');
+        $b = $this->read($this->occupancy.'/'.$senatorBindingId.'.json',
+        'S249_MODEL_BOUND_EXAMINATION_SENATOR_UNAVAILABLE');
+        if (!$this->ok($c) ||
+        !$this->ok($case) ||
+        !$this->ok($b) ||
+        'imperium.senate-model-bound-profile-examination-commission/v1' !== ($c['schema'] ?? null) ||
+        'ISSUED_PENDING_SENATOR_ACCEPTANCE' !== ($c['status'] ?? null) ||
+        null !== ($c['recipient_acceptance'] ?? null) ||
+        true !== ($c['senator_question_authority'] ?? null) ||
+        false !== ($c['senator_question_authority_exercisable'] ?? null) ||
+        false !== ($c['senator_finding_authority'] ?? null) ||
+        'imperium.senate-model-bound-profile-examination-case/v1' !== ($case['schema'] ?? null) ||
+        'PROFILE_EXAMINATION_OPENED_PENDING_SENATOR_ACCEPTANCE' !== ($case['status'] ?? null) ||
+        ($c['case_digest'] ?? null) !== ($case['record_digest'] ?? null) ||
+        ($c['subject_profile'] ?? null) !== ($case['subject_profile'] ?? null) ||
+        ($c['evidence_chain'] ?? null) !== ($case['evidence_chain'] ?? null) ||
+        ($c['recipient']['seat'] ?? null) !== ($b['seat'] ?? null) ||
+        !in_array($b['seat'] ?? null,
+        $case['panel'] ?? [],
+        true) ||
+        'ACTIVE' !== ($b['status'] ?? null) ||
+        true !== ($b['binding_atomic'] ?? null) ||
+        true !== ($b['senator_question_authority'] ?? null) ||
+        true === ($b['execution_authority'] ?? null) ||
+        ($c['instance_id'] ?? null) !== ($b['instance_id'] ?? null)) throw new \RuntimeException('S250_MODEL_BOUND_EXAMINATION_ACCEPTANCE_CHAIN_INVALID');
+        foreach (glob($this->acceptances.'/model-bound-profile-examination-acceptance-*.json') ? :[] as $p) {
+            $x = $this->read($p,
+            'S252_MODEL_BOUND_EXAMINATION_ACCEPTANCE_CONFLICT');
+            if (($x['source_commission']['id'] ?? null) === $commissionId) return['acceptance' => $x,
+            'panel_readiness' => $this->ready($case,
+            $acceptedAt)];
+        }
+        $actor = ['seat' => $b['seat'],
+        'binding_id' => $senatorBindingId,
+        'binding_digest' => $b['record_digest'],
+        'manifestation_id' => $b['manifestation_id'],
+        'occupancy_generation' => $b['occupancy_generation']];
+        $id = 'model-bound-profile-examination-acceptance-'.substr(hash('sha256',
+        CanonicalJson::encode([$commissionId,
+        $c['record_digest'],
+        $actor])),
+        0,
+        20);
+        $a = $this->save($this->acceptances,
+        $id,
+        ['schema' => 'imperium.senate-model-bound-profile-examination-acceptance/v1',
+        'acceptance_id' => $id,
+        'instance_id' => $c['instance_id'],
+        'case_id' => $caseId,
+        'case_digest' => $case['record_digest'],
+        'source_commission' => ['id' => $commissionId,
+        'digest' => $c['record_digest']],
+        'senator' => $actor,
+        'subject_profile' => $case['subject_profile'],
+        'evidence_chain' => $case['evidence_chain'],
+        'examination_rubric' => $case['examination_rubric'],
+        'accepted_at' => $acceptedAt->format(DATE_ATOM),
+        'disposition' => 'ACCEPTED_EXACT_MODEL_BOUND_PROFILE_EXAMINATION_COMMISSION',
+        'status' => 'PROFILE_EXAMINATION_COMMISSION_ACCEPTED_PENDING_PANEL_READINESS',
+        'recipient_acceptance' => true,
+        'senator_question_authority' => true,
+        'senator_question_authority_exercisable' => false,
+        'senator_finding_authority' => false,
+        'senator_finding_authority_exercisable' => false,
+        'testimony_open' => false,
+        'deliberation_open' => false,
+        'profile_approval_authority' => false,
+        'profile_installation_authority' => false,
+        'profile_activation_authority' => false,
+        'credential_use_authority' => false,
+        'provider_invocation_authority' => false,
+        'deployment_authority' => false,
+        'execution_authority' => false,
+        'sealed' => true]);
+        return['acceptance' => $a,
+        'panel_readiness' => $this->ready($case,
+        $acceptedAt)];
+    }
+    private function ready(array $case,
+    \DateTimeImmutable $at): ?array {
+        $found = [];
+        foreach (glob($this->acceptances.'/model-bound-profile-examination-acceptance-*.json') ? :[] as $p) {
+            $a = $this->read($p,
+            'S252_MODEL_BOUND_EXAMINATION_ACCEPTANCE_CONFLICT');
+            if (!$this->ok($a)) throw new \RuntimeException('S252_MODEL_BOUND_EXAMINATION_ACCEPTANCE_CONFLICT');
+            if (($a['case_id'] ?? null) === $case['case_id'])$found[$a['senator']['seat']] = $a;
+        }
+        foreach ($case['panel']as$s)if (!isset($found[$s])) return null;
+        $ordered = [];
+        foreach ($case['panel']as$s)$ordered[] = $found[$s];
+        $authorityId = 'profile-examination-testimony-opening-authority-'.substr(hash('sha256',
+        CanonicalJson::encode([$case['case_id'],
+        $case['record_digest'],
+        array_column($ordered,
+        'record_digest')])),
+        0,
+        20);
+        $id = 'model-bound-profile-examination-panel-readiness-'.substr(hash('sha256',
+        CanonicalJson::encode([$case['case_id'],
+        $case['record_digest'],
+        $authorityId])),
+        0,
+        20);
+        $readyAt = max(array_column($ordered,
+        'accepted_at'));
+        return $this->save($this->readiness,
+        $id,
+        ['schema' => 'imperium.senate-model-bound-profile-examination-panel-readiness/v1',
+        'readiness_id' => $id,
+        'instance_id' => $case['instance_id'],
+        'case_id' => $case['case_id'],
+        'case_digest' => $case['record_digest'],
+        'subject_profile' => $case['subject_profile'],
+        'evidence_chain' => $case['evidence_chain'],
+        'accepted_panel' => array_map(static fn(array $a): array => ['seat' => $a['senator']['seat'],
+        'acceptance_id' => $a['acceptance_id'],
+        'acceptance_digest' => $a['record_digest']],
+        $ordered),
+        'testimony_opening_authority' => ['authority_id' => $authorityId,
+        'authority_single_use' => true,
+        'lord_speaker_consumption_required' => true,
+        'status' => 'OPEN_PENDING_TESTIMONY_OPENING'],
+        'ready_at' => $readyAt,
+        'status' => 'PROFILE_EXAMINATION_PANEL_ACCEPTED_PENDING_TESTIMONY_OPENING',
+        'panel_ready' => true,
+        'testimony_open' => false,
+        'deliberation_open' => false,
+        'senator_question_authority_exercisable' => false,
+        'senator_finding_authority_exercisable' => false,
+        'profile_approval_authority' => false,
+        'profile_installation_authority' => false,
+        'profile_activation_authority' => false,
+        'credential_use_authority' => false,
+        'provider_invocation_authority' => false,
+        'deployment_authority' => false,
+        'execution_authority' => false,
+        'sealed' => true]);
+    }
+    private function read(string $p,
+    string $e): array {
+        if (!is_file($p)) throw new \RuntimeException($e);
+        return json_decode((string)file_get_contents($p),
+        true,
+        512,
+        JSON_THROW_ON_ERROR);
+    }
+    private function ok(array $r): bool
+    {
+        $d = $r['record_digest'] ?? null;
+        unset($r['record_digest']);
+        return is_string($d) &&
+        hash_equals($d,
+        hash('sha256',
+        CanonicalJson::encode($r)));
+    }
+    private function save(string $d,
+    string $id,
+    array $r): array {
+        if (!is_dir($d) &&
+        !mkdir($d,
+        0770,
+        true) &&
+        !is_dir($d)) throw new \RuntimeException('S251_MODEL_BOUND_EXAMINATION_ACCEPTANCE_FAILED');
+        $r['record_digest'] = hash('sha256',
+        CanonicalJson::encode($r));
+        $p = $d.'/'.$id.'.json';
+        if (is_file($p)) {
+            if ($this->read($p,
+            'S252_MODEL_BOUND_EXAMINATION_ACCEPTANCE_CONFLICT') !== $r) throw new \RuntimeException('S252_MODEL_BOUND_EXAMINATION_ACCEPTANCE_CONFLICT');
+            return $r;
+        }
+        file_put_contents($p,
+        json_encode($r,
+        JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_THROW_ON_ERROR)."\n",
+        LOCK_EX);
+        return $r;
+    }
 }

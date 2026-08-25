@@ -1,24 +1,300 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Imperium\Runtime\Senate;
+
 use App\Bootstrap\CanonicalJson;
 
 final readonly class ModelBoundProfileSenatorFindingService
 {
- private string $openings;private string $turns;private string $occupancy;private string $findings;private string $readiness;
- public function __construct(string$root,private ProfileExaminationFindingCognitionGateway$cognition){$s=$root.'/var/imperium/offices/senate';$this->openings=$s.'/model-bound-profile-finding-authority-openings';$this->turns=$s.'/model-bound-profile-evidence-testimony-turns';$this->occupancy=$s.'/occupancy';$this->findings=$s.'/model-bound-profile-senator-findings';$this->readiness=$s.'/model-bound-profile-finding-readiness';}
- public function issue(string$openingId,string$jurisdiction,string$senatorBindingId,\DateTimeImmutable$issuedAt):array
- {
-  if(!in_array($jurisdiction,['trust','security','usability'],true))throw new \InvalidArgumentException('S276_MODEL_BOUND_FINDING_JURISDICTION_INVALID');
-  foreach(glob($this->findings.'/model-bound-profile-senator-finding-*.json')?:[]as$p){$x=$this->read($p,'S281_MODEL_BOUND_FINDING_CONFLICT');if(($x['source_finding_authority_opening']['id']??null)===$openingId&&($x['jurisdiction']??null)===$jurisdiction){if(!$this->ok($x)||($x['senator']['binding_id']??null)!==$senatorBindingId)throw new \RuntimeException('S281_MODEL_BOUND_FINDING_CONFLICT');return['finding'=>$x,'readiness'=>$this->ready($openingId)];}}
-  $o=$this->read($this->openings.'/'.$openingId.'.json','S277_MODEL_BOUND_FINDING_OPENING_ABSENT');$matches=array_values(array_filter($o['finding_authorities']??[],static fn($x)=>is_array($x)&&$jurisdiction===($x['jurisdiction']??null)));$authority=1===count($matches)?$matches[0]:[];$turnId=$authority['source_testimony_turn']['id']??'';$t=$this->read($this->turns.'/'.$turnId.'.json','S278_MODEL_BOUND_EVIDENCE_TURN_ABSENT');$b=$this->read($this->occupancy.'/'.$senatorBindingId.'.json','S279_MODEL_BOUND_FINDING_SENATOR_UNAVAILABLE');
-  if(!$this->ok($o)||!$this->ok($t)||!$this->ok($b)||'imperium.senate-model-bound-profile-finding-authority-opening/v1'!==($o['schema']??null)||'PROFILE_EXAMINATION_FINDING_AUTHORITIES_OPENED_PENDING_SENATOR_FINDINGS'!==($o['status']??null)||true!==($o['senator_finding_authority_exercisable']??null)||[]!==($o['senator_findings']??null)||false!==($o['deliberation_open']??null)
-   ||true!==($authority['senator_finding_authority_exercisable']??null)||null!==($authority['senator_finding']??null)||($authority['source_testimony_turn']['digest']??null)!==$t['record_digest']||$jurisdiction!==($t['jurisdiction']??null)||'PROFILE_EXAMINATION_TESTIMONY_ANSWER_SEALED_PENDING_PANEL_COMPLETION'!==($t['status']??null)||true!==($t['evidentiary_response_sealed']??null)||false!==($t['live_witness_questioned']??null)||true===($t['provider_invoked']??null)||null!==($t['senator_finding']??null)
-   ||($o['case_id']??null)!==($t['case_id']??null)||($o['case_digest']??null)!==($t['case_digest']??null)||($o['subject_profile']??null)!==($t['subject_profile']??null)||($o['evidence_chain']??null)!==($t['evidence_chain']??null)||($authority['senator']??null)!==($t['senator']??null)||($authority['senator']??null)!==$this->actor($b)||'ACTIVE'!==($b['status']??null)||true!==($b['binding_atomic']??null)||true!==($b['senator_finding_authority']??null)||true===($b['execution_authority']??null))throw new \RuntimeException('S280_MODEL_BOUND_FINDING_CHAIN_INVALID');
-  $reference='evidence-turn:'.$jurisdiction.':'.$t['record_digest'];$evidence=['testimony_turn'=>$t,'available_evidence_references'=>[$reference]];$decision=$this->cognition->find($jurisdiction,$authority,$evidence);$this->validate($decision,$t['examination_rubric'],$reference);$blocking='security'===$jurisdiction&&('FAIL'===$decision['disposition']||('UNRESOLVED'===$decision['disposition']&&in_array($decision['severity'],['HIGH','CRITICAL'],true)));$id='model-bound-profile-senator-finding-'.substr(hash('sha256',CanonicalJson::encode([$openingId,$o['record_digest'],$jurisdiction,$senatorBindingId,$decision])),0,20);
-  $finding=$this->save($this->findings,$id,['schema'=>'imperium.senate-model-bound-profile-senator-finding/v1','finding_id'=>$id,'instance_id'=>$o['instance_id'],'case_id'=>$o['case_id'],'case_digest'=>$o['case_digest'],'source_finding_authority_opening'=>['id'=>$openingId,'digest'=>$o['record_digest']],'source_testimony_turn'=>$authority['source_testimony_turn'],'senator'=>$authority['senator'],'jurisdiction'=>$jurisdiction,'subject_profile'=>$o['subject_profile'],'evidence_chain'=>$o['evidence_chain'],'examination_rubric'=>$t['examination_rubric'],'decision'=>$decision,'evidence_package_digest'=>'sha256:'.hash('sha256',CanonicalJson::encode($evidence)),'mandatory_security_blocking_condition'=>$blocking,'issued_at'=>$issuedAt->format(DATE_ATOM),'status'=>'PROFILE_EXAMINATION_SENATOR_FINDING_AUTHORED_SEALED_PENDING_PANEL_COMPLETION','senator_finding_authority_consumed'=>true,'attributable'=>true,'peer_findings_visible_at_authorship'=>false,'deliberation_open'=>false,'senate_disposition_authority'=>false,'profile_approval_authority'=>false,'profile_installation_authority'=>false,'profile_activation_authority'=>false,'deployment_authority'=>false,'execution_authority'=>false,'sealed'=>true]);return['finding'=>$finding,'readiness'=>$this->ready($openingId)];
- }
- private function ready(string$id):?array{$found=[];foreach(glob($this->findings.'/model-bound-profile-senator-finding-*.json')?:[]as$p){$f=$this->read($p,'S281_MODEL_BOUND_FINDING_CONFLICT');if(!$this->ok($f))throw new \RuntimeException('S281_MODEL_BOUND_FINDING_CONFLICT');if(($f['source_finding_authority_opening']['id']??null)===$id)$found[$f['jurisdiction']]=$f;}foreach(['trust','security','usability']as$j)if(!isset($found[$j]))return null;$ordered=[];foreach(['trust','security','usability']as$j)$ordered[]=$found[$j];$o=$this->read($this->openings.'/'.$id.'.json','S277_MODEL_BOUND_FINDING_OPENING_ABSENT');$authorityId='model-bound-profile-deliberation-opening-authority-'.substr(hash('sha256',CanonicalJson::encode([$id,$o['record_digest'],array_column($ordered,'record_digest')])),0,20);$readinessId='model-bound-profile-finding-readiness-'.substr(hash('sha256',CanonicalJson::encode([$id,$o['record_digest'],array_column($ordered,'record_digest')])),0,20);return$this->save($this->readiness,$readinessId,['schema'=>'imperium.senate-model-bound-profile-finding-readiness/v1','readiness_id'=>$readinessId,'instance_id'=>$o['instance_id'],'case_id'=>$o['case_id'],'case_digest'=>$o['case_digest'],'source_finding_authority_opening'=>['id'=>$id,'digest'=>$o['record_digest']],'subject_profile'=>$o['subject_profile'],'senator_findings'=>array_map(static fn(array$f):array=>['jurisdiction'=>$f['jurisdiction'],'finding_id'=>$f['finding_id'],'finding_digest'=>$f['record_digest'],'disposition'=>$f['decision']['disposition'],'severity'=>$f['decision']['severity'],'mandatory_security_blocking_condition'=>$f['mandatory_security_blocking_condition']],$ordered),'mandatory_security_blocking_condition'=>$found['security']['mandatory_security_blocking_condition'],'deliberation_opening_authority'=>['authority_id'=>$authorityId,'authority_single_use'=>true,'lord_speaker_consumption_required'=>true,'status'=>'OPEN_PENDING_DELIBERATION_OPENING'],'status'=>'PROFILE_EXAMINATION_SENATOR_FINDINGS_SEALED_PENDING_DELIBERATION_OPENING','all_finding_authorities_consumed'=>true,'deliberation_open'=>false,'reconciliation_authority_exercisable'=>false,'vote_authority'=>false,'aggregation_authority'=>false,'senate_disposition_authority'=>false,'profile_approval_authority'=>false,'profile_installation_authority'=>false,'profile_activation_authority'=>false,'deployment_authority'=>false,'execution_authority'=>false,'sealed'=>true]);}
- private function validate(array$d,array$r,string$e):void{$keys=array_keys($d);sort($keys);if(['attributed_defect','disposition','evidence_references','limitations','rationale','severity','uncertainty']!==$keys)throw new \RuntimeException('S282_MODEL_BOUND_FINDING_INVALID: FIELDS_INVALID');if(!in_array($d['disposition']??null,['PASS','CONCERN','FAIL','UNRESOLVED'],true)||!in_array($d['severity']??null,['NONE','LOW','MEDIUM','HIGH','CRITICAL'],true)||!is_string($d['rationale']??null)||''===trim($d['rationale'])||[$e]!==($d['evidence_references']??null))throw new \RuntimeException('S282_MODEL_BOUND_FINDING_INVALID: DECISION_INVALID');foreach(['limitations','uncertainty']as$f){if(!is_array($d[$f]??null)||!array_is_list($d[$f]))throw new \RuntimeException('S282_MODEL_BOUND_FINDING_INVALID: LIST_INVALID');foreach($d[$f]as$v)if(!is_string($v)||''===trim($v))throw new \RuntimeException('S282_MODEL_BOUND_FINDING_INVALID: LIST_INVALID');}if('PASS'===$d['disposition']){if(null!==($d['attributed_defect']??null)||'NONE'!==$d['severity'])throw new \RuntimeException('S282_MODEL_BOUND_FINDING_INVALID: PASS_INVALID');}elseif(!in_array($d['attributed_defect']??null,$r,true))throw new \RuntimeException('S282_MODEL_BOUND_FINDING_INVALID: ATTRIBUTION_INVALID');}
- private function actor(array$b):array{return['seat'=>$b['seat'],'binding_id'=>$b['binding_id'],'binding_digest'=>$b['record_digest'],'manifestation_id'=>$b['manifestation_id'],'occupancy_generation'=>$b['occupancy_generation']];}private function read(string$p,string$e):array{if(!is_file($p))throw new \RuntimeException($e);return json_decode((string)file_get_contents($p),true,512,JSON_THROW_ON_ERROR);}private function ok(array$r):bool{$d=$r['record_digest']??null;unset($r['record_digest']);return is_string($d)&&hash_equals($d,hash('sha256',CanonicalJson::encode($r)));}private function save(string$d,string$id,array$r):array{if(!is_dir($d)&&!mkdir($d,0770,true)&&!is_dir($d))throw new \RuntimeException('S283_MODEL_BOUND_FINDING_FAILED');$r['record_digest']=hash('sha256',CanonicalJson::encode($r));$p=$d.'/'.$id.'.json';if(is_file($p)){if($this->read($p,'S281_MODEL_BOUND_FINDING_CONFLICT')!==$r)throw new \RuntimeException('S281_MODEL_BOUND_FINDING_CONFLICT');return$r;}file_put_contents($p,json_encode($r,JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_THROW_ON_ERROR)."\n",LOCK_EX);return$r;}
+    private string $openings;
+    private string $turns;
+    private string $occupancy;
+    private string $findings;
+    private string $readiness;
+    public function __construct(string $root,
+    private ProfileExaminationFindingCognitionGateway $cognition) {
+        $s = $root.'/var/imperium/offices/senate';
+        $this->openings = $s.'/model-bound-profile-finding-authority-openings';
+        $this->turns = $s.'/model-bound-profile-evidence-testimony-turns';
+        $this->occupancy = $s.'/occupancy';
+        $this->findings = $s.'/model-bound-profile-senator-findings';
+        $this->readiness = $s.'/model-bound-profile-finding-readiness';
+    }
+    public function issue(string $openingId,
+    string $jurisdiction,
+    string $senatorBindingId,
+    \DateTimeImmutable $issuedAt): array {
+        if (!in_array($jurisdiction,
+        ['trust',
+        'security',
+        'usability'],
+        true)) throw new \InvalidArgumentException('S276_MODEL_BOUND_FINDING_JURISDICTION_INVALID');
+        foreach (glob($this->findings.'/model-bound-profile-senator-finding-*.json') ? :[] as $p) {
+            $x = $this->read($p,
+            'S281_MODEL_BOUND_FINDING_CONFLICT');
+            if (($x['source_finding_authority_opening']['id'] ?? null) === $openingId &&
+            ($x['jurisdiction'] ?? null) === $jurisdiction) {
+                if (!$this->ok($x) ||
+                ($x['senator']['binding_id'] ?? null) !== $senatorBindingId) throw new \RuntimeException('S281_MODEL_BOUND_FINDING_CONFLICT');
+                return['finding' => $x,
+                'readiness' => $this->ready($openingId)];
+            }
+        }
+        $o = $this->read($this->openings.'/'.$openingId.'.json',
+        'S277_MODEL_BOUND_FINDING_OPENING_ABSENT');
+        $matches = array_values(array_filter($o['finding_authorities'] ?? [],
+        static fn($x) => is_array($x) &&
+        $jurisdiction === ($x['jurisdiction'] ?? null)));
+        $authority = 1 === count($matches) ? $matches[0]:[];
+        $turnId = $authority['source_testimony_turn']['id'] ?? '';
+        $t = $this->read($this->turns.'/'.$turnId.'.json',
+        'S278_MODEL_BOUND_EVIDENCE_TURN_ABSENT');
+        $b = $this->read($this->occupancy.'/'.$senatorBindingId.'.json',
+        'S279_MODEL_BOUND_FINDING_SENATOR_UNAVAILABLE');
+        if (!$this->ok($o) ||
+        !$this->ok($t) ||
+        !$this->ok($b) ||
+        'imperium.senate-model-bound-profile-finding-authority-opening/v1' !== ($o['schema'] ?? null) ||
+        'PROFILE_EXAMINATION_FINDING_AUTHORITIES_OPENED_PENDING_SENATOR_FINDINGS' !== ($o['status'] ?? null) ||
+        true !== ($o['senator_finding_authority_exercisable'] ?? null) ||
+        [] !== ($o['senator_findings'] ?? null) ||
+        false !== ($o['deliberation_open'] ?? null) ||
+        true !== ($authority['senator_finding_authority_exercisable'] ?? null) ||
+        null !== ($authority['senator_finding'] ?? null) ||
+        ($authority['source_testimony_turn']['digest'] ?? null) !== $t['record_digest'] ||
+        $jurisdiction !== ($t['jurisdiction'] ?? null) ||
+        'PROFILE_EXAMINATION_TESTIMONY_ANSWER_SEALED_PENDING_PANEL_COMPLETION' !== ($t['status'] ?? null) ||
+        true !== ($t['evidentiary_response_sealed'] ?? null) ||
+        false !== ($t['live_witness_questioned'] ?? null) ||
+        true === ($t['provider_invoked'] ?? null) ||
+        null !== ($t['senator_finding'] ?? null) ||
+        ($o['case_id'] ?? null) !== ($t['case_id'] ?? null) ||
+        ($o['case_digest'] ?? null) !== ($t['case_digest'] ?? null) ||
+        ($o['subject_profile'] ?? null) !== ($t['subject_profile'] ?? null) ||
+        ($o['evidence_chain'] ?? null) !== ($t['evidence_chain'] ?? null) ||
+        ($authority['senator'] ?? null) !== ($t['senator'] ?? null) ||
+        ($authority['senator'] ?? null) !== $this->actor($b) ||
+        'ACTIVE' !== ($b['status'] ?? null) ||
+        true !== ($b['binding_atomic'] ?? null) ||
+        true !== ($b['senator_finding_authority'] ?? null) ||
+        true === ($b['execution_authority'] ?? null)) throw new \RuntimeException('S280_MODEL_BOUND_FINDING_CHAIN_INVALID');
+        $reference = 'evidence-turn:'.$jurisdiction.':'.$t['record_digest'];
+        $evidence = ['testimony_turn' => $t,
+        'available_evidence_references' => [$reference]];
+        $decision = $this->cognition->find($jurisdiction,
+        $authority,
+        $evidence);
+        $this->validate($decision,
+        $t['examination_rubric'],
+        $reference);
+        $blocking = 'security' === $jurisdiction &&
+        ('FAIL' === $decision['disposition'] ||
+        ('UNRESOLVED' === $decision['disposition'] &&
+        in_array($decision['severity'],
+        ['HIGH',
+        'CRITICAL'],
+        true)));
+        $id = 'model-bound-profile-senator-finding-'.substr(hash('sha256',
+        CanonicalJson::encode([$openingId,
+        $o['record_digest'],
+        $jurisdiction,
+        $senatorBindingId,
+        $decision])),
+        0,
+        20);
+        $finding = $this->save($this->findings,
+        $id,
+        ['schema' => 'imperium.senate-model-bound-profile-senator-finding/v1',
+        'finding_id' => $id,
+        'instance_id' => $o['instance_id'],
+        'case_id' => $o['case_id'],
+        'case_digest' => $o['case_digest'],
+        'source_finding_authority_opening' => ['id' => $openingId,
+        'digest' => $o['record_digest']],
+        'source_testimony_turn' => $authority['source_testimony_turn'],
+        'senator' => $authority['senator'],
+        'jurisdiction' => $jurisdiction,
+        'subject_profile' => $o['subject_profile'],
+        'evidence_chain' => $o['evidence_chain'],
+        'examination_rubric' => $t['examination_rubric'],
+        'decision' => $decision,
+        'evidence_package_digest' => 'sha256:'.hash('sha256',
+        CanonicalJson::encode($evidence)),
+        'mandatory_security_blocking_condition' => $blocking,
+        'issued_at' => $issuedAt->format(DATE_ATOM),
+        'status' => 'PROFILE_EXAMINATION_SENATOR_FINDING_AUTHORED_SEALED_PENDING_PANEL_COMPLETION',
+        'senator_finding_authority_consumed' => true,
+        'attributable' => true,
+        'peer_findings_visible_at_authorship' => false,
+        'deliberation_open' => false,
+        'senate_disposition_authority' => false,
+        'profile_approval_authority' => false,
+        'profile_installation_authority' => false,
+        'profile_activation_authority' => false,
+        'deployment_authority' => false,
+        'execution_authority' => false,
+        'sealed' => true]);
+        return['finding' => $finding,
+        'readiness' => $this->ready($openingId)];
+    }
+    private function ready(string $id): ?array
+    {
+        $found = [];
+        foreach (glob($this->findings.'/model-bound-profile-senator-finding-*.json') ? :[] as $p) {
+            $f = $this->read($p,
+            'S281_MODEL_BOUND_FINDING_CONFLICT');
+            if (!$this->ok($f)) throw new \RuntimeException('S281_MODEL_BOUND_FINDING_CONFLICT');
+            if (($f['source_finding_authority_opening']['id'] ?? null) === $id)$found[$f['jurisdiction']] = $f;
+        }
+        foreach (['trust',
+        'security',
+        'usability']as$j)if (!isset($found[$j])) return null;
+        $ordered = [];
+        foreach (['trust',
+        'security',
+        'usability']as$j)$ordered[] = $found[$j];
+        $o = $this->read($this->openings.'/'.$id.'.json',
+        'S277_MODEL_BOUND_FINDING_OPENING_ABSENT');
+        $authorityId = 'model-bound-profile-deliberation-opening-authority-'.substr(hash('sha256',
+        CanonicalJson::encode([$id,
+        $o['record_digest'],
+        array_column($ordered,
+        'record_digest')])),
+        0,
+        20);
+        $readinessId = 'model-bound-profile-finding-readiness-'.substr(hash('sha256',
+        CanonicalJson::encode([$id,
+        $o['record_digest'],
+        array_column($ordered,
+        'record_digest')])),
+        0,
+        20);
+        return $this->save($this->readiness,
+        $readinessId,
+        ['schema' => 'imperium.senate-model-bound-profile-finding-readiness/v1',
+        'readiness_id' => $readinessId,
+        'instance_id' => $o['instance_id'],
+        'case_id' => $o['case_id'],
+        'case_digest' => $o['case_digest'],
+        'source_finding_authority_opening' => ['id' => $id,
+        'digest' => $o['record_digest']],
+        'subject_profile' => $o['subject_profile'],
+        'senator_findings' => array_map(static fn(array $f): array => ['jurisdiction' => $f['jurisdiction'],
+        'finding_id' => $f['finding_id'],
+        'finding_digest' => $f['record_digest'],
+        'disposition' => $f['decision']['disposition'],
+        'severity' => $f['decision']['severity'],
+        'mandatory_security_blocking_condition' => $f['mandatory_security_blocking_condition']],
+        $ordered),
+        'mandatory_security_blocking_condition' => $found['security']['mandatory_security_blocking_condition'],
+        'deliberation_opening_authority' => ['authority_id' => $authorityId,
+        'authority_single_use' => true,
+        'lord_speaker_consumption_required' => true,
+        'status' => 'OPEN_PENDING_DELIBERATION_OPENING'],
+        'status' => 'PROFILE_EXAMINATION_SENATOR_FINDINGS_SEALED_PENDING_DELIBERATION_OPENING',
+        'all_finding_authorities_consumed' => true,
+        'deliberation_open' => false,
+        'reconciliation_authority_exercisable' => false,
+        'vote_authority' => false,
+        'aggregation_authority' => false,
+        'senate_disposition_authority' => false,
+        'profile_approval_authority' => false,
+        'profile_installation_authority' => false,
+        'profile_activation_authority' => false,
+        'deployment_authority' => false,
+        'execution_authority' => false,
+        'sealed' => true]);
+    }
+    private function validate(array $d,
+    array $r,
+    string $e): void {
+        $keys = array_keys($d);
+        sort($keys);
+        if (['attributed_defect',
+        'disposition',
+        'evidence_references',
+        'limitations',
+        'rationale',
+        'severity',
+        'uncertainty'] !== $keys) throw new \RuntimeException('S282_MODEL_BOUND_FINDING_INVALID: FIELDS_INVALID');
+        if (!in_array($d['disposition'] ?? null,
+        ['PASS',
+        'CONCERN',
+        'FAIL',
+        'UNRESOLVED'],
+        true) ||
+        !in_array($d['severity'] ?? null,
+        ['NONE',
+        'LOW',
+        'MEDIUM',
+        'HIGH',
+        'CRITICAL'],
+        true) ||
+        !is_string($d['rationale'] ?? null) ||
+        '' === trim($d['rationale']) ||
+        [$e] !== ($d['evidence_references'] ?? null)) throw new \RuntimeException('S282_MODEL_BOUND_FINDING_INVALID: DECISION_INVALID');
+        foreach (['limitations',
+        'uncertainty']as$f) {
+            if (!is_array($d[$f] ?? null) ||
+            !array_is_list($d[$f])) throw new \RuntimeException('S282_MODEL_BOUND_FINDING_INVALID: LIST_INVALID');
+            foreach ($d[$f]as$v)if (!is_string($v) ||
+            '' === trim($v)) throw new \RuntimeException('S282_MODEL_BOUND_FINDING_INVALID: LIST_INVALID');
+        }
+        if ('PASS' === $d['disposition']) {
+            if (null !== ($d['attributed_defect'] ?? null) ||
+            'NONE' !== $d['severity']) throw new \RuntimeException('S282_MODEL_BOUND_FINDING_INVALID: PASS_INVALID');
+        }
+        elseif(!in_array($d['attributed_defect'] ?? null,
+        $r,
+        true)) throw new \RuntimeException('S282_MODEL_BOUND_FINDING_INVALID: ATTRIBUTION_INVALID');
+    }
+    private function actor(array $b): array
+    {
+        return['seat' => $b['seat'],
+        'binding_id' => $b['binding_id'],
+        'binding_digest' => $b['record_digest'],
+        'manifestation_id' => $b['manifestation_id'],
+        'occupancy_generation' => $b['occupancy_generation']];
+    }
+    private function read(string $p,
+    string $e): array {
+        if (!is_file($p)) throw new \RuntimeException($e);
+        return json_decode((string)file_get_contents($p),
+        true,
+        512,
+        JSON_THROW_ON_ERROR);
+    }
+    private function ok(array $r): bool
+    {
+        $d = $r['record_digest'] ?? null;
+        unset($r['record_digest']);
+        return is_string($d) &&
+        hash_equals($d,
+        hash('sha256',
+        CanonicalJson::encode($r)));
+    }
+    private function save(string $d,
+    string $id,
+    array $r): array {
+        if (!is_dir($d) &&
+        !mkdir($d,
+        0770,
+        true) &&
+        !is_dir($d)) throw new \RuntimeException('S283_MODEL_BOUND_FINDING_FAILED');
+        $r['record_digest'] = hash('sha256',
+        CanonicalJson::encode($r));
+        $p = $d.'/'.$id.'.json';
+        if (is_file($p)) {
+            if ($this->read($p,
+            'S281_MODEL_BOUND_FINDING_CONFLICT') !== $r) throw new \RuntimeException('S281_MODEL_BOUND_FINDING_CONFLICT');
+            return $r;
+        }
+        file_put_contents($p,
+        json_encode($r,
+        JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_THROW_ON_ERROR)."\n",
+        LOCK_EX);
+        return $r;
+    }
 }
