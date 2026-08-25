@@ -139,3 +139,7 @@ The Steps 44–46 transactional sub-leg now has its persistence foundation. `Cod
 ## Hardening Step 21
 
 Delegate Mission operational qualification, manifestation assembly, and mission-seat binding now route both first execution and replay through one recoverable transition coordinator. The coordinator validates each sealed Folium, requires exact predecessor identity and digest, advances the Codex through the three established runtime checkpoints, and resumes safely when interrupted immediately before or after any index transition. No checkpoint grants deployment or operational-use authority.
+
+## Hardening Step 22
+
+The Steps 44–46 persistence migration is closed. Their three Folium commits now use the shared `ImmutableRecordStore`; same-identity conflicting writers cannot overwrite one another, and only the stored winner can advance the Codex. A cross-platform two-process contention test proves one immutable qualification winner, one explicit conflict, one stored Folium, and one generation-one Codex.

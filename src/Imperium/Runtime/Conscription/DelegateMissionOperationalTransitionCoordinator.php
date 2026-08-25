@@ -7,6 +7,7 @@ namespace App\Imperium\Runtime\Conscription;
 use App\Bootstrap\CanonicalJson;
 use App\Imperium\Runtime\Persistence\AtomicTransition;
 use App\Imperium\Runtime\Persistence\CodexImperiiStore;
+use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class DelegateMissionOperationalTransitionCoordinator
@@ -16,13 +17,49 @@ final readonly class DelegateMissionOperationalTransitionCoordinator
     private const string BOUND = 'DELEGATE_MISSION_MANIFESTATION_BOUND_PENDING_DEPLOYMENT_AUTHORIZATION';
 
     private CodexImperiiStore $codex;
+    private ImmutableRecordStore $records;
 
     public function __construct(
         #[Autowire('%kernel.project_dir%')] string $root,
         ?CodexImperiiStore $codex = null,
+        ?ImmutableRecordStore $records = null,
         private ?OperationalTransitionFaultInjector $faults = null,
     ) {
-        $this->codex = $codex ?? new CodexImperiiStore($root, new AtomicTransition($root));
+        $atomic = new AtomicTransition($root);
+        $this->codex = $codex ?? new CodexImperiiStore($root, $atomic);
+        $this->records = $records ?? new ImmutableRecordStore($root, $atomic);
+    }
+
+    public function commitQualification(string $id, array $qualification): array
+    {
+        $this->requireId($id, $qualification, 'qualification_id');
+        $record = $this->records->put(
+            'var/imperium/offices/conscription/delegate-mission-operational-profile-qualifications',
+            $id,
+            $qualification,
+        );
+
+        return $this->recordQualification($record);
+    }
+
+    public function commitAssembly(string $id, array $assembly): array
+    {
+        $this->requireId($id, $assembly, 'assembly_id');
+        $record = $this->records->put(
+            'var/imperium/offices/conscription/delegate-mission-operational-manifestation-assemblies',
+            $id,
+            $assembly,
+        );
+
+        return $this->recordAssembly($record);
+    }
+
+    public function commitBinding(string $id, array $binding): array
+    {
+        $this->requireId($id, $binding, 'binding_id');
+        $record = $this->records->put('var/imperium/mission/occupancy', $id, $binding);
+
+        return $this->recordBinding($record);
     }
 
     public function recordQualification(array $qualification): array
@@ -157,6 +194,13 @@ final readonly class DelegateMissionOperationalTransitionCoordinator
             || !is_string($digest)
             || !hash_equals($digest, hash('sha256', CanonicalJson::encode($unsigned)))) {
             throw new \RuntimeException('CDI120_OPERATIONAL_FOLIUM_INVALID');
+        }
+    }
+
+    private function requireId(string $id, array $record, string $idKey): void
+    {
+        if ($id !== ($record[$idKey] ?? null)) {
+            throw new \RuntimeException('CDI121_OPERATIONAL_FOLIUM_ID_MISMATCH');
         }
     }
 
