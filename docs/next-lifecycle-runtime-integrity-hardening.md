@@ -147,3 +147,7 @@ The Steps 44–46 persistence migration is closed. Their three Folium commits no
 ## Hardening Step 23
 
 Steps 51–52 now share one bounded record-mechanics substrate for safe reads, canonical digest validation, and immutable persistence. Commission construction and readiness assessment retain separate services, source chains, authorities, outputs, statuses, and established `C26x`/`C27x` error vocabularies. Conflicting same-identity writes fail stopped without allowing readiness judgment to collapse into commission construction.
+
+## Hardening Step 24
+
+Steps 67–68 now share bounded result/return record mechanics: path-safe reads, canonical digest verification, exact source resolution, immutable persistence, and established conflict mapping. Result disposition still decides only `ACCEPTED`, `STOPPED`, or `FAILED`; return authorization separately proves the predeclared termination contract and opens only Garrison's terminal-transition authority. Replay now rejects changed disposition, rationale, actor, source digest, or authority instead of inheriting an earlier result.

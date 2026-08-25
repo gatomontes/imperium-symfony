@@ -73,7 +73,7 @@ Preserve independent authorities, emitted records, and cross-office handoffs. Co
   Closeout Step 19 reserves `S790`–`S795` for the six shared engines' unsupported-jurisdiction fail-stop errors, without changing any established jurisdiction-specific runtime error.
 - [x] Consolidate operational qualification, assembly, and binding mechanics (Steps 44-46) into a transactional workflow with explicit checkpoints. *(Step 20 added the atomic `CodexImperiiStore`; Step 21 routes first execution and replay through the recoverable coordinator.)*
 - [x] Consolidate commission construction and readiness mechanics (Steps 51-52). *(Step 23 shares only record reads, digest validation, immutable persistence, and error mapping; the two judgments and authorities remain separate.)*
-- [ ] Consolidate result disposition and return-authorization mechanics (Steps 67-68).
+- [x] Consolidate result disposition and return-authorization mechanics (Steps 67-68). *(Step 24 shares only evidence reads, digest/source validation, immutable persistence, and error mapping; result acceptance and return authority remain separate decisions.)*
 - [ ] Keep Oracle catalogue identity separate from runtime model binding.
 - [ ] Keep cross-office decisions explicit even when they share infrastructure.
 
