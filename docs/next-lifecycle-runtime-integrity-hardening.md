@@ -143,3 +143,7 @@ Delegate Mission operational qualification, manifestation assembly, and mission-
 ## Hardening Step 22
 
 The Steps 44–46 persistence migration is closed. Their three Folium commits now use the shared `ImmutableRecordStore`; same-identity conflicting writers cannot overwrite one another, and only the stored winner can advance the Codex. A cross-platform two-process contention test proves one immutable qualification winner, one explicit conflict, one stored Folium, and one generation-one Codex.
+
+## Hardening Step 23
+
+Steps 51–52 now share one bounded record-mechanics substrate for safe reads, canonical digest validation, and immutable persistence. Commission construction and readiness assessment retain separate services, source chains, authorities, outputs, statuses, and established `C26x`/`C27x` error vocabularies. Conflicting same-identity writes fail stopped without allowing readiness judgment to collapse into commission construction.
