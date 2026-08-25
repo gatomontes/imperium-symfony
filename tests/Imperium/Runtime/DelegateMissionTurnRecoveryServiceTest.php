@@ -60,6 +60,22 @@ final class DelegateMissionTurnRecoveryServiceTest extends TestCase
         (new DelegateMissionTurnRecoveryService($this->root))->recover($authorizationId, new \DateTimeImmutable('2026-08-25T17:00:00+00:00'));
     }
 
+    public function testDifferentAuthorizationCannotClaimReplayOfRecoveredTurn(): void
+    {
+        $authorizationId = $this->seed();
+        $service = new DelegateMissionTurnRecoveryService($this->root);
+        $service->recover($authorizationId, new \DateTimeImmutable('2026-08-25T15:00:00+00:00'));
+        $authorization = json_decode((string) file_get_contents($this->root.'/var/imperium/runtime/provider-turn-recovery-authorizations/'.$authorizationId.'.json'), true, 512, JSON_THROW_ON_ERROR);
+        unset($authorization['record_digest']);
+        $otherId = 'provider-turn-recovery-'.str_repeat('e', 20);
+        $authorization['authorization_id'] = $otherId;
+        $authorization['recovery_authority']['authority_id'] = 'different-recovery-authority';
+        $this->write('var/imperium/runtime/provider-turn-recovery-authorizations/'.$otherId.'.json', $authorization);
+
+        $this->expectExceptionMessage('CT332_DELEGATE_TURN_RECOVERY_CONFLICT');
+        $service->recover($otherId, new \DateTimeImmutable('2026-08-25T15:01:00+00:00'));
+    }
+
     private function seed(?string $response = null): string
     {
         $response ??= json_encode(['disposition' => 'COMPLETED', 'output' => 'Recovered.', 'evidence_references' => [], 'uncertainties' => [], 'stop_condition_triggered' => false, 'stop_rationale' => null], JSON_THROW_ON_ERROR);

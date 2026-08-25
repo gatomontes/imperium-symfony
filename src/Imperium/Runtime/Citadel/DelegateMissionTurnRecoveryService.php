@@ -112,7 +112,8 @@ final readonly class DelegateMissionTurnRecoveryService
         try {
             $existing = $this->records->read(self::TURNS, $turnId);
             if (($existing['source_invocation_claim'] ?? null) !== ['id' => $claimId, 'digest' => $claim['record_digest']]
-                || ($existing['result'] ?? null) !== $payload) {
+                || ($existing['result'] ?? null) !== $payload
+                || ($existing['recovery']['authorization_id'] ?? null) !== ($authorization['authorization_id'] ?? null)) {
                 throw new \RuntimeException('CT332_DELEGATE_TURN_RECOVERY_CONFLICT');
             }
 
