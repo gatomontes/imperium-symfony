@@ -44,6 +44,8 @@ Hardening Step 8 is implemented. Provider responses are now sealed in immutable,
 
 Hardening Step 9 is implemented. A provider-independent forward-recovery service now requires one exact durable recovery authorization, consumes its authority through the shared single-winner store, revalidates the complete claim/journal/envelope/activation/commission chain and cognition payload, and immutably persists the missing turn. Exact replay returns the existing turn; provider reinvocation remains structurally unavailable.
 
+Hardening Step 10 is implemented. Delegate Mission terminal return now advances through a durable, forward-only retirement transaction. Custody restoration, binding retirement, and immutable terminal recording are individually checkpointed; interruption at every checkpoint resumes to one terminal state without rollback or renewed authority.
+
 ### Problem
 
 The current Clavium lease records permission but does not technically control the only route to provider credentials. The provider call can also complete before the result/turn is durably recorded. A process death in that interval creates an unknown outcome and may cause a repeated external call.
