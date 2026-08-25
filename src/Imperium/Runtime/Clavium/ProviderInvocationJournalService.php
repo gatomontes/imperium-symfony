@@ -5,31 +5,37 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Clavium;
 
 use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\Persistence\AtomicTransition;
+use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
+use App\Imperium\Runtime\Persistence\MutableStateStore;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class ProviderInvocationJournalService
 {
-    private string $claims;
-    private string $journal;
-    private string $lockPath;
+    private const CLAIMS = 'var/imperium/runtime/provider-invocations';
+    private const JOURNAL = 'var/imperium/runtime/provider-invocation-journal';
 
-    public function __construct(#[Autowire('%kernel.project_dir%')] string $root)
-    {
-        $this->claims = $root.'/var/imperium/runtime/provider-invocations';
-        $this->journal = $root.'/var/imperium/runtime/provider-invocation-journal';
-        $this->lockPath = $root.'/var/imperium/runtime/provider-invocation-journal.lock';
+    private MutableStateStore $state;
+    private ImmutableRecordStore $records;
+
+    public function __construct(
+        #[Autowire('%kernel.project_dir%')]
+        string $root,
+        ?AtomicTransition $atomic = null,
+        ?MutableStateStore $state = null,
+        ?ImmutableRecordStore $records = null,
+    ) {
+        $atomic ??= new AtomicTransition($root);
+        $this->state = $state ?? new MutableStateStore($root, $atomic);
+        $this->records = $records ?? new ImmutableRecordStore($root, $atomic);
     }
 
     public function start(array $claim, \DateTimeImmutable $at): array
     {
-        return $this->locked(function () use ($claim, $at): array {
-            $authoritative = $this->authoritativeClaim($claim);
-            $path = $this->path($authoritative['claim_id']);
-            if (is_file($path)) {
-                throw new \RuntimeException('CLV412_PROVIDER_INVOCATION_ALREADY_STARTED');
-            }
+        $authoritative = $this->authoritativeClaim($claim);
 
-            return $this->write($path, [
+        try {
+            return $this->state->compareAndSwap($this->path($authoritative['claim_id']), null, [
                 'schema' => 'imperium.clavium-provider-invocation-journal/v1',
                 'claim' => ['id' => $authoritative['claim_id'], 'digest' => $authoritative['record_digest']],
                 'idempotency_key' => $authoritative['provider_request']['idempotency_key'],
@@ -41,19 +47,20 @@ final readonly class ProviderInvocationJournalService
                 'automatic_replay_permitted' => false,
                 'sealed' => true,
             ]);
-        });
+        } catch (\RuntimeException $exception) {
+            throw $this->translatePersistenceFailure($exception, 'CLV412_PROVIDER_INVOCATION_ALREADY_STARTED');
+        }
     }
 
     public function markPreIoFailure(array $claim, string $failureCode, \DateTimeImmutable $at): array
     {
-        return $this->locked(function () use ($claim, $failureCode, $at): array {
-            $authoritative = $this->authoritativeClaim($claim);
-            $path = $this->path($authoritative['claim_id']);
-            if (is_file($path) || !preg_match('/^[A-Z][A-Z0-9_]{2,80}$/', $failureCode)) {
-                throw new \RuntimeException('CLV414_PROVIDER_INVOCATION_JOURNAL_TRANSITION_INVALID');
-            }
+        $authoritative = $this->authoritativeClaim($claim);
+        if (!preg_match('/^[A-Z][A-Z0-9_]{2,80}$/', $failureCode)) {
+            throw new \RuntimeException('CLV414_PROVIDER_INVOCATION_JOURNAL_TRANSITION_INVALID');
+        }
 
-            return $this->write($path, [
+        try {
+            return $this->state->compareAndSwap($this->path($authoritative['claim_id']), null, [
                 'schema' => 'imperium.clavium-provider-invocation-journal/v1',
                 'claim' => ['id' => $authoritative['claim_id'], 'digest' => $authoritative['record_digest']],
                 'idempotency_key' => $authoritative['provider_request']['idempotency_key'],
@@ -66,7 +73,9 @@ final readonly class ProviderInvocationJournalService
                 'automatic_replay_permitted' => false,
                 'sealed' => true,
             ]);
-        });
+        } catch (\RuntimeException $exception) {
+            throw $this->translatePersistenceFailure($exception, 'CLV414_PROVIDER_INVOCATION_JOURNAL_TRANSITION_INVALID');
+        }
     }
 
     public function sealResponse(array $claim, string $response, \DateTimeImmutable $at): array
@@ -92,19 +101,25 @@ final readonly class ProviderInvocationJournalService
 
     private function transition(array $claim, string $expected, callable $change): array
     {
-        return $this->locked(function () use ($claim, $expected, $change): array {
-            $authoritative = $this->authoritativeClaim($claim);
-            $path = $this->path($authoritative['claim_id']);
-            $record = $this->read($path, 'CLV413_PROVIDER_INVOCATION_JOURNAL_ABSENT');
-            if (!$this->valid($record)
-                || $expected !== ($record['status'] ?? null)
-                || ($record['claim']['digest'] ?? null) !== $authoritative['record_digest']) {
-                throw new \RuntimeException('CLV414_PROVIDER_INVOCATION_JOURNAL_TRANSITION_INVALID');
-            }
-            unset($record['record_digest']);
+        $authoritative = $this->authoritativeClaim($claim);
+        $path = $this->path($authoritative['claim_id']);
+        try {
+            $record = $this->state->read($path);
+        } catch (\RuntimeException $exception) {
+            throw $this->translatePersistenceFailure($exception, 'CLV413_PROVIDER_INVOCATION_JOURNAL_ABSENT');
+        }
+        if ($expected !== ($record['status'] ?? null)
+            || ($record['claim']['digest'] ?? null) !== $authoritative['record_digest']) {
+            throw new \RuntimeException('CLV414_PROVIDER_INVOCATION_JOURNAL_TRANSITION_INVALID');
+        }
+        $expectedDigest = $record['record_digest'];
+        unset($record['record_digest']);
 
-            return $this->write($path, $change($record));
-        });
+        try {
+            return $this->state->compareAndSwap($path, $expectedDigest, $change($record));
+        } catch (\RuntimeException $exception) {
+            throw $this->translatePersistenceFailure($exception, 'CLV414_PROVIDER_INVOCATION_JOURNAL_TRANSITION_INVALID');
+        }
     }
 
     private function authoritativeClaim(array $claim): array
@@ -113,9 +128,12 @@ final readonly class ProviderInvocationJournalService
         if (!is_string($id) || !preg_match('/^provider-invocation-[a-f0-9]{20}$/', $id)) {
             throw new \RuntimeException('CLV410_PROVIDER_INVOCATION_CLAIM_INVALID');
         }
-        $authoritative = $this->read($this->claims.'/'.$id.'.json', 'CLV410_PROVIDER_INVOCATION_CLAIM_INVALID');
-        if (!$this->valid($authoritative)
-            || CanonicalJson::encode($claim) !== CanonicalJson::encode($authoritative)
+        try {
+            $authoritative = $this->records->read(self::CLAIMS, $id);
+        } catch (\RuntimeException) {
+            throw new \RuntimeException('CLV410_PROVIDER_INVOCATION_CLAIM_INVALID');
+        }
+        if (CanonicalJson::encode($claim) !== CanonicalJson::encode($authoritative)
             || 'INVOCATION_CLAIMED_PENDING_EXTERNAL_IO' !== ($authoritative['status'] ?? null)
             || true !== ($authoritative['lease_consumption']['consumed'] ?? null)
             || true !== ($authoritative['turn_authority_consumption']['consumed'] ?? null)
@@ -127,58 +145,19 @@ final readonly class ProviderInvocationJournalService
         return $authoritative;
     }
 
-    private function locked(callable $operation): array
-    {
-        if (!is_dir($this->journal) && !mkdir($this->journal, 0770, true) && !is_dir($this->journal)) {
-            throw new \RuntimeException('CLV415_PROVIDER_INVOCATION_JOURNAL_STORAGE_FAILED');
-        }
-        $lock = fopen($this->lockPath, 'c+');
-        if (false === $lock || !flock($lock, LOCK_EX)) {
-            if (is_resource($lock)) {
-                fclose($lock);
-            }
-            throw new \RuntimeException('CLV411_PROVIDER_INVOCATION_JOURNAL_LOCK_FAILED');
-        }
-        try {
-            return $operation();
-        } finally {
-            flock($lock, LOCK_UN);
-            fclose($lock);
-        }
-    }
-
     private function path(string $claimId): string
     {
-        return $this->journal.'/'.$claimId.'.json';
+        return self::JOURNAL.'/'.$claimId.'.json';
     }
 
-    private function write(string $path, array $record): array
+    private function translatePersistenceFailure(\RuntimeException $exception, string $conflict): \RuntimeException
     {
-        $record['record_digest'] = hash('sha256', CanonicalJson::encode($record));
-        $temporary = $path.'.tmp.'.bin2hex(random_bytes(6));
-        $json = json_encode($record, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)."\n";
-        if (false === file_put_contents($temporary, $json, LOCK_EX) || !rename($temporary, $path)) {
-            @unlink($temporary);
-            throw new \RuntimeException('CLV415_PROVIDER_INVOCATION_JOURNAL_STORAGE_FAILED');
-        }
-
-        return $record;
-    }
-
-    private function read(string $path, string $error): array
-    {
-        if (!is_file($path)) {
-            throw new \RuntimeException($error);
-        }
-
-        return json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
-    }
-
-    private function valid(array $record): bool
-    {
-        $digest = $record['record_digest'] ?? null;
-        unset($record['record_digest']);
-
-        return is_string($digest) && hash_equals($digest, hash('sha256', CanonicalJson::encode($record)));
+        return match ($exception->getMessage()) {
+            'PST121_MUTABLE_STATE_COMPARE_AND_SWAP_CONFLICT' => new \RuntimeException($conflict, 0, $exception),
+            'PST122_MUTABLE_STATE_ABSENT' => new \RuntimeException($conflict, 0, $exception),
+            'PST123_MUTABLE_STATE_TAMPERED' => new \RuntimeException('CLV414_PROVIDER_INVOCATION_JOURNAL_TRANSITION_INVALID', 0, $exception),
+            'PST124_MUTABLE_STATE_COMMIT_FAILED' => new \RuntimeException('CLV415_PROVIDER_INVOCATION_JOURNAL_STORAGE_FAILED', 0, $exception),
+            default => $exception,
+        };
     }
 }

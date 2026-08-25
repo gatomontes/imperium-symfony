@@ -36,6 +36,8 @@ Hardening Step 4 is implemented. Shared atomic-transition, immutable-record, mut
 
 Hardening Step 5 is implemented. Durable provider-invocation claiming now uses the shared `AtomicTransition` and `ImmutableRecordStore`; its legacy private lock and commit implementation have been removed without changing the claim schema or checkpoint.
 
+Hardening Step 6 is implemented. Provider invocation journaling now uses shared mutable-state compare-and-swap transitions and immutable claim reads. Its legacy private journal lock and commit implementation have been removed; stale terminal writers and tampered journal state fail stopped while pre-I/O failure, sealed-response, and unknown-outcome semantics remain unchanged.
+
 ### Problem
 
 The current Clavium lease records permission but does not technically control the only route to provider credentials. The provider call can also complete before the result/turn is durably recorded. A process death in that interval creates an unknown outcome and may cause a repeated external call.
