@@ -38,6 +38,8 @@ Hardening Step 5 is implemented. Durable provider-invocation claiming now uses t
 
 Hardening Step 6 is implemented. Provider invocation journaling now uses shared mutable-state compare-and-swap transitions and immutable claim reads. Its legacy private journal lock and commit implementation have been removed; stale terminal writers and tampered journal state fail stopped while pre-I/O failure, sealed-response, and unknown-outcome semantics remain unchanged.
 
+Hardening Step 7 is implemented. A read-only recovery assessor now classifies every durable provider boundary without granting replay authority, and a cross-platform subprocess contention test proves that two journal starters produce exactly one winner. Crash fixtures cover absence before claim, claimed-without-journal, in-flight provider I/O, response-sealed-before-turn, and completed-turn states.
+
 ### Problem
 
 The current Clavium lease records permission but does not technically control the only route to provider credentials. The provider call can also complete before the result/turn is durably recorded. A process death in that interval creates an unknown outcome and may cause a repeated external call.
