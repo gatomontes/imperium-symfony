@@ -115,3 +115,7 @@ Read the completed route, flow, Blackquill backlog, and review handoff. Inspect 
 ## Hardening Step 15
 
 Security and Usability subsequent-question commission acceptance and refusal now pass through one jurisdiction-parameterized engine. Existing service constructors and jurisdiction-specific error/status contracts remain intact. Trust is deliberately excluded because its first-question authority originates from the examination opening rather than a subsequent testimony turn.
+
+## Hardening Step 16
+
+Trust, Security, and Usability question-dispatch authorization/refusal now share one jurisdiction-parameterized Lord Speaker decision engine. The existing public services, exact error families, question lineage, Bailiff authority, and jurisdiction-specific evidence records remain intact.
