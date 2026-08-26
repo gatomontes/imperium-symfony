@@ -21,7 +21,12 @@ final readonly class SymfonyAiPersonaWitnessTestimonyCognitionGateway
         if (!in_array($jurisdiction, ['practice', 'governance', 'consistency', 'security'], true)) throw new \RuntimeException('S135_SENATOR_QUESTION_COGNITION_INVALID');
         $authorityId = (string) ($assignment['authority_id'] ?? '');
         $authorityType = (string) ($assignment['cognition_authority_type'] ?? 'question-'.$jurisdiction);
-        if ('question-'.$jurisdiction !== $authorityType && !('consistency' === $jurisdiction && 'question-fresh-consistency' === $authorityType)) throw new \RuntimeException('S135_SENATOR_QUESTION_COGNITION_INVALID');
+        $specialQuestionAuthority = match ($jurisdiction) {
+            'consistency' => 'question-fresh-consistency',
+            'governance' => 'question-pressure-governance',
+            default => null,
+        };
+        if ('question-'.$jurisdiction !== $authorityType && $specialQuestionAuthority !== $authorityType) throw new \RuntimeException('S135_SENATOR_QUESTION_COGNITION_INVALID');
         $prompt = implode("\n", [
             "Exact attributable Senator assignment: " . $this->encode($assignment),
             "Exact secured deposition: " . $this->encode($deposition),
