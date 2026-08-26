@@ -83,7 +83,7 @@ No private record may persist raw prompts beyond the repository's established in
 
 1. **Request and decision — implemented:** introduce the Curia request and independent Imperator authorize/refuse service with exact replay and conflict rejection.
 2. **Lease — implemented:** have Clavium validate the current authorized decision and issue one opaque, exact, expiring lease without resolving credentials.
-3. **Claim:** atomically consume the lease and cognition authority into one durable invocation claim before any external I/O.
+3. **Claim — implemented:** atomically consume the lease and cognition authority into one durable invocation claim before any external I/O.
 4. **Broker:** migrate the operational gateway to a claim-bound broker that resolves the credential inside its callback and constructs a provider adapter for that call only. Remove the operational agent definition from the directly invokable platform.
 5. **Proof:** test authorization refusal; missing, malformed, mismatched, expired, consumed, and superseded decisions and leases; exact replay; divergent concurrency; interruption around claim/I/O boundaries; unknown outcome; and absence of secrets from persistence, exceptions, logs, and serialized output.
 6. **Remaining clusters:** migrate every other direct platform-bound agent by governance cluster, remove the global environment-backed credential platform, then implement the final repeatable bypass demonstration and sanitized summary.
@@ -125,7 +125,25 @@ Focused verification:
 php vendor/bin/phpunit tests/Imperium/Runtime/OperationalCognitionLeaseServiceTest.php
 ```
 
-The next batch is **Batch 3: durable invocation claim**. It must atomically consume this exact lease and the exact cognition authority into one durable pre-I/O claim with a stable provider idempotency identity. It must not resolve credentials or invoke the provider.
+Batch 3 follows this checkpoint and implements the durable pre-I/O invocation claim.
+
+## Batch 3 implementation checkpoint
+
+`OperationalCognitionInvocationClaimService` implements the sole pre-I/O consumption boundary.
+
+- Batch 1 now gives the single-use cognition authority an explicit deterministic identity.
+- The claim transition locks the cognition-authority identity and lease identity in a fixed nested order, rereads the complete request/decision/lease chain, validates all digests, expiry, target, provider/model/configuration, resource, input, Profile/model requirement, iteration, and unconsumed-state bindings, then persists both consumptions in one immutable claim write.
+- The claim carries one stable provider idempotency identity and explicit durable pre-I/O state: external I/O has not started, no provider was invoked, no credential was resolved, no network access occurred, and automatic replay is prohibited after an unknown outcome.
+- Exact replay returns the same claim independent of retry time. Divergent reuse, substitution, expiry, prior consumption, tampered stored claims, or partial/crossed consumption fails stopped.
+- Process-level contention coverage proves two workers converge on one claim.
+
+Focused verification:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/OperationalCognitionInvocationClaimServiceTest.php
+```
+
+The next batch is **Batch 4: claim-bound operational broker**. It must replace the operational gateway's directly injected Symfony agent, reread this exact durable claim, resolve the credential only inside the broker callback, construct a per-call DeepSeek adapter, and return only the bounded output. Unknown-outcome and response-envelope behavior must reuse the existing governed recovery contracts.
 
 ## New-chat continuation prompt
 
@@ -140,6 +158,6 @@ Copy this prompt verbatim into the next chat:
 >
 > Continue Imperium from `main` at or after the merge recorded in `docs/handoffs/operational-cognition-access-lifecycle-ready.md`. Read that handoff, `docs/credential-boundary-remediation.md`, `docs/delegate-mission-flow.md`, `docs/handoffs/runtime-integrity-hardening-leg-complete.md`, `docs/handoffs/runtime-severe-source-cleanup-closed.md`, `docs/handoffs/crash-demonstration-program-complete.md`, and `todo/blackquill-todos.md` before changing code.
 >
-> Begin Operational Cognition Access Batch 3: durable invocation claim. Atomically consume the exact Batch 2 lease and exact Batch 1 cognition authority into one durable pre-I/O invocation claim with a stable provider idempotency identity. Validate every request, decision, lease, target, provider/model/configuration, input, iteration, expiry, and consumption binding. Exact replay must return the same claim; divergent or partial consumption must fail stopped. Do not resolve credentials, construct a provider adapter, or perform provider I/O in this batch. Add focused concurrency, replay, tamper, and interruption tests; never commit raw private evidence or credential-adjacent material. Do not invent Delegate Mission Step 70 or Runtime Integrity Hardening Step 36. I will run local PHP commands.
+> Begin Operational Cognition Access Batch 4: claim-bound operational broker. Replace the operational Manifestation gateway's directly injected Symfony agent with a broker that rereads the exact Batch 3 durable claim, resolves the credential only inside its consumption callback, constructs the strict DeepSeek adapter for that call only, and returns only the bounded output. Preserve the stable idempotency identity, response envelope, failure journal, pre-I/O failure, unknown-outcome prohibition, and governed recovery contracts. Remove the operational agent from the directly invokable platform. Add focused broker, configuration, failure, replay, and secret-exclusion tests. Do not claim the system-wide bypass gate closed while other direct agents remain. Do not invent Delegate Mission Step 70 or Runtime Integrity Hardening Step 36. I will run local PHP commands.
 >
 > Ad Imperium. Not one step back.

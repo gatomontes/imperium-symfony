@@ -63,6 +63,7 @@ final readonly class OperationalCognitionRequestService
             $expiresAt->format(DATE_ATOM),
         ];
         $requestId = 'operational-cognition-request-'.substr(hash('sha256', CanonicalJson::encode($fingerprint)), 0, 20);
+        $cognitionAuthorityId = 'operational-cognition-authority-'.substr(hash('sha256', CanonicalJson::encode([$requestId, $authorizationId, $authorization['record_digest']])), 0, 20);
         $profileModelRequirementsDigest = hash('sha256', CanonicalJson::encode([
             'profile_candidate' => $authorization['profile_candidate'],
             'model_requirements' => $modelRequirements,
@@ -97,6 +98,7 @@ final readonly class OperationalCognitionRequestService
             'expires_at' => $expiresAt->format(DATE_ATOM),
             'status' => 'OPERATIONAL_COGNITION_REQUESTED_PENDING_IMPERATOR_PROVIDER_RESOURCE_DECISION',
             'cognition_authority' => true,
+            'cognition_authority_id' => $cognitionAuthorityId,
             'cognition_authority_single_use' => true,
             'cognition_authority_consumed' => false,
             'credential_use_authority' => false,

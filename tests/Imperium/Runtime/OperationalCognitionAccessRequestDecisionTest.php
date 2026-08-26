@@ -26,6 +26,7 @@ final class OperationalCognitionAccessRequestDecisionTest extends TestCase
             self::assertSame($authorizationId, $request['source_bounded_execution_authorization']['id']);
             self::assertSame(1, $request['iteration']);
             self::assertTrue($request['cognition_authority']);
+            self::assertMatchesRegularExpression('/^operational-cognition-authority-[a-f0-9]{20}$/', $request['cognition_authority_id']);
             self::assertTrue($request['cognition_authority_single_use']);
             self::assertFalse($request['cognition_authority_consumed']);
             foreach (['credential_use_authority', 'network_access_authority', 'provider_invocation_authority', 'execution_continuation_authority'] as $field) {
