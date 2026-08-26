@@ -138,8 +138,8 @@ Preserve independent authorities, emitted records, and cross-office handoffs. Co
 - [ ] Run the complete PHPUnit suite locally and in CI.
 - [ ] Run concurrency and crash-recovery suites repeatedly.
 - [ ] Demonstrate that direct provider invocation without a valid credential lease is impossible. *(The Delegate Clavium attestation/activation boundary now uses canonical record integrity while retaining undisclosed, untransferred, single-use leases; a live bypass demonstration is still required.)*
-- [ ] Demonstrate recovery from an unknown provider outcome without duplicate invocation. *(Automated coverage now rejects tampered claims and recovery authorizations while retaining sealed-response recovery with `provider_reinvoked=false`; live retained evidence is still required.)*
-- [ ] Demonstrate deterministic recovery from every partial terminal transition.
+- [x] Demonstrate recovery from an unknown provider outcome without duplicate invocation. *(Crash Demonstration 3 has operator-retained proof against source commit `bd3620ccd32e1511c96d53caacb60806348cf995`: the sealed-response recovery completed with `provider_reinvoked=false`.)*
+- [x] Demonstrate deterministic recovery from every partial terminal transition. *(Crash Demonstration 4 has operator-retained proof against source commit `598cbcdf749fc804b979a2ddfb310bf025b385b2`: all five checkpoints recovered, with one winner under divergent contention and zero surviving authority.)*
 - [ ] Capture and retain evidence for the terminal audit's stated scope.
 
 ## Recommended execution order

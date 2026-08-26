@@ -17,3 +17,5 @@ php bin/console imperium:demonstrate:terminal-retirement-recovery --evidence-dir
 ```
 
 Private evidence remains Git-ignored and excludes credentials and environment dumps. The sanitized summary discloses only the source commit, case count, property names, terminal state class, false continuing-authority flag, disposition, and digest.
+
+Operator-local execution against source commit `598cbcdf749fc804b979a2ddfb310bf025b385b2` returned `PROVED`: all five terminal checkpoints recovered with zero failed assertions, two divergent contenders produced exactly one winner and one conflict, the sanitized-summary digest remained bound, and continuing operational authority remained false. Private evidence remains outside Git.
