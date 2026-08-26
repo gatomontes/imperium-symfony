@@ -3,20 +3,11 @@ declare(strict_types=1);
 
 namespace App\Imperium\Runtime\Foundry;
 
-use Symfony\AI\Agent\AgentInterface;
-use Symfony\AI\Platform\Message\Message;
-use Symfony\AI\Platform\Message\MessageBag;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class SymfonyAiSubordinatePersonaReviewCognitionGateway
     implements SubordinatePersonaReviewCognitionGateway
 {
-    public function __construct(
-        #[
-            Autowire(service: "ai.agent.artificer_specification"),
-        ]
-        private AgentInterface $artificer,
-    ) {}
+    public function __construct(private FoundryGovernanceCognitionInvoker $invoker) {}
 
     public function review(
         array $candidate,
@@ -41,9 +32,7 @@ final readonly class SymfonyAiSubordinatePersonaReviewCognitionGateway
             "Return only one JSON object with exactly: disposition, findings, unresolved_blockers, adversarial_review_brief.",
             "disposition must be READY_FOR_ADVERSARIAL_REVIEW or REVISION_REQUIRED. findings and unresolved_blockers must be arrays of explicit non-empty strings. adversarial_review_brief must be a non-empty string. READY_FOR_ADVERSARIAL_REVIEW requires unresolved_blockers to be empty.",
         ]);
-        $content = $this->artificer
-            ->call(new MessageBag(Message::ofUser($prompt)))
-            ->getContent();
+        $content = $this->invoker->invoke('persona-review', (string) ($candidate['candidate_id'] ?? ''), 'foundry.artificer', [$candidate, $specification, $case], $prompt);
         if (!is_string($content) || "" === trim($content)) {
             throw new \RuntimeException("F139_PERSONA_REVIEW_COGNITION_EMPTY");
         }

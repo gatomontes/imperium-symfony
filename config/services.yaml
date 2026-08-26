@@ -38,6 +38,11 @@ services:
         arguments:
             $projectDir: '%kernel.project_dir%'
 
+    App\Imperium\Runtime\Cognition\GovernanceCognitionAuthorityRegistry:
+        arguments:
+            $resolvers:
+                - '@App\Imperium\Runtime\Foundry\FoundryGovernanceCognitionAuthorityResolver'
+
     App\Imperium\Runtime\Curia\ProceedingStore:
         arguments:
             $projectDir: '%kernel.project_dir%'

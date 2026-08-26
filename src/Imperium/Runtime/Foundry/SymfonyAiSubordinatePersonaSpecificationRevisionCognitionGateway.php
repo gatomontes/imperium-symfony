@@ -3,20 +3,11 @@ declare(strict_types=1);
 
 namespace App\Imperium\Runtime\Foundry;
 
-use Symfony\AI\Agent\AgentInterface;
-use Symfony\AI\Platform\Message\Message;
-use Symfony\AI\Platform\Message\MessageBag;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class SymfonyAiSubordinatePersonaSpecificationRevisionCognitionGateway
     implements SubordinatePersonaSpecificationRevisionCognitionGateway
 {
-    public function __construct(
-        #[
-            Autowire(service: "ai.agent.artificer_specification"),
-        ]
-        private AgentInterface $artificer,
-    ) {}
+    public function __construct(private FoundryGovernanceCognitionInvoker $invoker) {}
 
     public function revise(
         array $case,
@@ -42,9 +33,7 @@ final readonly class SymfonyAiSubordinatePersonaSpecificationRevisionCognitionGa
             "Return only one JSON object with exactly these keys: disposition, persona_name, purpose, identity_constraints, competencies, behavioral_directives, evidence_obligations, explicit_exclusions, source_requirements, return_contracts, stop_conditions.",
             "disposition must be PERSONA_SPECIFICATION_COMPLETE or CLARIFICATION_REQUIRED. persona_name and purpose must be non-empty strings. Every other field must be an array of explicit non-empty strings.",
         ]);
-        $content = $this->artificer
-            ->call(new MessageBag(Message::ofUser($prompt)))
-            ->getContent();
+        $content = $this->invoker->invoke('persona-specification-revision', (string) ($revisionReturn['return_id'] ?? ''), 'foundry.artificer', [$case, $priorSpecification, $revisionReturn], $prompt);
         if (!is_string($content) || "" === trim($content)) {
             throw new \RuntimeException(
                 "F128_PERSONA_SPECIFICATION_REVISION_COGNITION_EMPTY",
