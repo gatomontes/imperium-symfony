@@ -8,6 +8,7 @@ use App\Imperium\Runtime\LaCortine\BearerJsonPostTransport;
 use App\Imperium\Runtime\LaCortine\DeterministicBoundaryExecutor;
 use App\Imperium\Runtime\LaCortine\DeterministicTransport;
 use App\Imperium\Runtime\LaCortine\EnvironmentCredentialBroker;
+use App\Imperium\Runtime\LaCortine\CredentialCapability;
 use App\Imperium\Runtime\LaCortine\IronGate;
 use App\Imperium\Runtime\LaCortine\Lazaretto;
 use App\Imperium\Runtime\LaCortine\OutboundExecutionMode;
@@ -108,6 +109,63 @@ final class DeterministicBoundaryExecutorTest extends TestCase
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('CREDENTIAL_CAPABILITY_CONSUMED');
         $executor->execute($request, $payload, $credential, $transport, $now);
+    }
+
+    public function testForgedCredentialCapabilityCannotResolveASecret(): void
+    {
+        $_ENV['IMPERIUM_TEST_TOKEN'] = 'test-secret-must-not-resolve';
+        $broker = new EnvironmentCredentialBroker();
+        $forged = new CredentialCapability(
+            'credential-capability.forged',
+            'env:IMPERIUM_TEST_TOKEN',
+            'commission-1',
+            'http.post.json',
+            new \DateTimeImmutable('+5 minutes'),
+        );
+        $callbackReached = false;
+
+        try {
+            $broker->consume($forged, static function () use (&$callbackReached): never {
+                $callbackReached = true;
+                throw new \LogicException('Credential callback must not be reached.');
+            });
+            self::fail('Expected an unissued capability to be rejected.');
+        } catch (\RuntimeException $exception) {
+            self::assertStringStartsWith('CREDENTIAL_CAPABILITY_UNISSUED', $exception->getMessage());
+        }
+
+        self::assertFalse($callbackReached);
+    }
+
+    public function testCapabilityIssuedByAnotherBrokerCannotResolveASecret(): void
+    {
+        $_ENV['IMPERIUM_TEST_TOKEN'] = 'test-secret-must-not-resolve';
+        $issuer = new EnvironmentCredentialBroker();
+        $consumer = new EnvironmentCredentialBroker();
+        $capability = $issuer->issue(
+            'env:IMPERIUM_TEST_TOKEN',
+            'commission-1',
+            'http.post.json',
+            new \DateTimeImmutable('+5 minutes'),
+        );
+
+        $this->expectExceptionMessage('CREDENTIAL_CAPABILITY_UNISSUED');
+        $consumer->consume($capability, static fn (): never => throw new \LogicException('Callback must not run.'));
+    }
+
+    public function testExpiredIssuedCapabilityCannotResolveASecret(): void
+    {
+        $_ENV['IMPERIUM_TEST_TOKEN'] = 'test-secret-must-not-resolve';
+        $broker = new EnvironmentCredentialBroker();
+        $capability = $broker->issue(
+            'env:IMPERIUM_TEST_TOKEN',
+            'commission-1',
+            'http.post.json',
+            new \DateTimeImmutable('-1 second'),
+        );
+
+        $this->expectExceptionMessage('CREDENTIAL_CAPABILITY_EXPIRED');
+        $broker->consume($capability, static fn (): never => throw new \LogicException('Callback must not run.'));
     }
 
     public function testBearerJsonTransportRejectsNonHttpsBeforeNetworkAccess(): void
