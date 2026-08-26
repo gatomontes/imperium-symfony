@@ -227,5 +227,7 @@ Batch 13A exposed and repaired the first chained-call ordering defect: the first
 Batch 13B routes the exact sealed Practice question through the governance claim-bound witness path and removes the direct `persona_witness` definition. Continue with Batch 13C from `docs/handoffs/credential-boundary-batch-13b-first-persona-testimony-complete.md`; inventory is 15 and the remaining Persona-confirmation questions must preserve the same durable pause.
 
 Batch 13C seals only the Governance baseline question because later jurisdictions depend on testimony that does not yet exist. Continue with Batch 13D from `docs/handoffs/credential-boundary-batch-13c-governance-baseline-question-seam-complete.md`; do not reconstruct the former three-jurisdiction cognition loop.
+
+Batch 13D consumes the exact Governance question through the claim-bound witness path and stops after sealing Governance testimony. Continue with Batch 13E from `docs/handoffs/credential-boundary-batch-13d-governance-baseline-testimony-complete.md`; Consistency is the next separately bounded question phase.
 >
 > Ad Imperium. Not one step back.

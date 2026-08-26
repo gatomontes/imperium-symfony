@@ -64,7 +64,9 @@ final readonly class SymfonyAiPersonaWitnessTestimonyCognitionGateway
             "Return only JSON with exactly: answer, uncertainties, refusals, evidence_claims.",
         ]);
         $authorityId = (string) ($question['testimony_authority']['authority_id'] ?? '');
-        $content = $this->cognition->invoke('senate-persona-confirmation', 'testimony-practice', $authorityId, 'senate.stand', 'answer-persona-question', [$questionPayload, $deposition, $witness], $prompt);
+        $jurisdiction = (string) ($question['jurisdiction'] ?? 'practice');
+        if (!in_array($jurisdiction, ['practice', 'governance'], true)) throw new \RuntimeException('S136_PERSONA_WITNESS_COGNITION_INVALID');
+        $content = $this->cognition->invoke('senate-persona-confirmation', 'testimony-'.$jurisdiction, $authorityId, 'senate.stand', 'answer-persona-question', [$questionPayload, $deposition, $witness], $prompt);
         return $this->decode($content, "S136_PERSONA_WITNESS_COGNITION_INVALID");
     }
 
