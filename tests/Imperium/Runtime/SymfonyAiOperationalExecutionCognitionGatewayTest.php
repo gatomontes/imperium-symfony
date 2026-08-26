@@ -91,6 +91,7 @@ final class SymfonyAiOperationalExecutionCognitionGatewayTest extends TestCase
             self::fail('Expected unknown provider outcome.');
         } catch (\RuntimeException $exception) {
             self::assertSame('M212_OPERATIONAL_PROVIDER_OUTCOME_UNKNOWN', $exception->getMessage());
+            self::assertNull($exception->getPrevious());
         }
 
         $journal = $this->read('var/imperium/runtime/provider-invocation-journal/'.$claim['claim_id'].'.json');
