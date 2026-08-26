@@ -6,5 +6,5 @@ namespace App\Imperium\Runtime\Citadel;
 
 interface LegateCognitionGateway
 {
-    public function cognize(array $providerActivation): array;
+    public function cognize(array $providerActivation, array $invocationClaim): array;
 }

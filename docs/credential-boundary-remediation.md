@@ -29,3 +29,9 @@ The end-state must also remove `%env(DEEPSEEK_API_KEY)%` from every directly inv
 5. Run the credential-boundary bypass demonstration and retain private evidence with a sanitized external summary.
 
 The migration must not place credentials, environment dumps, or credential-adjacent diagnostics in records, exceptions, test output, or Git.
+
+## Migration status
+
+The Citadel Legate gateway is the first direct Symfony-agent consumer removed from the credential-bearing platform. Its existing activation and at-most-once claim are now reread by a Legate-specific claim-bound Clavium broker before the DeepSeek adapter can receive a credential. The removed agent service can no longer be injected as a bypass.
+
+Thirty-two direct platform-bound agent definitions remain across the pre-Delegate governance clusters. The shared `%env(DEEPSEEK_API_KEY)%` platform definition therefore remains explicitly classified as an open bypass until those clusters are migrated; the final evidence gate is not closed.

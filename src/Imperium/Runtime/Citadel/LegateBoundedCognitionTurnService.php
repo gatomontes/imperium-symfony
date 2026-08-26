@@ -21,7 +21,7 @@ final readonly class LegateBoundedCognitionTurnService
         $target=$this->read($this->occupancy.'/'.($activation['target']['binding_id']??'').'.json','CIT412_TARGET_OCCUPANCY_ABSENT');
         $this->validate($activationId,$activation,$decision,$target,$performedAt);$this->assertSole($target);
         $claim=$this->claim($activationId,$activation,$performedAt);
-        $output=$this->validateOutput($this->cognition->cognize($activation),$activation['contract']);
+        $output=$this->validateOutput($this->cognition->cognize($activation,$claim),$activation['contract']);
         $id='citadel-legate-bounded-cognition-turn-'.substr(hash('sha256',CanonicalJson::encode([$activationId,$activation['record_digest'],$output])),0,20);
         return$this->save($id,[
             'schema'=>'imperium.citadel-legate-bounded-cognition-turn/v1','turn_id'=>$id,'instance_id'=>$activation['instance_id'],'case_id'=>$activation['case_id'],'case_digest'=>$activation['case_digest'],
