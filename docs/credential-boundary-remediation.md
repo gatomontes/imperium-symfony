@@ -34,7 +34,7 @@ The migration must not place credentials, environment dumps, or credential-adjac
 
 The Citadel Legate gateway is the first direct Symfony-agent consumer removed from the credential-bearing platform. Its existing activation and at-most-once claim are now reread by a Legate-specific claim-bound Clavium broker before the DeepSeek adapter can receive a credential. The removed agent service can no longer be injected as a bypass.
 
-Twenty-five direct platform-bound agent definitions remain across the main pre-Delegate governance clusters after the operational, Foundry, and Authorship definitions' removal. The isolated sortie runtime adds one more direct agent and a second `%env(DEEPSEEK_API_KEY)%` platform definition. The system-wide inventory is therefore 26 remaining agents across six clusters and two credential-bearing platforms. The final evidence gate is not closed.
+Twenty-four direct platform-bound agent definitions remain across the main pre-Delegate governance clusters after the operational, Foundry, Authorship, and Laboratorium definitions' removal. The isolated sortie runtime adds one more direct agent and a second `%env(DEEPSEEK_API_KEY)%` platform definition. The system-wide inventory is therefore 25 remaining agents across five clusters and two credential-bearing platforms. The final evidence gate is not closed.
 
 ## Next bounded lifecycle: Operational Cognition Access
 
@@ -79,3 +79,5 @@ Credential-boundary Batch 8 migrates Foundry's specification, revision, ordinary
 Credential-boundary Batch 9 migrates Hagiography and Studium resident subordinate-requirements cognition. Each accepted commission, original commission, and occupied resident Seat form one immutable ordered input; office-specific authority types prevent cross-Seat substitution. The shared governance invoker now serves Foundry and Authorship. The resident `sanctographer` and `chancellor` definitions and injections are removed. The inventory is 28; the system-wide gate remains open.
 
 Credential-boundary Batch 10 migrates Hagiography and Studium section authorship. Each exact subordinate acceptance is bound to its commission, current sealed specification, construction case, office-specific authority type, and resident Seat. The section-authorship definitions and direct injections are removed. The inventory is 26; the system-wide gate remains open.
+
+Credential-boundary Batch 11 migrates ordinary and Delegate-mission Profile elaboration through two explicit Laboratorium authority types. Each provider input is bound to the exact accepted authority/disposition and its authorization or commission context. The direct Alchemist agent and transient caller bypass are removed. The inventory is 25; the system-wide gate remains open.
