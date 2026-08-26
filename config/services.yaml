@@ -43,6 +43,7 @@ services:
             $resolvers:
                 - '@App\Imperium\Runtime\Foundry\FoundryGovernanceCognitionAuthorityResolver'
                 - '@App\Imperium\Runtime\Authorship\AuthorshipGovernanceCognitionAuthorityResolver'
+                - '@App\Imperium\Runtime\Authorship\SectionAuthorshipGovernanceCognitionAuthorityResolver'
 
     App\Imperium\Runtime\Curia\ProceedingStore:
         arguments:

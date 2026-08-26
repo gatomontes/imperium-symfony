@@ -197,7 +197,11 @@ Foundry specification, revision, ordinary review, and adversarial review now use
 
 Hagiography and Studium resident subordinate-requirements cognition now use office-specific native authority resolution and the shared governance claim-bound broker path. The resident `sanctographer` and `chancellor` definitions and injections are removed; the executable inventory is 28.
 
-The next batch is **Batch 10: section-authorship migration** for `sanctographer_subordinate_authorship` and `chancellor_subordinate_authorship` only.
+## Batch 10 implementation checkpoint
+
+Hagiography and Studium section authorship now use exact acceptance/commission/specification/case authority resolution and the shared governance claim-bound broker path. Both section-authorship definitions and injections are removed; the executable inventory is 26.
+
+The next batch is **Batch 11: Laboratorium migration** for `alchemist_profile_elaboration` only.
 
 ## New-chat continuation prompt
 
@@ -212,6 +216,6 @@ Copy this prompt verbatim into the next chat:
 >
 > Continue Imperium from `main` at or after the merge recorded in `docs/handoffs/operational-cognition-access-lifecycle-ready.md`. Read that handoff, `docs/credential-boundary-remediation.md`, `docs/delegate-mission-flow.md`, `docs/handoffs/runtime-integrity-hardening-leg-complete.md`, `docs/handoffs/runtime-severe-source-cleanup-closed.md`, `docs/handoffs/crash-demonstration-program-complete.md`, and `todo/blackquill-todos.md` before changing code.
 >
-> Begin credential-boundary remediation Batch 10: section-authorship migration. Starting from the merged Batch 9 resident-requirements path, migrate only `sanctographer_subordinate_authorship` and `chancellor_subordinate_authorship`. Add native authority resolution for each exact accepted section commission, reuse the shared governance claim-bound broker path, preserve both office-specific authorship contracts, prove cross-section and cross-office refusal plus replay/pre-I/O/unknown-outcome behavior and secret exclusion, remove both direct definitions and injections, then update the executable inventory from 28 to 26. Do not migrate another cluster or claim the system-wide gate closed. I will run local PHP commands.
+> Begin credential-boundary remediation Batch 11: Laboratorium migration. Starting from the merged Batch 10 section-authorship path, migrate only `alchemist_profile_elaboration`. Add native resolution for the exact accepted Profile-derivation authority and its immutable Persona/scope/Imperator lineage, reuse the shared governance claim-bound broker path, preserve the elaboration contract, prove substitution and replay/pre-I/O/unknown-outcome behavior and secret exclusion, remove the direct definition and injection, then update the executable inventory from 26 to 25. Do not migrate another cluster or claim the system-wide gate closed. I will run local PHP commands.
 >
 > Ad Imperium. Not one step back.
