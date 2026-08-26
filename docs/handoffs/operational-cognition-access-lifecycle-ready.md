@@ -249,5 +249,7 @@ Batch 13L consumes the distinct fresh Consistency testimony authority through th
 Batch 13M seals only the claim-bound Governance pressure question. Continue with Batch 13N from `docs/handoffs/credential-boundary-batch-13m-governance-pressure-question-complete.md`; consume its separately authorized testimony without opening Security pressure.
 
 Batch 13N consumes the claim-bound Governance pressure testimony and seals that trial. Continue with Batch 13O from `docs/handoffs/credential-boundary-batch-13n-governance-pressure-testimony-complete.md`; seal only the Security pressure question.
+
+Batch 13O seals only the claim-bound Security pressure question with inert synthetic material. Continue with Batch 13P from `docs/handoffs/credential-boundary-batch-13o-security-pressure-question-complete.md`; consume its testimony and mechanically aggregate the required-trial ledger.
 >
 > Ad Imperium. Not one step back.

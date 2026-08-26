@@ -24,6 +24,7 @@ final readonly class SymfonyAiPersonaWitnessTestimonyCognitionGateway
         $specialQuestionAuthority = match ($jurisdiction) {
             'consistency' => 'question-fresh-consistency',
             'governance' => 'question-pressure-governance',
+            'security' => 'question-pressure-security',
             default => null,
         };
         if ('question-'.$jurisdiction !== $authorityType && $specialQuestionAuthority !== $authorityType) throw new \RuntimeException('S135_SENATOR_QUESTION_COGNITION_INVALID');
