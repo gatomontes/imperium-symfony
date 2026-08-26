@@ -247,5 +247,7 @@ Batch 13K deterministically instantiates the fresh sterile witness, consumes a d
 Batch 13L consumes the distinct fresh Consistency testimony authority through the claim-bound witness path and seals the fresh trial. Continue with Batch 13M from `docs/handoffs/credential-boundary-batch-13l-fresh-consistency-testimony-complete.md`; separate the Governance pressure question from testimony.
 
 Batch 13M seals only the claim-bound Governance pressure question. Continue with Batch 13N from `docs/handoffs/credential-boundary-batch-13m-governance-pressure-question-complete.md`; consume its separately authorized testimony without opening Security pressure.
+
+Batch 13N consumes the claim-bound Governance pressure testimony and seals that trial. Continue with Batch 13O from `docs/handoffs/credential-boundary-batch-13n-governance-pressure-testimony-complete.md`; seal only the Security pressure question.
 >
 > Ad Imperium. Not one step back.

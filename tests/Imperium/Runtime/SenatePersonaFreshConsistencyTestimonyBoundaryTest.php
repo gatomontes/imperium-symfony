@@ -19,7 +19,7 @@ final class SenatePersonaFreshConsistencyTestimonyBoundaryTest extends TestCase
         self::assertStringContainsString("'testimony-fresh-consistency'",$resolver);
         self::assertStringContainsString('/fresh-consistency-questions/*.json',$resolver);
         self::assertStringContainsString('/fresh-consistency-trials/*.json',$resolver);
-        self::assertStringContainsString("'testimony-fresh-consistency' === \$authorityType",$gateway);
+        self::assertStringContainsString("'consistency' => 'testimony-fresh-consistency'",$gateway);
         self::assertStringContainsString("'testimony_authority_consumed'=>true",$service);
         self::assertStringContainsString('FRESH_INSTANCE_CONSISTENCY_TRIAL_SEALED_PENDING_PRESSURE_TRIALS',$service);
         self::assertStringContainsString("'pressure_trials_required'=>true",$service);
