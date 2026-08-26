@@ -26,7 +26,7 @@ Read before changing code:
 
 The Delegate route is terminal through Step 69. Runtime Integrity Hardening is complete through Step 35. The Citadel Legate cognition route already uses the claim-bound Clavium broker. Reuse its broker, durable invocation claim, idempotency identity, provider-response envelope, failure journal, credential resolver, adapter factory, clocks, stores, and tests where their contracts fit.
 
-The operational route is not yet mediated. `BoundedExecutionAuthorizationService` explicitly denies credential and network authority, while `SymfonyAiOperationalExecutionCognitionGateway` still receives a directly configured Symfony agent. That mismatch is the first target. Thirty-one other direct platform-bound agents and the shared `%env(DEEPSEEK_API_KEY)%` platform remain later migration work, so no intermediate batch may claim the system-wide bypass gate closed.
+The operational route is not yet mediated. `BoundedExecutionAuthorizationService` explicitly denies credential and network authority, while `SymfonyAiOperationalExecutionCognitionGateway` still receives a directly configured Symfony agent. That mismatch is the first target. Thirty-one other main-runtime agents plus the separately configured sortie agent, and two `%env(DEEPSEEK_API_KEY)%` platforms, remain later migration work, so no intermediate batch may claim the system-wide bypass gate closed.
 
 ## Authority and record contract
 
@@ -181,7 +181,11 @@ php vendor/bin/phpunit \
   tests/Imperium/Runtime/SymfonyAiOperationalExecutionCognitionGatewayTest.php
 ```
 
-The next batch is **Batch 6: remaining governance-cluster inventory and migration order**. It must enumerate the remaining directly configured agents, group them by authority contract and governance cluster, identify reusable claim/broker contracts versus new bounded lifecycles, and produce the migration order. Do not remove the shared environment-backed platform until every consumer has migrated, and do not claim the system-wide bypass gate closed.
+## Batch 6 implementation checkpoint
+
+The remaining surface is sealed in `docs/credential-boundary-agent-inventory.json` and `docs/handoffs/credential-boundary-batch-6-inventory-complete.md`. It contains 31 main-runtime definitions plus the separately configured La Cortine sortie agent: 32 remaining agents across nine clusters and two environment-backed platform definitions. An automated inventory test requires every configured definition and declared injection to remain classified exactly once.
+
+The next batch is **Batch 7: common governance invocation substrate**. It must implement the mechanical governance request, independent Imperator provider-resource decision, opaque Clavium lease, durable pre-I/O claim, journal, and response-envelope contracts without migrating any governance gateway or inventing cluster authority.
 
 ## New-chat continuation prompt
 
@@ -196,6 +200,6 @@ Copy this prompt verbatim into the next chat:
 >
 > Continue Imperium from `main` at or after the merge recorded in `docs/handoffs/operational-cognition-access-lifecycle-ready.md`. Read that handoff, `docs/credential-boundary-remediation.md`, `docs/delegate-mission-flow.md`, `docs/handoffs/runtime-integrity-hardening-leg-complete.md`, `docs/handoffs/runtime-severe-source-cleanup-closed.md`, `docs/handoffs/crash-demonstration-program-complete.md`, and `todo/blackquill-todos.md` before changing code.
 >
-> Begin credential-boundary remediation Batch 6: remaining governance-cluster inventory and migration order. Starting from the merged Operational Cognition Access Batch 5 proof, enumerate every remaining directly configured Symfony AI agent and every source consumer. Group them by governance cluster and authority contract; distinguish routes that can reuse an existing Delegate, Legate, or Operational claim-bound broker from routes that require a separately bounded lifecycle. Record the exact migration order, proof obligations, and safe batch boundaries before changing a cluster. Do not remove the shared `%env(DEEPSEEK_API_KEY)%` platform until all consumers have migrated. Do not claim the system-wide bypass gate closed. Do not reopen the terminal Delegate route, invent Delegate Mission Step 70, or invent Runtime Integrity Hardening Step 36. I will run local PHP commands.
+> Begin credential-boundary remediation Batch 7: common governance invocation substrate. Starting from the merged Batch 6 inventory, implement only the reusable mechanical request, independent Imperator provider-resource decision, opaque Clavium lease, durable pre-I/O invocation claim, journal, and response-envelope contracts for governance cognition. Require every request to cite one exact existing cluster authority identity/digest, Seat/purpose, bounded input digest, and expiry. The substrate may validate and consume authority but may not create, infer, widen, or substitute it. Prove absent, malformed, expired, mismatched, replayed, partial, and cross-cluster authority fails before credential resolution. Do not migrate any gateway or remove any agent definition in Batch 7. Preserve the separate operational, Delegate, Legate, and sortie semantics. Do not claim the system-wide gate closed. I will run local PHP commands.
 >
 > Ad Imperium. Not one step back.
