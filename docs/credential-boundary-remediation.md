@@ -22,8 +22,8 @@ The end-state must also remove `%env(DEEPSEEK_API_KEY)%` from every directly inv
 
 ## Migration batches
 
-1. Bind capability authenticity to the issuing broker and prove forged, foreign, expired, and replayed capabilities fail stopped.
-2. Separate capability issuance from credential consumption and require an authoritative Clavium grant before issuance.
+1. Bind capability authenticity to the issuing broker and prove forged, foreign, expired, and replayed capabilities fail stopped. **Complete.**
+2. Separate capability issuance from credential consumption and require an authoritative Clavium grant before issuance. **Complete for the Delegate provider route:** the claim-bound Clavium broker requires the exact intact persisted invocation claim, consumed lease and turn authority, exact DeepSeek binding, pre-I/O state, and live expiry before it delegates capability issuance.
 3. Replace credential-bearing Symfony platform definitions with a brokered platform factory or equivalent gated runtime construction.
 4. Migrate each cognition gateway by governance cluster while preserving its existing authority contract.
 5. Run the credential-boundary bypass demonstration and retain private evidence with a sanitized external summary.
