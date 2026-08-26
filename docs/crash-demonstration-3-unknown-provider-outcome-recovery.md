@@ -18,3 +18,5 @@ php bin/console imperium:demonstrate:unknown-provider-outcome-recovery --evidenc
 ```
 
 Private evidence remains Git-ignored and excludes credentials and environment dumps. The sanitized summary discloses only the properties proved, source commit, boundary count, false reinvocation/authority flags, disposition, and digest.
+
+Operator-local execution against source commit `bd3620ccd32e1511c96d53caacb60806348cf995` returned `PROVED`: both the unknown-outcome and sealed-response cases proved with zero failed assertions, only one of two provider starts was accepted, and recovery recorded `provider_reinvoked=false`. Private evidence remains outside Git.
