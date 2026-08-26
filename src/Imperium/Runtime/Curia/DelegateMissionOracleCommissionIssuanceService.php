@@ -1,4 +1,158 @@
 <?php
-declare(strict_types=1);namespace App\Imperium\Runtime\Curia;use App\Bootstrap\CanonicalJson;use Symfony\Component\DependencyInjection\Attribute\Autowire;
+declare(strict_types=1);
+namespace App\Imperium\Runtime\Curia;
+use App\Bootstrap\CanonicalJson;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+
 final readonly class DelegateMissionOracleCommissionIssuanceService
-{private string$d;private string$o;private string$s;private string$c;private string$i;public function __construct(#[Autowire('%kernel.project_dir%')]string$root){$this->d=$root.'/var/imperium/imperator/delegate-mission-model-criteria-decisions';$this->o=$root.'/var/imperium/offices/curia/occupancy';$this->s=$root.'/var/imperium/offices/oracle/model-intelligence-snapshots';$this->c=$root.'/var/imperium/offices/curia/model-requirement-commissions';$this->i=$root.'/var/imperium/offices/oracle/model-requirement-inbox';}public function issue(string$id,string$snapshotId,string$bindingId,\DateTimeImmutable$issued,\DateTimeImmutable$expires):array{if($expires<=$issued)throw new \InvalidArgumentException('C293_DELEGATE_ORACLE_COMMISSION_VALIDITY_INVALID');$d=$this->read($this->d.'/'.$id.'.json','C290_DELEGATE_MODEL_CRITERIA_DECISION_ABSENT');$s=$this->read($this->s.'/'.$snapshotId.'.json','C291_ORACLE_SNAPSHOT_ABSENT');$o=$this->read($this->o.'/'.$bindingId.'.json','C292_DELEGATE_ORACLE_SENESCHAL_ABSENT');$a=$d['oracle_commission_issuance_authority']??[];if(!$this->ok($d)||!$this->ok($s)||!$this->ok($o)||'imperium.imperator-delegate-mission-model-criteria-decision/v1'!==($d['schema']??null)||!in_array($d['disposition']??null,['AUTHORIZED','AMENDED_AND_AUTHORIZED'],true)||'DELEGATE_MISSION_MODEL_CRITERIA_AUTHORIZED_PENDING_ORACLE_COMMISSION_ISSUANCE'!==($d['status']??null)||true!==($a['authority_exercisable']??null)||false!==($a['consumed']??null)||'imperium.oracle-model-intelligence-snapshot/v1'!==($s['schema']??null)||$snapshotId!==($s['snapshot_id']??null)||'ORACLE_CANONICAL_CATALOGUE_SNAPSHOT_SEALED_NO_SELECTION_AUTHORITY'!==($s['status']??null)||true===($s['selection_authority']??null)||'imperium.curia-seneschal-occupancy/v1'!==($o['schema']??null)||$bindingId!==($o['binding_id']??null)||($d['instance_id']??null)!==($o['instance_id']??null)||($d['instance_id']??null)!==($s['instance_id']??null)||'ACTIVE'!==($o['status']??null)||true!==($o['delegate_mission_oracle_commission_issuance_authority']??null)||true===($o['execution_authority']??null))throw new \RuntimeException('C294_DELEGATE_ORACLE_COMMISSION_CHAIN_INVALID');$actor=['office'=>'curia','seat'=>'curia.seneschal','binding_id'=>$bindingId,'manifestation_id'=>$o['manifestation_id'],'occupancy_generation'=>$o['occupancy_generation']];$cid='model-requirement-commission-'.substr(hash('sha256',CanonicalJson::encode([$id,$d['record_digest'],$snapshotId,$s['record_digest'],$actor,$issued->format(DATE_ATOM),$expires->format(DATE_ATOM)])),0,20);$r=['schema'=>'imperium.curia-model-requirement-commission/v1','commission_id'=>$cid,'instance_id'=>$d['instance_id'],'issuer'=>$actor,'recipient'=>['office'=>'oracle','seat'=>'oracle.augur'],'catalogue_snapshot'=>['id'=>$snapshotId,'digest'=>$s['record_digest'],'generation'=>$s['snapshot_generation']],'target'=>$d['target'],'criteria'=>$d['authorized_criteria'],'delegate_lineage'=>['criteria_decision'=>['id'=>$id,'digest'=>$d['record_digest']],'readiness'=>$d['source_readiness'],'bounded_commission'=>$d['source_commission'],'binding'=>$d['source_binding'],'operational_custody'=>$d['operational_custody']],'issuance_authority'=>['id'=>$a['authority_id'],'consumed'=>true,'continuing_authority'=>false],'issued_at'=>$issued->format(DATE_ATOM),'expires_at'=>$expires->format(DATE_ATOM),'status'=>'ISSUED_PENDING_ORACLE_ACCEPTANCE','oracle_acceptance'=>null,'evaluation_authority'=>false,'research_authority'=>false,'recommendation_authority'=>false,'selection_authority'=>false,'model_assignment_authority'=>false,'profile_mutation_authority'=>false,'provider_invocation_authority'=>false,'deployment_authority'=>false,'execution_authority'=>false,'sealed'=>true];$r=$this->save($this->c,$cid,$r);return$this->save($this->i,$cid,$r);}private function read($p,$e):array{if(!is_file($p))throw new \RuntimeException($e);return json_decode((string)file_get_contents($p),true,512,JSON_THROW_ON_ERROR);}private function ok(array$r):bool{$d=$r['record_digest']??null;unset($r['record_digest']);return is_string($d)&&hash_equals($d,hash('sha256',CanonicalJson::encode($r)));}private function save($dir,$id,array$r):array{if(!is_dir($dir))mkdir($dir,0770,true);unset($r['record_digest']);$r['record_digest']=hash('sha256',CanonicalJson::encode($r));$p=$dir.'/'.$id.'.json';if(is_file($p)){$x=$this->read($p,'C299_DELEGATE_ORACLE_COMMISSION_CONFLICT');if($x!==$r)throw new \RuntimeException('C299_DELEGATE_ORACLE_COMMISSION_CONFLICT');return$x;}file_put_contents($p,json_encode($r,JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_THROW_ON_ERROR)."\n",LOCK_EX);return$r;}}
+{
+    private string$d;
+    private string$o;
+    private string$s;
+    private string$c;
+    private string$i;
+    public function __construct(#[Autowire('%kernel.project_dir%')]string$root){
+        $this->d=$root.'/var/imperium/imperator/delegate-mission-model-criteria-decisions';
+        $this->o=$root.'/var/imperium/offices/curia/occupancy';
+        $this->s=$root.'/var/imperium/offices/oracle/model-intelligence-snapshots';
+        $this->c=$root.'/var/imperium/offices/curia/model-requirement-commissions';
+        $this->i=$root.'/var/imperium/offices/oracle/model-requirement-inbox';
+
+    }
+    public function issue(string$id,
+    string$snapshotId,
+    string$bindingId,
+    \DateTimeImmutable$issued,
+    \DateTimeImmutable$expires):array{
+        if($expires<=$issued)throw new \InvalidArgumentException('C293_DELEGATE_ORACLE_COMMISSION_VALIDITY_INVALID');
+        $d=$this->read($this->d.'/'.$id.'.json',
+        'C290_DELEGATE_MODEL_CRITERIA_DECISION_ABSENT');
+        $s=$this->read($this->s.'/'.$snapshotId.'.json',
+        'C291_ORACLE_SNAPSHOT_ABSENT');
+        $o=$this->read($this->o.'/'.$bindingId.'.json',
+        'C292_DELEGATE_ORACLE_SENESCHAL_ABSENT');
+        $a=$d['oracle_commission_issuance_authority']??[];
+        if(!$this->ok($d)||
+        !$this->ok($s)||
+        !$this->ok($o)||
+        'imperium.imperator-delegate-mission-model-criteria-decision/v1'!==($d['schema']??null)||
+        !in_array($d['disposition']??null,
+        ['AUTHORIZED',
+        'AMENDED_AND_AUTHORIZED'],
+        true)||
+        'DELEGATE_MISSION_MODEL_CRITERIA_AUTHORIZED_PENDING_ORACLE_COMMISSION_ISSUANCE'!==($d['status']??null)||
+        true!==($a['authority_exercisable']??null)||
+        false!==($a['consumed']??null)||
+        'imperium.oracle-model-intelligence-snapshot/v1'!==($s['schema']??null)||
+        $snapshotId!==($s['snapshot_id']??null)||
+        'ORACLE_CANONICAL_CATALOGUE_SNAPSHOT_SEALED_NO_SELECTION_AUTHORITY'!==($s['status']??null)||
+        true===($s['selection_authority']??null)||
+        'imperium.curia-seneschal-occupancy/v1'!==($o['schema']??null)||
+        $bindingId!==($o['binding_id']??null)||
+        ($d['instance_id']??null)!==($o['instance_id']??null)||
+        ($d['instance_id']??null)!==($s['instance_id']??null)||
+        'ACTIVE'!==($o['status']??null)||
+        true!==($o['delegate_mission_oracle_commission_issuance_authority']??null)||
+        true===($o['execution_authority']??null))throw new \RuntimeException('C294_DELEGATE_ORACLE_COMMISSION_CHAIN_INVALID');
+        $actor=['office'=>'curia',
+        'seat'=>'curia.seneschal',
+        'binding_id'=>$bindingId,
+        'manifestation_id'=>$o['manifestation_id'],
+        'occupancy_generation'=>$o['occupancy_generation']];
+        $cid='model-requirement-commission-'.substr(hash('sha256',
+        CanonicalJson::encode([$id,
+        $d['record_digest'],
+        $snapshotId,
+        $s['record_digest'],
+        $actor,
+        $issued->format(DATE_ATOM),
+        $expires->format(DATE_ATOM)])),
+        0,
+        20);
+        $r=['schema'=>'imperium.curia-model-requirement-commission/v1',
+        'commission_id'=>$cid,
+        'instance_id'=>$d['instance_id'],
+        'issuer'=>$actor,
+        'recipient'=>['office'=>'oracle',
+        'seat'=>'oracle.augur'],
+        'catalogue_snapshot'=>['id'=>$snapshotId,
+        'digest'=>$s['record_digest'],
+        'generation'=>$s['snapshot_generation']],
+        'target'=>$d['target'],
+        'criteria'=>$d['authorized_criteria'],
+        'delegate_lineage'=>['criteria_decision'=>['id'=>$id,
+        'digest'=>$d['record_digest']],
+        'readiness'=>$d['source_readiness'],
+        'bounded_commission'=>$d['source_commission'],
+        'binding'=>$d['source_binding'],
+        'operational_custody'=>$d['operational_custody']],
+        'issuance_authority'=>['id'=>$a['authority_id'],
+        'consumed'=>true,
+        'continuing_authority'=>false],
+        'issued_at'=>$issued->format(DATE_ATOM),
+        'expires_at'=>$expires->format(DATE_ATOM),
+        'status'=>'ISSUED_PENDING_ORACLE_ACCEPTANCE',
+        'oracle_acceptance'=>null,
+        'evaluation_authority'=>false,
+        'research_authority'=>false,
+        'recommendation_authority'=>false,
+        'selection_authority'=>false,
+        'model_assignment_authority'=>false,
+        'profile_mutation_authority'=>false,
+        'provider_invocation_authority'=>false,
+        'deployment_authority'=>false,
+        'execution_authority'=>false,
+        'sealed'=>true];
+        $r=$this->save($this->c,
+        $cid,
+        $r);
+        return$this->save($this->i,
+        $cid,
+        $r);
+
+    }
+    private function read($p,
+    $e):array{
+        if(!is_file($p))throw new \RuntimeException($e);
+        return json_decode((string)file_get_contents($p),
+        true,
+        512,
+        JSON_THROW_ON_ERROR);
+
+    }
+    private function ok(array$r):bool{
+        $d=$r['record_digest']??null;
+        unset($r['record_digest']);
+        return is_string($d)&&
+        hash_equals($d,
+        hash('sha256',
+        CanonicalJson::encode($r)));
+
+    }
+    private function save($dir,
+    $id,
+    array$r):array{
+        if(!is_dir($dir))mkdir($dir,
+        0770,
+        true);
+        unset($r['record_digest']);
+        $r['record_digest']=hash('sha256',
+        CanonicalJson::encode($r));
+        $p=$dir.'/'.$id.'.json';
+        if(is_file($p)){
+            $x=$this->read($p,
+            'C299_DELEGATE_ORACLE_COMMISSION_CONFLICT');
+            if($x!==$r)throw new \RuntimeException('C299_DELEGATE_ORACLE_COMMISSION_CONFLICT');
+            return$x;
+
+        }
+        file_put_contents($p,
+        json_encode($r,
+        JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_THROW_ON_ERROR)."\n",
+        LOCK_EX);
+        return$r;
+
+    }
+
+}
+
