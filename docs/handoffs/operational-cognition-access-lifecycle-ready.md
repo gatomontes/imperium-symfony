@@ -82,7 +82,7 @@ No private record may persist raw prompts beyond the repository's established in
 ## Implementation batches
 
 1. **Request and decision — implemented:** introduce the Curia request and independent Imperator authorize/refuse service with exact replay and conflict rejection.
-2. **Lease:** have Clavium validate the current authorized decision and issue one opaque, exact, expiring lease without resolving credentials.
+2. **Lease — implemented:** have Clavium validate the current authorized decision and issue one opaque, exact, expiring lease without resolving credentials.
 3. **Claim:** atomically consume the lease and cognition authority into one durable invocation claim before any external I/O.
 4. **Broker:** migrate the operational gateway to a claim-bound broker that resolves the credential inside its callback and constructs a provider adapter for that call only. Remove the operational agent definition from the directly invokable platform.
 5. **Proof:** test authorization refusal; missing, malformed, mismatched, expired, consumed, and superseded decisions and leases; exact replay; divergent concurrency; interruption around claim/I/O boundaries; unknown outcome; and absence of secrets from persistence, exceptions, logs, and serialized output.
@@ -106,7 +106,26 @@ Focused verification:
 php bin/phpunit tests/Imperium/Runtime/OperationalCognitionAccessRequestDecisionTest.php
 ```
 
-The next batch is **Batch 2: opaque Clavium lease**. It must validate the still-current authorized decision and issue one exact expiring lease without resolving or disclosing any credential. It must not create the durable invocation claim or perform provider I/O.
+Batch 2 follows this checkpoint and implements the opaque Clavium lease without resolving or disclosing any credential.
+
+## Batch 2 implementation checkpoint
+
+`OperationalCognitionLeaseService` implements the Clavium lease boundary after Batch 1.
+
+- It rereads and validates the exact intact, unexpired `AUTHORIZED` Imperator decision and its digest-bound Curia cognition request.
+- It requires an exact active Locksmith occupancy with operational cognition lease-issuance authority and without credential-disclosure or execution authority.
+- It consumes the exact lease-activation authority into one immutable lease record while leaving the lease itself unconsumed.
+- The opaque lease binds the request and decision identities/digests, target Manifestation and Seat/binding/custody lineage, provider, model, normalized configuration, resource ceiling, input digest, Profile/model requirements digest, iteration, issuer, issue time, and strict expiry.
+- It persists no credential reference, credential material, secret-bearing endpoint, transferable network authority, or provider-invocation authority.
+- Identical replay returns the same lease. Divergent reuse, refusal, expiry, lineage mismatch, competing decision, or unauthorized Locksmith fails stopped.
+
+Focused verification:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/OperationalCognitionLeaseServiceTest.php
+```
+
+The next batch is **Batch 3: durable invocation claim**. It must atomically consume this exact lease and the exact cognition authority into one durable pre-I/O claim with a stable provider idempotency identity. It must not resolve credentials or invoke the provider.
 
 ## New-chat continuation prompt
 
@@ -121,6 +140,6 @@ Copy this prompt verbatim into the next chat:
 >
 > Continue Imperium from `main` at or after the merge recorded in `docs/handoffs/operational-cognition-access-lifecycle-ready.md`. Read that handoff, `docs/credential-boundary-remediation.md`, `docs/delegate-mission-flow.md`, `docs/handoffs/runtime-integrity-hardening-leg-complete.md`, `docs/handoffs/runtime-severe-source-cleanup-closed.md`, `docs/handoffs/crash-demonstration-program-complete.md`, and `todo/blackquill-todos.md` before changing code.
 >
-> Begin Operational Cognition Access Batch 2: opaque Clavium lease. Reuse the Batch 1 request and independent Imperator provider-resource decision plus existing immutable-record, replay, clock, and canonical-validation primitives. Clavium must validate the exact current authorized decision and issue one opaque, expiring, single-use lease bound to request, decision, Manifestation, provider/model/configuration, input digest, and iteration. Do not resolve credentials, create the durable invocation claim, or perform provider I/O in this batch. Add focused tests and documentation; never commit raw private evidence or credential-adjacent material. Do not invent Delegate Mission Step 70 or Runtime Integrity Hardening Step 36. I will run local PHP commands.
+> Begin Operational Cognition Access Batch 3: durable invocation claim. Atomically consume the exact Batch 2 lease and exact Batch 1 cognition authority into one durable pre-I/O invocation claim with a stable provider idempotency identity. Validate every request, decision, lease, target, provider/model/configuration, input, iteration, expiry, and consumption binding. Exact replay must return the same claim; divergent or partial consumption must fail stopped. Do not resolve credentials, construct a provider adapter, or perform provider I/O in this batch. Add focused concurrency, replay, tamper, and interruption tests; never commit raw private evidence or credential-adjacent material. Do not invent Delegate Mission Step 70 or Runtime Integrity Hardening Step 36. I will run local PHP commands.
 >
 > Ad Imperium. Not one step back.
