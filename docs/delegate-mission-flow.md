@@ -180,4 +180,6 @@ Crash Demonstration 1 has operator-retained proof against source commit `8cfcef9
 
 Crash Demonstration 2 has operator-retained proof against source commit `9633ef0239c0dc7fbaf122753f76ffe35c47875d`. Crash Demonstration 3 is implemented by the repeatable command and evidence contract in `docs/crash-demonstration-3-unknown-provider-outcome-recovery.md`; unknown outcomes remain non-replayable and sealed-response recovery has no provider dependency.
 
+Crash Demonstration 3 has operator-retained proof against source commit `bd3620ccd32e1511c96d53caacb60806348cf995`. Crash Demonstration 4 is implemented by the repeatable command and evidence contract in `docs/crash-demonstration-4-terminal-retirement-recovery.md`; it converges every existing terminal checkpoint on restored custody, retired binding, one terminal Folium, and zero surviving authority.
+
 Each demonstration must produce a repeatable local command, machine-readable retained evidence, explicit assertions, and a sanitized external summary that reveals the property proved without disclosing proprietary runtime topology.
