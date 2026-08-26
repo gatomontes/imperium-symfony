@@ -11,6 +11,7 @@ Required base: `main` at or after `20208f177df576b863340ee397730b455b2965df`
 - Final source rescan: 376 runtime PHP files, zero severe-compression targets.
 - Cleanup Batches A and B passed explicit local PHP lint and the complete PHPUnit suite.
 - Secondary formatting debt remains non-blocking and recorded.
+- Crash Demonstration 1 now has an implemented six-boundary recovery harness, private retained-evidence output, sanitized summary output, and focused PHPUnit coverage. Operator-local PHP execution remains required to capture the retained evidence.
 
 Do not invent Delegate Mission Step 70 or Hardening Step 36. The next lifecycle is an operational-evidence program, not a new authority-bearing mission leg.
 
