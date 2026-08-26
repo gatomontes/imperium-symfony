@@ -12,8 +12,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
-    name: "imperium:senate:conduct-subordinate-persona-first-testimony",
-    description: "Assign Practice, dispatch its first question, and seal exact Persona testimony",
+    name: "imperium:senate:author-subordinate-persona-first-question",
+    description: "Assign Practice and seal its exact first question pending separately authorized testimony",
 )]
 final class SenateConductSubordinatePersonaFirstTestimonyCommand extends Command
 {
@@ -38,7 +38,7 @@ final class SenateConductSubordinatePersonaFirstTestimonyCommand extends Command
         }
         $output->writeln($input->getOption("json")
             ? json_encode($record, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)
-            : "<info>SUBORDINATE_PERSONA_FIRST_TESTIMONY_SEALED</info> " . $record["turn_id"]);
+            : "<info>SUBORDINATE_PERSONA_FIRST_QUESTION_SEALED_PENDING_TESTIMONY_AUTHORIZATION</info> " . $record["question_record_id"]);
         return self::SUCCESS;
     }
 }

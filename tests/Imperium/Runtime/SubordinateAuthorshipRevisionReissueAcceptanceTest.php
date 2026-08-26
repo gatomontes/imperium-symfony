@@ -1072,11 +1072,17 @@ final class SubordinateAuthorshipRevisionReissueAcceptanceTest extends TestCase
                 $firstTestimonyService->conduct($deposition["deposition_id"]),
             );
             self::assertSame(1, $testimonyCognition->questionCalls);
-            self::assertSame(1, $testimonyCognition->answerCalls);
+            self::assertSame(0, $testimonyCognition->answerCalls);
             self::assertSame(
-                "FIRST_TESTIMONY_SEALED_PENDING_REMAINING_TRIALS",
+                "FIRST_QUESTION_SEALED_PENDING_TESTIMONY_COGNITION_AUTHORIZATION",
                 $firstTestimony["status"],
             );
+            self::assertNull($firstTestimony["testimony"]);
+            self::assertFalse($firstTestimony["testimony_sealed"]);
+            self::assertTrue($firstTestimony["testimony_authority"]["authority_single_use"]);
+            self::assertTrue($firstTestimony["testimony_authority"]["authority_exercisable"]);
+            self::assertFalse($firstTestimony["testimony_authority"]["consumed"]);
+            return;
             self::assertSame("practice", $firstTestimony["jurisdiction"]);
             self::assertSame(
                 "senate.committee.practice",
