@@ -10,7 +10,9 @@ For the current Delegate Mission state, read in this order:
 4. `docs/delegate-mission-terminal-operational-evidence-audit.md`;
 5. `docs/handoffs/runtime-integrity-hardening-leg-complete.md`;
 6. `docs/handoffs/runtime-severe-source-cleanup-closed.md`;
-7. `docs/handoffs/crash-demonstration-program-complete.md`; and
-8. `todo/blackquill-todos.md` for residual evidence and secondary cleanup.
+7. `docs/handoffs/crash-demonstration-program-complete.md`;
+8. `docs/credential-boundary-remediation.md`;
+9. `docs/handoffs/operational-cognition-access-lifecycle-ready.md`; and
+10. `todo/blackquill-todos.md` for residual evidence and secondary cleanup.
 
 Historical step handoffs remain retained for provenance. When historical prose conflicts with a current contract or canonical document, the current contract or canonical document governs.
