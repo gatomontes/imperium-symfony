@@ -109,7 +109,7 @@ final readonly class OperationalCognitionInvocationClaimService
             'input_digest' => $lease['input_digest'],
             'profile_model_requirements_digest' => $lease['profile_model_requirements_digest'],
             'iteration' => $lease['iteration'],
-            'lease_consumption' => ['lease_id' => $leaseId, 'consumed' => true, 'consumed_at' => $claimedAt->format(DATE_ATOM), 'continuing_authority' => false],
+            'lease_consumption' => ['lease_id' => $leaseId, 'consumed' => true, 'consumed_at' => $claimedAt->format(DATE_ATOM), 'expires_at' => $lease['expires_at'], 'continuing_authority' => false],
             'cognition_authority_consumption' => ['authority_id' => $cognitionAuthorityId, 'consumed' => true, 'consumed_at' => $claimedAt->format(DATE_ATOM), 'continuing_authority' => false],
             'provider_request' => ['idempotency_identity' => $idempotencyIdentity, 'external_io_started' => false, 'provider_response_identity' => null],
             'recovery' => ['automatic_replay_permitted' => false, 'unknown_outcome_requires_governed_resolution' => true],

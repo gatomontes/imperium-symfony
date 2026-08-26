@@ -12,7 +12,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class ProviderInvocationJournalService
 {
-    private const CLAIMS = 'var/imperium/runtime/provider-invocations';
+    private const DELEGATE_CLAIMS = 'var/imperium/runtime/provider-invocations';
+    private const OPERATIONAL_CLAIMS = 'var/imperium/runtime/operational-cognition-invocation-claims';
     private const JOURNAL = 'var/imperium/runtime/provider-invocation-journal';
 
     private MutableStateStore $state;
@@ -38,7 +39,7 @@ final readonly class ProviderInvocationJournalService
             return $this->state->compareAndSwap($this->path($authoritative['claim_id']), null, [
                 'schema' => 'imperium.clavium-provider-invocation-journal/v1',
                 'claim' => ['id' => $authoritative['claim_id'], 'digest' => $authoritative['record_digest']],
-                'idempotency_key' => $authoritative['provider_request']['idempotency_key'],
+                'idempotency_key' => $this->idempotencyKey($authoritative),
                 'external_io_started' => true,
                 'provider_response_identity' => null,
                 'started_at' => $at->format(DATE_ATOM),
@@ -63,7 +64,7 @@ final readonly class ProviderInvocationJournalService
             return $this->state->compareAndSwap($this->path($authoritative['claim_id']), null, [
                 'schema' => 'imperium.clavium-provider-invocation-journal/v1',
                 'claim' => ['id' => $authoritative['claim_id'], 'digest' => $authoritative['record_digest']],
-                'idempotency_key' => $authoritative['provider_request']['idempotency_key'],
+                'idempotency_key' => $this->idempotencyKey($authoritative),
                 'external_io_started' => false,
                 'provider_response_identity' => null,
                 'failure_code' => $failureCode,
@@ -125,24 +126,45 @@ final readonly class ProviderInvocationJournalService
     private function authoritativeClaim(array $claim): array
     {
         $id = $claim['claim_id'] ?? null;
-        if (!is_string($id) || !preg_match('/^provider-invocation-[a-f0-9]{20}$/', $id)) {
+        if (!is_string($id)) {
+            throw new \RuntimeException('CLV410_PROVIDER_INVOCATION_CLAIM_INVALID');
+        }
+        $operational = (bool) preg_match('/^operational-cognition-invocation-claim-[a-f0-9]{20}$/', $id);
+        $delegate = (bool) preg_match('/^provider-invocation-[a-f0-9]{20}$/', $id);
+        if (!$operational && !$delegate) {
             throw new \RuntimeException('CLV410_PROVIDER_INVOCATION_CLAIM_INVALID');
         }
         try {
-            $authoritative = $this->records->read(self::CLAIMS, $id);
+            $authoritative = $this->records->read($operational ? self::OPERATIONAL_CLAIMS : self::DELEGATE_CLAIMS, $id);
         } catch (\RuntimeException) {
             throw new \RuntimeException('CLV410_PROVIDER_INVOCATION_CLAIM_INVALID');
         }
+        $expectedStatus = $operational
+            ? 'OPERATIONAL_INVOCATION_CLAIMED_DURABLE_PRE_IO'
+            : 'INVOCATION_CLAIMED_PENDING_EXTERNAL_IO';
+        $authority = $operational ? 'cognition_authority_consumption' : 'turn_authority_consumption';
         if (CanonicalJson::encode($claim) !== CanonicalJson::encode($authoritative)
-            || 'INVOCATION_CLAIMED_PENDING_EXTERNAL_IO' !== ($authoritative['status'] ?? null)
+            || $expectedStatus !== ($authoritative['status'] ?? null)
             || true !== ($authoritative['lease_consumption']['consumed'] ?? null)
-            || true !== ($authoritative['turn_authority_consumption']['consumed'] ?? null)
+            || true !== ($authoritative[$authority]['consumed'] ?? null)
             || false !== ($authoritative['provider_request']['external_io_started'] ?? null)
             || false !== ($authoritative['recovery']['automatic_replay_permitted'] ?? null)) {
             throw new \RuntimeException('CLV410_PROVIDER_INVOCATION_CLAIM_INVALID');
         }
 
         return $authoritative;
+    }
+
+    private function idempotencyKey(array $claim): string
+    {
+        $key = $claim['provider_request']['idempotency_key']
+            ?? $claim['provider_request']['idempotency_identity']
+            ?? null;
+        if (!is_string($key) || '' === $key) {
+            throw new \RuntimeException('CLV410_PROVIDER_INVOCATION_CLAIM_INVALID');
+        }
+
+        return $key;
     }
 
     private function path(string $claimId): string
