@@ -46,6 +46,7 @@ services:
                 - '@App\Imperium\Runtime\Authorship\SectionAuthorshipGovernanceCognitionAuthorityResolver'
                 - '@App\Imperium\Runtime\Laboratorium\LaboratoriumGovernanceCognitionAuthorityResolver'
                 - '@App\Imperium\Runtime\Senate\SenateProfileExaminationGovernanceCognitionAuthorityResolver'
+                - '@App\Imperium\Runtime\Senate\SenatePersonaConfirmationQuestionGovernanceCognitionAuthorityResolver'
                 - '@App\Imperium\Runtime\Senate\SenatePersonaConfirmationGovernanceCognitionAuthorityResolver'
 
     App\Imperium\Runtime\Curia\ProceedingStore:
@@ -230,13 +231,6 @@ services:
 
     App\Imperium\Runtime\Curia\SeneschalCognitionGateway:
         alias: App\Imperium\Runtime\Curia\SymfonyAiSeneschalCognitionGateway
-
-    App\Imperium\Runtime\Senate\SymfonyAiPersonaWitnessTestimonyCognitionGateway:
-        arguments:
-            $practice: '@ai.agent.senator_practice'
-            $governance: '@ai.agent.senator_governance'
-            $consistency: '@ai.agent.senator_consistency'
-            $security: '@ai.agent.senator_security'
 
     App\Imperium\Runtime\Senate\PersonaWitnessTestimonyCognitionGateway:
         alias: App\Imperium\Runtime\Senate\SymfonyAiPersonaWitnessTestimonyCognitionGateway

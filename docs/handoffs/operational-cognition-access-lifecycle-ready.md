@@ -237,5 +237,7 @@ Batch 13F consumes the exact Consistency testimony authority through the claim-b
 Batch 13G seals the Security question from the ordered Practice, Governance, and Consistency testimony lineage and stops before witness cognition. Continue with Batch 13H from `docs/handoffs/credential-boundary-batch-13g-security-baseline-question-seam-complete.md`; finding authority remains unopened.
 
 Batch 13H consumes the exact Security testimony authority through the claim-bound witness path and seals the fourth baseline testimony turn. Continue with Batch 13I from `docs/handoffs/credential-boundary-batch-13h-security-baseline-testimony-complete.md`; migrate the four question-authoring agents before opening findings.
+
+Batch 13I migrates all four Persona-confirmation question stages through exact native governance authorities and removes the four direct Senator question agents. Inventory is 11. Continue with Batch 13J from `docs/handoffs/credential-boundary-batch-13i-persona-question-migration-complete.md`; open finding authorities without invoking a finding agent.
 >
 > Ad Imperium. Not one step back.
