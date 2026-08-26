@@ -34,3 +34,7 @@ See `docs/next-lifecycle-runtime-integrity-hardening.md` and `docs/handoffs/dele
 ## Superseding runtime-integrity status
 
 The separately named runtime-integrity hardening lifecycle is now complete through Hardening Step 35. Its implementation supersedes the risks described above without changing Delegate Mission Step 69 or granting any continuing authority. See `docs/handoffs/runtime-integrity-hardening-leg-complete.md` for the durable closeout and `todo/blackquill-todos.md` for residual operational evidence and non-critical cleanup.
+
+## Operational evidence program ready
+
+The severe-source cleanup gate is closed and locally verified. The next work is the separately bounded four-demonstration crash-evidence program documented in `docs/handoffs/crash-demonstration-program-ready.md`. It proves operational construction, deployment custody, unknown provider-outcome, and terminal retirement recovery without reopening Step 69.
