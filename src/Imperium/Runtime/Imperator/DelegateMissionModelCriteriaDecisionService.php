@@ -1,4 +1,158 @@
 <?php
-declare(strict_types=1);namespace App\Imperium\Runtime\Imperator;use App\Bootstrap\CanonicalJson;use Symfony\Component\DependencyInjection\Attribute\Autowire;
+declare(strict_types=1);
+namespace App\Imperium\Runtime\Imperator;
+use App\Bootstrap\CanonicalJson;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+
 final readonly class DelegateMissionModelCriteriaDecisionService
-{private string$r;private string$d;public function __construct(#[Autowire('%kernel.project_dir%')]string$root){$this->r=$root.'/var/imperium/offices/curia/delegate-mission-model-criteria-requests';$this->d=$root.'/var/imperium/imperator/delegate-mission-model-criteria-decisions';}public function decide(string$id,string$disposition,array$criteria,string$rationale,\DateTimeImmutable$at):array{if(!preg_match('/^delegate-mission-model-criteria-request-[a-f0-9]{20}$/',$id))throw new \InvalidArgumentException('I250_DELEGATE_MODEL_CRITERIA_REQUEST_ID_INVALID');$disposition=strtoupper(trim($disposition));$rationale=trim($rationale);if(!in_array($disposition,['AUTHORIZED','AMENDED_AND_AUTHORIZED','REFUSED','RETURNED_FOR_REVISION','DEFERRED'],true)||''===$rationale)throw new \InvalidArgumentException('I251_DELEGATE_MODEL_CRITERIA_DECISION_INVALID');$r=$this->read($this->r.'/'.$id.'.json','I252_DELEGATE_MODEL_CRITERIA_REQUEST_ABSENT');$authorized=in_array($disposition,['AUTHORIZED','AMENDED_AND_AUTHORIZED'],true);if(!$this->ok($r)||'imperium.curia-delegate-mission-model-criteria-request/v1'!==($r['schema']??null)||'DELEGATE_MISSION_MODEL_CRITERIA_PRESENTED_PENDING_IMPERATOR_DECISION'!==($r['status']??null)||true===($r['provider_invocation_authority']??null))throw new \RuntimeException('I253_DELEGATE_MODEL_CRITERIA_DECISION_CHAIN_INVALID');if($authorized){$criteria=$this->criteria($criteria);if('AUTHORIZED'===$disposition&&CanonicalJson::encode($criteria)!==CanonicalJson::encode($r['proposed_criteria']))throw new \RuntimeException('I254_DELEGATE_MODEL_CRITERIA_UNDECLARED_AMENDMENT');}elseif([]!==$criteria)throw new \InvalidArgumentException('I251_DELEGATE_MODEL_CRITERIA_DECISION_INVALID');foreach(glob($this->d.'/*.json')?:[]as$p){$x=$this->read($p,'I259_DELEGATE_MODEL_CRITERIA_DECISION_CONFLICT');if(($x['source_request']['id']??null)===$id)return$x;}$did='delegate-mission-model-criteria-decision-'.substr(hash('sha256',CanonicalJson::encode([$id,$r['record_digest'],$disposition,$criteria,$rationale])),0,20);$issue=$authorized?'delegate-mission-oracle-commission-issuance-authority-'.substr(hash('sha256',CanonicalJson::encode([$did,$criteria])),0,20):null;return$this->save($did,['schema'=>'imperium.imperator-delegate-mission-model-criteria-decision/v1','decision_id'=>$did,'instance_id'=>$r['instance_id'],'actor'=>['kind'=>'imperator','id'=>'imperator-development-root'],'source_request'=>['id'=>$id,'digest'=>$r['record_digest']],'source_readiness'=>$r['source_readiness'],'source_commission'=>$r['source_commission'],'source_binding'=>$r['source_binding'],'operational_custody'=>$r['operational_custody'],'target'=>$r['target'],'commission_contract'=>$r['commission_contract'],'resource_requirements'=>$r['resource_requirements'],'proposed_criteria'=>$r['proposed_criteria'],'authorized_criteria'=>$authorized?$criteria:null,'disposition'=>$disposition,'rationale'=>$rationale,'decided_at'=>$at->format(DATE_ATOM),'status'=>$authorized?'DELEGATE_MISSION_MODEL_CRITERIA_AUTHORIZED_PENDING_ORACLE_COMMISSION_ISSUANCE':'DELEGATE_MISSION_MODEL_CRITERIA_NOT_AUTHORIZED','oracle_commission_issuance_authority'=>$authorized?['authority_id'=>$issue,'authority_single_use'=>true,'authority_exercisable'=>true,'holder'=>'curia.seneschal','consumed'=>false,'continuing_authority'=>false]:null,'model_selection_authority'=>false,'model_assignment_authority'=>false,'provider_invocation_authority'=>false,'resource_authority'=>false,'execution_authority'=>false,'sealed'=>true]);}private function criteria(array$c):array{if(array_keys($c)!==['cognitive_task','required_capabilities','prohibited_capabilities','required_tools','minimum_context_tokens','data_classification','data_residency','permitted_providers','max_cost_per_million_tokens','max_latency_ms','minimum_reliability','fallback_policy','substitution_policy','evaluation_rubric','minimum_evidence_sources']||'SILENT_SUBSTITUTION_PROHIBITED'!==($c['substitution_policy']??null))throw new \InvalidArgumentException('I255_DELEGATE_MODEL_CRITERIA_INVALID');return$c;}private function read($p,$e):array{if(!is_file($p))throw new \RuntimeException($e);return json_decode((string)file_get_contents($p),true,512,JSON_THROW_ON_ERROR);}private function ok(array$r):bool{$d=$r['record_digest']??null;unset($r['record_digest']);return is_string($d)&&hash_equals($d,hash('sha256',CanonicalJson::encode($r)));}private function save($id,array$r):array{if(!is_dir($this->d))mkdir($this->d,0770,true);$r['record_digest']=hash('sha256',CanonicalJson::encode($r));file_put_contents($this->d.'/'.$id.'.json',json_encode($r,JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_THROW_ON_ERROR)."\n",LOCK_EX);return$r;}}
+{
+    private string$r;
+    private string$d;
+    public function __construct(#[Autowire('%kernel.project_dir%')]string$root){
+        $this->r=$root.'/var/imperium/offices/curia/delegate-mission-model-criteria-requests';
+        $this->d=$root.'/var/imperium/imperator/delegate-mission-model-criteria-decisions';
+
+    }
+    public function decide(string$id,
+    string$disposition,
+    array$criteria,
+    string$rationale,
+    \DateTimeImmutable$at):array{
+        if(!preg_match('/^delegate-mission-model-criteria-request-[a-f0-9]{20}$/',
+        $id))throw new \InvalidArgumentException('I250_DELEGATE_MODEL_CRITERIA_REQUEST_ID_INVALID');
+        $disposition=strtoupper(trim($disposition));
+        $rationale=trim($rationale);
+        if(!in_array($disposition,
+        ['AUTHORIZED',
+        'AMENDED_AND_AUTHORIZED',
+        'REFUSED',
+        'RETURNED_FOR_REVISION',
+        'DEFERRED'],
+        true)||
+        ''===$rationale)throw new \InvalidArgumentException('I251_DELEGATE_MODEL_CRITERIA_DECISION_INVALID');
+        $r=$this->read($this->r.'/'.$id.'.json',
+        'I252_DELEGATE_MODEL_CRITERIA_REQUEST_ABSENT');
+        $authorized=in_array($disposition,
+        ['AUTHORIZED',
+        'AMENDED_AND_AUTHORIZED'],
+        true);
+        if(!$this->ok($r)||
+        'imperium.curia-delegate-mission-model-criteria-request/v1'!==($r['schema']??null)||
+        'DELEGATE_MISSION_MODEL_CRITERIA_PRESENTED_PENDING_IMPERATOR_DECISION'!==($r['status']??null)||
+        true===($r['provider_invocation_authority']??null))throw new \RuntimeException('I253_DELEGATE_MODEL_CRITERIA_DECISION_CHAIN_INVALID');
+        if($authorized){
+            $criteria=$this->criteria($criteria);
+            if('AUTHORIZED'===$disposition&&
+            CanonicalJson::encode($criteria)!==CanonicalJson::encode($r['proposed_criteria']))throw new \RuntimeException('I254_DELEGATE_MODEL_CRITERIA_UNDECLARED_AMENDMENT');
+
+        }
+        elseif([]!==$criteria)throw new \InvalidArgumentException('I251_DELEGATE_MODEL_CRITERIA_DECISION_INVALID');
+        foreach(glob($this->d.'/*.json')?:[]as$p){
+            $x=$this->read($p,
+            'I259_DELEGATE_MODEL_CRITERIA_DECISION_CONFLICT');
+            if(($x['source_request']['id']??null)===$id)return$x;
+
+        }
+        $did='delegate-mission-model-criteria-decision-'.substr(hash('sha256',
+        CanonicalJson::encode([$id,
+        $r['record_digest'],
+        $disposition,
+        $criteria,
+        $rationale])),
+        0,
+        20);
+        $issue=$authorized?'delegate-mission-oracle-commission-issuance-authority-'.substr(hash('sha256',
+        CanonicalJson::encode([$did,
+        $criteria])),
+        0,
+        20):null;
+        return$this->save($did,
+        ['schema'=>'imperium.imperator-delegate-mission-model-criteria-decision/v1',
+        'decision_id'=>$did,
+        'instance_id'=>$r['instance_id'],
+        'actor'=>['kind'=>'imperator',
+        'id'=>'imperator-development-root'],
+        'source_request'=>['id'=>$id,
+        'digest'=>$r['record_digest']],
+        'source_readiness'=>$r['source_readiness'],
+        'source_commission'=>$r['source_commission'],
+        'source_binding'=>$r['source_binding'],
+        'operational_custody'=>$r['operational_custody'],
+        'target'=>$r['target'],
+        'commission_contract'=>$r['commission_contract'],
+        'resource_requirements'=>$r['resource_requirements'],
+        'proposed_criteria'=>$r['proposed_criteria'],
+        'authorized_criteria'=>$authorized?$criteria:null,
+        'disposition'=>$disposition,
+        'rationale'=>$rationale,
+        'decided_at'=>$at->format(DATE_ATOM),
+        'status'=>$authorized?'DELEGATE_MISSION_MODEL_CRITERIA_AUTHORIZED_PENDING_ORACLE_COMMISSION_ISSUANCE':'DELEGATE_MISSION_MODEL_CRITERIA_NOT_AUTHORIZED',
+        'oracle_commission_issuance_authority'=>$authorized?['authority_id'=>$issue,
+        'authority_single_use'=>true,
+        'authority_exercisable'=>true,
+        'holder'=>'curia.seneschal',
+        'consumed'=>false,
+        'continuing_authority'=>false]:null,
+        'model_selection_authority'=>false,
+        'model_assignment_authority'=>false,
+        'provider_invocation_authority'=>false,
+        'resource_authority'=>false,
+        'execution_authority'=>false,
+        'sealed'=>true]);
+
+    }
+    private function criteria(array$c):array{
+        if(array_keys($c)!==['cognitive_task',
+        'required_capabilities',
+        'prohibited_capabilities',
+        'required_tools',
+        'minimum_context_tokens',
+        'data_classification',
+        'data_residency',
+        'permitted_providers',
+        'max_cost_per_million_tokens',
+        'max_latency_ms',
+        'minimum_reliability',
+        'fallback_policy',
+        'substitution_policy',
+        'evaluation_rubric',
+        'minimum_evidence_sources']||
+        'SILENT_SUBSTITUTION_PROHIBITED'!==($c['substitution_policy']??null))throw new \InvalidArgumentException('I255_DELEGATE_MODEL_CRITERIA_INVALID');
+        return$c;
+
+    }
+    private function read($p,
+    $e):array{
+        if(!is_file($p))throw new \RuntimeException($e);
+        return json_decode((string)file_get_contents($p),
+        true,
+        512,
+        JSON_THROW_ON_ERROR);
+
+    }
+    private function ok(array$r):bool{
+        $d=$r['record_digest']??null;
+        unset($r['record_digest']);
+        return is_string($d)&&
+        hash_equals($d,
+        hash('sha256',
+        CanonicalJson::encode($r)));
+
+    }
+    private function save($id,
+    array$r):array{
+        if(!is_dir($this->d))mkdir($this->d,
+        0770,
+        true);
+        $r['record_digest']=hash('sha256',
+        CanonicalJson::encode($r));
+        file_put_contents($this->d.'/'.$id.'.json',
+        json_encode($r,
+        JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_THROW_ON_ERROR)."\n",
+        LOCK_EX);
+        return$r;
+
+    }
+
+}
+
