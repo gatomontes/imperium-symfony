@@ -182,4 +182,6 @@ Crash Demonstration 2 has operator-retained proof against source commit `9633ef0
 
 Crash Demonstration 3 has operator-retained proof against source commit `bd3620ccd32e1511c96d53caacb60806348cf995`. Crash Demonstration 4 is implemented by the repeatable command and evidence contract in `docs/crash-demonstration-4-terminal-retirement-recovery.md`; it converges every existing terminal checkpoint on restored custody, retired binding, one terminal Folium, and zero surviving authority.
 
+Crash Demonstration 4 has operator-retained proof against source commit `598cbcdf749fc804b979a2ddfb310bf025b385b2`. The bounded four-demonstration crash-evidence program is complete. This closure creates neither Delegate Mission Step 70 nor Runtime Integrity Hardening Step 36. The next separate operational-evidence target is proof that direct provider invocation without a valid Clavium lease is impossible.
+
 Each demonstration must produce a repeatable local command, machine-readable retained evidence, explicit assertions, and a sanitized external summary that reveals the property proved without disclosing proprietary runtime topology.
