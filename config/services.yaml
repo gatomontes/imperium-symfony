@@ -45,6 +45,7 @@ services:
                 - '@App\Imperium\Runtime\Authorship\AuthorshipGovernanceCognitionAuthorityResolver'
                 - '@App\Imperium\Runtime\Authorship\SectionAuthorshipGovernanceCognitionAuthorityResolver'
                 - '@App\Imperium\Runtime\Laboratorium\LaboratoriumGovernanceCognitionAuthorityResolver'
+                - '@App\Imperium\Runtime\Senate\SenateProfileExaminationGovernanceCognitionAuthorityResolver'
 
     App\Imperium\Runtime\Curia\ProceedingStore:
         arguments:

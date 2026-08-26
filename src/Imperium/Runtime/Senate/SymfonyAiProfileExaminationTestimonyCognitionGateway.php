@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\Imperium\Runtime\Senate;
 
-use App\Imperium\Runtime\Cognition\BoundedTransientCognitionCaller;
-use Symfony\AI\Agent\AgentInterface;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use App\Imperium\Runtime\Clavium\GovernanceCognitionInvoker;
 
 final readonly class SymfonyAiProfileExaminationTestimonyCognitionGateway implements ProfileExaminationTestimonyCognitionGateway
 {
-    public function __construct(#[Autowire(service: 'ai.agent.profile_examination_witness')] private AgentInterface $witness, private ?BoundedTransientCognitionCaller $transientCaller = null) {}
+    public function __construct(private GovernanceCognitionInvoker $cognition) {}
 
     public function answer(array $question, array $manifestation): array
     {
@@ -25,7 +23,7 @@ final readonly class SymfonyAiProfileExaminationTestimonyCognitionGateway implem
             'Return one JSON object with exactly four fields and these exact types: answer must be one non-empty string; uncertainties, refusals, and evidence_claims must each be an array containing only non-empty strings. Use [] when a list has no entries. Do not return null, nested objects, markdown, commentary, or additional fields.',
             'Exact response shape: {"answer":"...","uncertainties":[],"refusals":[],"evidence_claims":["..."]}',
         ]);
-        $content = ($this->transientCaller ?? new BoundedTransientCognitionCaller())->call($this->witness, $prompt, 'S229_PROFILE_EXAMINATION_TESTIMONY_COGNITION_INVALID');
+        $content = $this->cognition->invoke('senate-profile-examination','testimony',(string)($question['question_id']??$question['dispatch_id']??''),'senate.stand','answer-profile-question',[$question,$manifestation],$prompt);
         if (!is_string($content)) throw $this->invalid('NON_TEXT_RESPONSE');
         $content = trim($content);
         if (str_starts_with($content, '```')) $content = preg_replace('/^```(?:json)?\s*|\s*```$/i', '', $content) ?? $content;

@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\Imperium\Runtime\Senate;
 
-use App\Imperium\Runtime\Cognition\BoundedTransientCognitionCaller;
-use Symfony\AI\Agent\AgentInterface;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use App\Imperium\Runtime\Clavium\GovernanceCognitionInvoker;
 
 final readonly class SymfonyAiProfileExaminationReconciliationCognitionGateway implements ProfileExaminationReconciliationCognitionGateway
 {
-    public function __construct(#[Autowire(service:'ai.agent.profile_examination_reconciliation')] private AgentInterface $agent, private ?BoundedTransientCognitionCaller $transientCaller = null) {}
+    public function __construct(private GovernanceCognitionInvoker $cognition) {}
 
     public function reconcile(array $authority, array $findings): array
     {
@@ -22,7 +20,7 @@ final readonly class SymfonyAiProfileExaminationReconciliationCognitionGateway i
             'Copy all three supplied available_finding_references values exactly into finding_references.',
             'Exact response shape: {"finding_references":["finding:security:<digest>","finding:trust:<digest>","finding:usability:<digest>"],"agreements":[],"disagreements":[],"attribution_treatment":["..."],"severity_treatment":["..."],"limitations":[],"uncertainties":[],"rationale":"..."}',
         ]);
-        $content=($this->transientCaller??new BoundedTransientCognitionCaller())->call($this->agent,$prompt,'S262_PROFILE_EXAMINATION_RECONCILIATION_COGNITION_INVALID');
+        $content=$this->cognition->invoke('senate-profile-examination','reconciliation',(string)($authority['deliberation_id']??$authority['reconciliation_authority_id']??''),'senate.lord-speaker','reconcile-profile-findings',[$authority,$findings],$prompt);
         if(!is_string($content))throw $this->invalid('NON_TEXT_RESPONSE');
         if(''===trim($content))throw $this->invalid('EMPTY_RESPONSE');
         $content=trim($content);

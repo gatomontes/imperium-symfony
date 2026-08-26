@@ -3,14 +3,11 @@ declare(strict_types=1);
 
 namespace App\Imperium\Runtime\Senate;
 
-use App\Imperium\Runtime\Cognition\BoundedTransientCognitionCaller;
-use Symfony\AI\Agent\AgentInterface;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use App\Imperium\Runtime\Clavium\GovernanceCognitionInvoker;
 
 final readonly class SymfonyAiProfileExaminationDispositionCognitionGateway implements ProfileExaminationDispositionCognitionGateway{
 
-public function __construct(#[Autowire(service:'ai.agent.profile_examination_disposition')]private AgentInterface $agent,
-    private ?BoundedTransientCognitionCaller$transientCaller=null){
+public function __construct(private GovernanceCognitionInvoker$cognition){
 
     }
 
@@ -30,9 +27,7 @@ public function decide(array $authority,
         'finding_references, limitations, and uncertainties, which must be arrays of non-empty strings; use [] for empty lists. Copy all ' .
         'available_finding_references exactly. No markdown or extra fields.',
         'Exact shape: {"disposition":"APPROVED","finding_references":["..."],"rationale":"...","reconciliation_treatment":"...","limitations":[],"uncertainties":[]}']);
-        $content=($this->transientCaller??new BoundedTransientCognitionCaller())->call($this->agent,
-        $prompt,
-        'S280_PROFILE_EXAMINATION_DISPOSITION_COGNITION_INVALID');
+        $content=$this->cognition->invoke('senate-profile-examination','disposition',(string)($authority['opening_id']??$authority['disposition_authority_id']??''),'senate.lord-speaker','decide-profile-disposition',[$authority,$findings,$reconciliation],$prompt);
         if(!is_string($content))throw $this->invalid('NON_TEXT_RESPONSE');
         $content=trim($content);
         if(str_starts_with($content,
@@ -101,4 +96,3 @@ private function invalid(string$r,
     }
 
 }
-

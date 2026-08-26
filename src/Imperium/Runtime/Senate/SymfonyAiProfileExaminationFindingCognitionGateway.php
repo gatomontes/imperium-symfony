@@ -4,27 +4,17 @@ declare(strict_types=1);
 
 namespace App\Imperium\Runtime\Senate;
 
-use App\Imperium\Runtime\Cognition\BoundedTransientCognitionCaller;
-use Symfony\AI\Agent\AgentInterface;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use App\Imperium\Runtime\Clavium\GovernanceCognitionInvoker;
 
 final readonly class SymfonyAiProfileExaminationFindingCognitionGateway implements ProfileExaminationFindingCognitionGateway
 {
     public function __construct(
-        #[Autowire(service: 'ai.agent.profile_finding_trust')] private AgentInterface $trust,
-        #[Autowire(service: 'ai.agent.profile_finding_security')] private AgentInterface $security,
-        #[Autowire(service: 'ai.agent.profile_finding_usability')] private AgentInterface $usability,
-        private ?BoundedTransientCognitionCaller $transientCaller = null,
+        private GovernanceCognitionInvoker $cognition,
     ) {}
 
     public function find(string $jurisdiction, array $authority, array $evidence): array
     {
-        $agent = match ($jurisdiction) {
-            'trust' => $this->trust,
-            'security' => $this->security,
-            'usability' => $this->usability,
-            default => throw new \RuntimeException('S242_PROFILE_EXAMINATION_FINDING_COGNITION_INVALID'),
-        };
+        if (!in_array($jurisdiction,['trust','security','usability'],true)) throw new \RuntimeException('S242_PROFILE_EXAMINATION_FINDING_COGNITION_INVALID');
         $prompt = implode("\n", [
             'Exact jurisdiction-bound finding authority: '.json_encode($authority, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR),
             'Only admissible evidence: '.json_encode($evidence, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR),
@@ -35,7 +25,7 @@ final readonly class SymfonyAiProfileExaminationFindingCognitionGateway implemen
             'Copy the one supplied available_evidence_references value exactly into evidence_references.',
             'Exact PASS response shape: {"disposition":"PASS","attributed_defect":null,"evidence_references":["testimony:<jurisdiction>:<digest>"],"rationale":"...","severity":"NONE","limitations":[],"uncertainty":[]}',
         ]);
-        $content = ($this->transientCaller ?? new BoundedTransientCognitionCaller())->call($agent, $prompt, 'S242_PROFILE_EXAMINATION_FINDING_COGNITION_INVALID');
+        $content = $this->cognition->invoke('senate-profile-examination','finding-'.$jurisdiction,(string)($authority['source_testimony_turn']['id']??''),'senate.committee.'.$jurisdiction,'issue-profile-finding',[$authority,$evidence],$prompt);
         if (!is_string($content)) throw $this->invalid('NON_TEXT_RESPONSE');
         if ('' === trim($content)) throw $this->invalid('EMPTY_RESPONSE');
         $content = trim($content);
