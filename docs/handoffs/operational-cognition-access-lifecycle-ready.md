@@ -185,7 +185,11 @@ php vendor/bin/phpunit \
 
 The remaining surface is sealed in `docs/credential-boundary-agent-inventory.json` and `docs/handoffs/credential-boundary-batch-6-inventory-complete.md`. It contains 31 main-runtime definitions plus the separately configured La Cortine sortie agent: 32 remaining agents across nine clusters and two environment-backed platform definitions. An automated inventory test requires every configured definition and declared injection to remain classified exactly once.
 
-The next batch is **Batch 7: common governance invocation substrate**. It must implement the mechanical governance request, independent Imperator provider-resource decision, opaque Clavium lease, durable pre-I/O claim, journal, and response-envelope contracts without migrating any governance gateway or inventing cluster authority.
+## Batch 7 implementation checkpoint
+
+The common internal-governance substrate is implemented through its durable pre-I/O claim. It requires exactly one cluster-specific resolver to reread and normalize a native authority, then preserves independent request, Imperator decision/refusal, opaque Clavium lease, and atomic lease-plus-authority claim boundaries. No gateway or agent definition moved; the inventory remains 32.
+
+The next batch is **Batch 8: Foundry migration** for Artificer specification/revision/review and adversarial review only.
 
 ## New-chat continuation prompt
 
@@ -200,6 +204,6 @@ Copy this prompt verbatim into the next chat:
 >
 > Continue Imperium from `main` at or after the merge recorded in `docs/handoffs/operational-cognition-access-lifecycle-ready.md`. Read that handoff, `docs/credential-boundary-remediation.md`, `docs/delegate-mission-flow.md`, `docs/handoffs/runtime-integrity-hardening-leg-complete.md`, `docs/handoffs/runtime-severe-source-cleanup-closed.md`, `docs/handoffs/crash-demonstration-program-complete.md`, and `todo/blackquill-todos.md` before changing code.
 >
-> Begin credential-boundary remediation Batch 7: common governance invocation substrate. Starting from the merged Batch 6 inventory, implement only the reusable mechanical request, independent Imperator provider-resource decision, opaque Clavium lease, durable pre-I/O invocation claim, journal, and response-envelope contracts for governance cognition. Require every request to cite one exact existing cluster authority identity/digest, Seat/purpose, bounded input digest, and expiry. The substrate may validate and consume authority but may not create, infer, widen, or substitute it. Prove absent, malformed, expired, mismatched, replayed, partial, and cross-cluster authority fails before credential resolution. Do not migrate any gateway or remove any agent definition in Batch 7. Preserve the separate operational, Delegate, Legate, and sortie semantics. Do not claim the system-wide gate closed. I will run local PHP commands.
+> Begin credential-boundary remediation Batch 8: Foundry migration. Starting from the merged Batch 7 governance substrate, migrate only `artificer_specification` and `adversarial_reviewer`. Add Foundry-native resolvers that reread the exact specification, revision, ordinary-review, and adversarial-review authority records; one common governance request/decision/lease/claim per exact stage operation; and a claim-bound brokered DeepSeek adapter path preserving every existing gateway return contract. Prove cross-stage and cross-case substitution, replay/concurrency, pre-I/O failure, unknown outcome, checkpoint behavior, and secret exclusion. Remove both direct agent definitions and all four direct injection paths, then update the executable inventory from 32 to 30. Do not migrate another cluster or claim the system-wide gate closed. I will run local PHP commands.
 >
 > Ad Imperium. Not one step back.
