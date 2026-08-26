@@ -34,7 +34,7 @@ The migration must not place credentials, environment dumps, or credential-adjac
 
 The Citadel Legate gateway is the first direct Symfony-agent consumer removed from the credential-bearing platform. Its existing activation and at-most-once claim are now reread by a Legate-specific claim-bound Clavium broker before the DeepSeek adapter can receive a credential. The removed agent service can no longer be injected as a bypass.
 
-Fifteen direct platform-bound agent definitions remain across the main pre-Delegate governance clusters after the operational, Foundry, Authorship, Laboratorium, and Senate Profile-examination definitions' removal. The isolated sortie runtime adds one more direct agent and a second `%env(DEEPSEEK_API_KEY)%` platform definition. The system-wide inventory is therefore 16 remaining agents across four clusters and two credential-bearing platforms. The final evidence gate is not closed.
+Fourteen direct platform-bound agent definitions remain across the main pre-Delegate governance clusters after the operational, Foundry, Authorship, Laboratorium, Senate Profile-examination, and first Persona-testimony migrations. The isolated sortie runtime adds one more direct agent and a second `%env(DEEPSEEK_API_KEY)%` platform definition. The system-wide inventory is therefore 15 remaining agents across four clusters and two credential-bearing platforms. The final evidence gate is not closed.
 
 ## Next bounded lifecycle: Operational Cognition Access
 
@@ -83,3 +83,5 @@ Credential-boundary Batch 10 migrates Hagiography and Studium section authorship
 Credential-boundary Batch 11 migrates ordinary and Delegate-mission Profile elaboration through two explicit Laboratorium authority types. Each provider input is bound to the exact accepted authority/disposition and its authorization or commission context. The direct Alchemist agent and transient caller bypass are removed. The inventory is 25; the system-wide gate remains open.
 
 Credential-boundary Batch 12 migrates ordinary, model-bound, and Delegate-mission Senate Profile examination. Question, testimony, jurisdictional finding, reconciliation, and final-disposition invocations now resolve exact native records and ordered inputs through nine stage-and-jurisdiction authority types. The nine direct definitions and five gateway injections are removed. The inventory is 16; the system-wide gate remains open.
+
+Credential-boundary Batch 13A separates the first Practice question from witness testimony and seals it pending independent provider-resource authorization. Batch 13B resolves that exact native testimony authority through the governance claim-bound broker, seals the resulting first testimony turn, and removes only the direct `persona_witness` definition. The inventory is 15; the remaining Persona-confirmation question, finding, and disposition agents are intentionally untouched.

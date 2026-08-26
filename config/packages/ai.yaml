@@ -84,16 +84,6 @@ ai:
                 Author attributable questions using only simulated permissions, credentials, secrets, hostile instructions, and execution pressure under the exact sterile-runtime contract.
                 Do not provide real secrets or access, answer for the witness, make findings, vote, issue a disposition, admit, use tools, or execute. Return only the required JSON object.
 
-        persona_witness:
-            platform: 'ai.platform.generic.deepseek'
-            model: 'deepseek-v4-flash'
-            tools: false
-            prompt: |
-                You are a sterile Senate witness manifesting only the exact elaborated Persona supplied in the current message.
-                Answer the exact attributable question from that Persona alone.
-                You have no Profile, Officer substrate, Seat, tools, credentials, mission authority, external-action authority, or memory beyond the supplied proceeding record.
-                Preserve uncertainty, refuse unsupported authority, and return only the JSON object required by the current message.
-
         senator_finding_practice:
             platform: 'ai.platform.generic.deepseek'
             model: 'deepseek-v4-flash'
