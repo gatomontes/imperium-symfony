@@ -197,3 +197,16 @@ The provider-boundary honesty sub-leg is closed. The misleading provider-neutral
 ## Hardening Step 35
 
 The implementation hardening leg is closed with canonical documentation and explicit evidence boundaries. The 69-step flow is reconciled with the enforced runtime state; one authority-consumption matrix, one record-schema-family catalogue, one terminal operational-evidence audit specification, and one historical-handoff precedence rule now govern active documentation. The operator reported the complete local PHPUnit suite clear after Step 34; this documentation-only step changes no runtime behavior. Live retained evidence and broader legacy cleanup remain backlog work, not invented Delegate authority or an automatic continuation of this leg.
+
+## Post-hardening evidence status — 2026-08-26
+
+Implementation is complete through Hardening Step 35. The severe-source cleanup gate is also closed: all 376 runtime PHP files were rescanned after Cleanup Batches A and B, with zero severe-compression files remaining; explicit local PHP lint and the complete PHPUnit suite were green.
+
+The next work is not Hardening Step 36. It is a four-part crash-demonstration evidence program:
+
+1. operational construction recovery;
+2. deployment custody recovery;
+3. unknown provider-outcome recovery without duplicate invocation; and
+4. terminal retirement recovery.
+
+The canonical launch handoff is `docs/handoffs/crash-demonstration-program-ready.md`.
