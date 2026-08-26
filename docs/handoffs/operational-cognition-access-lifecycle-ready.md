@@ -189,7 +189,11 @@ The remaining surface is sealed in `docs/credential-boundary-agent-inventory.jso
 
 The common internal-governance substrate is implemented through its durable pre-I/O claim. It requires exactly one cluster-specific resolver to reread and normalize a native authority, then preserves independent request, Imperator decision/refusal, opaque Clavium lease, and atomic lease-plus-authority claim boundaries. No gateway or agent definition moved; the inventory remains 32.
 
-The next batch is **Batch 8: Foundry migration** for Artificer specification/revision/review and adversarial review only.
+## Batch 8 implementation checkpoint
+
+Foundry specification, revision, ordinary review, and adversarial review now use exact native authority resolution and the common governance claim-bound broker path. The two direct Foundry agent definitions and all four direct injections are removed; the executable inventory is 30.
+
+The next batch is **Batch 9: resident-requirements migration** for `sanctographer` and `chancellor` only.
 
 ## New-chat continuation prompt
 
@@ -204,6 +208,6 @@ Copy this prompt verbatim into the next chat:
 >
 > Continue Imperium from `main` at or after the merge recorded in `docs/handoffs/operational-cognition-access-lifecycle-ready.md`. Read that handoff, `docs/credential-boundary-remediation.md`, `docs/delegate-mission-flow.md`, `docs/handoffs/runtime-integrity-hardening-leg-complete.md`, `docs/handoffs/runtime-severe-source-cleanup-closed.md`, `docs/handoffs/crash-demonstration-program-complete.md`, and `todo/blackquill-todos.md` before changing code.
 >
-> Begin credential-boundary remediation Batch 8: Foundry migration. Starting from the merged Batch 7 governance substrate, migrate only `artificer_specification` and `adversarial_reviewer`. Add Foundry-native resolvers that reread the exact specification, revision, ordinary-review, and adversarial-review authority records; one common governance request/decision/lease/claim per exact stage operation; and a claim-bound brokered DeepSeek adapter path preserving every existing gateway return contract. Prove cross-stage and cross-case substitution, replay/concurrency, pre-I/O failure, unknown outcome, checkpoint behavior, and secret exclusion. Remove both direct agent definitions and all four direct injection paths, then update the executable inventory from 32 to 30. Do not migrate another cluster or claim the system-wide gate closed. I will run local PHP commands.
+> Begin credential-boundary remediation Batch 9: resident-requirements migration. Starting from the merged Batch 8 Foundry path, migrate only `sanctographer` and `chancellor`. Add Authorship-native authority resolution for each exact accepted resident commission, reuse the common governance claim-bound broker path, preserve both gateway return contracts, prove cross-Seat and cross-commission refusal plus replay/pre-I/O/unknown-outcome behavior and secret exclusion, remove both direct definitions and injections, then update the executable inventory from 30 to 28. Do not migrate another cluster or claim the system-wide gate closed. I will run local PHP commands.
 >
 > Ad Imperium. Not one step back.

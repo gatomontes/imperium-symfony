@@ -1,14 +1,10 @@
 <?php
 declare(strict_types=1);
 namespace App\Imperium\Runtime\Foundry;
-use Symfony\AI\Agent\AgentInterface;
-use Symfony\AI\Platform\Message\Message;
-use Symfony\AI\Platform\Message\MessageBag;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class SymfonyAiSubordinatePersonaSpecificationCognitionGateway implements SubordinatePersonaSpecificationCognitionGateway
 {
-    public function __construct(#[Autowire(service:'ai.agent.artificer_specification')]private AgentInterface $artificer){
+    public function __construct(private FoundryGovernanceCognitionInvoker $invoker){
 
     }
     public function specify(array $case):array{
@@ -21,7 +17,7 @@ final readonly class SymfonyAiSubordinatePersonaSpecificationCognitionGateway im
         'disposition must be PERSONA_SPECIFICATION_COMPLETE or CLARIFICATION_REQUIRED. persona_name and purpose must be non-empty strings. Every ' .
         'other field must be an array of explicit non-empty strings. A complete specification requires at least one item in identity_constraints, ' .
         'competencies, behavioral_directives, evidence_obligations, explicit_exclusions, and stop_conditions.']);
-        $content=$this->artificer->call(new MessageBag(Message::ofUser($prompt)))->getContent();
+        $content=$this->invoker->invoke('persona-specification', (string)($case['case_id']??''), 'foundry.artificer', [$case], $prompt);
         if(!is_string($content)||
         ''===trim($content))throw new \RuntimeException('F107_PERSONA_SPECIFICATION_COGNITION_EMPTY');
         $content=trim($content);
@@ -85,4 +81,3 @@ final readonly class SymfonyAiSubordinatePersonaSpecificationCognitionGateway im
     }
 
 }
-
