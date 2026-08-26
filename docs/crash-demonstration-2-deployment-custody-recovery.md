@@ -18,3 +18,5 @@ php bin/console imperium:demonstrate:deployment-custody-recovery --evidence-dir=
 Private evidence contains source commit, runtime and fixture digests, interruption snapshots, recovery/replay/conflict observations, assertions, sanitized-summary binding, and an evidence digest. It excludes credentials, environment dumps, model identity, and raw production evidence. Never commit it.
 
 The sanitized summary exposes only demonstration identity, source commit, case count, property names, inactive final-state class, false activation/continuing-authority flags, disposition, and digest. It omits internal paths, schemas, authority topology, credentials, model identity, and implementation detail.
+
+Operator-local execution against source commit `9633ef0239c0dc7fbaf122753f76ffe35c47875d` returned `PROVED`: four of four crash cases proved, zero invariant assertions failed, contention produced one winner and one rejected conflict, exactly one transition survived, and runtime activation remained absent. Private evidence remains outside Git.
