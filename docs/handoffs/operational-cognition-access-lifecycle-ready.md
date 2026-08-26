@@ -241,5 +241,7 @@ Batch 13H consumes the exact Security testimony authority through the claim-boun
 Batch 13I migrates all four Persona-confirmation question stages through exact native governance authorities and removes the four direct Senator question agents. Inventory is 11. The pre-finding review restored the mandatory intervening fresh-instance Consistency and Governance/Security pressure trials.
 
 Batch 13J mechanically aggregates the four baseline testimony turns into the original jurisdiction-baseline contract without cognition. Continue with Batch 13K from `docs/handoffs/credential-boundary-batch-13j-jurisdiction-baseline-aggregation-complete.md`; separate the fresh-instance Consistency question from testimony.
+
+Batch 13K deterministically instantiates the fresh sterile witness, consumes a distinct claim-bound Consistency question authority, and seals only the question. Continue with Batch 13L from `docs/handoffs/credential-boundary-batch-13k-fresh-consistency-question-seam-complete.md`; consume the separately authorized fresh testimony without opening either pressure trial.
 >
 > Ad Imperium. Not one step back.
