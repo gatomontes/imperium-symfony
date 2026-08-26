@@ -63,3 +63,13 @@ The audit distinguishes executable defects from ugly-but-valid legacy formatting
 ## Guard decision
 
 Do not install a runtime-wide 240-character guard yet. Keep the current migrated-cluster guard and expand its explicit coverage with every verified cleanup batch. The final global guard is justified only when the runtime-wide scan reaches zero violations.
+
+## Closeout addendum — 2026-08-25
+
+Blackquill corrected the original proposed finish line: the 240-character threshold is an Imperium readability rule, not a PSR-12 hard limit, and secondary long-line debt must not block operational evidence.
+
+Cleanup Batch A expanded thirteen severe Delegate control-plane targets. Cleanup Batch B expanded the remaining five Authorship, Foundry, and Senate targets. Both batches passed explicit local PHP lint followed by the complete PHPUnit suite.
+
+Codex then reread all 376 runtime PHP files at commit `15227cf8cf6ca467c7cf71f64182073ea1a7ba7a`. Result: **zero files larger than 500 bytes remain at ten physical lines or fewer**, and no literal split `<= >` occurrence remains.
+
+The severe-source cleanup gate is closed. Thirteen valid but tightly adjacent declaration/namespace style artifacts and the previously measured long-line population remain secondary formatting debt. Neither is represented as PSR-12 compliance, and neither blocks crash demonstrations.
