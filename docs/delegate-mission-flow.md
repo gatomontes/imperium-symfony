@@ -174,4 +174,6 @@ The next work is a separate operational-evidence program. It does not create Del
 3. **Crash Demonstration 3 — unknown provider-outcome recovery:** preserve an in-flight unknown outcome, prove automatic reinvocation is prohibited, then recover only from a sealed response envelope under one exact consumed recovery authorization with `provider_reinvoked=false`.
 4. **Crash Demonstration 4 — terminal retirement recovery:** inject interruption after each terminal checkpoint and resume to one terminal record, restored Persona custody, retired binding, and no continuing authority.
 
+Crash Demonstration 1 is implemented by the repeatable local command and evidence contract in `docs/crash-demonstration-1-operational-construction-recovery.md`. Private retained evidence remains local and uncommitted; only its sanitized summary shape is documented.
+
 Each demonstration must produce a repeatable local command, machine-readable retained evidence, explicit assertions, and a sanitized external summary that reveals the property proved without disclosing proprietary runtime topology.
