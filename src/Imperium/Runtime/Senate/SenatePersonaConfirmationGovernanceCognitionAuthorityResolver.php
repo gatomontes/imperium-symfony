@@ -22,7 +22,7 @@ final readonly class SenatePersonaConfirmationGovernanceCognitionAuthorityResolv
 
     public function supports(string $cluster, string $authorityType): bool
     {
-        return 'senate-persona-confirmation' === $cluster && 'testimony-practice' === $authorityType;
+        return 'senate-persona-confirmation' === $cluster && in_array($authorityType, ['testimony-practice', 'testimony-governance'], true);
     }
 
     public function resolve(string $cluster, string $authorityType, string $authorityId): array
@@ -33,17 +33,24 @@ final readonly class SenatePersonaConfirmationGovernanceCognitionAuthorityResolv
         $question = $this->findQuestion($authorityId);
         $deposition = $this->read('depositions', (string) ($question['deposition_id'] ?? ''));
         $witness = $this->read('persona-witnesses', (string) ($question['manifestation_id'] ?? ''));
+        $jurisdiction = substr($authorityType, 10);
+        $expectedStatus = 'practice' === $jurisdiction
+            ? 'FIRST_QUESTION_SEALED_PENDING_TESTIMONY_COGNITION_AUTHORIZATION'
+            : 'GOVERNANCE_BASELINE_QUESTION_SEALED_PENDING_TESTIMONY_COGNITION_AUTHORIZATION';
+        $context = $deposition;
+        if ('governance' === $jurisdiction) $context['prior_testimony'] = $question['prior_testimony'] ?? null;
         $authority = $question['testimony_authority'] ?? null;
         if (!is_array($authority)
             || $authorityId !== ($authority['authority_id'] ?? null)
             || true !== ($authority['authority_single_use'] ?? null)
             || true !== ($authority['authority_exercisable'] ?? null)
             || false !== ($authority['consumed'] ?? null)
-            || 'practice' !== ($question['jurisdiction'] ?? null)
+            || $jurisdiction !== ($question['jurisdiction'] ?? null)
             || ($question['deposition_digest'] ?? null) !== ($deposition['record_digest'] ?? null)
             || ($question['manifestation_digest'] ?? null) !== ($witness['record_digest'] ?? null)
             || ($authority['witness_manifestation_digest'] ?? null) !== ($witness['record_digest'] ?? null)
-            || 'FIRST_QUESTION_SEALED_PENDING_TESTIMONY_COGNITION_AUTHORIZATION' !== ($question['status'] ?? null)
+            || $expectedStatus !== ($question['status'] ?? null)
+            || ('governance' === $jurisdiction && (!is_array($question['prior_testimony'] ?? null) || 1 !== count($question['prior_testimony'])))
             || null !== ($question['testimony'] ?? null)
             || true === ($question['testimony_sealed'] ?? null)) {
             throw new \RuntimeException('GCA572_SENATE_PERSONA_CONFIRMATION_AUTHORITY_INVALID');
@@ -57,7 +64,7 @@ final readonly class SenatePersonaConfirmationGovernanceCognitionAuthorityResolv
             'case_digest' => $question['deposition_digest'],
             'seat' => 'senate.stand',
             'purpose' => 'answer-persona-question',
-            'input_digest' => hash('sha256', CanonicalJson::encode([$question['question'], $deposition, $witness])),
+            'input_digest' => hash('sha256', CanonicalJson::encode([$question['question'], $context, $witness])),
             'source' => ['id' => $question['question_record_id'], 'digest' => $question['record_digest']],
             'single_use' => true,
             'exercisable' => true,
