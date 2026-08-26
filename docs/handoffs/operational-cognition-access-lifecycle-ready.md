@@ -238,6 +238,8 @@ Batch 13G seals the Security question from the ordered Practice, Governance, and
 
 Batch 13H consumes the exact Security testimony authority through the claim-bound witness path and seals the fourth baseline testimony turn. Continue with Batch 13I from `docs/handoffs/credential-boundary-batch-13h-security-baseline-testimony-complete.md`; migrate the four question-authoring agents before opening findings.
 
-Batch 13I migrates all four Persona-confirmation question stages through exact native governance authorities and removes the four direct Senator question agents. Inventory is 11. Continue with Batch 13J from `docs/handoffs/credential-boundary-batch-13i-persona-question-migration-complete.md`; open finding authorities without invoking a finding agent.
+Batch 13I migrates all four Persona-confirmation question stages through exact native governance authorities and removes the four direct Senator question agents. Inventory is 11. The pre-finding review restored the mandatory intervening fresh-instance Consistency and Governance/Security pressure trials.
+
+Batch 13J mechanically aggregates the four baseline testimony turns into the original jurisdiction-baseline contract without cognition. Continue with Batch 13K from `docs/handoffs/credential-boundary-batch-13j-jurisdiction-baseline-aggregation-complete.md`; separate the fresh-instance Consistency question from testimony.
 >
 > Ad Imperium. Not one step back.

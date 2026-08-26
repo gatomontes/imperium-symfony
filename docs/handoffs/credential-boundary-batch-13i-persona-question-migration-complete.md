@@ -8,4 +8,4 @@ The shared gateway no longer injects any `AgentInterface`. It invokes the common
 
 The `senator_practice`, `senator_governance`, `senator_consistency`, and `senator_security` definitions and service bindings are removed. Inventory falls from 15 to 11. The four finding agents, Lord Speaker disposition, Guildhall, Curia, and La Cortine remain direct; the system-wide gate remains open.
 
-No finding authority is opened in this batch. Next: Batch 13J opens exact four-jurisdiction finding authorities from the completed baseline testimony without invoking a finding agent.
+No finding authority is opened in this batch. The pre-finding review restored the mandatory intervening sequence: Batch 13J aggregates the four baseline turns, followed by fresh-instance Consistency and Governance/Security pressure trials before any finding authority may open.
