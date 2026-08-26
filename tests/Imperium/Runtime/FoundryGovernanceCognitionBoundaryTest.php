@@ -49,7 +49,7 @@ final class FoundryGovernanceCognitionBoundaryTest extends TestCase
             self::assertStringNotContainsString('AgentInterface', $source);
             self::assertStringNotContainsString('Autowire(service:', $source);
             self::assertStringNotContainsString('DEEPSEEK_API_KEY', $source);
-            self::assertStringContainsString('FoundryGovernanceCognitionInvoker', $source);
+            self::assertStringContainsString('GovernanceCognitionInvoker', $source);
         }
     }
 

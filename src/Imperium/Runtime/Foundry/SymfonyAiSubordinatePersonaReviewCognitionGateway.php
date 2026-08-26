@@ -3,11 +3,13 @@ declare(strict_types=1);
 
 namespace App\Imperium\Runtime\Foundry;
 
+use App\Imperium\Runtime\Clavium\GovernanceCognitionInvoker;
+
 
 final readonly class SymfonyAiSubordinatePersonaReviewCognitionGateway
     implements SubordinatePersonaReviewCognitionGateway
 {
-    public function __construct(private FoundryGovernanceCognitionInvoker $invoker) {}
+    public function __construct(private GovernanceCognitionInvoker $invoker) {}
 
     public function review(
         array $candidate,
@@ -32,7 +34,7 @@ final readonly class SymfonyAiSubordinatePersonaReviewCognitionGateway
             "Return only one JSON object with exactly: disposition, findings, unresolved_blockers, adversarial_review_brief.",
             "disposition must be READY_FOR_ADVERSARIAL_REVIEW or REVISION_REQUIRED. findings and unresolved_blockers must be arrays of explicit non-empty strings. adversarial_review_brief must be a non-empty string. READY_FOR_ADVERSARIAL_REVIEW requires unresolved_blockers to be empty.",
         ]);
-        $content = $this->invoker->invoke('persona-review', (string) ($candidate['candidate_id'] ?? ''), 'foundry.artificer', [$candidate, $specification, $case], $prompt);
+        $content = $this->invoker->invoke('foundry', 'persona-review', (string) ($candidate['candidate_id'] ?? ''), 'foundry.artificer', 'review-persona', [$candidate, $specification, $case], $prompt);
         if (!is_string($content) || "" === trim($content)) {
             throw new \RuntimeException("F139_PERSONA_REVIEW_COGNITION_EMPTY");
         }

@@ -42,6 +42,7 @@ services:
         arguments:
             $resolvers:
                 - '@App\Imperium\Runtime\Foundry\FoundryGovernanceCognitionAuthorityResolver'
+                - '@App\Imperium\Runtime\Authorship\AuthorshipGovernanceCognitionAuthorityResolver'
 
     App\Imperium\Runtime\Curia\ProceedingStore:
         arguments:
@@ -133,11 +134,6 @@ services:
     App\Imperium\Runtime\Authorship\AuthorshipCommissionAcceptanceService:
         arguments:
             $projectDir: '%kernel.project_dir%'
-
-    App\Imperium\Runtime\Authorship\SymfonyAiAuthorshipSubordinateCognitionGateway:
-        arguments:
-            $sanctographer: '@ai.agent.sanctographer'
-            $chancellor: '@ai.agent.chancellor'
 
     App\Imperium\Runtime\Authorship\AuthorshipSubordinateCognitionGateway:
         alias: App\Imperium\Runtime\Authorship\SymfonyAiAuthorshipSubordinateCognitionGateway
