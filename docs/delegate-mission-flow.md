@@ -162,3 +162,16 @@ Canonical references:
 - terminal audit: `docs/delegate-mission-terminal-operational-evidence-audit.md`;
 - hardening closeout: `docs/handoffs/runtime-integrity-hardening-leg-complete.md`; and
 - residual evidence backlog: `todo/blackquill-todos.md`.
+
+## Cleanup closure and next evidence program
+
+The severe-source cleanup gate is closed at merged commit `20208f177df576b863340ee397730b455b2965df`. The final audit reread all 376 runtime PHP files and found zero files larger than 500 bytes at ten physical lines or fewer. Cleanup Batches A and B passed explicit local PHP lint and the complete PHPUnit suite. Secondary long-line and adjacent-declaration style debt remains recorded without being misrepresented as a runtime-integrity failure or a PSR-12 claim.
+
+The next work is a separate operational-evidence program. It does not create Delegate Mission Step 70, Hardening Step 36, new mission authority, or surviving Delegate authority.
+
+1. **Crash Demonstration 1 — operational construction recovery:** inject interruption around the Steps 44–46 Codex/Folia transition, resume, prove one ordered generation-one Codex, immutable Folia, exact replay, and no deployment or cognition authority.
+2. **Crash Demonstration 2 — deployment custody recovery:** inject interruption around deployment authorization, custody compare-and-swap, transition Folium, and runtime activation boundary; resume to one deployed-and-bound inactive state without duplicate mutation or leaked authority.
+3. **Crash Demonstration 3 — unknown provider-outcome recovery:** preserve an in-flight unknown outcome, prove automatic reinvocation is prohibited, then recover only from a sealed response envelope under one exact consumed recovery authorization with `provider_reinvoked=false`.
+4. **Crash Demonstration 4 — terminal retirement recovery:** inject interruption after each terminal checkpoint and resume to one terminal record, restored Persona custody, retired binding, and no continuing authority.
+
+Each demonstration must produce a repeatable local command, machine-readable retained evidence, explicit assertions, and a sanitized external summary that reveals the property proved without disclosing proprietary runtime topology.
