@@ -28,7 +28,8 @@ final class SenatePersonaConfirmationTestimonyGovernanceCognitionBoundaryTest ex
         $services = (string) file_get_contents($root.'/config/services.yaml');
         $agents = (string) file_get_contents($root.'/config/packages/ai.yaml');
 
-        self::assertStringContainsString("'senate-persona-confirmation', 'testimony-'.\$jurisdiction", $gateway);
+        self::assertStringContainsString("'testimony-'.\$jurisdiction !== \$authorityType", $gateway);
+        self::assertStringContainsString("'senate-persona-confirmation', \$authorityType", $gateway);
         self::assertStringContainsString('GovernanceCognitionInvoker', $gateway);
         self::assertStringNotContainsString('ai.agent.persona_witness', $gateway.$services);
         self::assertStringNotContainsString('persona_witness:', $agents);
