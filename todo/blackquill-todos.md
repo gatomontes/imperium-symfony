@@ -106,11 +106,11 @@ Preserve independent authorities, emitted records, and cross-office handoffs. Co
 
 - [x] Inventory every PHP source under `src/Imperium/Runtime`. *(376 files audited at merged commit `7bafa498a18f10d122771c65b13b7250c8be9f51`.)*
 - [x] Separate confirmed token damage from readability debt. *(The cleanup regression that split `<=>` was repaired in PR #329; the audit found no second literal `<= >` occurrence.)*
-- [ ] Expand the 18 remaining severely compressed runtime files identified in `docs/handoffs/runtime-source-audit-codex.md` using token-preserving edits. *(Cleanup Batch A expands thirteen Delegate control-plane targets; five severe targets remain.)*
+- [x] Expand the 18 severely compressed runtime files identified in `docs/handoffs/runtime-source-audit-codex.md`. *(Cleanup Batch A expands thirteen Delegate control-plane targets; Cleanup Batch B expands the final five Authorship, Foundry, and Senate targets.)*
 - [ ] Require PHP lint before PHPUnit for every source-formatting batch; a green behavioral suite is not a substitute for parsing every changed file.
 - [ ] Treat the 146 files over 240 characters as measured secondary debt, not as a crash-demonstration gate and not as proof of PSR-12 noncompliance.
 - [ ] Keep the 240-character check explicitly described as an Imperium readability guard; PSR-12 does not establish that hard limit.
-- [ ] Widen the formatting regression guard only as audited clusters become compliant; do not conceal legacy debt behind an allowlist. *(Cleanup Batch A adds all thirteen expanded control-plane targets.)*
+- [ ] Widen the formatting regression guard only as audited clusters become compliant; do not conceal legacy debt behind an allowlist. *(Cleanup Batches A and B add all eighteen audit targets; final runtime rescan remains.)*
 - [ ] Complete a final runtime-wide rescan of the severe-compression set before marking the cleanup gate complete; schedule broader style normalization separately.
 
 ## Test hardening
