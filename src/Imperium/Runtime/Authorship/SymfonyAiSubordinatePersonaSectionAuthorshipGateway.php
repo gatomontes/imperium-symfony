@@ -1,14 +1,10 @@
 <?php
 declare(strict_types=1);
 namespace App\Imperium\Runtime\Authorship;
-use Symfony\AI\Agent\AgentInterface;
-use Symfony\AI\Platform\Message\Message;
-use Symfony\AI\Platform\Message\MessageBag;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use App\Imperium\Runtime\Clavium\GovernanceCognitionInvoker;
 
 final readonly class SymfonyAiSubordinatePersonaSectionAuthorshipGateway implements SubordinatePersonaSectionAuthorshipGateway{
-    public function __construct(#[Autowire(service:'ai.agent.sanctographer_subordinate_authorship')]private AgentInterface$sanctographer,
-    #[Autowire(service:'ai.agent.chancellor_subordinate_authorship')]private AgentInterface$chancellor){
+    public function __construct(private GovernanceCognitionInvoker $invoker){
 
     }
     public function author(string$office,
@@ -16,9 +12,11 @@ final readonly class SymfonyAiSubordinatePersonaSectionAuthorshipGateway impleme
     array$commission,
     array$specification,
     array$case):array{
-        $agent='hagiography'===$office?$this->sanctographer:$this->chancellor;
-        $boundary='hagiography'===$office?'Author only attributable evidence-derived Persona sections. Do not write governance doctrine.':'Author only Persona ' .
-        $boundary='Governance Doctrine sections. Do not derive evidentiary traits.';
+        [$type,$seat,$boundary]=match($office){
+            'hagiography'=>['hagiography-section-authorship','hagiography.sanctographer','Author only attributable evidence-derived Persona sections. Do not write governance doctrine.'],
+            'studium'=>['studium-section-authorship','studium.chancellor','Author only Persona Governance Doctrine sections. Do not derive evidentiary traits.'],
+            default=>throw new \InvalidArgumentException('A105_AUTHORSHIP_OFFICE_INVALID'),
+        };
         $prompt=implode("\n",
         [$boundary,
         'Exact acceptance: '.json_encode($acceptance,
@@ -33,9 +31,8 @@ final readonly class SymfonyAiSubordinatePersonaSectionAuthorshipGateway impleme
         'Return only one JSON object with exactly: disposition, authored_sections, source_citations, unresolved_questions. disposition must be ' .
         'SECTION_PACKET_COMPLETE or CLARIFICATION_REQUIRED. authored_sections must be a non-empty object whose values are explicit strings or arrays ' .
         'of explicit strings. source_citations and unresolved_questions must be arrays of explicit strings.']);
-        $content=$agent->call(new MessageBag(Message::ofUser($prompt)))->getContent();
-        if(!is_string($content)||
-        ''===trim($content))throw new \RuntimeException('A103_SUBORDINATE_AUTHORSHIP_EMPTY');
+        $content=$this->invoker->invoke('section-authorship',$type,(string)($acceptance['acceptance_id']??''),$seat,'author-persona-sections',[$acceptance,$commission,$specification,$case],$prompt);
+        if(''===trim($content))throw new \RuntimeException('A103_SUBORDINATE_AUTHORSHIP_EMPTY');
         $content=trim($content);
         if(str_starts_with($content,
         '```'))$content=preg_replace('/^```(?:json)?\s*|\s*```$/i',
@@ -59,4 +56,3 @@ final readonly class SymfonyAiSubordinatePersonaSectionAuthorshipGateway impleme
     }
 
 }
-
