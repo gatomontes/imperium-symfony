@@ -23,7 +23,8 @@ final class SenatePersonaQuestionGovernanceCognitionBoundaryTest extends TestCas
         $services=(string)file_get_contents($root.'/config/services.yaml');
         $agents=(string)file_get_contents($root.'/config/packages/ai.yaml');
 
-        self::assertStringContainsString("'senate-persona-confirmation', 'question-'.\$jurisdiction",$gateway);
+        self::assertStringContainsString("'question-'.\$jurisdiction !== \$authorityType",$gateway);
+        self::assertStringContainsString("'senate-persona-confirmation', \$authorityType",$gateway);
         self::assertStringContainsString('GovernanceCognitionInvoker',$gateway);
         self::assertStringNotContainsString('AgentInterface',$gateway);
         self::assertStringNotContainsString('MessageBag',$gateway);
