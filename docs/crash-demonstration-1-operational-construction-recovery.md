@@ -17,7 +17,7 @@ It creates no Delegate Mission Step 70, Runtime Integrity Hardening Step 36, dep
 | B-pre | `BEFORE_BINDING_INDEXED` | Assembly indexed; Binding Folium stored | Index sequence 3 at generation 3 |
 | B-post | `BINDING_INDEXED` | Binding and generation-3 Codex stored | Exact replay at generation 3 |
 
-Each case continues through the remaining checkpoints, replays the complete exact input, attempts one conflicting immutable qualification, and verifies the final inert boundary.
+Each case replays every exact transition while that transition remains the current Codex checkpoint, then advances through the remaining checkpoints. It also attempts one conflicting immutable qualification and verifies the final inert boundary. Historical transitions are not replayed after a later generation has become current; such a backward replay correctly fails stopped.
 
 After the six recovery cases, the harness also reuses the existing two-process Folium contender. Exactly one writer must store the qualification and exactly one must fail with the immutable-record conflict; any other outcome fails the demonstration.
 

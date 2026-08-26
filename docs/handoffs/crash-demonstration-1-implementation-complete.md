@@ -9,7 +9,7 @@ Crash Demonstration 1 is an operational-evidence harness for the existing Steps 
 - all six existing before/after coordinator injection points are exercised in isolated deterministic state;
 - the durable Folium and Codex state at every interruption boundary is asserted exactly;
 - every case resumes forward to the same ordered generation-three Codex and inert generation-one Seat binding;
-- complete exact replay preserves the Codex digest and generation;
+- exact replay at each current checkpoint preserves that checkpoint's Codex digest and generation; no historical transition is incorrectly replayed after a later generation becomes current;
 - conflicting immutable reuse fails stopped;
 - the existing two-process contender proves one writer and one conflict under contention;
 - prohibited deployment, custody-transfer, activation, cognition, provider, credential, tool, perimeter, external-action, execution, continuation, and reuse authorities remain absent or false;
