@@ -233,5 +233,7 @@ Batch 13D consumes the exact Governance question through the claim-bound witness
 Batch 13E seals the Consistency question from the ordered Practice and Governance testimony lineage and stops before witness cognition. Continue with Batch 13F from `docs/handoffs/credential-boundary-batch-13e-consistency-baseline-question-seam-complete.md`; Security remains unopened.
 
 Batch 13F consumes the exact Consistency testimony authority through the claim-bound witness path and seals the Consistency testimony turn. Continue with Batch 13G from `docs/handoffs/credential-boundary-batch-13f-consistency-baseline-testimony-complete.md`; the Security question is the next separately bounded phase.
+
+Batch 13G seals the Security question from the ordered Practice, Governance, and Consistency testimony lineage and stops before witness cognition. Continue with Batch 13H from `docs/handoffs/credential-boundary-batch-13g-security-baseline-question-seam-complete.md`; finding authority remains unopened.
 >
 > Ad Imperium. Not one step back.
