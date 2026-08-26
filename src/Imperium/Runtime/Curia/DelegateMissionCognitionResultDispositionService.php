@@ -1,5 +1,146 @@
 <?php
-declare(strict_types=1);namespace App\Imperium\Runtime\Curia;
-use App\Bootstrap\CanonicalJson;use Symfony\Component\DependencyInjection\Attribute\Autowire;
+declare(strict_types=1);
+namespace App\Imperium\Runtime\Curia;
+
+use App\Bootstrap\CanonicalJson;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+
 final readonly class DelegateMissionCognitionResultDispositionService
-{private string$t;private string$o;private string$d;private DelegateMissionResultReturnRecordMechanics$r;public function __construct(#[Autowire('%kernel.project_dir%')]string$root,?DelegateMissionResultReturnRecordMechanics$records=null){$this->t=$root.'/var/imperium/operational/delegate-mission-bounded-cognition-turns';$this->o=$root.'/var/imperium/offices/curia/occupancy';$this->d=$root.'/var/imperium/offices/curia/delegate-mission-cognition-result-dispositions';$this->r=$records??new DelegateMissionResultReturnRecordMechanics($root);}public function decide(string$id,string$authorityId,string$bindingId,string$disposition,string$rationale,\DateTimeImmutable$at):array{$disposition=strtoupper(trim($disposition));if(!in_array($disposition,['ACCEPTED','STOPPED','FAILED'],true)||''===trim($rationale))throw new \InvalidArgumentException('C300_DELEGATE_RESULT_DISPOSITION_INVALID');$t=$this->read($this->t.'/'.$id.'.json','C301_DELEGATE_COGNITION_TURN_ABSENT');$o=$this->read($this->o.'/'.$bindingId.'.json','C302_DELEGATE_SENESCHAL_ABSENT');foreach(glob($this->d.'/*.json')?:[]as$p){$x=$this->read($p,'C309_DELEGATE_RESULT_DISPOSITION_CONFLICT');if(($x['source_turn']['id']??null)===$id){if(!$this->ok($x)||($x['source_turn']['digest']??null)!==($t['record_digest']??null)||($x['actor']['binding_id']??null)!==$bindingId||($x['disposition_authority']['id']??null)!==$authorityId||($x['disposition']??null)!==$disposition||($x['rationale']??null)!==trim($rationale))throw new \RuntimeException('C309_DELEGATE_RESULT_DISPOSITION_CONFLICT');return$x;}}$auth=$t['curia_result_disposition_authority']??[];$expected=['COMPLETED'=>'ACCEPTED','STOPPED'=>'STOPPED','FAILED'=>'FAILED'][$t['result']['disposition']??'']??null;if(!$this->ok($t)||!$this->ok($o)||'DELEGATE_MISSION_BOUNDED_COGNITION_TURN_COMPLETE_PENDING_CURIA_DISPOSITION'!==($t['status']??null)||$disposition!==$expected||$authorityId!==($auth['authority_id']??null)||true!==($auth['authority_single_use']??null)||true!==($auth['authority_exercisable']??null)||false!==($auth['consumed']??null)||$bindingId!==($o['binding_id']??null)||($t['instance_id']??null)!==($o['instance_id']??null)||'curia.seneschal'!==($o['seat']??null)||'ACTIVE'!==($o['status']??null)||true!==($o['delegate_mission_cognition_result_disposition_authority']??null)||true===($o['execution_authority']??null)||true!==($t['maximum_turns_consumed']??null)||true===($t['continuing_turn_authority']??null))throw new \RuntimeException('C303_DELEGATE_RESULT_DISPOSITION_CHAIN_INVALID');$actor=['seat'=>'curia.seneschal','binding_id'=>$bindingId,'binding_digest'=>$o['record_digest'],'manifestation_id'=>$o['manifestation_id'],'occupancy_generation'=>$o['occupancy_generation']];$did='delegate-mission-cognition-result-disposition-'.substr(hash('sha256',CanonicalJson::encode([$id,$t['record_digest'],$authorityId,$disposition,$rationale,$actor])),0,20);$next='delegate-mission-return-authorization-authority-'.substr(hash('sha256',CanonicalJson::encode([$did,$t['source_commission'],$t['target']])),0,20);return$this->save($did,['schema'=>'imperium.curia-delegate-mission-cognition-result-disposition/v1','disposition_id'=>$did,'instance_id'=>$t['instance_id'],'source_turn'=>['id'=>$id,'digest'=>$t['record_digest']],'source_commission'=>$t['source_commission'],'source_model_binding'=>$t['source_model_binding'],'source_access_attestation'=>$t['source_access_attestation'],'target'=>$t['target'],'result'=>$t['result'],'actor'=>$actor,'disposition'=>$disposition,'rationale'=>trim($rationale),'disposition_authority'=>['id'=>$authorityId,'consumed'=>true,'continuing_authority'=>false],'decided_at'=>$at->format(DATE_ATOM),'status'=>'DELEGATE_MISSION_RESULT_DISPOSED_PENDING_RETURN_AUTHORIZATION','return_authorization_authority'=>['authority_id'=>$next,'authority_single_use'=>true,'authority_exercisable'=>true,'holder'=>'curia.seneschal','consumed'=>false,'continuing_authority'=>false],'provider_invocation_authority'=>false,'credential_use_authority'=>false,'cognition_authority'=>false,'continuing_turn_authority'=>false,'external_action_authority'=>false,'execution_authority'=>false,'sealed'=>true]);}private function read($p,$e):array{return$this->r->read($p,$e);}private function ok(array$r):bool{return$this->r->isIntact($r);}private function save($id,array$r):array{return$this->r->saveDisposition($id,$r);}}
+{
+    private string$t;
+    private string$o;
+    private string$d;
+    private DelegateMissionResultReturnRecordMechanics$r;
+    public function __construct(#[Autowire('%kernel.project_dir%')]string$root,
+    ?DelegateMissionResultReturnRecordMechanics$records=null){
+        $this->t=$root.'/var/imperium/operational/delegate-mission-bounded-cognition-turns';
+        $this->o=$root.'/var/imperium/offices/curia/occupancy';
+        $this->d=$root.'/var/imperium/offices/curia/delegate-mission-cognition-result-dispositions';
+        $this->r=$records??new DelegateMissionResultReturnRecordMechanics($root);
+
+    }
+    public function decide(string$id,
+    string$authorityId,
+    string$bindingId,
+    string$disposition,
+    string$rationale,
+    \DateTimeImmutable$at):array{
+        $disposition=strtoupper(trim($disposition));
+        if(!in_array($disposition,
+        ['ACCEPTED',
+        'STOPPED',
+        'FAILED'],
+        true)||
+        ''===trim($rationale))throw new \InvalidArgumentException('C300_DELEGATE_RESULT_DISPOSITION_INVALID');
+        $t=$this->read($this->t.'/'.$id.'.json',
+        'C301_DELEGATE_COGNITION_TURN_ABSENT');
+        $o=$this->read($this->o.'/'.$bindingId.'.json',
+        'C302_DELEGATE_SENESCHAL_ABSENT');
+        foreach(glob($this->d.'/*.json')?:[]as$p){
+            $x=$this->read($p,
+            'C309_DELEGATE_RESULT_DISPOSITION_CONFLICT');
+            if(($x['source_turn']['id']??null)===$id){
+                if(!$this->ok($x)||
+                ($x['source_turn']['digest']??null)!==($t['record_digest']??null)||
+                ($x['actor']['binding_id']??null)!==$bindingId||
+                ($x['disposition_authority']['id']??null)!==$authorityId||
+                ($x['disposition']??null)!==$disposition||
+                ($x['rationale']??null)!==trim($rationale))throw new \RuntimeException('C309_DELEGATE_RESULT_DISPOSITION_CONFLICT');
+                return$x;
+
+            }
+
+        }
+        $auth=$t['curia_result_disposition_authority']??[];
+        $expected=['COMPLETED'=>'ACCEPTED',
+        'STOPPED'=>'STOPPED',
+        'FAILED'=>'FAILED'][$t['result']['disposition']??'']??null;
+        if(!$this->ok($t)||
+        !$this->ok($o)||
+        'DELEGATE_MISSION_BOUNDED_COGNITION_TURN_COMPLETE_PENDING_CURIA_DISPOSITION'!==($t['status']??null)||
+        $disposition!==$expected||
+        $authorityId!==($auth['authority_id']??null)||
+        true!==($auth['authority_single_use']??null)||
+        true!==($auth['authority_exercisable']??null)||
+        false!==($auth['consumed']??null)||
+        $bindingId!==($o['binding_id']??null)||
+        ($t['instance_id']??null)!==($o['instance_id']??null)||
+        'curia.seneschal'!==($o['seat']??null)||
+        'ACTIVE'!==($o['status']??null)||
+        true!==($o['delegate_mission_cognition_result_disposition_authority']??null)||
+        true===($o['execution_authority']??null)||
+        true!==($t['maximum_turns_consumed']??null)||
+        true===($t['continuing_turn_authority']??null))throw new \RuntimeException('C303_DELEGATE_RESULT_DISPOSITION_CHAIN_INVALID');
+        $actor=['seat'=>'curia.seneschal',
+        'binding_id'=>$bindingId,
+        'binding_digest'=>$o['record_digest'],
+        'manifestation_id'=>$o['manifestation_id'],
+        'occupancy_generation'=>$o['occupancy_generation']];
+        $did='delegate-mission-cognition-result-disposition-'.substr(hash('sha256',
+        CanonicalJson::encode([$id,
+        $t['record_digest'],
+        $authorityId,
+        $disposition,
+        $rationale,
+        $actor])),
+        0,
+        20);
+        $next='delegate-mission-return-authorization-authority-'.substr(hash('sha256',
+        CanonicalJson::encode([$did,
+        $t['source_commission'],
+        $t['target']])),
+        0,
+        20);
+        return$this->save($did,
+        ['schema'=>'imperium.curia-delegate-mission-cognition-result-disposition/v1',
+        'disposition_id'=>$did,
+        'instance_id'=>$t['instance_id'],
+        'source_turn'=>['id'=>$id,
+        'digest'=>$t['record_digest']],
+        'source_commission'=>$t['source_commission'],
+        'source_model_binding'=>$t['source_model_binding'],
+        'source_access_attestation'=>$t['source_access_attestation'],
+        'target'=>$t['target'],
+        'result'=>$t['result'],
+        'actor'=>$actor,
+        'disposition'=>$disposition,
+        'rationale'=>trim($rationale),
+        'disposition_authority'=>['id'=>$authorityId,
+        'consumed'=>true,
+        'continuing_authority'=>false],
+        'decided_at'=>$at->format(DATE_ATOM),
+        'status'=>'DELEGATE_MISSION_RESULT_DISPOSED_PENDING_RETURN_AUTHORIZATION',
+        'return_authorization_authority'=>['authority_id'=>$next,
+        'authority_single_use'=>true,
+        'authority_exercisable'=>true,
+        'holder'=>'curia.seneschal',
+        'consumed'=>false,
+        'continuing_authority'=>false],
+        'provider_invocation_authority'=>false,
+        'credential_use_authority'=>false,
+        'cognition_authority'=>false,
+        'continuing_turn_authority'=>false,
+        'external_action_authority'=>false,
+        'execution_authority'=>false,
+        'sealed'=>true]);
+
+    }
+    private function read($p,
+    $e):array{
+        return$this->r->read($p,
+        $e);
+
+    }
+    private function ok(array$r):bool{
+        return$this->r->isIntact($r);
+
+    }
+    private function save($id,
+    array$r):array{
+        return$this->r->saveDisposition($id,
+        $r);
+
+    }
+
+}
+
