@@ -64,7 +64,7 @@ final readonly class SymfonyAiOperationalExecutionCognitionGateway implements Op
                     return $text;
                 },
             );
-        } catch (\Throwable) {
+        } catch (\Throwable $exception) {
             if (!$providerOperationStarted) {
                 $this->journal->markPreIoFailure($claim, 'OPERATIONAL_CREDENTIAL_RESOLUTION_FAILED', $this->clock->now());
                 throw new \RuntimeException('M213_OPERATIONAL_PROVIDER_PRE_IO_FAILURE');
