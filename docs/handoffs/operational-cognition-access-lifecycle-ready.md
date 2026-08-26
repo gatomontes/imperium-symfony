@@ -201,7 +201,11 @@ Hagiography and Studium resident subordinate-requirements cognition now use offi
 
 Hagiography and Studium section authorship now use exact acceptance/commission/specification/case authority resolution and the shared governance claim-bound broker path. Both section-authorship definitions and injections are removed; the executable inventory is 26.
 
-The next batch is **Batch 11: Laboratorium migration** for `alchemist_profile_elaboration` only.
+## Batch 11 implementation checkpoint
+
+Ordinary and Delegate-mission Profile elaboration now use exact Laboratorium authority resolution and the shared governance claim-bound broker path. The direct Alchemist agent and transient caller are removed; the executable inventory is 25.
+
+The next batch is **Batch 12: Senate Profile-examination migration**, covering its nine direct agents only.
 
 ## New-chat continuation prompt
 
@@ -216,6 +220,6 @@ Copy this prompt verbatim into the next chat:
 >
 > Continue Imperium from `main` at or after the merge recorded in `docs/handoffs/operational-cognition-access-lifecycle-ready.md`. Read that handoff, `docs/credential-boundary-remediation.md`, `docs/delegate-mission-flow.md`, `docs/handoffs/runtime-integrity-hardening-leg-complete.md`, `docs/handoffs/runtime-severe-source-cleanup-closed.md`, `docs/handoffs/crash-demonstration-program-complete.md`, and `todo/blackquill-todos.md` before changing code.
 >
-> Begin credential-boundary remediation Batch 11: Laboratorium migration. Starting from the merged Batch 10 section-authorship path, migrate only `alchemist_profile_elaboration`. Add native resolution for the exact accepted Profile-derivation authority and its immutable Persona/scope/Imperator lineage, reuse the shared governance claim-bound broker path, preserve the elaboration contract, prove substitution and replay/pre-I/O/unknown-outcome behavior and secret exclusion, remove the direct definition and injection, then update the executable inventory from 26 to 25. Do not migrate another cluster or claim the system-wide gate closed. I will run local PHP commands.
+> Begin credential-boundary remediation Batch 12: Senate Profile-examination migration. Starting from the merged Batch 11 Laboratorium path, migrate only the nine `profile_examiner_*`, `profile_examination_witness`, `profile_finding_*`, `profile_examination_reconciliation`, and `profile_examination_disposition` definitions. Add exact native authority resolution for each question, testimony, finding, reconciliation, and disposition stage, reuse the shared governance claim-bound broker path, preserve every jurisdiction-specific contract, prove cross-jurisdiction/stage refusal and replay behavior, remove those definitions and injections, then update the inventory from 25 to 16. Do not migrate another cluster or claim the system-wide gate closed. I will run local PHP commands.
 >
 > Ad Imperium. Not one step back.

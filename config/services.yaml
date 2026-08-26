@@ -44,14 +44,11 @@ services:
                 - '@App\Imperium\Runtime\Foundry\FoundryGovernanceCognitionAuthorityResolver'
                 - '@App\Imperium\Runtime\Authorship\AuthorshipGovernanceCognitionAuthorityResolver'
                 - '@App\Imperium\Runtime\Authorship\SectionAuthorshipGovernanceCognitionAuthorityResolver'
+                - '@App\Imperium\Runtime\Laboratorium\LaboratoriumGovernanceCognitionAuthorityResolver'
 
     App\Imperium\Runtime\Curia\ProceedingStore:
         arguments:
             $projectDir: '%kernel.project_dir%'
-
-    App\Imperium\Runtime\Laboratorium\SymfonyAiProfileElaborationCognitionGateway:
-        arguments:
-            $alchemist: '@ai.agent.alchemist_profile_elaboration'
 
     App\Imperium\Runtime\Laboratorium\ProfileElaborationCognitionGateway:
         alias: App\Imperium\Runtime\Laboratorium\SymfonyAiProfileElaborationCognitionGateway
