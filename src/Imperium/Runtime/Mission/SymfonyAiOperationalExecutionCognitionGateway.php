@@ -28,12 +28,23 @@ final readonly class SymfonyAiOperationalExecutionCognitionGateway implements Op
     public function execute(array $authorization, array $manifestation): array
     {
         $claim = $this->credentialBroker->claimFor($authorization, $manifestation, $this->clock->now());
-        $providerOperationStarted = false;
         try {
             $configuration = ($this->configuration ?? new DeepSeekDelegateModelConfiguration())->normalize(
                 DeepSeekDelegatePlatformAdapter::RUNTIME_MODEL,
                 $claim['model_configuration'] ?? null,
             );
+        } catch (\Throwable) {
+            $this->journal->markPreIoFailure($claim, 'OPERATIONAL_CONFIGURATION_INVALID', $this->clock->now());
+            throw new \RuntimeException('M213_OPERATIONAL_PROVIDER_PRE_IO_FAILURE');
+        }
+        try {
+            $this->journal->reserveOperational($claim, $this->clock->now());
+        } catch (\Throwable) {
+            throw new \RuntimeException('M214_OPERATIONAL_PROVIDER_REPLAY_PROHIBITED');
+        }
+
+        $providerOperationStarted = false;
+        try {
             $response = $this->credentialBroker->consume(
                 $claim,
                 $this->clock->now(),
@@ -42,7 +53,7 @@ final readonly class SymfonyAiOperationalExecutionCognitionGateway implements Op
                         throw new \RuntimeException('M211_OPERATIONAL_PROVIDER_CREDENTIAL_UNAVAILABLE');
                     }
 
-                    $this->journal->start($claim, $this->clock->now());
+                    $this->journal->startReservedOperational($claim, $this->clock->now());
                     $providerOperationStarted = true;
                     try {
                         $text = $this->platform->invoke(
@@ -66,7 +77,7 @@ final readonly class SymfonyAiOperationalExecutionCognitionGateway implements Op
             );
         } catch (\Throwable $exception) {
             if (!$providerOperationStarted) {
-                $this->journal->markPreIoFailure($claim, 'OPERATIONAL_CREDENTIAL_RESOLUTION_FAILED', $this->clock->now());
+                $this->journal->failReservedOperational($claim, 'OPERATIONAL_CREDENTIAL_RESOLUTION_FAILED', $this->clock->now());
                 throw new \RuntimeException('M213_OPERATIONAL_PROVIDER_PRE_IO_FAILURE');
             }
 

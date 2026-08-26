@@ -34,7 +34,7 @@ The migration must not place credentials, environment dumps, or credential-adjac
 
 The Citadel Legate gateway is the first direct Symfony-agent consumer removed from the credential-bearing platform. Its existing activation and at-most-once claim are now reread by a Legate-specific claim-bound Clavium broker before the DeepSeek adapter can receive a credential. The removed agent service can no longer be injected as a bypass.
 
-Thirty-two direct platform-bound agent definitions remain across the pre-Delegate governance clusters. The shared `%env(DEEPSEEK_API_KEY)%` platform definition therefore remains explicitly classified as an open bypass until those clusters are migrated; the final evidence gate is not closed.
+Thirty-one direct platform-bound agent definitions remain across the pre-Delegate governance clusters after the operational definition's removal. The shared `%env(DEEPSEEK_API_KEY)%` platform definition therefore remains explicitly classified as an open bypass until those clusters are migrated; the final evidence gate is not closed.
 
 ## Next bounded lifecycle: Operational Cognition Access
 
@@ -58,7 +58,7 @@ Implementation proceeds in these batches:
 5. prove refusal, missing/mismatched/expired/consumed/superseded authority, concurrency, crash, and secret-exclusion behavior; and
 6. migrate the remaining governance clusters, remove the global credential-bearing platform, and only then run the final bypass demonstration.
 
-The operational route's direct-agent bypass is removed in Batch 4, but its full hostile proof matrix remains Batch 5. Completion of this first migration does not close the system-wide gate while any other directly configured agent or `%env(DEEPSEEK_API_KEY)%` platform definition remains.
+The operational route's direct-agent bypass is removed and its hostile proof matrix is complete through Batch 5. Completion of this first migration does not close the system-wide gate while any other directly configured agent or `%env(DEEPSEEK_API_KEY)%` platform definition remains.
 
 Operational Cognition Access Batch 1 is implemented after `70e4dcd`. Curia now seals the exact single-iteration cognition request without credential or network authority, and Imperator independently authorizes or refuses the exact DeepSeek model/configuration and resource ceiling. An authorized decision opens only a single-use Clavium lease-activation authority; it does not itself issue a lease, resolve a credential, or permit provider invocation.
 
@@ -67,3 +67,5 @@ Operational Cognition Access Batch 2 now issues the exact opaque Clavium lease. 
 Operational Cognition Access Batch 3 now atomically consumes the explicit cognition-authority identity and opaque lease into one durable, single-winner pre-I/O invocation claim. The claim carries the stable provider idempotency identity but no credential material or reference; external I/O remains unstarted. The operational gateway remains a direct-agent bypass until Batch 4 removes its configured Symfony agent and installs the claim-bound broker.
 
 Operational Cognition Access Batch 4 removes that operational agent and direct `AgentInterface` injection. The gateway now resolves exactly one authorization-bound durable claim, validates its live consumed lease and cognition authority, resolves the credential only inside the claim-bound broker callback, invokes the strict DeepSeek adapter with the stable idempotency identity, and reuses the sealed response-envelope and provider-outcome journal contracts. This closes the operational direct-agent route, not the system-wide gate; Batch 5 must complete the hostile proof matrix and the remaining governance clusters still require migration.
+
+Operational Cognition Access Batch 5 completes that hostile proof matrix and closes a replay-ordering weakness found by the proof: the operational gateway now atomically reserves its invocation journal before broker consumption. Exact replay, concurrent reuse, or recovery after an interrupted reservation is rejected before a second credential can be issued or resolved. The journal transitions to external-I/O-started only inside the broker callback immediately before adapter invocation. Missing, malformed, mismatched, expired, consumed, superseded, refused, interrupted, unknown-outcome, and secret-exclusion cases are covered across the Batch 1–5 suites. The next remediation boundary is inventory and ordered migration of the remaining governance clusters; the global gate remains open.

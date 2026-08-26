@@ -13,6 +13,7 @@ use App\Imperium\Runtime\Clock;
 use App\Imperium\Runtime\LaCortine\CredentialBroker;
 use App\Imperium\Runtime\LaCortine\CredentialCapability;
 use App\Imperium\Runtime\Mission\SymfonyAiOperationalExecutionCognitionGateway;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\AI\Platform\Message\MessageBag;
 
@@ -61,6 +62,7 @@ final class SymfonyAiOperationalExecutionCognitionGatewayTest extends TestCase
         $envelope = $this->read('var/imperium/runtime/provider-response-envelopes/'.$claim['claim_id'].'.json');
         self::assertSame(json_encode($result, JSON_THROW_ON_ERROR), $envelope['response']);
         self::assertStringNotContainsString('test-operational-secret', CanonicalJson::encode([$journal, $envelope]));
+        self::assertStringNotContainsString('test-operational-secret', $this->persistedJson());
     }
 
     public function testMissingDurableClaimBlocksCredentialResolution(): void
@@ -77,6 +79,114 @@ final class SymfonyAiOperationalExecutionCognitionGatewayTest extends TestCase
 
         $this->expectExceptionMessage('M210_OPERATIONAL_PROVIDER_CLAIM_UNAVAILABLE');
         $this->gateway($this->unreachableAdapter(), $credentials)->execute($authorization, $authorization['manifestation']);
+    }
+
+    #[DataProvider('invalidClaimCases')]
+    public function testMalformedMismatchedExpiredConsumedAndSupersededClaimsBlockBeforeCredentialIssue(string $case): void
+    {
+        [$authorization, $manifestation, $claim] = $this->lineage();
+        $path = 'var/imperium/runtime/operational-cognition-invocation-claims/'.$claim['claim_id'].'.json';
+        if ('malformed' === $case) {
+            file_put_contents($this->root.'/'.$path, '{not-json');
+        } elseif ('mismatched' === $case) {
+            $claim['provider'] = 'substituted-provider';
+            unset($claim['record_digest']);
+            $this->persist($path, $claim);
+        } elseif ('expired' === $case) {
+            $claim['lease_consumption']['expires_at'] = '2026-08-26T13:00:00+00:00';
+            unset($claim['record_digest']);
+            $this->persist($path, $claim);
+        } elseif ('consumed' === $case) {
+            $claim['cognition_authority_consumption']['consumed'] = false;
+            unset($claim['record_digest']);
+            $this->persist($path, $claim);
+        } else {
+            $claim['claim_id'] = 'operational-cognition-invocation-claim-'.str_repeat('9', 20);
+            $claim['provider_request']['idempotency_identity'] = 'imperium-'.$claim['claim_id'];
+            unset($claim['record_digest']);
+            $this->persist('var/imperium/runtime/operational-cognition-invocation-claims/'.$claim['claim_id'].'.json', $claim);
+        }
+        $credentials = $this->trackingCredentials();
+
+        try {
+            $this->gateway($this->unreachableAdapter(), $credentials)->execute($authorization, $manifestation);
+            self::fail('Expected invalid claim to fail stopped.');
+        } catch (\RuntimeException $exception) {
+            self::assertSame('M210_OPERATIONAL_PROVIDER_CLAIM_UNAVAILABLE', $exception->getMessage());
+        }
+        self::assertSame(0, $credentials->issued);
+        self::assertSame(0, $credentials->consumed);
+    }
+
+    public static function invalidClaimCases(): array
+    {
+        return [['malformed'], ['mismatched'], ['expired'], ['consumed'], ['superseded']];
+    }
+
+    public function testExactReplayIsRejectedBeforeSecondCredentialResolution(): void
+    {
+        [$authorization, $manifestation] = $this->lineage();
+        $credentials = $this->trackingCredentials();
+        $adapter = new class implements DeepSeekDelegatePlatformAdapter {
+            public int $invocations = 0;
+            public function invoke(string $secret, string $runtimeModel, MessageBag $messages, array $configuration, string $idempotencyKey): string
+            {
+                ++$this->invocations;
+                return '{"disposition":"COMPLETED","output":"Bounded.","evidence_claims":[],"uncertainties":[],"stop_condition_triggered":false,"stop_rationale":"Complete."}';
+            }
+        };
+        $gateway = $this->gateway($adapter, $credentials);
+        $gateway->execute($authorization, $manifestation);
+
+        try {
+            $gateway->execute($authorization, $manifestation);
+            self::fail('Expected exact replay to fail stopped.');
+        } catch (\RuntimeException $exception) {
+            self::assertSame('M214_OPERATIONAL_PROVIDER_REPLAY_PROHIBITED', $exception->getMessage());
+        }
+        self::assertSame(1, $credentials->issued);
+        self::assertSame(1, $credentials->consumed);
+        self::assertSame(1, $adapter->invocations);
+    }
+
+    public function testCredentialFailureAfterReservationIsSealedPreIoWithoutDiagnostic(): void
+    {
+        [$authorization, $manifestation, $claim] = $this->lineage();
+        $credentials = new class implements CredentialBroker {
+            public function issue(string $credentialRef, string $commissionId, string $operation, \DateTimeImmutable $expiresAt, int $maxUses = 1): CredentialCapability { return new CredentialCapability('capability', $credentialRef, $commissionId, $operation, $expiresAt, $maxUses); }
+            public function consume(CredentialCapability $capability, callable $providerOperation): mixed { throw new \RuntimeException('secret-bearing credential diagnostic'); }
+        };
+
+        try {
+            $this->gateway($this->unreachableAdapter(), $credentials)->execute($authorization, $manifestation);
+            self::fail('Expected pre-I/O failure.');
+        } catch (\RuntimeException $exception) {
+            self::assertSame('M213_OPERATIONAL_PROVIDER_PRE_IO_FAILURE', $exception->getMessage());
+            self::assertNull($exception->getPrevious());
+        }
+        $journal = $this->read('var/imperium/runtime/provider-invocation-journal/'.$claim['claim_id'].'.json');
+        self::assertSame('INVOCATION_FAILED_PRE_IO_REPLAY_PROHIBITED', $journal['status']);
+        self::assertFalse($journal['external_io_started']);
+        self::assertStringNotContainsString('secret-bearing', CanonicalJson::encode($journal));
+    }
+
+    public function testInterruptedPreIoReservationProhibitsRecoveryReplayBeforeCredentialResolution(): void
+    {
+        [$authorization, $manifestation, $claim] = $this->lineage();
+        (new ProviderInvocationJournalService($this->root))->reserveOperational($claim, $this->clock()->now());
+        $credentials = $this->trackingCredentials();
+
+        try {
+            $this->gateway($this->unreachableAdapter(), $credentials)->execute($authorization, $manifestation);
+            self::fail('Expected interrupted reservation replay to fail stopped.');
+        } catch (\RuntimeException $exception) {
+            self::assertSame('M214_OPERATIONAL_PROVIDER_REPLAY_PROHIBITED', $exception->getMessage());
+        }
+        self::assertSame(0, $credentials->issued);
+        self::assertSame(0, $credentials->consumed);
+        $journal = $this->read('var/imperium/runtime/provider-invocation-journal/'.$claim['claim_id'].'.json');
+        self::assertSame('INVOCATION_RESERVED_PRE_IO', $journal['status']);
+        self::assertFalse($journal['automatic_replay_permitted']);
     }
 
     public function testProviderFailureIsUnknownAndReplayProhibited(): void
@@ -168,6 +278,24 @@ final class SymfonyAiOperationalExecutionCognitionGatewayTest extends TestCase
         };
     }
 
+    private function trackingCredentials(): CredentialBroker
+    {
+        return new class implements CredentialBroker {
+            public int $issued = 0;
+            public int $consumed = 0;
+            public function issue(string $credentialRef, string $commissionId, string $operation, \DateTimeImmutable $expiresAt, int $maxUses = 1): CredentialCapability
+            {
+                ++$this->issued;
+                return new CredentialCapability('capability-'.$this->issued, $credentialRef, $commissionId, $operation, $expiresAt, $maxUses);
+            }
+            public function consume(CredentialCapability $capability, callable $providerOperation): mixed
+            {
+                ++$this->consumed;
+                return $providerOperation('test-operational-secret');
+            }
+        };
+    }
+
     private function unreachableAdapter(): DeepSeekDelegatePlatformAdapter
     {
         return new class implements DeepSeekDelegatePlatformAdapter {
@@ -192,6 +320,19 @@ final class SymfonyAiOperationalExecutionCognitionGatewayTest extends TestCase
     private function read(string $relative): array
     {
         return json_decode((string) file_get_contents($this->root.'/'.$relative), true, 512, JSON_THROW_ON_ERROR);
+    }
+
+    private function persistedJson(): string
+    {
+        $serialized = '';
+        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($this->root));
+        foreach ($iterator as $file) {
+            if ($file->isFile() && 'json' === $file->getExtension()) {
+                $serialized .= (string) file_get_contents($file->getPathname());
+            }
+        }
+
+        return $serialized;
     }
 
     private function remove(string $path): void

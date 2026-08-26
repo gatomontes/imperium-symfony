@@ -53,6 +53,58 @@ final readonly class ProviderInvocationJournalService
         }
     }
 
+    public function reserveOperational(array $claim, \DateTimeImmutable $at): array
+    {
+        $authoritative = $this->authoritativeClaim($claim);
+        if (!str_starts_with($authoritative['claim_id'], 'operational-cognition-invocation-claim-')) {
+            throw new \RuntimeException('CLV414_PROVIDER_INVOCATION_JOURNAL_TRANSITION_INVALID');
+        }
+
+        try {
+            return $this->state->compareAndSwap($this->path($authoritative['claim_id']), null, [
+                'schema' => 'imperium.clavium-provider-invocation-journal/v1',
+                'claim' => ['id' => $authoritative['claim_id'], 'digest' => $authoritative['record_digest']],
+                'idempotency_key' => $this->idempotencyKey($authoritative),
+                'external_io_started' => false,
+                'provider_response_identity' => null,
+                'reserved_at' => $at->format(DATE_ATOM),
+                'started_at' => null,
+                'resolved_at' => null,
+                'status' => 'INVOCATION_RESERVED_PRE_IO',
+                'automatic_replay_permitted' => false,
+                'sealed' => true,
+            ]);
+        } catch (\RuntimeException $exception) {
+            throw $this->translatePersistenceFailure($exception, 'CLV412_PROVIDER_INVOCATION_ALREADY_STARTED');
+        }
+    }
+
+    public function startReservedOperational(array $claim, \DateTimeImmutable $at): array
+    {
+        return $this->transition($claim, 'INVOCATION_RESERVED_PRE_IO', function (array $record) use ($at): array {
+            $record['external_io_started'] = true;
+            $record['started_at'] = $at->format(DATE_ATOM);
+            $record['status'] = 'INVOCATION_IN_FLIGHT';
+
+            return $record;
+        });
+    }
+
+    public function failReservedOperational(array $claim, string $failureCode, \DateTimeImmutable $at): array
+    {
+        if (!preg_match('/^[A-Z][A-Z0-9_]{2,80}$/', $failureCode)) {
+            throw new \RuntimeException('CLV414_PROVIDER_INVOCATION_JOURNAL_TRANSITION_INVALID');
+        }
+
+        return $this->transition($claim, 'INVOCATION_RESERVED_PRE_IO', function (array $record) use ($failureCode, $at): array {
+            $record['failure_code'] = $failureCode;
+            $record['resolved_at'] = $at->format(DATE_ATOM);
+            $record['status'] = 'INVOCATION_FAILED_PRE_IO_REPLAY_PROHIBITED';
+
+            return $record;
+        });
+    }
+
     public function markPreIoFailure(array $claim, string $failureCode, \DateTimeImmutable $at): array
     {
         $authoritative = $this->authoritativeClaim($claim);

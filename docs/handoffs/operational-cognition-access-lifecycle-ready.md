@@ -26,7 +26,7 @@ Read before changing code:
 
 The Delegate route is terminal through Step 69. Runtime Integrity Hardening is complete through Step 35. The Citadel Legate cognition route already uses the claim-bound Clavium broker. Reuse its broker, durable invocation claim, idempotency identity, provider-response envelope, failure journal, credential resolver, adapter factory, clocks, stores, and tests where their contracts fit.
 
-The operational route is not yet mediated. `BoundedExecutionAuthorizationService` explicitly denies credential and network authority, while `SymfonyAiOperationalExecutionCognitionGateway` still receives a directly configured Symfony agent. That mismatch is the first target. Thirty-two other direct platform-bound agents and the shared `%env(DEEPSEEK_API_KEY)%` platform remain later migration work, so no intermediate batch may claim the system-wide bypass gate closed.
+The operational route is not yet mediated. `BoundedExecutionAuthorizationService` explicitly denies credential and network authority, while `SymfonyAiOperationalExecutionCognitionGateway` still receives a directly configured Symfony agent. That mismatch is the first target. Thirty-one other direct platform-bound agents and the shared `%env(DEEPSEEK_API_KEY)%` platform remain later migration work, so no intermediate batch may claim the system-wide bypass gate closed.
 
 ## Authority and record contract
 
@@ -85,7 +85,7 @@ No private record may persist raw prompts beyond the repository's established in
 2. **Lease — implemented:** have Clavium validate the current authorized decision and issue one opaque, exact, expiring lease without resolving credentials.
 3. **Claim — implemented:** atomically consume the lease and cognition authority into one durable invocation claim before any external I/O.
 4. **Broker — implemented:** migrate the operational gateway to a claim-bound broker that resolves the credential inside its callback and constructs a provider adapter for that call only. Remove the operational agent definition from the directly invokable platform.
-5. **Proof:** test authorization refusal; missing, malformed, mismatched, expired, consumed, and superseded decisions and leases; exact replay; divergent concurrency; interruption around claim/I/O boundaries; unknown outcome; and absence of secrets from persistence, exceptions, logs, and serialized output.
+5. **Proof — implemented:** test authorization refusal; missing, malformed, mismatched, expired, consumed, and superseded decisions and leases; exact replay; divergent concurrency; interruption around claim/I/O boundaries; unknown outcome; and absence of secrets from persistence, exceptions, logs, and serialized output.
 6. **Remaining clusters:** migrate every other direct platform-bound agent by governance cluster, remove the global environment-backed credential platform, then implement the final repeatable bypass demonstration and sanitized summary.
 
 Each batch must stop at its named boundary, add focused service tests, preserve existing public behavior where authority permits it, and update this handoff plus `docs/credential-boundary-remediation.md`. The user will run local PHP commands.
@@ -160,7 +160,28 @@ Focused verification:
 php vendor/bin/phpunit tests/Imperium/Runtime/SymfonyAiOperationalExecutionCognitionGatewayTest.php
 ```
 
-The next batch is **Batch 5: operational boundary proof**. It must exhaust the refusal, missing/malformed/mismatched/expired/consumed/superseded authority, exact replay, divergent concurrency, interruption, unknown-outcome, and secret-exclusion matrix without expanding the lifecycle.
+## Batch 5 implementation checkpoint
+
+The operational boundary proof is complete across the focused Batch 1–5 suites.
+
+- Request/decision tests prove exact replay, independent Imperator authorization/refusal, expiry, model mismatch, and refusal without lease authority.
+- Lease tests prove refused, expired, mismatched, unauthorized, and credential-capable issuance attempts fail stopped; the valid lease remains opaque and exact-replay safe.
+- Claim tests prove expired, consumed, substituted, divergent, partial, and process-contention cases fail stopped or converge on one durable claim.
+- Gateway proof now covers missing, malformed, mismatched, expired, consumed, and superseded claims before credential issuance; exact invocation replay; interruption after pre-I/O reservation; credential failure; unknown provider outcome; response sealing; direct-agent configuration absence; and recursive persisted-secret exclusion.
+- The proof exposed and closed one ordering weakness: the gateway now atomically reserves the invocation journal before broker consumption. Exact replay or a concurrent/interrupted reservation is therefore rejected before a second credential can be issued or resolved. External I/O is marked started only inside the broker callback immediately before adapter invocation.
+- Pre-I/O and unknown-outcome diagnostics remain suppressed, and neither permits automatic replay.
+
+Focused verification:
+
+```bash
+php vendor/bin/phpunit \
+  tests/Imperium/Runtime/OperationalCognitionAccessRequestDecisionTest.php \
+  tests/Imperium/Runtime/OperationalCognitionLeaseServiceTest.php \
+  tests/Imperium/Runtime/OperationalCognitionInvocationClaimServiceTest.php \
+  tests/Imperium/Runtime/SymfonyAiOperationalExecutionCognitionGatewayTest.php
+```
+
+The next batch is **Batch 6: remaining governance-cluster inventory and migration order**. It must enumerate the remaining directly configured agents, group them by authority contract and governance cluster, identify reusable claim/broker contracts versus new bounded lifecycles, and produce the migration order. Do not remove the shared environment-backed platform until every consumer has migrated, and do not claim the system-wide bypass gate closed.
 
 ## New-chat continuation prompt
 
@@ -175,6 +196,6 @@ Copy this prompt verbatim into the next chat:
 >
 > Continue Imperium from `main` at or after the merge recorded in `docs/handoffs/operational-cognition-access-lifecycle-ready.md`. Read that handoff, `docs/credential-boundary-remediation.md`, `docs/delegate-mission-flow.md`, `docs/handoffs/runtime-integrity-hardening-leg-complete.md`, `docs/handoffs/runtime-severe-source-cleanup-closed.md`, `docs/handoffs/crash-demonstration-program-complete.md`, and `todo/blackquill-todos.md` before changing code.
 >
-> Begin Operational Cognition Access Batch 5: operational boundary proof. Starting from the merged Batch 4 broker, exhaust authorization refusal; missing, malformed, mismatched, expired, consumed, and superseded decisions/leases/claims; exact replay; divergent concurrency; interruption before and after the durable claim and provider-I/O boundary; unknown provider outcome; and absence of secrets from persistence, exceptions, logs, and serialized output. Preserve the existing six-boundary lifecycle, stable idempotency identity, response-envelope and failure-journal contracts, and no-replay rule. Do not migrate other governance clusters in this batch. Do not claim the system-wide bypass gate closed while other direct agents and the environment-backed platform remain. Do not invent Delegate Mission Step 70 or Runtime Integrity Hardening Step 36. I will run local PHP commands.
+> Begin credential-boundary remediation Batch 6: remaining governance-cluster inventory and migration order. Starting from the merged Operational Cognition Access Batch 5 proof, enumerate every remaining directly configured Symfony AI agent and every source consumer. Group them by governance cluster and authority contract; distinguish routes that can reuse an existing Delegate, Legate, or Operational claim-bound broker from routes that require a separately bounded lifecycle. Record the exact migration order, proof obligations, and safe batch boundaries before changing a cluster. Do not remove the shared `%env(DEEPSEEK_API_KEY)%` platform until all consumers have migrated. Do not claim the system-wide bypass gate closed. Do not reopen the terminal Delegate route, invent Delegate Mission Step 70, or invent Runtime Integrity Hardening Step 36. I will run local PHP commands.
 >
 > Ad Imperium. Not one step back.
