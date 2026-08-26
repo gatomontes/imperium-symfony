@@ -15,7 +15,8 @@ final class SenatePersonaConfirmationTestimonyGovernanceCognitionBoundaryTest ex
         self::assertTrue($resolver->supports('senate-persona-confirmation', 'testimony-practice'));
         self::assertTrue($resolver->supports('senate-persona-confirmation', 'testimony-governance'));
         self::assertTrue($resolver->supports('senate-persona-confirmation', 'testimony-consistency'));
-        self::assertFalse($resolver->supports('senate-persona-confirmation', 'testimony-security'));
+        self::assertTrue($resolver->supports('senate-persona-confirmation', 'testimony-security'));
+        self::assertFalse($resolver->supports('senate-persona-confirmation', 'finding-practice'));
         self::assertFalse($resolver->supports('senate-persona-confirmation', 'question-practice'));
         self::assertFalse($resolver->supports('senate-profile-examination', 'testimony-practice'));
     }

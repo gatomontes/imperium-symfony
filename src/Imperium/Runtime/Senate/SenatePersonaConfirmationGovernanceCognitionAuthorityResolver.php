@@ -22,7 +22,7 @@ final readonly class SenatePersonaConfirmationGovernanceCognitionAuthorityResolv
 
     public function supports(string $cluster, string $authorityType): bool
     {
-        return 'senate-persona-confirmation' === $cluster && in_array($authorityType, ['testimony-practice', 'testimony-governance', 'testimony-consistency'], true);
+        return 'senate-persona-confirmation' === $cluster && in_array($authorityType, ['testimony-practice', 'testimony-governance', 'testimony-consistency', 'testimony-security'], true);
     }
 
     public function resolve(string $cluster, string $authorityType, string $authorityId): array
@@ -38,6 +38,7 @@ final readonly class SenatePersonaConfirmationGovernanceCognitionAuthorityResolv
             'practice' => 'FIRST_QUESTION_SEALED_PENDING_TESTIMONY_COGNITION_AUTHORIZATION',
             'governance' => 'GOVERNANCE_BASELINE_QUESTION_SEALED_PENDING_TESTIMONY_COGNITION_AUTHORIZATION',
             'consistency' => 'CONSISTENCY_BASELINE_QUESTION_SEALED_PENDING_TESTIMONY_COGNITION_AUTHORIZATION',
+            'security' => 'SECURITY_BASELINE_QUESTION_SEALED_PENDING_TESTIMONY_COGNITION_AUTHORIZATION',
         };
         $context = $deposition;
         if ('practice' !== $jurisdiction) $context['prior_testimony'] = $question['prior_testimony'] ?? null;
@@ -54,6 +55,7 @@ final readonly class SenatePersonaConfirmationGovernanceCognitionAuthorityResolv
             || $expectedStatus !== ($question['status'] ?? null)
             || ('governance' === $jurisdiction && (!is_array($question['prior_testimony'] ?? null) || 1 !== count($question['prior_testimony'])))
             || ('consistency' === $jurisdiction && (!is_array($question['prior_testimony'] ?? null) || 2 !== count($question['prior_testimony'])))
+            || ('security' === $jurisdiction && (!is_array($question['prior_testimony'] ?? null) || 3 !== count($question['prior_testimony'])))
             || null !== ($question['testimony'] ?? null)
             || true === ($question['testimony_sealed'] ?? null)) {
             throw new \RuntimeException('GCA572_SENATE_PERSONA_CONFIRMATION_AUTHORITY_INVALID');

@@ -235,5 +235,7 @@ Batch 13E seals the Consistency question from the ordered Practice and Governanc
 Batch 13F consumes the exact Consistency testimony authority through the claim-bound witness path and seals the Consistency testimony turn. Continue with Batch 13G from `docs/handoffs/credential-boundary-batch-13f-consistency-baseline-testimony-complete.md`; the Security question is the next separately bounded phase.
 
 Batch 13G seals the Security question from the ordered Practice, Governance, and Consistency testimony lineage and stops before witness cognition. Continue with Batch 13H from `docs/handoffs/credential-boundary-batch-13g-security-baseline-question-seam-complete.md`; finding authority remains unopened.
+
+Batch 13H consumes the exact Security testimony authority through the claim-bound witness path and seals the fourth baseline testimony turn. Continue with Batch 13I from `docs/handoffs/credential-boundary-batch-13h-security-baseline-testimony-complete.md`; migrate the four question-authoring agents before opening findings.
 >
 > Ad Imperium. Not one step back.
