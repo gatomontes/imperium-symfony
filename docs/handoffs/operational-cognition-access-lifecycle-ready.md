@@ -84,7 +84,7 @@ No private record may persist raw prompts beyond the repository's established in
 1. **Request and decision — implemented:** introduce the Curia request and independent Imperator authorize/refuse service with exact replay and conflict rejection.
 2. **Lease — implemented:** have Clavium validate the current authorized decision and issue one opaque, exact, expiring lease without resolving credentials.
 3. **Claim — implemented:** atomically consume the lease and cognition authority into one durable invocation claim before any external I/O.
-4. **Broker:** migrate the operational gateway to a claim-bound broker that resolves the credential inside its callback and constructs a provider adapter for that call only. Remove the operational agent definition from the directly invokable platform.
+4. **Broker — implemented:** migrate the operational gateway to a claim-bound broker that resolves the credential inside its callback and constructs a provider adapter for that call only. Remove the operational agent definition from the directly invokable platform.
 5. **Proof:** test authorization refusal; missing, malformed, mismatched, expired, consumed, and superseded decisions and leases; exact replay; divergent concurrency; interruption around claim/I/O boundaries; unknown outcome; and absence of secrets from persistence, exceptions, logs, and serialized output.
 6. **Remaining clusters:** migrate every other direct platform-bound agent by governance cluster, remove the global environment-backed credential platform, then implement the final repeatable bypass demonstration and sanitized summary.
 
@@ -143,7 +143,24 @@ Focused verification:
 php vendor/bin/phpunit tests/Imperium/Runtime/OperationalCognitionInvocationClaimServiceTest.php
 ```
 
-The next batch is **Batch 4: claim-bound operational broker**. It must replace the operational gateway's directly injected Symfony agent, reread this exact durable claim, resolve the credential only inside the broker callback, construct a per-call DeepSeek adapter, and return only the bounded output. Unknown-outcome and response-envelope behavior must reuse the existing governed recovery contracts.
+## Batch 4 implementation checkpoint
+
+`OperationalClaimBoundCredentialBroker` and the rewritten operational gateway remove the operational Manifestation's direct Symfony-agent path.
+
+- The broker locates exactly one durable claim through the exact bounded-execution authorization identity/digest and cognition-request lineage, then rereads and validates the intact claim before capability issuance.
+- It requires both single-use consumptions, live lease expiry, strict DeepSeek provider/model binding, durable pre-I/O state, stable idempotency identity, no prior credential resolution or network use, and no automatic replay authority.
+- The credential exists only inside the broker consumption callback. That callback invokes the strict per-call DeepSeek adapter, starts the existing provider-invocation journal, seals the provider response envelope and response identity, and suppresses provider diagnostics on an unknown outcome.
+- The operational agent definition and direct `AgentInterface` injection are removed. The Manifestation receives only the parsed bounded result.
+- The operational claim now carries the source lease expiry required for authoritative broker validation. The shared journal and response-envelope services accept both Delegate and operational claim families without weakening either claim contract.
+- This closes the direct-agent bypass for the operational route only. Other platform-bound agents and the shared environment-backed platform remain, so the system-wide credential-boundary gate remains open.
+
+Focused verification:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/SymfonyAiOperationalExecutionCognitionGatewayTest.php
+```
+
+The next batch is **Batch 5: operational boundary proof**. It must exhaust the refusal, missing/malformed/mismatched/expired/consumed/superseded authority, exact replay, divergent concurrency, interruption, unknown-outcome, and secret-exclusion matrix without expanding the lifecycle.
 
 ## New-chat continuation prompt
 
@@ -158,6 +175,6 @@ Copy this prompt verbatim into the next chat:
 >
 > Continue Imperium from `main` at or after the merge recorded in `docs/handoffs/operational-cognition-access-lifecycle-ready.md`. Read that handoff, `docs/credential-boundary-remediation.md`, `docs/delegate-mission-flow.md`, `docs/handoffs/runtime-integrity-hardening-leg-complete.md`, `docs/handoffs/runtime-severe-source-cleanup-closed.md`, `docs/handoffs/crash-demonstration-program-complete.md`, and `todo/blackquill-todos.md` before changing code.
 >
-> Begin Operational Cognition Access Batch 4: claim-bound operational broker. Replace the operational Manifestation gateway's directly injected Symfony agent with a broker that rereads the exact Batch 3 durable claim, resolves the credential only inside its consumption callback, constructs the strict DeepSeek adapter for that call only, and returns only the bounded output. Preserve the stable idempotency identity, response envelope, failure journal, pre-I/O failure, unknown-outcome prohibition, and governed recovery contracts. Remove the operational agent from the directly invokable platform. Add focused broker, configuration, failure, replay, and secret-exclusion tests. Do not claim the system-wide bypass gate closed while other direct agents remain. Do not invent Delegate Mission Step 70 or Runtime Integrity Hardening Step 36. I will run local PHP commands.
+> Begin Operational Cognition Access Batch 5: operational boundary proof. Starting from the merged Batch 4 broker, exhaust authorization refusal; missing, malformed, mismatched, expired, consumed, and superseded decisions/leases/claims; exact replay; divergent concurrency; interruption before and after the durable claim and provider-I/O boundary; unknown provider outcome; and absence of secrets from persistence, exceptions, logs, and serialized output. Preserve the existing six-boundary lifecycle, stable idempotency identity, response-envelope and failure-journal contracts, and no-replay rule. Do not migrate other governance clusters in this batch. Do not claim the system-wide bypass gate closed while other direct agents and the environment-backed platform remain. Do not invent Delegate Mission Step 70 or Runtime Integrity Hardening Step 36. I will run local PHP commands.
 >
 > Ad Imperium. Not one step back.

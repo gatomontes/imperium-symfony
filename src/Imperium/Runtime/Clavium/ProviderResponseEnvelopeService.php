@@ -28,7 +28,7 @@ final readonly class ProviderResponseEnvelopeService
     {
         $claimId = $claim['claim_id'] ?? null;
         $claimDigest = $claim['record_digest'] ?? null;
-        if (!is_string($claimId) || !preg_match('/^provider-invocation-[a-f0-9]{20}$/', $claimId)
+        if (!is_string($claimId) || !preg_match('/^(?:provider-invocation|operational-cognition-invocation-claim)-[a-f0-9]{20}$/', $claimId)
             || !is_string($claimDigest) || 64 !== strlen($claimDigest)) {
             throw new \RuntimeException('CLV430_PROVIDER_RESPONSE_ENVELOPE_CLAIM_INVALID');
         }
