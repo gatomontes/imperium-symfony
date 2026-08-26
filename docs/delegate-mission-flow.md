@@ -185,3 +185,18 @@ Crash Demonstration 3 has operator-retained proof against source commit `bd3620c
 Crash Demonstration 4 has operator-retained proof against source commit `598cbcdf749fc804b979a2ddfb310bf025b385b2`. The bounded four-demonstration crash-evidence program is complete. This closure creates neither Delegate Mission Step 70 nor Runtime Integrity Hardening Step 36. The next separate operational-evidence target is proof that direct provider invocation without a valid Clavium lease is impossible.
 
 Each demonstration must produce a repeatable local command, machine-readable retained evidence, explicit assertions, and a sanitized external summary that reveals the property proved without disclosing proprietary runtime topology.
+
+## Separate next lifecycle: Operational Cognition Access
+
+The terminal Delegate flow above remains closed at Step 69. The following sequence belongs to a new, separately bounded lifecycle and must not be numbered as Delegate Mission Step 70 or Runtime Integrity Hardening Step 36:
+
+1. Curia authorizes one bounded internal execution iteration.
+2. Imperator separately authorizes or refuses the exact provider/model resource expenditure.
+3. Clavium validates that decision and issues one opaque, expiring lease.
+4. A durable invocation claim consumes that lease and the cognition authority atomically.
+5. The broker constructs the provider adapter for that call only.
+6. The Manifestation receives output, never credentials or network authority.
+
+These boundaries preserve the existing constitutional split. Curia determines that one internal iteration is permitted but grants no credential or network authority. Imperator makes the independent resource-expenditure decision. Clavium validates and leases access without selecting or approving the expenditure. The durable claim is the sole pre-I/O consumption point. The broker alone resolves credentials and creates the short-lived provider adapter. The Manifestation receives only the sealed result.
+
+The implementation order, record bindings, failure matrix, and continuation prompt are canonicalized in `docs/handoffs/operational-cognition-access-lifecycle-ready.md`. System-wide credential-boundary proof remains blocked until every direct platform-bound agent is migrated and the shared environment-backed platform is removed.
