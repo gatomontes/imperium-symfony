@@ -33,7 +33,7 @@ final readonly class SubordinatePersonaJurisdictionBaselineService
             throw new \RuntimeException('S141_JURISDICTION_BASELINE_CHAIN_INVALID');
         $senator=$this->senator((string)$deposition['instance_id']);
         $practice=$this->practiceReference($first);
-        $assignment=['jurisdiction'=>'governance','senator'=>$this->actor($senator),'scope'=>'authority, obligations, prohibitions, evidence, refusal, escalation, and stop conditions',
+        $assignment=['jurisdiction'=>'governance','authority_id'=>$firstTurnId,'senator'=>$this->actor($senator),'scope'=>'authority, obligations, prohibitions, evidence, refusal, escalation, and stop conditions',
             'confirmation_plan_digest'=>$deposition['confirmation_plan_digest'],'prior_testimony_digests'=>[$first['record_digest']],'question_authority'=>true,'finding_authority_exercisable'=>false];
         $context=$deposition;$context['prior_testimony']=[$practice];
         $question=$this->cognition->authorQuestion($assignment,$context,$witness);$this->validateQuestion($question);

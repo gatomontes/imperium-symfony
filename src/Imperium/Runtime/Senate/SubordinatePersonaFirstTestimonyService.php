@@ -65,6 +65,7 @@ final readonly class SubordinatePersonaFirstTestimonyService
 
         $assignment = [
             "jurisdiction" => "practice",
+            "authority_id" => $depositionId,
             "senator" => $this->actor($senator),
             "scope" => "professional decisions, methods, competence, and competence boundaries",
             "confirmation_plan_digest" => $deposition["confirmation_plan_digest"],

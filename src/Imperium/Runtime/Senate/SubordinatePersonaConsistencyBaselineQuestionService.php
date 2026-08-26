@@ -26,7 +26,7 @@ final readonly class SubordinatePersonaConsistencyBaselineQuestionService
             ||null!==($g['senator_finding']??null)||null!==($g['senate_disposition']??null)||true===($g['execution_authority']??null))throw new \RuntimeException('S155_CONSISTENCY_QUESTION_CHAIN_INVALID');
         $senator=$this->senator((string)$g['instance_id']);
         $governance=$this->reference($g);$prior=[...$g['prior_testimony'],$governance];
-        $assignment=['jurisdiction'=>'consistency','senator'=>$this->actor($senator),'scope'=>'contradictions, drift, unstable priorities, and materially different conduct',
+        $assignment=['jurisdiction'=>'consistency','authority_id'=>$governanceTurnId,'senator'=>$this->actor($senator),'scope'=>'contradictions, drift, unstable priorities, and materially different conduct',
             'confirmation_plan_digest'=>$d['confirmation_plan_digest'],'prior_testimony_digests'=>array_column($prior,'turn_digest'),'question_authority'=>true,'finding_authority_exercisable'=>false];
         $context=$d;$context['prior_testimony']=$prior;
         $question=$this->cognition->authorQuestion($assignment,$context,$w);$this->validate($question);

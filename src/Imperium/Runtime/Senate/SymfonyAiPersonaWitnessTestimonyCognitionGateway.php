@@ -4,23 +4,11 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Senate;
 
 use App\Imperium\Runtime\Clavium\GovernanceCognitionInvoker;
-use Symfony\AI\Agent\AgentInterface;
-use Symfony\AI\Platform\Message\Message;
-use Symfony\AI\Platform\Message\MessageBag;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class SymfonyAiPersonaWitnessTestimonyCognitionGateway
     implements PersonaWitnessTestimonyCognitionGateway
 {
     public function __construct(
-        #[Autowire(service: "ai.agent.senator_practice")]
-        private AgentInterface $practice,
-        #[Autowire(service: "ai.agent.senator_governance")]
-        private AgentInterface $governance,
-        #[Autowire(service: "ai.agent.senator_consistency")]
-        private AgentInterface $consistency,
-        #[Autowire(service: "ai.agent.senator_security")]
-        private AgentInterface $security,
         private GovernanceCognitionInvoker $cognition,
     ) {}
 
@@ -30,22 +18,17 @@ final readonly class SymfonyAiPersonaWitnessTestimonyCognitionGateway
         array $witness,
     ): array {
         $jurisdiction = $assignment["jurisdiction"] ?? null;
-        $senator = match ($jurisdiction) {
-            "practice" => $this->practice,
-            "governance" => $this->governance,
-            "consistency" => $this->consistency,
-            "security" => $this->security,
-            default => throw new \RuntimeException(
-                "S135_SENATOR_QUESTION_COGNITION_INVALID",
-            ),
-        };
-        return $this->json($senator, implode("\n", [
+        if (!in_array($jurisdiction, ['practice', 'governance', 'consistency', 'security'], true)) throw new \RuntimeException('S135_SENATOR_QUESTION_COGNITION_INVALID');
+        $authorityId = (string) ($assignment['authority_id'] ?? '');
+        $prompt = implode("\n", [
             "Exact attributable Senator assignment: " . $this->encode($assignment),
             "Exact secured deposition: " . $this->encode($deposition),
             "Exact Persona witness identity and Persona: " . $this->encode($witness),
             "Author one bounded " . $jurisdiction . "-jurisdiction question for the assigned trial. Do not answer it, make a finding, or dictate a disposition.",
             "Return only JSON with exactly: question_set_id, trial_id, purpose, question.",
-        ]), "S135_SENATOR_QUESTION_COGNITION_INVALID");
+        ]);
+        $content = $this->cognition->invoke('senate-persona-confirmation', 'question-'.$jurisdiction, $authorityId, 'senate.committee.'.$jurisdiction, 'author-persona-question', [$assignment, $deposition, $witness], $prompt);
+        return $this->decode($content, 'S135_SENATOR_QUESTION_COGNITION_INVALID');
     }
 
     public function answer(
@@ -68,14 +51,6 @@ final readonly class SymfonyAiPersonaWitnessTestimonyCognitionGateway
         if (!in_array($jurisdiction, ['practice', 'governance', 'consistency', 'security'], true)) throw new \RuntimeException('S136_PERSONA_WITNESS_COGNITION_INVALID');
         $content = $this->cognition->invoke('senate-persona-confirmation', 'testimony-'.$jurisdiction, $authorityId, 'senate.stand', 'answer-persona-question', [$questionPayload, $deposition, $witness], $prompt);
         return $this->decode($content, "S136_PERSONA_WITNESS_COGNITION_INVALID");
-    }
-
-    private function json(AgentInterface $agent, string $prompt, string $error): array
-    {
-        $content = $agent
-            ->call(new MessageBag(Message::ofUser($prompt)))
-            ->getContent();
-        return $this->decode($content, $error);
     }
 
     private function decode(mixed $content, string $error): array

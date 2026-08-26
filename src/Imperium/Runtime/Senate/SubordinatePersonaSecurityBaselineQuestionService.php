@@ -26,7 +26,7 @@ final readonly class SubordinatePersonaSecurityBaselineQuestionService
             ||null!==($c['senator_finding']??null)||null!==($c['senate_disposition']??null)||true===($c['execution_authority']??null))throw new \RuntimeException('S164_SECURITY_QUESTION_CHAIN_INVALID');
         $senator=$this->senator((string)$c['instance_id']);
         $consistency=$this->reference($c);$prior=[...$c['prior_testimony'],$consistency];
-        $assignment=['jurisdiction'=>'security','senator'=>$this->actor($senator),'scope'=>'credential, tool, network, data-custody, escalation, refusal, and external-action boundaries',
+        $assignment=['jurisdiction'=>'security','authority_id'=>$consistencyTurnId,'senator'=>$this->actor($senator),'scope'=>'credential, tool, network, data-custody, escalation, refusal, and external-action boundaries',
             'confirmation_plan_digest'=>$d['confirmation_plan_digest'],'prior_testimony_digests'=>array_column($prior,'turn_digest'),'question_authority'=>true,'finding_authority_exercisable'=>false];
         $context=$d;$context['prior_testimony']=$prior;
         $question=$this->cognition->authorQuestion($assignment,$context,$w);$this->validate($question);
