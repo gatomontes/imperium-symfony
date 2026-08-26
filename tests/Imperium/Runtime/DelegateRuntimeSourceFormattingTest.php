@@ -43,6 +43,11 @@ final class DelegateRuntimeSourceFormattingTest extends TestCase
         'Imperator/DelegateMissionResourceInvocationDecisionService.php',
         'Citadel/DelegateMissionBoundedCognitionTurnService.php',
         'Garrison/DelegateMissionTerminalReturnService.php',
+        'Authorship/SymfonyAiSubordinatePersonaSectionAuthorshipGateway.php',
+        'Foundry/SubordinatePersonaSpecificationService.php',
+        'Foundry/SymfonyAiSubordinatePersonaSpecificationCognitionGateway.php',
+        'Senate/ProfileExaminationDispositionService.php',
+        'Senate/SymfonyAiProfileExaminationDispositionCognitionGateway.php',
     ];
 
     public function testExpandedCriticalClassesRemainPhysicallyReadable(): void
