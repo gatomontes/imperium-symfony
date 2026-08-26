@@ -1,5 +1,165 @@
 <?php
-declare(strict_types=1);namespace App\Imperium\Runtime\Curia;
-use App\Bootstrap\CanonicalJson;use Symfony\Component\DependencyInjection\Attribute\Autowire;
+declare(strict_types=1);
+namespace App\Imperium\Runtime\Curia;
+
+use App\Bootstrap\CanonicalJson;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+
 final readonly class DelegateMissionReturnAuthorizationService
-{private string$d;private string$t;private string$c;private string$b;private string$o;private string$a;private DelegateMissionResultReturnRecordMechanics$r;public function __construct(#[Autowire('%kernel.project_dir%')]string$root,?DelegateMissionResultReturnRecordMechanics$records=null){$this->d=$root.'/var/imperium/offices/curia/delegate-mission-cognition-result-dispositions';$this->t=$root.'/var/imperium/operational/delegate-mission-bounded-cognition-turns';$this->c=$root.'/var/imperium/offices/curia/delegate-mission-bounded-cognition-commissions';$this->b=$root.'/var/imperium/mission/occupancy';$this->o=$root.'/var/imperium/offices/curia/occupancy';$this->a=$root.'/var/imperium/offices/curia/delegate-mission-return-authorizations';$this->r=$records??new DelegateMissionResultReturnRecordMechanics($root);}public function authorize(string$id,string$authorityId,string$bindingId,\DateTimeImmutable$at):array{$d=$this->read($this->d.'/'.$id.'.json','C310_DELEGATE_RESULT_DISPOSITION_ABSENT');foreach(glob($this->a.'/*.json')?:[]as$p){$x=$this->read($p,'C319_DELEGATE_RETURN_AUTHORIZATION_CONFLICT');if(($x['source_disposition']['id']??null)===$id){if(!$this->ok($x)||($x['source_disposition']['digest']??null)!==($d['record_digest']??null)||($x['actor']['binding_id']??null)!==$bindingId||($x['return_authority']['id']??null)!==$authorityId)throw new \RuntimeException('C319_DELEGATE_RETURN_AUTHORIZATION_CONFLICT');return$x;}}$t=$this->source($this->t,$d['source_turn']??[],'C311_DELEGATE_TURN_ABSENT');$c=$this->source($this->c,$d['source_commission']??[],'C312_DELEGATE_COMMISSION_ABSENT');$b=$this->read($this->b.'/'.($c['source_binding']['id']??'').'.json','C313_DELEGATE_BINDING_ABSENT');$o=$this->read($this->o.'/'.$bindingId.'.json','C314_DELEGATE_SENESCHAL_ABSENT');$auth=$d['return_authorization_authority']??[];$termination=$b['manifestation']['profile']['profile']['termination']??$b['manifestation']['profile']['profile_scope']??[];if(!$this->ok($d)||!$this->ok($t)||!$this->ok($c)||!$this->ok($b)||!$this->ok($o)||'DELEGATE_MISSION_RESULT_DISPOSED_PENDING_RETURN_AUTHORIZATION'!==($d['status']??null)||$authorityId!==($auth['authority_id']??null)||true!==($auth['authority_single_use']??null)||true!==($auth['authority_exercisable']??null)||false!==($auth['consumed']??null)||$bindingId!==($o['binding_id']??null)||($d['instance_id']??null)!==($o['instance_id']??null)||'curia.seneschal'!==($o['seat']??null)||'ACTIVE'!==($o['status']??null)||true!==($o['delegate_mission_return_authorization_authority']??null)||true===($o['execution_authority']??null)||($c['source_binding']['digest']??null)!==$b['record_digest']||($d['target']['manifestation_id']??null)!==$b['manifestation_id']||true!==($b['seat_bound']??null)||[]===($termination['return_conditions']??[])||[]===($termination['unbinding_conditions']??[])||[]===($termination['custody_restoration_conditions']??[])||[]===($termination['retirement_conditions']??[]))throw new \RuntimeException('C315_DELEGATE_RETURN_AUTHORIZATION_CHAIN_INVALID');$actor=['seat'=>'curia.seneschal','binding_id'=>$bindingId,'binding_digest'=>$o['record_digest'],'manifestation_id'=>$o['manifestation_id'],'occupancy_generation'=>$o['occupancy_generation']];$aid='delegate-mission-return-authorization-'.substr(hash('sha256',CanonicalJson::encode([$id,$d['record_digest'],$authorityId,$b['record_digest'],$termination,$actor])),0,20);$next='delegate-mission-terminal-return-authority-'.substr(hash('sha256',CanonicalJson::encode([$aid,$t['record_digest'],$b['record_digest']])),0,20);return$this->save($aid,['schema'=>'imperium.curia-delegate-mission-return-authorization/v1','authorization_id'=>$aid,'instance_id'=>$d['instance_id'],'source_disposition'=>['id'=>$id,'digest'=>$d['record_digest']],'source_turn'=>['id'=>$t['turn_id'],'digest'=>$t['record_digest']],'source_commission'=>['id'=>$c['commission_id'],'digest'=>$c['record_digest']],'source_binding'=>['id'=>$b['binding_id'],'digest'=>$b['record_digest']],'operational_custody'=>$c['operational_custody'],'target'=>$d['target'],'result'=>$d['result'],'termination_contract'=>$termination,'actor'=>$actor,'return_authority'=>['id'=>$authorityId,'consumed'=>true,'continuing_authority'=>false],'authorized_at'=>$at->format(DATE_ATOM),'status'=>'DELEGATE_MISSION_RETURN_AUTHORIZED_PENDING_GARRISON_TERMINAL_TRANSITION','garrison_terminal_return_authority'=>['authority_id'=>$next,'authority_single_use'=>true,'authority_exercisable'=>true,'holder'=>'garrison.constable','consumed'=>false,'continuing_authority'=>false],'provider_invocation_authority'=>false,'credential_use_authority'=>false,'operational_use_authority'=>false,'redeployment_authority'=>false,'execution_authority'=>false,'sealed'=>true]);}private function source(string$d,array$r,string$e):array{return$this->r->source($d,$r,$e,'C315_DELEGATE_RETURN_AUTHORIZATION_CHAIN_INVALID');}private function read($p,$e):array{return$this->r->read($p,$e);}private function ok(array$r):bool{return$this->r->isIntact($r);}private function save($id,array$r):array{return$this->r->saveReturnAuthorization($id,$r);}}
+{
+    private string$d;
+    private string$t;
+    private string$c;
+    private string$b;
+    private string$o;
+    private string$a;
+    private DelegateMissionResultReturnRecordMechanics$r;
+    public function __construct(#[Autowire('%kernel.project_dir%')]string$root,
+    ?DelegateMissionResultReturnRecordMechanics$records=null){
+        $this->d=$root.'/var/imperium/offices/curia/delegate-mission-cognition-result-dispositions';
+        $this->t=$root.'/var/imperium/operational/delegate-mission-bounded-cognition-turns';
+        $this->c=$root.'/var/imperium/offices/curia/delegate-mission-bounded-cognition-commissions';
+        $this->b=$root.'/var/imperium/mission/occupancy';
+        $this->o=$root.'/var/imperium/offices/curia/occupancy';
+        $this->a=$root.'/var/imperium/offices/curia/delegate-mission-return-authorizations';
+        $this->r=$records??new DelegateMissionResultReturnRecordMechanics($root);
+
+    }
+    public function authorize(string$id,
+    string$authorityId,
+    string$bindingId,
+    \DateTimeImmutable$at):array{
+        $d=$this->read($this->d.'/'.$id.'.json',
+        'C310_DELEGATE_RESULT_DISPOSITION_ABSENT');
+        foreach(glob($this->a.'/*.json')?:[]as$p){
+            $x=$this->read($p,
+            'C319_DELEGATE_RETURN_AUTHORIZATION_CONFLICT');
+            if(($x['source_disposition']['id']??null)===$id){
+                if(!$this->ok($x)||
+                ($x['source_disposition']['digest']??null)!==($d['record_digest']??null)||
+                ($x['actor']['binding_id']??null)!==$bindingId||
+                ($x['return_authority']['id']??null)!==$authorityId)throw new \RuntimeException('C319_DELEGATE_RETURN_AUTHORIZATION_CONFLICT');
+                return$x;
+
+            }
+
+        }
+        $t=$this->source($this->t,
+        $d['source_turn']??[],
+        'C311_DELEGATE_TURN_ABSENT');
+        $c=$this->source($this->c,
+        $d['source_commission']??[],
+        'C312_DELEGATE_COMMISSION_ABSENT');
+        $b=$this->read($this->b.'/'.($c['source_binding']['id']??'').'.json',
+        'C313_DELEGATE_BINDING_ABSENT');
+        $o=$this->read($this->o.'/'.$bindingId.'.json',
+        'C314_DELEGATE_SENESCHAL_ABSENT');
+        $auth=$d['return_authorization_authority']??[];
+        $termination=$b['manifestation']['profile']['profile']['termination']??$b['manifestation']['profile']['profile_scope']??[];
+        if(!$this->ok($d)||
+        !$this->ok($t)||
+        !$this->ok($c)||
+        !$this->ok($b)||
+        !$this->ok($o)||
+        'DELEGATE_MISSION_RESULT_DISPOSED_PENDING_RETURN_AUTHORIZATION'!==($d['status']??null)||
+        $authorityId!==($auth['authority_id']??null)||
+        true!==($auth['authority_single_use']??null)||
+        true!==($auth['authority_exercisable']??null)||
+        false!==($auth['consumed']??null)||
+        $bindingId!==($o['binding_id']??null)||
+        ($d['instance_id']??null)!==($o['instance_id']??null)||
+        'curia.seneschal'!==($o['seat']??null)||
+        'ACTIVE'!==($o['status']??null)||
+        true!==($o['delegate_mission_return_authorization_authority']??null)||
+        true===($o['execution_authority']??null)||
+        ($c['source_binding']['digest']??null)!==$b['record_digest']||
+        ($d['target']['manifestation_id']??null)!==$b['manifestation_id']||
+        true!==($b['seat_bound']??null)||
+        []===($termination['return_conditions']??[])||
+        []===($termination['unbinding_conditions']??[])||
+        []===($termination['custody_restoration_conditions']??[])||
+        []===($termination['retirement_conditions']??[]))throw new \RuntimeException('C315_DELEGATE_RETURN_AUTHORIZATION_CHAIN_INVALID');
+        $actor=['seat'=>'curia.seneschal',
+        'binding_id'=>$bindingId,
+        'binding_digest'=>$o['record_digest'],
+        'manifestation_id'=>$o['manifestation_id'],
+        'occupancy_generation'=>$o['occupancy_generation']];
+        $aid='delegate-mission-return-authorization-'.substr(hash('sha256',
+        CanonicalJson::encode([$id,
+        $d['record_digest'],
+        $authorityId,
+        $b['record_digest'],
+        $termination,
+        $actor])),
+        0,
+        20);
+        $next='delegate-mission-terminal-return-authority-'.substr(hash('sha256',
+        CanonicalJson::encode([$aid,
+        $t['record_digest'],
+        $b['record_digest']])),
+        0,
+        20);
+        return$this->save($aid,
+        ['schema'=>'imperium.curia-delegate-mission-return-authorization/v1',
+        'authorization_id'=>$aid,
+        'instance_id'=>$d['instance_id'],
+        'source_disposition'=>['id'=>$id,
+        'digest'=>$d['record_digest']],
+        'source_turn'=>['id'=>$t['turn_id'],
+        'digest'=>$t['record_digest']],
+        'source_commission'=>['id'=>$c['commission_id'],
+        'digest'=>$c['record_digest']],
+        'source_binding'=>['id'=>$b['binding_id'],
+        'digest'=>$b['record_digest']],
+        'operational_custody'=>$c['operational_custody'],
+        'target'=>$d['target'],
+        'result'=>$d['result'],
+        'termination_contract'=>$termination,
+        'actor'=>$actor,
+        'return_authority'=>['id'=>$authorityId,
+        'consumed'=>true,
+        'continuing_authority'=>false],
+        'authorized_at'=>$at->format(DATE_ATOM),
+        'status'=>'DELEGATE_MISSION_RETURN_AUTHORIZED_PENDING_GARRISON_TERMINAL_TRANSITION',
+        'garrison_terminal_return_authority'=>['authority_id'=>$next,
+        'authority_single_use'=>true,
+        'authority_exercisable'=>true,
+        'holder'=>'garrison.constable',
+        'consumed'=>false,
+        'continuing_authority'=>false],
+        'provider_invocation_authority'=>false,
+        'credential_use_authority'=>false,
+        'operational_use_authority'=>false,
+        'redeployment_authority'=>false,
+        'execution_authority'=>false,
+        'sealed'=>true]);
+
+    }
+    private function source(string$d,
+    array$r,
+    string$e):array{
+        return$this->r->source($d,
+        $r,
+        $e,
+        'C315_DELEGATE_RETURN_AUTHORIZATION_CHAIN_INVALID');
+
+    }
+    private function read($p,
+    $e):array{
+        return$this->r->read($p,
+        $e);
+
+    }
+    private function ok(array$r):bool{
+        return$this->r->isIntact($r);
+
+    }
+    private function save($id,
+    array$r):array{
+        return$this->r->saveReturnAuthorization($id,
+        $r);
+
+    }
+
+}
+
