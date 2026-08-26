@@ -178,4 +178,6 @@ Crash Demonstration 1 is implemented by the repeatable local command and evidenc
 
 Crash Demonstration 1 has operator-retained proof against source commit `8cfcef92b5d5cf7396ad147ee2ea4191d7354159`. Crash Demonstration 2 is implemented by the repeatable command and evidence contract in `docs/crash-demonstration-2-deployment-custody-recovery.md`; it stops before runtime activation.
 
+Crash Demonstration 2 has operator-retained proof against source commit `9633ef0239c0dc7fbaf122753f76ffe35c47875d`. Crash Demonstration 3 is implemented by the repeatable command and evidence contract in `docs/crash-demonstration-3-unknown-provider-outcome-recovery.md`; unknown outcomes remain non-replayable and sealed-response recovery has no provider dependency.
+
 Each demonstration must produce a repeatable local command, machine-readable retained evidence, explicit assertions, and a sanitized external summary that reveals the property proved without disclosing proprietary runtime topology.
