@@ -124,10 +124,16 @@ final readonly class OperationalConstructionCrashDemonstration
         $stage = str_contains($crashPoint, 'QUALIFICATION') ? 0 : (str_contains($crashPoint, 'ASSEMBLY') ? 1 : 2);
         $methods = ['commitQualification', 'commitAssembly', 'commitBinding'];
         $records = [$fixture['qualification'], $fixture['assembly'], $fixture['binding']];
+        $replayStages = [];
 
         try {
             for ($index = 0; $index < $stage; ++$index) {
-                $recovery->{$methods[$index]}($this->id($records[$index]), $records[$index]);
+                $replayStages[] = $this->commitAndReplay(
+                    $recovery,
+                    $caseRoot,
+                    $methods[$index],
+                    $records[$index],
+                );
             }
             $preCrash = $this->snapshot($caseRoot);
             try {
@@ -142,14 +148,14 @@ final readonly class OperationalConstructionCrashDemonstration
             $postCrash = $this->snapshot($caseRoot);
             $crashAssertions = $this->crashAssertions($crashPoint, $stage, $preCrash, $postCrash);
             for ($index = $stage; $index < count($methods); ++$index) {
-                $recovery->{$methods[$index]}($this->id($records[$index]), $records[$index]);
+                $replayStages[] = $this->commitAndReplay(
+                    $recovery,
+                    $caseRoot,
+                    $methods[$index],
+                    $records[$index],
+                );
             }
             $recovered = $this->snapshot($caseRoot);
-            $beforeReplayDigest = $recovered['codex_digest'];
-            foreach ($methods as $index => $method) {
-                $recovery->{$method}($this->id($records[$index]), $records[$index]);
-            }
-            $replayed = $this->snapshot($caseRoot);
             $conflict = $fixture['qualification'];
             $conflict['demonstration_conflict_variant'] = true;
             unset($conflict['record_digest']);
@@ -164,7 +170,7 @@ final readonly class OperationalConstructionCrashDemonstration
             }
             $assertions = array_merge(
                 $crashAssertions,
-                $this->assertions($replayed, $records, $beforeReplayDigest),
+                $this->assertions($recovered, $records, $replayStages),
             );
 
             return [
@@ -175,9 +181,8 @@ final readonly class OperationalConstructionCrashDemonstration
                 'recovery' => ['resumed_forward' => true, 'final' => $recovered],
                 'replay' => [
                     'exact' => true,
-                    'digest_before' => $beforeReplayDigest,
-                    'digest_after' => $replayed['codex_digest'],
-                    'generation_after' => $replayed['generation'],
+                    'stages' => $replayStages,
+                    'generation_after' => $recovered['generation'],
                 ],
                 'conflict' => $conflictResult,
                 'assertions' => $assertions,
@@ -188,7 +193,36 @@ final readonly class OperationalConstructionCrashDemonstration
         }
     }
 
-    private function assertions(array $snapshot, array $records, string $beforeReplayDigest): array
+    private function commitAndReplay(
+        DelegateMissionOperationalTransitionCoordinator $coordinator,
+        string $root,
+        string $method,
+        array $record,
+    ): array {
+        $coordinator->{$method}($this->id($record), $record);
+        $before = $this->snapshot($root);
+        $coordinator->{$method}($this->id($record), $record);
+        $after = $this->snapshot($root);
+        $preserved = hash_equals($before['codex_digest'], $after['codex_digest'])
+            && $before['generation'] === $after['generation'];
+        if (!$preserved) {
+            throw new \RuntimeException('DEMO_EXACT_REPLAY_MUTATED_CODEX');
+        }
+
+        return [
+            'relation' => match ($method) {
+                'commitQualification' => 'operational-profile-qualification',
+                'commitAssembly' => 'operational-manifestation-assembly',
+                'commitBinding' => 'operational-manifestation-seat-binding',
+            },
+            'generation' => $after['generation'],
+            'digest_before' => $before['codex_digest'],
+            'digest_after' => $after['codex_digest'],
+            'preserved' => true,
+        ];
+    }
+
+    private function assertions(array $snapshot, array $records, array $replayStages): array
     {
         $orderedIds = array_map(fn (array $record): string => $this->id($record), $records);
         $expectedDigests = array_column($records, 'record_digest');
@@ -203,7 +237,8 @@ final readonly class OperationalConstructionCrashDemonstration
             'generation_monotonic' => [1, 2, 3] === $snapshot['folium_sequences'],
             'ordered_folium_identities_match' => $orderedIds === $snapshot['folium_ids'],
             'immutable_folium_digests_match' => $expectedDigests === $snapshot['folium_digests'],
-            'exact_replay_preserved_codex_digest' => hash_equals($beforeReplayDigest, $snapshot['codex_digest']),
+            'exact_replay_preserved_each_current_codex' => [1, 2, 3] === array_column($replayStages, 'generation')
+                && !in_array(false, array_column($replayStages, 'preserved'), true),
             'final_checkpoint_is_inert_binding' => 'DELEGATE_MISSION_MANIFESTATION_BOUND_PENDING_DEPLOYMENT_AUTHORIZATION' === $snapshot['checkpoint'],
             'prohibited_authorities_absent_or_false' => $authorityClosed,
         ];

@@ -55,6 +55,7 @@ final class OperationalConstructionCrashDemonstrationTest extends TestCase
             self::assertSame('PROVED', $case['disposition']);
             self::assertTrue($case['conflict']['rejected']);
             self::assertSame(3, $case['replay']['generation_after']);
+            self::assertSame([1, 2, 3], array_column($case['replay']['stages'], 'generation'));
             self::assertNotContains(false, $case['assertions'], true);
         }
 
