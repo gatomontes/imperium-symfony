@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 namespace App\Imperium\Runtime\Foundry;
+use App\Imperium\Runtime\Clavium\GovernanceCognitionInvoker;
 
 final readonly class SymfonyAiSubordinatePersonaSpecificationCognitionGateway implements SubordinatePersonaSpecificationCognitionGateway
 {
-    public function __construct(private FoundryGovernanceCognitionInvoker $invoker){
+    public function __construct(private GovernanceCognitionInvoker $invoker){
 
     }
     public function specify(array $case):array{
@@ -17,7 +18,7 @@ final readonly class SymfonyAiSubordinatePersonaSpecificationCognitionGateway im
         'disposition must be PERSONA_SPECIFICATION_COMPLETE or CLARIFICATION_REQUIRED. persona_name and purpose must be non-empty strings. Every ' .
         'other field must be an array of explicit non-empty strings. A complete specification requires at least one item in identity_constraints, ' .
         'competencies, behavioral_directives, evidence_obligations, explicit_exclusions, and stop_conditions.']);
-        $content=$this->invoker->invoke('persona-specification', (string)($case['case_id']??''), 'foundry.artificer', [$case], $prompt);
+        $content=$this->invoker->invoke('foundry', 'persona-specification', (string)($case['case_id']??''), 'foundry.artificer', 'specify-persona', [$case], $prompt);
         if(!is_string($content)||
         ''===trim($content))throw new \RuntimeException('F107_PERSONA_SPECIFICATION_COGNITION_EMPTY');
         $content=trim($content);
