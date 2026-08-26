@@ -20,6 +20,8 @@ final readonly class SymfonyAiPersonaWitnessTestimonyCognitionGateway
         $jurisdiction = $assignment["jurisdiction"] ?? null;
         if (!in_array($jurisdiction, ['practice', 'governance', 'consistency', 'security'], true)) throw new \RuntimeException('S135_SENATOR_QUESTION_COGNITION_INVALID');
         $authorityId = (string) ($assignment['authority_id'] ?? '');
+        $authorityType = (string) ($assignment['cognition_authority_type'] ?? 'question-'.$jurisdiction);
+        if ('question-'.$jurisdiction !== $authorityType && !('consistency' === $jurisdiction && 'question-fresh-consistency' === $authorityType)) throw new \RuntimeException('S135_SENATOR_QUESTION_COGNITION_INVALID');
         $prompt = implode("\n", [
             "Exact attributable Senator assignment: " . $this->encode($assignment),
             "Exact secured deposition: " . $this->encode($deposition),
@@ -27,7 +29,7 @@ final readonly class SymfonyAiPersonaWitnessTestimonyCognitionGateway
             "Author one bounded " . $jurisdiction . "-jurisdiction question for the assigned trial. Do not answer it, make a finding, or dictate a disposition.",
             "Return only JSON with exactly: question_set_id, trial_id, purpose, question.",
         ]);
-        $content = $this->cognition->invoke('senate-persona-confirmation', 'question-'.$jurisdiction, $authorityId, 'senate.committee.'.$jurisdiction, 'author-persona-question', [$assignment, $deposition, $witness], $prompt);
+        $content = $this->cognition->invoke('senate-persona-confirmation', $authorityType, $authorityId, 'senate.committee.'.$jurisdiction, 'author-persona-question', [$assignment, $deposition, $witness], $prompt);
         return $this->decode($content, 'S135_SENATOR_QUESTION_COGNITION_INVALID');
     }
 
