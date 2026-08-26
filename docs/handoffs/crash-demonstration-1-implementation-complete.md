@@ -33,3 +33,7 @@ The operator owns local PHP execution and private evidence custody. Neither priv
 ## Next evidence program item
 
 After local verification is clear, proceed separately to Crash Demonstration 2: deployment custody recovery. Do not extend this demonstration into deployment or activation.
+
+## Retained proof status
+
+Operator-local execution against source commit `8cfcef92b5d5cf7396ad147ee2ea4191d7354159` returned `PROVED`: six of six crash cases proved, zero invariant assertions failed, and the two-process contention proof produced one winner and one rejected conflict. Private evidence remains outside Git; this paragraph records only the sanitized result.
