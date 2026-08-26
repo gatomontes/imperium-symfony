@@ -12,8 +12,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
-    name: "imperium:senate:complete-subordinate-persona-jurisdiction-baseline",
-    description: "Seal Governance, Consistency, and Security baseline testimony",
+    name: "imperium:senate:author-subordinate-persona-governance-baseline-question",
+    description: "Seal the exact Governance baseline question pending separately authorized testimony",
 )]
 final class SenateCompleteSubordinatePersonaJurisdictionBaselineCommand extends Command
 {
@@ -38,7 +38,7 @@ final class SenateCompleteSubordinatePersonaJurisdictionBaselineCommand extends 
         }
         $output->writeln($input->getOption("json")
             ? json_encode($record, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)
-            : "<info>SUBORDINATE_PERSONA_JURISDICTION_BASELINE_COMPLETE</info> " . $record["baseline_id"]);
+            : "<info>SUBORDINATE_PERSONA_GOVERNANCE_BASELINE_QUESTION_SEALED_PENDING_TESTIMONY_AUTHORIZATION</info> " . $record["question_record_id"]);
         return self::SUCCESS;
     }
 }
