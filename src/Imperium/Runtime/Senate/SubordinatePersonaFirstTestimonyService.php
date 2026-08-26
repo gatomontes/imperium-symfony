@@ -11,7 +11,7 @@ final readonly class SubordinatePersonaFirstTestimonyService
     private string $depositionDirectory;
     private string $witnessDirectory;
     private string $occupancyDirectory;
-    private string $turnDirectory;
+    private string $questionDirectory;
 
     public function __construct(
         #[Autowire("%kernel.project_dir%")] string $projectDir,
@@ -21,7 +21,7 @@ final readonly class SubordinatePersonaFirstTestimonyService
         $this->depositionDirectory = $senate . "/depositions";
         $this->witnessDirectory = $senate . "/persona-witnesses";
         $this->occupancyDirectory = $senate . "/occupancy";
-        $this->turnDirectory = $senate . "/testimony-turns";
+        $this->questionDirectory = $senate . "/persona-questions";
     }
 
     public function conduct(string $depositionId): array
@@ -29,8 +29,8 @@ final readonly class SubordinatePersonaFirstTestimonyService
         if (!preg_match('/^senate-persona-deposition-[a-f0-9]{20}$/', $depositionId)) {
             throw new \InvalidArgumentException("S129_PERSONA_DEPOSITION_ID_INVALID");
         }
-        foreach (glob($this->turnDirectory . "/*.json") ?: [] as $path) {
-            $existing = $this->read($path, "S138_TESTIMONY_TURN_CONFLICT");
+        foreach (glob($this->questionDirectory . "/*.json") ?: [] as $path) {
+            $existing = $this->read($path, "S138_PERSONA_QUESTION_CONFLICT");
             if ($depositionId === ($existing["deposition_id"] ?? null) && "practice" === ($existing["jurisdiction"] ?? null) && $this->digestMatches($existing)) {
                 return $existing;
             }
@@ -73,20 +73,17 @@ final readonly class SubordinatePersonaFirstTestimonyService
         ];
         $question = $this->cognition->authorQuestion($assignment, $deposition, $witness);
         $this->validateQuestion($question);
-        $answer = $this->cognition->answer($question, $deposition, $witness);
-        $this->validateAnswer($answer);
-        $id = "senate-persona-testimony-turn-" . substr(hash("sha256", CanonicalJson::encode([
+        $id = "senate-persona-question-" . substr(hash("sha256", CanonicalJson::encode([
             $depositionId,
             $deposition["record_digest"],
             $senator["binding_id"],
             $senator["record_digest"],
             $question,
-            $answer,
         ])), 0, 20);
 
         return $this->persist($id, [
-            "schema" => "imperium.senate-persona-testimony-turn/v1",
-            "turn_id" => $id,
+            "schema" => "imperium.senate-persona-question/v1",
+            "question_record_id" => $id,
             "instance_id" => $deposition["instance_id"],
             "deposition_id" => $depositionId,
             "deposition_digest" => $deposition["record_digest"],
@@ -100,11 +97,19 @@ final readonly class SubordinatePersonaFirstTestimonyService
             "jurisdiction" => "practice",
             "assignment" => $assignment,
             "question" => $question,
-            "testimony" => $answer,
-            "question_dispatched_unchanged" => true,
             "question_authority_consumed" => true,
-            "testimony_sealed" => true,
-            "status" => "FIRST_TESTIMONY_SEALED_PENDING_REMAINING_TRIALS",
+            "testimony_authority" => [
+                "authority_id" => "persona-testimony-authority-" . substr(hash("sha256", CanonicalJson::encode([$id, $question, $witness["record_digest"]])), 0, 20),
+                "authority_single_use" => true,
+                "authority_exercisable" => true,
+                "witness_manifestation_id" => $manifestationId,
+                "witness_manifestation_digest" => $witness["record_digest"],
+                "consumed" => false,
+                "continuing_authority" => false,
+            ],
+            "testimony" => null,
+            "testimony_sealed" => false,
+            "status" => "FIRST_QUESTION_SEALED_PENDING_TESTIMONY_COGNITION_AUTHORIZATION",
             "senator_finding" => null,
             "senate_disposition" => null,
             "admission_authority" => false,
@@ -156,25 +161,6 @@ final readonly class SubordinatePersonaFirstTestimonyService
         }
     }
 
-    private function validateAnswer(array $answer): void
-    {
-        $keys = array_keys($answer);
-        sort($keys, SORT_STRING);
-        if (["answer", "evidence_claims", "refusals", "uncertainties"] !== $keys || !is_string($answer["answer"] ?? null) || "" === trim($answer["answer"])) {
-            throw new \RuntimeException("S134_PERSONA_TESTIMONY_INVALID");
-        }
-        foreach (["evidence_claims", "refusals", "uncertainties"] as $field) {
-            if (!is_array($answer[$field] ?? null)) {
-                throw new \RuntimeException("S134_PERSONA_TESTIMONY_INVALID");
-            }
-            foreach ($answer[$field] as $value) {
-                if (!is_string($value) || "" === trim($value)) {
-                    throw new \RuntimeException("S134_PERSONA_TESTIMONY_INVALID");
-                }
-            }
-        }
-    }
-
     private function actor(array $binding): array
     {
         return [
@@ -190,22 +176,22 @@ final readonly class SubordinatePersonaFirstTestimonyService
 
     private function persist(string $id, array $record): array
     {
-        if (!is_dir($this->turnDirectory) && !mkdir($this->turnDirectory, 0770, true) && !is_dir($this->turnDirectory)) {
-            throw new \RuntimeException("S137_TESTIMONY_TURN_FAILED");
+        if (!is_dir($this->questionDirectory) && !mkdir($this->questionDirectory, 0770, true) && !is_dir($this->questionDirectory)) {
+            throw new \RuntimeException("S137_PERSONA_QUESTION_FAILED");
         }
         $record["record_digest"] = hash("sha256", CanonicalJson::encode($record));
-        $path = $this->turnDirectory . "/" . $id . ".json";
+        $path = $this->questionDirectory . "/" . $id . ".json";
         if (is_file($path)) {
-            $existing = $this->read($path, "S138_TESTIMONY_TURN_CONFLICT");
+            $existing = $this->read($path, "S138_PERSONA_QUESTION_CONFLICT");
             if (CanonicalJson::encode($existing) !== CanonicalJson::encode($record)) {
-                throw new \RuntimeException("S138_TESTIMONY_TURN_CONFLICT");
+                throw new \RuntimeException("S138_PERSONA_QUESTION_CONFLICT");
             }
             return $existing;
         }
         $temporary = $path . ".tmp." . bin2hex(random_bytes(6));
         if (false === file_put_contents($temporary, json_encode($record, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR) . "\n", LOCK_EX) || !rename($temporary, $path)) {
             @unlink($temporary);
-            throw new \RuntimeException("S137_TESTIMONY_TURN_FAILED");
+            throw new \RuntimeException("S137_PERSONA_QUESTION_FAILED");
         }
         return $record;
     }
