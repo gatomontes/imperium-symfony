@@ -59,3 +59,5 @@ Implementation proceeds in these batches:
 6. migrate the remaining governance clusters, remove the global credential-bearing platform, and only then run the final bypass demonstration.
 
 The current `SymfonyAiOperationalExecutionCognitionGateway` remains an open bypass until batches 1–5 are merged. Completion of that first migration does not close the system-wide gate while any other directly configured agent or `%env(DEEPSEEK_API_KEY)%` platform definition remains.
+
+Operational Cognition Access Batch 1 is implemented after `70e4dcd`. Curia now seals the exact single-iteration cognition request without credential or network authority, and Imperator independently authorizes or refuses the exact DeepSeek model/configuration and resource ceiling. An authorized decision opens only a single-use Clavium lease-activation authority; it does not issue a lease, resolve a credential, or permit provider invocation. Batch 2 must implement that opaque lease boundary.
