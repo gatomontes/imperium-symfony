@@ -6,6 +6,9 @@ namespace App\Imperium\Runtime\LaCortine;
 
 final class EnvironmentCredentialBroker implements CredentialBroker
 {
+    /** @var array<string, CredentialCapability> */
+    private array $issued = [];
+
     /** @var array<string, int> */
     private array $uses = [];
 
@@ -20,7 +23,7 @@ final class EnvironmentCredentialBroker implements CredentialBroker
             throw new \InvalidArgumentException('EnvironmentCredentialBroker accepts only env: credential references.');
         }
 
-        return new CredentialCapability(
+        $capability = new CredentialCapability(
             'credential-capability.'.bin2hex(random_bytes(12)),
             $credentialRef,
             $commissionId,
@@ -28,10 +31,17 @@ final class EnvironmentCredentialBroker implements CredentialBroker
             $expiresAt,
             $maxUses,
         );
+        $this->issued[$capability->capabilityId] = $capability;
+
+        return $capability;
     }
 
     public function consume(CredentialCapability $capability, callable $providerOperation): mixed
     {
+        if (($this->issued[$capability->capabilityId] ?? null) !== $capability) {
+            throw new \RuntimeException('CREDENTIAL_CAPABILITY_UNISSUED: capability was not issued by this broker.');
+        }
+
         $now = new \DateTimeImmutable();
         if ($now >= $capability->expiresAt) {
             throw new \RuntimeException('CREDENTIAL_CAPABILITY_EXPIRED: capability is no longer usable.');
