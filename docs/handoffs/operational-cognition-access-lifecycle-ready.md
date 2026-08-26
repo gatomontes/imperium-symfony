@@ -243,5 +243,7 @@ Batch 13I migrates all four Persona-confirmation question stages through exact n
 Batch 13J mechanically aggregates the four baseline testimony turns into the original jurisdiction-baseline contract without cognition. Continue with Batch 13K from `docs/handoffs/credential-boundary-batch-13j-jurisdiction-baseline-aggregation-complete.md`; separate the fresh-instance Consistency question from testimony.
 
 Batch 13K deterministically instantiates the fresh sterile witness, consumes a distinct claim-bound Consistency question authority, and seals only the question. Continue with Batch 13L from `docs/handoffs/credential-boundary-batch-13k-fresh-consistency-question-seam-complete.md`; consume the separately authorized fresh testimony without opening either pressure trial.
+
+Batch 13L consumes the distinct fresh Consistency testimony authority through the claim-bound witness path and seals the fresh trial. Continue with Batch 13M from `docs/handoffs/credential-boundary-batch-13l-fresh-consistency-testimony-complete.md`; separate the Governance pressure question from testimony.
 >
 > Ad Imperium. Not one step back.

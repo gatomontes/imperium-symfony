@@ -48,6 +48,7 @@ services:
                 - '@App\Imperium\Runtime\Senate\SenateProfileExaminationGovernanceCognitionAuthorityResolver'
                 - '@App\Imperium\Runtime\Senate\SenatePersonaConfirmationQuestionGovernanceCognitionAuthorityResolver'
                 - '@App\Imperium\Runtime\Senate\SenatePersonaFreshConsistencyQuestionGovernanceCognitionAuthorityResolver'
+                - '@App\Imperium\Runtime\Senate\SenatePersonaFreshConsistencyTestimonyGovernanceCognitionAuthorityResolver'
                 - '@App\Imperium\Runtime\Senate\SenatePersonaConfirmationGovernanceCognitionAuthorityResolver'
 
     App\Imperium\Runtime\Curia\ProceedingStore:

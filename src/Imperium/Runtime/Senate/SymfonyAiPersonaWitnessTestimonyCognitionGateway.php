@@ -51,7 +51,9 @@ final readonly class SymfonyAiPersonaWitnessTestimonyCognitionGateway
         $authorityId = (string) ($question['testimony_authority']['authority_id'] ?? '');
         $jurisdiction = (string) ($question['jurisdiction'] ?? 'practice');
         if (!in_array($jurisdiction, ['practice', 'governance', 'consistency', 'security'], true)) throw new \RuntimeException('S136_PERSONA_WITNESS_COGNITION_INVALID');
-        $content = $this->cognition->invoke('senate-persona-confirmation', 'testimony-'.$jurisdiction, $authorityId, 'senate.stand', 'answer-persona-question', [$questionPayload, $deposition, $witness], $prompt);
+        $authorityType = (string) ($question['cognition_authority_type'] ?? 'testimony-'.$jurisdiction);
+        if ('testimony-'.$jurisdiction !== $authorityType && !('consistency' === $jurisdiction && 'testimony-fresh-consistency' === $authorityType)) throw new \RuntimeException('S136_PERSONA_WITNESS_COGNITION_INVALID');
+        $content = $this->cognition->invoke('senate-persona-confirmation', $authorityType, $authorityId, 'senate.stand', 'answer-persona-question', [$questionPayload, $deposition, $witness], $prompt);
         return $this->decode($content, "S136_PERSONA_WITNESS_COGNITION_INVALID");
     }
 

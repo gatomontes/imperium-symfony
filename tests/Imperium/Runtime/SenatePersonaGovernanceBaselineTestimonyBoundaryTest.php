@@ -12,7 +12,7 @@ final class SenatePersonaGovernanceBaselineTestimonyBoundaryTest extends TestCas
         $gateway=(string)file_get_contents($root.'/src/Imperium/Runtime/Senate/SymfonyAiPersonaWitnessTestimonyCognitionGateway.php');
         self::assertStringContainsString("'testimony_authority_consumed'=>true",$service);
         self::assertStringContainsString('GOVERNANCE_BASELINE_TESTIMONY_SEALED_PENDING_CONSISTENCY_QUESTION',$service);
-        self::assertStringContainsString("'testimony-'.\$jurisdiction",$gateway);
+        self::assertStringContainsString("'testimony-'.\$jurisdiction !== \$authorityType",$gateway);
         self::assertStringNotContainsString('senate.committee.consistency',$service);
         self::assertStringNotContainsString('senate.committee.security',$service);
         self::assertStringContainsString("'execution_authority'=>false",$service);
