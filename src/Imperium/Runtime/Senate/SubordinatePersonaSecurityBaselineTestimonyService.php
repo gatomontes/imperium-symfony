@@ -37,7 +37,7 @@ final readonly class SubordinatePersonaSecurityBaselineTestimonyService
             'jurisdiction'=>'security','assignment'=>$q['assignment'],'question'=>$q['question'],'testimony'=>$answer,
             'source_question_record'=>['id'=>$questionRecordId,'digest'=>$q['record_digest']],'testimony_authority'=>['id'=>$a['authority_id'],'consumed'=>true,'continuing_authority'=>false],
             'question_dispatched_unchanged'=>true,'question_authority_consumed'=>true,'testimony_authority_consumed'=>true,'testimony_sealed'=>true,
-            'status'=>'SECURITY_BASELINE_TESTIMONY_SEALED_PENDING_FINDING_AUTHORITY_OPENING','senator_finding'=>null,'senator_finding_authority'=>false,'senate_disposition'=>null,
+            'status'=>'SECURITY_BASELINE_TESTIMONY_SEALED_PENDING_BASELINE_AGGREGATION','senator_finding'=>null,'senator_finding_authority'=>false,'senate_disposition'=>null,
             'admission_authority'=>false,'profile_approval_authority'=>false,'spawning_authority'=>false,'seat_binding_authority'=>false,'execution_authority'=>false,'sealed'=>true,
         ]);
     }

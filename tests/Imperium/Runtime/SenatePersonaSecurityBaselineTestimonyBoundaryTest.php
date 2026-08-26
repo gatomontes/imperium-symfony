@@ -16,7 +16,7 @@ final class SenatePersonaSecurityBaselineTestimonyBoundaryTest extends TestCase
         self::assertStringContainsString("['practice', 'governance', 'consistency', 'security']",$gateway);
         self::assertStringContainsString("3!==count(\$q['prior_testimony'])",$service);
         self::assertStringContainsString("'testimony_authority_consumed'=>true",$service);
-        self::assertStringContainsString('SECURITY_BASELINE_TESTIMONY_SEALED_PENDING_FINDING_AUTHORITY_OPENING',$service);
+        self::assertStringContainsString('SECURITY_BASELINE_TESTIMONY_SEALED_PENDING_BASELINE_AGGREGATION',$service);
         self::assertStringContainsString("'senator_finding'=>null",$service);
         self::assertStringContainsString("'senator_finding_authority'=>false",$service);
         self::assertStringContainsString("'execution_authority'=>false",$service);
