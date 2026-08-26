@@ -176,4 +176,6 @@ The next work is a separate operational-evidence program. It does not create Del
 
 Crash Demonstration 1 is implemented by the repeatable local command and evidence contract in `docs/crash-demonstration-1-operational-construction-recovery.md`. Private retained evidence remains local and uncommitted; only its sanitized summary shape is documented.
 
+Crash Demonstration 1 has operator-retained proof against source commit `8cfcef92b5d5cf7396ad147ee2ea4191d7354159`. Crash Demonstration 2 is implemented by the repeatable command and evidence contract in `docs/crash-demonstration-2-deployment-custody-recovery.md`; it stops before runtime activation.
+
 Each demonstration must produce a repeatable local command, machine-readable retained evidence, explicit assertions, and a sanitized external summary that reveals the property proved without disclosing proprietary runtime topology.
