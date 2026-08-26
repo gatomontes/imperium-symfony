@@ -21,7 +21,7 @@ Two credential-bearing platform definitions remain: `config/packages/ai.yaml` an
 
 ## Ordered batches
 
-7. **Governance invocation substrate:** implement only the common mechanical request/Imperator decision/Clavium lease/durable claim/journal/envelope contracts. Each cluster must supply an exact existing authority reference and purpose; the substrate may not create or infer that authority.
+7. **Governance invocation substrate — implemented:** implement only the common mechanical request/Imperator decision/Clavium lease/durable claim contracts. Each cluster must supply an exact existing authority reference and purpose; the substrate may not create or infer that authority.
 8. **Foundry:** migrate specification, revision, ordinary review, and adversarial review; remove two definitions.
 9. **Resident requirements:** migrate Sanctographer and Chancellor requirement resolution; remove two definitions.
 10. **Section authorship:** migrate exact Sanctographer/Chancellor section authorship; remove two definitions.
@@ -37,4 +37,4 @@ Every migration batch includes its hostile proof. No batch may remove a platform
 
 ## Next batch
 
-Batch 7 creates the common governance invocation substrate only. It does not migrate a governance cluster. Its proof must show that absent, malformed, expired, mismatched, replayed, or cross-cluster authority fails before credential resolution and that the substrate cannot author its own activation authority.
+Batch 8 migrates Foundry only. It must add resolvers for the exact native specification, revision, ordinary-review, and adversarial-review authorities; route the two Foundry agent definitions through the common claim-bound broker mechanics; preserve stage-specific result contracts; and prove at-most-once, cross-stage refusal, unknown outcome, and secret exclusion before removing those definitions.

@@ -14,6 +14,7 @@ final readonly class ProviderInvocationJournalService
 {
     private const DELEGATE_CLAIMS = 'var/imperium/runtime/provider-invocations';
     private const OPERATIONAL_CLAIMS = 'var/imperium/runtime/operational-cognition-invocation-claims';
+    private const GOVERNANCE_CLAIMS = 'var/imperium/runtime/governance-cognition-invocation-claims';
     private const JOURNAL = 'var/imperium/runtime/provider-invocation-journal';
 
     private MutableStateStore $state;
@@ -77,6 +78,55 @@ final readonly class ProviderInvocationJournalService
         } catch (\RuntimeException $exception) {
             throw $this->translatePersistenceFailure($exception, 'CLV412_PROVIDER_INVOCATION_ALREADY_STARTED');
         }
+    }
+
+    public function reserveGovernance(array $claim, \DateTimeImmutable $at): array
+    {
+        $authoritative = $this->authoritativeClaim($claim);
+        if (!str_starts_with($authoritative['claim_id'], 'governance-cognition-invocation-claim-')) {
+            throw new \RuntimeException('CLV414_PROVIDER_INVOCATION_JOURNAL_TRANSITION_INVALID');
+        }
+
+        try {
+            return $this->state->compareAndSwap($this->path($authoritative['claim_id']), null, [
+                'schema' => 'imperium.clavium-provider-invocation-journal/v1',
+                'claim' => ['id' => $authoritative['claim_id'], 'digest' => $authoritative['record_digest']],
+                'idempotency_key' => $this->idempotencyKey($authoritative),
+                'external_io_started' => false,
+                'provider_response_identity' => null,
+                'reserved_at' => $at->format(DATE_ATOM),
+                'started_at' => null,
+                'resolved_at' => null,
+                'status' => 'INVOCATION_RESERVED_PRE_IO',
+                'automatic_replay_permitted' => false,
+                'sealed' => true,
+            ]);
+        } catch (\RuntimeException $exception) {
+            throw $this->translatePersistenceFailure($exception, 'CLV412_PROVIDER_INVOCATION_ALREADY_STARTED');
+        }
+    }
+
+    public function startReservedGovernance(array $claim, \DateTimeImmutable $at): array
+    {
+        return $this->transition($claim, 'INVOCATION_RESERVED_PRE_IO', function (array $record) use ($at): array {
+            $record['external_io_started'] = true;
+            $record['started_at'] = $at->format(DATE_ATOM);
+            $record['status'] = 'INVOCATION_IN_FLIGHT';
+            return $record;
+        });
+    }
+
+    public function failReservedGovernance(array $claim, string $failureCode, \DateTimeImmutable $at): array
+    {
+        if (!preg_match('/^[A-Z][A-Z0-9_]{2,80}$/', $failureCode)) {
+            throw new \RuntimeException('CLV414_PROVIDER_INVOCATION_JOURNAL_TRANSITION_INVALID');
+        }
+        return $this->transition($claim, 'INVOCATION_RESERVED_PRE_IO', function (array $record) use ($failureCode, $at): array {
+            $record['failure_code'] = $failureCode;
+            $record['resolved_at'] = $at->format(DATE_ATOM);
+            $record['status'] = 'INVOCATION_FAILED_PRE_IO_REPLAY_PROHIBITED';
+            return $record;
+        });
     }
 
     public function startReservedOperational(array $claim, \DateTimeImmutable $at): array
@@ -182,19 +232,20 @@ final readonly class ProviderInvocationJournalService
             throw new \RuntimeException('CLV410_PROVIDER_INVOCATION_CLAIM_INVALID');
         }
         $operational = (bool) preg_match('/^operational-cognition-invocation-claim-[a-f0-9]{20}$/', $id);
+        $governance = (bool) preg_match('/^governance-cognition-invocation-claim-[a-f0-9]{20}$/', $id);
         $delegate = (bool) preg_match('/^provider-invocation-[a-f0-9]{20}$/', $id);
-        if (!$operational && !$delegate) {
+        if (!$operational && !$governance && !$delegate) {
             throw new \RuntimeException('CLV410_PROVIDER_INVOCATION_CLAIM_INVALID');
         }
         try {
-            $authoritative = $this->records->read($operational ? self::OPERATIONAL_CLAIMS : self::DELEGATE_CLAIMS, $id);
+            $directory = $operational ? self::OPERATIONAL_CLAIMS : ($governance ? self::GOVERNANCE_CLAIMS : self::DELEGATE_CLAIMS);
+            $authoritative = $this->records->read($directory, $id);
         } catch (\RuntimeException) {
             throw new \RuntimeException('CLV410_PROVIDER_INVOCATION_CLAIM_INVALID');
         }
-        $expectedStatus = $operational
-            ? 'OPERATIONAL_INVOCATION_CLAIMED_DURABLE_PRE_IO'
-            : 'INVOCATION_CLAIMED_PENDING_EXTERNAL_IO';
-        $authority = $operational ? 'cognition_authority_consumption' : 'turn_authority_consumption';
+        $expectedStatus = $operational ? 'OPERATIONAL_INVOCATION_CLAIMED_DURABLE_PRE_IO'
+            : ($governance ? 'GOVERNANCE_INVOCATION_CLAIMED_DURABLE_PRE_IO' : 'INVOCATION_CLAIMED_PENDING_EXTERNAL_IO');
+        $authority = $operational ? 'cognition_authority_consumption' : ($governance ? 'governance_authority_consumption' : 'turn_authority_consumption');
         if (CanonicalJson::encode($claim) !== CanonicalJson::encode($authoritative)
             || $expectedStatus !== ($authoritative['status'] ?? null)
             || true !== ($authoritative['lease_consumption']['consumed'] ?? null)
