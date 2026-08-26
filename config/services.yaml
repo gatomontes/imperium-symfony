@@ -297,10 +297,6 @@ services:
     App\Imperium\Runtime\Sortie\SortieCognitionGateway:
         alias: App\Imperium\Runtime\Sortie\UnavailableSortieCognitionGateway
 
-    App\Imperium\Runtime\Citadel\SymfonyAiLegateCognitionGateway:
-        arguments:
-            $agent: '@ai.agent.citadel_legate_deepseek_v4_flash'
-
     App\Imperium\Runtime\Citadel\LegateCognitionGateway:
         alias: App\Imperium\Runtime\Citadel\SymfonyAiLegateCognitionGateway
 
