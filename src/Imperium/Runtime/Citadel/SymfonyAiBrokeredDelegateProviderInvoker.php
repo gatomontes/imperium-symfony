@@ -6,14 +6,14 @@ namespace App\Imperium\Runtime\Citadel;
 
 use App\Imperium\Runtime\Clavium\ProviderInvocationJournalService;
 use App\Imperium\Runtime\Clavium\ProviderResponseEnvelopeService;
+use App\Imperium\Runtime\Clavium\ClaimBoundCredentialBroker;
 use App\Imperium\Runtime\Clock;
-use App\Imperium\Runtime\LaCortine\CredentialBroker;
 use Symfony\AI\Platform\Message\MessageBag;
 
 final readonly class SymfonyAiBrokeredDelegateProviderInvoker implements DelegateProviderInvoker
 {
     public function __construct(
-        private CredentialBroker $credentialBroker,
+        private ClaimBoundCredentialBroker $credentialBroker,
         private ProviderInvocationJournalService $journal,
         private ProviderResponseEnvelopeService $responses,
         private DeepSeekDelegatePlatformAdapter $platform,
@@ -30,17 +30,11 @@ final readonly class SymfonyAiBrokeredDelegateProviderInvoker implements Delegat
     ): string {
         $this->assertClaimScope($claim, $runtimeModel);
         $configuration = ($this->configuration ?? new DeepSeekDelegateModelConfiguration())->normalize($runtimeModel, $configuration);
-        $expiresAt = new \DateTimeImmutable($claim['lease_consumption']['expires_at']);
         $providerOperationStarted = false;
         try {
-            $capability = $this->credentialBroker->issue(
-                DeepSeekDelegatePlatformAdapter::CREDENTIAL_REFERENCE,
-                $claim['claim_id'],
-                DeepSeekDelegatePlatformAdapter::OPERATION,
-                $expiresAt,
-            );
             return $this->credentialBroker->consume(
-                $capability,
+                $claim,
+                $this->clock->now(),
                 function (mixed $secret) use ($claim, $runtimeModel, $messages, $configuration, &$providerOperationStarted): string {
                     if (!is_string($secret) || '' === $secret) {
                         throw new \RuntimeException('CT321_DELEGATE_PROVIDER_CREDENTIAL_UNAVAILABLE');

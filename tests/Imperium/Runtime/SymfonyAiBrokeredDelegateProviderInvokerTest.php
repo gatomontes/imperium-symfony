@@ -7,6 +7,7 @@ namespace App\Tests\Imperium\Runtime;
 use App\Bootstrap\CanonicalJson;
 use App\Imperium\Runtime\Citadel\DeepSeekDelegatePlatformAdapter;
 use App\Imperium\Runtime\Citadel\SymfonyAiBrokeredDelegateProviderInvoker;
+use App\Imperium\Runtime\Clavium\ClaimBoundCredentialBroker;
 use App\Imperium\Runtime\Clavium\ProviderInvocationJournalService;
 use App\Imperium\Runtime\Clavium\ProviderResponseEnvelopeService;
 use App\Imperium\Runtime\Clock;
@@ -45,7 +46,7 @@ final class SymfonyAiBrokeredDelegateProviderInvokerTest extends TestCase
             }
         };
         $invoker = new SymfonyAiBrokeredDelegateProviderInvoker(
-            $broker,
+            $this->claimBroker($broker),
             new ProviderInvocationJournalService($this->root),
             new ProviderResponseEnvelopeService($this->root),
             $adapter,
@@ -87,7 +88,7 @@ final class SymfonyAiBrokeredDelegateProviderInvokerTest extends TestCase
             }
         };
         $adapter = $this->unreachableAdapter();
-        $invoker = new SymfonyAiBrokeredDelegateProviderInvoker($broker, new ProviderInvocationJournalService($this->root), new ProviderResponseEnvelopeService($this->root), $adapter, $this->clock());
+        $invoker = new SymfonyAiBrokeredDelegateProviderInvoker($this->claimBroker($broker), new ProviderInvocationJournalService($this->root), new ProviderResponseEnvelopeService($this->root), $adapter, $this->clock());
 
         try {
             $invoker->invoke($claim, 'deepseek-v4-flash', new MessageBag(Message::ofUser('bounded')), []);
@@ -112,7 +113,7 @@ final class SymfonyAiBrokeredDelegateProviderInvokerTest extends TestCase
             }
         };
         $invoker = new SymfonyAiBrokeredDelegateProviderInvoker(
-            $this->successfulBroker(),
+            $this->claimBroker($this->successfulBroker()),
             new ProviderInvocationJournalService($this->root),
             new ProviderResponseEnvelopeService($this->root),
             $adapter,
@@ -145,7 +146,7 @@ final class SymfonyAiBrokeredDelegateProviderInvokerTest extends TestCase
                 throw new \LogicException('Credential consumption must not be reached.');
             }
         };
-        $invoker = new SymfonyAiBrokeredDelegateProviderInvoker($broker, new ProviderInvocationJournalService($this->root), new ProviderResponseEnvelopeService($this->root), $this->unreachableAdapter(), $this->clock());
+        $invoker = new SymfonyAiBrokeredDelegateProviderInvoker($this->claimBroker($broker), new ProviderInvocationJournalService($this->root), new ProviderResponseEnvelopeService($this->root), $this->unreachableAdapter(), $this->clock());
 
         $this->expectExceptionMessage('CT312_DELEGATE_MODEL_CONFIGURATION_INVALID');
         $invoker->invoke($this->claim(), 'deepseek-v4-flash', new MessageBag(Message::ofUser('bounded')), ['tools' => true]);
@@ -163,6 +164,11 @@ final class SymfonyAiBrokeredDelegateProviderInvokerTest extends TestCase
                 return $providerOperation('test-secret-never-persisted');
             }
         };
+    }
+
+    private function claimBroker(CredentialBroker $credentials): ClaimBoundCredentialBroker
+    {
+        return new ClaimBoundCredentialBroker($this->root, $credentials);
     }
 
     private function unreachableAdapter(): DeepSeekDelegatePlatformAdapter
