@@ -16,6 +16,8 @@ final class ContinuousGovernanceRevocationRecordSchemaTest extends TestCase
         self::assertSame(false, $disposition['properties']['enforcement_authority_opened']['const']);
         self::assertSame(false, $disposition['properties']['state_mutated']['const']);
         self::assertSame(false, $disposition['properties']['authority_granted']['const']);
+        self::assertContains('record_digest', $disposition['required']);
+        self::assertSame('^[a-f0-9]{64}$', $disposition['properties']['record_digest']['pattern']);
         self::assertSame(true, $authority['properties']['single_use']['const']);
         self::assertSame(false, $authority['properties']['consumed']['const']);
         self::assertSame(false, $authority['properties']['continuing_authority']['const']);

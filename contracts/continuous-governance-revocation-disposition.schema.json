@@ -3,7 +3,7 @@
   "$id": "imperium.continuous-governance-revocation-disposition/v1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema", "disposition_id", "instance_id", "disposition", "competent_actor", "authority_basis", "affected_scope", "reason", "effective_at", "prior_references", "enforcement_required", "enforcement_authority_opened", "state_mutated", "authority_granted", "continuation_authority", "sealed"],
+  "required": ["schema", "disposition_id", "instance_id", "disposition", "competent_actor", "authority_basis", "affected_scope", "reason", "effective_at", "prior_references", "enforcement_required", "enforcement_authority_opened", "state_mutated", "authority_granted", "continuation_authority", "sealed", "record_digest"],
   "properties": {
     "schema": {"const": "imperium.continuous-governance-revocation-disposition/v1"},
     "disposition_id": {"type": "string", "pattern": "^revocation-disposition-[a-f0-9]{20}$"},
@@ -20,6 +20,7 @@
     "state_mutated": {"const": false},
     "authority_granted": {"const": false},
     "continuation_authority": {"const": false},
-    "sealed": {"const": true}
+    "sealed": {"const": true},
+    "record_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
   }
 }
