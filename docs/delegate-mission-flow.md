@@ -200,3 +200,7 @@ The terminal Delegate flow above remains closed at Step 69. The following sequen
 These boundaries preserve the existing constitutional split. Curia determines that one internal iteration is permitted but grants no credential or network authority. Imperator makes the independent resource-expenditure decision. Clavium validates and leases access without selecting or approving the expenditure. The durable claim is the sole pre-I/O consumption point. The broker alone resolves credentials and creates the short-lived provider adapter. The Manifestation receives only the sealed result.
 
 The implementation order, record bindings, failure matrix, and continuation prompt are canonicalized in `docs/handoffs/operational-cognition-access-lifecycle-ready.md`. System-wide credential-boundary proof remains blocked until every direct platform-bound agent is migrated and the shared environment-backed platform is removed.
+
+## Current campaign frontier
+
+This flow remains terminal at Delegate Mission Step 69. The crash-demonstration and credential-boundary programs are complete. The next program is the separately bounded Institutional Decision Integrity campaign in `docs/next-campaign-institutional-decision-integrity.md`; it creates neither Step 70 nor a new authority inside this closed flow.
