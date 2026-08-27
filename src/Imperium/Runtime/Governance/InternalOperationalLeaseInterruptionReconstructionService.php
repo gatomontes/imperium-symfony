@@ -40,8 +40,8 @@ final readonly class InternalOperationalLeaseInterruptionReconstructionService
         $authorization = $this->source(self::AUTHORIZATIONS, $lineage['bounded_execution_authorization'] ?? [], 'authorization_id');
         $request = $this->source(self::REQUESTS, $lineage['operational_cognition_request'] ?? [], 'request_id');
         $decision = $this->source(self::DECISIONS, $lineage['imperator_provider_resource_decision'] ?? [], 'decision_id');
-        $seneschal = $this->currentOccupancy(self::CURIA_OCCUPANCY, 'imperium.curia-seneschal-occupancy/v1', 'curia.seneschal', (string) ($disposition['competent_actor']['binding_id'] ?? ''), (string) ($lease['instance_id'] ?? ''));
-        $locksmith = $this->currentOccupancy(self::CLAVIUM_OCCUPANCY, 'imperium.clavium-locksmith-occupancy/v1', 'clavium.locksmith', (string) ($authority['enforcer']['binding_id'] ?? ''), (string) ($lease['instance_id'] ?? ''));
+        $seneschal = $this->boundOccupancy(self::CURIA_OCCUPANCY, 'imperium.curia-seneschal-occupancy/v1', 'curia.seneschal', $disposition['authority_basis']['source_occupancy'] ?? [], (string) ($lease['instance_id'] ?? ''));
+        $locksmith = $this->boundOccupancy(self::CLAVIUM_OCCUPANCY, 'imperium.clavium-locksmith-occupancy/v1', 'clavium.locksmith', ['id' => $authority['enforcer']['binding_id'] ?? null, 'digest' => $authority['enforcer']['binding_digest'] ?? null], (string) ($lease['instance_id'] ?? ''));
         $scope = ['kind' => 'UNCLAIMED_INTERNAL_OPERATIONAL_COGNITION_LEASE', 'lease' => ['id' => $leaseId, 'digest' => $lease['record_digest']], 'case_id' => $lease['case_id'], 'target' => $lease['target'], 'lease_consumed' => false];
         $sourceAuthorizer = $authorization['authorizer'] ?? null;
         $actor = $disposition['competent_actor'] ?? null;
@@ -117,8 +117,13 @@ final readonly class InternalOperationalLeaseInterruptionReconstructionService
             'completeness_claim' => 'NINE_ARTIFACT_OPERATIONAL_LEASE_INTERRUPTION_CHAIN_ONLY',
             'root_lease' => ['id' => $leaseId, 'digest' => $lease['record_digest']],
             'instance_id' => $lease['instance_id'],
-            'included_evidence' => ['bounded_execution_authorization' => $authorization, 'current_seneschal_occupancy' => $seneschal, 'operational_cognition_request' => $request, 'imperator_provider_resource_decision' => $decision, 'operational_cognition_lease' => $lease, 'interruption_disposition' => $disposition, 'current_locksmith_occupancy' => $locksmith, 'enforcement_authority' => $authority, 'enforcement_result' => $result],
+            'included_evidence' => ['bounded_execution_authorization' => $authorization, 'seneschal_occupancy_at_disposition' => $seneschal, 'operational_cognition_request' => $request, 'imperator_provider_resource_decision' => $decision, 'operational_cognition_lease' => $lease, 'interruption_disposition' => $disposition, 'locksmith_occupancy_at_enforcement' => $locksmith, 'enforcement_authority' => $authority, 'enforcement_result' => $result],
             'verified_artifact_count' => 9,
+            'present_occupancy_continuity' => [
+                'seneschal' => $this->isUniqueCurrentActor(self::CURIA_OCCUPANCY, 'curia.seneschal', $this->actor($seneschal), (string) $lease['instance_id']),
+                'locksmith' => $this->isUniqueCurrentActor(self::CLAVIUM_OCCUPANCY, 'clavium.locksmith', $this->actor($locksmith), (string) $lease['instance_id']),
+                'required_for_historical_reconstruction' => false,
+            ],
             'durable_invocation_claim_absent' => true,
             'read_only' => true,
             'cognition_invoked' => false,
@@ -149,22 +154,34 @@ final readonly class InternalOperationalLeaseInterruptionReconstructionService
         return $matches[0];
     }
 
-    private function currentOccupancy(string $directory, string $schema, string $seat, string $id, string $instanceId): array
+    private function boundOccupancy(string $directory, string $schema, string $seat, array $reference, string $instanceId): array
     {
-        $record = $this->record($directory, $id, 'binding_id');
+        $record = $this->source($directory, $reference, 'binding_id');
         if ($schema !== ($record['schema'] ?? null) || $seat !== ($record['seat'] ?? null)
-            || $instanceId !== ($record['instance_id'] ?? null) || 'ACTIVE' !== ($record['status'] ?? null)) {
+            || $instanceId !== ($record['instance_id'] ?? null)
+            || !is_string($record['manifestation_id'] ?? null) || !is_int($record['occupancy_generation'] ?? null)) {
             throw new \RuntimeException('OCI401_OPERATIONAL_LEASE_INTERRUPTION_RECONSTRUCTION_INVALID');
-        }
-        foreach (glob($this->root.'/'.$directory.'/*.json') ?: [] as $path) {
-            $other = $this->validator->requireIntact($this->validator->read($path, 'OCI401_OPERATIONAL_LEASE_INTERRUPTION_RECONSTRUCTION_INVALID'), 'OCI401_OPERATIONAL_LEASE_INTERRUPTION_RECONSTRUCTION_INVALID');
-            if ($seat === ($other['seat'] ?? null) && 'ACTIVE' === ($other['status'] ?? null)
-                && $instanceId === ($other['instance_id'] ?? null) && $id !== ($other['binding_id'] ?? null)) {
-                throw new \RuntimeException('OCI401_OPERATIONAL_LEASE_INTERRUPTION_RECONSTRUCTION_INVALID');
-            }
         }
 
         return $record;
+    }
+
+    private function isUniqueCurrentActor(string $directory, string $seat, array $actor, string $instanceId): bool
+    {
+        $current = [];
+        foreach (glob($this->root.'/'.$directory.'/*.json') ?: [] as $path) {
+            $other = $this->validator->requireIntact($this->validator->read($path, 'OCI401_OPERATIONAL_LEASE_INTERRUPTION_RECONSTRUCTION_INVALID'), 'OCI401_OPERATIONAL_LEASE_INTERRUPTION_RECONSTRUCTION_INVALID');
+            if ($seat === ($other['seat'] ?? null) && 'ACTIVE' === ($other['status'] ?? null)
+                && $instanceId === ($other['instance_id'] ?? null)) {
+                if (!is_string($other['binding_id'] ?? null) || !is_string($other['manifestation_id'] ?? null)
+                    || !is_int($other['occupancy_generation'] ?? null)) {
+                    return false;
+                }
+                $current[] = $other;
+            }
+        }
+
+        return 1 === count($current) && $actor === $this->actor($current[0]);
     }
 
     private function actor(array $occupancy): array
@@ -186,10 +203,10 @@ final readonly class InternalOperationalLeaseInterruptionReconstructionService
     private function withinEarliestExpiry(array $authority, array $request, array $decision, array $lease): bool
     {
         try {
-            $issuedAt = new \DateTimeImmutable((string) ($authority['issued_at'] ?? ''));
-            $expiresAt = new \DateTimeImmutable((string) ($authority['expires_at'] ?? ''));
+            $issuedAt = $this->timestamp($authority['issued_at'] ?? null);
+            $expiresAt = $this->timestamp($authority['expires_at'] ?? null);
             $earliest = min(array_map(
-                static fn (array $record): \DateTimeImmutable => new \DateTimeImmutable((string) ($record['expires_at'] ?? '')),
+                fn (array $record): \DateTimeImmutable => $this->timestamp($record['expires_at'] ?? null),
                 [$request, $decision, $lease],
             ));
 
@@ -202,13 +219,26 @@ final readonly class InternalOperationalLeaseInterruptionReconstructionService
     private function withinAuthorityWindow(array $result, array $authority): bool
     {
         try {
-            $consumedAt = new \DateTimeImmutable((string) ($result['consumed_at'] ?? ''));
+            $consumedAt = $this->timestamp($result['consumed_at'] ?? null);
 
-            return $consumedAt >= new \DateTimeImmutable((string) ($authority['issued_at'] ?? ''))
-                && $consumedAt < new \DateTimeImmutable((string) ($authority['expires_at'] ?? ''));
+            return $consumedAt >= $this->timestamp($authority['issued_at'] ?? null)
+                && $consumedAt < $this->timestamp($authority['expires_at'] ?? null);
         } catch (\Throwable) {
             return false;
         }
+    }
+
+    private function timestamp(mixed $value): \DateTimeImmutable
+    {
+        if (!is_string($value) || !preg_match('/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}$/', $value)) {
+            throw new \RuntimeException('OCI401_OPERATIONAL_LEASE_INTERRUPTION_RECONSTRUCTION_INVALID');
+        }
+        $timestamp = \DateTimeImmutable::createFromFormat(DATE_ATOM, $value);
+        if (false === $timestamp || $timestamp->format(DATE_ATOM) !== $value) {
+            throw new \RuntimeException('OCI401_OPERATIONAL_LEASE_INTERRUPTION_RECONSTRUCTION_INVALID');
+        }
+
+        return $timestamp;
     }
 
     private function source(string $directory, array $reference, string $key): array
