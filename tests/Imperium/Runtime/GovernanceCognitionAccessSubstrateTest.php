@@ -13,6 +13,7 @@ use App\Imperium\Runtime\Cognition\GovernanceCognitionAuthorityRegistry;
 use App\Imperium\Runtime\Cognition\GovernanceCognitionAuthorityResolver;
 use App\Imperium\Runtime\Cognition\GovernanceCognitionRequestService;
 use App\Imperium\Runtime\Imperator\GovernanceProviderResourceDecisionService;
+use App\Imperium\Runtime\Governance\InternalGovernanceReconstructionService;
 use PHPUnit\Framework\TestCase;
 
 final class GovernanceCognitionAccessSubstrateTest extends TestCase
@@ -68,6 +69,15 @@ final class GovernanceCognitionAccessSubstrateTest extends TestCase
         $envelope = (new ProviderResponseEnvelopeService($this->root))->seal($claim, $response, new \DateTimeImmutable('2026-08-26T18:03:30+00:00'));
         self::assertSame($response, $envelope['response']);
         self::assertSame('PROVIDER_RESPONSE_IDENTITY_SEALED_PENDING_RESULT_PROCESSING', $journal->sealResponse($claim, $response, new \DateTimeImmutable('2026-08-26T18:03:30+00:00'))['status']);
+        $reconstruction = (new InternalGovernanceReconstructionService($this->root))->reconstruct($claim['claim_id']);
+        self::assertSame('INTERNAL_GOVERNANCE_PROVIDER_ITERATION_RECONSTRUCTED', $reconstruction['status']);
+        self::assertSame(7, $reconstruction['verified_artifact_count']);
+        self::assertSame('SEVEN_ARTIFACT_INTERNAL_PROVIDER_SUBCHAIN_ONLY', $reconstruction['completeness_claim']);
+        self::assertContains('DEPLOYMENT_AND_PERSONA_CUSTODY', $reconstruction['excluded_evidence']);
+        self::assertContains('TERMINAL_RETURN_AND_RETIREMENT', $reconstruction['excluded_evidence']);
+        self::assertTrue($reconstruction['read_only']);
+        self::assertFalse($reconstruction['provider_reinvoked']);
+        self::assertFalse($reconstruction['authority_granted']);
         self::assertSame($request, $this->request());
         self::assertSame($claim, (new GovernanceCognitionInvocationClaimService($this->root, $this->registry))->claim($lease['lease_id'], $this->resolver->authority['authority_id'], new \DateTimeImmutable('2026-08-26T18:05:00+00:00')));
         $serialized = CanonicalJson::encode([$request, $decision, $lease, $claim]);
@@ -85,6 +95,14 @@ final class GovernanceCognitionAccessSubstrateTest extends TestCase
         );
         self::assertNull($decision['clavium_lease_activation_authority']);
         self::assertSame('GOVERNANCE_PROVIDER_RESOURCE_REFUSED_NO_AUTHORITY', $decision['status']);
+    }
+
+    public function testReconstructionFailsStoppedWhenProviderEvidenceIsMissing(): void
+    {
+        [, , , $claim] = $this->lifecycle();
+
+        $this->expectExceptionMessage('CAG301_INTERNAL_RECONSTRUCTION_INVALID');
+        (new InternalGovernanceReconstructionService($this->root))->reconstruct($claim['claim_id']);
     }
 
     public function testAbsentAndCrossClusterResolverFailBeforeARequestCanExist(): void
