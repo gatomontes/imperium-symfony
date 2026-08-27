@@ -146,6 +146,11 @@ separate immutable result prevents durable claim creation for the source lease w
 that the lease remains unconsumed, unmodified, and unclosed. No enforcement propagates beyond
 that lease; reconstruction remains the only missing element of the selected slice.
 
+Batch 15 adds the read-only four-artifact reconstruction for that exact lease interruption. It
+verifies the immutable lease, disposition, authority, and result and proves mechanical durable-
+claim absence. It invokes no cognition, creates no claim, mutates or closes no lease, and grants
+or propagates no authority. The selected adjacent slice is complete; campaign closeout remains.
+
 ## Starting instruction
 
 Begin from `main`. Read:
