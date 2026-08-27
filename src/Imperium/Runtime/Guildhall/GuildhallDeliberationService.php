@@ -127,6 +127,7 @@ final readonly class GuildhallDeliberationService
             throw new \RuntimeException('G69_CHECKPOINT_INVALID: deliberation checkpoint is stale or changed.');
         }
         $decision = $this->cognition->deliberate(
+            $acceptanceId,
             $plan,
             $acceptance['authorized_scope'] ?? [],
             $occupancy,
