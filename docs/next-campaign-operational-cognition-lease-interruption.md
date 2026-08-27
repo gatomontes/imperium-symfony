@@ -2,12 +2,12 @@
 
 ## Status
 
-`BATCH_2_ENFORCEMENT_AUTHORITY_COMPLETE_BATCH_3_UNOPENED`
+`BATCH_3_NATIVE_ENFORCEMENT_COMPLETE_BATCH_4_UNOPENED`
 
 This document governs the smallest separately prepared continuation after the terminal Continuous
 Agent Governance Controls campaign. Preparation Batch 0, the exact Batch 1 disposition, and the
-Batch 2 single-use Locksmith authority are complete. Batch 3 native admission enforcement remains
-unopened, and generalized revocation is not adopted.
+Batch 2 single-use Locksmith authority, and Batch 3 native admission enforcement/result are
+complete. Batch 4 reconstruction remains unopened, and generalized revocation is not adopted.
 
 ## Selected boundary
 
@@ -71,6 +71,13 @@ service. It appoints the unique current Locksmith for one exact denial transitio
 earliest live source bound, and grants no claim, cognition, credential, journal, network,
 lease-mutation, propagation, or continuing authority.
 
+## Batch 3 result
+
+Batch 3 consumes only the interruption authority under `oca-lease:<hash leaseId>`, seals the exact
+immutable absence result, and installs the result consumer inside
+`OperationalCognitionInvocationClaimService`. Process-level contention proves exclusive
+claim-first and enforcement-first outcomes with no partial artifacts.
+
 ## Provisional implementation sequence
 
 No implementation step below is authorized merely because it is listed. After Preparation Batch 0,
@@ -80,9 +87,9 @@ each requires a separate batch and preserved stop condition:
    lease mutation;
 2. **Complete in Batch 2:** one separately opened, expiring, single-use authority for the exact
    current Locksmith;
-3. **Unopened:** one native `OperationalCognitionInvocationClaimService` admission consumer and
-   immutable result;
-4. one read-only reconstruction of request lineage, lease, disposition, authority, result, and
+3. **Complete in Batch 3:** one native `OperationalCognitionInvocationClaimService` admission
+   consumer and immutable result;
+4. **Unopened:** one read-only reconstruction of request lineage, lease, disposition, authority, result, and
    mechanical durable-claim absence; and
 5. documentation-only closeout.
 
@@ -101,5 +108,5 @@ authorized future boundaries.
 ## New-chat continuation
 
 The active continuation handoff is
-`docs/handoffs/operational-cognition-lease-interruption-batch-2-complete.md`. It is subordinate to
-this campaign contract and leaves Batch 3 unopened.
+`docs/handoffs/operational-cognition-lease-interruption-batch-3-complete.md`. It is subordinate to
+this campaign contract and leaves Batch 4 unopened.
