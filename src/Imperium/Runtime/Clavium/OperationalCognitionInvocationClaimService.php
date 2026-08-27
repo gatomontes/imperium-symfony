@@ -9,6 +9,7 @@ use App\Imperium\Runtime\Persistence\AtomicTransition;
 use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
 use App\Imperium\Runtime\Persistence\ReplayFingerprint;
 use App\Imperium\Runtime\Persistence\RecordReferenceValidator;
+use App\Imperium\Runtime\Governance\InternalCognitionLeaseControls;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class OperationalCognitionInvocationClaimService
@@ -126,6 +127,8 @@ final readonly class OperationalCognitionInvocationClaimService
 
     private function validate(string $leaseId, array $lease, array $decision, array $request, string $cognitionAuthorityId, \DateTimeImmutable $claimedAt): void
     {
+        $controls = $lease['continuous_governance_controls'] ?? null;
+        $controlsInvalid = null !== $controls && !InternalCognitionLeaseControls::isExactOperational($controls, $decision, $request, (string) ($lease['issued_at'] ?? ''), (string) ($lease['expires_at'] ?? ''));
         if (!$this->validator->isIntact($lease)
             || 'imperium.clavium-operational-cognition-lease/v1' !== ($lease['schema'] ?? null)
             || $leaseId !== ($lease['lease_id'] ?? null)
@@ -133,6 +136,7 @@ final readonly class OperationalCognitionInvocationClaimService
             || true !== ($lease['opaque'] ?? null)
             || true !== ($lease['lease_single_use'] ?? null)
             || false !== ($lease['lease_consumed'] ?? null)
+            || $controlsInvalid
             || new \DateTimeImmutable((string) ($lease['expires_at'] ?? '1970-01-01')) <= $claimedAt
             || true === ($lease['credential_reference_disclosed'] ?? null)
             || true === ($lease['credential_material_present'] ?? null)

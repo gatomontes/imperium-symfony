@@ -29,6 +29,10 @@ final class OperationalCognitionLeaseServiceTest extends TestCase
             self::assertSame('deepseek', $lease['provider']);
             self::assertSame('deepseek-v4-flash', $lease['model']);
             self::assertSame(1, $lease['iteration']);
+            self::assertSame('OPERATIONAL_COGNITION', $lease['continuous_governance_controls']['lease_family']);
+            self::assertSame('DURABLE_INVOCATION_CLAIM', $lease['continuous_governance_controls']['freshness']['revalidation_checkpoint']);
+            self::assertSame('UNASSIGNED_DEFERRED_BOUNDARY', $lease['continuous_governance_controls']['revocation']['status']);
+            self::assertFalse($lease['continuous_governance_controls']['revocation']['propagation_implemented']);
             foreach (['credential_reference_disclosed', 'credential_material_present', 'credential_possession_transferred', 'credential_use_authority', 'network_access_authority', 'provider_invocation_authority', 'execution_continuation_authority'] as $field) {
                 self::assertFalse($lease[$field]);
             }

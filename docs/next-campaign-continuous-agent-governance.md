@@ -98,6 +98,13 @@ integrity bundle, Delegate pre-deployment governance, deployment, custody, retir
 post-provider result, external effects, telemetry, revocation, containment, and incidents;
 none may be inferred as validated.
 
+Batch 4 adopts `imperium.internal-cognition-lease-controls/v1` on newly issued operational and
+governance cognition leases. It normalizes freshness evidence, exact scope, supersession,
+invalidation, and stop conditions and revalidates that metadata at durable-claim time. The
+revocation posture is explicitly `UNASSIGNED_DEFERRED_BOUNDARY`: no revoker is appointed, no
+lease is closed, and no propagation or kill-switch path exists. Historical immutable leases
+remain under their original contracts and are not rewritten.
+
 ## Starting instruction
 
 Begin from `main`. Read:

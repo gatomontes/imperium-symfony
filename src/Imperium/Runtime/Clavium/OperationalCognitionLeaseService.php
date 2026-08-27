@@ -8,6 +8,7 @@ use App\Bootstrap\CanonicalJson;
 use App\Imperium\Runtime\Persistence\AtomicTransition;
 use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
 use App\Imperium\Runtime\Persistence\RecordReferenceValidator;
+use App\Imperium\Runtime\Governance\InternalCognitionLeaseControls;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class OperationalCognitionLeaseService
@@ -90,6 +91,7 @@ final readonly class OperationalCognitionLeaseService
             'iteration' => $request['iteration'],
             'issued_at' => $issuedAt->format(DATE_ATOM),
             'expires_at' => $expiresAt->format(DATE_ATOM),
+            'continuous_governance_controls' => InternalCognitionLeaseControls::operational($decision, $request, $issuedAt->format(DATE_ATOM), $expiresAt->format(DATE_ATOM)),
             'status' => 'OPERATIONAL_COGNITION_LEASE_ISSUED_PENDING_DURABLE_INVOCATION_CLAIM',
             'opaque' => true,
             'lease_single_use' => true,
