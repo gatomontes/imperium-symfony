@@ -1,5 +1,12 @@
 # Continuous Agent Governance Controls
 
+## Campaign disposition
+
+The bounded campaign is terminal through Batch 16. Its implemented internal controls and proof
+matrix are recorded in `docs/handoffs/continuous-agent-governance-controls-campaign-complete.md`.
+Unchecked items below are not silently authorized backlog: many remain `EXISTS_FRAGMENTED`,
+`ABSENT`, or `DEFERRED_BOUNDARY` and require a separately prepared campaign before implementation.
+
 ## Purpose
 
 Imperium must produce governance evidence as a consequence of operating, not as a report reconstructed after the mission. External action increases the required control strength, but governance begins before an operative can act: recommendations, planning, personnel selection, evidence handling, and authorization can already affect consequential human decisions.
