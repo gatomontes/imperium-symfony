@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace App\Imperium\Runtime\Curia;
 
+use App\Bootstrap\BootstrapState;
 use App\Bootstrap\CanonicalJson;
+use App\Bootstrap\StateStore;
 use App\Imperium\Runtime\Cognition\GovernanceCognitionAuthorityResolver;
 use App\Imperium\Runtime\Persistence\RecordReferenceValidator;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -16,6 +18,7 @@ final readonly class CurianGovernanceCognitionAuthorityResolver implements Gover
     public function __construct(
         #[Autowire('%kernel.project_dir%')] private string $root,
         private ProceedingStore $proceedings,
+        private StateStore $bootstrap,
         ?RecordReferenceValidator $validator = null,
     ) {
         $this->directory = $root.'/var/imperium/curia/cognition-authorities';
@@ -48,6 +51,9 @@ final readonly class CurianGovernanceCognitionAuthorityResolver implements Gover
             || !is_string($seneschal['manifestation_id'] ?? null) || !is_int($seneschal['occupancy_generation'] ?? null)) {
             throw new \RuntimeException('GCA912_CURIAN_AUTHORITY_INVALID');
         }
+        if (CanonicalJson::encode($seneschal) !== CanonicalJson::encode($this->currentSeneschal($source['instance_id'] ?? null))) {
+            throw new \RuntimeException('GCA913_CURIAN_LINEAGE_INVALID');
+        }
         if ('deliberation-turn' === $type) {
             $proceeding = $this->proceedings->find((string) ($source['proceeding_id'] ?? ''));
             if (!is_array($proceeding) || !$this->intact($proceeding)
@@ -69,6 +75,28 @@ final readonly class CurianGovernanceCognitionAuthorityResolver implements Gover
             'single_use' => true, 'exercisable' => true, 'consumed' => $this->consumed($source),
             'expires_at' => '9999-12-31T23:59:59+00:00',
         ];
+    }
+
+    private function currentSeneschal(mixed $instanceId): array
+    {
+        $bootstrap = $this->bootstrap->read();
+        if (!is_array($bootstrap) || BootstrapState::CuriaReady->value !== ($bootstrap['state'] ?? null)
+            || $instanceId !== ($bootstrap['binding']['instance_id'] ?? null)) {
+            throw new \RuntimeException('GCA913_CURIAN_LINEAGE_INVALID');
+        }
+        for ($index = count($bootstrap['events'] ?? []) - 1; $index >= 0; --$index) {
+            $event = $bootstrap['events'][$index];
+            $actor = $event['output']['runtime']['occupants']['seneschal'] ?? null;
+            if ('T10' === ($event['transition'] ?? null) && 'SUCCESS' === ($event['result'] ?? null)
+                && is_array($actor) && 'active' === ($actor['status'] ?? null)) {
+                return [
+                    'seat' => 'curia.seneschal',
+                    'manifestation_id' => $actor['manifestation_id'],
+                    'occupancy_generation' => $actor['occupancy_generation'],
+                ];
+            }
+        }
+        throw new \RuntimeException('GCA913_CURIAN_LINEAGE_INVALID');
     }
 
     private function consumed(array $source): bool
