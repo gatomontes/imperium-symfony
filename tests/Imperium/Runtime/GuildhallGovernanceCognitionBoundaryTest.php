@@ -28,7 +28,7 @@ final class GuildhallGovernanceCognitionBoundaryTest extends TestCase
             self::assertStringContainsString($authority, $resolver);
         }
         self::assertStringContainsString('GCA803_GUILDHALL_PREDECESSOR_INVALID', $resolver);
-        self::assertStringContainsString("'consumed' => $this->consumed($id, $stage)", $resolver);
+        self::assertStringContainsString("'consumed' => \\$this->consumed(\\$id, \\$stage)", $resolver);
         self::assertStringContainsString('GovernanceCognitionInvoker', $gateway);
         self::assertStringNotContainsString('AgentInterface', $gateway);
         self::assertStringContainsString('GuildhallGovernanceCognitionAuthorityResolver', $services);
