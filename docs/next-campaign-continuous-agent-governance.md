@@ -89,6 +89,15 @@ the Batch 1 consequence and principal references, and explicitly records that no
 attempted and no effect completed. It is not telemetry, does not replace the native judgment,
 and grants or consumes no authority.
 
+Batch 3 adds the read-only `imperium.continuous-governance-internal-reconstruction/v1` view for
+one completed internal governance-provider iteration. It verifies exactly seven native
+artifacts from the Batch 2 event and classified request through Imperator decision, Clavium
+lease, durable claim, provider journal, and response envelope. Missing or substituted evidence
+fails stopped. The view mechanically excludes the cluster-native authority record, decision-
+integrity bundle, Delegate pre-deployment governance, deployment, custody, retirement, native
+post-provider result, external effects, telemetry, revocation, containment, and incidents;
+none may be inferred as validated.
+
 ## Starting instruction
 
 Begin from `main`. Read:
