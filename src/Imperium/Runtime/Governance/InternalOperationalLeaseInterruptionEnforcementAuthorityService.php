@@ -67,24 +67,8 @@ final readonly class InternalOperationalLeaseInterruptionEnforcementAuthoritySer
             }
             $enforcer = $this->currentActor(self::CLAVIUM_OCCUPANCY, 'imperium.clavium-locksmith-occupancy/v1', 'clavium.locksmith', $locksmithBindingId, (string) $disposition['instance_id'], 'OCI204_LOCKSMITH_ENFORCER_NOT_CURRENT');
             $this->assertNoClaim($leaseId);
-
-            foreach (glob($this->root.'/'.self::AUTHORITIES.'/*.json') ?: [] as $path) {
-                $prior = $this->validator->requireIntact($this->validator->read($path, 'OCI206_OPERATIONAL_LEASE_ENFORCEMENT_AUTHORITY_CONFLICT'), 'OCI206_OPERATIONAL_LEASE_ENFORCEMENT_AUTHORITY_CONFLICT');
-                if (($prior['source_disposition']['id'] ?? null) !== $dispositionId) {
-                    continue;
-                }
-                if (($prior['source_disposition']['digest'] ?? null) !== $disposition['record_digest']
-                    || ($prior['issuer'] ?? null) !== $issuer || ($prior['enforcer'] ?? null) !== $enforcer
-                    || 'DENY_DURABLE_OPERATIONAL_INVOCATION_CLAIM_FOR_EXACT_LEASE' !== ($prior['permitted_transition'] ?? null)) {
-                    throw new \RuntimeException('OCI206_OPERATIONAL_LEASE_ENFORCEMENT_AUTHORITY_CONFLICT');
-                }
-
-                return $prior;
-            }
-
             $authorityId = 'operational-lease-interruption-enforcement-authority-'.substr(hash('sha256', CanonicalJson::encode([$dispositionId, $disposition['record_digest'], $issuer, $enforcer])), 0, 20);
-
-            return $this->records->put(self::AUTHORITIES, $authorityId, [
+            $expected = [
                 'schema' => 'imperium.operational-cognition-lease-interruption-enforcement-authority/v1',
                 'authority_id' => $authorityId,
                 'instance_id' => $disposition['instance_id'],
@@ -111,7 +95,23 @@ final readonly class InternalOperationalLeaseInterruptionEnforcementAuthoritySer
                 'external_action_authority' => false,
                 'perimeter_authority' => false,
                 'sealed' => true,
-            ]);
+            ];
+
+            foreach (glob($this->root.'/'.self::AUTHORITIES.'/*.json') ?: [] as $path) {
+                $prior = $this->validator->requireIntact($this->validator->read($path, 'OCI206_OPERATIONAL_LEASE_ENFORCEMENT_AUTHORITY_CONFLICT'), 'OCI206_OPERATIONAL_LEASE_ENFORCEMENT_AUTHORITY_CONFLICT');
+                if (($prior['source_disposition']['id'] ?? null) !== $dispositionId) {
+                    continue;
+                }
+                $comparison = $prior;
+                unset($comparison['record_digest']);
+                if ($comparison !== $expected) {
+                    throw new \RuntimeException('OCI206_OPERATIONAL_LEASE_ENFORCEMENT_AUTHORITY_CONFLICT');
+                }
+
+                return $prior;
+            }
+
+            return $this->records->put(self::AUTHORITIES, $authorityId, $expected);
         });
     }
 
