@@ -31,8 +31,8 @@ final class CurianGovernanceCognitionBoundaryTest extends TestCase
         self::assertStringContainsString('CurianGovernanceCognitionAuthorityResolver', $services);
         self::assertStringNotContainsString('@ai.agent.seneschal', $services);
         self::assertStringNotContainsString('seneschal:', $ai);
-        self::assertSame(['sortie'], array_column($inventory['definitions'], 'agent'));
-        self::assertFalse($inventory['system_wide_gate_closed']);
-        self::assertCount(2, $inventory['platform_definitions']);
+        self::assertSame([], array_column($inventory['definitions'], 'agent'));
+        self::assertTrue($inventory['system_wide_gate_closed']);
+        self::assertSame([], $inventory['platform_definitions']);
     }
 }
