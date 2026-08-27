@@ -53,6 +53,10 @@ final class DecisionIntegrityValidationAndPersistenceTest extends TestCase
         $this->expectFailure('DI104_CONTEXT_FREE_DECISION_PROMPT', static fn () => $validator->validate($surface));
 
         $surface = $this->surface();
+        $surface['decision_question'] = 'Would you like to proceed with this matter?';
+        $this->expectFailure('DI104_CONTEXT_FREE_DECISION_PROMPT', static fn () => $validator->validate($surface));
+
+        $surface = $this->surface();
         $surface['evidence'][0]['expires_at'] = '2026-08-27T11:59:59+00:00';
         $this->expectFailure('DI103_STALE_EVIDENCE', static fn () => $validator->validate($surface));
     }

@@ -20,11 +20,13 @@ final readonly class DelegatePersonnelUseDecisionIntegrityAdapter
 
     private DecisionIntegrityRecordStore $store;
     private DecisionSurfaceAssembler $assembler;
+    private DecisionIntegrityReconstructionService $reconstruction;
 
     public function __construct(#[Autowire('%kernel.project_dir%')] string $root, ?DecisionIntegrityRecordStore $store = null)
     {
         $this->store = $store ?? new DecisionIntegrityRecordStore($root);
         $this->assembler = new DecisionSurfaceAssembler($this->store);
+        $this->reconstruction = new DecisionIntegrityReconstructionService($this->store);
     }
 
     public function presentSurface(string $requestId, array $resolution, array $intake, array $demand, array $garrisonResponse, \DateTimeImmutable $presentedAt): array
@@ -180,16 +182,12 @@ final readonly class DelegatePersonnelUseDecisionIntegrityAdapter
         if (!is_array($reference) || !is_string($reference['id'] ?? null) || !is_string($reference['digest'] ?? null)) {
             throw new \RuntimeException('DI172_PERSONNEL_USE_DECISION_RECORD_INVALID');
         }
-        $record = $this->store->readDecision($reference['id']);
-        $surface = $this->store->readSurface($record['source_decision_surface']['id']);
-        $universe = $this->store->readOptionUniverse($surface['source_option_universe']['id']);
-        $directive = $this->store->readPresentationDirective($surface['source_presentation_directive']['id']);
+        $reconstruction = $this->reconstruction->reconstruct($reference['id']);
+        $record = $reconstruction['decision_record'];
+        $surface = $reconstruction['decision_surface'];
         $expectedGranted = 'AUTHORIZED' === $legacyDecision['disposition'] ? ['ACCEPT_ONE_EXACT_AUTHORIZED_DELEGATE_PERSONNEL_COMMITMENT'] : [];
         $expectedLimitations = null === $legacyDecision['limitations'] ? [] : [$legacyDecision['limitations']];
         if ($record['record_digest'] !== $reference['digest']
-            || $surface['record_digest'] !== $record['source_decision_surface']['digest']
-            || $universe['record_digest'] !== $surface['source_option_universe']['digest']
-            || $directive['record_digest'] !== $surface['source_presentation_directive']['digest']
             || $record['instance_id'] !== $legacyDecision['instance_id']
             || $record['decision']['disposition'] !== $legacyDecision['disposition']
             || $record['decision']['granted_authority'] !== $expectedGranted
