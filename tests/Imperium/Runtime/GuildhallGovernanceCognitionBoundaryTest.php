@@ -36,8 +36,8 @@ final class GuildhallGovernanceCognitionBoundaryTest extends TestCase
         foreach (['guildhall_disciplinary_fit:', 'guildhall_composition:', 'guildhall_boundary_challenge:', 'guildmaster:'] as $definition) {
             self::assertStringNotContainsString($definition, $ai);
         }
-        self::assertSame(['seneschal', 'sortie'], array_column($inventory['definitions'], 'agent'));
-        self::assertFalse($inventory['system_wide_gate_closed']);
-        self::assertCount(2, $inventory['platform_definitions']);
+        self::assertSame([], array_column($inventory['definitions'], 'agent'));
+        self::assertTrue($inventory['system_wide_gate_closed']);
+        self::assertSame([], $inventory['platform_definitions']);
     }
 }
