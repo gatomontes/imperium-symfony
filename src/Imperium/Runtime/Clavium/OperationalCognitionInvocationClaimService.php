@@ -10,6 +10,7 @@ use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
 use App\Imperium\Runtime\Persistence\ReplayFingerprint;
 use App\Imperium\Runtime\Persistence\RecordReferenceValidator;
 use App\Imperium\Runtime\Governance\InternalCognitionLeaseControls;
+use App\Imperium\Runtime\Governance\OperationalLeaseInterruptionAdmissionGuard;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class OperationalCognitionInvocationClaimService
@@ -21,16 +22,19 @@ final readonly class OperationalCognitionInvocationClaimService
     private RecordReferenceValidator $validator;
     private ImmutableRecordStore $records;
     private AtomicTransition $atomic;
+    private OperationalLeaseInterruptionAdmissionGuard $interruptionGuard;
 
     public function __construct(
         #[Autowire('%kernel.project_dir%')] private string $root,
         ?RecordReferenceValidator $validator = null,
         ?ImmutableRecordStore $records = null,
         ?AtomicTransition $atomic = null,
+        ?OperationalLeaseInterruptionAdmissionGuard $interruptionGuard = null,
     ) {
         $this->validator = $validator ?? new RecordReferenceValidator($root);
         $this->atomic = $atomic ?? new AtomicTransition($root);
         $this->records = $records ?? new ImmutableRecordStore($root, $this->atomic);
+        $this->interruptionGuard = $interruptionGuard ?? new OperationalLeaseInterruptionAdmissionGuard($root);
     }
 
     public function claim(string $leaseId, string $cognitionAuthorityId, \DateTimeImmutable $claimedAt): array
@@ -52,6 +56,7 @@ final readonly class OperationalCognitionInvocationClaimService
     private function claimWhileLocked(string $leaseId, string $cognitionAuthorityId, \DateTimeImmutable $claimedAt): array
     {
         $lease = $this->validator->read($this->root.'/'.self::LEASES.'/'.$leaseId.'.json', 'OCA401_OPERATIONAL_COGNITION_LEASE_ABSENT');
+        $this->interruptionGuard->assertMayCreateClaim($lease);
         $decision = $this->validator->resolve($this->root.'/'.self::DECISIONS, $lease['source_provider_resource_decision'] ?? [], 'OCA402_PROVIDER_RESOURCE_DECISION_ABSENT', 'OCA403_OPERATIONAL_INVOCATION_CLAIM_CHAIN_INVALID', 'decision_id');
         $request = $this->validator->resolve($this->root.'/'.self::REQUESTS, $lease['source_cognition_request'] ?? [], 'OCA404_OPERATIONAL_COGNITION_REQUEST_ABSENT', 'OCA403_OPERATIONAL_INVOCATION_CLAIM_CHAIN_INVALID', 'request_id');
         $this->validate($leaseId, $lease, $decision, $request, $cognitionAuthorityId, $claimedAt);
