@@ -26,7 +26,7 @@ transition, and no other runtime principal or custodian.
 
 | Candidate scope | Existing canonical substrate | Classification | Decision and exact gap |
 | --- | --- | --- | --- |
-| Unclaimed governance cognition lease | Immutable, expiring, single-use `imperium.clavium-governance-cognition-lease/v1`; exact Locksmith issuer; claim service is the sole next consumer | `ABSENT` | `SELECTED_NEXT`. No lease-scoped disposition, authority, result, claim-admission guard, or reconstruction exists. |
+| Unclaimed governance cognition lease | Immutable, expiring, single-use `imperium.clavium-governance-cognition-lease/v1`; exact Locksmith issuer; claim service is the sole next consumer | `EXISTS_FRAGMENTED` | `IN_PROGRESS_SELECTED_SCOPE`. Batch 12 adds the lease-scoped disposition only; authority, result, claim-admission guard, and reconstruction remain absent. |
 | Durable pre-I/O governance cognition claim | Batches 7–10 disposition, authority, result, admission guard, and four-artifact reconstruction | `EXISTS_CANONICALLY` | Complete only for exact provider-journal admission; do not widen it. |
 | Unclaimed operational cognition lease | Parallel immutable lease and durable-claim boundary | `EXISTS_FRAGMENTED` | Defer until the governance lease slice proves the reusable shape; competent judgment and operational lineage require separate validation. |
 | Active Manifestation or Seat binding | Conscription activation and occupancy records | `EXISTS_FRAGMENTED` | Requires a different native custodian and state transition; not adjacent to Clavium claim admission. |
