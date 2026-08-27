@@ -18,3 +18,5 @@ For the current Delegate Mission state, read in this order:
 `docs/handoffs/operational-cognition-access-lifecycle-ready.md` and the numbered credential-boundary handoffs are historical execution records. They are not active continuation prompts.
 
 Historical step handoffs remain retained for provenance. When historical prose conflicts with a current contract or canonical document, the current contract or canonical document governs.
+
+The active continuation prompt is `docs/handoffs/institutional-decision-integrity-campaign-ready.md`. Its campaign contract is `docs/next-campaign-institutional-decision-integrity.md`. The credential-boundary campaign remains terminal.
