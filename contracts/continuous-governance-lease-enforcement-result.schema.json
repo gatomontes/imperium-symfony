@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "imperium.continuous-governance-lease-enforcement-result/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "result_id", "instance_id", "source_authority", "source_disposition", "enforcer", "affected_scope", "performed_transition", "consumed_at", "authority_consumed", "claim_created", "lease_consumed", "lease_mutated", "lease_closed", "credential_mutated", "propagation_performed", "continuation_authority", "sealed", "record_digest"],
+  "properties": {
+    "schema": {"const": "imperium.continuous-governance-lease-enforcement-result/v1"},
+    "result_id": {"type": "string", "pattern": "^revocation-lease-enforcement-result-[a-f0-9]{20}$"},
+    "instance_id": {"type": "string", "minLength": 1},
+    "source_authority": {"type": "object"}, "source_disposition": {"type": "object"},
+    "enforcer": {"type": "object"}, "affected_scope": {"type": "object"},
+    "performed_transition": {"const": "DENY_DURABLE_GOVERNANCE_INVOCATION_CLAIM_FOR_EXACT_LEASE"},
+    "consumed_at": {"type": "string", "format": "date-time"},
+    "authority_consumed": {"const": true}, "claim_created": {"const": false},
+    "lease_consumed": {"const": false}, "lease_mutated": {"const": false},
+    "lease_closed": {"const": false}, "credential_mutated": {"const": false},
+    "propagation_performed": {"const": false}, "continuation_authority": {"const": false},
+    "sealed": {"const": true}, "record_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}
