@@ -2,6 +2,19 @@
 
 This is a separately bounded runtime-remediation program. It is neither Crash Demonstration 5, Delegate Mission Step 70, nor Runtime Integrity Hardening Step 36.
 
+## Current status — complete
+
+The program closed in Batch 17 at merged commit `12a8eed1f6b592ff8975133794b33e65ff04287f`.
+
+- all direct Symfony AI agent definitions and injections are removed;
+- the final credential-bearing Symfony platform definition is removed;
+- authenticated DeepSeek platform construction exists only inside the classified adapter;
+- all five provider callers are explicitly claim-bound;
+- the executable repository-wide bypass scan is green;
+- `system_wide_gate_closed=true`.
+
+The migration narrative below is retained as historical progression. It does not authorize another batch inside this terminal program. The terminal handoff is `docs/handoffs/credential-boundary-remediation-complete.md`.
+
 ## Exact boundary
 
 Credential material may be resolved only inside a broker consumption callback for a capability issued by that exact broker instance. Cognitive callers receive neither the credential reference nor its value. Provider adapters receive the secret only for the duration of the exact authenticated operation.
@@ -34,7 +47,7 @@ The migration must not place credentials, environment dumps, or credential-adjac
 
 The Citadel Legate gateway is the first direct Symfony-agent consumer removed from the credential-bearing platform. Its existing activation and at-most-once claim are now reread by a Legate-specific claim-bound Clavium broker before the DeepSeek adapter can receive a credential. The removed agent service can no longer be injected as a bypass.
 
-Batch 13 is complete. Six direct definitions remain: four Guildhall agents, the Curia Seneschal, and the separately configured La Cortine sortie agent. Two credential-bearing platform definitions remain. The ordered remainder is Guildhall, Curia, La Cortine, then global platform removal and the final bypass proof. The system-wide evidence gate remains open.
+Historical checkpoint after Batch 13: six direct definitions and two credential-bearing platform definitions remained. Batches 14–17 subsequently migrated Guildhall, Curia, and La Cortine, removed the global platform, installed the final bypass proof, and closed the system-wide gate.
 
 ## Next bounded lifecycle: Operational Cognition Access
 
