@@ -8,7 +8,10 @@ use App\Bootstrap\CanonicalJson;
 
 final readonly class DecisionSurfaceAssembler
 {
-    public function __construct(private DecisionIntegrityRecordStore $store)
+    public function __construct(
+        private DecisionIntegrityRecordStore $store,
+        private DecisionSurfaceMaterialFactsFingerprint $materialFacts = new DecisionSurfaceMaterialFactsFingerprint(),
+    )
     {
     }
 
@@ -51,20 +54,9 @@ final readonly class DecisionSurfaceAssembler
 
         $sourceUniverse = ['id' => $universe['universe_id'], 'digest' => $universe['record_digest']];
         $sourceDirective = ['id' => $directive['directive_id'], 'digest' => $directive['record_digest']];
-        $fingerprint = hash('sha256', CanonicalJson::encode([
-            'source_option_universe' => $sourceUniverse,
-            'source_presentation_directive' => $sourceDirective,
-            'categories' => array_intersect_key($directive, array_flip(DecisionSurfacePresentationDirectiveContract::CATEGORIES)),
-            'requested_authority' => $directive['requested_authority'],
-            'authority_not_requested' => $directive['authority_not_requested'],
-            'limitations' => $directive['limitations'],
-            'expires_at' => $directive['expires_at'],
-            'evidence' => array_map(static fn (array $item): array => ['artifact_id' => $item['artifact_id'], 'record_digest' => $item['record_digest']], $evidence),
-        ]));
-        $surfaceId = 'decision-surface-'.substr(hash('sha256', CanonicalJson::encode([$sourceUniverse, $sourceDirective, $fingerprint])), 0, 20);
         $surface = [
             'schema' => InstitutionalDecisionSurfaceContract::SCHEMA,
-            'surface_id' => $surfaceId,
+            'surface_id' => '',
             'instance_id' => $universe['instance_id'],
             'proceeding_id' => $universe['proceeding_id'],
             'source_option_universe' => $sourceUniverse,
@@ -85,7 +77,7 @@ final readonly class DecisionSurfaceAssembler
             'authority_not_requested' => $directive['authority_not_requested'],
             'limitations' => $directive['limitations'],
             'expires_at' => $directive['expires_at'],
-            'material_facts_fingerprint' => $fingerprint,
+            'material_facts_fingerprint' => '',
             'allowed_dispositions' => $directive['allowed_dispositions'],
             'authorization_state' => [
                 'decision_pending' => true,
@@ -96,6 +88,8 @@ final readonly class DecisionSurfaceAssembler
             'presented_at' => $presentedAt->format(DATE_ATOM),
             'sealed' => true,
         ];
+        $surface['material_facts_fingerprint'] = $this->materialFacts->fingerprint($surface);
+        $surface['surface_id'] = 'decision-surface-'.substr(hash('sha256', CanonicalJson::encode([$sourceUniverse, $sourceDirective, $surface['material_facts_fingerprint']])), 0, 20);
 
         return $this->store->putSurface($surface);
     }

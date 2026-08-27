@@ -7,6 +7,8 @@ namespace App\Tests\Imperium\Runtime;
 use App\Bootstrap\CanonicalJson;
 use App\Imperium\Runtime\DecisionIntegrity\DecisionIntegrityRecordStore;
 use App\Imperium\Runtime\DecisionIntegrity\DecisionSurfaceAssembler;
+use App\Imperium\Runtime\DecisionIntegrity\DecisionSurfaceMaterialChangeDetector;
+use App\Imperium\Runtime\DecisionIntegrity\DecisionSurfaceMaterialFactsFingerprint;
 use App\Imperium\Runtime\DecisionIntegrity\DecisionSurfaceOptionUniverseContract;
 use App\Imperium\Runtime\DecisionIntegrity\DecisionSurfacePresentationDirectiveContract;
 use App\Imperium\Runtime\DecisionIntegrity\InstitutionalDecisionSurfaceContract;
@@ -111,6 +113,33 @@ final class DecisionSurfaceAssemblerTest extends TestCase
             self::assertSame($first, $replay);
             self::assertFalse($replay['authorization_state']['authority_granted']);
             self::assertFalse($replay['authorization_state']['decision_inferred']);
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testMaterialChangeMakesPriorConsentStaleWithoutContinuationAuthority(): void
+    {
+        $root = $this->root();
+        try {
+            $universe = $this->universe();
+            $directive = $this->directive($universe);
+            $prior = (new DecisionSurfaceAssembler(new DecisionIntegrityRecordStore($root)))->assemble($universe, $directive, new \DateTimeImmutable('2026-08-27T12:00:00+00:00'));
+            $current = $prior;
+            unset($current['record_digest']);
+            $current['surface_id'] = 'decision-surface-bbbbbbbbbbbbbbbbbbbb';
+            $current['material_consequences'] = 'The exact downstream consequence has materially changed.';
+            $current['material_facts_fingerprint'] = (new DecisionSurfaceMaterialFactsFingerprint())->fingerprint($current);
+            $current = $this->seal($current);
+
+            $assessment = (new DecisionSurfaceMaterialChangeDetector())->assess($prior, $current);
+
+            self::assertSame('FRESH_DECISION_SURFACE_REQUIRED', $assessment['status']);
+            self::assertSame(['consequences'], $assessment['changed_material_fact_categories']);
+            self::assertTrue($assessment['prior_consent_stale']);
+            self::assertTrue($assessment['fresh_decision_surface_required']);
+            self::assertFalse($assessment['authority_granted']);
+            self::assertFalse($assessment['continuation_authority']);
         } finally {
             $this->remove($root);
         }

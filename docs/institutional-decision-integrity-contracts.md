@@ -51,3 +51,13 @@ All six existing dispositions are materially presented. The surface explains tha
 Guildhall now refuses to consume the legacy authorization unless the canonical record and its persisted option-universe, presentation directive, surface, request, disposition, limitations, resulting state, granted authority, and Guildhall authority lineage are intact and mutually consistent. The canonical record accompanies and binds the existing judgment; it neither replaces the judgment nor creates a second authority.
 
 No other Imperator boundary or institutional lifecycle adopts these contracts in Batch 4.
+
+## Batch 5 material change and reauthorization
+
+Batch 5 defines the material-facts comparison as nine explicit categories: options; consequences; evidence and its option bindings; risk; decision scope and recommendation; limitations; expiry; decision recipient; and requested authority. Newly assembled surfaces derive their material-facts fingerprint from exactly those categories. Presentation time, storage identity, and source-record identity are not themselves material facts, while a changed evidence digest or option-to-evidence binding is material.
+
+The mechanical material-change detector validates both sealed surfaces, requires the same instance and proceeding, and reports the exact changed categories. Any change marks prior consent stale and returns `FRESH_DECISION_SURFACE_REQUIRED`. That assessment grants no authority and specifically grants no continuation authority. The fresh surface remains decision-pending and non-authorizing until the existing Imperator checkpoint records a new explicit disposition.
+
+Historical Batch 4 surfaces remain readable under their sealed v1 source-bound fingerprints. Batch 5 does not reinterpret, rewrite, or invalidate an artifact merely because its fingerprint predates the exact semantic comparison. Staleness is established by comparing the sealed material facts, not by silently changing the meaning of an old digest.
+
+No other lifecycle adopts reauthorization in Batch 5, and no existing actor, disposition, checkpoint, authority consumer, or error vocabulary changes.

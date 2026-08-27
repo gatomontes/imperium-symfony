@@ -8,6 +8,7 @@ use App\Bootstrap\CanonicalJson;
 use App\Imperium\Runtime\DecisionIntegrity\DecisionIntegrityRecordStore;
 use App\Imperium\Runtime\DecisionIntegrity\DefensibleDecisionRecordContract;
 use App\Imperium\Runtime\DecisionIntegrity\DefensibleDecisionRecordValidator;
+use App\Imperium\Runtime\DecisionIntegrity\DecisionSurfaceMaterialFactsFingerprint;
 use App\Imperium\Runtime\DecisionIntegrity\InstitutionalDecisionSurfaceContract;
 use App\Imperium\Runtime\DecisionIntegrity\InstitutionalDecisionSurfaceValidator;
 use PHPUnit\Framework\TestCase;
@@ -79,6 +80,7 @@ final class DecisionIntegrityValidationAndPersistenceTest extends TestCase
 
             $conflict = $this->surface();
             $conflict['material_consequences'] = 'A conflicting description under the same immutable identity.';
+            $conflict['material_facts_fingerprint'] = (new DecisionSurfaceMaterialFactsFingerprint())->fingerprint($conflict);
             $this->expectFailure('PST111_IMMUTABLE_RECORD_CONFLICT', static fn () => $store->putSurface($conflict));
 
             $decision = $this->decision($surface);
@@ -156,7 +158,7 @@ final class DecisionIntegrityValidationAndPersistenceTest extends TestCase
             'authority_not_requested' => ['reservation', 'deployment', 'execution'],
             'limitations' => ['No substitution.', 'No continuing authority.'],
             'expires_at' => '2026-08-27T13:00:00+00:00',
-            'material_facts_fingerprint' => str_repeat('a', 64),
+            'material_facts_fingerprint' => '',
             'allowed_dispositions' => ['AUTHORIZED', 'REFUSED', 'RETURNED_FOR_REVISION'],
             'authorization_state' => [
                 'decision_pending' => true,
@@ -167,6 +169,7 @@ final class DecisionIntegrityValidationAndPersistenceTest extends TestCase
             'presented_at' => '2026-08-27T12:00:00+00:00',
             'sealed' => true,
         ];
+        $surface['material_facts_fingerprint'] = (new DecisionSurfaceMaterialFactsFingerprint())->fingerprint($surface);
         $surface['record_digest'] = hash('sha256', CanonicalJson::encode($surface));
 
         return $surface;
