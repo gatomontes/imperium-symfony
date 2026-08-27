@@ -9,6 +9,7 @@ use App\Imperium\Runtime\Cognition\GovernanceCognitionAuthorityRegistry;
 use App\Imperium\Runtime\Persistence\AtomicTransition;
 use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
 use App\Imperium\Runtime\Persistence\RecordReferenceValidator;
+use App\Imperium\Runtime\Governance\InternalCognitionLeaseControls;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class GovernanceCognitionInvocationClaimService
@@ -39,10 +40,14 @@ final readonly class GovernanceCognitionInvocationClaimService
     {
         $lease = $this->validator->read($this->root.'/'.self::LEASES.'/'.$leaseId.'.json', 'GCA401_GOVERNANCE_LEASE_ABSENT');
         $request = $this->validator->resolve($this->root.'/'.self::REQUESTS, $lease['source_cognition_request'] ?? [], 'GCA402_GOVERNANCE_REQUEST_ABSENT', 'GCA403_GOVERNANCE_INVOCATION_CHAIN_INVALID', 'request_id');
+        $decision = $this->validator->resolve($this->root.'/var/imperium/imperator/governance-provider-resource-decisions', $lease['source_provider_resource_decision'] ?? [], 'GCA403_GOVERNANCE_INVOCATION_CHAIN_INVALID', 'GCA403_GOVERNANCE_INVOCATION_CHAIN_INVALID', 'decision_id');
         $authority = $this->authorities->resolve((string) ($request['cluster'] ?? ''), (string) ($request['authority_type'] ?? ''), $authorityId);
+        $controls = $lease['continuous_governance_controls'] ?? null;
+        $controlsInvalid = null !== $controls && !InternalCognitionLeaseControls::isExactGovernance($controls, $decision, $request, (string) ($lease['issued_at'] ?? ''), (string) ($lease['expires_at'] ?? ''));
         if (!$this->validator->isIntact($lease) || 'imperium.clavium-governance-cognition-lease/v1' !== ($lease['schema'] ?? null)
             || $leaseId !== ($lease['lease_id'] ?? null) || 'GOVERNANCE_COGNITION_LEASE_ISSUED_PENDING_DURABLE_INVOCATION_CLAIM' !== ($lease['status'] ?? null)
             || true !== ($lease['opaque'] ?? null) || true !== ($lease['lease_single_use'] ?? null) || false !== ($lease['lease_consumed'] ?? null)
+            || $controlsInvalid
             || new \DateTimeImmutable((string) ($lease['expires_at'] ?? '1970-01-01')) <= $at || $authorityId !== ($request['authority_identity'] ?? null)
             || ($authority['source'] ?? null) !== ($request['source_governance_authority'] ?? null) || true !== ($authority['single_use'] ?? null)
             || true !== ($authority['exercisable'] ?? null) || false !== ($authority['consumed'] ?? null) || new \DateTimeImmutable((string) ($authority['expires_at'] ?? '1970-01-01')) <= $at
