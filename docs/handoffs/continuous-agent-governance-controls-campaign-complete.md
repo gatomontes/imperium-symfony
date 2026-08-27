@@ -40,8 +40,9 @@ competent authorization; no completed artifact in this campaign may be cited as 
 
 ## Preserved completed lifecycles
 
-Delegate Mission remains terminal at Step 69, Runtime Integrity Hardening at Step 35, credential-
-boundary remediation at Batch 17, and Institutional Decision Integrity at Batch 6. No historical
+Delegate Mission remains terminal at Step 69, Runtime Integrity Hardening at Step 35, and
+credential-boundary remediation at Batch 17. Institutional Decision Integrity at Batch 6 remains
+terminal. No historical
 Persona, Profile, Manifestation, occupancy, judgment, authority, custody, retirement, audit, Folium,
 provider journal, or sealed checkpoint was rewritten.
 
