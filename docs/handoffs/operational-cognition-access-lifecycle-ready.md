@@ -271,5 +271,7 @@ Batch 13W consumes the Persona reconciliation authority through its own four-jur
 Batch 13X mechanically consumes the disposition-phase-opening authority, rereads the exact reconciliation, four admitted findings, and active Lord Speaker occupancy, and opens one Security-preserving single-use Persona disposition authority. No cognition occurs and inventory remains 7. Continue by consuming that exact authority through the claim-bound Lord Speaker disposition path and removing only `lord_speaker_disposition`.
 
 Batch 13Y consumes the exact Persona disposition authority through its own governance resolver and the shared claim-bound broker. The direct `lord_speaker_disposition` agent is removed and inventory is 6. Continue by adapting the mechanical post-disposition lineage to the v2 record before beginning Batch 14 Guildhall migration.
+
+Batch 13Z mechanically retires all four sterile witnesses from the v2 disposition-opening lineage while retaining historical v1 record support. No cognition occurs and inventory remains 6. Continue with v2 confirmation-record issuance before Guildhall migration.
 >
 > Ad Imperium. Not one step back.
