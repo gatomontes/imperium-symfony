@@ -257,5 +257,7 @@ Batch 13P consumes Security pressure testimony and mechanically seals the comple
 Batch 13Q mechanically opens four jurisdiction-bound, single-use finding authorities without cognition. Continue by consuming them separately through the claim-bound Senator finding path.
 
 Batch 13R removes the four direct Senator finding agents, installs the claim-bound finding gateway, and consumes only Practice. Inventory is 7. Continue with Governance finding alone.
+
+Batch 13S consumes only the Governance finding authority after validating the sealed Practice predecessor, Governance baseline turn, and Governance pressure trial. Inventory remains 7. Continue with the Consistency finding alone; Security and disposition remain closed.
 >
 > Ad Imperium. Not one step back.
