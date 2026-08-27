@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Imperator;
 
 use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\DecisionIntegrity\DelegatePersonnelUseDecisionIntegrityAdapter;
 use App\Imperium\Runtime\Identity\OfficerClass;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
@@ -15,11 +16,13 @@ final readonly class DelegateMissionPersonnelUseDecisionService
 
     private string $requests;
     private string $decisions;
+    private DelegatePersonnelUseDecisionIntegrityAdapter $decisionIntegrity;
 
-    public function __construct(#[Autowire('%kernel.project_dir%')] string $root)
+    public function __construct(#[Autowire('%kernel.project_dir%')] string $root, ?DelegatePersonnelUseDecisionIntegrityAdapter $decisionIntegrity = null)
     {
         $this->requests = $root.'/var/imperium/curia/delegate-mission-personnel-use-requests';
         $this->decisions = $root.'/var/imperium/imperator/delegate-mission-personnel-use-decisions';
+        $this->decisionIntegrity = $decisionIntegrity ?? new DelegatePersonnelUseDecisionIntegrityAdapter($root);
     }
 
     public function decide(string $requestId, string $disposition, string $response, ?string $limitations, \DateTimeImmutable $decidedAt): array
@@ -39,6 +42,11 @@ final readonly class DelegateMissionPersonnelUseDecisionService
 
         $request = $this->read($this->requests.'/'.$requestId.'.json', 'I512_DELEGATE_MISSION_PERSONNEL_USE_REQUEST_ABSENT');
         $this->validateRequest($requestId, $request);
+        try {
+            $surface = $this->decisionIntegrity->readSurface($request);
+        } catch (\RuntimeException) {
+            throw new \RuntimeException('I513_DELEGATE_MISSION_PERSONNEL_USE_REQUEST_INVALID');
+        }
 
         foreach (glob($this->decisions.'/*.json') ?: [] as $path) {
             $prior = $this->read($path, 'I515_DELEGATE_MISSION_PERSONNEL_USE_DECISION_CONFLICT');
@@ -47,6 +55,11 @@ final readonly class DelegateMissionPersonnelUseDecisionService
                     && ($prior['disposition'] ?? null) === $disposition
                     && ($prior['response'] ?? null) === $response
                     && ($prior['limitations'] ?? null) === $limitations) {
+                    try {
+                        $this->decisionIntegrity->readDecision($prior);
+                    } catch (\RuntimeException) {
+                        throw new \RuntimeException('I515_DELEGATE_MISSION_PERSONNEL_USE_DECISION_CONFLICT');
+                    }
                     return $prior;
                 }
                 throw new \RuntimeException('I515_DELEGATE_MISSION_PERSONNEL_USE_DECISION_CONFLICT');
@@ -83,7 +96,10 @@ final readonly class DelegateMissionPersonnelUseDecisionService
             ];
         }
 
-        return $this->save($decisionId, [
+        $status = $authorized
+            ? 'DELEGATE_MISSION_PERSONNEL_USE_AUTHORIZED_PENDING_GUILDHALL_ACCEPTANCE'
+            : 'DELEGATE_MISSION_NON_AUTHORIZING_IMPERATOR_PERSONNEL_USE_DISPOSITION_RECORDED';
+        $legacy = [
             'schema' => 'imperium.imperator-delegate-mission-personnel-use-decision/v1',
             'decision_id' => $decisionId,
             'instance_id' => $request['instance_id'],
@@ -106,9 +122,7 @@ final readonly class DelegateMissionPersonnelUseDecisionService
             'personnel_use_authority' => $authority,
             'personnel_use_authority_exercisable' => $authorized,
             'guildhall_followup_required' => in_array($disposition, ['RETURNED_FOR_REVISION', 'ALTERNATIVE_PROPOSED', 'CLARIFICATION_REQUIRED'], true),
-            'status' => $authorized
-                ? 'DELEGATE_MISSION_PERSONNEL_USE_AUTHORIZED_PENDING_GUILDHALL_ACCEPTANCE'
-                : 'DELEGATE_MISSION_NON_AUTHORIZING_IMPERATOR_PERSONNEL_USE_DISPOSITION_RECORDED',
+            'status' => $status,
             'guildhall_acceptance_authority' => false,
             'reservation_authority' => false,
             'retrieval_authority' => false,
@@ -132,7 +146,12 @@ final readonly class DelegateMissionPersonnelUseDecisionService
             'execution_authority' => false,
             'continuing_turn_authority' => false,
             'sealed' => true,
-        ]);
+        ];
+        $record = $this->decisionIntegrity->recordDecision($request, $surface, $decisionId, $disposition, $response, $limitations, $decidedAt, $authority, $status);
+        $legacy['institutional_decision_record'] = ['id' => $record['decision_record_id'], 'digest' => $record['record_digest']];
+        $legacy['institutional_decision_integrity_adopted'] = true;
+
+        return $this->save($decisionId, $legacy);
     }
 
     private function validateRequest(string $requestId, array $request): void
@@ -148,6 +167,8 @@ final readonly class DelegateMissionPersonnelUseDecisionService
             || 'PRESENTATION_ONLY' !== ($request['requester']['role'] ?? null)
             || 'ONE_EXACT_DELEGATE_PERSONNEL_USE_COMMITMENT_ONLY' !== ($request['requested_authority'] ?? null)
             || self::DISPOSITIONS !== ($request['allowed_dispositions'] ?? null)
+            || true !== ($request['institutional_decision_integrity_adopted'] ?? null)
+            || !is_array($request['institutional_decision_surface'] ?? null)
             || true === ($request['imperator_decision_recorded'] ?? null)
             || true === ($request['personnel_use_authority'] ?? null)
             || true === ($request['reservation_authority'] ?? null)

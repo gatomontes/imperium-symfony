@@ -12,6 +12,8 @@ final readonly class DecisionIntegrityRecordStore
 {
     private const string SURFACES = 'var/imperium/decision-integrity/surfaces';
     private const string DECISIONS = 'var/imperium/decision-integrity/records';
+    private const string OPTION_UNIVERSES = 'var/imperium/decision-integrity/option-universes';
+    private const string PRESENTATION_DIRECTIVES = 'var/imperium/decision-integrity/presentation-directives';
 
     private ImmutableRecordStore $records;
 
@@ -31,6 +33,20 @@ final readonly class DecisionIntegrityRecordStore
         $this->surfaceValidator->validate($sealed);
 
         return $sealed;
+    }
+
+    public function putOptionUniverse(array $universe): array
+    {
+        $this->validateAssemblySource($universe, DecisionSurfaceOptionUniverseContract::SCHEMA, DecisionSurfaceOptionUniverseContract::REQUIRED_FIELDS, 'DI150_OPTION_UNIVERSE_INVALID');
+
+        return $this->records->put(self::OPTION_UNIVERSES, (string) $universe['universe_id'], $universe);
+    }
+
+    public function putPresentationDirective(array $directive): array
+    {
+        $this->validateAssemblySource($directive, DecisionSurfacePresentationDirectiveContract::SCHEMA, DecisionSurfacePresentationDirectiveContract::REQUIRED_FIELDS, 'DI151_PRESENTATION_DIRECTIVE_INVALID');
+
+        return $this->records->put(self::PRESENTATION_DIRECTIVES, (string) $directive['directive_id'], $directive);
     }
 
     public function putDecision(array $decision): array
@@ -70,11 +86,36 @@ final readonly class DecisionIntegrityRecordStore
         return $surface;
     }
 
+    public function readOptionUniverse(string $id): array
+    {
+        $universe = $this->records->read(self::OPTION_UNIVERSES, $id);
+        $this->validateAssemblySource($universe, DecisionSurfaceOptionUniverseContract::SCHEMA, DecisionSurfaceOptionUniverseContract::REQUIRED_FIELDS, 'DI150_OPTION_UNIVERSE_INVALID');
+
+        return $universe;
+    }
+
+    public function readPresentationDirective(string $id): array
+    {
+        $directive = $this->records->read(self::PRESENTATION_DIRECTIVES, $id);
+        $this->validateAssemblySource($directive, DecisionSurfacePresentationDirectiveContract::SCHEMA, DecisionSurfacePresentationDirectiveContract::REQUIRED_FIELDS, 'DI151_PRESENTATION_DIRECTIVE_INVALID');
+
+        return $directive;
+    }
+
     public function readDecision(string $id): array
     {
         $decision = $this->records->read(self::DECISIONS, $id);
         $this->decisionValidator->validate($decision);
 
         return $decision;
+    }
+
+    private function validateAssemblySource(array $record, string $schema, array $requiredFields, string $error): void
+    {
+        DecisionIntegrityValidation::requireFields($record, $requiredFields, $error);
+        if ($schema !== ($record['schema'] ?? null) || true !== ($record['sealed'] ?? null)) {
+            throw new \RuntimeException($error);
+        }
+        DecisionIntegrityValidation::requireDigestIntegrity($record, $error);
     }
 }

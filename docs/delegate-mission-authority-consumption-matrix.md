@@ -5,7 +5,7 @@ This is the canonical high-level authority map for the terminal 69-step Delegate
 | Corridor | Issuer or custodian | Exact bounded authority | Consumed by | Resulting Folium or state | Survives? |
 | --- | --- | --- | --- | --- | --- |
 | Capability demand | Curia | Present mission capability demand | Guildhall | Demand intake disposition | No |
-| Personnel use | Curia / Imperator | Decide and accept one exact Persona commitment | Guildhall | Personnel-use acceptance | No |
+| Personnel use | Curia / Imperator | Decide and accept one exact Persona commitment, bound by the canonical decision surface and defensible decision record | Guildhall | Personnel-use acceptance | No |
 | Persona custody | Garrison | Reserve one exact admitted Persona | Constable | Reserved custody | Until lawful release |
 | Profile scope | Curia / Imperator | Authorize one exact mission Profile scope | Conscription | Derivation request | No |
 | Profile derivation | Conscription | Derive one custody-bound Profile candidate | Laboratorium | Sealed candidate | No |

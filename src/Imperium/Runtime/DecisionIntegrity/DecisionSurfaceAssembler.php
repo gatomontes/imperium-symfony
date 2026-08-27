@@ -46,6 +46,9 @@ final readonly class DecisionSurfaceAssembler
             throw new \RuntimeException('DI153_CURIA_AUTHORSHIP_INVALID');
         }
 
+        $universe = $this->store->putOptionUniverse($universe);
+        $directive = $this->store->putPresentationDirective($directive);
+
         $sourceUniverse = ['id' => $universe['universe_id'], 'digest' => $universe['record_digest']];
         $sourceDirective = ['id' => $directive['directive_id'], 'digest' => $directive['record_digest']];
         $fingerprint = hash('sha256', CanonicalJson::encode([

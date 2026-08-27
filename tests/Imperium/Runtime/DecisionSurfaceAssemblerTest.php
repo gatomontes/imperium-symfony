@@ -36,6 +36,8 @@ final class DecisionSurfaceAssemblerTest extends TestCase
             self::assertSame(InstitutionalDecisionSurfaceContract::NON_AUTHORIZING_SIGNALS, $surface['authorization_state']['non_authorizing_signals']);
             self::assertMatchesRegularExpression('/^[a-f0-9]{64}$/', $surface['material_facts_fingerprint']);
             self::assertTrue($surface['sealed']);
+            self::assertFileExists($root.'/var/imperium/decision-integrity/option-universes/'.$surface['source_option_universe']['id'].'.json');
+            self::assertFileExists($root.'/var/imperium/decision-integrity/presentation-directives/'.$surface['source_presentation_directive']['id'].'.json');
         } finally {
             $this->remove($root);
         }

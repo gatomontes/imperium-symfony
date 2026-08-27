@@ -16,8 +16,8 @@ Curia states mission capabilities but never chooses a profession or Persona. Gui
 1. Curia seals the exact mission-bound capability demand from the approved Mission Plan and governing source.
 2. Guildhall accepts or refuses demand intake.
 3. Guildhall resolves profession and exact Persona suitability against Garrison facts.
-4. Curia presents the unchanged identity-bearing personnel-use request.
-5. Imperator authorizes or refuses the exact personnel-use commitment.
+4. Curia presents the unchanged identity-bearing personnel-use request with its sealed institutional decision surface.
+5. Imperator authorizes or records one of the existing non-authorizing dispositions for the exact personnel-use commitment; the existing judgment is accompanied by its sealed defensible decision record.
 6. Guildhall accepts the authorization and requests exact Garrison reservation.
 7. Garrison reserves or refuses the exact Persona while retaining custody.
 

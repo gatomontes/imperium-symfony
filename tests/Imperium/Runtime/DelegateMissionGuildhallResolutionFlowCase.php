@@ -226,6 +226,14 @@ abstract class DelegateMissionGuildhallResolutionFlowCase extends TestCase
             self::assertSame(['Analyze public behavior'], $request['personnel_commitment']['capability_requirements']);
             self::assertSame('mission.delegate.passive-assessment', $request['personnel_commitment']['mission_seat']);
             self::assertTrue($request['personnel_use_request_authority']['consumed']);
+            self::assertTrue($request['institutional_decision_integrity_adopted']);
+            $surfacePath = $root.'/var/imperium/decision-integrity/surfaces/'.$request['institutional_decision_surface']['id'].'.json';
+            $surface = json_decode((string) file_get_contents($surfacePath), true, 512, JSON_THROW_ON_ERROR);
+            self::assertSame($request['institutional_decision_surface']['digest'], $surface['record_digest']);
+            self::assertSame($request['request_id'], $surface['proceeding_id']);
+            self::assertSame(['authorize-exact-personnel-commitment', 'refuse-exact-personnel-commitment', 'return-for-revision', 'propose-alternative', 'require-clarification', 'defer-decision'], array_column($surface['options_presented'], 'option_id'));
+            self::assertFalse($surface['authorization_state']['authority_granted']);
+            self::assertFalse($surface['authorization_state']['decision_inferred']);
             foreach (['imperator_decision_recorded', 'personnel_use_authority', 'reservation_authority', 'retrieval_authority', 'custody_transfer_authority', 'profile_derivation_authority', 'profile_examination_authority', 'profile_approval_authority', 'profile_installation_authority', 'profile_qualification_authority', 'manifestation_assembly_authority', 'seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'cognition_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'continuing_turn_authority'] as $field) {
                 self::assertFalse($request[$field], $field.' must remain false');
             }
@@ -287,6 +295,14 @@ abstract class DelegateMissionGuildhallResolutionFlowCase extends TestCase
             self::assertFalse($decision['personnel_use_authority']['consumed']);
             self::assertSame('guildhall.guildmaster', $decision['personnel_use_authority']['holder']);
             self::assertSame($request['personnel_commitment'], $decision['personnel_commitment']);
+            self::assertTrue($decision['institutional_decision_integrity_adopted']);
+            $recordPath = $root.'/var/imperium/decision-integrity/records/'.$decision['institutional_decision_record']['id'].'.json';
+            $record = json_decode((string) file_get_contents($recordPath), true, 512, JSON_THROW_ON_ERROR);
+            self::assertSame($decision['institutional_decision_record']['digest'], $record['record_digest']);
+            self::assertSame('AUTHORIZED', $record['decision']['disposition']);
+            self::assertSame(['ACCEPT_ONE_EXACT_AUTHORIZED_DELEGATE_PERSONNEL_COMMITMENT'], $record['decision']['granted_authority']);
+            self::assertSame('guildhall.guildmaster', $record['authority_lineage'][0]['consumer']);
+            self::assertSame($request['record_digest'], $record['source_requests'][0]['digest']);
             foreach (['guildhall_acceptance_authority', 'reservation_authority', 'retrieval_authority', 'custody_transfer_authority', 'profile_derivation_authority', 'profile_examination_authority', 'profile_approval_authority', 'profile_installation_authority', 'profile_qualification_authority', 'manifestation_assembly_authority', 'seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'cognition_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'continuing_turn_authority'] as $field) {
                 self::assertFalse($decision[$field], $field.' must remain false');
             }
@@ -306,6 +322,11 @@ abstract class DelegateMissionGuildhallResolutionFlowCase extends TestCase
                 self::assertFalse($decision['personnel_use_authorized']);
                 self::assertNull($decision['personnel_use_authority']);
                 self::assertFalse($decision['personnel_use_authority_exercisable']);
+                self::assertTrue($decision['institutional_decision_integrity_adopted']);
+                $record = json_decode((string) file_get_contents($root.'/var/imperium/decision-integrity/records/'.$decision['institutional_decision_record']['id'].'.json'), true, 512, JSON_THROW_ON_ERROR);
+                self::assertSame($disposition, $record['decision']['disposition']);
+                self::assertSame([], $record['decision']['granted_authority']);
+                self::assertSame([], $record['authority_lineage']);
                 self::assertFalse($decision['reservation_authority']);
                 self::assertFalse($decision['execution_authority']);
             } finally {
@@ -320,6 +341,20 @@ abstract class DelegateMissionGuildhallResolutionFlowCase extends TestCase
         try {
             $this->expectExceptionMessage('I511_DELEGATE_MISSION_PERSONNEL_USE_DISPOSITION_INVALID');
             (new DelegateMissionPersonnelUseDecisionService($root))->decide($request['request_id'], 'AUTHORIZED', 'Authorize.', null, new \DateTimeImmutable());
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testImperatorCannotDecideFromPersonnelRequestWithoutExactInstitutionalSurface(): void
+    {
+        [$root, $request] = $this->personnelUseRequestFixture();
+        try {
+            unset($request['record_digest'], $request['institutional_decision_surface']);
+            $this->write($root.'/var/imperium/curia/delegate-mission-personnel-use-requests/'.$request['request_id'].'.json', $this->record($request));
+
+            $this->expectExceptionMessage('I513_DELEGATE_MISSION_PERSONNEL_USE_REQUEST_INVALID');
+            (new DelegateMissionPersonnelUseDecisionService($root))->decide($request['request_id'], 'AUTHORIZED', 'Authorize this exact commitment.', 'Exact disclosed mission bounds only.', new \DateTimeImmutable());
         } finally {
             $this->remove($root);
         }
@@ -362,6 +397,21 @@ abstract class DelegateMissionGuildhallResolutionFlowCase extends TestCase
         [$root, $request, $bindingId] = $this->personnelUseRequestFixture();
         try {
             $decision = (new DelegateMissionPersonnelUseDecisionService($root))->decide($request['request_id'], 'ALTERNATIVE_PROPOSED', 'Consider another exact commitment.', null, new \DateTimeImmutable());
+            $this->expectExceptionMessage('G513_DELEGATE_MISSION_PERSONNEL_USE_ACCEPTANCE_CHAIN_INVALID');
+            (new DelegateMissionPersonnelUseAcceptanceService($root))->accept($decision['decision_id'], $bindingId, new \DateTimeImmutable());
+        } finally {
+            $this->remove($root);
+        }
+    }
+
+    public function testGuildhallCannotConsumeLegacyAuthorizationWithoutExactDefensibleDecisionRecord(): void
+    {
+        [$root, $request, $bindingId] = $this->personnelUseRequestFixture();
+        try {
+            $decision = (new DelegateMissionPersonnelUseDecisionService($root))->decide($request['request_id'], 'AUTHORIZED', 'Authorize this exact commitment.', 'Exact disclosed mission bounds only.', new \DateTimeImmutable());
+            unset($decision['record_digest'], $decision['institutional_decision_record']);
+            $this->write($root.'/var/imperium/imperator/delegate-mission-personnel-use-decisions/'.$decision['decision_id'].'.json', $this->record($decision));
+
             $this->expectExceptionMessage('G513_DELEGATE_MISSION_PERSONNEL_USE_ACCEPTANCE_CHAIN_INVALID');
             (new DelegateMissionPersonnelUseAcceptanceService($root))->accept($decision['decision_id'], $bindingId, new \DateTimeImmutable());
         } finally {
