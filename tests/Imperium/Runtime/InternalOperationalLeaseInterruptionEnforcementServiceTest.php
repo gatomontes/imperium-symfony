@@ -34,7 +34,7 @@ final class InternalOperationalLeaseInterruptionEnforcementServiceTest extends T
         foreach (['claim_created', 'cognition_authority_consumed', 'lease_consumed', 'lease_mutated', 'lease_closed', 'request_mutated', 'decision_mutated', 'credential_resolved', 'credential_reference_disclosed', 'credential_material_present', 'credential_mutated', 'provider_invoked', 'provider_journal_created', 'network_access_performed', 'propagation_performed', 'continuation_authority', 'external_action_authority', 'perimeter_authority'] as $flag) {
             self::assertFalse($result[$flag]);
         }
-        self::assertSame($result, $service->enforce($enforcementAuthorityId, $locksmithId, new \DateTimeImmutable('2026-08-27T12:04:00+00:00')));
+        self::assertSame($result, $service->enforce($enforcementAuthorityId, $locksmithId, new \DateTimeImmutable('2026-08-27T12:03:00+00:00')));
         $lease = json_decode((string) file_get_contents($leasePath), true, 512, JSON_THROW_ON_ERROR);
         self::assertFalse($lease['lease_consumed']);
         self::assertSame([], glob($this->root.'/var/imperium/runtime/operational-cognition-invocation-claims/*.json') ?: []);
@@ -62,6 +62,32 @@ final class InternalOperationalLeaseInterruptionEnforcementServiceTest extends T
 
         $this->expectExceptionMessage('OCA407_OPERATIONAL_LEASE_INTERRUPTED_PRE_CLAIM');
         (new OperationalCognitionInvocationClaimService($this->root))->claim($leaseId, $cognitionAuthorityId, new \DateTimeImmutable('2026-08-27T12:04:00+00:00'));
+    }
+
+    public function testTamperedLeaseSelectorCannotHideMalformedDenialEvidence(): void
+    {
+        [$leaseId, $cognitionAuthorityId, $enforcementAuthorityId, $locksmithId] = $this->fixtures();
+        $result = (new InternalOperationalLeaseInterruptionEnforcementService($this->root))->enforce($enforcementAuthorityId, $locksmithId, new \DateTimeImmutable('2026-08-27T12:03:00+00:00'));
+        $path = $this->root.'/var/imperium/runtime/operational-cognition-lease-interruption-enforcement-results/'.$result['result_id'].'.json';
+        $result['affected_scope']['lease']['id'] = 'operational-cognition-lease-'.str_repeat('f', 20);
+        file_put_contents($path, json_encode($result, JSON_THROW_ON_ERROR));
+
+        $this->expectExceptionMessage('OCA407_OPERATIONAL_LEASE_INTERRUPTED_PRE_CLAIM');
+        (new OperationalCognitionInvocationClaimService($this->root))->claim($leaseId, $cognitionAuthorityId, new \DateTimeImmutable('2026-08-27T12:04:00+00:00'));
+    }
+
+    public function testStructurallyDivergentPriorResultFailsReplayStopped(): void
+    {
+        [, , $enforcementAuthorityId, $locksmithId] = $this->fixtures();
+        $service = new InternalOperationalLeaseInterruptionEnforcementService($this->root);
+        $at = new \DateTimeImmutable('2026-08-27T12:03:00+00:00');
+        $prior = $service->enforce($enforcementAuthorityId, $locksmithId, $at);
+        unset($prior['record_digest']);
+        $prior['provider_invoked'] = true;
+        $this->write($this->root.'/var/imperium/runtime/operational-cognition-lease-interruption-enforcement-results/'.$prior['result_id'].'.json', $this->sealed($prior));
+
+        $this->expectExceptionMessage('OCI307_OPERATIONAL_LEASE_ENFORCEMENT_RESULT_CONFLICT');
+        $service->enforce($enforcementAuthorityId, $locksmithId, $at);
     }
 
     public function testClaimAndEnforcementRaceProducesExactlyOneWinnerAndNoPartialArtifacts(): void

@@ -2,13 +2,14 @@
 
 ## Status
 
-`TERMINAL_THROUGH_BATCH_5`
+`TERMINAL_THROUGH_BATCH_6`
 
 This document governs the smallest separately prepared continuation after the terminal Continuous
 Agent Governance Controls campaign. Preparation Batch 0, the exact Batch 1 disposition, and the
 Batch 2 single-use Locksmith authority, Batch 3 native admission enforcement/result, and Batch 4
-read-only reconstruction and Batch 5 documentation-only closeout are complete. The campaign is
-terminal, and generalized revocation is not adopted.
+read-only reconstruction, Batch 5 documentation-only closeout, and Batch 6 terminal-evidence
+remediation are complete. The campaign is resealed terminal, and generalized revocation is not
+adopted.
 
 The terminal closeout is
 `docs/handoffs/operational-cognition-lease-interruption-campaign-complete.md`. This document remains
@@ -101,6 +102,15 @@ single-use Locksmith authority, native lock-coherent admission enforcement, immu
 result evidence, and a read-only nine-artifact reconstruction with mechanical claim absence.
 Every generalized and perimeter boundary remains deferred.
 
+## Batch 6 result
+
+Batch 6 corrects the four terminal-evidence defects found by adversarial review. Native claim
+admission now validates every discovered interruption result before reading its routing selector.
+Disposition, authority, and result replays require complete canonical equivalence. Reconstruction
+uses strict absolute timestamps and digest-bound historical actor occupancy while reporting present
+occupancy continuity separately. Historical proof therefore survives lawful Seat rotation without
+weakening actor attribution at judgment or enforcement time.
+
 ## Provisional implementation sequence
 
 No implementation step below is authorized merely because it is listed. After Preparation Batch 0,
@@ -115,6 +125,7 @@ each requires a separate batch and preserved stop condition:
 4. **Complete in Batch 4:** one read-only reconstruction of request lineage, lease, disposition,
    authority, result, and mechanical durable-claim absence; and
 5. **Complete in Batch 5:** documentation-only closeout.
+6. **Complete in Batch 6:** terminal-evidence remediation and campaign reseal.
 
 ## Closed boundaries
 

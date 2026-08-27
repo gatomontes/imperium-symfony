@@ -2,7 +2,7 @@
 
 ## Terminal result
 
-Operational Cognition Lease Interruption is terminal through Batch 5. The campaign began with a
+Operational Cognition Lease Interruption is terminal through Batch 6. The campaign began with a
 classified preparation inventory and completed one deliberately narrow internal interruption:
 one live, unconsumed operational cognition lease before durable invocation claim creation.
 
@@ -10,6 +10,11 @@ The completed slice has exact source-authorizer Seneschal judgment, separately o
 single-use Locksmith authority, enforcement under the native operational lease lock, immutable
 negative-result evidence, and a read-only reconstruction. The source request, Imperator decision,
 lease, cognition authority, credentials, and provider boundary remain untouched.
+
+Batch 6 reseals the campaign after adversarial review. Admission validates every result before
+selector use, all three immutable producers require complete canonical replay equivalence,
+reconstruction rejects missing or noncanonical timestamps, and historical actor proof no longer
+depends on present Seat occupancy. Present continuity remains visible as non-authoritative context.
 
 ## Terminal proof matrix
 
@@ -25,8 +30,12 @@ lease, cognition authority, credentials, and provider boundary remain untouched.
 - the immutable result proves authority consumption while claim creation, cognition-authority and
   lease consumption, mutation, closure, credentials, provider invocation, journal, network,
   propagation, continuation, external action, and perimeter authority remain false; and
-- the nine-artifact reconstruction validates both current occupants, the full lineage,
-  disposition, authority, result, and mechanical durable-claim absence fail stopped.
+- the nine-artifact reconstruction validates both digest-bound historical occupants, the full lineage,
+  disposition, authority, result, and mechanical durable-claim absence fail stopped;
+- historical reconstruction remains valid after lawful Seat rotation because it resolves the exact
+  digest-bound occupancy records effective at disposition and enforcement time; and
+- missing timestamps, selector-corrupted evidence, and structurally divergent replay artifacts fail
+  stopped.
 
 ## Preserved boundaries
 

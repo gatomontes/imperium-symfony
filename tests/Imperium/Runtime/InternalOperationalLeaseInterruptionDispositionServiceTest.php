@@ -38,10 +38,24 @@ final class InternalOperationalLeaseInterruptionDispositionServiceTest extends T
         foreach (['enforcement_authority_opened', 'claim_created', 'cognition_authority_consumed', 'lease_consumed', 'lease_mutated', 'lease_closed', 'credential_resolved', 'provider_journal_created', 'network_access_performed', 'propagation_performed', 'authority_granted', 'continuation_authority'] as $flag) {
             self::assertFalse($result[$flag]);
         }
-        self::assertSame($result, $service->interrupt($leaseId, $seneschalId, 'Stop before durable operational claim creation.', $at->modify('+1 minute')));
+        self::assertSame($result, $service->interrupt($leaseId, $seneschalId, 'Stop before durable operational claim creation.', $at));
         self::assertSame([], glob($this->root.'/var/imperium/runtime/continuous-governance-enforcement-authorities/*.json') ?: []);
         $lease = json_decode((string) file_get_contents($leasePath), true, 512, JSON_THROW_ON_ERROR);
         self::assertFalse($lease['lease_consumed']);
+    }
+
+    public function testStructurallyDivergentPriorDispositionFailsReplayStopped(): void
+    {
+        [$leaseId, $seneschalId] = $this->fixtures();
+        $service = new InternalOperationalLeaseInterruptionDispositionService($this->root);
+        $at = new \DateTimeImmutable('2026-08-27T12:03:00+00:00');
+        $prior = $service->interrupt($leaseId, $seneschalId, 'Stop.', $at);
+        unset($prior['record_digest']);
+        $prior['authority_granted'] = true;
+        $this->write($this->root.'/var/imperium/runtime/operational-cognition-lease-interruption-dispositions/'.$prior['disposition_id'].'.json', $this->sealed($prior));
+
+        $this->expectExceptionMessage('OCI106_OPERATIONAL_LEASE_INTERRUPTION_DISPOSITION_CONFLICT');
+        $service->interrupt($leaseId, $seneschalId, 'Stop.', $at);
     }
 
     #[DataProvider('invalidCases')]

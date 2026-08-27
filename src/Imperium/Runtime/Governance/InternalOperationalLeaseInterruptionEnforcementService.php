@@ -67,22 +67,8 @@ final readonly class InternalOperationalLeaseInterruptionEnforcementService
             if ($enforcer !== ($authority['enforcer'] ?? null)) {
                 throw new \RuntimeException('OCI305_LOCKSMITH_ENFORCER_INVALID');
             }
-
-            foreach (glob($this->root.'/'.self::RESULTS.'/*.json') ?: [] as $path) {
-                $prior = $this->validator->requireIntact($this->validator->read($path, 'OCI307_OPERATIONAL_LEASE_ENFORCEMENT_RESULT_CONFLICT'), 'OCI307_OPERATIONAL_LEASE_ENFORCEMENT_RESULT_CONFLICT');
-                if (($prior['source_authority']['id'] ?? null) !== $authorityId) {
-                    continue;
-                }
-                if (($prior['source_authority']['digest'] ?? null) !== $authority['record_digest'] || ($prior['enforcer'] ?? null) !== $enforcer) {
-                    throw new \RuntimeException('OCI307_OPERATIONAL_LEASE_ENFORCEMENT_RESULT_CONFLICT');
-                }
-
-                return $prior;
-            }
-
             $resultId = 'operational-lease-interruption-enforcement-result-'.substr(hash('sha256', CanonicalJson::encode([$authorityId, $authority['record_digest'], $enforcer])), 0, 20);
-
-            return $this->records->put(self::RESULTS, $resultId, [
+            $expected = [
                 'schema' => 'imperium.operational-cognition-lease-interruption-enforcement-result/v1',
                 'result_id' => $resultId,
                 'instance_id' => $authority['instance_id'],
@@ -113,7 +99,23 @@ final readonly class InternalOperationalLeaseInterruptionEnforcementService
                 'external_action_authority' => false,
                 'perimeter_authority' => false,
                 'sealed' => true,
-            ]);
+            ];
+
+            foreach (glob($this->root.'/'.self::RESULTS.'/*.json') ?: [] as $path) {
+                $prior = $this->validator->requireIntact($this->validator->read($path, 'OCI307_OPERATIONAL_LEASE_ENFORCEMENT_RESULT_CONFLICT'), 'OCI307_OPERATIONAL_LEASE_ENFORCEMENT_RESULT_CONFLICT');
+                if (($prior['source_authority']['id'] ?? null) !== $authorityId) {
+                    continue;
+                }
+                $comparison = $prior;
+                unset($comparison['record_digest']);
+                if ($comparison !== $expected) {
+                    throw new \RuntimeException('OCI307_OPERATIONAL_LEASE_ENFORCEMENT_RESULT_CONFLICT');
+                }
+
+                return $prior;
+            }
+
+            return $this->records->put(self::RESULTS, $resultId, $expected);
         });
     }
 
