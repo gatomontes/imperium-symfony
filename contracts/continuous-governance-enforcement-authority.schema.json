@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "imperium.continuous-governance-enforcement-authority/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "authority_id", "instance_id", "source_disposition", "enforcer", "affected_scope", "permitted_transition", "issued_at", "expires_at", "single_use", "exercisable", "consumed", "continuing_authority", "external_action_authority", "perimeter_authority", "sealed"],
+  "properties": {
+    "schema": {"const": "imperium.continuous-governance-enforcement-authority/v1"},
+    "authority_id": {"type": "string", "pattern": "^revocation-enforcement-authority-[a-f0-9]{20}$"},
+    "instance_id": {"type": "string", "minLength": 1},
+    "source_disposition": {"type": "object"},
+    "enforcer": {"type": "object"},
+    "affected_scope": {"type": "object"},
+    "permitted_transition": {"type": "string", "minLength": 1},
+    "issued_at": {"type": "string", "format": "date-time"},
+    "expires_at": {"type": "string", "format": "date-time"},
+    "single_use": {"const": true},
+    "exercisable": {"const": true},
+    "consumed": {"const": false},
+    "continuing_authority": {"const": false},
+    "external_action_authority": {"const": false},
+    "perimeter_authority": {"const": false},
+    "sealed": {"const": true}
+  }
+}
