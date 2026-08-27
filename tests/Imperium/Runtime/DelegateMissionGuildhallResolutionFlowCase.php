@@ -284,7 +284,7 @@ abstract class DelegateMissionGuildhallResolutionFlowCase extends TestCase
         [$root, $request] = $this->personnelUseRequestFixture();
         try {
             $service = new DelegateMissionPersonnelUseDecisionService($root);
-            $decision = $service->decide($request['request_id'], 'AUTHORIZED', 'Authorize this exact Delegate personnel commitment.', 'Bound to the disclosed mission Seat, duration, and lifecycle conditions.', new \DateTimeImmutable('2026-08-24T04:00:00+00:00'));
+            $decision = $service->decide($request['request_id'], 'AUTHORIZED', 'Authorize this exact Delegate personnel commitment.', 'Bound to the disclosed mission Seat, duration, and lifecycle conditions.', (new \DateTimeImmutable($request['presented_at']))->modify('+1 minute'));
 
             self::assertSame('DELEGATE_MISSION_PERSONNEL_USE_AUTHORIZED_PENDING_GUILDHALL_ACCEPTANCE', $decision['status']);
             self::assertSame('DELEGATE', $decision['officer_class']);

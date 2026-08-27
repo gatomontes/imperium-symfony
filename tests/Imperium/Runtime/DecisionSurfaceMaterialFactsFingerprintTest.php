@@ -58,7 +58,6 @@ final class DecisionSurfaceMaterialFactsFingerprintTest extends TestCase
             'costs' => [],
             'external_effects' => [],
             'reversibility' => 'Single use.',
-            'recommendation' => ['author' => 'curia.seneschal', 'recommended_option_id' => 'authorize', 'rationale' => 'Exact evidence supports presentation.'],
             'authority_effect' => 'One bounded authority.',
         ];
 
@@ -73,6 +72,7 @@ final class DecisionSurfaceMaterialFactsFingerprintTest extends TestCase
             'material_consequences' => 'Opens one acceptance.',
             'risks' => ['Availability may change.'],
             'reversibility' => 'Single use.',
+            'recommendation' => ['author' => 'curia.seneschal', 'recommended_option_id' => 'authorize', 'rationale' => 'Exact evidence supports presentation.'],
             'evidence' => [['artifact_id' => 'evidence', 'record_digest' => str_repeat('a', 64)]],
             'requested_authority' => 'ONE_EXACT_COMMITMENT',
             'authority_not_requested' => ['execution'],
