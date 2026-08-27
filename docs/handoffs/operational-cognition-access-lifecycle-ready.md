@@ -1,4 +1,6 @@
-# Operational Cognition Access lifecycle ready
+# Operational Cognition Access lifecycle — historical execution prompt
+
+> **Status:** completed. This file is retained for provenance and must not be used as a current continuation prompt. The credential-boundary program closed in Batch 17; see `docs/handoffs/credential-boundary-remediation-complete.md`.
 
 ## Exact sequence
 
