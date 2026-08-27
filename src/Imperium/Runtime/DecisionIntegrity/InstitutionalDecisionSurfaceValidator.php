@@ -25,7 +25,7 @@ final class InstitutionalDecisionSurfaceValidator
         $this->reference($surface['source_option_universe'], 'DI113_DECISION_SURFACE_SOURCE_INVALID');
         $this->reference($surface['source_presentation_directive'], 'DI113_DECISION_SURFACE_SOURCE_INVALID');
         $question = DecisionIntegrityValidation::requireText($surface['decision_question'], 'DI104_CONTEXT_FREE_DECISION_PROMPT');
-        if (strlen($question) < 24 || 1 === preg_match('/^(proceed|approve|authorize|continue)\??$/i', $question)) {
+        if (strlen($question) < 24 || 1 === preg_match('/^(?:(?:would you like to|should (?:we|i))\s+)?(?:proceed|approve|authorize|continue)(?:\s+with)?(?:\s+(?:this|the))?(?:\s+(?:matter|request|proposal|plan))?\??$/i', $question)) {
             throw new \RuntimeException('DI104_CONTEXT_FREE_DECISION_PROMPT');
         }
         $presentedAt = DecisionIntegrityValidation::requireUtcTime($surface['presented_at'], 'DI102_DECISION_SURFACE_CONTENT_INVALID:presented_at');

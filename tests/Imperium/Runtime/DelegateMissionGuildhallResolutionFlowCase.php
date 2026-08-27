@@ -20,6 +20,8 @@ use App\Imperium\Runtime\Clavium\DelegateMissionModelAccessAttestationService;
 use App\Imperium\Runtime\Clavium\DelegateMissionProviderInvocationActivationService;
 use App\Imperium\Runtime\Citadel\DelegateMissionBoundedCognitionTurnService;
 use App\Imperium\Runtime\Citadel\DelegateMissionCognitionGateway;
+use App\Imperium\Runtime\DecisionIntegrity\DecisionIntegrityRecordStore;
+use App\Imperium\Runtime\DecisionIntegrity\DecisionIntegrityReconstructionService;
 use App\Imperium\Runtime\Curia\DelegateMissionCognitionResultDispositionService;
 use App\Imperium\Runtime\Curia\DelegateMissionReturnAuthorizationService;
 use App\Imperium\Runtime\Curia\DelegateMissionProfileScopeAuthorizationRequestService;
@@ -303,6 +305,17 @@ abstract class DelegateMissionGuildhallResolutionFlowCase extends TestCase
             self::assertSame(['ACCEPT_ONE_EXACT_AUTHORIZED_DELEGATE_PERSONNEL_COMMITMENT'], $record['decision']['granted_authority']);
             self::assertSame('guildhall.guildmaster', $record['authority_lineage'][0]['consumer']);
             self::assertSame($request['record_digest'], $record['source_requests'][0]['digest']);
+            $reconstruction = (new DecisionIntegrityReconstructionService(new DecisionIntegrityRecordStore($root)))->reconstruct($record['decision_record_id']);
+            self::assertTrue($reconstruction['reconstruction_complete']);
+            self::assertSame($record, $reconstruction['decision_record']);
+            self::assertSame($request['institutional_decision_surface']['digest'], $reconstruction['decision_surface']['record_digest']);
+            self::assertSame($reconstruction['option_universe']['record_digest'], $reconstruction['decision_surface']['source_option_universe']['digest']);
+            self::assertSame($reconstruction['presentation_directive']['record_digest'], $reconstruction['decision_surface']['source_presentation_directive']['digest']);
+            self::assertSame($record['evidence_relied_on'], $reconstruction['evidence']);
+            self::assertSame([['id' => $request['request_id'], 'digest' => $request['record_digest']]], $reconstruction['source_requests']);
+            self::assertFalse($reconstruction['authority_granted']);
+            self::assertFalse($reconstruction['authority_consumed']);
+            self::assertFalse($reconstruction['continuation_authority']);
             foreach (['guildhall_acceptance_authority', 'reservation_authority', 'retrieval_authority', 'custody_transfer_authority', 'profile_derivation_authority', 'profile_examination_authority', 'profile_approval_authority', 'profile_installation_authority', 'profile_qualification_authority', 'manifestation_assembly_authority', 'seat_binding_authority', 'deployment_authority', 'operational_use_authority', 'cognition_authority', 'provider_invocation_authority', 'data_access_authority', 'tool_use_authority', 'credential_use_authority', 'perimeter_crossing_authority', 'external_action_authority', 'execution_authority', 'continuing_turn_authority'] as $field) {
                 self::assertFalse($decision[$field], $field.' must remain false');
             }
@@ -332,6 +345,24 @@ abstract class DelegateMissionGuildhallResolutionFlowCase extends TestCase
             } finally {
                 $this->remove($root);
             }
+        }
+    }
+
+    public function testDecisionReconstructionFailsStoppedWhenUnderlyingEvidenceIsIncomplete(): void
+    {
+        [$root, $request] = $this->personnelUseRequestFixture();
+        try {
+            $decision = (new DelegateMissionPersonnelUseDecisionService($root))->decide($request['request_id'], 'AUTHORIZED', 'Authorize this exact commitment.', 'Exact disclosed mission bounds only.', (new \DateTimeImmutable($request['presented_at']))->modify('+1 minute'));
+            $path = $root.'/var/imperium/decision-integrity/records/'.$decision['institutional_decision_record']['id'].'.json';
+            $record = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+            unset($record['record_digest']);
+            array_shift($record['underlying_proceeding_evidence']);
+            $this->write($path, $this->record($record));
+
+            $this->expectExceptionMessage('DI180_DECISION_RECONSTRUCTION_INVALID');
+            (new DecisionIntegrityReconstructionService(new DecisionIntegrityRecordStore($root)))->reconstruct($record['decision_record_id']);
+        } finally {
+            $this->remove($root);
         }
     }
 

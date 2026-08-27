@@ -88,6 +88,8 @@ Prove:
 
 Update canonical documentation and prepare the next separate campaign only after these proofs pass.
 
+Implemented. The complete proof matrix is executable, one read-only reconstruction bundle verifies the full canonical decision lineage without unrelated-log search, and the adopted personnel-use lifecycle retains its competent actors, schemas, dispositions, checkpoints, error boundary, and downstream authority. This campaign is terminal through Batch 6.
+
 ## Explicit exclusions
 
 This campaign does not implement:

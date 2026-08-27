@@ -61,3 +61,13 @@ The mechanical material-change detector validates both sealed surfaces, requires
 Historical Batch 4 surfaces remain readable under their sealed v1 source-bound fingerprints. Batch 5 does not reinterpret, rewrite, or invalidate an artifact merely because its fingerprint predates the exact semantic comparison. Staleness is established by comparing the sealed material facts, not by silently changing the meaning of an old digest.
 
 No other lifecycle adopts reauthorization in Batch 5, and no existing actor, disposition, checkpoint, authority consumer, or error vocabulary changes.
+
+## Batch 6 proof and closeout
+
+The proof matrix now covers mandatory surface and decision fields, omitted material options, short and deceptively long context-free prompts, stale evidence, competent residual-risk ownership, exact replay, conflicting immutable reuse, supersession lineage, every declared material-change category, non-material storage identity and presentation-time changes, all six existing Imperator dispositions, missing surface or decision bindings, and incomplete underlying evidence.
+
+`DecisionIntegrityReconstructionService` mechanically returns one verified bundle containing the canonical decision record, decision surface, option universe, presentation directive, evidence, source-request references, and prior-decision records. Every canonical digest, instance, proceeding, source lineage, evidence set, and required underlying reference is cross-checked. Reconstruction is read-only and grants, consumes, or continues no authority.
+
+The adopted Delegate personnel-use lifecycle retains its v1 request and decision schemas, Curia presenter, Imperator decision owner, six dispositions, existing statuses and error boundary, Guildhall consumer, and exact single-use acceptance authority. The stronger artifacts accompany and bind that lifecycle without creating another judgment or widening any later authority.
+
+Institutional Decision Integrity is terminal through Batch 6. Further institutional adoption is separate future work; no additional lifecycle was migrated by this campaign.
