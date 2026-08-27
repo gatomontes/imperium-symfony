@@ -17,8 +17,8 @@ final class ContinuousAgentGovernanceCampaignCloseoutDocumentationTest extends T
         self::assertStringContainsString('complete through Batch 16', $handoff);
         self::assertStringContainsString('`TERMINAL_THROUGH_BATCH_16`', $campaign);
         self::assertStringContainsString('No next runtime implementation campaign is selected', $handoff);
-        self::assertStringContainsString('Operational Cognition Lease Interruption Batch 2 is complete', $index);
-        self::assertStringContainsString('Only the exact disposition and enforcement-authority boundaries are open', $index);
+        self::assertStringContainsString('Operational Cognition Lease Interruption Batch 3 is complete', $index);
+        self::assertStringContainsString('Only the exact disposition, enforcement-authority, and native admission-result boundaries are open', $index);
         self::assertStringContainsString('separately prepared campaign', $todo);
         foreach (['generalized revocation propagation', 'telemetry', 'containment', 'incident handling', 'Iron Gate', 'Lazaretto', 'sorties', 'new credential-platform work'] as $boundary) {
             self::assertStringContainsString($boundary, $handoff);

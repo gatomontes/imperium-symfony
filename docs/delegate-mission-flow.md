@@ -208,11 +208,11 @@ Step 35, credential-boundary remediation at Batch 17, Institutional Decision Int
 and Continuous Agent Governance Controls at Batch 16. None created Delegate Mission Step 70 or
 reopened authority inside this closed route.
 
-The separate Operational Cognition Lease Interruption campaign is complete through Batch 2, as
+The separate Operational Cognition Lease Interruption campaign is complete through Batch 3, as
 defined in `docs/next-campaign-operational-cognition-lease-interruption.md` and the active handoff
-`docs/handoffs/operational-cognition-lease-interruption-batch-2-complete.md`. Preparation, the exact
-source-authorizer `INTERRUPT` disposition, and one single-use Locksmith authority exist; Batch 3
-native admission enforcement remains unopened.
+`docs/handoffs/operational-cognition-lease-interruption-batch-3-complete.md`. Preparation, the exact
+source-authorizer `INTERRUPT` disposition, one single-use Locksmith authority, and native
+admission-result enforcement exist; Batch 4 reconstruction remains unopened.
 
 The campaign does not alter this route or any credential, provider-journal, external-I/O,
 propagation, telemetry, containment, incident, Iron Gate, Lazaretto, sortie, or credential-platform

@@ -20,16 +20,17 @@ For the current Delegate Mission state, read in this order:
 14. `docs/handoffs/operational-cognition-lease-interruption-preparation-batch-0-complete.md`;
 15. `docs/handoffs/operational-cognition-lease-interruption-batch-1-complete.md`; and
 16. `docs/handoffs/operational-cognition-lease-interruption-batch-2-complete.md`; and
-17. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
+17. `docs/handoffs/operational-cognition-lease-interruption-batch-3-complete.md`; and
+18. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
 
 `docs/handoffs/operational-cognition-access-lifecycle-ready.md` and the numbered credential-boundary handoffs are historical execution records. They are not active continuation prompts.
 
 Historical step handoffs remain retained for provenance. When historical prose conflicts with a current contract or canonical document, the current contract or canonical document governs.
 
-Operational Cognition Lease Interruption Batch 2 is complete. The preparation inventory remains
+Operational Cognition Lease Interruption Batch 3 is complete. The preparation inventory remains
 `docs/operational-cognition-lease-interruption-preparation-inventory.md`, and the active handoff is
-`docs/handoffs/operational-cognition-lease-interruption-batch-2-complete.md`.
-Only the exact disposition and enforcement-authority boundaries are open; Batch 3 requires explicit
-authorization. Continuous Agent
+`docs/handoffs/operational-cognition-lease-interruption-batch-3-complete.md`.
+Only the exact disposition, enforcement-authority, and native admission-result boundaries are open;
+Batch 4 requires explicit authorization. Continuous Agent
 Governance Controls, Credential-boundary remediation, and Institutional Decision Integrity remain
 terminal.
