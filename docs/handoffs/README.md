@@ -23,13 +23,14 @@ For the current Delegate Mission state, read in this order:
 17. `docs/handoffs/operational-cognition-lease-interruption-batch-3-complete.md`;
 18. `docs/handoffs/operational-cognition-lease-interruption-batch-4-complete.md`; and
 19. `docs/handoffs/operational-cognition-lease-interruption-campaign-complete.md`; and
-20. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
+20. `docs/handoffs/operational-cognition-lease-interruption-terminal-evidence-remediation-batch-6-complete.md`; and
+21. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
 
 `docs/handoffs/operational-cognition-access-lifecycle-ready.md` and the numbered credential-boundary handoffs are historical execution records. They are not active continuation prompts.
 
 Historical step handoffs remain retained for provenance. When historical prose conflicts with a current contract or canonical document, the current contract or canonical document governs.
 
-Operational Cognition Lease Interruption is terminal through Batch 5. The preparation inventory remains
+Operational Cognition Lease Interruption is terminal through Batch 6. The preparation inventory remains
 `docs/operational-cognition-lease-interruption-preparation-inventory.md`, and the active handoff is
 `docs/handoffs/operational-cognition-lease-interruption-campaign-complete.md`.
 The exact disposition, enforcement-authority, native admission-result, and read-only reconstruction
