@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Guildhall;
 
 use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\DecisionIntegrity\DelegatePersonnelUseDecisionIntegrityAdapter;
 use App\Imperium\Runtime\Identity\OfficerClass;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
@@ -16,8 +17,9 @@ final readonly class DelegateMissionPersonnelUseAcceptanceService
     private string $occupancy;
     private string $acceptances;
     private string $garrisonInbox;
+    private DelegatePersonnelUseDecisionIntegrityAdapter $decisionIntegrity;
 
-    public function __construct(#[Autowire('%kernel.project_dir%')] string $root)
+    public function __construct(#[Autowire('%kernel.project_dir%')] string $root, ?DelegatePersonnelUseDecisionIntegrityAdapter $decisionIntegrity = null)
     {
         $this->decisions = $root.'/var/imperium/imperator/delegate-mission-personnel-use-decisions';
         $this->requests = $root.'/var/imperium/curia/delegate-mission-personnel-use-requests';
@@ -25,6 +27,7 @@ final readonly class DelegateMissionPersonnelUseAcceptanceService
         $this->occupancy = $root.'/var/imperium/offices/guildhall/occupancy';
         $this->acceptances = $root.'/var/imperium/offices/guildhall/delegate-mission-personnel-use-acceptances';
         $this->garrisonInbox = $root.'/var/imperium/offices/garrison/delegate-mission-persona-reservation-inbox';
+        $this->decisionIntegrity = $decisionIntegrity ?? new DelegatePersonnelUseDecisionIntegrityAdapter($root);
     }
 
     public function accept(string $decisionId, string $bindingId, \DateTimeImmutable $acceptedAt): array
@@ -43,6 +46,11 @@ final readonly class DelegateMissionPersonnelUseAcceptanceService
         $resolution = $this->read($this->resolutions.'/'.$resolutionId.'.json', 'G513_DELEGATE_MISSION_PERSONNEL_USE_ACCEPTANCE_CHAIN_INVALID');
         $binding = $this->read($this->occupancy.'/'.$bindingId.'.json', 'G513_DELEGATE_MISSION_PERSONNEL_USE_ACCEPTANCE_CHAIN_INVALID');
         $guildmaster = $binding['bindings']['guildhall.guildmaster'] ?? null;
+        try {
+            $this->decisionIntegrity->readDecision($decision);
+        } catch (\RuntimeException) {
+            throw new \RuntimeException('G513_DELEGATE_MISSION_PERSONNEL_USE_ACCEPTANCE_CHAIN_INVALID');
+        }
         $this->validate($decisionId, $decision, $requestId, $request, $resolutionId, $resolution, $bindingId, $binding, $guildmaster);
 
         $acceptanceId = 'delegate-mission-personnel-use-acceptance-'.substr(hash('sha256', CanonicalJson::encode([
@@ -172,6 +180,8 @@ final readonly class DelegateMissionPersonnelUseAcceptanceService
             || 'AUTHORIZED' !== ($decision['disposition'] ?? null)
             || true !== ($decision['personnel_use_authorized'] ?? null)
             || true !== ($decision['personnel_use_authority_exercisable'] ?? null)
+            || true !== ($decision['institutional_decision_integrity_adopted'] ?? null)
+            || !is_array($decision['institutional_decision_record'] ?? null)
             || 'DELEGATE_MISSION_PERSONNEL_USE_AUTHORIZED_PENDING_GUILDHALL_ACCEPTANCE' !== ($decision['status'] ?? null)
             || !is_array($authority)
             || true !== ($authority['authority_single_use'] ?? null)

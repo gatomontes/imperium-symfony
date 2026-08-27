@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Curia;
 
 use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\DecisionIntegrity\DelegatePersonnelUseDecisionIntegrityAdapter;
 use App\Imperium\Runtime\Identity\OfficerClass;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
@@ -15,14 +16,16 @@ final readonly class DelegateMissionPersonnelUseRequestService
     private string $demands;
     private string $garrisonResponses;
     private string $requests;
+    private DelegatePersonnelUseDecisionIntegrityAdapter $decisionIntegrity;
 
-    public function __construct(#[Autowire('%kernel.project_dir%')] string $root)
+    public function __construct(#[Autowire('%kernel.project_dir%')] string $root, ?DelegatePersonnelUseDecisionIntegrityAdapter $decisionIntegrity = null)
     {
         $this->resolutions = $root.'/var/imperium/offices/guildhall/delegate-mission-personnel-resolutions';
         $this->intakes = $root.'/var/imperium/offices/guildhall/delegate-mission-capability-demand-intake-dispositions';
         $this->demands = $root.'/var/imperium/offices/curia/delegate-mission-capability-demands';
         $this->garrisonResponses = $root.'/var/imperium/offices/guildhall/inventory-responses';
         $this->requests = $root.'/var/imperium/curia/delegate-mission-personnel-use-requests';
+        $this->decisionIntegrity = $decisionIntegrity ?? new DelegatePersonnelUseDecisionIntegrityAdapter($root);
     }
 
     public function present(string $resolutionId, \DateTimeImmutable $presentedAt): array
@@ -72,6 +75,7 @@ final readonly class DelegateMissionPersonnelUseRequestService
             $commitment,
             $demand['mission_plan'],
         ])), 0, 20);
+        $surface = $this->decisionIntegrity->presentSurface($requestId, $resolution, $intake, $demand, $response, $presentedAt);
 
         return $this->save($requestId, [
             'schema' => 'imperium.curia-delegate-mission-personnel-use-request/v1',
@@ -83,6 +87,8 @@ final readonly class DelegateMissionPersonnelUseRequestService
             'source_demand' => ['id' => $demandId, 'digest' => $demand['record_digest']],
             'source_mission_plan' => $demand['mission_plan'],
             'source_garrison_facts' => ['id' => $responseId, 'digest' => $response['record_digest']],
+            'institutional_decision_surface' => ['id' => $surface['surface_id'], 'digest' => $surface['record_digest']],
+            'institutional_decision_integrity_adopted' => true,
             'requester' => ['office' => 'curia', 'seat' => 'curia.seneschal', 'role' => 'PRESENTATION_ONLY'],
             'recipient' => ['kind' => 'imperator', 'id' => 'imperator-development-root', 'decision_pending' => true],
             'personnel_commitment' => $commitment,

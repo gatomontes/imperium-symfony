@@ -40,4 +40,14 @@ Every materially relevant option in the sealed universe must appear exactly once
 
 Assembly computes a deterministic source-bound material-facts fingerprint and immutable surface identity, combines only exact sealed unexpired evidence, and persists the surface through the Batch 2 store. The resulting authorization state is always decision-pending, non-inferred, and non-authorizing. Silence, inactivity, familiarity, and prior consent remain explicitly incapable of granting authority.
 
-The assembler is still unadopted infrastructure. It does not present a surface inside an existing lifecycle, receive an Imperator response, create a decision record, grant authority, or change any existing checkpoint or competent actor.
+Through Batch 3, the assembler remained unadopted infrastructure. It did not present a surface inside an existing lifecycle, receive an Imperator response, create a decision record, grant authority, or change any existing checkpoint or competent actor.
+
+## Batch 4 first bounded adoption
+
+Batch 4 adopts the pair only at Delegate Mission personnel use. Curia's existing personnel-use request now carries the exact sealed decision-surface reference. The existing Imperator decision carries the exact sealed defensible decision-record reference. The request schema, decision schema, six Imperator dispositions, competent actors, checkpoint names, and the single-use Guildhall acceptance authority remain unchanged.
+
+All six existing dispositions are materially presented. The surface explains that authorization opens only the exact Guildhall acceptance authority while reservation, Profile, deployment, resource, external-action, execution, and continuing authority remain separate or denied. Non-authorizing dispositions still grant nothing.
+
+Guildhall now refuses to consume the legacy authorization unless the canonical record and its persisted option-universe, presentation directive, surface, request, disposition, limitations, resulting state, granted authority, and Guildhall authority lineage are intact and mutually consistent. The canonical record accompanies and binds the existing judgment; it neither replaces the judgment nor creates a second authority.
+
+No other Imperator boundary or institutional lifecycle adopts these contracts in Batch 4.
