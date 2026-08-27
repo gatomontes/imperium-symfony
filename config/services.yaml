@@ -53,6 +53,7 @@ services:
                 - '@App\Imperium\Runtime\Senate\SenatePersonaGovernancePressureTestimonyGovernanceCognitionAuthorityResolver'
                 - '@App\Imperium\Runtime\Senate\SenatePersonaSecurityPressureQuestionGovernanceCognitionAuthorityResolver'
                 - '@App\Imperium\Runtime\Senate\SenatePersonaSecurityPressureTestimonyGovernanceCognitionAuthorityResolver'
+                - '@App\Imperium\Runtime\Senate\SenatePersonaFindingGovernanceCognitionAuthorityResolver'
                 - '@App\Imperium\Runtime\Senate\SenatePersonaConfirmationGovernanceCognitionAuthorityResolver'
 
     App\Imperium\Runtime\Curia\ProceedingStore:
@@ -258,13 +259,6 @@ services:
 
     App\Imperium\Runtime\Mission\OperationalExecutionCognitionGateway:
         alias: App\Imperium\Runtime\Mission\SymfonyAiOperationalExecutionCognitionGateway
-
-    App\Imperium\Runtime\Senate\SymfonyAiSenatorFindingCognitionGateway:
-        arguments:
-            $practice: '@ai.agent.senator_finding_practice'
-            $governance: '@ai.agent.senator_finding_governance'
-            $consistency: '@ai.agent.senator_finding_consistency'
-            $security: '@ai.agent.senator_finding_security'
 
     App\Imperium\Runtime\Senate\SenatorFindingCognitionGateway:
         alias: App\Imperium\Runtime\Senate\SymfonyAiSenatorFindingCognitionGateway
