@@ -48,6 +48,20 @@ final class InternalOperationalLeaseInterruptionEnforcementAuthorityServiceTest 
         (new InternalOperationalLeaseInterruptionEnforcementAuthorityService($this->root))->issue($dispositionId, $locksmithId, new \DateTimeImmutable('2026-08-27T12:03:00+00:00'), new \DateTimeImmutable('2026-08-27T12:07:01+00:00'));
     }
 
+    public function testStructurallyDivergentPriorAuthorityFailsReplayStopped(): void
+    {
+        [$dispositionId, $locksmithId] = $this->fixtures();
+        $service = new InternalOperationalLeaseInterruptionEnforcementAuthorityService($this->root);
+        $issuedAt = new \DateTimeImmutable('2026-08-27T12:03:00+00:00');
+        $prior = $service->issue($dispositionId, $locksmithId, $issuedAt, $issuedAt->modify('+4 minutes'));
+        unset($prior['record_digest']);
+        $prior['network_access_authority'] = true;
+        $this->write($this->root.'/var/imperium/runtime/operational-cognition-lease-interruption-enforcement-authorities/'.$prior['authority_id'].'.json', $this->sealed($prior));
+
+        $this->expectExceptionMessage('OCI206_OPERATIONAL_LEASE_ENFORCEMENT_AUTHORITY_CONFLICT');
+        $service->issue($dispositionId, $locksmithId, $issuedAt, $issuedAt->modify('+4 minutes'));
+    }
+
     public function testExistingClaimAndDuplicateCurrentLocksmithFailStopped(): void
     {
         [$dispositionId, $locksmithId, $leaseId, $locksmith] = $this->fixtures();
