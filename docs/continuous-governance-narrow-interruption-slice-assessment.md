@@ -26,7 +26,7 @@ transition, and no other runtime principal or custodian.
 
 | Candidate scope | Existing canonical substrate | Classification | Decision and exact gap |
 | --- | --- | --- | --- |
-| Unclaimed governance cognition lease | Immutable, expiring, single-use `imperium.clavium-governance-cognition-lease/v1`; exact Locksmith issuer; claim service is the sole next consumer | `EXISTS_FRAGMENTED` | `IN_PROGRESS_SELECTED_SCOPE`. Batches 12–14 add disposition, authority, native claim-admission enforcement, and result; read-only reconstruction remains absent. |
+| Unclaimed governance cognition lease | Immutable, expiring, single-use `imperium.clavium-governance-cognition-lease/v1`; exact Locksmith issuer; claim service is the sole next consumer | `EXISTS_CANONICALLY` | Batches 12–15 complete exact disposition, authority, native claim-admission enforcement, immutable result, and read-only four-artifact reconstruction with mechanical claim absence. No propagation or lease closure exists. |
 | Durable pre-I/O governance cognition claim | Batches 7–10 disposition, authority, result, admission guard, and four-artifact reconstruction | `EXISTS_CANONICALLY` | Complete only for exact provider-journal admission; do not widen it. |
 | Unclaimed operational cognition lease | Parallel immutable lease and durable-claim boundary | `EXISTS_FRAGMENTED` | Defer until the governance lease slice proves the reusable shape; competent judgment and operational lineage require separate validation. |
 | Active Manifestation or Seat binding | Conscription activation and occupancy records | `EXISTS_FRAGMENTED` | Requires a different native custodian and state transition; not adjacent to Clavium claim admission. |
@@ -36,15 +36,15 @@ transition, and no other runtime principal or custodian.
 | In-flight provider cancellation | Provider journal unknown-outcome handling only | `DEFERRED_BOUNDARY` | Cancellation belongs to the future Iron Gate/perimeter campaign. |
 | `RETIRE` enforcement | Existing return, custody-restoration, unbinding, and retirement lifecycles | `EXISTS_FRAGMENTED` | Must remain a separate Garrison terminal path; it is not a Clavium lease denial. |
 
-## Selected next slice
+## Completed adjacent slice
 
-The next slice is one unclaimed governance cognition lease before durable claim creation.
+The completed adjacent slice is one unclaimed governance cognition lease before durable claim creation.
 
 The competent judgment remains Seneschal `INTERRUPT` for one bounded internal mission iteration.
 The future native enforcer remains one current Locksmith. The only permissible transition is
 `DENY_DURABLE_GOVERNANCE_INVOCATION_CLAIM_FOR_EXACT_LEASE`.
 
-The smallest safe sequence is:
+The completed safe sequence is:
 
 1. define and issue one lease-scoped disposition without mutating the lease;
 2. open one exact, expiring, single-use Locksmith authority;
@@ -54,7 +54,7 @@ The smallest safe sequence is:
 5. add a separate read-only reconstruction proving lease, disposition, authority, result, and
    claim absence.
 
-Each step remains a separate batch. No step may infer later authority merely because it is listed.
+Each step remained a separate batch. No completed step grants authority over any later scope.
 
 ## Stop conditions
 
