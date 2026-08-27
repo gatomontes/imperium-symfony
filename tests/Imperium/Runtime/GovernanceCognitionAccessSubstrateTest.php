@@ -39,6 +39,12 @@ final class GovernanceCognitionAccessSubstrateTest extends TestCase
         [$request, $decision, $lease, $claim] = $this->lifecycle();
 
         self::assertSame($this->resolver->authority['source'], $request['source_governance_authority']);
+        self::assertSame('imperium.governance-cognition-request/v1', $request['schema']);
+        self::assertSame('ADVISORY_COGNITION', $request['continuous_governance']['governance_tier']);
+        self::assertSame('INTERNAL_REVERSIBLE', $request['continuous_governance']['consequence_class']);
+        self::assertSame(['INSTANCE', 'OFFICE', 'SEAT'], array_column($request['continuous_governance']['runtime_principal_references'], 'principal_kind'));
+        self::assertFalse($request['continuous_governance']['authority_granted']);
+        self::assertFalse($request['continuous_governance']['execution_authority']);
         self::assertSame('AUTHORIZED', $decision['disposition']);
         self::assertTrue($lease['opaque']);
         self::assertFalse($lease['credential_reference_disclosed']);

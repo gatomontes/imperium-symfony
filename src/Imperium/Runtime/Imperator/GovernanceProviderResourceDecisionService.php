@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Imperator;
 
 use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\Governance\ContinuousGovernanceContext;
 use App\Imperium\Runtime\Citadel\DeepSeekDelegateModelConfiguration;
 use App\Imperium\Runtime\Persistence\AtomicTransition;
 use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
@@ -52,8 +53,18 @@ final readonly class GovernanceProviderResourceDecisionService
         }
 
         $request = $this->validator->read($this->root.'/'.self::REQUESTS.'/'.$requestId.'.json', 'GCA203_GOVERNANCE_COGNITION_REQUEST_ABSENT');
+        $continuousGovernance = $request['continuous_governance'] ?? null;
+        $continuousGovernanceInvalid = null !== $continuousGovernance
+            && !ContinuousGovernanceContext::isExactAdvisoryCognition($continuousGovernance, [
+                'instance_id' => $request['instance_id'] ?? null,
+                'seat' => $request['target']['seat'] ?? null,
+                'purpose' => $request['target']['purpose'] ?? null,
+                'input_digest' => $request['input_digest'] ?? null,
+                'source' => $request['source_governance_authority'] ?? null,
+            ]);
         if (!$this->validator->isIntact($request) || 'imperium.governance-cognition-request/v1' !== ($request['schema'] ?? null)
             || $requestId !== ($request['request_id'] ?? null) || 'GOVERNANCE_COGNITION_REQUESTED_PENDING_IMPERATOR_PROVIDER_RESOURCE_DECISION' !== ($request['status'] ?? null)
+            || $continuousGovernanceInvalid
             || true !== ($request['governance_authority_single_use'] ?? null) || false !== ($request['governance_authority_consumed'] ?? null)
             || true === ($request['credential_use_authority'] ?? null) || true === ($request['network_access_authority'] ?? null)
             || new \DateTimeImmutable((string) ($request['expires_at'] ?? '1970-01-01')) <= $decidedAt

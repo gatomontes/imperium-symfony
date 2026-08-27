@@ -68,6 +68,20 @@ Preparation is complete when a reviewer can see, without searching unrelated log
 - which actor owns each judgment or enforcement point; and
 - the smallest next implementation batch that does not duplicate, widen, or reopen completed work.
 
+## Campaign progress
+
+Preparation Batch 0 is recorded in
+`docs/continuous-agent-governance-controls-preparation-inventory.md`. It classifies all 56
+requirements and identifies consequence vocabulary plus authority-empty principal references
+as the smallest first implementation boundary.
+
+Batch 1 adopts `imperium.continuous-governance-consequence-classification/v1` on the existing
+internal governance-cognition request only. It records `ADVISORY_COGNITION` /
+`INTERNAL_REVERSIBLE`, references the existing instance, competent Office, target Seat, and
+native authority, and leaves every authority-bearing flag false. It does not create or merge a
+principal, change the native authority, authorize cognition by itself, or open an external,
+revocation, telemetry, containment, or incident boundary.
+
 ## Starting instruction
 
 Begin from `main`. Read:
