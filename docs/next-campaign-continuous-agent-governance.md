@@ -119,6 +119,18 @@ only and cannot mutate state or open authority. The enforcement record is separa
 expiring, and single-use. No issuer, consumer, propagation, lease closure, or state mutation is
 implemented.
 
+Batches 7–10 implement and reconstruct one deliberately narrow `INTERRUPT` slice for an exact
+durable governance cognition invocation claim before provider-journal admission. Seneschal
+judgment, a separate expiring single-use Locksmith authority, native admission enforcement, and
+a four-artifact read-only reconstruction are complete. No source claim, lease, credential, or
+occupancy is mutated, and no propagation or perimeter authority is opened.
+
+Batch 11 assesses that completed slice and selects one unclaimed governance cognition lease as
+the smallest adjacent scope. Selection opens no authority and changes no runtime behavior. The
+next sequence must proceed one batch at a time from lease-scoped disposition through separate
+authority, native claim-admission enforcement, and reconstruction while leaving the immutable
+lease unclosed and all generalized boundaries deferred.
+
 ## Starting instruction
 
 Begin from `main`. Read:
