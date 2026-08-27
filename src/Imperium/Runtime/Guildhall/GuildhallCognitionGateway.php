@@ -7,6 +7,7 @@ namespace App\Imperium\Runtime\Guildhall;
 interface GuildhallCognitionGateway
 {
     public function deliberate(
+        string $acceptanceId,
         array $missionPlan,
         array $commissionScope,
         array $occupancy,
