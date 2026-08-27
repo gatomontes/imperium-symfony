@@ -67,23 +67,7 @@ final readonly class InternalOperationalLeaseInterruptionDispositionService
                 'operational_cognition_lease' => ['id' => $leaseId, 'digest' => $lease['record_digest']],
             ];
             $dispositionId = 'operational-lease-interruption-disposition-'.substr(hash('sha256', CanonicalJson::encode([$lineage, $actor, $reason])), 0, 20);
-
-            foreach (glob($this->root.'/'.self::DISPOSITIONS.'/*.json') ?: [] as $path) {
-                $prior = $this->validator->read($path, 'OCI106_OPERATIONAL_LEASE_INTERRUPTION_DISPOSITION_CONFLICT');
-                if (($prior['affected_scope']['lease']['id'] ?? null) !== $leaseId) {
-                    continue;
-                }
-                if (!$this->validator->isIntact($prior)
-                    || ($prior['lineage'] ?? null) !== $lineage
-                    || ($prior['competent_actor'] ?? null) !== $actor
-                    || ($prior['reason'] ?? null) !== $reason) {
-                    throw new \RuntimeException('OCI106_OPERATIONAL_LEASE_INTERRUPTION_DISPOSITION_CONFLICT');
-                }
-
-                return $prior;
-            }
-
-            return $this->records->put(self::DISPOSITIONS, $dispositionId, [
+            $expected = [
                 'schema' => 'imperium.operational-cognition-lease-interruption-disposition/v1',
                 'disposition_id' => $dispositionId,
                 'instance_id' => $lease['instance_id'],
@@ -112,7 +96,26 @@ final readonly class InternalOperationalLeaseInterruptionDispositionService
                 'authority_granted' => false,
                 'continuation_authority' => false,
                 'sealed' => true,
-            ]);
+            ];
+
+            foreach (glob($this->root.'/'.self::DISPOSITIONS.'/*.json') ?: [] as $path) {
+                $prior = $this->validator->requireIntact(
+                    $this->validator->read($path, 'OCI106_OPERATIONAL_LEASE_INTERRUPTION_DISPOSITION_CONFLICT'),
+                    'OCI106_OPERATIONAL_LEASE_INTERRUPTION_DISPOSITION_CONFLICT',
+                );
+                if (($prior['affected_scope']['lease']['id'] ?? null) !== $leaseId) {
+                    continue;
+                }
+                $comparison = $prior;
+                unset($comparison['record_digest']);
+                if ($comparison !== $expected) {
+                    throw new \RuntimeException('OCI106_OPERATIONAL_LEASE_INTERRUPTION_DISPOSITION_CONFLICT');
+                }
+
+                return $prior;
+            }
+
+            return $this->records->put(self::DISPOSITIONS, $dispositionId, $expected);
         });
     }
 
