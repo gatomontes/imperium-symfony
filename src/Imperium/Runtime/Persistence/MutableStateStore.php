@@ -18,13 +18,19 @@ final readonly class MutableStateStore
 
     public function compareAndSwap(string $relativePath, ?string $expectedDigest, array $next): array
     {
+        return $this->compareAndSwapGuarded($relativePath, $expectedDigest, static function (): void {}, $next);
+    }
+
+    public function compareAndSwapGuarded(string $relativePath, ?string $expectedDigest, callable $guard, array $next): array
+    {
         $path = $this->path($relativePath);
 
-        return $this->atomic->run('mutable:'.hash('sha256', $relativePath), function () use ($path, $expectedDigest, $next): array {
+        return $this->atomic->run('mutable:'.hash('sha256', $relativePath), function () use ($path, $expectedDigest, $guard, $next): array {
             $current = is_file($path) ? $this->readPath($path) : null;
             if (($current['record_digest'] ?? null) !== $expectedDigest) {
                 throw new \RuntimeException('PST121_MUTABLE_STATE_COMPARE_AND_SWAP_CONFLICT');
             }
+            $guard();
             unset($next['record_digest']);
             $next['record_digest'] = hash('sha256', CanonicalJson::encode($next));
             $this->commit($path, $next);

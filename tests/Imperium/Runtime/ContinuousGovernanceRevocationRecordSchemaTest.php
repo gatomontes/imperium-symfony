@@ -13,6 +13,7 @@ final class ContinuousGovernanceRevocationRecordSchemaTest extends TestCase
         $root = dirname(__DIR__, 3).'/contracts/';
         $disposition = json_decode((string) file_get_contents($root.'continuous-governance-revocation-disposition.schema.json'), true, 64, JSON_THROW_ON_ERROR);
         $authority = json_decode((string) file_get_contents($root.'continuous-governance-enforcement-authority.schema.json'), true, 64, JSON_THROW_ON_ERROR);
+        $result = json_decode((string) file_get_contents($root.'continuous-governance-enforcement-result.schema.json'), true, 64, JSON_THROW_ON_ERROR);
         self::assertSame(false, $disposition['properties']['enforcement_authority_opened']['const']);
         self::assertSame(false, $disposition['properties']['state_mutated']['const']);
         self::assertSame(false, $disposition['properties']['authority_granted']['const']);
@@ -25,5 +26,9 @@ final class ContinuousGovernanceRevocationRecordSchemaTest extends TestCase
         self::assertSame(false, $authority['properties']['continuing_authority']['const']);
         self::assertSame(false, $authority['properties']['perimeter_authority']['const']);
         self::assertSame('^[a-f0-9]{64}$', $authority['properties']['record_digest']['pattern']);
+        self::assertSame(true, $result['properties']['authority_consumed']['const']);
+        self::assertSame(false, $result['properties']['journal_created']['const']);
+        self::assertSame(false, $result['properties']['external_io_started']['const']);
+        self::assertSame(false, $result['properties']['propagation_performed']['const']);
     }
 }

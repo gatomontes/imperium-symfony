@@ -1,0 +1,11 @@
+<?php
+declare(strict_types=1);
+namespace App\Imperium\Runtime\Governance;
+use App\Imperium\Runtime\Persistence\RecordReferenceValidator;use Symfony\Component\DependencyInjection\Attribute\Autowire;
+final readonly class GovernanceInterruptionAdmissionGuard
+{
+ private const RESULTS='var/imperium/runtime/continuous-governance-enforcement-results',AUTHORITIES='var/imperium/runtime/continuous-governance-enforcement-authorities';private RecordReferenceValidator $validator;
+ public function __construct(#[Autowire('%kernel.project_dir%')]private string$root,?RecordReferenceValidator$v=null){$this->validator=$v??new RecordReferenceValidator($root);}
+ public function assertMayCreateJournal(array$claim):void
+ {foreach(glob($this->root.'/'.self::RESULTS.'/*.json')?:[]as$p){$r=$this->validator->read($p,'CLV416_GOVERNANCE_INVOCATION_INTERRUPTED_PRE_IO');if(($r['affected_scope']['claim']['id']??null)!==($claim['claim_id']??null))continue;$ref=$r['source_authority']??[];$id=$ref['id']??null;if(!$this->validator->isIntact($r)||'imperium.continuous-governance-enforcement-result/v1'!==($r['schema']??null)||!is_string($id)||true!==($r['authority_consumed']??null)||false!==($r['journal_created']??null)||false!==($r['external_io_started']??null)||false!==($r['claim_mutated']??null)||false!==($r['lease_mutated']??null)||false!==($r['credential_mutated']??null)||false!==($r['propagation_performed']??null)||false!==($r['continuation_authority']??null)||'DENY_PROVIDER_INVOCATION_JOURNAL_START_FOR_EXACT_CLAIM'!==($r['performed_transition']??null)||($r['affected_scope']['claim']['digest']??null)!==($claim['record_digest']??null))throw new \RuntimeException('CLV416_GOVERNANCE_INVOCATION_INTERRUPTED_PRE_IO');$a=$this->validator->read($this->root.'/'.self::AUTHORITIES.'/'.$id.'.json','CLV416_GOVERNANCE_INVOCATION_INTERRUPTED_PRE_IO');if(!$this->validator->isIntact($a)||($ref['digest']??null)!==($a['record_digest']??null)||($a['source_disposition']??null)!==($r['source_disposition']??null)||($a['affected_scope']??null)!==($r['affected_scope']??null)||($a['enforcer']??null)!==($r['enforcer']??null)||'DENY_PROVIDER_INVOCATION_JOURNAL_START_FOR_EXACT_CLAIM'!==($a['permitted_transition']??null))throw new \RuntimeException('CLV416_GOVERNANCE_INVOCATION_INTERRUPTED_PRE_IO');throw new \RuntimeException('CLV416_GOVERNANCE_INVOCATION_INTERRUPTED_PRE_IO');}}
+}
