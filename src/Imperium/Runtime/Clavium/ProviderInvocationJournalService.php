@@ -8,6 +8,7 @@ use App\Bootstrap\CanonicalJson;
 use App\Imperium\Runtime\Persistence\AtomicTransition;
 use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
 use App\Imperium\Runtime\Persistence\MutableStateStore;
+use App\Imperium\Runtime\Governance\GovernanceInterruptionAdmissionGuard;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class ProviderInvocationJournalService
@@ -19,6 +20,7 @@ final readonly class ProviderInvocationJournalService
 
     private MutableStateStore $state;
     private ImmutableRecordStore $records;
+    private GovernanceInterruptionAdmissionGuard $governanceInterruptionGuard;
 
     public function __construct(
         #[Autowire('%kernel.project_dir%')]
@@ -26,10 +28,12 @@ final readonly class ProviderInvocationJournalService
         ?AtomicTransition $atomic = null,
         ?MutableStateStore $state = null,
         ?ImmutableRecordStore $records = null,
+        ?GovernanceInterruptionAdmissionGuard $governanceInterruptionGuard = null,
     ) {
         $atomic ??= new AtomicTransition($root);
         $this->state = $state ?? new MutableStateStore($root, $atomic);
         $this->records = $records ?? new ImmutableRecordStore($root, $atomic);
+        $this->governanceInterruptionGuard = $governanceInterruptionGuard ?? new GovernanceInterruptionAdmissionGuard($root);
     }
 
     public function start(array $claim, \DateTimeImmutable $at): array
@@ -37,7 +41,7 @@ final readonly class ProviderInvocationJournalService
         $authoritative = $this->authoritativeClaim($claim);
 
         try {
-            return $this->state->compareAndSwap($this->path($authoritative['claim_id']), null, [
+            return $this->createJournal($authoritative, [
                 'schema' => 'imperium.clavium-provider-invocation-journal/v1',
                 'claim' => ['id' => $authoritative['claim_id'], 'digest' => $authoritative['record_digest']],
                 'idempotency_key' => $this->idempotencyKey($authoritative),
@@ -62,7 +66,7 @@ final readonly class ProviderInvocationJournalService
         }
 
         try {
-            return $this->state->compareAndSwap($this->path($authoritative['claim_id']), null, [
+            return $this->createJournal($authoritative, [
                 'schema' => 'imperium.clavium-provider-invocation-journal/v1',
                 'claim' => ['id' => $authoritative['claim_id'], 'digest' => $authoritative['record_digest']],
                 'idempotency_key' => $this->idempotencyKey($authoritative),
@@ -88,7 +92,7 @@ final readonly class ProviderInvocationJournalService
         }
 
         try {
-            return $this->state->compareAndSwap($this->path($authoritative['claim_id']), null, [
+            return $this->createJournal($authoritative, [
                 'schema' => 'imperium.clavium-provider-invocation-journal/v1',
                 'claim' => ['id' => $authoritative['claim_id'], 'digest' => $authoritative['record_digest']],
                 'idempotency_key' => $this->idempotencyKey($authoritative),
@@ -163,7 +167,7 @@ final readonly class ProviderInvocationJournalService
         }
 
         try {
-            return $this->state->compareAndSwap($this->path($authoritative['claim_id']), null, [
+            return $this->createJournal($authoritative, [
                 'schema' => 'imperium.clavium-provider-invocation-journal/v1',
                 'claim' => ['id' => $authoritative['claim_id'], 'digest' => $authoritative['record_digest']],
                 'idempotency_key' => $this->idempotencyKey($authoritative),
@@ -268,6 +272,16 @@ final readonly class ProviderInvocationJournalService
         }
 
         return $key;
+    }
+
+    private function createJournal(array $claim, array $record): array
+    {
+        $path = $this->path($claim['claim_id']);
+        if (str_starts_with($claim['claim_id'], 'governance-cognition-invocation-claim-')) {
+            return $this->state->compareAndSwapGuarded($path, null, fn (): mixed => $this->governanceInterruptionGuard->assertMayCreateJournal($claim), $record);
+        }
+
+        return $this->state->compareAndSwap($path, null, $record);
     }
 
     private function path(string $claimId): string
