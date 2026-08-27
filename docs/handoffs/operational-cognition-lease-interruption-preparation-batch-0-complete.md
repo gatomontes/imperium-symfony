@@ -18,8 +18,8 @@ read-only reconstruction remain absent and require separate batches.
 ## Next separately bounded batch
 
 Only Batch 1 may next be considered: define one exact operational-lease `INTERRUPT` disposition
-contract and service without lease mutation or authority creation. Batch 1 is not authorized by
-this handoff; it requires an explicit continuation instruction.
+contract and service without lease mutation or authority creation.
+Batch 1 is not authorized by this handoff; it requires an explicit continuation instruction.
 
 All operational claim, cognition, credential, journal, external-I/O, propagation, telemetry,
 containment, incident, Iron Gate, Lazaretto, sortie, and credential-platform boundaries remain
