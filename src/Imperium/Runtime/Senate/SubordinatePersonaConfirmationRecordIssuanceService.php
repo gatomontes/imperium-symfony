@@ -33,6 +33,9 @@ final readonly class SubordinatePersonaConfirmationRecordIssuanceService
         }
         $retirement = $this->readRecord("witness-retirement-sets", $retirementSetId, "S197_CONFIRMATION_RECORD_CHAIN_INVALID");
         $disposition = $this->readRecord("dispositions", $retirement["disposition_id"] ?? null, "S197_CONFIRMATION_RECORD_CHAIN_INVALID");
+        if ("imperium.senate-witness-retirement-set/v2" === ($retirement["schema"] ?? null) && "imperium.senate-subordinate-persona-disposition/v2" === ($disposition["schema"] ?? null)) {
+            return $this->issueV2($retirementSetId, $retirement, $disposition);
+        }
         $findingSet = $this->readRecord("senator-finding-sets", $disposition["finding_set_id"] ?? null, "S197_CONFIRMATION_RECORD_CHAIN_INVALID");
         $ledger = $this->readRecord("required-trial-ledgers", $findingSet["required_trial_ledger_id"] ?? null, "S197_CONFIRMATION_RECORD_CHAIN_INVALID");
         $baseline = $this->readRecord("jurisdiction-baselines", $ledger["baseline_id"] ?? null, "S197_CONFIRMATION_RECORD_CHAIN_INVALID");
@@ -154,6 +157,44 @@ final readonly class SubordinatePersonaConfirmationRecordIssuanceService
             "execution_authority" => false,
             "sealed" => true,
         ]);
+    }
+
+    private function issueV2(string $retirementSetId, array $retirement, array $disposition): array
+    {
+        $opening = $this->readRecord("persona-disposition-authority-openings", $disposition["source_disposition_authority_opening"]["id"] ?? null, "S197_CONFIRMATION_RECORD_CHAIN_INVALID");
+        $reconciliation = $this->readRecord("persona-reconciliations", $opening["source_reconciliation"]["id"] ?? null, "S197_CONFIRMATION_RECORD_CHAIN_INVALID");
+        $ledger = $this->readRecord("required-trial-ledgers", $disposition["required_trial_ledger_id"] ?? null, "S197_CONFIRMATION_RECORD_CHAIN_INVALID");
+        $baseline = $this->readRecord("jurisdiction-baselines", $ledger["baseline_id"] ?? null, "S197_CONFIRMATION_RECORD_CHAIN_INVALID");
+        $consistency = $this->readRecord("fresh-consistency-trials", $ledger["fresh_consistency_trial_id"] ?? null, "S197_CONFIRMATION_RECORD_CHAIN_INVALID");
+        $deposition = $this->readRecord("depositions", $baseline["deposition_id"] ?? null, "S197_CONFIRMATION_RECORD_CHAIN_INVALID");
+        $witness = $this->readRecord("persona-witnesses", $deposition["manifestation_id"] ?? null, "S197_CONFIRMATION_RECORD_CHAIN_INVALID");
+        $acceptance = $this->readRecord("confirmation-case-acceptances", $witness["confirmation_acceptance_id"] ?? null, "S197_CONFIRMATION_RECORD_CHAIN_INVALID");
+        $case = $this->readRecord("confirmation-cases", $acceptance["confirmation_case_id"] ?? null, "S197_CONFIRMATION_RECORD_CHAIN_INVALID");
+        $requestId = $case["source_request_id"] ?? null;
+        $request = is_string($requestId) ? $this->read($this->requestDirectory . "/" . $requestId . ".json", "S197_CONFIRMATION_RECORD_CHAIN_INVALID") : [];
+        $findings = [];
+        foreach ($disposition["admitted_findings"] ?? [] as $snapshot) {
+            $id = is_array($snapshot) ? $snapshot["finding_record_id"] ?? null : null;
+            $finding = $this->readRecord("persona-findings", $id, "S197_CONFIRMATION_RECORD_CHAIN_INVALID");
+            if (($snapshot["finding_record_digest"] ?? null) !== ($finding["record_digest"] ?? null) || CanonicalJson::encode($snapshot["finding"] ?? null) !== CanonicalJson::encode($finding["finding"] ?? null)) throw new \RuntimeException("S197_CONFIRMATION_RECORD_CHAIN_INVALID");
+            $findings[] = $finding;
+        }
+        $records = [$retirement, $disposition, $opening, $reconciliation, $ledger, $baseline, $consistency, $deposition, $witness, $acceptance, $case, $request, ...$findings];
+        foreach ($records as $record) if (!$this->digestMatches($record)) throw new \RuntimeException("S197_CONFIRMATION_RECORD_CHAIN_INVALID");
+        if ($retirementSetId !== ($retirement["retirement_set_id"] ?? null) || "ALL_WITNESSES_RETIRED_PENDING_CONFIRMATION_RECORD_ISSUANCE" !== ($retirement["status"] ?? null) || true !== ($retirement["all_witnesses_retired"] ?? null) || 4 !== ($retirement["retired_witness_count"] ?? null) || ($retirement["disposition_digest"] ?? null) !== ($disposition["record_digest"] ?? null) || ($disposition["source_disposition_authority_opening"]["digest"] ?? null) !== ($opening["record_digest"] ?? null) || ($opening["source_reconciliation"]["digest"] ?? null) !== ($reconciliation["record_digest"] ?? null) || ($disposition["required_trial_ledger_digest"] ?? null) !== ($ledger["record_digest"] ?? null) || ($ledger["baseline_digest"] ?? null) !== ($baseline["record_digest"] ?? null) || ($ledger["fresh_consistency_trial_digest"] ?? null) !== ($consistency["record_digest"] ?? null) || ($baseline["deposition_digest"] ?? null) !== ($deposition["record_digest"] ?? null) || ($deposition["manifestation_digest"] ?? null) !== ($witness["record_digest"] ?? null) || ($witness["confirmation_acceptance_digest"] ?? null) !== ($acceptance["record_digest"] ?? null) || ($acceptance["confirmation_case_digest"] ?? null) !== ($case["record_digest"] ?? null) || ($case["source_request_digest"] ?? null) !== ($request["record_digest"] ?? null) || 4 !== count($findings)) throw new \RuntimeException("S197_CONFIRMATION_RECORD_CHAIN_INVALID");
+        $candidateDigests = array_values(array_unique(array_filter(array_map(static fn(array $record): mixed => $record["candidate_digest"] ?? $record["persona_candidate_digest"] ?? null, $records), static fn(mixed $value): bool => null !== $value)));
+        if (1 !== count($candidateDigests) || $candidateDigests[0] !== ($retirement["candidate_digest"] ?? null)) throw new \RuntimeException("S198_CONFIRMATION_RECORD_CANDIDATE_MISMATCH");
+        $commissionIds = array_values(array_unique(array_filter(array_column($records, "originating_guildhall_commission_id"), static fn(mixed $value): bool => null !== $value)));
+        $commissionDigests = array_values(array_unique(array_filter(array_column($records, "originating_guildhall_commission_digest"), static fn(mixed $value): bool => null !== $value)));
+        if (1 !== count($commissionIds) || 1 !== count($commissionDigests) || $commissionIds[0] !== ($retirement["originating_guildhall_commission_id"] ?? null) || $commissionDigests[0] !== ($retirement["originating_guildhall_commission_digest"] ?? null)) throw new \RuntimeException("S198_CONFIRMATION_RECORD_GUILDHALL_PROVENANCE_MISMATCH");
+        $references = array_map(static fn(array $finding): string => "persona-finding:".$finding["jurisdiction"].":".$finding["record_digest"], $findings);
+        if ($references !== ($disposition["decision"]["finding_references"] ?? null) || 4 !== count($retirement["retirement_events"] ?? []) || true !== ($reconciliation["mandatory_security_block_preserved"] ?? null)) throw new \RuntimeException("S199_CONFIRMATION_RECORD_INCOMPLETE");
+        $decision = $disposition["decision"]["disposition"] ?? null;
+        if (true === ($disposition["mandatory_security_blocking_condition"] ?? false) && "CONFIRMED" === $decision) throw new \RuntimeException("S200_CONFIRMATION_RECORD_DISPOSITION_INVALID");
+        $routing = match ($decision) {"CONFIRMED"=>"CONFIRMED_CANDIDATE_FOR_GUILDHALL_FULFILLMENT","RETURN_TO_FOUNDRY"=>"VERSIONED_CORRECTION_REQUIRED","REFUSED"=>"CANONICAL_PROGRESSION_HALTED","UNRESOLVED"=>"HELD_PENDING_EXPLICIT_RESOLUTION",default=>throw new \RuntimeException("S200_CONFIRMATION_RECORD_DISPOSITION_INVALID")};
+        $bundle = ["confirmation_request"=>$request,"confirmation_case"=>$case,"lord_speaker_acceptance"=>$acceptance,"baseline_witness"=>$witness,"secured_deposition"=>$deposition,"jurisdiction_baseline"=>$baseline,"fresh_consistency_trial"=>$consistency,"required_trial_ledger"=>$ledger,"persona_findings"=>$findings,"finding_reconciliation"=>$reconciliation,"disposition_authority_opening"=>$opening,"senate_disposition"=>$disposition,"witness_retirement_set"=>$retirement];
+        $id = "senate-subordinate-persona-confirmation-record-" . substr(hash("sha256", CanonicalJson::encode([$retirementSetId, $retirement["record_digest"], $decision, hash("sha256", CanonicalJson::encode($bundle))])), 0, 20);
+        return $this->persist($id, ["schema"=>"imperium.senate-subordinate-persona-confirmation-record/v2","confirmation_record_id"=>$id,"instance_id"=>$retirement["instance_id"],"candidate_id"=>$retirement["candidate_id"],"candidate_digest"=>$retirement["candidate_digest"],"originating_guildhall_commission_id"=>$commissionIds[0],"originating_guildhall_commission_digest"=>$commissionDigests[0],"review_target_lineage"=>$retirement["review_target_lineage"],"retirement_set_id"=>$retirementSetId,"retirement_set_digest"=>$retirement["record_digest"],"record_bundle"=>$bundle,"record_bundle_digest"=>hash("sha256",CanonicalJson::encode($bundle)),"senate_disposition"=>$decision,"foundry_routing"=>$routing,"issuer"=>["office"=>"senate","lord_speaker"=>$disposition["lord_speaker"]],"recipient"=>["office"=>"foundry","seat"=>"foundry.artificer"],"evidence_omitted"=>false,"findings_omitted"=>false,"disagreement_preserved"=>true,"all_witnesses_retired"=>true,"recipient_acceptance"=>null,"status"=>"CONFIRMATION_RECORD_ISSUED_PENDING_FOUNDRY_ACCEPTANCE","senate_confirmation_granted"=>"CONFIRMED"===$decision,"admission_authority"=>false,"profile_approval_authority"=>false,"spawning_authority"=>false,"seat_binding_authority"=>false,"execution_authority"=>false,"sealed"=>true]);
     }
 
     private function readRecord(string $directory, mixed $id, string $error): array
