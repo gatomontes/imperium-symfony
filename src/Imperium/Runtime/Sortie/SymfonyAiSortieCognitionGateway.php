@@ -5,59 +5,37 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Sortie;
 
 use App\Imperium\Runtime\LaCortine\SortieManifest;
-use Symfony\AI\Agent\AgentInterface;
-use Symfony\AI\Platform\Message\Message;
-use Symfony\AI\Platform\Message\MessageBag;
 
 final readonly class SymfonyAiSortieCognitionGateway implements SortieCognitionGateway
 {
     private const RESERVED_INTERPRETATION_KEYS = [
-        'provenance',
-        'evidence',
-        'source_id',
-        'source_ids',
-        'tool_id',
-        'tool_ids',
-        'capability_id',
-        'capability_ids',
-        'sortie_id',
-        'manifestation_id',
-        'execution_id',
-        'commission_id',
-        'authorization_id',
-        'artifact_id',
-        'observed_at',
-        'received_at',
-        'sha256',
-        'content_digest',
+        'provenance', 'evidence', 'source_id', 'source_ids', 'tool_id', 'tool_ids',
+        'capability_id', 'capability_ids', 'sortie_id', 'manifestation_id', 'execution_id',
+        'commission_id', 'authorization_id', 'artifact_id', 'observed_at', 'received_at',
+        'sha256', 'content_digest',
     ];
 
     public function __construct(
-        private AgentInterface $agent,
+        private SortieCognitionProviderInvoker $invoker,
         private GovernedSortieToolRegistry $toolRegistry,
     ) {
     }
 
     public function execute(SortieManifest $manifest): SortieCognitionResult
     {
-        if ([] === $manifest->toolIds && [] === $manifest->capabilityIds) {
-            return $this->cognitionOnly($manifest);
-        }
+        $authority = SortieCognitionAuthority::fromManifest($manifest);
 
+        if ([] === $manifest->toolIds && [] === $manifest->capabilityIds) {
+            return $this->cognitionOnly($manifest, $authority);
+        }
         if (1 !== count($manifest->toolIds) || 1 !== count($manifest->capabilityIds)) {
             throw new \RuntimeException('SORTIE_AI_TOOL_SCOPE_UNSUPPORTED: one tool-bearing sortie currently supports exactly one tool and one capability.');
         }
 
-        $toolId = $manifest->toolIds[0];
-        $toolExecutor = $this->toolRegistry->resolve($toolId);
+        $toolExecutor = $this->toolRegistry->resolve($manifest->toolIds[0]);
         $evidence = $toolExecutor->execute($manifest);
-        $message = new MessageBag(
-            Message::ofUser($this->taskMessage($manifest, $evidence)),
-        );
-
-        $result = $this->agent->call($message);
-        $interpretation = $result->getContent();
-        if (!is_string($interpretation) || '' === trim($interpretation)) {
+        $interpretation = $this->invoker->invoke($authority, $this->taskMessage($manifest, $evidence));
+        if ('' === trim($interpretation)) {
             throw new \RuntimeException('SORTIE_AI_EMPTY_RESULT: cognition provider returned no usable text payload.');
         }
         $interpretation = $this->stripRuntimeClaims($interpretation);
@@ -76,41 +54,28 @@ final readonly class SymfonyAiSortieCognitionGateway implements SortieCognitionG
 
         return new SortieCognitionResult(
             $content,
-            [$evidence->sourceId, 'ai.platform.generic.deepseek'],
+            [$evidence->sourceId, 'provider.deepseek'],
             [$evidence->toolId],
             [$evidence->capabilityId],
             $evidence->observedAt,
         );
     }
 
-    private function cognitionOnly(SortieManifest $manifest): SortieCognitionResult
+    private function cognitionOnly(SortieManifest $manifest, SortieCognitionAuthority $authority): SortieCognitionResult
     {
-        $message = new MessageBag(
-            Message::ofUser($this->taskMessage($manifest)),
-        );
-
-        $result = $this->agent->call($message);
-        $content = $result->getContent();
-        if (!is_string($content) || '' === trim($content)) {
+        $content = $this->invoker->invoke($authority, $this->taskMessage($manifest));
+        if ('' === trim($content)) {
             throw new \RuntimeException('SORTIE_AI_EMPTY_RESULT: cognition provider returned no usable text payload.');
         }
 
-        return new SortieCognitionResult(
-            $content,
-            ['ai.platform.generic.deepseek'],
-            [],
-            [],
-            new \DateTimeImmutable(),
-        );
+        return new SortieCognitionResult($content, ['provider.deepseek'], [], [], new \DateTimeImmutable());
     }
 
     private function taskMessage(SortieManifest $manifest, ?SortieToolEvidence $evidence = null): string
     {
-        $destinations = [] === $manifest->destinations
-            ? 'none'
-            : implode(', ', $manifest->destinations);
-
+        $destinations = [] === $manifest->destinations ? 'none' : implode(', ', $manifest->destinations);
         $lines = [
+            'You are a disposable external-cognition worker. Perform only the exact task below.',
             'Objective: '.$manifest->objective,
             'Permitted destination context: '.$destinations,
             'Context digest: '.$manifest->contextDigest,
@@ -119,7 +84,7 @@ final readonly class SymfonyAiSortieCognitionGateway implements SortieCognitionG
 
         if (null === $evidence) {
             $lines[] = '';
-            $lines[] = 'Perform only the objective above. No tools or credential-bearing capabilities are available in this sortie.';
+            $lines[] = 'No tools or credential-bearing capabilities are available in this sortie.';
             return implode("\n", $lines);
         }
 
@@ -144,17 +109,13 @@ final readonly class SymfonyAiSortieCognitionGateway implements SortieCognitionG
         } catch (\JsonException) {
             return trim($interpretation);
         }
-
         if (!is_array($decoded)) {
             return trim($interpretation);
         }
 
-        $clean = $this->removeReservedKeys($decoded);
-
-        return json_encode($clean, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
+        return json_encode($this->removeReservedKeys($decoded), JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
     }
 
-    /** @param array<mixed> $value @return array<mixed> */
     private function removeReservedKeys(array $value): array
     {
         foreach ($value as $key => $item) {
