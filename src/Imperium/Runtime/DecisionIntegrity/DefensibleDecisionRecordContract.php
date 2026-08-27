@@ -70,6 +70,26 @@ final class DefensibleDecisionRecordContract
         'provenance',
         'version',
         'relevance',
+        'sealed',
+        'observed_at',
+        'expires_at',
+    ];
+
+    public const array REQUIRED_RESIDUAL_RISK_OWNER_FIELDS = [
+        'actor_id',
+        'office_or_seat',
+        'authority_basis',
+        'competent_authority',
+    ];
+
+    public const array REQUIRED_AUTHORITY_LINEAGE_FIELDS = [
+        'authority',
+        'source',
+        'consumer',
+        'scope',
+        'limitations',
+        'expires_at',
+        'continuing_authority',
     ];
 
     public const array AUTHORITY_BOUNDARY = [

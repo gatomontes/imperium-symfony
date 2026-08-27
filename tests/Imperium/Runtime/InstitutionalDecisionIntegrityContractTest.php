@@ -62,10 +62,12 @@ final class InstitutionalDecisionIntegrityContractTest extends TestCase
 
     public function testBothContractsRequireExactEvidenceIdentityAndPreserveExistingAuthorityOwners(): void
     {
-        $evidence = ['artifact_id', 'record_digest', 'provenance', 'version', 'relevance'];
+        $evidence = ['artifact_id', 'record_digest', 'provenance', 'version', 'relevance', 'sealed', 'observed_at', 'expires_at'];
 
         self::assertSame($evidence, InstitutionalDecisionSurfaceContract::REQUIRED_EVIDENCE_FIELDS);
         self::assertSame($evidence, DefensibleDecisionRecordContract::REQUIRED_EVIDENCE_FIELDS);
+        self::assertSame(['actor_id', 'office_or_seat', 'authority_basis', 'competent_authority'], DefensibleDecisionRecordContract::REQUIRED_RESIDUAL_RISK_OWNER_FIELDS);
+        self::assertSame(['authority', 'source', 'consumer', 'scope', 'limitations', 'expires_at', 'continuing_authority'], DefensibleDecisionRecordContract::REQUIRED_AUTHORITY_LINEAGE_FIELDS);
         self::assertTrue(DefensibleDecisionRecordContract::AUTHORITY_BOUNDARY['summarizes_underlying_proceeding']);
         foreach (DefensibleDecisionRecordContract::AUTHORITY_BOUNDARY as $boundary => $value) {
             if ('summarizes_underlying_proceeding' === $boundary) {
