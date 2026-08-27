@@ -79,13 +79,6 @@ authorized future boundaries.
 
 ## New-chat continuation
 
-> Continue Imperium from `main` after the merged Operational Cognition Lease Interruption campaign
-> selection. Read `docs/next-campaign-operational-cognition-lease-interruption.md`,
-> `docs/handoffs/continuous-agent-governance-controls-campaign-complete.md`,
-> `docs/continuous-governance-narrow-interruption-slice-assessment.md`,
-> `docs/handoffs/operational-cognition-access-lifecycle-ready.md`,
-> `src/Imperium/Runtime/Clavium/OperationalCognitionLeaseService.php`,
-> `src/Imperium/Runtime/Clavium/OperationalCognitionInvocationClaimService.php`, and their tests.
-> Begin Preparation Batch 0 only: prove competent judgment, exact lineage, lock/race behavior,
-> expiry bounds, result shape, reconstruction gaps, and the smallest safe sequence. Do not change
-> runtime behavior or open any implementation or deferred boundary.
+The active, copy-ready continuation prompt is
+`docs/handoffs/operational-cognition-lease-interruption-campaign-ready.md`. It is subordinate to
+this campaign contract and authorizes Preparation Batch 0 only.
