@@ -66,10 +66,12 @@ final class SymfonyAiSortieCognitionGatewayTest extends TestCase
     {
         $manifest = $this->manifest(['http.get'], ['cap-http-1']);
         $tool = $this->createMock(SortieToolExecutor::class);
-        $tool->method('supports')->willReturn(true);
-        $tool->method('execute')->willReturn($this->evidence());
+        $tool->expects(self::once())->method('supports')->with('http.get')->willReturn(true);
+        $tool->expects(self::once())->method('execute')->with($manifest)->willReturn($this->evidence());
         $invoker = $this->createMock(SortieCognitionProviderInvoker::class);
-        $invoker->method('invoke')->willReturn('{"page_title":"Example Domain","provenance":{"sha256":"invented"},"artifact_id":"fake","nested":{"source_id":"fake","claim":"keep me"}}');
+        $invoker->expects(self::once())->method('invoke')
+            ->with(self::isInstanceOf(SortieCognitionAuthority::class), self::stringContains('BEGIN RAW EVIDENCE'))
+            ->willReturn('{"page_title":"Example Domain","provenance":{"sha256":"invented"},"artifact_id":"fake","nested":{"source_id":"fake","claim":"keep me"}}');
 
         $outer = json_decode((new SymfonyAiSortieCognitionGateway($invoker, new GovernedSortieToolRegistry([$tool])))->execute($manifest)->content, true, 512, JSON_THROW_ON_ERROR);
         $interpretation = json_decode($outer['interpretation'], true, 512, JSON_THROW_ON_ERROR);
@@ -86,7 +88,7 @@ final class SymfonyAiSortieCognitionGatewayTest extends TestCase
         $invoker = $this->createMock(SortieCognitionProviderInvoker::class);
         $invoker->expects(self::never())->method('invoke');
         $tool = $this->createMock(SortieToolExecutor::class);
-        $tool->method('supports')->with('http.post')->willReturn(false);
+        $tool->expects(self::once())->method('supports')->with('http.post')->willReturn(false);
         $gateway = new SymfonyAiSortieCognitionGateway($invoker, new GovernedSortieToolRegistry([$tool]));
 
         $this->expectExceptionMessage('SORTIE_TOOL_UNAVAILABLE');
