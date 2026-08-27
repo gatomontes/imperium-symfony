@@ -2,13 +2,18 @@
 
 ## Status
 
-`BATCH_4_RECONSTRUCTION_COMPLETE_BATCH_5_UNOPENED`
+`TERMINAL_THROUGH_BATCH_5`
 
 This document governs the smallest separately prepared continuation after the terminal Continuous
 Agent Governance Controls campaign. Preparation Batch 0, the exact Batch 1 disposition, and the
 Batch 2 single-use Locksmith authority, Batch 3 native admission enforcement/result, and Batch 4
-read-only reconstruction are complete. Batch 5 closeout remains unopened, and generalized
-revocation is not adopted.
+read-only reconstruction and Batch 5 documentation-only closeout are complete. The campaign is
+terminal, and generalized revocation is not adopted.
+
+The terminal closeout is
+`docs/handoffs/operational-cognition-lease-interruption-campaign-complete.md`. This document remains
+canonical history for the preparation boundary and completed batch sequence; it is no longer an
+active implementation prompt.
 
 ## Selected boundary
 
@@ -88,6 +93,14 @@ nine-artifact chain. It re-proves the earliest source-expiry bound, rejects dupl
 substituted current occupants, and mechanically scans intact invocation claims for exact lease
 absence. It grants no authority and performs no mutation.
 
+## Batch 5 result
+
+Batch 5 closes the campaign without changing runtime behavior. The exact pre-claim operational
+lease interruption now has separately attributable Seneschal judgment, separately opened
+single-use Locksmith authority, native lock-coherent admission enforcement, immutable negative
+result evidence, and a read-only nine-artifact reconstruction with mechanical claim absence.
+Every generalized and perimeter boundary remains deferred.
+
 ## Provisional implementation sequence
 
 No implementation step below is authorized merely because it is listed. After Preparation Batch 0,
@@ -101,7 +114,7 @@ each requires a separate batch and preserved stop condition:
    consumer and immutable result;
 4. **Complete in Batch 4:** one read-only reconstruction of request lineage, lease, disposition,
    authority, result, and mechanical durable-claim absence; and
-5. **Unopened:** documentation-only closeout.
+5. **Complete in Batch 5:** documentation-only closeout.
 
 ## Closed boundaries
 
@@ -117,6 +130,7 @@ authorized future boundaries.
 
 ## New-chat continuation
 
-The active continuation handoff is
-`docs/handoffs/operational-cognition-lease-interruption-batch-4-complete.md`. It is subordinate to
-this campaign contract and leaves Batch 5 unopened.
+The terminal handoff is
+`docs/handoffs/operational-cognition-lease-interruption-campaign-complete.md`. No next runtime
+campaign is selected. Any continuation requires a separately prepared and explicitly authorized
+boundary.
