@@ -14,8 +14,11 @@ final class OperationalCognitionLeaseInterruptionCampaignSelectionDocumentationT
         $handoff = (string) file_get_contents($root.'/docs/handoffs/operational-cognition-lease-interruption-campaign-ready.md');
         $flow = (string) file_get_contents($root.'/docs/delegate-mission-flow.md');
 
-        self::assertStringContainsString('`BATCH_4_RECONSTRUCTION_COMPLETE_BATCH_5_UNOPENED`', $document);
+        $closeout = (string) file_get_contents($root.'/docs/handoffs/operational-cognition-lease-interruption-campaign-complete.md');
+
+        self::assertStringContainsString('`TERMINAL_THROUGH_BATCH_5`', $document);
         self::assertStringContainsString('## Batch 4 result', $document);
+        self::assertStringContainsString('## Batch 5 result', $document);
         self::assertStringContainsString('`oca-lease:<hash leaseId>`', $document);
         self::assertStringContainsString('must not be reused by string substitution', $document);
         self::assertStringContainsString('No implementation step below is authorized merely because it is listed.', $document);
@@ -25,12 +28,14 @@ final class OperationalCognitionLeaseInterruptionCampaignSelectionDocumentationT
         foreach (['Generalized revocation', 'telemetry', 'containment', 'incidents', 'Iron Gate', 'Lazaretto', 'sorties', 'new credential-platform work'] as $boundary) {
             self::assertStringContainsString($boundary, $document);
         }
-        self::assertStringContainsString('Operational Cognition Lease Interruption Batch 4 is complete', $index);
-        self::assertStringContainsString('native admission-result, and read-only', $index);
+        self::assertStringContainsString('Operational Cognition Lease Interruption is terminal through Batch 5', $index);
+        self::assertStringContainsString('no next runtime campaign is selected', $index);
         self::assertStringContainsString('Only Preparation Batch 0 is authorized.', $handoff);
         self::assertStringContainsString('`oca-cognition-authority` → `oca-lease` lock order', $handoff);
         self::assertStringContainsString('Operational Cognition Lease Interruption', $flow);
         self::assertStringContainsString('does not alter this route', $flow);
-        self::assertStringContainsString('Batch 5', $flow);
+        self::assertStringContainsString('terminal through Batch 5', $flow);
+        self::assertStringContainsString('No next runtime', $flow);
+        self::assertStringContainsString('No next runtime implementation campaign is selected', $closeout);
     }
 }
