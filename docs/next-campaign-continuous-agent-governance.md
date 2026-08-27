@@ -141,6 +141,11 @@ current Locksmith and one exact lease disposition. Its sole permitted transition
 durable governance claim creation for that lease. No consumer or result exists, claim admission
 is unchanged, and the source lease remains immutable and unclosed.
 
+Batch 14 adds the exact native Locksmith consumer under the governance lease-claim lock. A
+separate immutable result prevents durable claim creation for the source lease while proving
+that the lease remains unconsumed, unmodified, and unclosed. No enforcement propagates beyond
+that lease; reconstruction remains the only missing element of the selected slice.
+
 ## Starting instruction
 
 Begin from `main`. Read:

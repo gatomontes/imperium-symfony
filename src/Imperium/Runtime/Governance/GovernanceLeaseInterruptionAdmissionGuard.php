@@ -1,0 +1,11 @@
+<?php
+declare(strict_types=1);
+namespace App\Imperium\Runtime\Governance;
+use App\Imperium\Runtime\Persistence\RecordReferenceValidator;use Symfony\Component\DependencyInjection\Attribute\Autowire;
+final readonly class GovernanceLeaseInterruptionAdmissionGuard
+{
+ private const RESULTS='var/imperium/runtime/continuous-governance-lease-enforcement-results',AUTHORITIES='var/imperium/runtime/continuous-governance-enforcement-authorities';private RecordReferenceValidator $validator;
+ public function __construct(#[Autowire('%kernel.project_dir%')]private string$root,?RecordReferenceValidator$v=null){$this->validator=$v??new RecordReferenceValidator($root);}
+ public function assertMayCreateClaim(array$lease):void
+ {foreach(glob($this->root.'/'.self::RESULTS.'/*.json')?:[]as$p){$r=$this->validator->read($p,'GCA405_GOVERNANCE_LEASE_INTERRUPTED_PRE_CLAIM');if(($r['affected_scope']['lease']['id']??null)!==($lease['lease_id']??null))continue;$ref=$r['source_authority']??[];$id=$ref['id']??null;if(!$this->validator->isIntact($r)||'imperium.continuous-governance-lease-enforcement-result/v1'!==($r['schema']??null)||!is_string($id)||true!==($r['authority_consumed']??null)||false!==($r['claim_created']??null)||false!==($r['lease_consumed']??null)||false!==($r['lease_mutated']??null)||false!==($r['lease_closed']??null)||false!==($r['credential_mutated']??null)||false!==($r['propagation_performed']??null)||false!==($r['continuation_authority']??null)||'DENY_DURABLE_GOVERNANCE_INVOCATION_CLAIM_FOR_EXACT_LEASE'!==($r['performed_transition']??null)||($r['affected_scope']['lease']['digest']??null)!==($lease['record_digest']??null))throw new \RuntimeException('GCA405_GOVERNANCE_LEASE_INTERRUPTED_PRE_CLAIM');$a=$this->validator->read($this->root.'/'.self::AUTHORITIES.'/'.$id.'.json','GCA405_GOVERNANCE_LEASE_INTERRUPTED_PRE_CLAIM');if(!$this->validator->isIntact($a)||($ref['digest']??null)!==($a['record_digest']??null)||($a['source_disposition']??null)!==($r['source_disposition']??null)||($a['affected_scope']??null)!==($r['affected_scope']??null)||($a['enforcer']??null)!==($r['enforcer']??null)||'DENY_DURABLE_GOVERNANCE_INVOCATION_CLAIM_FOR_EXACT_LEASE'!==($a['permitted_transition']??null))throw new \RuntimeException('GCA405_GOVERNANCE_LEASE_INTERRUPTED_PRE_CLAIM');throw new \RuntimeException('GCA405_GOVERNANCE_LEASE_INTERRUPTED_PRE_CLAIM');}}
+}

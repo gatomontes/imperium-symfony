@@ -10,6 +10,7 @@ use App\Imperium\Runtime\Persistence\AtomicTransition;
 use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
 use App\Imperium\Runtime\Persistence\RecordReferenceValidator;
 use App\Imperium\Runtime\Governance\InternalCognitionLeaseControls;
+use App\Imperium\Runtime\Governance\GovernanceLeaseInterruptionAdmissionGuard;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class GovernanceCognitionInvocationClaimService
@@ -20,12 +21,14 @@ final readonly class GovernanceCognitionInvocationClaimService
     private RecordReferenceValidator $validator;
     private ImmutableRecordStore $records;
     private AtomicTransition $atomic;
+    private GovernanceLeaseInterruptionAdmissionGuard $interruptionGuard;
 
-    public function __construct(#[Autowire('%kernel.project_dir%')] private string $root, private GovernanceCognitionAuthorityRegistry $authorities, ?RecordReferenceValidator $validator = null, ?ImmutableRecordStore $records = null, ?AtomicTransition $atomic = null)
+    public function __construct(#[Autowire('%kernel.project_dir%')] private string $root, private GovernanceCognitionAuthorityRegistry $authorities, ?RecordReferenceValidator $validator = null, ?ImmutableRecordStore $records = null, ?AtomicTransition $atomic = null, ?GovernanceLeaseInterruptionAdmissionGuard $interruptionGuard = null)
     {
         $this->validator = $validator ?? new RecordReferenceValidator($root);
         $this->atomic = $atomic ?? new AtomicTransition($root);
         $this->records = $records ?? new ImmutableRecordStore($root, $this->atomic);
+        $this->interruptionGuard = $interruptionGuard ?? new GovernanceLeaseInterruptionAdmissionGuard($root);
     }
 
     public function claim(string $leaseId, string $authorityId, \DateTimeImmutable $claimedAt): array
@@ -39,6 +42,7 @@ final readonly class GovernanceCognitionInvocationClaimService
     private function claimLocked(string $leaseId, string $authorityId, \DateTimeImmutable $at): array
     {
         $lease = $this->validator->read($this->root.'/'.self::LEASES.'/'.$leaseId.'.json', 'GCA401_GOVERNANCE_LEASE_ABSENT');
+        $this->interruptionGuard->assertMayCreateClaim($lease);
         $request = $this->validator->resolve($this->root.'/'.self::REQUESTS, $lease['source_cognition_request'] ?? [], 'GCA402_GOVERNANCE_REQUEST_ABSENT', 'GCA403_GOVERNANCE_INVOCATION_CHAIN_INVALID', 'request_id');
         $decision = $this->validator->resolve($this->root.'/var/imperium/imperator/governance-provider-resource-decisions', $lease['source_provider_resource_decision'] ?? [], 'GCA403_GOVERNANCE_INVOCATION_CHAIN_INVALID', 'GCA403_GOVERNANCE_INVOCATION_CHAIN_INVALID', 'decision_id');
         $authority = $this->authorities->resolve((string) ($request['cluster'] ?? ''), (string) ($request['authority_type'] ?? ''), $authorityId);

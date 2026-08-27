@@ -15,7 +15,7 @@ final class ContinuousGovernanceRevocationDesignDocumentationTest extends TestCa
             self::assertSame(1, substr_count($document, '| `'.$disposition.'` |'));
         }
         self::assertSame(3, substr_count($document, '`DESIGN_ONLY`'));
-        self::assertSame(1, substr_count($document, '`CLAIM_ENFORCEMENT_COMPLETE_LEASE_AUTHORITY_ONLY_NO_CONSUMER_NO_PROPAGATION`'));
+        self::assertSame(1, substr_count($document, '`CLAIM_AND_LEASE_ENFORCEMENT_COMPLETE_NO_PROPAGATION_RECONSTRUCTION_PENDING`'));
         self::assertStringContainsString('No single actor receives omnibus revocation power.', $document);
         self::assertStringContainsString('Sortie, tool, destination, external effect', $document);
         self::assertStringContainsString('implements no propagation or kill switch', $document);
