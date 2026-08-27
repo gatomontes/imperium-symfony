@@ -105,6 +105,13 @@ revocation posture is explicitly `UNASSIGNED_DEFERRED_BOUNDARY`: no revoker is a
 lease is closed, and no propagation or kill-switch path exists. Historical immutable leases
 remain under their original contracts and are not rewritten.
 
+Batch 5 seals `imperium.continuous-governance-revocation-authority-design/v1`. It assigns no
+omnibus revoker: Seneschal owns bounded mission restriction/interruption judgment, Imperator
+owns consequential reauthorization and instance-wide emergency judgment, Clavium remains the
+future lease/credential enforcer rather than mission judge, and Garrison retains terminal
+custody/retirement competence. Propagation, lease closure, cancellation, acknowledgements,
+telemetry, containment, incidents, and perimeter scopes remain unimplemented.
+
 ## Starting instruction
 
 Begin from `main`. Read:
