@@ -6,6 +6,7 @@ namespace App\Imperium\Runtime\Cognition;
 
 use App\Bootstrap\CanonicalJson;
 use App\Imperium\Runtime\Governance\ContinuousGovernanceContext;
+use App\Imperium\Runtime\Governance\GovernanceEventEnvelopeService;
 use App\Imperium\Runtime\Persistence\AtomicTransition;
 use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
 use App\Imperium\Runtime\Persistence\RecordReferenceValidator;
@@ -17,6 +18,7 @@ final readonly class GovernanceCognitionRequestService
     private ImmutableRecordStore $records;
     private AtomicTransition $atomic;
     private RecordReferenceValidator $validator;
+    private GovernanceEventEnvelopeService $events;
 
     public function __construct(
         #[Autowire('%kernel.project_dir%')] private string $root,
@@ -24,10 +26,12 @@ final readonly class GovernanceCognitionRequestService
         ?ImmutableRecordStore $records = null,
         ?AtomicTransition $atomic = null,
         ?RecordReferenceValidator $validator = null,
+        ?GovernanceEventEnvelopeService $events = null,
     ) {
         $this->atomic = $atomic ?? new AtomicTransition($root);
         $this->records = $records ?? new ImmutableRecordStore($root, $this->atomic);
         $this->validator = $validator ?? new RecordReferenceValidator($root);
+        $this->events = $events ?? new GovernanceEventEnvelopeService($root);
     }
 
     public function request(
@@ -84,7 +88,7 @@ final readonly class GovernanceCognitionRequestService
             'sealed' => true,
         ];
 
-        return $this->atomic->run('gca-request-authority:'.hash('sha256', $cluster.'|'.$authorityId), function () use ($cluster, $authorityId, $requestId, $record): array {
+        $request = $this->atomic->run('gca-request-authority:'.hash('sha256', $cluster.'|'.$authorityId), function () use ($cluster, $authorityId, $requestId, $record): array {
             foreach (glob($this->root.'/'.self::DIRECTORY.'/*.json') ?: [] as $path) {
                 $prior = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
                 if (($prior['cluster'] ?? null) !== $cluster || ($prior['authority_identity'] ?? null) !== $authorityId) {
@@ -97,6 +101,13 @@ final readonly class GovernanceCognitionRequestService
             }
             return $this->records->put(self::DIRECTORY, $requestId, $record);
         });
+        // Historical v1 requests remain exact immutable replays. Only requests created with
+        // the Batch 1 classification participate in Batch 2 event emission.
+        if (isset($request['continuous_governance'])) {
+            $this->events->recordGovernanceCognitionRequest($requestId);
+        }
+
+        return $request;
     }
 
     private function validateAuthority(array $authority, string $cluster, string $type, string $id, string $seat, string $purpose, string $inputDigest, \DateTimeImmutable $at): void
