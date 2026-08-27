@@ -265,5 +265,7 @@ Batch 13T consumes only the Consistency finding authority after validating the e
 Batch 13U consumes only the Security finding authority after validating the complete three-finding predecessor chain and sealed synthetic Security pressure trial. All four findings are sealed; inventory remains 7. Continue with a separate reconciliation-opening stage. Lord Speaker disposition remains closed.
 
 Batch 13V mechanically admits the four intact findings unchanged and opens one single-use, Security-preserving Lord Speaker reconciliation authority. No cognition occurs; inventory remains 7. Continue with claim-bound Persona reconciliation. Disposition remains closed.
+
+Batch 13W consumes the Persona reconciliation authority through its own four-jurisdiction governance resolver and the shared claim-bound broker. It preserves Security blocking and opens only a separate disposition-phase-opening authority. Inventory remains 7; Senate disposition remains closed.
 >
 > Ad Imperium. Not one step back.
