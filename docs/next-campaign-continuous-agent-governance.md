@@ -131,6 +131,11 @@ next sequence must proceed one batch at a time from lease-scoped disposition thr
 authority, native claim-admission enforcement, and reconstruction while leaving the immutable
 lease unclosed and all generalized boundaries deferred.
 
+Batch 12 adds only the lease-scoped Seneschal `INTERRUPT` disposition issuer. It shares the
+native lease-claim lock and requires one exact live, unconsumed governance cognition lease with
+no existing claim. The disposition does not mutate or close the lease, open enforcement
+authority, or change claim admission.
+
 ## Starting instruction
 
 Begin from `main`. Read:
