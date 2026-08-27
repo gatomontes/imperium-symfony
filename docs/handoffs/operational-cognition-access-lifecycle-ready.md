@@ -253,5 +253,7 @@ Batch 13N consumes the claim-bound Governance pressure testimony and seals that 
 Batch 13O seals only the claim-bound Security pressure question with inert synthetic material. Continue with Batch 13P from `docs/handoffs/credential-boundary-batch-13o-security-pressure-question-complete.md`; consume its testimony and mechanically aggregate the required-trial ledger.
 
 Batch 13P consumes Security pressure testimony and mechanically seals the complete required-trial ledger. Continue with separately opened, jurisdiction-bound Senator finding authorities; do not restore the legacy four-finding cognition loop.
+
+Batch 13Q mechanically opens four jurisdiction-bound, single-use finding authorities without cognition. Continue by consuming them separately through the claim-bound Senator finding path.
 >
 > Ad Imperium. Not one step back.
