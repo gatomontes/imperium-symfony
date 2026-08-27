@@ -26,7 +26,7 @@ Historical step handoffs remain retained for provenance. When historical prose c
 
 Operational Cognition Lease Interruption Preparation Batch 0 is complete. Its canonical inventory is
 `docs/operational-cognition-lease-interruption-preparation-inventory.md`, and its handoff is
-`docs/handoffs/operational-cognition-lease-interruption-preparation-batch-0-complete.md`. Runtime
-implementation remains unopened; Batch 1 requires explicit authorization. Continuous Agent
+`docs/handoffs/operational-cognition-lease-interruption-preparation-batch-0-complete.md`.
+Runtime implementation remains unopened. Batch 1 requires explicit authorization. Continuous Agent
 Governance Controls, Credential-boundary remediation, and Institutional Decision Integrity remain
 terminal.
