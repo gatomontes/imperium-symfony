@@ -76,3 +76,7 @@ Preserve the existing constitutional distinctions:
 - A material-change detector can invalidate stale consent and return the matter to Curia.
 - Replay cannot widen authority or reinterpret the original consent.
 - Tests cover explicit selection, rejection, opposition, modification, omitted-option failure, ambiguous disclosure failure, stale consent, silence, and replay.
+
+## Campaign status
+
+Selected as one half of the Institutional Decision Integrity campaign. The canonical sequence and exclusions are defined in `docs/next-campaign-institutional-decision-integrity.md`. This TODO remains the requirements source for decision-surface disclosure and stale-consent refusal.
