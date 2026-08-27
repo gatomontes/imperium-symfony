@@ -1,5 +1,7 @@
 # Operational Cognition Access Batch 5 complete
 
+> **Historical next-boundary note:** the migration requested below was completed by credential-boundary Batches 6–17. The system-wide gate is closed; see `docs/handoffs/credential-boundary-remediation-complete.md`.
+
 The separately bounded Operational Cognition Access lifecycle is implemented and hostile-proofed through its broker boundary.
 
 ## Proof matrix
