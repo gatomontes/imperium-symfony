@@ -25,7 +25,8 @@ final class OperationalCognitionLeaseInterruptionCampaignSelectionDocumentationT
         foreach (['Generalized revocation', 'telemetry', 'containment', 'incidents', 'Iron Gate', 'Lazaretto', 'sorties', 'new credential-platform work'] as $boundary) {
             self::assertStringContainsString($boundary, $document);
         }
-        self::assertStringContainsString('Preparation Batch 0 only; implementation remains unopened', $index);
+        self::assertStringContainsString('Operational Cognition Lease Interruption Preparation Batch 0 is complete', $index);
+        self::assertStringContainsString('Runtime implementation remains unopened', $index);
         self::assertStringContainsString('Only Preparation Batch 0 is authorized.', $handoff);
         self::assertStringContainsString('`oca-cognition-authority` → `oca-lease` lock order', $handoff);
         self::assertStringContainsString('Operational Cognition Lease Interruption', $flow);
