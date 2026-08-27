@@ -6,6 +6,7 @@ namespace App\Tests\Imperium\Runtime;
 
 use App\Bootstrap\StateStore;
 use App\Imperium\Runtime\Curia\CurianAudience;
+use App\Imperium\Runtime\Curia\CurianCognitionAuthorityService;
 use App\Imperium\Runtime\Curia\ProceedingStore;
 use App\Imperium\Runtime\Curia\SeneschalCognitionGateway;
 use PHPUnit\Framework\TestCase;
@@ -19,7 +20,7 @@ final class CurianAudienceTest extends TestCase
         $bootstrap = new StateStore($root);
         $this->seedBootstrap($bootstrap, $this->readyState());
         $calls = (object) ['count' => 0];
-        $audience = new CurianAudience($bootstrap, new ProceedingStore($root), $this->seneschal($calls));
+        $audience = new CurianAudience($bootstrap, new ProceedingStore($root), $this->seneschal($calls), new CurianCognitionAuthorityService($root));
 
         try {
             $first = $audience->open('Prepare a cybersecurity assessment mission.');
@@ -45,7 +46,7 @@ final class CurianAudienceTest extends TestCase
         $bootstrap = new StateStore($root);
         $this->seedBootstrap($bootstrap, ['state' => 'ROUTES_VERIFIED']);
         $calls = (object) ['count' => 0];
-        $audience = new CurianAudience($bootstrap, new ProceedingStore($root), $this->seneschal($calls));
+        $audience = new CurianAudience($bootstrap, new ProceedingStore($root), $this->seneschal($calls), new CurianCognitionAuthorityService($root));
 
         try {
             $this->expectExceptionMessage('C01_CURIA_NOT_READY');
@@ -98,9 +99,10 @@ final class CurianAudienceTest extends TestCase
             {
             }
 
-            public function decide(string $request, array $context): array
+            public function decide(string $authorityId, string $request, array $context): array
             {
                 ++$this->calls->count;
+                TestCase::assertMatchesRegularExpression('/^curian-cognition-[a-f0-9]{20}$/', $authorityId);
                 return [
                     'disposition' => 'ADMITTED_FOR_PLANNING',
                     'decision' => 'Develop a bounded Mission Plan for Imperator review.',
@@ -111,7 +113,7 @@ final class CurianAudienceTest extends TestCase
                 ];
             }
 
-            public function advance(array $proceeding, array $priorTurns, string $imperatorResponse, array $context): array
+            public function advance(string $authorityId, array $proceeding, array $priorTurns, string $imperatorResponse, array $context): array
             {
                 throw new \LogicException('Audience test does not advance proceedings.');
             }
