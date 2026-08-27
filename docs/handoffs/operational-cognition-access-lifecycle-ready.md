@@ -273,5 +273,7 @@ Batch 13X mechanically consumes the disposition-phase-opening authority, rereads
 Batch 13Y consumes the exact Persona disposition authority through its own governance resolver and the shared claim-bound broker. The direct `lord_speaker_disposition` agent is removed and inventory is 6. Continue by adapting the mechanical post-disposition lineage to the v2 record before beginning Batch 14 Guildhall migration.
 
 Batch 13Z mechanically retires all four sterile witnesses from the v2 disposition-opening lineage while retaining historical v1 record support. No cognition occurs and inventory remains 6. Continue with v2 confirmation-record issuance before Guildhall migration.
+
+Batch 13AA mechanically issues the Foundry-facing confirmation record from the complete v2 retirement, disposition, reconciliation, finding, trial, witness, acceptance, case, and request lineage. Historical v1 support remains; inventory is 6. Batch 13 is closed. Continue with Batch 14 Guildhall migration.
 >
 > Ad Imperium. Not one step back.
