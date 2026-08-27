@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Imperium\Runtime;
 
 use App\Imperium\Runtime\DecisionIntegrity\DefensibleDecisionRecordContract;
+use App\Imperium\Runtime\DecisionIntegrity\DecisionSurfaceOptionUniverseContract;
+use App\Imperium\Runtime\DecisionIntegrity\DecisionSurfacePresentationDirectiveContract;
 use App\Imperium\Runtime\DecisionIntegrity\InstitutionalDecisionSurfaceContract;
 use PHPUnit\Framework\TestCase;
 
@@ -17,13 +19,15 @@ final class InstitutionalDecisionIntegrityContractTest extends TestCase
         self::assertSame('imperium.decision-record/v1', DefensibleDecisionRecordContract::SCHEMA);
         self::assertSame(1, DefensibleDecisionRecordContract::VERSION);
         self::assertNotSame(InstitutionalDecisionSurfaceContract::SCHEMA, DefensibleDecisionRecordContract::SCHEMA);
+        self::assertSame('imperium.decision-surface-option-universe/v1', DecisionSurfaceOptionUniverseContract::SCHEMA);
+        self::assertSame('imperium.decision-surface-presentation-directive/v1', DecisionSurfacePresentationDirectiveContract::SCHEMA);
     }
 
     public function testDecisionSurfaceBindsDisclosureAndRequestedAuthorityWithoutDeciding(): void
     {
         $required = InstitutionalDecisionSurfaceContract::REQUIRED_FIELDS;
 
-        foreach (['options_presented', 'unavailable_options', 'prohibited_options', 'material_consequences', 'risks', 'reversibility', 'recommendation', 'evidence', 'decision_owner', 'requested_authority', 'authority_not_requested', 'limitations', 'expires_at', 'material_facts_fingerprint'] as $field) {
+        foreach (['options_presented', 'unavailable_options', 'prohibited_options', 'rejected_options', 'unexamined_options', 'material_consequences', 'risks', 'reversibility', 'recommendation', 'evidence', 'decision_owner', 'requested_authority', 'authority_not_requested', 'limitations', 'expires_at', 'material_facts_fingerprint', 'authorization_state'] as $field) {
             self::assertContains($field, $required);
         }
         self::assertSame([

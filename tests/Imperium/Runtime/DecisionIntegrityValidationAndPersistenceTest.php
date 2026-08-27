@@ -129,6 +129,8 @@ final class DecisionIntegrityValidationAndPersistenceTest extends TestCase
             'surface_id' => 'decision-surface-aaaaaaaaaaaaaaaaaaaa',
             'instance_id' => 'imperium-test',
             'proceeding_id' => 'proceeding-test-1',
+            'source_option_universe' => ['id' => 'option-universe-test', 'digest' => str_repeat('7', 64)],
+            'source_presentation_directive' => ['id' => 'presentation-directive-test', 'digest' => str_repeat('8', 64)],
             'decision_owner' => ['actor_id' => 'imperator-test', 'office_or_seat' => 'imperator', 'authority_basis' => 'charter-test', 'accountability_boundary' => 'Exact decision only.'],
             'decision_question' => 'Authorize only the exact bounded personnel commitment described on this surface?',
             'options_presented' => [[
@@ -143,6 +145,8 @@ final class DecisionIntegrityValidationAndPersistenceTest extends TestCase
             ]],
             'unavailable_options' => [],
             'prohibited_options' => [],
+            'rejected_options' => [],
+            'unexamined_options' => [],
             'material_consequences' => 'Only one exact downstream acceptance may be opened.',
             'risks' => ['Reservation temporarily changes availability.'],
             'reversibility' => 'No continuing authority survives consumption.',
@@ -154,6 +158,12 @@ final class DecisionIntegrityValidationAndPersistenceTest extends TestCase
             'expires_at' => '2026-08-27T13:00:00+00:00',
             'material_facts_fingerprint' => str_repeat('a', 64),
             'allowed_dispositions' => ['AUTHORIZED', 'REFUSED', 'RETURNED_FOR_REVISION'],
+            'authorization_state' => [
+                'decision_pending' => true,
+                'authority_granted' => false,
+                'decision_inferred' => false,
+                'non_authorizing_signals' => InstitutionalDecisionSurfaceContract::NON_AUTHORIZING_SIGNALS,
+            ],
             'presented_at' => '2026-08-27T12:00:00+00:00',
             'sealed' => true,
         ];

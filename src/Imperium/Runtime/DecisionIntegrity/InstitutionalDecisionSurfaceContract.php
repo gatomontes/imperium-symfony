@@ -14,11 +14,15 @@ final class InstitutionalDecisionSurfaceContract
         'surface_id',
         'instance_id',
         'proceeding_id',
+        'source_option_universe',
+        'source_presentation_directive',
         'decision_owner',
         'decision_question',
         'options_presented',
         'unavailable_options',
         'prohibited_options',
+        'rejected_options',
+        'unexamined_options',
         'material_consequences',
         'risks',
         'reversibility',
@@ -30,6 +34,7 @@ final class InstitutionalDecisionSurfaceContract
         'expires_at',
         'material_facts_fingerprint',
         'allowed_dispositions',
+        'authorization_state',
         'presented_at',
         'sealed',
         'record_digest',
@@ -62,6 +67,24 @@ final class InstitutionalDecisionSurfaceContract
         'sealed',
         'observed_at',
         'expires_at',
+    ];
+
+    public const array REQUIRED_CLASSIFIED_OPTION_FIELDS = [
+        'option_id',
+        'plain_language_explanation',
+        'classification_reason',
+        'material_consequences',
+        'risks',
+        'reversibility',
+        'authority_effect',
+        'evidence',
+    ];
+
+    public const array REQUIRED_AUTHORIZATION_STATE_FIELDS = [
+        'decision_pending',
+        'authority_granted',
+        'decision_inferred',
+        'non_authorizing_signals',
     ];
 
     public const array ALLOWED_DISPOSITIONS = [
