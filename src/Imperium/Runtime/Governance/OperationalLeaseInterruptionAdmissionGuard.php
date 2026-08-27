@@ -22,14 +22,20 @@ final readonly class OperationalLeaseInterruptionAdmissionGuard
     public function assertMayCreateClaim(array $lease): void
     {
         foreach (glob($this->root.'/'.self::RESULTS.'/*.json') ?: [] as $path) {
-            $result = $this->validator->read($path, 'OCA407_OPERATIONAL_LEASE_INTERRUPTED_PRE_CLAIM');
+            try {
+                $result = $this->validator->requireIntact(
+                    $this->validator->read($path, 'OCA407_OPERATIONAL_LEASE_INTERRUPTED_PRE_CLAIM'),
+                    'OCA407_OPERATIONAL_LEASE_INTERRUPTED_PRE_CLAIM',
+                );
+            } catch (\Throwable $error) {
+                throw new \RuntimeException('OCA407_OPERATIONAL_LEASE_INTERRUPTED_PRE_CLAIM', 0, $error);
+            }
             if (($result['affected_scope']['lease']['id'] ?? null) !== ($lease['lease_id'] ?? null)) {
                 continue;
             }
             $authorityRef = $result['source_authority'] ?? [];
             $authorityId = $authorityRef['id'] ?? null;
-            if (!$this->validator->isIntact($result)
-                || 'imperium.operational-cognition-lease-interruption-enforcement-result/v1' !== ($result['schema'] ?? null)
+            if ('imperium.operational-cognition-lease-interruption-enforcement-result/v1' !== ($result['schema'] ?? null)
                 || !is_string($authorityId)
                 || ($result['affected_scope']['lease']['digest'] ?? null) !== ($lease['record_digest'] ?? null)
                 || 'DENY_DURABLE_OPERATIONAL_INVOCATION_CLAIM_FOR_EXACT_LEASE' !== ($result['performed_transition'] ?? null)
