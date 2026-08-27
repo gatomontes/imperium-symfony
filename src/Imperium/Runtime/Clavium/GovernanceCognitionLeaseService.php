@@ -8,6 +8,7 @@ use App\Bootstrap\CanonicalJson;
 use App\Imperium\Runtime\Persistence\AtomicTransition;
 use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
 use App\Imperium\Runtime\Persistence\RecordReferenceValidator;
+use App\Imperium\Runtime\Governance\InternalCognitionLeaseControls;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class GovernanceCognitionLeaseService
@@ -64,6 +65,7 @@ final readonly class GovernanceCognitionLeaseService
             'issuer' => $issuer, 'cluster' => $request['cluster'], 'target' => $request['target'], 'provider' => $decision['provider'], 'model' => $decision['model'],
             'model_configuration' => $decision['model_configuration'], 'resource_ceiling' => $decision['resource_ceiling'], 'input_digest' => $request['input_digest'],
             'issued_at' => $issuedAt->format(DATE_ATOM), 'expires_at' => $expiresAt->format(DATE_ATOM), 'status' => 'GOVERNANCE_COGNITION_LEASE_ISSUED_PENDING_DURABLE_INVOCATION_CLAIM',
+            'continuous_governance_controls' => InternalCognitionLeaseControls::governance($decision, $request, $issuedAt->format(DATE_ATOM), $expiresAt->format(DATE_ATOM)),
             'opaque' => true, 'lease_single_use' => true, 'lease_consumed' => false, 'credential_reference_disclosed' => false, 'credential_material_present' => false,
             'credential_use_authority' => false, 'network_access_authority' => false, 'provider_invocation_authority' => false, 'continuing_authority' => false, 'sealed' => true,
         ];
