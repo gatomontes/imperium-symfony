@@ -19,11 +19,12 @@ under a separately opened, single-use authority.
 | `RESTRICT` | Seneschal for bounded mission control; Imperator when the restriction changes an approved consequential commitment | mission, Manifestation use, Profile limitation, Seat use, capability | Native custodian for each scope | `DESIGN_ONLY` |
 | `INTERRUPT` | Seneschal for an active internal mission iteration; Imperator for instance-wide emergency interruption | instance, mission, Manifestation, Profile, Seat, capability | Conscription for runtime activation; Clavium for unclaimed internal leases | `DESIGN_ONLY` |
 | `REAUTHORIZE` | Imperator only, after a fresh competent presentation; prior actors may request but cannot reauthorize | decision, Profile commitment, resource/model commitment, bounded capability | Existing native consumer under a new single-use authority | `DESIGN_ONLY` |
-| `RETIRE` | Seneschal may request the predeclared mission return; Garrison alone judges and executes custody restoration/Manifestation retirement within its existing terminal contract | Manifestation and mission Seat binding | Garrison | `DESIGN_ONLY` |
+| `RETIRE` | Seneschal authorizes only the predeclared return, unbinding, custody-restoration, and retirement contract | Manifestation and mission Seat binding | Garrison consumes the exact terminal authority, restores custody, unbinds, and retires | `DESIGN_ONLY` |
 
 Clavium remains credential custodian, not the judge of mission need. It may eventually enforce
 an exact lease/credential restriction only after receiving an attributable, scope-valid native
-disposition. Garrison remains custody authority, not provider or resource authority.
+disposition. Garrison remains custody authority and terminal enforcer, not author of the
+Seneschal's return judgment and not provider or resource authority.
 
 ## Deliberately deferred scopes
 
