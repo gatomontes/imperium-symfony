@@ -2,12 +2,13 @@
 
 ## Status
 
-`BATCH_3_NATIVE_ENFORCEMENT_COMPLETE_BATCH_4_UNOPENED`
+`BATCH_4_RECONSTRUCTION_COMPLETE_BATCH_5_UNOPENED`
 
 This document governs the smallest separately prepared continuation after the terminal Continuous
 Agent Governance Controls campaign. Preparation Batch 0, the exact Batch 1 disposition, and the
-Batch 2 single-use Locksmith authority, and Batch 3 native admission enforcement/result are
-complete. Batch 4 reconstruction remains unopened, and generalized revocation is not adopted.
+Batch 2 single-use Locksmith authority, Batch 3 native admission enforcement/result, and Batch 4
+read-only reconstruction are complete. Batch 5 closeout remains unopened, and generalized
+revocation is not adopted.
 
 ## Selected boundary
 
@@ -31,9 +32,9 @@ This is the smallest adjacent internal boundary because:
 | --- | --- | --- | --- |
 | Operational request | Curia request binds bounded execution, Manifestation/Seat/custody lineage, exact input, one iteration, stop conditions, and one cognition authority | `EXISTS_CANONICALLY` | Preparation must prove the exact current competent mission-control actor from the source authorization and occupancy lineage; it may not infer competence from Office name alone. |
 | Imperator resource decision | Independent provider/model/configuration/resource decision opens only Clavium lease activation | `EXISTS_CANONICALLY` | Resource authorization is not interruption judgment and must not be repurposed as such. |
-| Operational lease | Opaque five-minute maximum, exact target/provider/model/input scope, unconsumed state, and normalized governance controls | `EXISTS_CANONICALLY` | The exact Batch 1 interruption disposition exists; enforcement authority, result, and admission guard remain unopened. |
-| Durable claim admission | Atomic cognition-authority and lease consumption under the native operational lease lock | `EXISTS_CANONICALLY` | No exact pre-claim denial consumer exists; governance-lease services are scope-specific and must not be reused by string substitution. |
-| Reconstruction | Operational request/decision/lease/claim/provider evidence exists in lifecycle-specific proofs | `EXISTS_FRAGMENTED` | No read-only interrupted operational-lease branch proves disposition, authority, result, and mechanical claim absence. |
+| Operational lease | Opaque five-minute maximum, exact target/provider/model/input scope, unconsumed state, and normalized governance controls | `EXISTS_CANONICALLY` | Exact disposition, authority, result, admission guard, and reconstruction now exist without lease mutation. |
+| Durable claim admission | Atomic cognition-authority and lease consumption plus exact interruption-result denial under the native operational lease lock | `EXISTS_CANONICALLY` | Governance-lease services remain scope-specific and must not be reused by string substitution. |
+| Reconstruction | `InternalOperationalLeaseInterruptionReconstructionService` proves the nine-artifact chain and mechanically scans for claim absence | `EXISTS_CANONICALLY` | No remaining runtime gap in the exact interrupted pre-claim branch. |
 
 ## Preparation Batch 0 result
 
@@ -78,6 +79,15 @@ immutable absence result, and installs the result consumer inside
 `OperationalCognitionInvocationClaimService`. Process-level contention proves exclusive
 claim-first and enforcement-first outcomes with no partial artifacts.
 
+## Batch 4 result
+
+Batch 4 adds only a read-only reconstruction. It resolves and digest-validates bounded execution
+authorization, current Seneschal occupancy, request, Imperator decision, lease, disposition,
+current Locksmith occupancy, enforcement authority, and enforcement result as one exact
+nine-artifact chain. It re-proves the earliest source-expiry bound, rejects duplicate results or
+substituted current occupants, and mechanically scans intact invocation claims for exact lease
+absence. It grants no authority and performs no mutation.
+
 ## Provisional implementation sequence
 
 No implementation step below is authorized merely because it is listed. After Preparation Batch 0,
@@ -89,9 +99,9 @@ each requires a separate batch and preserved stop condition:
    current Locksmith;
 3. **Complete in Batch 3:** one native `OperationalCognitionInvocationClaimService` admission
    consumer and immutable result;
-4. **Unopened:** one read-only reconstruction of request lineage, lease, disposition, authority, result, and
-   mechanical durable-claim absence; and
-5. documentation-only closeout.
+4. **Complete in Batch 4:** one read-only reconstruction of request lineage, lease, disposition,
+   authority, result, and mechanical durable-claim absence; and
+5. **Unopened:** documentation-only closeout.
 
 ## Closed boundaries
 
@@ -108,5 +118,5 @@ authorized future boundaries.
 ## New-chat continuation
 
 The active continuation handoff is
-`docs/handoffs/operational-cognition-lease-interruption-batch-3-complete.md`. It is subordinate to
-this campaign contract and leaves Batch 4 unopened.
+`docs/handoffs/operational-cognition-lease-interruption-batch-4-complete.md`. It is subordinate to
+this campaign contract and leaves Batch 5 unopened.
