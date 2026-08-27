@@ -112,6 +112,13 @@ future lease/credential enforcer rather than mission judge, and Garrison retains
 custody/retirement competence. Propagation, lease closure, cancellation, acknowledgements,
 telemetry, containment, incidents, and perimeter scopes remain unimplemented.
 
+Batch 6 corrects the terminal competence statement and defines the separate
+`imperium.continuous-governance-revocation-disposition/v1` and
+`imperium.continuous-governance-enforcement-authority/v1` schemas. The disposition is judgment
+only and cannot mutate state or open authority. The enforcement record is separately bound,
+expiring, and single-use. No issuer, consumer, propagation, lease closure, or state mutation is
+implemented.
+
 ## Starting instruction
 
 Begin from `main`. Read:
