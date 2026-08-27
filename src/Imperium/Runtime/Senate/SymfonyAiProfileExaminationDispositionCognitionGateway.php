@@ -21,7 +21,8 @@ public function decide(array $authority,
         JSON_UNESCAPED_SLASHES|JSON_THROW_ON_ERROR),
         'Exact sealed reconciliation: '.json_encode($reconciliation,
         JSON_UNESCAPED_SLASHES|JSON_THROW_ON_ERROR),
-        'Issue one attributable verdict without voting, averaging, scoring, aggregation, or suppressed dissent. A Security FAIL/CRITICAL prohibits APPROVED.',
+        'Issue one attributable verdict without voting, averaging, scoring, aggregation, or suppressed dissent. '.
+        'A Security FAIL/CRITICAL prohibits APPROVED.',
         'Return one JSON object with exactly disposition, finding_references, rationale, reconciliation_treatment, limitations, and uncertainties. ' .
         'disposition must be APPROVED, RETURN_FOR_REVISION, REFUSED, or UNRESOLVED. Every other field must be a non-empty string except ' .
         'finding_references, limitations, and uncertainties, which must be arrays of non-empty strings; use [] for empty lists. Copy all ' .
