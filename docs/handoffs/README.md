@@ -13,10 +13,12 @@ For the current Delegate Mission state, read in this order:
 7. `docs/handoffs/crash-demonstration-program-complete.md`;
 8. `docs/credential-boundary-remediation.md`;
 9. `docs/handoffs/credential-boundary-remediation-complete.md`; and
-10. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
+10. `docs/handoffs/institutional-decision-integrity-campaign-complete.md`;
+11. `docs/next-campaign-continuous-agent-governance.md`; and
+12. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
 
 `docs/handoffs/operational-cognition-access-lifecycle-ready.md` and the numbered credential-boundary handoffs are historical execution records. They are not active continuation prompts.
 
 Historical step handoffs remain retained for provenance. When historical prose conflicts with a current contract or canonical document, the current contract or canonical document governs.
 
-The active continuation prompt is `docs/handoffs/institutional-decision-integrity-campaign-ready.md`. Its campaign contract is `docs/next-campaign-institutional-decision-integrity.md`. The credential-boundary campaign remains terminal.
+The active continuation prompt is `docs/handoffs/institutional-decision-integrity-campaign-complete.md`. The next campaign preparation contract is `docs/next-campaign-continuous-agent-governance.md`. Credential-boundary remediation and Institutional Decision Integrity remain terminal.
