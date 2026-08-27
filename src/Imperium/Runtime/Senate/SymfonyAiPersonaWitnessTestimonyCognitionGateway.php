@@ -61,6 +61,7 @@ final readonly class SymfonyAiPersonaWitnessTestimonyCognitionGateway
         $specialTestimonyAuthority = match ($jurisdiction) {
             'consistency' => 'testimony-fresh-consistency',
             'governance' => 'testimony-pressure-governance',
+            'security' => 'testimony-pressure-security',
             default => null,
         };
         if ('testimony-'.$jurisdiction !== $authorityType && $specialTestimonyAuthority !== $authorityType) throw new \RuntimeException('S136_PERSONA_WITNESS_COGNITION_INVALID');
