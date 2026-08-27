@@ -45,6 +45,14 @@ final class GovernanceCognitionAccessSubstrateTest extends TestCase
         self::assertSame(['INSTANCE', 'OFFICE', 'SEAT'], array_column($request['continuous_governance']['runtime_principal_references'], 'principal_kind'));
         self::assertFalse($request['continuous_governance']['authority_granted']);
         self::assertFalse($request['continuous_governance']['execution_authority']);
+        $events = glob($this->root.'/var/imperium/runtime/governance-events/*.json') ?: [];
+        self::assertCount(1, $events);
+        $event = json_decode((string) file_get_contents($events[0]), true, 512, JSON_THROW_ON_ERROR);
+        self::assertSame('AUTHORIZATION_REQUEST', $event['event_kind']);
+        self::assertSame($request['request_id'], $event['native_folium']['id']);
+        self::assertSame($request['record_digest'], $event['native_folium']['digest']);
+        self::assertFalse($event['telemetry_event']);
+        self::assertFalse($event['authority_granted']);
         self::assertSame('AUTHORIZED', $decision['disposition']);
         self::assertTrue($lease['opaque']);
         self::assertFalse($lease['credential_reference_disclosed']);
