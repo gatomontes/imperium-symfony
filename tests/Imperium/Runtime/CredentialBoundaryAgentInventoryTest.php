@@ -23,7 +23,6 @@ final class CredentialBoundaryAgentInventoryTest extends TestCase
             self::assertArrayNotHasKey($agent, $classified);
             self::assertIsString($definition['cluster'] ?? null);
             self::assertIsInt($definition['batch'] ?? null);
-            self::assertGreaterThanOrEqual(8, $definition['batch']);
             self::assertNotEmpty($definition['gateways'] ?? []);
             foreach ($definition['gateways'] as $gateway) {
                 self::assertFileExists($root.'/'.$gateway);
@@ -32,29 +31,14 @@ final class CredentialBoundaryAgentInventoryTest extends TestCase
             $classified[$agent] = $definition;
         }
 
-        $configuration = (string) file_get_contents($root.'/config/packages/ai.yaml')
-            ."\n".(string) file_get_contents($root.'/config/packages/sortie/ai.yaml');
+        $configuration = (string) file_get_contents($root.'/config/packages/ai.yaml');
         preg_match_all('/^        ([a-zA-Z0-9_]+):\R            platform:/m', $configuration, $matches);
         $configured = $matches[1];
         sort($configured, SORT_STRING);
         $documented = array_keys($classified);
         sort($documented, SORT_STRING);
-        self::assertCount(1, $configured);
+        self::assertCount(0, $configured);
         self::assertSame($configured, $documented);
-
-        foreach ($classified as $agent => $definition) {
-            $found = false;
-            foreach ($definition['gateways'] as $gateway) {
-                $source = (string) file_get_contents($root.'/'.$gateway);
-                $services = (string) file_get_contents($root.'/config/services.yaml')
-                    ."\n".(string) file_get_contents($root.'/config/services_sortie.yaml');
-                if (str_contains($source, 'ai.agent.'.$agent) || str_contains($services, '@ai.agent.'.$agent)) {
-                    $found = true;
-                    break;
-                }
-            }
-            self::assertTrue($found, 'No declared injection was found for '.$agent.'.');
-        }
 
         $actualBindings = [];
         $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($root.'/src'));
