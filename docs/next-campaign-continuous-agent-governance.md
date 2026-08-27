@@ -1,5 +1,14 @@
 # Next campaign: Continuous Agent Governance Controls
 
+## Campaign status
+
+`TERMINAL_THROUGH_BATCH_16`
+
+The campaign is closed by
+`docs/handoffs/continuous-agent-governance-controls-campaign-complete.md`. This document remains
+canonical history for the preparation boundary and completed batch sequence; it is no longer an
+active implementation prompt.
+
 ## Purpose
 
 Imperium must prove that identity, authority, evidence, and control remain valid throughout operation—not merely at the moment a decision is sealed. Control strength must grow with consequence while preserving the separation among accountable owner, competent Office and Seat, Persona, Profile, Officer process, Manifestation, credential holder, and any future disposable sortie.
@@ -149,7 +158,12 @@ that lease; reconstruction remains the only missing element of the selected slic
 Batch 15 adds the read-only four-artifact reconstruction for that exact lease interruption. It
 verifies the immutable lease, disposition, authority, and result and proves mechanical durable-
 claim absence. It invokes no cognition, creates no claim, mutates or closes no lease, and grants
-or propagates no authority. The selected adjacent slice is complete; campaign closeout remains.
+or propagates no authority. The selected adjacent slice is complete.
+
+Batch 16 closes the campaign without changing runtime behavior. It records the terminal proof
+matrix, preserves every completed lifecycle, and leaves generalized propagation, lease closure,
+operational cognition, telemetry, containment, incidents, Iron Gate, Lazaretto, sorties, and new
+credential-platform work as separately authorized future boundaries.
 
 ## Starting instruction
 
