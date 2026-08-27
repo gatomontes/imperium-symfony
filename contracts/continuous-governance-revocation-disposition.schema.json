@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "imperium.continuous-governance-revocation-disposition/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "disposition_id", "instance_id", "disposition", "competent_actor", "authority_basis", "affected_scope", "reason", "effective_at", "prior_references", "enforcement_required", "enforcement_authority_opened", "state_mutated", "authority_granted", "continuation_authority", "sealed"],
+  "properties": {
+    "schema": {"const": "imperium.continuous-governance-revocation-disposition/v1"},
+    "disposition_id": {"type": "string", "pattern": "^revocation-disposition-[a-f0-9]{20}$"},
+    "instance_id": {"type": "string", "minLength": 1},
+    "disposition": {"enum": ["RESTRICT", "INTERRUPT", "REAUTHORIZE", "RETIRE"]},
+    "competent_actor": {"type": "object"},
+    "authority_basis": {"type": "object"},
+    "affected_scope": {"type": "object"},
+    "reason": {"type": "string", "minLength": 1},
+    "effective_at": {"type": "string", "format": "date-time"},
+    "prior_references": {"type": "array", "minItems": 1},
+    "enforcement_required": {"type": "boolean"},
+    "enforcement_authority_opened": {"const": false},
+    "state_mutated": {"const": false},
+    "authority_granted": {"const": false},
+    "continuation_authority": {"const": false},
+    "sealed": {"const": true}
+  }
+}
