@@ -25,7 +25,7 @@ final class SenateIssueSubordinatePersonaDispositionCommand extends Command
 
     protected function configure(): void
     {
-        $this->addArgument("finding-set-id", InputArgument::REQUIRED)
+        $this->addArgument("disposition-opening-id", InputArgument::REQUIRED)
             ->addOption("json", null, InputOption::VALUE_NONE);
     }
 
@@ -33,7 +33,7 @@ final class SenateIssueSubordinatePersonaDispositionCommand extends Command
     {
         try {
             $record = $this->service->issue(
-                (string) $input->getArgument("finding-set-id"),
+                (string) $input->getArgument("disposition-opening-id"),
             );
         } catch (\Throwable $exception) {
             $output->writeln("<error>REFUSED</error> " . $exception->getMessage());

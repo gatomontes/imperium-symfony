@@ -55,6 +55,7 @@ services:
                 - '@App\Imperium\Runtime\Senate\SenatePersonaSecurityPressureTestimonyGovernanceCognitionAuthorityResolver'
                 - '@App\Imperium\Runtime\Senate\SenatePersonaFindingGovernanceCognitionAuthorityResolver'
                 - '@App\Imperium\Runtime\Senate\SenatePersonaReconciliationGovernanceCognitionAuthorityResolver'
+                - '@App\Imperium\Runtime\Senate\SenatePersonaDispositionGovernanceCognitionAuthorityResolver'
                 - '@App\Imperium\Runtime\Senate\SenatePersonaConfirmationGovernanceCognitionAuthorityResolver'
 
     App\Imperium\Runtime\Curia\ProceedingStore:
@@ -266,10 +267,6 @@ services:
 
     App\Imperium\Runtime\Senate\PersonaFindingReconciliationCognitionGateway:
         alias: App\Imperium\Runtime\Senate\SymfonyAiPersonaFindingReconciliationCognitionGateway
-
-    App\Imperium\Runtime\Senate\SymfonyAiLordSpeakerDispositionCognitionGateway:
-        arguments:
-            $agent: '@ai.agent.lord_speaker_disposition'
 
     App\Imperium\Runtime\Senate\LordSpeakerDispositionCognitionGateway:
         alias: App\Imperium\Runtime\Senate\SymfonyAiLordSpeakerDispositionCognitionGateway
