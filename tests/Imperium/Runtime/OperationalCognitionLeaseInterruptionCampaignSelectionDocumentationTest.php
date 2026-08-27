@@ -14,8 +14,8 @@ final class OperationalCognitionLeaseInterruptionCampaignSelectionDocumentationT
         $handoff = (string) file_get_contents($root.'/docs/handoffs/operational-cognition-lease-interruption-campaign-ready.md');
         $flow = (string) file_get_contents($root.'/docs/delegate-mission-flow.md');
 
-        self::assertStringContainsString('`BATCH_1_DISPOSITION_COMPLETE_BATCH_2_UNOPENED`', $document);
-        self::assertStringContainsString('## Batch 1 result', $document);
+        self::assertStringContainsString('`BATCH_2_ENFORCEMENT_AUTHORITY_COMPLETE_BATCH_3_UNOPENED`', $document);
+        self::assertStringContainsString('## Batch 2 result', $document);
         self::assertStringContainsString('`oca-lease:<hash leaseId>`', $document);
         self::assertStringContainsString('must not be reused by string substitution', $document);
         self::assertStringContainsString('No implementation step below is authorized merely because it is listed.', $document);
@@ -25,8 +25,8 @@ final class OperationalCognitionLeaseInterruptionCampaignSelectionDocumentationT
         foreach (['Generalized revocation', 'telemetry', 'containment', 'incidents', 'Iron Gate', 'Lazaretto', 'sorties', 'new credential-platform work'] as $boundary) {
             self::assertStringContainsString($boundary, $document);
         }
-        self::assertStringContainsString('Operational Cognition Lease Interruption Batch 1 is complete', $index);
-        self::assertStringContainsString('Only the exact disposition boundary is open', $index);
+        self::assertStringContainsString('Operational Cognition Lease Interruption Batch 2 is complete', $index);
+        self::assertStringContainsString('Only the exact disposition and enforcement-authority boundaries are open', $index);
         self::assertStringContainsString('Only Preparation Batch 0 is authorized.', $handoff);
         self::assertStringContainsString('`oca-cognition-authority` → `oca-lease` lock order', $handoff);
         self::assertStringContainsString('Operational Cognition Lease Interruption', $flow);
