@@ -2,12 +2,12 @@
 
 ## Status
 
-`BATCH_1_DISPOSITION_COMPLETE_BATCH_2_UNOPENED`
+`BATCH_2_ENFORCEMENT_AUTHORITY_COMPLETE_BATCH_3_UNOPENED`
 
 This document governs the smallest separately prepared continuation after the terminal Continuous
-Agent Governance Controls campaign. Preparation Batch 0 and the exact Batch 1 disposition are
-complete. Batch 2 enforcement authority remains unopened, and generalized revocation is not
-adopted.
+Agent Governance Controls campaign. Preparation Batch 0, the exact Batch 1 disposition, and the
+Batch 2 single-use Locksmith authority are complete. Batch 3 native admission enforcement remains
+unopened, and generalized revocation is not adopted.
 
 ## Selected boundary
 
@@ -63,6 +63,14 @@ authorizer may seal `INTERRUPT` only while revalidated as the unique current Sen
 binds authorization, request, Imperator decision, and operational lease under the native lease lock.
 It opens no enforcement authority and mutates no source.
 
+## Batch 2 result
+
+Batch 2 defines only
+`imperium.operational-cognition-lease-interruption-enforcement-authority/v1` and its issuance
+service. It appoints the unique current Locksmith for one exact denial transition, expires at the
+earliest live source bound, and grants no claim, cognition, credential, journal, network,
+lease-mutation, propagation, or continuing authority.
+
 ## Provisional implementation sequence
 
 No implementation step below is authorized merely because it is listed. After Preparation Batch 0,
@@ -70,9 +78,10 @@ each requires a separate batch and preserved stop condition:
 
 1. **Complete in Batch 1:** one exact competent operational-lease `INTERRUPT` disposition without
    lease mutation;
-2. **Unopened:** one separately opened, expiring, single-use authority for the exact current
-   Locksmith;
-3. one native `OperationalCognitionInvocationClaimService` admission consumer and immutable result;
+2. **Complete in Batch 2:** one separately opened, expiring, single-use authority for the exact
+   current Locksmith;
+3. **Unopened:** one native `OperationalCognitionInvocationClaimService` admission consumer and
+   immutable result;
 4. one read-only reconstruction of request lineage, lease, disposition, authority, result, and
    mechanical durable-claim absence; and
 5. documentation-only closeout.
@@ -92,5 +101,5 @@ authorized future boundaries.
 ## New-chat continuation
 
 The active continuation handoff is
-`docs/handoffs/operational-cognition-lease-interruption-batch-1-complete.md`. It is subordinate to
-this campaign contract and leaves Batch 2 unopened.
+`docs/handoffs/operational-cognition-lease-interruption-batch-2-complete.md`. It is subordinate to
+this campaign contract and leaves Batch 3 unopened.
