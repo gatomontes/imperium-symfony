@@ -15,11 +15,12 @@ For the current Delegate Mission state, read in this order:
 9. `docs/handoffs/credential-boundary-remediation-complete.md`; and
 10. `docs/handoffs/institutional-decision-integrity-campaign-complete.md`;
 11. `docs/handoffs/continuous-agent-governance-controls-campaign-complete.md`;
-12. `docs/next-campaign-operational-cognition-lease-interruption.md`; and
-13. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
+12. `docs/next-campaign-operational-cognition-lease-interruption.md`;
+13. `docs/handoffs/operational-cognition-lease-interruption-campaign-ready.md`; and
+14. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
 
 `docs/handoffs/operational-cognition-access-lifecycle-ready.md` and the numbered credential-boundary handoffs are historical execution records. They are not active continuation prompts.
 
 Historical step handoffs remain retained for provenance. When historical prose conflicts with a current contract or canonical document, the current contract or canonical document governs.
 
-The active continuation prompt is `docs/next-campaign-operational-cognition-lease-interruption.md`. It authorizes preparation only; implementation remains unopened. Continuous Agent Governance Controls, Credential-boundary remediation, and Institutional Decision Integrity remain terminal.
+The active continuation prompt is `docs/handoffs/operational-cognition-lease-interruption-campaign-ready.md`. Its governing campaign contract is `docs/next-campaign-operational-cognition-lease-interruption.md`. It authorizes Preparation Batch 0 only; implementation remains unopened. Continuous Agent Governance Controls, Credential-boundary remediation, and Institutional Decision Integrity remain terminal.
