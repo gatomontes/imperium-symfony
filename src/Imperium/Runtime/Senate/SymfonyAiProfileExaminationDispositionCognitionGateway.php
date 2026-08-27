@@ -28,7 +28,14 @@ public function decide(array $authority,
         'finding_references, limitations, and uncertainties, which must be arrays of non-empty strings; use [] for empty lists. Copy all ' .
         'available_finding_references exactly. No markdown or extra fields.',
         'Exact shape: {"disposition":"APPROVED","finding_references":["..."],"rationale":"...","reconciliation_treatment":"...","limitations":[],"uncertainties":[]}']);
-        $content=$this->cognition->invoke('senate-profile-examination','disposition',(string)($authority['opening_id']??$authority['disposition_authority_id']??''),'senate.lord-speaker','decide-profile-disposition',[$authority,$findings,$reconciliation],$prompt);
+        $content=$this->cognition->invoke(
+        'senate-profile-examination',
+        'disposition',
+        (string)($authority['opening_id']??$authority['disposition_authority_id']??''),
+        'senate.lord-speaker',
+        'decide-profile-disposition',
+        [$authority,$findings,$reconciliation],
+        $prompt);
         if(!is_string($content))throw $this->invalid('NON_TEXT_RESPONSE');
         $content=trim($content);
         if(str_starts_with($content,
