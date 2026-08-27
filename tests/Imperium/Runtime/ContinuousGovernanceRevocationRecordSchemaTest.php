@@ -14,6 +14,7 @@ final class ContinuousGovernanceRevocationRecordSchemaTest extends TestCase
         $disposition = json_decode((string) file_get_contents($root.'continuous-governance-revocation-disposition.schema.json'), true, 64, JSON_THROW_ON_ERROR);
         $authority = json_decode((string) file_get_contents($root.'continuous-governance-enforcement-authority.schema.json'), true, 64, JSON_THROW_ON_ERROR);
         $result = json_decode((string) file_get_contents($root.'continuous-governance-enforcement-result.schema.json'), true, 64, JSON_THROW_ON_ERROR);
+        $leaseResult = json_decode((string) file_get_contents($root.'continuous-governance-lease-enforcement-result.schema.json'), true, 64, JSON_THROW_ON_ERROR);
         self::assertSame(false, $disposition['properties']['enforcement_authority_opened']['const']);
         self::assertSame(false, $disposition['properties']['state_mutated']['const']);
         self::assertSame(false, $disposition['properties']['authority_granted']['const']);
@@ -30,5 +31,10 @@ final class ContinuousGovernanceRevocationRecordSchemaTest extends TestCase
         self::assertSame(false, $result['properties']['journal_created']['const']);
         self::assertSame(false, $result['properties']['external_io_started']['const']);
         self::assertSame(false, $result['properties']['propagation_performed']['const']);
+        self::assertSame(true, $leaseResult['properties']['authority_consumed']['const']);
+        self::assertSame(false, $leaseResult['properties']['claim_created']['const']);
+        self::assertSame(false, $leaseResult['properties']['lease_consumed']['const']);
+        self::assertSame(false, $leaseResult['properties']['lease_closed']['const']);
+        self::assertSame(false, $leaseResult['properties']['propagation_performed']['const']);
     }
 }
