@@ -71,6 +71,8 @@ Define the exact fingerprint whose change makes consent stale. Prove that change
 
 Return stale matters for a fresh decision surface without automatically granting continuation authority.
 
+Implemented at the canonical surface boundary: nine explicit material-fact categories are compared mechanically, stale prior consent returns `FRESH_DECISION_SURFACE_REQUIRED`, and the assessment grants neither authority nor continuation authority. Historical sealed v1 surfaces remain readable and are never reinterpreted or rewritten.
+
 ### Batch 6 — proof and campaign closeout
 
 Prove:
