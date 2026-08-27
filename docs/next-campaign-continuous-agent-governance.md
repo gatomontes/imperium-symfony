@@ -136,6 +136,11 @@ native lease-claim lock and requires one exact live, unconsumed governance cogni
 no existing claim. The disposition does not mutate or close the lease, open enforcement
 authority, or change claim admission.
 
+Batch 13 adds only the separately opened, expiring, single-use enforcement authority for one
+current Locksmith and one exact lease disposition. Its sole permitted transition is denial of
+durable governance claim creation for that lease. No consumer or result exists, claim admission
+is unchanged, and the source lease remains immutable and unclosed.
+
 ## Starting instruction
 
 Begin from `main`. Read:
