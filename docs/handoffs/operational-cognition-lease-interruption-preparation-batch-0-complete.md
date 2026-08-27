@@ -3,8 +3,8 @@
 ## Result
 
 Preparation Batch 0 is complete as a documentation-only inventory in
-`docs/operational-cognition-lease-interruption-preparation-inventory.md`. Runtime implementation
-remains unopened.
+`docs/operational-cognition-lease-interruption-preparation-inventory.md`.
+Runtime implementation remains unopened.
 
 The inventory proves that the exact source bounded-execution authorizer, revalidated against the
 unique current Seneschal occupancy, is the competent interruption judge. The unique current
