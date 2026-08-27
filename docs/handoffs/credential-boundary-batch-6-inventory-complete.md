@@ -22,12 +22,12 @@ Two credential-bearing platform definitions remain: `config/packages/ai.yaml` an
 ## Ordered batches
 
 7. **Governance invocation substrate — implemented:** implement only the common mechanical request/Imperator decision/Clavium lease/durable claim contracts. Each cluster must supply an exact existing authority reference and purpose; the substrate may not create or infer that authority.
-8. **Foundry:** migrate specification, revision, ordinary review, and adversarial review; remove two definitions.
-9. **Resident requirements:** migrate Sanctographer and Chancellor requirement resolution; remove two definitions.
-10. **Section authorship:** migrate exact Sanctographer/Chancellor section authorship; remove two definitions.
-11. **Laboratorium:** migrate Alchemist Profile elaboration; remove one definition.
-12. **Senate profile examination:** migrate nine question/testimony/finding/reconciliation/disposition definitions with stage- and jurisdiction-specific claims.
-13. **Senate Persona confirmation:** migrate ten question/witness/finding/disposition definitions without collapsing Seats or sterile-witness separation.
+8. **Foundry — complete:** specification, revision, ordinary review, and adversarial review migrated; two definitions removed.
+9. **Resident requirements — complete:** Sanctographer and Chancellor requirement resolution migrated; two definitions removed.
+10. **Section authorship — complete:** exact Sanctographer/Chancellor section authorship migrated; two definitions removed.
+11. **Laboratorium — complete:** Alchemist Profile elaboration migrated; one definition removed.
+12. **Senate profile examination — complete:** nine stage- and jurisdiction-specific definitions migrated.
+13. **Senate Persona confirmation — complete:** ten definitions migrated without collapsing Seats, cognition turns, trials, findings, reconciliation, disposition, or sterile-witness separation. The v2 post-disposition chain is complete through confirmation issuance.
 14. **Guildhall:** migrate three committee Seats and Guildmaster synthesis with checkpoint-safe at-most-once claims; remove four definitions.
 15. **Curia:** migrate Seneschal cognition against the exact audience/deliberation state; remove one definition.
 16. **La Cortine sortie:** separately broker sortie cognition and its external authority boundary; remove the sortie agent and isolated credential-bearing platform.
@@ -37,4 +37,4 @@ Every migration batch includes its hostile proof. No batch may remove a platform
 
 ## Next batch
 
-Batch 8 migrates Foundry only. It must add resolvers for the exact native specification, revision, ordinary-review, and adversarial-review authorities; route the two Foundry agent definitions through the common claim-bound broker mechanics; preserve stage-specific result contracts; and prove at-most-once, cross-stage refusal, unknown outcome, and secret exclusion before removing those definitions.
+Batch 14 migrates Guildhall only. It must first map the native accepted commission, exact occupied committee Seats, durable committee checkpoints, and Guildmaster synthesis authority. Each of the three committee calls and final synthesis receives its own claim; checkpoint-safe resume must reject replay and cross-Seat substitution. Remove only the four Guildhall definitions after the full path is claim-bound, reducing inventory from 6 to 2.

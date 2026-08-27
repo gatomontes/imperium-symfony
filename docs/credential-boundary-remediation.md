@@ -34,7 +34,7 @@ The migration must not place credentials, environment dumps, or credential-adjac
 
 The Citadel Legate gateway is the first direct Symfony-agent consumer removed from the credential-bearing platform. Its existing activation and at-most-once claim are now reread by a Legate-specific claim-bound Clavium broker before the DeepSeek adapter can receive a credential. The removed agent service can no longer be injected as a bypass.
 
-Ten direct platform-bound agent definitions remain across the main pre-Delegate governance clusters after the operational, Foundry, Authorship, Laboratorium, Senate Profile-examination, Persona testimony, and Persona-question migrations. The isolated sortie runtime adds one more direct agent and a second `%env(DEEPSEEK_API_KEY)%` platform definition. The system-wide inventory is therefore 11 remaining agents across four clusters and two credential-bearing platforms. The final evidence gate is not closed.
+Batch 13 is complete. Six direct definitions remain: four Guildhall agents, the Curia Seneschal, and the separately configured La Cortine sortie agent. Two credential-bearing platform definitions remain. The ordered remainder is Guildhall, Curia, La Cortine, then global platform removal and the final bypass proof. The system-wide evidence gate remains open.
 
 ## Next bounded lifecycle: Operational Cognition Access
 
@@ -87,3 +87,5 @@ Credential-boundary Batch 12 migrates ordinary, model-bound, and Delegate-missio
 Credential-boundary Batch 13A separates the first Practice question from witness testimony and seals it pending independent provider-resource authorization. Batch 13B resolves that exact native testimony authority through the governance claim-bound broker, seals the resulting first testimony turn, and removes only the direct `persona_witness` definition. The inventory is 15; the remaining Persona-confirmation question, finding, and disposition agents are intentionally untouched.
 
 Credential-boundary Batch 13I migrates Practice, Governance, Consistency, and Security question authorship through four exact native authority types. Each stage independently rereads its deposition or preceding sealed testimony turn, full prior-testimony lineage, sterile witness, and occupied jurisdictional Senator Seat before reconstructing the exact provider input. The four direct Senator question definitions and injections are removed. The inventory is 11; finding authority remains unopened.
+
+Credential-boundary Batch 13 is complete through Batch 13AA. It separates and claim-binds all Persona question, testimony, finding, reconciliation, and disposition cognition; preserves the four-jurisdiction and sterile-witness boundaries; removes all ten direct Persona-confirmation agents; and mechanically carries the v2 disposition through witness retirement and Foundry-facing confirmation issuance. The inventory is 6. Batch 14 migrates Guildhall only.

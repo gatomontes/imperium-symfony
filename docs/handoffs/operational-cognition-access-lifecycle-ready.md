@@ -207,7 +207,7 @@ Ordinary and Delegate-mission Profile elaboration now use exact Laboratorium aut
 
 The next batch is **Batch 12: Senate Profile-examination migration**, covering its nine direct agents only.
 
-## New-chat continuation prompt
+## Archived Batch 13 continuation prompt
 
 Copy this prompt verbatim into the next chat:
 
@@ -277,3 +277,7 @@ Batch 13Z mechanically retires all four sterile witnesses from the v2 dispositio
 Batch 13AA mechanically issues the Foundry-facing confirmation record from the complete v2 retirement, disposition, reconciliation, finding, trial, witness, acceptance, case, and request lineage. Historical v1 support remains; inventory is 6. Batch 13 is closed. Continue with Batch 14 Guildhall migration.
 >
 > Ad Imperium. Not one step back.
+
+## Current continuation
+
+The authoritative Batch 14 boundary and new-chat prompt are in `docs/handoffs/credential-boundary-batch-13-complete-batch-14-ready.md`. The Batch 13 prompt above is retained only as a completed historical sequence and must not be used to reopen Senate work.
