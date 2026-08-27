@@ -56,6 +56,10 @@ final class GovernanceCognitionAccessSubstrateTest extends TestCase
         self::assertFalse($event['authority_granted']);
         self::assertSame('AUTHORIZED', $decision['disposition']);
         self::assertTrue($lease['opaque']);
+        self::assertSame('GOVERNANCE_COGNITION', $lease['continuous_governance_controls']['lease_family']);
+        self::assertSame('UNASSIGNED_DEFERRED_BOUNDARY', $lease['continuous_governance_controls']['revocation']['status']);
+        self::assertNull($lease['continuous_governance_controls']['revocation']['authority_reference']);
+        self::assertFalse($lease['continuous_governance_controls']['revocation']['propagation_implemented']);
         self::assertFalse($lease['credential_reference_disclosed']);
         self::assertSame('GOVERNANCE_INVOCATION_CLAIMED_DURABLE_PRE_IO', $claim['status']);
         self::assertTrue($claim['lease_consumption']['consumed']);
