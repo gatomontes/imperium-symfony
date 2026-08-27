@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Cognition;
 
 use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\Governance\ContinuousGovernanceContext;
 use App\Imperium\Runtime\Persistence\AtomicTransition;
 use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
 use App\Imperium\Runtime\Persistence\RecordReferenceValidator;
@@ -53,6 +54,7 @@ final readonly class GovernanceCognitionRequestService
         $modelRequirements = $this->modelRequirements($modelRequirements);
         $authority = $this->authorities->resolve($cluster, $authorityType, $authorityId);
         $this->validateAuthority($authority, $cluster, $authorityType, $authorityId, $seat, $purpose, $inputDigest, $requestedAt);
+        $continuousGovernance = ContinuousGovernanceContext::advisoryCognition($authority);
 
         $fingerprint = [$authority['source'], $cluster, $authorityType, $seat, $purpose, $inputDigest, $modelRequirements, $requestedAt->format(DATE_ATOM), $expiresAt->format(DATE_ATOM)];
         $requestId = 'governance-cognition-request-'.substr(hash('sha256', CanonicalJson::encode($fingerprint)), 0, 20);
@@ -69,6 +71,7 @@ final readonly class GovernanceCognitionRequestService
             'target' => ['seat' => $seat, 'purpose' => $purpose],
             'input_digest' => $inputDigest,
             'model_requirements' => $modelRequirements,
+            'continuous_governance' => $continuousGovernance,
             'requested_at' => $requestedAt->format(DATE_ATOM),
             'expires_at' => $expiresAt->format(DATE_ATOM),
             'status' => 'GOVERNANCE_COGNITION_REQUESTED_PENDING_IMPERATOR_PROVIDER_RESOURCE_DECISION',
