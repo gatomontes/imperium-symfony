@@ -22,4 +22,12 @@ The decision states the disposition, exact decided scope, granted authority, den
 
 ## Deferred work
 
-Batch 2 owns mechanical validation, digest sealing, immutable persistence, replay, conflicting-reuse refusal, and supersession enforcement. Later batches own assembly, omission detection, material-change invalidation, and the first bounded lifecycle adoption.
+Later batches own assembly, omission detection, material-change invalidation, and the first bounded lifecycle adoption.
+
+## Batch 2 mechanical enforcement
+
+Batch 2 adds fail-closed validators and one canonical immutable store for the two contracts. Required top-level and nested fields are mechanically enforced. Evidence must be sealed, exactly digest-identified, observed no later than the decision surface or decision, and unexpired at that moment. Context-free authorization prompts fail. Substantive rationale is mandatory. A remaining residual risk requires an explicitly named owner whose competent authority is stated and an explicit acceptance disposition.
+
+The store digest-seals each canonical artifact, returns the exact artifact for identical replay, rejects conflicting reuse of an identity, verifies a decision's exact surface lineage, and verifies any superseded decision by identity, digest, instance, and proceeding. Supersession creates a new immutable record and never rewrites history.
+
+These mechanisms remain unadopted infrastructure. They do not assemble a decision surface, detect an omitted option, change material-fact policy, invoke cognition, select an option, issue authority, consume authority, or move an existing lifecycle checkpoint.

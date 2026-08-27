@@ -32,6 +32,7 @@ final class InstitutionalDecisionSurfaceContract
         'allowed_dispositions',
         'presented_at',
         'sealed',
+        'record_digest',
     ];
 
     public const array REQUIRED_DECISION_OWNER_FIELDS = [
@@ -58,6 +59,9 @@ final class InstitutionalDecisionSurfaceContract
         'provenance',
         'version',
         'relevance',
+        'sealed',
+        'observed_at',
+        'expires_at',
     ];
 
     public const array ALLOWED_DISPOSITIONS = [
