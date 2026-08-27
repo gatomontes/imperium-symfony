@@ -17,7 +17,7 @@ under a separately opened, single-use authority.
 | Disposition | Competent judgment | Permitted internal scope | Future enforcer | Current status |
 | --- | --- | --- | --- | --- |
 | `RESTRICT` | Seneschal for bounded mission control; Imperator when the restriction changes an approved consequential commitment | mission, Manifestation use, Profile limitation, Seat use, capability | Native custodian for each scope | `DESIGN_ONLY` |
-| `INTERRUPT` | Seneschal for an active internal mission iteration; Imperator for instance-wide emergency interruption | instance, mission, Manifestation, Profile, Seat, capability | Conscription for runtime activation; Clavium for pre-I/O provider admission and unclaimed internal leases | `CLAIM_ENFORCEMENT_COMPLETE_LEASE_DISPOSITION_ONLY_NO_PROPAGATION` |
+| `INTERRUPT` | Seneschal for an active internal mission iteration; Imperator for instance-wide emergency interruption | instance, mission, Manifestation, Profile, Seat, capability | Conscription for runtime activation; Clavium for pre-I/O provider admission and unclaimed internal leases | `CLAIM_ENFORCEMENT_COMPLETE_LEASE_AUTHORITY_ONLY_NO_CONSUMER_NO_PROPAGATION` |
 | `REAUTHORIZE` | Imperator only, after a fresh competent presentation; prior actors may request but cannot reauthorize | decision, Profile commitment, resource/model commitment, bounded capability | Existing native consumer under a new single-use authority | `DESIGN_ONLY` |
 | `RETIRE` | Seneschal authorizes only the predeclared return, unbinding, custody-restoration, and retirement contract | Manifestation and mission Seat binding | Garrison consumes the exact terminal authority, restores custody, unbinds, and retires | `DESIGN_ONLY` |
 
@@ -31,8 +31,9 @@ claim before provider-journal admission. Its authority names one occupied Locksm
 only denial of that exact journal start. Its consumer seals a separate immutable result and does
 not broaden the other `INTERRUPT` scopes in this table or propagate beyond native admission.
 
-The adjacent unclaimed governance cognition lease subset has only its Seneschal disposition
-issuer. No lease enforcement authority or consumer exists, and claim admission is unchanged.
+The adjacent unclaimed governance cognition lease subset has its Seneschal disposition and one
+exact, expiring, single-use Locksmith authority. No lease consumer exists, and claim admission
+is unchanged.
 
 ## Deliberately deferred scopes
 
