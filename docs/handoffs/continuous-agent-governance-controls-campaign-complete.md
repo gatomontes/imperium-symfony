@@ -53,13 +53,12 @@ with a separately authorized assessment of one deliberately deferred boundary. I
 permission to open Iron Gate, Lazaretto, sorties, propagation, telemetry, containment, incidents,
 operational cognition, or credential-platform work from this campaign's completion.
 
+The later assessment in `docs/next-campaign-operational-cognition-lease-interruption.md` selects
+only a preparation campaign for the exact unclaimed operational cognition lease. It does not alter
+this closeout or authorize implementation.
+
 ## New-chat continuation
 
-> Continue Imperium from `main` after the merged Continuous Agent Governance Controls Batch 16
-> closeout. Read `docs/handoffs/continuous-agent-governance-controls-campaign-complete.md`,
-> `docs/continuous-agent-governance-controls-preparation-inventory.md`,
-> `docs/continuous-governance-narrow-interruption-slice-assessment.md`,
-> `todo/continuous-agent-governance-controls.md`, `docs/officer-taxonomy.md`, and
-> `docs/delegate-mission-flow.md`. Assess and propose the smallest separately authorized next
-> campaign only. Do not change runtime behavior or open any deferred boundary without explicit
-> authorization.
+> Continue with the separately selected preparation boundary in
+> `docs/next-campaign-operational-cognition-lease-interruption.md`. Begin Preparation Batch 0 only;
+> do not change runtime behavior or infer implementation authority from campaign selection.
