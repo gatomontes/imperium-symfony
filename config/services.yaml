@@ -46,6 +46,7 @@ services:
                 - '@App\Imperium\Runtime\Authorship\SectionAuthorshipGovernanceCognitionAuthorityResolver'
                 - '@App\Imperium\Runtime\Laboratorium\LaboratoriumGovernanceCognitionAuthorityResolver'
                 - '@App\Imperium\Runtime\Guildhall\GuildhallGovernanceCognitionAuthorityResolver'
+                - '@App\Imperium\Runtime\Curia\CurianGovernanceCognitionAuthorityResolver'
                 - '@App\Imperium\Runtime\Senate\SenateProfileExaminationGovernanceCognitionAuthorityResolver'
                 - '@App\Imperium\Runtime\Senate\SenatePersonaConfirmationQuestionGovernanceCognitionAuthorityResolver'
                 - '@App\Imperium\Runtime\Senate\SenatePersonaFreshConsistencyQuestionGovernanceCognitionAuthorityResolver'
@@ -227,10 +228,6 @@ services:
     App\Imperium\Runtime\Garrison\ConstableSeatBindingService:
         arguments:
             $projectDir: '%kernel.project_dir%'
-
-    App\Imperium\Runtime\Curia\SymfonyAiSeneschalCognitionGateway:
-        arguments:
-            $agent: '@ai.agent.seneschal'
 
     App\Imperium\Runtime\Curia\SeneschalCognitionGateway:
         alias: App\Imperium\Runtime\Curia\SymfonyAiSeneschalCognitionGateway

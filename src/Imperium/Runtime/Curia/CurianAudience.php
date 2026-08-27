@@ -16,6 +16,7 @@ final readonly class CurianAudience
         private StateStore $bootstrap,
         private ProceedingStore $proceedings,
         private SeneschalCognitionGateway $seneschal,
+        private CurianCognitionAuthorityService $cognitionAuthorities,
     ) {
     }
 
@@ -62,10 +63,12 @@ final readonly class CurianAudience
         if (null !== $existing) {
             return $existing;
         }
-        $decision = $this->seneschal->decide($request, [
+        $context = [
             'instance_id' => $binding['instance_id'],
             'proceeding_id' => $proceedingId,
-        ]);
+        ];
+        $authority = $this->cognitionAuthorities->openAudience($request, $context, $occupants['seneschal']);
+        $decision = $this->seneschal->decide($authority['authority_id'], $request, $context);
         $proceeding = [
             'schema' => 'imperium.curian-proceeding/v1',
             'proceeding_id' => $proceedingId,
@@ -95,6 +98,7 @@ final readonly class CurianAudience
             'resource_demands' => $decision['resource_demands'],
             'authorization_required' => $decision['authorization_required'],
             'authorization_note' => 'No resources are authorized by opening a proceeding; planning must disclose resource demands separately.',
+            'source_cognition_authority' => ['id' => $authority['authority_id'], 'digest' => $authority['record_digest']],
         ];
         $proceeding['record_digest'] = hash('sha256', CanonicalJson::encode($proceeding));
 

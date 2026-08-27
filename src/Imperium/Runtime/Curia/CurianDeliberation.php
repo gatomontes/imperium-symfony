@@ -14,6 +14,7 @@ final readonly class CurianDeliberation
         private StateStore $bootstrap,
         private ProceedingStore $proceedings,
         private SeneschalCognitionGateway $seneschal,
+        private CurianCognitionAuthorityService $cognitionAuthorities,
     ) {
     }
 
@@ -49,12 +50,26 @@ final readonly class CurianDeliberation
             return $existing;
         }
 
+        $ready = $this->lastOutput($bootstrap, 'T10');
+        $seneschal = $ready['runtime']['occupants']['seneschal'] ?? null;
+        $currentOccupant = is_array($seneschal) ? [
+            'seat' => 'curia.seneschal',
+            'manifestation_id' => $seneschal['manifestation_id'] ?? null,
+            'occupancy_generation' => $seneschal['occupancy_generation'] ?? null,
+        ] : [];
+        if ('active' !== ($seneschal['status'] ?? null)
+            || CanonicalJson::encode($currentOccupant) !== CanonicalJson::encode($proceeding['seneschal']['occupant'] ?? null)) {
+            throw new \RuntimeException('C23_SENESCHAL_OCCUPANCY_CHANGED: proceeding Seneschal is no longer current.');
+        }
         $priorTurns = $this->proceedings->turns($proceedingId);
-        $decision = $this->seneschal->advance($proceeding, $priorTurns, $response, [
+        $context = [
             'instance_id' => $proceeding['instance_id'],
             'proceeding_id' => $proceedingId,
             'next_sequence' => count($priorTurns) + 1,
-        ]);
+            'response_id' => $responseId,
+        ];
+        $authority = $this->cognitionAuthorities->openDeliberation($proceeding, $priorTurns, $response, $context, $currentOccupant);
+        $decision = $this->seneschal->advance($authority['authority_id'], $proceeding, $priorTurns, $response, $context);
         $turn = [
             'schema' => 'imperium.curian-turn/v1',
             'proceeding_id' => $proceedingId,
@@ -75,8 +90,19 @@ final readonly class CurianDeliberation
             'resource_demands' => $decision['resource_demands'],
             'authorization_required' => $decision['authorization_required'],
             'authorization_note' => 'A demand is not an authorization; only a subsequent valid Imperator act may grant authority.',
+            'source_cognition_authority' => ['id' => $authority['authority_id'], 'digest' => $authority['record_digest']],
         ];
 
         return $this->proceedings->appendTurn($proceedingId, $responseId, count($priorTurns) + 1, $turn);
+    }
+    private function lastOutput(array $record, string $transition): array
+    {
+        for ($index = count($record['events'] ?? []) - 1; $index >= 0; --$index) {
+            $event = $record['events'][$index];
+            if ($transition === ($event['transition'] ?? null) && 'SUCCESS' === ($event['result'] ?? null)) {
+                return is_array($event['output'] ?? null) ? $event['output'] : [];
+            }
+        }
+        throw new \RuntimeException('C24_READINESS_RECEIPT_MISSING: T10 receipt is absent.');
     }
 }

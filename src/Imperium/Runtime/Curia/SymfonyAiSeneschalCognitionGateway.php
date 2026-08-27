@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace App\Imperium\Runtime\Curia;
 
-use Symfony\AI\Agent\AgentInterface;
-use Symfony\AI\Platform\Message\Message;
-use Symfony\AI\Platform\Message\MessageBag;
+use App\Imperium\Runtime\Clavium\GovernanceCognitionInvoker;
 
 final readonly class SymfonyAiSeneschalCognitionGateway implements SeneschalCognitionGateway
 {
-    public function __construct(private AgentInterface $agent)
+    public function __construct(private GovernanceCognitionInvoker $invoker)
     {
     }
 
-    public function decide(string $request, array $context): array
+    public function decide(string $authorityId, string $request, array $context): array
     {
-        return $this->invoke(implode("\n", [
+        $prompt = implode("\n", [
             'Imperator request: '.$request,
             'Instance: '.($context['instance_id'] ?? 'unknown'),
             'Proceeding: '.($context['proceeding_id'] ?? 'unknown'),
@@ -29,12 +27,14 @@ final readonly class SymfonyAiSeneschalCognitionGateway implements SeneschalCogn
             'authorization_required: boolean; true only when a listed resource demand requires Imperator authorization now',
             'mission_plan: null; an opening disposition cannot contain a Mission Plan',
             'Do not claim that any resource, mission, tool, credential, research, or execution has been authorized.',
-        ]), ['ADMITTED_FOR_PLANNING', 'CLARIFICATION_REQUIRED', 'REFUSED']);
+        ]);
+        $content = $this->invoker->invoke('curia', 'audience-opening', $authorityId, 'curia.seneschal', 'assess-imperator-request', [$request, $context], $prompt);
+        return $this->invoke($content, ['ADMITTED_FOR_PLANNING', 'CLARIFICATION_REQUIRED', 'REFUSED']);
     }
 
-    public function advance(array $proceeding, array $priorTurns, string $imperatorResponse, array $context): array
+    public function advance(string $authorityId, array $proceeding, array $priorTurns, string $imperatorResponse, array $context): array
     {
-        return $this->invoke(implode("\n", [
+        $prompt = implode("\n", [
             'Proceeding: '.($context['proceeding_id'] ?? 'unknown'),
             'Original Imperator request: '.($proceeding['imperator_request']['content'] ?? 'unknown'),
             'Prior Curian turns: '.json_encode($priorTurns, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR),
@@ -50,13 +50,13 @@ final readonly class SymfonyAiSeneschalCognitionGateway implements SeneschalCogn
             'capability_requirements may describe only functional skills, attributes, capabilities, constraints, and expected outcomes. Curia must not select, prescribe, or name a profession or Persona; Guildhall alone translates capability demand into professions and Persona suitability criteria.',
             'A Mission Plan remains a draft until Imperator approval.',
             'Do not claim that approval, authorization, research, tooling, or execution occurred.',
-        ]), ['PLANNING_CONTINUES', 'CLARIFICATION_REQUIRED', 'AUTHORIZATION_REQUIRED', 'MISSION_PLAN_DRAFTED', 'REFUSED']);
+        ]);
+        $content = $this->invoker->invoke('curia', 'deliberation-turn', $authorityId, 'curia.seneschal', 'advance-curian-planning', [$proceeding, $priorTurns, $imperatorResponse, $context], $prompt);
+        return $this->invoke($content, ['PLANNING_CONTINUES', 'CLARIFICATION_REQUIRED', 'AUTHORIZATION_REQUIRED', 'MISSION_PLAN_DRAFTED', 'REFUSED']);
     }
 
-    private function invoke(string $prompt, array $allowedDispositions): array
+    private function invoke(string $result, array $allowedDispositions): array
     {
-        $message = new MessageBag(Message::ofUser($prompt));
-        $result = $this->agent->call($message)->getContent();
         if (!is_string($result) || '' === trim($result)) {
             throw new \RuntimeException('C10_SENESCHAL_EMPTY: cognition returned no disposition.');
         }

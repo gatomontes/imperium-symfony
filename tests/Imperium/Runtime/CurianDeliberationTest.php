@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Imperium\Runtime;
 
+use App\Bootstrap\CanonicalJson;
 use App\Bootstrap\StateStore;
+use App\Imperium\Runtime\Curia\CurianCognitionAuthorityService;
 use App\Imperium\Runtime\Curia\CurianDeliberation;
 use App\Imperium\Runtime\Curia\ProceedingStore;
 use App\Imperium\Runtime\Curia\SeneschalCognitionGateway;
@@ -20,16 +22,30 @@ final class CurianDeliberationTest extends TestCase
         $state->locked(static fn () => $state->write([
             'state' => 'CURIA_READY',
             'binding' => ['instance_id' => 'imperium-test', 'manifest_id' => str_repeat('a', 64)],
+            'events' => [[
+                'transition' => 'T10', 'result' => 'SUCCESS',
+                'output' => ['runtime' => ['occupants' => ['seneschal' => [
+                    'manifestation_id' => 'imperium-test.officer.seneschal.1',
+                    'occupancy_generation' => 1, 'status' => 'active',
+                ]]]],
+            ]],
         ]));
         $store = new ProceedingStore($root);
-        $store->persist([
+        $proceeding = [
             'proceeding_id' => 'proceeding-test-0001',
             'instance_id' => 'imperium-test',
             'manifest_id' => str_repeat('a', 64),
             'imperator_request' => ['content' => 'Prepare a cybersecurity assessment mission.'],
-        ]);
+            'seneschal' => ['occupant' => [
+                'seat' => 'curia.seneschal',
+                'manifestation_id' => 'imperium-test.officer.seneschal.1',
+                'occupancy_generation' => 1,
+            ]],
+        ];
+        $proceeding['record_digest'] = hash('sha256', CanonicalJson::encode($proceeding));
+        $store->persist($proceeding);
         $calls = (object) ['count' => 0];
-        $service = new CurianDeliberation($state, $store, $this->seneschal($calls));
+        $service = new CurianDeliberation($state, $store, $this->seneschal($calls), new CurianCognitionAuthorityService($root));
 
         try {
             $first = $service->respond('proceeding-test-0001', 'Assess the public web application first.', 'response-test-0001');
@@ -53,14 +69,15 @@ final class CurianDeliberationTest extends TestCase
             {
             }
 
-            public function decide(string $request, array $context): array
+            public function decide(string $authorityId, string $request, array $context): array
             {
                 throw new \LogicException('Deliberation test does not open proceedings.');
             }
 
-            public function advance(array $proceeding, array $priorTurns, string $imperatorResponse, array $context): array
+            public function advance(string $authorityId, array $proceeding, array $priorTurns, string $imperatorResponse, array $context): array
             {
                 ++$this->calls->count;
+                TestCase::assertMatchesRegularExpression('/^curian-cognition-[a-f0-9]{20}$/', $authorityId);
 
                 return [
                     'disposition' => 'CLARIFICATION_REQUIRED',
