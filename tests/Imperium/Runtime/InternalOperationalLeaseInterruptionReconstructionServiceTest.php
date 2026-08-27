@@ -58,13 +58,26 @@ final class InternalOperationalLeaseInterruptionReconstructionServiceTest extend
         (new InternalOperationalLeaseInterruptionReconstructionService($this->root))->reconstruct($leaseId);
     }
 
-    public function testSubstitutedCurrentSeneschalFailsReconstructionStopped(): void
+    public function testHistoricalReconstructionSurvivesCurrentSeneschalRotation(): void
     {
         [$leaseId, , $seneschal] = $this->fixtures();
         unset($seneschal['record_digest']);
         $seneschal['binding_id'] = 'curia-seneschal-binding-'.str_repeat('f', 20);
         $seneschal['manifestation_id'] = 'manifestation-substitute';
         $this->write($this->root.'/var/imperium/offices/curia/occupancy/'.$seneschal['binding_id'].'.json', $this->sealed($seneschal));
+
+        $reconstruction = (new InternalOperationalLeaseInterruptionReconstructionService($this->root))->reconstruct($leaseId);
+
+        self::assertFalse($reconstruction['present_occupancy_continuity']['seneschal']);
+        self::assertFalse($reconstruction['present_occupancy_continuity']['required_for_historical_reconstruction']);
+        self::assertSame(9, $reconstruction['verified_artifact_count']);
+    }
+
+    public function testMissingConsumedTimestampFailsReconstructionStopped(): void
+    {
+        [$leaseId, $result] = $this->fixtures();
+        unset($result['record_digest'], $result['consumed_at']);
+        $this->write($this->root.'/var/imperium/runtime/operational-cognition-lease-interruption-enforcement-results/'.$result['result_id'].'.json', $this->sealed($result));
 
         $this->expectExceptionMessage('OCI401_OPERATIONAL_LEASE_INTERRUPTION_RECONSTRUCTION_INVALID');
         (new InternalOperationalLeaseInterruptionReconstructionService($this->root))->reconstruct($leaseId);
