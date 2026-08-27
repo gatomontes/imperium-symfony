@@ -82,6 +82,13 @@ native authority, and leaves every authority-bearing flag false. It does not cre
 principal, change the native authority, authorize cognition by itself, or open an external,
 revocation, telemetry, containment, or incident boundary.
 
+Batch 2 adopts `imperium.continuous-governance-event-envelope/v1` on that same existing
+governance-cognition request. The independently sealed envelope references the exact native
+Folium and authority, records `AUTHORIZATION_REQUEST` / `REQUEST_NOT_AUTHORIZATION`, carries
+the Batch 1 consequence and principal references, and explicitly records that no action was
+attempted and no effect completed. It is not telemetry, does not replace the native judgment,
+and grants or consumes no authority.
+
 ## Starting instruction
 
 Begin from `main`. Read:
