@@ -11,6 +11,8 @@ final class OperationalCognitionLeaseInterruptionCampaignSelectionDocumentationT
         $root = dirname(__DIR__, 3);
         $document = (string) file_get_contents($root.'/docs/next-campaign-operational-cognition-lease-interruption.md');
         $index = (string) file_get_contents($root.'/docs/handoffs/README.md');
+        $handoff = (string) file_get_contents($root.'/docs/handoffs/operational-cognition-lease-interruption-campaign-ready.md');
+        $flow = (string) file_get_contents($root.'/docs/delegate-mission-flow.md');
 
         self::assertStringContainsString('`PREPARATION_AUTHORIZED_IMPLEMENTATION_UNOPENED`', $document);
         self::assertStringContainsString('Preparation Batch 0 only', $document);
@@ -23,6 +25,10 @@ final class OperationalCognitionLeaseInterruptionCampaignSelectionDocumentationT
         foreach (['Generalized revocation', 'telemetry', 'containment', 'incidents', 'Iron Gate', 'Lazaretto', 'sorties', 'new credential-platform work'] as $boundary) {
             self::assertStringContainsString($boundary, $document);
         }
-        self::assertStringContainsString('authorizes preparation only; implementation remains unopened', $index);
+        self::assertStringContainsString('Preparation Batch 0 only; implementation remains unopened', $index);
+        self::assertStringContainsString('Only Preparation Batch 0 is authorized.', $handoff);
+        self::assertStringContainsString('`oca-cognition-authority` → `oca-lease` lock order', $handoff);
+        self::assertStringContainsString('Operational Cognition Lease Interruption', $flow);
+        self::assertStringContainsString('does not alter this route', $flow);
     }
 }

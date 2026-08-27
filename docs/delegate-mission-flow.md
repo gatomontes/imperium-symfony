@@ -203,6 +203,17 @@ The implementation order, record bindings, failure matrix, and continuation prom
 
 ## Current campaign frontier
 
-This flow remains terminal at Delegate Mission Step 69. The crash-demonstration, credential-boundary, and Institutional Decision Integrity campaigns are complete. Institutional Decision Integrity adopted its canonical surface and decision record only at the existing personnel-use checkpoint; it created neither Step 70 nor a new authority inside this closed flow.
+This flow remains terminal at Delegate Mission Step 69. Runtime Integrity Hardening is terminal at
+Step 35, credential-boundary remediation at Batch 17, Institutional Decision Integrity at Batch 6,
+and Continuous Agent Governance Controls at Batch 16. None created Delegate Mission Step 70 or
+reopened authority inside this closed route.
 
-The next separate campaign is Continuous Agent Governance Controls. Its preparation boundary is inventory and gap analysis only, as defined in `docs/next-campaign-continuous-agent-governance.md`. Preparation does not alter this route or open Iron Gate, Lazaretto, sorties, revocation propagation, telemetry, containment, incidents, or credential-platform work.
+The next separate campaign is Operational Cognition Lease Interruption. Only its Preparation
+Batch 0 is authorized, as defined in
+`docs/next-campaign-operational-cognition-lease-interruption.md` and the active handoff
+`docs/handoffs/operational-cognition-lease-interruption-campaign-ready.md`.
+
+Preparation evaluates one unclaimed operational cognition lease before durable claim creation. It
+does not alter this route, operational cognition runtime behavior, the completed governance
+interruption slices, or any credential, provider-journal, external-I/O, propagation, telemetry,
+containment, incident, Iron Gate, Lazaretto, sortie, or credential-platform boundary.
