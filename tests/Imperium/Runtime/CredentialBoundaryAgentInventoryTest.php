@@ -50,11 +50,21 @@ final class CredentialBoundaryAgentInventoryTest extends TestCase
         self::assertStringContainsString('journal->markUnknown', $delegate);
         self::assertStringContainsString('responses->seal', $delegate);
 
+        $legate = (string) file_get_contents($root.'/src/Imperium/Runtime/Citadel/SymfonyAiLegateCognitionGateway.php');
+        self::assertStringContainsString('LegateClaimBoundCredentialBroker', $legate);
+        self::assertStringContainsString('credentials->consume', $legate);
+
         $governance = (string) file_get_contents($root.'/src/Imperium/Runtime/Clavium/GovernanceCognitionInvoker.php');
         self::assertStringContainsString('GovernanceClaimBoundCredentialBroker', $governance);
         self::assertStringContainsString('reserveGovernance', $governance);
         self::assertStringContainsString('journal->markUnknown', $governance);
         self::assertStringContainsString('responses->seal', $governance);
+
+        $operational = (string) file_get_contents($root.'/src/Imperium/Runtime/Mission/SymfonyAiOperationalExecutionCognitionGateway.php');
+        self::assertStringContainsString('OperationalClaimBoundCredentialBroker', $operational);
+        self::assertStringContainsString('reserveOperational', $operational);
+        self::assertStringContainsString('journal->markUnknown', $operational);
+        self::assertStringContainsString('responses->seal', $operational);
 
         $sortie = (string) file_get_contents($root.'/src/Imperium/Runtime/Sortie/BrokeredSortieCognitionProviderInvoker.php');
         self::assertStringContainsString('CredentialBroker', $sortie);
