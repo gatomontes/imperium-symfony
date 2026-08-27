@@ -17,7 +17,7 @@ under a separately opened, single-use authority.
 | Disposition | Competent judgment | Permitted internal scope | Future enforcer | Current status |
 | --- | --- | --- | --- | --- |
 | `RESTRICT` | Seneschal for bounded mission control; Imperator when the restriction changes an approved consequential commitment | mission, Manifestation use, Profile limitation, Seat use, capability | Native custodian for each scope | `DESIGN_ONLY` |
-| `INTERRUPT` | Seneschal for an active internal mission iteration; Imperator for instance-wide emergency interruption | instance, mission, Manifestation, Profile, Seat, capability | Conscription for runtime activation; Clavium for unclaimed internal leases | `DESIGN_ONLY` |
+| `INTERRUPT` | Seneschal for an active internal mission iteration; Imperator for instance-wide emergency interruption | instance, mission, Manifestation, Profile, Seat, capability | Conscription for runtime activation; Clavium for pre-I/O provider admission and unclaimed internal leases | `NARROW_PRE_IO_ISSUER_AND_AUTHORITY_ONLY_NO_CONSUMER` |
 | `REAUTHORIZE` | Imperator only, after a fresh competent presentation; prior actors may request but cannot reauthorize | decision, Profile commitment, resource/model commitment, bounded capability | Existing native consumer under a new single-use authority | `DESIGN_ONLY` |
 | `RETIRE` | Seneschal authorizes only the predeclared return, unbinding, custody-restoration, and retirement contract | Manifestation and mission Seat binding | Garrison consumes the exact terminal authority, restores custody, unbinds, and retires | `DESIGN_ONLY` |
 
@@ -25,6 +25,11 @@ Clavium remains credential custodian, not the judge of mission need. It may even
 an exact lease/credential restriction only after receiving an attributable, scope-valid native
 disposition. Garrison remains custody authority and terminal enforcer, not author of the
 Seneschal's return judgment and not provider or resource authority.
+
+The implemented `INTERRUPT` subset reaches only one durable governance cognition invocation
+claim before provider-journal admission. Its authority names one occupied Locksmith and permits
+only denial of that exact journal start. It does not implement enforcement or broaden the other
+`INTERRUPT` scopes in this table.
 
 ## Deliberately deferred scopes
 
