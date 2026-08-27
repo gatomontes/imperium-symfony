@@ -1,14 +1,3 @@
 ai:
-    platform:
-        generic:
-            deepseek:
-                base_url: 'https://api.deepseek.com'
-                api_key: '%env(DEEPSEEK_API_KEY)%'
-                http_client: 'ai.deepseek.client'
-                model_catalog: 'Symfony\AI\Platform\Bridge\Generic\ModelCatalog'
-
-    agent:
-
-
     store:
-        # No shared AI memory/store is configured; Curia persists governed proceeding records.
+        # No shared AI memory/store is configured; governed records remain in their owning runtimes.

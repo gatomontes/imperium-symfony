@@ -8,16 +8,18 @@ use PHPUnit\Framework\TestCase;
 
 final class CuriaServiceConfigurationTest extends TestCase
 {
-    public function testCoreRegistersGenericCatalogAndSeneschalAgent(): void
+    public function testCoreRegistersGenericCatalogWithoutDirectSeneschalAgent(): void
     {
-        $services = file_get_contents(dirname(__DIR__, 3).'/config/services.yaml');
-        $ai = file_get_contents(dirname(__DIR__, 3).'/config/packages/ai.yaml');
+        $root = dirname(__DIR__, 3);
+        $services = file_get_contents($root.'/config/services.yaml');
+        $ai = file_get_contents($root.'/config/packages/ai.yaml');
 
         self::assertIsString($services);
         self::assertIsString($ai);
-        self::assertStringContainsString('Symfony\AI\Platform\Bridge\Generic\ModelCatalog:', $services);
+        self::assertStringContainsString('Symfony\\AI\\Platform\\Bridge\\Generic\\ModelCatalog:', $services);
         self::assertStringContainsString('deepseek-v4-flash:', $services);
-        self::assertStringContainsString('$agent: \'@ai.agent.seneschal\'', $services);
-        self::assertStringContainsString("model_catalog: 'Symfony\AI\Platform\Bridge\Generic\ModelCatalog'", $ai);
+        self::assertStringNotContainsString('@ai.agent.seneschal', $services);
+        self::assertStringNotContainsString('api_key:', $ai);
+        self::assertStringNotContainsString('platform:', $ai);
     }
 }
