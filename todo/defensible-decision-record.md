@@ -76,3 +76,7 @@ This work must preserve the complete underlying proceeding. The canonical record
 6. Execution receipt linkage.
 
 The governing division remains: cognition explains the decision; machinery proves who made it, under what authority, from which evidence, at what time, and what the decision was permitted to cause.
+
+## Campaign status
+
+Selected as one half of the Institutional Decision Integrity campaign. The canonical sequence and exclusions are defined in `docs/next-campaign-institutional-decision-integrity.md`. This TODO remains the requirements source for the sealed decision record and its evidentiary reconstruction.
