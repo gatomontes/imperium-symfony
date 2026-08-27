@@ -19,6 +19,7 @@ final class GuildhallDeliberationServiceTest extends TestCase
             public int $calls = 0;
 
             public function deliberate(
+                string $acceptanceId,
                 array $missionPlan,
                 array $commissionScope,
                 array $occupancy,
@@ -27,6 +28,7 @@ final class GuildhallDeliberationServiceTest extends TestCase
                 ?callable $checkpoint = null,
             ): array {
                 ++$this->calls;
+                TestCase::assertSame('guildhall-acceptance-1234567890abcdef1234', $acceptanceId);
                 TestCase::assertSame('Assess the public application.', $missionPlan['objective']);
                 TestCase::assertCount(4, $occupancy);
 
