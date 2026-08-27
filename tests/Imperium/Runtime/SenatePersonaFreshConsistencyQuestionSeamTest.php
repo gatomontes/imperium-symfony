@@ -18,7 +18,7 @@ final class SenatePersonaFreshConsistencyQuestionSeamTest extends TestCase
         self::assertStringContainsString('FRESH_INSTANCE_CONSISTENCY_QUESTION_SEALED_PENDING_TESTIMONY_COGNITION_AUTHORIZATION',$service);
         self::assertStringNotContainsString('->answer(',$service);
         self::assertStringNotContainsString('->find(',$service);
-        self::assertStringContainsString("'question-fresh-consistency'===$authorityType",$resolver);
+        self::assertStringContainsString("'question-fresh-consistency'===\$authorityType",$resolver);
         self::assertStringContainsString('/fresh-consistency-questions/*.json',$resolver);
         self::assertStringContainsString("'consistency' => 'question-fresh-consistency'",$gateway);
     }
