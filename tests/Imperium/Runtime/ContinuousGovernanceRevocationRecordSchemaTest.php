@@ -1,0 +1,24 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Tests\Imperium\Runtime;
+
+use PHPUnit\Framework\TestCase;
+
+final class ContinuousGovernanceRevocationRecordSchemaTest extends TestCase
+{
+    public function testSchemasKeepJudgmentSeparateFromSingleUseEnforcement(): void
+    {
+        $root = dirname(__DIR__, 3).'/contracts/';
+        $disposition = json_decode((string) file_get_contents($root.'continuous-governance-revocation-disposition.schema.json'), true, 64, JSON_THROW_ON_ERROR);
+        $authority = json_decode((string) file_get_contents($root.'continuous-governance-enforcement-authority.schema.json'), true, 64, JSON_THROW_ON_ERROR);
+        self::assertSame(false, $disposition['properties']['enforcement_authority_opened']['const']);
+        self::assertSame(false, $disposition['properties']['state_mutated']['const']);
+        self::assertSame(false, $disposition['properties']['authority_granted']['const']);
+        self::assertSame(true, $authority['properties']['single_use']['const']);
+        self::assertSame(false, $authority['properties']['consumed']['const']);
+        self::assertSame(false, $authority['properties']['continuing_authority']['const']);
+        self::assertSame(false, $authority['properties']['perimeter_authority']['const']);
+    }
+}
