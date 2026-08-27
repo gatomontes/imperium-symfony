@@ -6,27 +6,27 @@ This backlog records the findings from the post-implementation Blackquill review
 
 ### 1. Make credential custody real
 
-- [ ] Remove provider credentials from the directly invokable Symfony platform service boundary.
-- [ ] Introduce a credential broker that is the only component capable of resolving provider credentials.
-- [ ] Require a valid, unexpired, mission-scoped Clavium lease before credential resolution.
-- [ ] Consume the lease atomically when provider invocation is claimed.
-- [ ] Ensure logs, records, exceptions, and serialized state never expose credential material.
-- [ ] Add tests proving that bypassing Clavium cannot invoke a provider.
+- [x] Remove provider credentials from the directly invokable Symfony platform service boundary. *(Credential-boundary Batch 17.)*
+- [x] Introduce a credential broker that is the only component capable of resolving provider credentials.
+- [x] Require a valid, unexpired, mission-scoped Clavium lease or separately typed claim-bound authority before credential resolution.
+- [x] Consume the lease and native cognition authority atomically when provider invocation is claimed.
+- [x] Ensure logs, records, exceptions, and serialized state never expose credential material.
+- [x] Add tests proving that bypassing Clavium cannot invoke a provider.
 
-The current lease is ceremonial: the platform already possesses the credential and the gateway can invoke it directly. The recorded control does not technically mediate access.
+Closed by the separately bounded Operational Cognition Access and credential-boundary remediation programs. The executable inventory now reports zero direct agents, zero credential-bearing platform definitions, five classified claim-bound provider callers, and `system_wide_gate_closed=true`.
 
 ### 2. Make provider invocation recoverable and effectively once-only
 
-- [ ] Persist an `INVOCATION_STARTED` claim before making the external provider call.
-- [ ] Couple invocation claim creation and lease consumption with compare-and-swap or an equivalent atomic transition.
-- [ ] Generate and persist a stable provider idempotency key for each mission invocation.
-- [ ] Pass that key through adapters where the provider supports idempotency.
-- [ ] Define recovery rules for claimed-but-unresolved invocations after timeout or process death.
-- [ ] Prevent automatic replay when the provider outcome is unknown.
-- [ ] Record provider response identity before downstream processing.
-- [ ] Add crash tests at every boundary around claim, external call, response persistence, and turn persistence.
+- [x] Persist a durable pre-I/O invocation reservation before making the external provider call.
+- [x] Couple invocation claim creation and lease consumption with compare-and-swap or an equivalent atomic transition.
+- [x] Generate and persist a stable provider idempotency identity for each mission invocation.
+- [x] Pass that identity through the DeepSeek adapter.
+- [x] Define recovery rules for claimed-but-unresolved invocations after timeout or process death.
+- [x] Prevent automatic replay when the provider outcome is unknown.
+- [x] Record provider response identity before downstream processing.
+- [x] Add crash tests around claim, external call, response persistence, and turn persistence.
 
-The current provider call occurs before durable turn persistence. A crash in between can repeat an external call and its cost.
+Closed by provider-journal hardening, Operational Cognition Access Batch 5, the four-demonstration crash program, and the final credential-boundary proof. Unknown outcomes are terminally non-replayable.
 
 ### 3. Replace race-prone filesystem transitions
 
@@ -137,7 +137,7 @@ Preserve independent authorities, emitted records, and cross-office handoffs. Co
 
 - [ ] Run the complete PHPUnit suite locally and in CI.
 - [ ] Run concurrency and crash-recovery suites repeatedly.
-- [ ] Demonstrate that direct provider invocation without a valid credential lease is impossible. *(The Delegate and Citadel Legate routes are brokered, but the operational Manifestation gateway and thirty-two other direct platform-bound agent definitions still leave a real bypass. Begin the separately bounded six-boundary Operational Cognition Access lifecycle in `docs/handoffs/operational-cognition-access-lifecycle-ready.md`; it is neither Delegate Mission Step 70 nor Runtime Integrity Hardening Step 36. Run the live bypass demonstration only after all direct agents and the shared environment-backed platform are removed.)*
+- [x] Demonstrate that direct provider invocation without a valid claim-bound credential authority is impossible. *(Credential-boundary Batch 17 removes every direct agent and credential-bearing platform, classifies all five brokered provider callers, and installs an executable repository-wide bypass scan.)*
 - [x] Demonstrate recovery from an unknown provider outcome without duplicate invocation. *(Crash Demonstration 3 has operator-retained proof against source commit `bd3620ccd32e1511c96d53caacb60806348cf995`: the sealed-response recovery completed with `provider_reinvoked=false`.)*
 - [x] Demonstrate deterministic recovery from every partial terminal transition. *(Crash Demonstration 4 has operator-retained proof against source commit `598cbcdf749fc804b979a2ddfb310bf025b385b2`: all five checkpoints recovered, with one winner under divergent contention and zero surviving authority.)*
 - [ ] Capture and retain evidence for the terminal audit's stated scope.
