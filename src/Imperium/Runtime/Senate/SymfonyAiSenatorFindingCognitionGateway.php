@@ -3,39 +3,20 @@ declare(strict_types=1);
 
 namespace App\Imperium\Runtime\Senate;
 
-use Symfony\AI\Agent\AgentInterface;
-use Symfony\AI\Platform\Message\Message;
-use Symfony\AI\Platform\Message\MessageBag;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use App\Imperium\Runtime\Clavium\GovernanceCognitionInvoker;
 
 final readonly class SymfonyAiSenatorFindingCognitionGateway
     implements SenatorFindingCognitionGateway
 {
-    public function __construct(
-        #[Autowire(service: "ai.agent.senator_finding_practice")]
-        private AgentInterface $practice,
-        #[Autowire(service: "ai.agent.senator_finding_governance")]
-        private AgentInterface $governance,
-        #[Autowire(service: "ai.agent.senator_finding_consistency")]
-        private AgentInterface $consistency,
-        #[Autowire(service: "ai.agent.senator_finding_security")]
-        private AgentInterface $security,
-    ) {}
+    public function __construct(private GovernanceCognitionInvoker $cognition) {}
 
     public function find(
         string $jurisdiction,
         array $assignment,
         array $evidence,
     ): array {
-        $agent = match ($jurisdiction) {
-            "practice" => $this->practice,
-            "governance" => $this->governance,
-            "consistency" => $this->consistency,
-            "security" => $this->security,
-            default => throw new \RuntimeException(
-                "S175_SENATOR_FINDING_COGNITION_INVALID",
-            ),
-        };
+        if (!in_array($jurisdiction, ['practice','governance','consistency','security'], true)) throw new \RuntimeException('S175_SENATOR_FINDING_COGNITION_INVALID');
+        $authorityId=(string)($assignment['authority_id']??'');
         $prompt = implode("\n", [
             "Exact attributable finding assignment: " . $this->encode($assignment),
             "Exact jurisdiction-competent evidence: " . $this->encode($evidence),
@@ -44,9 +25,7 @@ final readonly class SymfonyAiSenatorFindingCognitionGateway
             "disposition must be PASS, CONCERN, FAIL, or UNRESOLVED. severity must be NONE, LOW, MEDIUM, HIGH, or CRITICAL.",
             "Only Security may set mandatory_failure true; if true, disposition must be FAIL and severity CRITICAL.",
         ]);
-        $content = $agent
-            ->call(new MessageBag(Message::ofUser($prompt)))
-            ->getContent();
+        $content=$this->cognition->invoke('senate-persona-confirmation','finding-'.$jurisdiction,$authorityId,'senate.committee.'.$jurisdiction,'issue-persona-finding',[$assignment,$evidence],$prompt);
         if (!is_string($content) || "" === trim($content)) {
             throw new \RuntimeException("S175_SENATOR_FINDING_COGNITION_INVALID");
         }

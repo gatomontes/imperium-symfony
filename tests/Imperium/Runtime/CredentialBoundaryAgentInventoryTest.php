@@ -39,7 +39,7 @@ final class CredentialBoundaryAgentInventoryTest extends TestCase
         sort($configured, SORT_STRING);
         $documented = array_keys($classified);
         sort($documented, SORT_STRING);
-        self::assertCount(11, $configured);
+        self::assertCount(7, $configured);
         self::assertSame($configured, $documented);
 
         foreach ($classified as $agent => $definition) {
