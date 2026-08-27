@@ -118,3 +118,7 @@ Do not collapse accountability, institutional identity, cognitive identity, runt
 6. Incident preservation, containment, and closure lineage.
 
 The governing standard is continuous proof: Imperium must be able to show who or what acted, under whose authority, within which boundaries, from which evidence, through which runtime principal, with what external result, and whether that authority remained valid at the moment of consequence.
+
+## Sequencing status
+
+Continuous governance follows Institutional Decision Integrity. Decision surfaces and defensible decision records are the prerequisite campaign; Iron Gate, sortie, revocation, telemetry, containment, and incident work remain deferred and must not be smuggled into that first campaign.
