@@ -23,9 +23,14 @@ services:
             $executors:
                 - '@App\Imperium\Runtime\Sortie\HttpGetSortieToolExecutor'
 
+    App\Imperium\Runtime\Sortie\BrokeredSortieCognitionProviderInvoker: ~
+
+    App\Imperium\Runtime\Sortie\SortieCognitionProviderInvoker:
+        alias: App\Imperium\Runtime\Sortie\BrokeredSortieCognitionProviderInvoker
+
     App\Imperium\Runtime\Sortie\SymfonyAiSortieCognitionGateway:
         arguments:
-            $agent: '@ai.agent.sortie'
+            $invoker: '@App\Imperium\Runtime\Sortie\SortieCognitionProviderInvoker'
             $toolRegistry: '@App\Imperium\Runtime\Sortie\GovernedSortieToolRegistry'
 
     App\Imperium\Runtime\Sortie\SortieCognitionGateway:
