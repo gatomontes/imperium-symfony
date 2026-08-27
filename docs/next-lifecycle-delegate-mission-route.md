@@ -627,6 +627,6 @@ The terminal checkpoint is `DELEGATE_MISSION_RETURNED_UNBOUND_CUSTODY_RESTORED_R
 
 Before deployment becomes possible, the route must already define return, interruption, expiry, credential revocation, Seat unbinding, custody restoration, and Delegate termination. A successful mission does not leave a temporary Officer resident by accident.
 
-## Campaign frontier after credential-boundary closure
+## Campaign frontier after Institutional Decision Integrity closure
 
-The Delegate Mission route remains terminal at Step 69. Crash evidence and credential-boundary remediation are also complete and create no further Delegate step. The next separately numbered program is Institutional Decision Integrity, defined in `docs/next-campaign-institutional-decision-integrity.md`. It begins with new decision-surface and decision-record contracts and does not reopen this route, Senate, Guildhall, Garrison, Curia judgment, La Cortine, Iron Gate, Lazaretto, sorties, or credential-platform work.
+The Delegate Mission route remains terminal at Step 69. Crash evidence, credential-boundary remediation, and Institutional Decision Integrity are complete and create no further Delegate step. The next separate program is Continuous Agent Governance Controls, beginning with the non-mutating inventory in `docs/next-campaign-continuous-agent-governance.md`. It does not reopen this route or create Delegate Mission Step 70.

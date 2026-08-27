@@ -121,4 +121,6 @@ The governing standard is continuous proof: Imperium must be able to show who or
 
 ## Sequencing status
 
-Continuous governance follows Institutional Decision Integrity. Decision surfaces and defensible decision records are the prerequisite campaign; Iron Gate, sortie, revocation, telemetry, containment, and incident work remain deferred and must not be smuggled into that first campaign.
+Institutional Decision Integrity is terminal through Batch 6. Continuous Agent Governance Controls is selected as the next separate campaign, but its first batch is preparation only: inventory existing runtime principals, authority leases, event-envelope equivalents, revocation mechanisms, and reconstruction coverage before defining or changing runtime contracts.
+
+Iron Gate execution, sorties, revocation propagation, telemetry, containment, incident handling, and new credential-platform work remain closed during preparation. The preparation sequence and stop conditions are canonical in `docs/next-campaign-continuous-agent-governance.md`.

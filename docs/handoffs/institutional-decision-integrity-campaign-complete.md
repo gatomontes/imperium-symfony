@@ -26,12 +26,12 @@ This campaign did not reopen any Senate, Guildhall suitability, Garrison custody
 
 ## Next separate campaign
 
-The next candidate is Continuous Agent Governance Controls from `todo/continuous-agent-governance-controls.md`. Begin with an inventory and gap analysis of existing runtime principals, authority leases, event envelopes, revocation paths, and reconstruction artifacts before defining new contracts. Do not begin Iron Gate execution, sorties, revocation propagation, telemetry, containment, or incidents during that inventory.
+The next campaign is Continuous Agent Governance Controls. Its canonical preparation boundary is `docs/next-campaign-continuous-agent-governance.md`: inventory and gap analysis of existing runtime principals, authority leases, event envelopes, revocation paths, and reconstruction artifacts before defining new contracts. Do not begin Iron Gate execution, sorties, revocation propagation, telemetry, containment, or incidents during that inventory.
 
 ## New-chat continuation
 
 > Continue Imperium from `main` after the merged Institutional Decision Integrity Batch 6 closeout.
 >
-> Read `docs/handoffs/institutional-decision-integrity-campaign-complete.md`, `todo/continuous-agent-governance-controls.md`, `docs/officer-taxonomy.md`, `docs/delegate-mission-flow.md`, and the existing authority-lease, runtime-identity, persistence, audit, and provider-journal contracts and tests.
+> Read `docs/handoffs/institutional-decision-integrity-campaign-complete.md`, `docs/next-campaign-continuous-agent-governance.md`, `todo/continuous-agent-governance-controls.md`, `docs/officer-taxonomy.md`, `docs/delegate-mission-flow.md`, and the existing authority-lease, runtime-identity, persistence, audit, and provider-journal contracts and tests.
 >
 > Begin Continuous Agent Governance Controls preparation only: inventory the current runtime principals, authority leases, governance event equivalents, revocation mechanisms, and reconstruction coverage; identify exact gaps and propose a bounded campaign sequence. Do not change runtime behavior or open Iron Gate, Lazaretto, sorties, revocation propagation, telemetry, containment, incident handling, or new credential-platform work in the preparation batch.

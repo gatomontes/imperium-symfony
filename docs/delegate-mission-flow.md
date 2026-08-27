@@ -203,4 +203,6 @@ The implementation order, record bindings, failure matrix, and continuation prom
 
 ## Current campaign frontier
 
-This flow remains terminal at Delegate Mission Step 69. The crash-demonstration and credential-boundary programs are complete. The next program is the separately bounded Institutional Decision Integrity campaign in `docs/next-campaign-institutional-decision-integrity.md`; it creates neither Step 70 nor a new authority inside this closed flow.
+This flow remains terminal at Delegate Mission Step 69. The crash-demonstration, credential-boundary, and Institutional Decision Integrity campaigns are complete. Institutional Decision Integrity adopted its canonical surface and decision record only at the existing personnel-use checkpoint; it created neither Step 70 nor a new authority inside this closed flow.
+
+The next separate campaign is Continuous Agent Governance Controls. Its preparation boundary is inventory and gap analysis only, as defined in `docs/next-campaign-continuous-agent-governance.md`. Preparation does not alter this route or open Iron Gate, Lazaretto, sorties, revocation propagation, telemetry, containment, incidents, or credential-platform work.
