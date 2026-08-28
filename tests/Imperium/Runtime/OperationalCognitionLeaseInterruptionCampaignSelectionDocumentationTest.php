@@ -36,7 +36,7 @@ final class OperationalCognitionLeaseInterruptionCampaignSelectionDocumentationT
         self::assertStringContainsString('Operational Cognition Lease Interruption', $flow);
         self::assertStringContainsString('does not alter this terminal Delegate route', $flow);
         self::assertStringContainsString('terminal through Batch 6', $flow);
-        self::assertStringContainsString('next separately selected campaign is Iron Gate Execution Authority and Receipt Binding', $flow);
+        self::assertStringContainsString('Iron Gate Execution Authority and Receipt Binding campaign is terminal', $flow);
         self::assertStringContainsString('No next runtime implementation campaign is selected', $closeout);
     }
 }
