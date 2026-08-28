@@ -2,13 +2,14 @@
 
 ## Status
 
-`BATCH_4_GOVERNANCE_CLAIM_ADOPTED`
+`BATCH_5_DELEGATE_PROVIDER_CLAIM_ADOPTED`
 
 This document defines the shared version-1 mechanics represented by
 `TransactionalAuthorityConsumptionContract` and `AuthorityConsumptionRecoveryContract`. The
 contract classes remain declarative and do not themselves issue, consume, revoke, persist, lock,
-recover, retry, or execute anything. The adopted operational claim composes them through
-`TransactionalAuthorityConsumptionEnvelope`; other consumers remain unmigrated.
+recover, retry, or execute anything. The adopted operational, governance, and Delegate provider
+claims compose them through `TransactionalAuthorityConsumptionEnvelope`; other consumers remain
+unmigrated.
 
 ## Consumption envelope
 
@@ -115,6 +116,26 @@ claims validate exact replay and reject divergent envelope metadata. The two-pro
 converges on one immutable result, while the existing governance-lease interruption path continues
 to compete on the same lock scopes. Provider-journal creation and external I/O remain later,
 separate boundaries.
+
+## Batch 5 Delegate provider-claim adoption
+
+`ProviderInvocationClaimService` is the third adopted consumer. It retains the exact
+`imperium.clavium-provider-invocation-claim/v1` schema, deterministic claim ID, provider
+idempotency key, lifecycle consumption fields, and one existing physical lock:
+
+`provider-invocation-claim:<sha256 activationId>`
+
+The envelope keeps the turn authority first and credential lease second as distinct authority
+entries. Each lock-plan entry names the same composite scope because that one pre-existing lock
+protects both; this declaration neither acquires the scope twice nor invents authority-specific
+locks. The complete sealed activation is fingerprinted, including target, model binding and
+configuration, credential-reference digest, lease scope/expiry, and both authority states.
+
+Historical immutable claims without the envelope validate their original narrower fingerprint and
+are returned without rewrite. Adopted claims validate the complete fingerprint and exact envelope.
+The immutable claim commits both logical consumptions and the result together before any provider
+journal, credential resolution, provider invocation, network access, or external effect. Existing
+unknown-outcome and sealed-response forward-recovery semantics remain unchanged.
 
 ## Closed boundaries
 
