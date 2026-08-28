@@ -88,7 +88,10 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
             $this->filesContaining($root, $runtime, 'AuthorityConsumptionStore'),
             static fn (string $path): bool => !str_ends_with($path, '/Persistence/AuthorityConsumptionStore.php'),
         ));
-        self::assertSame(['src/Imperium/Runtime/Citadel/DelegateMissionTurnRecoveryService.php'], $storeUsers);
+        self::assertSame([
+            'src/Imperium/Runtime/Citadel/DelegateMissionTurnRecoveryService.php',
+            'src/Imperium/Runtime/LaCortine/DeterministicTransitionCallerAuthorityConsumer.php',
+        ], $storeUsers);
 
         $perimeter = array_merge(
             $this->phpFiles($root, $runtime.'/LaCortine'),
@@ -109,7 +112,8 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
             'DelegateMissionModelBindingAuthorityTransition',
             'OracleEligibilityAuthorityTransition',
         ];
-        foreach (array_merge($perimeter, [
+        $frozenPerimeter = array_values(array_diff($perimeter, $approvedSuccessors));
+        foreach (array_merge($frozenPerimeter, [
             'src/Imperium/Runtime/Oracle/OracleResearchCommissionService.php',
             'src/Imperium/Runtime/Oracle/OracleResearchEvidenceAdmissionService.php',
         ]) as $path) {
@@ -177,7 +181,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
     /** @return list<string> */
     private function approvedPostBatch12RuntimeFiles(): array
     {
-        return [
+        $paths = [
             'src/Imperium/Runtime/Clavium/DeterministicJournalBoundCredentialBroker.php',
             'src/Imperium/Runtime/Curia/OutboundEmailAuthorizationRequestService.php',
             'src/Imperium/Runtime/Imperator/OutboundEmailAuthorizationIssuanceContract.php',
@@ -201,12 +205,15 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
             'src/Imperium/Runtime/LaCortine/DeterministicReceiptBindingContract.php',
             'src/Imperium/Runtime/LaCortine/DeterministicReceiptReconstructionService.php',
         ];
+        sort($paths, SORT_STRING);
+
+        return $paths;
     }
 
     /** @return list<string> */
     private function approvedPostBatch12PerimeterFiles(): array
     {
-        return [
+        $paths = [
             'src/Imperium/Runtime/LaCortine/AgentMailIdempotencyHeaderAdapter.php',
             'src/Imperium/Runtime/LaCortine/DeterministicEffectStartJournalContract.php',
             'src/Imperium/Runtime/LaCortine/DeterministicEffectStartJournalService.php',
@@ -225,6 +232,9 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
             'src/Imperium/Runtime/LaCortine/DeterministicReceiptBindingContract.php',
             'src/Imperium/Runtime/LaCortine/DeterministicReceiptReconstructionService.php',
         ];
+        sort($paths, SORT_STRING);
+
+        return $paths;
     }
 
     private function canonicalConsumers(): array

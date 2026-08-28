@@ -45,6 +45,6 @@ final class TransactionalAuthorityConsumptionCampaignCloseoutDocumentationTest e
             self::assertStringContainsString($boundary, $ready);
         }
         self::assertStringContainsString('terminal through Batch 11', $index);
-        self::assertStringContainsString('No batches remain', $index);
+        self::assertStringContainsString('Iron Gate Evidence Authenticity Remediation', $index);
     }
 }
