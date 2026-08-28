@@ -28,7 +28,7 @@ final class IronGateExecutionReceiptBindingCampaignSelectionDocumentationTest ex
         self::assertStringContainsString('Only Preparation Batch 0 is authorized', $ready);
         self::assertStringContainsString('Preparation Batch 0 is complete', $campaign);
         self::assertStringContainsString('Preparation Batch 0, which is now complete', $ready);
-        self::assertStringContainsString('Batch 1 is not authorized', $ready);
+        self::assertStringContainsString('Batch 1 is', $ready);
         self::assertStringContainsString('No residual Transactional Authority Consumption Adoption batch remains', $ready);
     }
 

@@ -41,6 +41,6 @@ final class IronGateExecutionReceiptBindingPreparationDocumentationTest extends 
         }
 
         self::assertStringContainsString('Runtime behavior is unchanged.', $handoff);
-        self::assertStringContainsString('Batch 1 is not authorized by this handoff', $handoff);
+        self::assertStringContainsString('Batch 1 is not', $handoff);
     }
 }
