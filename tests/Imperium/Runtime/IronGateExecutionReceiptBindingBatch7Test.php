@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\Imperium\Runtime;
 
 use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\Clavium\DeterministicJournalBoundCredentialBroker;
+use App\Imperium\Runtime\LaCortine\AgentMailIdempotencyHeaderAdapter;
+use App\Imperium\Runtime\LaCortine\CredentialBroker;
+use App\Imperium\Runtime\LaCortine\CredentialCapability;
 use App\Imperium\Runtime\LaCortine\DeterministicEffectStartJournalContract;
 use App\Imperium\Runtime\LaCortine\DeterministicEffectStartJournalService;
 use App\Imperium\Runtime\LaCortine\DeterministicExecutionClaimContract;
@@ -65,6 +69,58 @@ final class IronGateExecutionReceiptBindingBatch7Test extends TestCase
         (new DeterministicEffectStartJournalService($this->root))->start($this->claimId, $this->time('+1 minute'));
     }
 
+    public function testJournalBoundBrokerPropagatesExactIdempotencyHeaderOnce(): void
+    {
+        $journal = (new DeterministicEffectStartJournalService($this->root))->start($this->claimId, $this->time('+1 minute'));
+        $capability = new CredentialCapability('credential-capability.test', 'credential-reference-only', 'commission-test', 'email.send', $this->time('+5 minutes'));
+        $credentials = $this->credentials($capability);
+        $providerCalls = 0;
+        $providerRequest = null;
+        $result = (new DeterministicJournalBoundCredentialBroker($this->root, $credentials, new AgentMailIdempotencyHeaderAdapter()))->invoke(
+            $journal['journal_id'],
+            $capability,
+            $this->payload(),
+            $this->time('+2 minutes'),
+            function (array $request) use (&$providerCalls, &$providerRequest): array {
+                ++$providerCalls;
+                $providerRequest = $request;
+                return ['accepted_in_memory' => true];
+            },
+        );
+
+        self::assertSame(['accepted_in_memory' => true], $result);
+        self::assertSame(1, $providerCalls);
+        self::assertSame('iron-gate-test-key', $providerRequest['headers']['Idempotency-Key']);
+        self::assertSame('Bearer test-secret-material', $providerRequest['headers']['Authorization']);
+        self::assertSame($this->payload(), $providerRequest['body']);
+        $admissions = glob($this->root.'/'.DeterministicJournalBoundCredentialBroker::ADMISSIONS.'/*.json') ?: [];
+        self::assertCount(1, $admissions);
+        self::assertStringNotContainsString('test-secret-material', (string) file_get_contents($admissions[0]));
+
+        try {
+            (new DeterministicJournalBoundCredentialBroker($this->root, $credentials, new AgentMailIdempotencyHeaderAdapter()))->invoke($journal['journal_id'], $capability, $this->payload(), $this->time('+3 minutes'), static fn (): array => []);
+            self::fail('A durable provider admission must prohibit a second callback.');
+        } catch (\RuntimeException $exception) {
+            self::assertSame('IGB615_PROVIDER_INVOCATION_REPLAY_PROHIBITED', $exception->getMessage());
+        }
+        self::assertSame(1, $providerCalls);
+    }
+
+    public function testProviderCallbackIsUnreachableWithoutStoredExactJournal(): void
+    {
+        $capability = new CredentialCapability('credential-capability.test', 'credential-reference-only', 'commission-test', 'email.send', $this->time('+5 minutes'));
+        $credentials = $this->credentials($capability);
+        $called = false;
+
+        try {
+            (new DeterministicJournalBoundCredentialBroker($this->root, $credentials, new AgentMailIdempotencyHeaderAdapter()))->invoke('deterministic-effect-start-journal-0123456789abcdef0123', $capability, $this->payload(), $this->time('+2 minutes'), function () use (&$called): void { $called = true; });
+            self::fail('A provider callback must not be reachable without its journal.');
+        } catch (\RuntimeException $exception) {
+            self::assertSame('IGB611_EFFECT_START_JOURNAL_ABSENT', $exception->getMessage());
+        }
+        self::assertFalse($called);
+    }
+
     private function writeClaim(): void
     {
         $record = [
@@ -73,7 +129,7 @@ final class IronGateExecutionReceiptBindingBatch7Test extends TestCase
             'instance_id' => 'imperium-test',
             'source_authorization' => ['id' => 'outbound-email-authorization-0123456789abcdef0123', 'digest' => hash('sha256', 'authorization'), 'schema' => 'imperium.la-cortine.deterministic-outbound-email-authorization/v1', 'issuer' => ['actor_id' => 'imperator', 'office' => 'imperator', 'seat' => 'imperator', 'binding_id' => 'imperator', 'runtime_principal_id' => 'imperator'], 'decision_owner' => ['kind' => 'imperator', 'id' => 'imperator-development-root']],
             'authorization_consumption' => ['authority_id' => 'outbound-email-authorization-0123456789abcdef0123', 'source_digest' => hash('sha256', 'authorization'), 'consumed_at' => $this->time('-1 minute')->format(DATE_ATOM), 'consumed' => true, 'continuing_authority' => false],
-            'request' => ['id' => 'outbound-email-request-0123456789abcdef0123', 'commission_id' => 'commission-test', 'authorization_id' => 'outbound-email-authorization-0123456789abcdef0123', 'authorization_digest' => hash('sha256', 'authorization'), 'mode' => 'DETERMINISTIC', 'operation' => 'email.send', 'destination' => '/v0/inboxes/test/messages', 'payload_digest' => hash('sha256', 'payload'), 'expected_return_contract' => 'agentmail.message/v1'],
+            'request' => ['id' => 'outbound-email-request-0123456789abcdef0123', 'commission_id' => 'commission-test', 'authorization_id' => 'outbound-email-authorization-0123456789abcdef0123', 'authorization_digest' => hash('sha256', 'authorization'), 'mode' => 'DETERMINISTIC', 'operation' => 'email.send', 'destination' => 'https://api.agentmail.to/v0/inboxes/test/messages/send', 'payload_digest' => hash('sha256', $this->payload()), 'expected_return_contract' => 'agentmail.message/v1'],
             'holder' => ['actor_id' => 'agentmail-transport', 'office' => 'la-cortine', 'seat' => 'la-cortine.deterministic-boundary-executor', 'runtime_principal_id' => 'agentmail-email-send-command', 'competent_service' => 'la-cortine.deterministic-boundary-executor'],
             'replay_fingerprint' => hash('sha256', 'replay'),
             'execution_identity' => ['execution_id' => 'deterministic-execution-0123456789abcdef0123', 'single_use' => true, 'winner_scope' => 'authorization:outbound-email-authorization-0123456789abcdef0123', 'lock_order' => ['authorization', 'execution-claim']],
@@ -94,6 +150,34 @@ final class IronGateExecutionReceiptBindingBatch7Test extends TestCase
     {
         $time = new \DateTimeImmutable('2035-01-01T00:00:00+00:00');
         return '' === $modifier ? $time : $time->modify($modifier);
+    }
+
+    private function payload(): string
+    {
+        return '{"to":["test@example.test"]}';
+    }
+
+    private function credentials(CredentialCapability $expected): CredentialBroker
+    {
+        return new class($expected) implements CredentialBroker {
+            private int $uses = 0;
+
+            public function __construct(private CredentialCapability $expected)
+            {
+            }
+
+            public function issue(string $credentialRef, string $commissionId, string $operation, \DateTimeImmutable $expiresAt, int $maxUses = 1): CredentialCapability
+            {
+                throw new \LogicException('The Batch 8 broker must not issue capabilities.');
+            }
+
+            public function consume(CredentialCapability $capability, callable $providerOperation): mixed
+            {
+                if ($capability !== $this->expected || $this->uses > 0) throw new \RuntimeException('TEST_CAPABILITY_INVALID');
+                ++$this->uses;
+                return $providerOperation('test-secret-material');
+            }
+        };
     }
 
     private function removeTree(string $path): void

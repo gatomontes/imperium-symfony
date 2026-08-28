@@ -109,12 +109,12 @@ final class IronGateExecutionReceiptBindingBatch5Test extends TestCase
 
     private function scope(): array
     {
-        return ['operation' => 'email.send', 'commission_id' => 'commission-test', 'inbox_id' => 'inbox-test', 'destination' => '/v0/inboxes/inbox-test/messages', 'recipient_set_digest' => hash('sha256', 'recipient'), 'subject_digest' => hash('sha256', 'subject'), 'body_digest' => hash('sha256', 'body'), 'attachment_manifest_digest' => hash('sha256', 'attachments'), 'payload_digest' => hash('sha256', 'payload'), 'credential_reference_digest' => hash('sha256', 'credential-reference-only'), 'expected_return_contract' => 'agentmail.message/v1'];
+        return ['operation' => 'email.send', 'commission_id' => 'commission-test', 'inbox_id' => 'inbox-test', 'destination' => 'https://api.agentmail.to/v0/inboxes/inbox-test/messages/send', 'recipient_set_digest' => hash('sha256', 'recipient'), 'subject_digest' => hash('sha256', 'subject'), 'body_digest' => hash('sha256', 'body'), 'attachment_manifest_digest' => hash('sha256', 'attachments'), 'payload_digest' => hash('sha256', 'payload'), 'credential_reference_digest' => hash('sha256', 'credential-reference-only'), 'expected_return_contract' => 'agentmail.message/v1'];
     }
 
     private function providerSafety(): array
     {
-        return ['strategy' => 'PROVIDER_IDEMPOTENCY_KEY', 'provider' => 'agentmail', 'endpoint' => '/v0/inboxes/inbox-test/messages', 'idempotency_key' => 'iron-gate-test-key', 'idempotency_key_digest' => hash('sha256', 'iron-gate-test-key'), 'request_fingerprint' => hash('sha256', 'request'), 'provider_contract_reference' => 'docs/runtime/agentmail-email-transport.md', 'provider_key_expires_at' => $this->time('+15 minutes')->format(DATE_ATOM)];
+        return ['strategy' => 'PROVIDER_IDEMPOTENCY_KEY', 'provider' => 'agentmail', 'endpoint' => 'https://api.agentmail.to/v0/inboxes/inbox-test/messages/send', 'idempotency_key' => 'iron-gate-test-key', 'idempotency_key_digest' => hash('sha256', 'iron-gate-test-key'), 'request_fingerprint' => hash('sha256', 'request'), 'provider_contract_reference' => 'docs/runtime/agentmail-email-transport.md', 'provider_key_expires_at' => $this->time('+15 minutes')->format(DATE_ATOM)];
     }
 
     private function time(string $modifier = ''): \DateTimeImmutable

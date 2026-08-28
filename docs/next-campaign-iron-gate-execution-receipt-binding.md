@@ -2,7 +2,7 @@
 
 ## Status
 
-`BATCH_7_EFFECT_START_UNKNOWN_OUTCOME_BOUNDARY_DURABLE`
+`BATCH_8_JOURNAL_GATED_PROVIDER_CALLBACK_NO_LIVE_IO`
 
 Transactional Authority Consumption Adoption is terminal through Batch 13. This successor is
 selected for preparation only. No runtime implementation, external call or authority change is
@@ -10,11 +10,12 @@ authorized merely because it appears below.
 
 ## Current continuation point
 
-Preparation Batch 0 and Batches 1–7 are complete. AgentMail direct-send idempotency and the
+Preparation Batch 0 and Batches 1–8 are complete. AgentMail direct-send idempotency and the
 outbound-email authorization shape are canonical. The competent Curia request → Imperator decision
 → separate Imperator issuance route exists as immutable native records. One deterministic La
-Cortine claim consumes the exact authorization. Its effect-start journal now establishes the
-durable `UNKNOWN_REPLAY_PROHIBITED` boundary before provider invocation. Only bounded Batch 8 may
+Cortine claim consumes the exact authorization. Its effect-start journal establishes the durable
+`UNKNOWN_REPLAY_PROHIBITED` boundary. Credential resolution and the exact AgentMail idempotency
+header are now reachable only after a durable one-shot provider-callback admission. Only bounded Batch 9 may
 next be considered, and it is not
 authorized without an explicit continuation instruction.
 

@@ -1,0 +1,104 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Imperium\Runtime\Clavium;
+
+use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\LaCortine\AgentMailIdempotencyHeaderAdapter;
+use App\Imperium\Runtime\LaCortine\CredentialBroker;
+use App\Imperium\Runtime\LaCortine\CredentialCapability;
+use App\Imperium\Runtime\LaCortine\DeterministicEffectStartJournalContract;
+use App\Imperium\Runtime\LaCortine\DeterministicEffectStartJournalService;
+use App\Imperium\Runtime\LaCortine\DeterministicExecutionClaimContract;
+use App\Imperium\Runtime\LaCortine\DeterministicExecutionClaimService;
+use App\Imperium\Runtime\LaCortine\DeterministicProviderInvocationAdmissionContract;
+use App\Imperium\Runtime\Persistence\AtomicTransition;
+use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
+use App\Imperium\Runtime\Persistence\RecordReferenceValidator;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+
+final readonly class DeterministicJournalBoundCredentialBroker
+{
+    public const string ADMISSIONS = 'var/imperium/la-cortine/deterministic-provider-invocation-admissions';
+    private RecordReferenceValidator $validator;
+    private ImmutableRecordStore $records;
+    private AtomicTransition $atomic;
+
+    public function __construct(
+        #[Autowire('%kernel.project_dir%')] private string $root,
+        private CredentialBroker $credentials,
+        private AgentMailIdempotencyHeaderAdapter $adapter,
+    ) {
+        $this->validator = new RecordReferenceValidator($root);
+        $this->atomic = new AtomicTransition($root);
+        $this->records = new ImmutableRecordStore($root, $this->atomic);
+    }
+
+    public function invoke(string $journalId, CredentialCapability $capability, string $payload, \DateTimeImmutable $at, callable $providerCallback): mixed
+    {
+        if (!preg_match('/^deterministic-effect-start-journal-[a-f0-9]{20}$/', $journalId)) {
+            throw new \InvalidArgumentException('IGB610_EFFECT_START_JOURNAL_ID_INVALID');
+        }
+        $journal = $this->validator->read($this->root.'/'.DeterministicEffectStartJournalService::JOURNALS.'/'.$journalId.'.json', 'IGB611_EFFECT_START_JOURNAL_ABSENT');
+        if (!$this->validator->isIntact($journal)
+            || DeterministicEffectStartJournalContract::REQUIRED_FIELDS !== array_keys($journal)
+            || DeterministicEffectStartJournalContract::SCHEMA !== ($journal['schema'] ?? null)
+            || $journalId !== ($journal['journal_id'] ?? null)
+            || 'EFFECT_STARTED' !== ($journal['effect']['checkpoint'] ?? null)
+            || true !== ($journal['effect']['external_io_may_have_started'] ?? null)
+            || 'UNKNOWN_REPLAY_PROHIBITED' !== ($journal['effect']['outcome'] ?? null)
+            || false !== ($journal['effect']['provider_invoked_by_transition'] ?? null)
+            || true !== ($journal['credential_use']['consumption_required'] ?? null)
+            || false !== ($journal['credential_use']['consumed_by_journal'] ?? null)
+            || false !== ($journal['credential_use']['credential_resolved'] ?? null)
+            || new \DateTimeImmutable((string) ($journal['started_at'] ?? '1970-01-01')) > $at
+            || new \DateTimeImmutable((string) ($journal['expires_at'] ?? '1970-01-01')) <= $at) {
+            throw new \RuntimeException('IGB612_EFFECT_START_JOURNAL_INVALID');
+        }
+        $claimId = $journal['execution_claim']['id'] ?? null;
+        if (!is_string($claimId) || !preg_match('/^deterministic-execution-claim-[a-f0-9]{20}$/', $claimId)) {
+            throw new \RuntimeException('IGB613_EXECUTION_CLAIM_ABSENT');
+        }
+        $claim = $this->validator->read($this->root.'/'.DeterministicExecutionClaimService::CLAIMS.'/'.$claimId.'.json', 'IGB613_EXECUTION_CLAIM_ABSENT');
+        if (!$this->validator->isIntact($claim)
+            || DeterministicExecutionClaimContract::REQUIRED_FIELDS !== array_keys($claim)
+            || ($journal['execution_claim']['digest'] ?? null) !== ($claim['record_digest'] ?? null)
+            || ($journal['execution_claim']['replay_fingerprint'] ?? null) !== ($claim['replay_fingerprint'] ?? null)
+            || ($journal['execution_claim']['execution_id'] ?? null) !== ($claim['execution_identity']['execution_id'] ?? null)
+            || $capability->capabilityId !== ($claim['credential_capability']['capability_id'] ?? null)
+            || hash('sha256', $capability->credentialRef) !== ($claim['credential_capability']['credential_reference_digest'] ?? null)
+            || $capability->commissionId !== ($claim['request']['commission_id'] ?? null)
+            || $capability->operation !== ($claim['request']['operation'] ?? null)
+            || 'email.send' !== ($claim['request']['operation'] ?? null)
+            || 1 !== $capability->maxUses
+            || $capability->expiresAt <= $at
+            || !hash_equals((string) ($claim['request']['payload_digest'] ?? ''), hash('sha256', $payload))) {
+            throw new \RuntimeException('IGB614_PROVIDER_INVOCATION_SCOPE_INVALID');
+        }
+
+        $admissionId = 'deterministic-provider-invocation-admission-'.substr(hash('sha256', CanonicalJson::encode([$journalId, $journal['record_digest'], $claim['record_digest']])), 0, 20);
+        $admission = $this->atomic->run('iron-gate-provider-invocation:'.$journalId, function () use ($journalId, $journal, $claim, $capability, $at, $admissionId): array {
+            foreach (glob($this->root.'/'.self::ADMISSIONS.'/*.json') ?: [] as $path) {
+                $prior = $this->validator->read($path, 'IGB615_PROVIDER_INVOCATION_REPLAY_PROHIBITED');
+                if (($prior['effect_start_journal']['id'] ?? null) === $journalId) {
+                    throw new \RuntimeException('IGB615_PROVIDER_INVOCATION_REPLAY_PROHIBITED');
+                }
+            }
+            return $this->records->put(self::ADMISSIONS, $admissionId, [
+                'schema' => DeterministicProviderInvocationAdmissionContract::SCHEMA,
+                'admission_id' => $admissionId,
+                'instance_id' => $journal['instance_id'],
+                'effect_start_journal' => ['id' => $journalId, 'digest' => $journal['record_digest']],
+                'execution_claim' => ['id' => $claim['claim_id'], 'digest' => $claim['record_digest']],
+                'credential_use' => ['capability_id' => $capability->capabilityId, 'credential_reference_digest' => hash('sha256', $capability->credentialRef), 'credential_use_committed' => true, 'credential_secret_persisted' => false],
+                'provider_request' => ['operation' => $claim['request']['operation'], 'destination' => $claim['request']['destination'], 'payload_digest' => $claim['request']['payload_digest'], 'idempotency_key' => $journal['provider_safety']['provider_idempotency_key'], 'request_fingerprint' => $journal['provider_safety']['request_fingerprint'], 'provider_callback_may_have_run' => true, 'outcome' => 'UNKNOWN_REPLAY_PROHIBITED'],
+                'admitted_at' => $at->format(DATE_ATOM),
+                'expires_at' => $journal['expires_at'],
+                'sealed' => true,
+            ]);
+        });
+
+        return $this->credentials->consume($capability, fn (mixed $authentication): mixed => $this->adapter->invoke($journal, $admission['provider_request']['destination'], $payload, $authentication, $providerCallback));
+    }
+}
