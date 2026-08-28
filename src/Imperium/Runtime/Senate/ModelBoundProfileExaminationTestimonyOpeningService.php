@@ -26,6 +26,16 @@ final readonly class ModelBoundProfileExaminationTestimonyOpeningService
     string $authorityId,
     string $lordSpeakerBindingId,
     \DateTimeImmutable $openedAt): array {
+        return ProfileSenateAuthorityTransition::run(
+            $this->openings,
+            $authorityId,
+            fn (): array => $this->openWhileLocked($readinessId, $authorityId, $lordSpeakerBindingId, $openedAt),
+        );
+    }
+    private function openWhileLocked(string $readinessId,
+    string $authorityId,
+    string $lordSpeakerBindingId,
+    \DateTimeImmutable $openedAt): array {
         $r = $this->read($this->readiness.'/'.$readinessId.'.json',
         'S253_MODEL_BOUND_PANEL_READINESS_ABSENT');
         $caseId = $r['case_id'] ?? '';
@@ -131,6 +141,7 @@ final readonly class ModelBoundProfileExaminationTestimonyOpeningService
     }
     private function ok(array $r): bool
     {
+        if (!ProfileSenateAuthorityTransition::isExactOrHistorical($r)) return false;
         $d = $r['record_digest'] ?? null;
         unset($r['record_digest']);
         return is_string($d) &&
@@ -140,23 +151,13 @@ final readonly class ModelBoundProfileExaminationTestimonyOpeningService
     }
     private function save(string $id,
     array $r): array {
-        if (!is_dir($this->openings) &&
-        !mkdir($this->openings,
-        0770,
-        true) &&
-        !is_dir($this->openings)) throw new \RuntimeException('S258_MODEL_BOUND_TESTIMONY_OPENING_FAILED');
-        $r['record_digest'] = hash('sha256',
-        CanonicalJson::encode($r));
-        $p = $this->openings.'/'.$id.'.json';
-        if (is_file($p)) {
-            if ($this->read($p,
-            'S259_MODEL_BOUND_TESTIMONY_OPENING_CONFLICT') !== $r) throw new \RuntimeException('S259_MODEL_BOUND_TESTIMONY_OPENING_CONFLICT');
-            return $r;
-        }
-        file_put_contents($p,
-        json_encode($r,
-        JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_THROW_ON_ERROR)."\n",
-        LOCK_EX);
-        return $r;
+        return ProfileSenateAuthorityTransition::put(
+            $this->openings,
+            $id,
+            $r,
+            self::class,
+            'S258_MODEL_BOUND_TESTIMONY_OPENING_FAILED',
+            'S259_MODEL_BOUND_TESTIMONY_OPENING_CONFLICT',
+        );
     }
 }

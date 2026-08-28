@@ -2,7 +2,7 @@
 
 ## Campaign status
 
-`BATCH_6_DETERMINISTIC_DELEGATE_SENATE_ADOPTED_BATCH_7_NOT_AUTHORIZED`
+`BATCH_7_MODEL_BOUND_PROFILE_SENATE_OPENINGS_ADOPTED_BATCH_8_NOT_AUTHORIZED`
 
 Operational Cognition Lease Interruption is terminal through Batch 6. The next separately bounded
 campaign is adoption of canonical transactional authority-consumption and recovery semantics across
@@ -137,22 +137,46 @@ separately prepared pre-I/O claim, journal, and unknown-outcome boundary.
 The completion handoff is
 `docs/handoffs/transactional-authority-consumption-batch-6-complete.md`.
 
-Batch 7 remains unopened pending explicit authorization. Its smallest safe candidate is the
-deterministic portion of the legacy and model-bound Profile Senate cluster, with cognition-bearing
-consumers kept outside adoption unless a separate recovery boundary is first authorized.
+## Batch 7 result
+
+Batch 7 adopts the three model-bound Profile Senate opening consumers that already expose one
+explicit single-use authority ID, one exact immutable source, one Lord Speaker actor, one existing
+commit timestamp, and one immutable result: testimony opening, finding-authority opening, and
+deliberation opening. They now share:
+
+`profile-senate-authority:<sha256 authorityId>`
+
+The exact authority lock encloses reread, validation, consumption, and one immutable result commit.
+`ProfileSenateAuthorityTransition` seals the unchanged result surface in the shared transaction and
+recovery envelope. Historical records remain valid without rewrite; envelope divergence fails
+stopped; contention and fault-after-commit recovery converge on one result without external effect.
+
+The boundary does not pretend the remainder is equivalent. Legacy deterministic Profile Senate
+consumers do not expose a canonical authority ID or result-commit timestamp. Model-bound evidence
+questioning writes a testimony turn and may separately derive panel readiness. Model-bound
+disposition-authority opening lacks an existing commit timestamp and complete native closure field.
+The two approval services likewise have no separately identified approval authority. Those paths
+remain `RACE_EXPOSED` or `RECOVERY_INCOMPLETE` as recorded in the inventory. All question/finding,
+reconciliation, and disposition cognition paths remain outside adoption because their model-call
+outcome is not journaled before the lifecycle result.
+
+The completion handoff is
+`docs/handoffs/transactional-authority-consumption-batch-7-complete.md`.
+
+Batch 8 remains unopened pending explicit authorization. Its smallest safe candidate is the
+operational-adoption consumer cluster.
 
 ## Provisional remaining-batch countdown
 
-Seven batches remain after Batch 6 under the current inventory. This is a planning forecast, not
+Six batches remain after Batch 7 under the current inventory. This is a planning forecast, not
 authorization to combine consumers when proof exposes a narrower boundary:
 
-1. Batch 7 — legacy and model-bound Profile Senate engines;
-2. Batch 8 — operational-adoption consumers;
-3. Batch 9 — Oracle and model-governance consumers;
-4. Batch 10 — construction and admission consumers;
-5. Batch 11 — older multi-write operational, bootstrap, and Legate recovery clusters;
-6. Batch 12 — mechanical coverage reconstruction, explicit exclusions, and adversarial review; and
-7. Batch 13 — documentation-only campaign closeout.
+1. Batch 8 — operational-adoption consumers;
+2. Batch 9 — Oracle and model-governance consumers;
+3. Batch 10 — construction and admission consumers;
+4. Batch 11 — older multi-write operational, bootstrap, and Legate recovery clusters;
+5. Batch 12 — mechanical coverage reconstruction, explicit exclusions, and adversarial review; and
+6. Batch 13 — documentation-only campaign closeout.
 
 Any cluster that cannot share one lock, replay, recovery, and proof boundary must split rather than
 be forced into this forecast.
