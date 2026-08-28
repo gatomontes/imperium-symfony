@@ -227,7 +227,8 @@ The next separately selected campaign is Iron Gate Execution Authority and Recei
 governed by `docs/next-campaign-iron-gate-execution-receipt-binding.md` and the completed inventory
 `docs/iron-gate-execution-receipt-binding-preparation-inventory.md`. Preparation Batch 0 is complete;
 its active handoff is
-`docs/handoffs/iron-gate-execution-receipt-binding-preparation-batch-0-complete.md`. Batch 1 is not
-authorized. Preparation opened no credential, provider-journal, external-I/O, propagation,
+`docs/handoffs/iron-gate-execution-receipt-binding-batch-1-complete.md`. Batch 1 has defined the
+declarative execution-claim and receipt-binding contracts without migrating a consumer. Batch 2 is
+not authorized. The campaign has opened no credential, provider-journal, external-I/O, propagation,
 telemetry, containment, incident, Iron Gate, Lazaretto, sortie, receipt or credential-platform
 behavior. No residual Transactional Authority Consumption Adoption batch remains.

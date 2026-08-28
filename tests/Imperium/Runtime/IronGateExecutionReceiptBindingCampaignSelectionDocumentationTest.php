@@ -14,7 +14,7 @@ final class IronGateExecutionReceiptBindingCampaignSelectionDocumentationTest ex
         $campaign = (string) file_get_contents($root.'/docs/next-campaign-iron-gate-execution-receipt-binding.md');
         $ready = (string) file_get_contents($root.'/docs/handoffs/iron-gate-execution-receipt-binding-campaign-ready.md');
 
-        self::assertStringContainsString('`PREPARATION_BATCH_0_COMPLETE`', $campaign);
+        self::assertStringContainsString('`BATCH_1_COMPLETE`', $campaign);
         self::assertStringContainsString('The smallest first migration candidate is the deterministic lane', $campaign);
         foreach (['OutboundRequest', 'IronGate::dispatch()', 'DeterministicBoundaryExecutor', 'CredentialBroker', 'RawExternalPayload', 'Lazaretto', 'Sortie lane'] as $surface) {
             self::assertStringContainsString($surface, $campaign);
@@ -26,7 +26,7 @@ final class IronGateExecutionReceiptBindingCampaignSelectionDocumentationTest ex
             self::assertStringContainsString($classification, $campaign);
         }
         self::assertStringContainsString('Only Preparation Batch 0 is authorized', $ready);
-        self::assertStringContainsString('Preparation Batch 0 is complete', $campaign);
+        self::assertStringContainsString('Preparation Batch 0 and contract-definition Batch 1 are complete', $campaign);
         self::assertStringContainsString('Preparation Batch 0, which is now complete', $ready);
         self::assertStringContainsString('Batch 1 is', $ready);
         self::assertStringContainsString('No residual Transactional Authority Consumption Adoption batch remains', $ready);
