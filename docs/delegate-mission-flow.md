@@ -238,8 +238,8 @@ authority identity, while independent assessment still has an uncheckpointed ass
 completion write boundary. Batch 9 adopts only the Delegate model-criteria request and model-
 selection decision authorities whose native results preserve exact instance, source, actor and
 timestamp identity. Boolean, multi-write, missing-instance, external research, construction,
-credential and provider-admission paths remain outside adoption. Batch 10 remains unopened pending
-explicit authorization.
+credential and provider-admission paths remain outside adoption.
+Batch 10 remains unopened pending explicit authorization.
 
 The campaign does not alter this route or any credential, provider-journal, external-I/O,
 propagation, telemetry, containment, incident, Iron Gate, Lazaretto, sortie, or credential-platform
