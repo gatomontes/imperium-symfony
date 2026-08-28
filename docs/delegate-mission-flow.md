@@ -218,9 +218,10 @@ replay equivalence.
 
 The next separately selected campaign is Transactional Authority Consumption Adoption, governed by
 `docs/next-campaign-transactional-authority-consumption.md` and
-`docs/handoffs/transactional-authority-consumption-batch-1-complete.md`. Preparation Batch 0 and
-the separately versioned Batch 1 consumption/recovery contracts are complete. No runtime consumer
-has been migrated. Batch 2 remains unopened pending explicit authorization.
+`docs/handoffs/transactional-authority-consumption-batch-2-complete.md`. Preparation Batch 0, the
+separately versioned Batch 1 contracts, and the first operational cognition claim adoption in Batch
+2 are complete. No other runtime consumer has been migrated. Batch 3 remains unopened pending
+explicit authorization.
 
 The campaign does not alter this route or any credential, provider-journal, external-I/O,
 propagation, telemetry, containment, incident, Iron Gate, Lazaretto, sortie, or credential-platform

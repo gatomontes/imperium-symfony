@@ -9,6 +9,7 @@ use App\Imperium\Runtime\Persistence\AtomicTransition;
 use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
 use App\Imperium\Runtime\Persistence\ReplayFingerprint;
 use App\Imperium\Runtime\Persistence\RecordReferenceValidator;
+use App\Imperium\Runtime\Persistence\TransactionalAuthorityConsumptionEnvelope;
 use App\Imperium\Runtime\Governance\InternalCognitionLeaseControls;
 use App\Imperium\Runtime\Governance\OperationalLeaseInterruptionAdmissionGuard;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -75,6 +76,17 @@ final readonly class OperationalCognitionInvocationClaimService
         ];
         $fingerprint = ReplayFingerprint::of($authoritativeInputs);
         $claimId = 'operational-cognition-invocation-claim-'.substr(hash('sha256', $fingerprint), 0, 20);
+        $authoritySet = $this->authoritySet($leaseId, $lease, $cognitionAuthorityId, $request);
+        $consumer = [
+            'actor' => ['kind' => 'runtime-service', 'id' => self::class],
+            'competent_service' => self::class,
+            'bounded_act' => 'CLAIM_ONE_OPERATIONAL_COGNITION_INVOCATION_PRE_IO',
+        ];
+        $lockPlan = [
+            ['order' => 1, 'scope' => 'oca-cognition-authority:'.hash('sha256', $cognitionAuthorityId), 'authority_id' => $cognitionAuthorityId],
+            ['order' => 2, 'scope' => 'oca-lease:'.hash('sha256', $leaseId), 'authority_id' => $leaseId],
+        ];
+        $immutableResult = ['schema' => 'imperium.clavium-operational-cognition-invocation-claim/v1', 'id' => $claimId, 'embedded' => true];
 
         foreach (glob($this->root.'/'.self::CLAIMS.'/*.json') ?: [] as $path) {
             $prior = $this->validator->read($path, 'OCA405_OPERATIONAL_INVOCATION_CLAIM_CONFLICT');
@@ -92,11 +104,24 @@ final readonly class OperationalCognitionInvocationClaimService
                 throw new \RuntimeException('OCA406_PARTIAL_AUTHORITY_CONSUMPTION_DETECTED');
             }
             ReplayFingerprint::requireMatch($prior['claim_fingerprint'] ?? null, $authoritativeInputs, 'OCA405_OPERATIONAL_INVOCATION_CLAIM_CONFLICT');
+            if (array_key_exists('transactional_consumption', $prior)) {
+                if (!is_array($prior['transactional_consumption'])) {
+                    throw new \RuntimeException('OCA405_OPERATIONAL_INVOCATION_CLAIM_CONFLICT');
+                }
+                try {
+                    $recordedAt = new \DateTimeImmutable((string) ($prior['claimed_at'] ?? ''));
+                } catch (\Exception) {
+                    throw new \RuntimeException('OCA405_OPERATIONAL_INVOCATION_CLAIM_CONFLICT');
+                }
+                $expected = TransactionalAuthorityConsumptionEnvelope::complete($claimId, (string) $lease['instance_id'], $authoritySet, $authoritativeInputs, $fingerprint, $consumer, $lockPlan, $immutableResult, $recordedAt);
+                TransactionalAuthorityConsumptionEnvelope::requireExact($prior['transactional_consumption'], $expected, 'OCA405_OPERATIONAL_INVOCATION_CLAIM_CONFLICT');
+            }
 
             return $prior;
         }
 
         $idempotencyIdentity = 'imperium-'.$claimId;
+        $transactionalConsumption = TransactionalAuthorityConsumptionEnvelope::complete($claimId, (string) $lease['instance_id'], $authoritySet, $authoritativeInputs, $fingerprint, $consumer, $lockPlan, $immutableResult, $claimedAt);
         return $this->records->put(self::CLAIMS, $claimId, [
             'schema' => 'imperium.clavium-operational-cognition-invocation-claim/v1',
             'claim_id' => $claimId,
@@ -119,6 +144,7 @@ final readonly class OperationalCognitionInvocationClaimService
             'cognition_authority_consumption' => ['authority_id' => $cognitionAuthorityId, 'consumed' => true, 'consumed_at' => $claimedAt->format(DATE_ATOM), 'continuing_authority' => false],
             'provider_request' => ['idempotency_identity' => $idempotencyIdentity, 'external_io_started' => false, 'provider_response_identity' => null],
             'recovery' => ['automatic_replay_permitted' => false, 'unknown_outcome_requires_governed_resolution' => true],
+            'transactional_consumption' => $transactionalConsumption,
             'claimed_at' => $claimedAt->format(DATE_ATOM),
             'status' => 'OPERATIONAL_INVOCATION_CLAIMED_DURABLE_PRE_IO',
             'provider_invoked' => false,
@@ -128,6 +154,34 @@ final readonly class OperationalCognitionInvocationClaimService
             'execution_continuation_authority' => false,
             'sealed' => true,
         ]);
+    }
+
+    private function authoritySet(string $leaseId, array $lease, string $cognitionAuthorityId, array $request): array
+    {
+        return [
+            [
+                'authority_id' => $cognitionAuthorityId,
+                'authority_schema' => (string) $request['schema'],
+                'source' => ['id' => $request['request_id'], 'digest' => $request['record_digest']],
+                'issuer' => $request['authorizer'] ?? ['kind' => 'source-record', 'id' => $request['request_id']],
+                'holder' => $request['target'],
+                'scope' => ['target' => $request['target'], 'input_digest' => $request['input_digest'], 'iteration' => $request['iteration']],
+                'expires_at' => $request['expires_at'],
+                'single_use' => true,
+                'expected_unconsumed' => true,
+            ],
+            [
+                'authority_id' => $leaseId,
+                'authority_schema' => (string) $lease['schema'],
+                'source' => ['id' => $leaseId, 'digest' => $lease['record_digest']],
+                'issuer' => $lease['issuer'] ?? ['kind' => 'source-record', 'id' => $leaseId],
+                'holder' => $request['target'],
+                'scope' => ['target' => $request['target'], 'provider' => $lease['provider'], 'model' => $lease['model'], 'model_configuration' => $lease['model_configuration'], 'input_digest' => $lease['input_digest'], 'iteration' => $lease['iteration']],
+                'expires_at' => $lease['expires_at'],
+                'single_use' => true,
+                'expected_unconsumed' => true,
+            ],
+        ];
     }
 
     private function validate(string $leaseId, array $lease, array $decision, array $request, string $cognitionAuthorityId, \DateTimeImmutable $claimedAt): void
