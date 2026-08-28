@@ -44,6 +44,9 @@ For the current Delegate Mission state, read in this order:
 38. `docs/handoffs/iron-gate-execution-receipt-binding-campaign-ready.md`; and
 39. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
 
+Item 38 is the active continuation handoff. It authorizes Iron Gate Execution Authority and Receipt
+Binding Preparation Batch 0 only; no implementation batch is open.
+
 `docs/handoffs/operational-cognition-access-lifecycle-ready.md` and the numbered credential-boundary handoffs are historical execution records. They are not active continuation prompts.
 
 Historical step handoffs remain retained for provenance. When historical prose conflicts with a current contract or canonical document, the current contract or canonical document governs.

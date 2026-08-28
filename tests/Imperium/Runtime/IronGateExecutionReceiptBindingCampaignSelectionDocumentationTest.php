@@ -26,6 +26,10 @@ final class IronGateExecutionReceiptBindingCampaignSelectionDocumentationTest ex
             self::assertStringContainsString($classification, $campaign);
         }
         self::assertStringContainsString('Only Preparation Batch 0 is authorized', $ready);
+        self::assertStringContainsString('Preparation Batch 0 is ready to begin and is the only active continuation', $campaign);
+        self::assertStringContainsString('This is the active continuation handoff', $ready);
+        self::assertStringContainsString('No later step in the provisional campaign sequence is open', $ready);
+        self::assertStringContainsString('No residual Transactional Authority Consumption Adoption batch remains', $ready);
     }
 
     public function testPreparationKeepsEveryRuntimeAndPerimeterMutationClosed(): void
@@ -39,5 +43,6 @@ final class IronGateExecutionReceiptBindingCampaignSelectionDocumentationTest ex
         }
         self::assertStringContainsString('Only Preparation Batch 0 is', $flow);
         self::assertStringContainsString('Selection opens no credential', $flow);
+        self::assertStringContainsString('no implementation batch', $flow);
     }
 }

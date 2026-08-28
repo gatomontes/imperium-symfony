@@ -228,3 +228,5 @@ governed by `docs/next-campaign-iron-gate-execution-receipt-binding.md` and
 `docs/handoffs/iron-gate-execution-receipt-binding-campaign-ready.md`. Only Preparation Batch 0 is
 authorized. Selection opens no credential, provider-journal, external-I/O, propagation, telemetry,
 containment, incident, Iron Gate, Lazaretto, sortie, receipt or credential-platform behavior.
+The current continuation point is documentation-only Preparation Batch 0; no implementation batch
+is open and no residual Transactional Authority Consumption Adoption batch remains.

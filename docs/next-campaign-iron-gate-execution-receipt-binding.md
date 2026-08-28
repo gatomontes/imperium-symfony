@@ -8,6 +8,12 @@ Transactional Authority Consumption Adoption is terminal through Batch 13. This 
 selected for preparation only. No runtime implementation, external call or authority change is
 authorized merely because it appears below.
 
+## Current continuation point
+
+Preparation Batch 0 is ready to begin and is the only active continuation. No preparation inventory
+has yet been accepted, no implementation batch is open, and the provisional sequence below grants
+no authority beyond documentation-only inspection, classification and migration planning.
+
 ## Selected boundary
 
 The campaign concerns production-grade authority consumption at the moment an exact outbound act
