@@ -46,6 +46,7 @@ final class DeterministicOutboundEmailAuthorizationContract
 
     public const array REQUIRED_SCOPE_FIELDS = [
         'operation',
+        'commission_id',
         'inbox_id',
         'destination',
         'recipient_set_digest',

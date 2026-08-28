@@ -14,7 +14,7 @@ final class IronGateExecutionReceiptBindingCampaignSelectionDocumentationTest ex
         $campaign = (string) file_get_contents($root.'/docs/next-campaign-iron-gate-execution-receipt-binding.md');
         $ready = (string) file_get_contents($root.'/docs/handoffs/iron-gate-execution-receipt-binding-campaign-ready.md');
 
-        self::assertStringContainsString('`BATCH_5_NATIVE_AUTHORIZATION_ROUTE_IMPLEMENTED_NO_CONSUMER`', $campaign);
+        self::assertStringContainsString('`BATCH_6_DURABLE_AUTHORIZATION_CONSUMPTION_CLAIMED_PRE_IO`', $campaign);
         self::assertStringContainsString('The smallest first migration candidate is the deterministic lane', $campaign);
         foreach (['OutboundRequest', 'IronGate::dispatch()', 'DeterministicBoundaryExecutor', 'CredentialBroker', 'RawExternalPayload', 'Lazaretto', 'Sortie lane'] as $surface) {
             self::assertStringContainsString($surface, $campaign);
@@ -26,7 +26,7 @@ final class IronGateExecutionReceiptBindingCampaignSelectionDocumentationTest ex
             self::assertStringContainsString($classification, $campaign);
         }
         self::assertStringContainsString('Only Preparation Batch 0 is authorized', $ready);
-        self::assertStringContainsString('Batches 1–5 are complete', $campaign);
+        self::assertStringContainsString('Batches 1–6 are complete', $campaign);
         self::assertStringContainsString('Preparation Batch 0, which is now complete', $ready);
         self::assertStringContainsString('Batch 1 is', $ready);
         self::assertStringContainsString('No residual Transactional Authority Consumption Adoption batch remains', $ready);
@@ -43,7 +43,7 @@ final class IronGateExecutionReceiptBindingCampaignSelectionDocumentationTest ex
         }
         self::assertStringContainsString('Preparation Batch 0 and', $flow);
         self::assertStringContainsString('has opened no credential', $flow);
-        self::assertStringContainsString('Batch 5 implements the Curia', $flow);
-        self::assertStringContainsString('Batch 6 is not authorized', $flow);
+        self::assertStringContainsString('Batch 6 consumes one exact', $flow);
+        self::assertStringContainsString('Batch 7 is not authorized', $flow);
     }
 }

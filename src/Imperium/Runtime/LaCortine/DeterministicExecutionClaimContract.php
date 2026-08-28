@@ -14,6 +14,7 @@ final class DeterministicExecutionClaimContract
         'claim_id',
         'instance_id',
         'source_authorization',
+        'authorization_consumption',
         'request',
         'holder',
         'replay_fingerprint',
@@ -33,6 +34,14 @@ final class DeterministicExecutionClaimContract
         'schema',
         'issuer',
         'decision_owner',
+    ];
+
+    public const array REQUIRED_AUTHORIZATION_CONSUMPTION_FIELDS = [
+        'authority_id',
+        'source_digest',
+        'consumed_at',
+        'consumed',
+        'continuing_authority',
     ];
 
     public const array REQUIRED_REQUEST_FIELDS = [
