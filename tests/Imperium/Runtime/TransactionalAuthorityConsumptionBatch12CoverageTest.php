@@ -38,14 +38,15 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
         sort($candidates, SORT_STRING);
 
         $approvedSuccessors = $this->approvedPostBatch12RuntimeFiles();
+        $frozenCandidates = array_values(array_diff($candidates, $approvedSuccessors));
         self::assertSame($approvedSuccessors, array_values(array_intersect($files, $approvedSuccessors)));
         self::assertCount(486, $files);
         self::assertCount(482, array_values(array_diff($files, $approvedSuccessors)));
         self::assertCount(371, array_values(array_diff($authorityFiles, $approvedSuccessors)));
-        self::assertCount(231, $candidates);
+        self::assertCount(231, $frozenCandidates);
 
         $snapshot = $this->snapshot($root.'/docs/transactional-authority-consumption-runtime-coverage-snapshot.tsv');
-        self::assertSame($candidates, array_keys($snapshot));
+        self::assertSame($frozenCandidates, array_keys($snapshot));
         self::assertCount(26, array_filter($snapshot, static fn (string $value): bool => 'TRANSACTIONAL_CANONICAL' === $value));
         self::assertCount(3, array_filter($snapshot, static fn (string $value): bool => 'LOCKED_FRAGMENTED' === $value));
         self::assertCount(202, array_filter($snapshot, static fn (string $value): bool => 'INVENTORIED_NONCANONICAL_OR_ISSUER' === $value));

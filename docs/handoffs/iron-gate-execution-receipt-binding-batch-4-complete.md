@@ -25,8 +25,8 @@ No issuer or consumer was migrated. Runtime behavior is unchanged.
 
 Only Batch 5 may next be considered: implement and prove the request, Imperator decision and
 authorization-issuance records without migrating `AgentMailEmailSendCommand`, creating an execution
-claim, consuming a credential, adding the provider header or performing external I/O. Batch 5 is
-not authorized by this handoff and requires an explicit continuation instruction.
+claim, consuming a credential, adding the provider header or performing external I/O.
+Batch 5 is not authorized by this handoff and requires an explicit continuation instruction.
 
 Iron Gate execution, Lazaretto persistence, sortie, credential-platform, revocation, propagation,
 telemetry, reassessment, containment and incident boundaries remain closed. No Delegate Mission
