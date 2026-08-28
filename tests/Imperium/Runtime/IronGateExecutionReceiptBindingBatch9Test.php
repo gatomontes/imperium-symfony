@@ -11,8 +11,8 @@ final class IronGateExecutionReceiptBindingBatch9Test extends TestCase
 {
     public function testRawResultContractAndDocumentationKeepAdmissionClosed(): void
     {
-        self::assertSame('imperium.la-cortine.deterministic-raw-provider-result/v1', DeterministicRawProviderResultContract::SCHEMA);
-        foreach (['provider_invocation_admission', 'execution_claim', 'provider_outcome', 'raw_receipt', 'recovery'] as $field) {
+        self::assertSame('imperium.la-cortine.deterministic-raw-provider-result/v2', DeterministicRawProviderResultContract::SCHEMA);
+        foreach (['provider_response_envelope', 'provider_invocation_admission', 'execution_claim', 'provider_outcome', 'raw_receipt', 'recovery'] as $field) {
             self::assertContains($field, DeterministicRawProviderResultContract::REQUIRED_FIELDS);
         }
 

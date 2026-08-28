@@ -55,9 +55,9 @@ final class IronGateExecutionReceiptBindingBatch11Test extends TestCase
 
     public function testCompleteAcceptedPathReconstructsWithoutAuthorityOrExternalSideEffects(): void
     {
-        [$issuance, $claim, $journal, $admission] = $this->throughProviderAdmission();
         $bytes = '{"message_id":"message-final","thread_id":"thread-final"}';
-        $result = (new DeterministicRawProviderResultService($this->root))->seal($admission['admission_id'], 200, $bytes, $this->time('+6 minutes'), $this->time('+6 minutes'));
+        [$issuance, $claim, $journal, , $envelope] = $this->throughObservedProviderResponse($bytes);
+        $result = (new DeterministicRawProviderResultService($this->root))->seal($envelope['envelope_id']);
         $binding = (new DeterministicLazarettoReceiptAdmissionService($this->root))->admit($result['result_id'], $this->time('+7 minutes'));
         $before = $this->recordFiles();
         $proof = (new DeterministicReceiptReconstructionService($this->root))->reconstruct($binding['binding_id']);
@@ -98,8 +98,8 @@ final class IronGateExecutionReceiptBindingBatch11Test extends TestCase
 
     public function testTamperedFinalBindingCannotBeReconstructed(): void
     {
-        [, , , $admission] = $this->throughProviderAdmission();
-        $result = (new DeterministicRawProviderResultService($this->root))->seal($admission['admission_id'], 200, '{"message_id":"message-final","thread_id":"thread-final"}', $this->time('+6 minutes'), $this->time('+6 minutes'));
+        [, , , , $envelope] = $this->throughObservedProviderResponse('{"message_id":"message-final","thread_id":"thread-final"}');
+        $result = (new DeterministicRawProviderResultService($this->root))->seal($envelope['envelope_id']);
         $binding = (new DeterministicLazarettoReceiptAdmissionService($this->root))->admit($result['result_id'], $this->time('+7 minutes'));
         $path = $this->root.'/'.DeterministicLazarettoReceiptAdmissionService::BINDINGS.'/'.$binding['binding_id'].'.json';
         $tampered = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
@@ -119,6 +119,18 @@ final class IronGateExecutionReceiptBindingBatch11Test extends TestCase
         self::assertCount(1, $paths);
         $admission = json_decode((string) file_get_contents($paths[0]), true, 512, JSON_THROW_ON_ERROR);
         return [$issuance, $claim, $journal, $admission];
+    }
+
+    private function throughObservedProviderResponse(string $body): array
+    {
+        [$issuance, $claim, $journal] = $this->throughJournal();
+        $capability = $this->capability();
+        (new DeterministicJournalBoundCredentialBroker($this->root, $this->credentials($capability), new AgentMailIdempotencyHeaderAdapter()))->invoke($journal['journal_id'], $capability, $this->payload(), $this->time('+5 minutes'), fn (): array => ['http_status' => 200, 'headers' => ['Content-Type' => 'application/json'], 'body' => $body, 'observed_at' => $this->time('+6 minutes')->format(DATE_ATOM), 'received_at' => $this->time('+6 minutes')->format(DATE_ATOM)]);
+        $admissionPaths = glob($this->root.'/'.DeterministicJournalBoundCredentialBroker::ADMISSIONS.'/*.json') ?: [];
+        $envelopePaths = glob($this->root.'/'.DeterministicJournalBoundCredentialBroker::RESPONSE_ENVELOPES.'/*.json') ?: [];
+        self::assertCount(1, $admissionPaths);
+        self::assertCount(1, $envelopePaths);
+        return [$issuance, $claim, $journal, json_decode((string) file_get_contents($admissionPaths[0]), true, 512, JSON_THROW_ON_ERROR), json_decode((string) file_get_contents($envelopePaths[0]), true, 512, JSON_THROW_ON_ERROR)];
     }
 
     private function throughJournal(): array

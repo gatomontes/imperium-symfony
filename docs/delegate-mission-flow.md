@@ -247,6 +247,8 @@ digests prove trusted-writer integrity rather than hostile-writer non-forgeabili
 callback-bound response-envelope contract is defined in Batch 1 with a sole invocation-bound
 producer posture and two non-operational consumer postures. Batch 2 implements the sole producer
 inside the journal-gated callback boundary; thrown callbacks and non-response values create no
-envelope. Only envelope-bound raw-result consumption may next be considered. No live consumer, external I/O,
+envelope. Batch 3 makes raw-result sealing consume only that envelope; callers can no longer supply
+provider status, bytes or observation times. Only exact checkpoint-state separation may next be
+considered. No live consumer, external I/O,
 Iron Gate, Lazaretto, sortie, credential-platform, revocation, propagation, telemetry, reassessment,
 containment or incident boundary is opened.

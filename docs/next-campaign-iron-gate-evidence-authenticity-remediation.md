@@ -2,7 +2,7 @@
 
 ## Status
 
-`BATCH_2_RESPONSE_ENVELOPE_PRODUCER_IMPLEMENTED`
+`BATCH_3_RAW_RESULT_ENVELOPE_BOUND`
 
 Iron Gate Execution Authority and Receipt Binding remains terminal through Batch 11. Its adversarial
 review found that the unused deterministic corridor is structurally coherent but not yet eligible
@@ -10,7 +10,7 @@ for live consumer adoption: a caller can separately nominate response bytes afte
 callback, reconstruction skips effect-start and invocation-admission evidence, and institutional
 actor and tamper claims exceed what the current enforcement proves.
 
-Preparation Batch 0 and Batches 1–2 are complete. Only separately bounded Batch 3 may next be considered. Nothing below authorizes live consumer behavior,
+Preparation Batch 0 and Batches 1–3 are complete. Only separately bounded Batch 4 may next be considered. Nothing below authorizes live consumer behavior,
 external I/O or live consumer adoption.
 
 ## Preparation inventory
@@ -38,14 +38,16 @@ No batch is authorized merely because it is listed:
    invoking a provider or migrating a consumer;
 3. **Completed.** Bind one response envelope to one invocation admission and prohibit
    caller-nominated provider truth;
-4. separate admission, credential-attempt, callback-may-have-run and response-observed states;
-5. reconstruct the entire occupancy/request/decision/issuance/claim/journal/admission/response/
+4. **Completed.** Make raw-result sealing consume the invocation-produced response envelope and
+   prohibit caller-nominated status, bytes and times;
+5. separate admission, credential-attempt, callback-may-have-run and response-observed states;
+6. reconstruct the entire occupancy/request/decision/issuance/claim/journal/admission/response/
    result/binding chain read only;
-6. bind authority transitions to enforceable caller authority and state the exact integrity threat
+7. bind authority transitions to enforceable caller authority and state the exact integrity threat
    model;
-7. prove idempotency registration, response provenance, fault, concurrency, tamper and secret
+8. prove idempotency registration, response provenance, fault, concurrency, tamper and secret
    exclusion without live external I/O; and
-8. close remediation before selecting any live deterministic consumer campaign.
+9. close remediation before selecting any live deterministic consumer campaign.
 
 ## Stop conditions
 
