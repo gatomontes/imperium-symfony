@@ -2,12 +2,12 @@
 
 ## Campaign status
 
-`BATCH_12_COVERAGE_AND_ADVERSARIAL_REVIEW_COMPLETE_BATCH_13_NOT_AUTHORIZED`
+`TERMINAL_THROUGH_BATCH_13`
 
-Operational Cognition Lease Interruption is terminal through Batch 6. The next separately bounded
-campaign is adoption of canonical transactional authority-consumption and recovery semantics across
-the runtime. Selection authorizes Preparation Batch 0 only. It does not authorize migration of any
-consumer merely because that consumer appears in the inventory.
+Operational Cognition Lease Interruption is terminal through Batch 6. Transactional Authority
+Consumption Adoption is terminal through Batch 13. This document is canonical campaign history,
+not an active implementation prompt. The terminal handoff is
+`docs/handoffs/transactional-authority-consumption-campaign-complete.md`.
 
 ## Why this boundary is next
 
@@ -279,18 +279,25 @@ defect was found. The detailed audit is
 `docs/transactional-authority-consumption-coverage-audit.md`; the completion handoff is
 `docs/handoffs/transactional-authority-consumption-batch-12-complete.md`.
 
-Batch 13 remains unopened pending explicit authorization. It is documentation-only campaign
-closeout and successor selection.
+## Batch 13 terminal closeout
+
+Batch 13 changes no runtime source. It seals the 26 exact `TRANSACTIONAL_CANONICAL` consumers, 3
+`LOCKED_FRAGMENTED` interruption consumers, 202 inventoried noncanonical candidates or issuers,
+nine envelope builders and one generic-store consumer as the terminal coverage record. It preserves
+the adversarial limit that corridor adoption is not runtime-wide canonicality and leaves every
+remaining `RACE_EXPOSED`, `RECOVERY_INCOMPLETE` and `DEFERRED_EXTERNAL_BOUNDARY` surface explicit.
+
+The terminal handoff is
+`docs/handoffs/transactional-authority-consumption-campaign-complete.md`.
+
+The next separately selected campaign is Iron Gate Execution Authority and Receipt Binding. Only
+Preparation Batch 0 is authorized by
+`docs/handoffs/iron-gate-execution-receipt-binding-campaign-ready.md`. No Iron Gate execution,
+external call, authority, receipt, Lazaretto, sortie or credential behavior is opened by selection.
 
 ## Provisional remaining-batch countdown
 
-One batch remains after Batch 12 under the current inventory. This is a planning forecast, not
-authorization to combine consumers when proof exposes a narrower boundary:
-
-1. Batch 13 — documentation-only campaign closeout.
-
-Any cluster that cannot share one lock, replay, recovery, and proof boundary must split rather than
-be forced into this forecast.
+No batches remain. The campaign is terminal through Batch 13.
 
 ## Preparation stop conditions
 
@@ -324,7 +331,7 @@ No implementation step is authorized merely because it is listed:
 5. migrate remaining internal consumers in separately authorized bounded clusters;
 6. mechanically reconstruct adoption coverage and preserve explicit exclusions;
 7. perform an adversarial review; and
-8. close the campaign documentation-only.
+8. close the campaign documentation-only. **Completed in Batch 13.**
 
 ## Completion criterion
 
@@ -333,8 +340,8 @@ consumable authority, its current transaction and recovery posture, every compet
 known partial-state exposure, and the exact first migration whose adoption reduces risk without
 widening authority.
 
-## Deferred successor
+## Selected successor
 
-Production-grade Iron Gate execution authority and receipt binding is the intended next candidate
-after this campaign, not an implied part of it. Its selection will require a separate preparation
-and explicit authorization.
+Iron Gate Execution Authority and Receipt Binding is separately selected for Preparation Batch 0
+only. Its canonical preparation boundary is
+`docs/next-campaign-iron-gate-execution-receipt-binding.md`. No implementation step is authorized.

@@ -2,7 +2,7 @@
 
 ## Status
 
-`BATCH_12_MECHANICAL_COVERAGE_AND_ADVERSARIAL_REVIEW_COMPLETE`
+`TERMINAL_THROUGH_BATCH_13`
 
 This document defines the shared version-1 mechanics represented by
 `TransactionalAuthorityConsumptionContract` and `AuthorityConsumptionRecoveryContract`. The
@@ -291,6 +291,17 @@ uniqueness is not semantic winner selection, locally documented lock order is no
 enforcement, a lexical tripwire is not semantic classification, and internal convergence is not an
 external-effect or receipt proof. These limits are part of the contract's truthful scope, not
 defects erased by campaign closeout.
+
+## Batch 13 terminal closeout
+
+Batch 13 changes no contract or runtime source. The version-1 contract remains adopted by exactly
+the corridors recorded in the Batch 12 coverage snapshot. The campaign closes with 26 canonical
+consumers, 3 locked-fragmented consumers, 202 inventoried noncanonical/issuer candidates, nine
+envelope builders and one generic-store consumer.
+
+No residual consumer is promoted by closeout. The absence of global lock-order enforcement,
+runtime-wide consumption reconstruction, generalized revocation and external-effect receipt
+semantics remains explicit terminal evidence.
 
 ## Closed boundaries
 
