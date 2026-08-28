@@ -240,7 +240,7 @@ behavior. No residual Transactional Authority Consumption Adoption batch remains
 The next separately selected campaign is Iron Gate Evidence Authenticity Remediation. Preparation
 Batch 0 is complete under `docs/next-campaign-iron-gate-evidence-authenticity-remediation.md` and
 `docs/iron-gate-evidence-authenticity-remediation-preparation-inventory.md`; the active handoff is
-`docs/handoffs/iron-gate-evidence-authenticity-remediation-batch-4-complete.md`. The
+`docs/handoffs/iron-gate-evidence-authenticity-remediation-batch-9-complete.md`. The
 adversarial finding is exact: provider invocation and result sealing are separate, reconstruction
 skips the effect-start/admission boundary, actor attribution is not caller authority, and unkeyed
 digests prove trusted-writer integrity rather than hostile-writer non-forgeability. Only a
@@ -252,7 +252,8 @@ provider status, bytes or observation times. Batch 4 separates admission, creden
 truth into distinct immutable checkpoints. Batch 5 reconstructs the complete occupancy-through-
 receipt chain read only and fails on any missing or altered intermediate. Only enforceable caller
 authority and integrity threat-model contract is defined in Batch 6 without claiming enforcement.
-Batch 7 implements native issuance without claiming consumer enforcement. Only three-consumer
-authority consumption may next be considered. No live consumer, external I/O,
+Batch 7 implements native issuance without claiming consumer enforcement. Batch 8 adds the canonical
+consumer and Batch 9 enforces it at request, decision and issuance. Only adversarial proof
+may next be considered. No live consumer, external I/O,
 Iron Gate, Lazaretto, sortie, credential-platform, revocation, propagation, telemetry, reassessment,
 containment or incident boundary is opened.

@@ -7,6 +7,7 @@ namespace App\Imperium\Runtime\Curia;
 use App\Bootstrap\CanonicalJson;
 use App\Imperium\Runtime\Imperator\OutboundEmailAuthorizationIssuanceContract;
 use App\Imperium\Runtime\LaCortine\DeterministicOutboundEmailAuthorizationContract;
+use App\Imperium\Runtime\LaCortine\DeterministicTransitionCallerAuthorityConsumer;
 use App\Imperium\Runtime\Persistence\AtomicTransition;
 use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
 use App\Imperium\Runtime\Persistence\RecordReferenceValidator;
@@ -27,7 +28,14 @@ final readonly class OutboundEmailAuthorizationRequestService
         $this->records = new ImmutableRecordStore($root, $this->atomic);
     }
 
-    public function request(string $bindingId, array $holder, string $purpose, array $scope, array $providerSafety, \DateTimeImmutable $expiresAt, \DateTimeImmutable $requestedAt): array
+    public static function callerAuthorityTarget(string $bindingId, array $holder, string $purpose, array $scope, array $providerSafety, \DateTimeImmutable $expiresAt, \DateTimeImmutable $requestedAt): array
+    {
+        $digest = hash('sha256', CanonicalJson::encode([$bindingId, $holder, trim($purpose), $scope, $providerSafety, $expiresAt->format(DATE_ATOM), $requestedAt->format(DATE_ATOM)]));
+
+        return ['id' => 'outbound-email-request-intent-'.substr($digest, 0, 20), 'digest' => $digest];
+    }
+
+    public function request(string $callerAuthorityId, string $bindingId, array $holder, string $purpose, array $scope, array $providerSafety, \DateTimeImmutable $expiresAt, \DateTimeImmutable $requestedAt): array
     {
         $purpose = trim($purpose);
         if (!preg_match('/^curia-seneschal-binding-[a-f0-9]{20}$/', $bindingId) || '' === $purpose || $expiresAt <= $requestedAt || $expiresAt > $requestedAt->modify('+15 minutes')) {
@@ -52,6 +60,8 @@ final readonly class OutboundEmailAuthorizationRequestService
         $fingerprint = [$occupancy['instance_id'], $requester, $holder, $purpose, $scope, $providerSafety, $requestedAt->format(DATE_ATOM), $expiresAt->format(DATE_ATOM)];
         $requestId = 'outbound-email-request-'.substr(hash('sha256', CanonicalJson::encode($fingerprint)), 0, 20);
         $record = ['schema' => OutboundEmailAuthorizationIssuanceContract::REQUEST_SCHEMA, 'request_id' => $requestId, 'instance_id' => $occupancy['instance_id'], 'requester' => $requester, 'holder' => $holder, 'purpose' => $purpose, 'scope' => $scope, 'provider_safety' => $providerSafety, 'requested_at' => $requestedAt->format(DATE_ATOM), 'expires_at' => $expiresAt->format(DATE_ATOM), 'authority_requested' => true, 'authority_granted' => false, 'sealed' => true];
+        $target = self::callerAuthorityTarget($bindingId, $holder, $purpose, $scope, $providerSafety, $expiresAt, $requestedAt);
+        (new DeterministicTransitionCallerAuthorityConsumer($this->root))->consume($callerAuthorityId, 'REQUEST_EXACT_OUTBOUND_EMAIL_AUTHORIZATION', $target, self::class, $requestedAt);
 
         return $this->atomic->run('iron-gate-email-request:'.$requestId, function () use ($requestId, $record): array {
             return $this->records->put(self::REQUESTS, $requestId, $record);

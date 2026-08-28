@@ -21,6 +21,8 @@ use PHPUnit\Framework\TestCase;
 
 final class IronGateExecutionReceiptBindingBatch11Test extends TestCase
 {
+    use IronGateCallerAuthorityTestTrait;
+
     private string $root;
     private string $bindingId = 'curia-seneschal-binding-fedcba9876543210fedc';
 
@@ -32,6 +34,7 @@ final class IronGateExecutionReceiptBindingBatch11Test extends TestCase
         $directory = $this->root.'/var/imperium/offices/curia/occupancy';
         mkdir($directory, 0770, true);
         file_put_contents($directory.'/'.$this->bindingId.'.json', json_encode($record, JSON_THROW_ON_ERROR));
+        $this->writeImperatorPrincipal();
     }
 
     protected function tearDown(): void
@@ -154,9 +157,9 @@ final class IronGateExecutionReceiptBindingBatch11Test extends TestCase
 
     private function throughJournal(): array
     {
-        $request = (new OutboundEmailAuthorizationRequestService($this->root))->request($this->bindingId, $this->holder(), 'Send the sealed operational notice', $this->scope(), $this->providerSafety(), $this->time('+10 minutes'), $this->time());
-        $decision = (new OutboundEmailDecisionService($this->root))->decide($request['request_id'], 'AUTHORIZED', 'Exact act approved.', 'No scope widening.', $this->time('+8 minutes'), $this->time('+1 minute'));
-        $issuance = (new OutboundEmailAuthorizationIssuanceService($this->root))->issue($decision['decision_id'], $this->time('+2 minutes'));
+        $request = $this->authorizedRequest($this->bindingId, $this->holder(), 'Send the sealed operational notice', $this->scope(), $this->providerSafety(), $this->time('+10 minutes'), $this->time());
+        $decision = $this->authorizedDecision($request['request_id'], 'AUTHORIZED', 'Exact act approved.', 'No scope widening.', $this->time('+8 minutes'), $this->time('+1 minute'));
+        $issuance = $this->authorizedIssuance($decision['decision_id'], $this->time('+2 minutes'));
         $claim = (new DeterministicExecutionClaimService($this->root))->claim($issuance['issuance_id'], $this->capability(), $this->time('+3 minutes'));
         $journal = (new DeterministicEffectStartJournalService($this->root))->start($claim['claim_id'], $this->time('+4 minutes'));
         return [$issuance, $claim, $journal];

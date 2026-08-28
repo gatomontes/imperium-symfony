@@ -14,6 +14,8 @@ use PHPUnit\Framework\TestCase;
 
 final class IronGateExecutionReceiptBindingBatch5Test extends TestCase
 {
+    use IronGateCallerAuthorityTestTrait;
+
     private string $root;
     private string $bindingId = 'curia-seneschal-binding-0123456789abcdef0123';
 
@@ -21,6 +23,7 @@ final class IronGateExecutionReceiptBindingBatch5Test extends TestCase
     {
         $this->root = sys_get_temp_dir().'/imperium-iron-gate-batch-5-'.bin2hex(random_bytes(5));
         $this->writeOccupancy();
+        $this->writeImperatorPrincipal();
     }
 
     protected function tearDown(): void
@@ -50,30 +53,28 @@ final class IronGateExecutionReceiptBindingBatch5Test extends TestCase
 
     public function testExactReplaysAreStableAndConflictingDecisionIsRejected(): void
     {
-        $requestService = new OutboundEmailAuthorizationRequestService($this->root);
-        $request = $requestService->request($this->bindingId, $this->holder(), 'Send the sealed operational notice', $this->scope(), $this->providerSafety(), $this->time('+10 minutes'), $this->time());
-        self::assertSame($request, $requestService->request($this->bindingId, $this->holder(), 'Send the sealed operational notice', $this->scope(), $this->providerSafety(), $this->time('+10 minutes'), $this->time()));
+        $request = $this->authorizedRequest($this->bindingId, $this->holder(), 'Send the sealed operational notice', $this->scope(), $this->providerSafety(), $this->time('+10 minutes'), $this->time());
+        self::assertSame($request, $this->authorizedRequest($this->bindingId, $this->holder(), 'Send the sealed operational notice', $this->scope(), $this->providerSafety(), $this->time('+10 minutes'), $this->time()));
 
-        $decisions = new OutboundEmailDecisionService($this->root);
-        $decision = $decisions->decide($request['request_id'], 'AUTHORIZED', 'Exact act approved.', 'No scope widening.', $this->time('+8 minutes'), $this->time('+1 minute'));
-        self::assertSame($decision, $decisions->decide($request['request_id'], 'AUTHORIZED', 'Exact act approved.', 'No scope widening.', $this->time('+8 minutes'), $this->time('+1 minute')));
+        $decision = $this->authorizedDecision($request['request_id'], 'AUTHORIZED', 'Exact act approved.', 'No scope widening.', $this->time('+8 minutes'), $this->time('+1 minute'));
+        self::assertSame($decision, $this->authorizedDecision($request['request_id'], 'AUTHORIZED', 'Exact act approved.', 'No scope widening.', $this->time('+8 minutes'), $this->time('+1 minute')));
         $this->expectExceptionMessage('IGD203_OUTBOUND_EMAIL_DECISION_CONFLICT');
-        $decisions->decide($request['request_id'], 'REFUSED', 'Act refused.', 'No issuance.', $this->time('+8 minutes'), $this->time('+1 minute'));
+        $this->authorizedDecision($request['request_id'], 'REFUSED', 'Act refused.', 'No issuance.', $this->time('+8 minutes'), $this->time('+1 minute'));
     }
 
     public function testRefusalCannotBeConvertedIntoAuthorizationIssuance(): void
     {
-        $request = (new OutboundEmailAuthorizationRequestService($this->root))->request($this->bindingId, $this->holder(), 'Send the sealed operational notice', $this->scope(), $this->providerSafety(), $this->time('+10 minutes'), $this->time());
-        $decision = (new OutboundEmailDecisionService($this->root))->decide($request['request_id'], 'REFUSED', 'External act refused.', 'No issuance authority.', $this->time('+8 minutes'), $this->time('+1 minute'));
+        $request = $this->authorizedRequest($this->bindingId, $this->holder(), 'Send the sealed operational notice', $this->scope(), $this->providerSafety(), $this->time('+10 minutes'), $this->time());
+        $decision = $this->authorizedDecision($request['request_id'], 'REFUSED', 'External act refused.', 'No issuance authority.', $this->time('+8 minutes'), $this->time('+1 minute'));
         self::assertNull($decision['issuance_authority']);
 
         $this->expectExceptionMessage('IGI302_OUTBOUND_EMAIL_DECISION_NOT_ISSUABLE');
-        (new OutboundEmailAuthorizationIssuanceService($this->root))->issue($decision['decision_id'], $this->time('+2 minutes'));
+        $this->authorizedIssuance($decision['decision_id'], $this->time('+2 minutes'));
     }
 
     public function testTamperAndSecretExclusionProofsFailClosed(): void
     {
-        $request = (new OutboundEmailAuthorizationRequestService($this->root))->request($this->bindingId, $this->holder(), 'Send the sealed operational notice', $this->scope(), $this->providerSafety(), $this->time('+10 minutes'), $this->time());
+        $request = $this->authorizedRequest($this->bindingId, $this->holder(), 'Send the sealed operational notice', $this->scope(), $this->providerSafety(), $this->time('+10 minutes'), $this->time());
         $path = $this->root.'/'.OutboundEmailAuthorizationRequestService::REQUESTS.'/'.$request['request_id'].'.json';
         $tampered = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
         $tampered['scope']['destination'] = 'attacker@example.test';
@@ -81,14 +82,14 @@ final class IronGateExecutionReceiptBindingBatch5Test extends TestCase
 
         self::assertStringNotContainsString('test-secret-api-key', (string) file_get_contents($path));
         $this->expectExceptionMessage('IGD202_OUTBOUND_EMAIL_REQUEST_INVALID');
-        (new OutboundEmailDecisionService($this->root))->decide($request['request_id'], 'AUTHORIZED', 'Exact act approved.', 'No scope widening.', $this->time('+8 minutes'), $this->time('+1 minute'));
+        $this->authorizedDecision($request['request_id'], 'AUTHORIZED', 'Exact act approved.', 'No scope widening.', $this->time('+8 minutes'), $this->time('+1 minute'));
     }
 
     private function authorizedRoute(): array
     {
-        $request = (new OutboundEmailAuthorizationRequestService($this->root))->request($this->bindingId, $this->holder(), 'Send the sealed operational notice', $this->scope(), $this->providerSafety(), $this->time('+10 minutes'), $this->time());
-        $decision = (new OutboundEmailDecisionService($this->root))->decide($request['request_id'], 'AUTHORIZED', 'Exact act approved.', 'No scope widening.', $this->time('+8 minutes'), $this->time('+1 minute'));
-        $issuance = (new OutboundEmailAuthorizationIssuanceService($this->root))->issue($decision['decision_id'], $this->time('+2 minutes'));
+        $request = $this->authorizedRequest($this->bindingId, $this->holder(), 'Send the sealed operational notice', $this->scope(), $this->providerSafety(), $this->time('+10 minutes'), $this->time());
+        $decision = $this->authorizedDecision($request['request_id'], 'AUTHORIZED', 'Exact act approved.', 'No scope widening.', $this->time('+8 minutes'), $this->time('+1 minute'));
+        $issuance = $this->authorizedIssuance($decision['decision_id'], $this->time('+2 minutes'));
 
         return [$request, $decision, $issuance];
     }

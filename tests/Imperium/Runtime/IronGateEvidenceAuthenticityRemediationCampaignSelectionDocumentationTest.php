@@ -15,7 +15,7 @@ final class IronGateEvidenceAuthenticityRemediationCampaignSelectionDocumentatio
         $inventory = (string) file_get_contents($root.'/docs/iron-gate-evidence-authenticity-remediation-preparation-inventory.md');
         $handoff = (string) file_get_contents($root.'/docs/handoffs/iron-gate-evidence-authenticity-remediation-preparation-batch-0-complete.md');
 
-        self::assertStringContainsString('`BATCH_8_CALLER_AUTHORITY_CONSUMER_IMPLEMENTED`', $campaign);
+        self::assertStringContainsString('`BATCH_9_THREE_TRANSITION_CALLER_AUTHORITY_ENFORCED`', $campaign);
         foreach (['`EXISTS_FRAGMENTED`', '`ABSENT`', '`DEFERRED_BOUNDARY`'] as $classification) self::assertStringContainsString($classification, $campaign);
         foreach (['`PROVIDER_RESPONSE_ENVELOPE_REQUIRED`', '`COMPLETE_CHAIN_RECONSTRUCTION_REQUIRED`', '`CALLER_AUTHORITY_REQUIRED`', '`THREAT_MODEL_BOUNDED_INTEGRITY`', '`PROVIDER_PROVENANCE_REQUIRED`', '`SINGLE_AUTHORITATIVE_ROOT_ONLY`'] as $posture) self::assertStringContainsString($posture, $campaign);
         self::assertStringContainsString('can nominate accepted response bytes', $inventory);

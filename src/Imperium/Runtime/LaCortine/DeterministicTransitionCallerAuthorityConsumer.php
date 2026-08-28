@@ -70,6 +70,8 @@ final readonly class DeterministicTransitionCallerAuthorityConsumer
             throw new \RuntimeException('IGA114_CALLER_PRINCIPAL_STALE');
         }
 
-        return $this->consumptions->consume($authorityId, (string) $source['id'], (string) $source['digest'], $consumer, $at);
+        $consumption = $this->consumptions->consume($authorityId, (string) $source['id'], (string) $source['digest'], $consumer, $at);
+
+        return ['authority' => $authority, 'consumption' => $consumption];
     }
 }
