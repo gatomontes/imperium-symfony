@@ -218,7 +218,7 @@ replay equivalence.
 
 The next separately selected campaign is Transactional Authority Consumption Adoption, governed by
 `docs/next-campaign-transactional-authority-consumption.md` and
-`docs/handoffs/transactional-authority-consumption-batch-11-complete.md`. Preparation Batch 0, the
+`docs/handoffs/transactional-authority-consumption-batch-12-complete.md`. Preparation Batch 0, the
 separately versioned Batch 1 contracts, and the first operational cognition claim adoption in Batch
 2 are complete. Batch 3 proves the adopted claim at every internal recovery observation without
 adding a second transaction record or moving provider I/O. Batch 4 adopts the structurally parallel
@@ -244,7 +244,10 @@ admission powers are boolean, missing-time, or multi-write; Clavium access/activ
 deferred credential-platform boundary, and the intervening resource decision is unchanged.
 Batch 11 adopts Oracle eligibility finding consumption plus deterministic forward recovery of the
 dependent phase closure under one evaluation-case lock. Other recovery-incomplete paths remain
-explicit exclusions. Batch 12 remains unopened pending explicit authorization.
+explicit exclusions. Batch 12 mechanically reconstructs all runtime coverage, freezes 231 strong
+authority candidates, verifies the exact 26 canonical and 3 locked-fragmented consumers, and
+records the adversarial limits without changing runtime behavior. Batch 13 remains unopened pending
+explicit authorization.
 
 The campaign does not alter this route or any credential, provider-journal, external-I/O,
 propagation, telemetry, containment, incident, Iron Gate, Lazaretto, sortie, or credential-platform
