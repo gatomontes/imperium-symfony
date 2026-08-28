@@ -2,7 +2,7 @@
 
 ## Status
 
-`BATCH_1_COMPLETE`
+`BATCH_2_COMPLETE_NO_ELIGIBLE_CONSUMER`
 
 Transactional Authority Consumption Adoption is terminal through Batch 13. This successor is
 selected for preparation only. No runtime implementation, external call or authority change is
@@ -10,10 +10,12 @@ authorized merely because it appears below.
 
 ## Current continuation point
 
-Preparation Batch 0 and contract-definition Batch 1 are complete. The contracts are canonicalized
-in `docs/iron-gate-execution-receipt-binding-contract.md`; no consumer has been migrated and no
-implementation batch is open. Only Batch 2 may next be considered, and it is not authorized
-without an explicit continuation instruction.
+Preparation Batch 0, contract-definition Batch 1 and provider-safety assessment Batch 2 are
+complete. The contracts are canonicalized in `docs/iron-gate-execution-receipt-binding-contract.md`
+and the exact AgentMail result in `docs/iron-gate-agentmail-provider-safety-assessment.md`.
+Direct `email.send` has neither native source authorization nor proved provider replay safety, so
+no consumer is eligible and no implementation batch is open. Only Batch 3 may next be considered,
+and it is not authorized without an explicit continuation instruction.
 
 ## Selected boundary
 
@@ -92,7 +94,8 @@ No step is authorized merely because it is listed:
    proof inventory;
 2. **Completed.** Define separately versioned deterministic execution-claim and receipt-binding
    contracts without migrating a consumer;
-3. adopt one deterministic operation without placing network I/O inside an internal rollback fiction;
+3. **Blocked by Batch 2 proof.** Define the missing native outbound authorization and assess an
+   explicitly replay-safe provider workflow before adopting any deterministic operation;
 4. prove competing execution, crash-before-I/O, unknown-outcome and receipt-recovery behavior;
 5. add read-only reconstruction from source authority through admitted receipt;
 6. assess the sortie lane as a separate boundary only after deterministic proof; and
