@@ -2,14 +2,14 @@
 
 ## Status
 
-`BATCH_10_DELEGATE_MODEL_BINDING_AUTHORITY_ADOPTED`
+`BATCH_11_ORACLE_ELIGIBILITY_RECOVERY_ADOPTED`
 
 This document defines the shared version-1 mechanics represented by
 `TransactionalAuthorityConsumptionContract` and `AuthorityConsumptionRecoveryContract`. The
 contract classes remain declarative and do not themselves issue, consume, revoke, persist, lock,
 recover, retry, or execute anything. The adopted operational, governance, and Delegate provider
 claims plus the deterministic Delegate Senate, model-bound Profile Senate opening, and
-operational-adoption reconciliation/disposition, Delegate model-governance and Delegate model-binding results compose them through
+operational-adoption reconciliation/disposition, Delegate model-governance, Delegate model-binding and Oracle eligibility results compose them through
 `TransactionalAuthorityConsumptionEnvelope`; other consumers remain unmigrated.
 
 ## Consumption envelope
@@ -258,6 +258,25 @@ credential resolution, provider activation or external effect.
 Construction/admission paths that expose only boolean power, omit a native commit timestamp, or
 write multiple dependent records remain undecorated. Clavium access and provider activation remain
 deferred credential-platform work; Imperator resource/invocation decision remains unchanged.
+
+## Batch 11 Oracle eligibility recovery adoption
+
+`ModelEligibilityFindingService` now composes the contract through a separate immutable
+`OracleEligibilityAuthorityTransition` record. The native finding and phase schemas remain
+unchanged. The transition seals the evaluation-case instance and digest, exact model authority,
+Augur, immutable finding and original `issued_at` under one case lock:
+
+`oracle-eligibility-case:<sha256 caseId>`
+
+The case lock serializes same-authority competition and distinct final findings before phase
+reconciliation. The native finding is the durable recovery checkpoint. If phase closure is absent,
+retry rereads all exact findings, reconstructs the phase and uses the latest committed finding's
+native `issued_at` as `closed_at`; it never uses the retry clock. Only after reconciliation does the
+separate complete consumption record commit.
+
+Fault injection proves forward recovery after finding commit, phase reconciliation and transaction
+commit. Two-process opposing findings converge to one finding, one phase and one consumption record.
+No cognition, provider, credential, network or external effect participates.
 
 ## Closed boundaries
 
