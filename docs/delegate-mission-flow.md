@@ -246,8 +246,7 @@ Batch 11 adopts Oracle eligibility finding consumption plus deterministic forwar
 dependent phase closure under one evaluation-case lock. Other recovery-incomplete paths remain
 explicit exclusions. Batch 12 mechanically reconstructs all runtime coverage, freezes 231 strong
 authority candidates, verifies the exact 26 canonical and 3 locked-fragmented consumers, and
-records the adversarial limits without changing runtime behavior. Batch 13 remains unopened pending
-explicit authorization.
+records the adversarial limits without changing runtime behavior. Batch 13 remains unopened pending explicit authorization.
 
 The campaign does not alter this route or any credential, provider-journal, external-I/O,
 propagation, telemetry, containment, incident, Iron Gate, Lazaretto, sortie, or credential-platform
