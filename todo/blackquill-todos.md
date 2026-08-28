@@ -81,7 +81,9 @@ Preserve independent authorities, emitted records, and cross-office handoffs. Co
 
 - [x] Extract an `ImmutableRecordStore`.
 - [x] Extract a `MutableStateStore`.
-- [ ] Extract an `AuthorityConsumptionStore`.
+- [x] Extract an `AuthorityConsumptionStore`. *(The canonical primitive exists and is used by
+  Delegate mission-turn recovery; system-wide adoption remains fragmented and is selected for a
+  separately prepared campaign.)*
 - [x] Extract an `AtomicTransition` coordinator.
 - [x] Extract a `RecordReferenceValidator`. *(Step 25 establishes the canonical primitive and migrates the consolidated Steps 51–52 and 67–68 substrates first.)*
 - [ ] Remove duplicated filesystem scanning, decoding, validation, locking, and write code after migration. *(Canonical validation now covers the critical runtime corridors, and the deployment authorization/custody/activation corridor uses immutable or recoverable shared persistence; remaining legacy services still require bounded migration.)*
