@@ -2,7 +2,7 @@
 
 ## Campaign status
 
-`BATCH_2_COMPLETE_BATCH_3_NOT_AUTHORIZED`
+`BATCH_3_COMPLETE_BATCH_4_NOT_AUTHORIZED`
 
 Operational Cognition Lease Interruption is terminal through Batch 6. The next separately bounded
 campaign is adoption of canonical transactional authority-consumption and recovery semantics across
@@ -68,7 +68,22 @@ complete replay inputs, exact consumer/act, existing lock scopes, both consumpti
 result, and complete pre-I/O recovery in one embedded envelope. The completion handoff is
 `docs/handoffs/transactional-authority-consumption-batch-2-complete.md`.
 
-Batch 3 remains unopened pending explicit authorization.
+## Batch 3 result
+
+Batch 3 adds a test-only fault-injection seam to the adopted operational claim and proves all four
+internal recovery observations: `PREPARED`, `CONSUMPTION_COMMITTED`, `RESULT_COMMITTED`, and
+`COMPLETE`. Because both authority consumptions and the lifecycle result share one immutable write,
+only `PREPARED` can leave no claim; every later injected failure observes the same complete sealed
+claim. Exact retry and replay converge on that one result without credential resolution, provider
+journal creation, provider invocation, network access, rollback, or authority unconsumption.
+
+The completion handoff is
+`docs/handoffs/transactional-authority-consumption-batch-3-complete.md`.
+
+Batch 4 remains unopened pending explicit authorization. Its smallest safe candidate is the
+structurally parallel governance cognition claim, subject to preserving the exact governance
+authority resolver, authority→lease lock order, interruption competition, and external-I/O
+boundary.
 
 ## Preparation stop conditions
 
