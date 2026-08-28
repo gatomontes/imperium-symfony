@@ -29,7 +29,7 @@ final class IronGateEvidenceAuthenticityRemediationBatch1Test extends TestCase
         $contract = (string) file_get_contents($root.'/docs/iron-gate-callback-bound-provider-response-envelope.md');
         $handoff = (string) file_get_contents($root.'/docs/handoffs/iron-gate-evidence-authenticity-remediation-batch-1-complete.md');
 
-        foreach (['`CONTRACT_DEFINED_NOT_IMPLEMENTED`', 'only permitted producer posture', 'may not supply', '`UNKNOWN_REPLAY_PROHIBITED`', 'No external I/O occurs'] as $limit) self::assertStringContainsString($limit, $contract);
+        foreach (['`SOLE_PRODUCER_IMPLEMENTED_NO_CONSUMER_MIGRATED`', 'only permitted producer posture', 'may not supply', '`UNKNOWN_REPLAY_PROHIBITED`', 'No external I/O occurs'] as $limit) self::assertStringContainsString($limit, $contract);
         foreach (['Only Batch 2 may next be considered', 'No producer or consumer was implemented or migrated', 'Batch 2 is not authorized', 'Live AgentMail'] as $limit) self::assertStringContainsString($limit, $handoff);
     }
 }
