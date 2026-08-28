@@ -2,7 +2,7 @@
 
 ## Campaign status
 
-`BATCH_7_MODEL_BOUND_PROFILE_SENATE_OPENINGS_ADOPTED_BATCH_8_NOT_AUTHORIZED`
+`BATCH_8_OPERATIONAL_ADOPTION_SINGLE_RESULT_AUTHORITIES_ADOPTED_BATCH_9_NOT_AUTHORIZED`
 
 Operational Cognition Lease Interruption is terminal through Batch 6. The next separately bounded
 campaign is adoption of canonical transactional authority-consumption and recovery semantics across
@@ -163,20 +163,42 @@ outcome is not journaled before the lifecycle result.
 The completion handoff is
 `docs/handoffs/transactional-authority-consumption-batch-7-complete.md`.
 
-Batch 8 remains unopened pending explicit authorization. Its smallest safe candidate is the
-operational-adoption consumer cluster.
+## Batch 8 result
+
+Batch 8 audits the full operational-adoption consumer cluster and adopts only its two truthful
+single-result authorities: Seneschal reconciliation and final disposition. Both now share the
+exact lock scope:
+
+`operational-adoption-authority:<sha256 authorityId>`
+
+The lock encloses source reread, competent-actor validation, existing-result selection, logical
+consumption, replay fingerprinting and one immutable result commit. Historical records replay
+without rewrite; an adopted envelope must reconstruct exactly; contention and fault-after-commit
+recovery converge without external effect.
+
+The apparent intake authority is `ABSENT`: presentation exposes only `intake_pending`, and intake
+disposition records `evaluation_opening_authority=false`. Independent assessment authority is
+`EXISTS_FRAGMENTED` but remains `RECOVERY_INCOMPLETE`: the assessment result and optional
+all-assessments completion are separate writes, and a crash between them cannot reconstruct the
+original completion timestamp. Neither missing authority identity nor a multi-write checkpoint is
+invented.
+
+The completion handoff is
+`docs/handoffs/transactional-authority-consumption-batch-8-complete.md`.
+
+Batch 9 remains unopened pending explicit authorization. Its smallest safe candidate is the Oracle
+and model-governance consumer cluster.
 
 ## Provisional remaining-batch countdown
 
-Six batches remain after Batch 7 under the current inventory. This is a planning forecast, not
+Five batches remain after Batch 8 under the current inventory. This is a planning forecast, not
 authorization to combine consumers when proof exposes a narrower boundary:
 
-1. Batch 8 — operational-adoption consumers;
-2. Batch 9 — Oracle and model-governance consumers;
-3. Batch 10 — construction and admission consumers;
-4. Batch 11 — older multi-write operational, bootstrap, and Legate recovery clusters;
-5. Batch 12 — mechanical coverage reconstruction, explicit exclusions, and adversarial review; and
-6. Batch 13 — documentation-only campaign closeout.
+1. Batch 9 — Oracle and model-governance consumers;
+2. Batch 10 — construction and admission consumers;
+3. Batch 11 — older multi-write operational, bootstrap, Legate, and deferred operational-adoption recovery clusters;
+4. Batch 12 — mechanical coverage reconstruction, explicit exclusions, and adversarial review; and
+5. Batch 13 — documentation-only campaign closeout.
 
 Any cluster that cannot share one lock, replay, recovery, and proof boundary must split rather than
 be forced into this forecast.

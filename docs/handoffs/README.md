@@ -43,7 +43,7 @@ Operational Cognition Lease Interruption is terminal through Batch 6. The prepar
 `docs/operational-cognition-lease-interruption-preparation-inventory.md`, and the active handoff is
 `docs/handoffs/operational-cognition-lease-interruption-campaign-complete.md`.
 The exact disposition, enforcement-authority, native admission-result, and read-only reconstruction
-boundaries are complete. Transactional Authority Consumption Adoption is complete through Batch 7;
-Batch 8 remains unopened pending explicit authorization. Continuous Agent
+boundaries are complete. Transactional Authority Consumption Adoption is complete through Batch 8;
+Batch 9 remains unopened pending explicit authorization. Continuous Agent
 Governance Controls, Credential-boundary remediation, and Institutional Decision Integrity remain
 terminal.
