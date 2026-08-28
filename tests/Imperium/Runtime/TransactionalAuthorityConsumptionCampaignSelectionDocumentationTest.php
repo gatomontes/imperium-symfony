@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 final class TransactionalAuthorityConsumptionCampaignSelectionDocumentationTest extends TestCase
 {
-    public function testSelectionAuthorizesPreparationOnlyAndKeepsRuntimeAndExternalBoundariesClosed(): void
+    public function testSelectionHistoryAndCurrentBatchKeepRuntimeAndExternalBoundariesClosed(): void
     {
         $root = dirname(__DIR__, 3);
         $campaign = (string) file_get_contents($root.'/docs/next-campaign-transactional-authority-consumption.md');
@@ -16,7 +16,7 @@ final class TransactionalAuthorityConsumptionCampaignSelectionDocumentationTest 
         $flow = (string) file_get_contents($root.'/docs/delegate-mission-flow.md');
         $index = (string) file_get_contents($root.'/docs/handoffs/README.md');
 
-        self::assertStringContainsString('`PREPARATION_BATCH_0_AUTHORIZED`', $campaign);
+        self::assertStringContainsString('`BATCH_1_COMPLETE_BATCH_2_NOT_AUTHORIZED`', $campaign);
         self::assertStringContainsString('Only Preparation Batch 0 is', $handoff);
         self::assertStringContainsString('No implementation step is authorized merely because it is listed', $campaign);
         foreach (['`EXISTS_CANONICALLY`', '`EXISTS_FRAGMENTED`', '`ABSENT`', '`DEFERRED_BOUNDARY`'] as $classification) {
@@ -28,7 +28,7 @@ final class TransactionalAuthorityConsumptionCampaignSelectionDocumentationTest 
         foreach (['Generalized revocation', 'telemetry', 'containment', 'incidents', 'Iron Gate execution', 'Lazaretto expansion', 'sorties', 'new credential-platform work'] as $boundary) {
             self::assertStringContainsString($boundary, $handoff);
         }
-        self::assertStringContainsString('Only Preparation Batch 0 is', $flow);
-        self::assertStringContainsString('Transactional Authority Consumption Adoption is selected next', $index);
+        self::assertStringContainsString('Batch 2 remains unopened pending explicit authorization', $flow);
+        self::assertStringContainsString('Transactional Authority Consumption Adoption is complete through Batch 1', $index);
     }
 }

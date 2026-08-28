@@ -2,7 +2,7 @@
 
 ## Campaign status
 
-`PREPARATION_BATCH_0_COMPLETE_BATCH_1_NOT_AUTHORIZED`
+`BATCH_1_COMPLETE_BATCH_2_NOT_AUTHORIZED`
 
 Operational Cognition Lease Interruption is terminal through Batch 6. The next separately bounded
 campaign is adoption of canonical transactional authority-consumption and recovery semantics across
@@ -47,8 +47,18 @@ The canonical output is
 
 Preparation Batch 0 completed that documentation-only inventory. It changed no runtime behavior.
 The completion handoff is
-`docs/handoffs/transactional-authority-consumption-preparation-batch-0-complete.md`. Batch 1 remains
-unopened pending explicit authorization.
+`docs/handoffs/transactional-authority-consumption-preparation-batch-0-complete.md`. Batch 1 was
+subsequently authorized and completed as recorded below.
+
+## Batch 1 result
+
+Batch 1 defines the separately versioned `TransactionalAuthorityConsumptionContract` and
+`AuthorityConsumptionRecoveryContract`, with the canonical design in
+`docs/transactional-authority-consumption-contract.md`. No consumer was migrated and the contracts
+perform no transition. The completion handoff is
+`docs/handoffs/transactional-authority-consumption-batch-1-complete.md`.
+
+Batch 2 remains unopened pending explicit authorization.
 
 ## Preparation stop conditions
 
