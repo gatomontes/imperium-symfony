@@ -62,11 +62,13 @@ For the current Delegate Mission state, read in this order:
 56. `docs/iron-gate-journal-bound-agentmail-invocation.md`;
 57. `docs/handoffs/iron-gate-execution-receipt-binding-batch-8-complete.md`;
 58. `docs/iron-gate-raw-provider-result.md`;
-59. `docs/handoffs/iron-gate-execution-receipt-binding-batch-9-complete.md`; and
-60. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
+59. `docs/handoffs/iron-gate-execution-receipt-binding-batch-9-complete.md`;
+60. `docs/iron-gate-lazaretto-receipt-binding-and-reconstruction.md`;
+61. `docs/handoffs/iron-gate-execution-receipt-binding-batch-10-complete.md`; and
+62. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
 
-Item 59 is the active continuation handoff. Batch 9 seals truthful raw provider results; Batch 10 is
-not authorized and no Lazaretto-admission or reconstruction batch is open.
+Item 61 is the active continuation handoff. Batch 10 binds accepted receipts through deterministic
+Lazaretto admission and read-only reconstruction; Batch 11 adversarial closeout is not authorized.
 
 `docs/handoffs/operational-cognition-access-lifecycle-ready.md` and the numbered credential-boundary handoffs are historical execution records. They are not active continuation prompts.
 
@@ -77,7 +79,7 @@ Operational Cognition Lease Interruption is terminal through Batch 6. The prepar
 `docs/handoffs/operational-cognition-lease-interruption-campaign-complete.md`.
 The exact disposition, enforcement-authority, native admission-result, and read-only reconstruction
 boundaries are complete. Transactional Authority Consumption Adoption is terminal through Batch
-13. Iron Gate Execution Authority and Receipt Binding Batch 9 is complete through the durable raw
-provider result. Batch 10 is not authorized.
+13. Iron Gate Execution Authority and Receipt Binding Batch 10 is complete through accepted receipt
+binding and read-only reconstruction. Batch 11 is not authorized.
 Continuous Agent Governance Controls, Credential-boundary remediation, and Institutional
 Decision Integrity remain terminal.

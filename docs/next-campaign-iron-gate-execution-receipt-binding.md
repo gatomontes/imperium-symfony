@@ -2,7 +2,7 @@
 
 ## Status
 
-`BATCH_9_RAW_PROVIDER_RECEIPT_AND_OUTCOME_DURABLE`
+`BATCH_10_ACCEPTED_RECEIPT_BOUND_AND_RECONSTRUCTIBLE`
 
 Transactional Authority Consumption Adoption is terminal through Batch 13. This successor is
 selected for preparation only. No runtime implementation, external call or authority change is
@@ -10,13 +10,15 @@ authorized merely because it appears below.
 
 ## Current continuation point
 
-Preparation Batch 0 and Batches 1–9 are complete. AgentMail direct-send idempotency and the
+Preparation Batch 0 and Batches 1–10 are complete. AgentMail direct-send idempotency and the
 outbound-email authorization shape are canonical. The competent Curia request → Imperator decision
 → separate Imperator issuance route exists as immutable native records. One deterministic La
 Cortine claim consumes the exact authorization. Its effect-start journal establishes the durable
 `UNKNOWN_REPLAY_PROHIBITED` boundary. Credential resolution and the exact AgentMail idempotency
 header are reachable only after durable one-shot admission. Observed HTTP responses now produce one
-truthful immutable accepted/rejected raw-result aggregate; absence remains unknown. Only bounded Batch 10 may
+truthful immutable accepted/rejected raw-result aggregate; absence remains unknown. Accepted results
+matching the exact return contract now bind through deterministic Lazaretto admission and read-only
+reconstruction. Only bounded Batch 11 may
 next be considered, and it is not
 authorized without an explicit continuation instruction.
 
