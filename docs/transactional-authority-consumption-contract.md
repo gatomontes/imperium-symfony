@@ -2,14 +2,14 @@
 
 ## Status
 
-`BATCH_6_DETERMINISTIC_DELEGATE_SENATE_SUBCLUSTER_ADOPTED`
+`BATCH_7_MODEL_BOUND_PROFILE_SENATE_OPENINGS_ADOPTED`
 
 This document defines the shared version-1 mechanics represented by
 `TransactionalAuthorityConsumptionContract` and `AuthorityConsumptionRecoveryContract`. The
 contract classes remain declarative and do not themselves issue, consume, revoke, persist, lock,
 recover, retry, or execute anything. The adopted operational, governance, and Delegate provider
-claims plus the deterministic Delegate Senate results compose them through
-`TransactionalAuthorityConsumptionEnvelope`; other consumers remain unmigrated.
+claims plus the deterministic Delegate Senate and model-bound Profile Senate opening results
+compose them through `TransactionalAuthorityConsumptionEnvelope`; other consumers remain unmigrated.
 
 ## Consumption envelope
 
@@ -164,6 +164,36 @@ disposition are not adopted in Batch 6. Each crosses a Symfony AI gateway before
 A process death after that call has an unknown outcome; neither a lock nor a post-I/O envelope can
 make replay truthful or effectively once-only. Those consumers remain `RECOVERY_INCOMPLETE` until a
 separate pre-I/O claim/journal/recovery boundary is explicitly prepared and authorized.
+
+## Batch 7 model-bound Profile Senate opening adoption
+
+Three deterministic model-bound Profile Senate consumers now compose the contract through
+`ProfileSenateAuthorityTransition`: testimony opening, finding-authority opening, and deliberation
+opening. Each already receives one explicit single-use authority ID and produces one immutable
+result with an existing `opened_at` timestamp.
+
+Each consumer derives one lock from that unchanged authority:
+
+`profile-senate-authority:<sha256 authorityId>`
+
+The lock encloses the complete existing reread, chain validation, logical consumption and result
+commit. The exact pre-envelope result surface is the authoritative input and binds the immutable
+source digest, Lord Speaker identity, consumed authority, result identity and timestamp. No
+authority identity, expiry, actor, source, schema or timestamp is synthesized.
+
+`ImmutableRecordStore` makes the lifecycle result and transaction envelope one physical commit.
+Historical records remain valid without rewrite. Adopted records reconstruct the exact producing
+service from their unchanged schema; divergent envelope data fails validation. Contention and a
+fault immediately after commit converge on the same complete result without rollback, authority
+unconsumption or external effect.
+
+Legacy Profile Senate records are not adopted because their boolean authority representation and
+missing commit timestamps cannot support a truthful version-1 envelope without changing authority
+or result contracts. Model-bound evidence questioning remains a separate multi-write recovery
+problem. Model-bound disposition-authority opening and both approval consumers likewise lack a
+complete existing authority/timestamp surface. All Profile question/finding, reconciliation and
+disposition cognition remains `RECOVERY_INCOMPLETE` pending a separately authorized pre-I/O claim,
+journal and unknown-outcome design.
 
 ## Closed boundaries
 

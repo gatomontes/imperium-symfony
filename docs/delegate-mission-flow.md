@@ -218,7 +218,7 @@ replay equivalence.
 
 The next separately selected campaign is Transactional Authority Consumption Adoption, governed by
 `docs/next-campaign-transactional-authority-consumption.md` and
-`docs/handoffs/transactional-authority-consumption-batch-6-complete.md`. Preparation Batch 0, the
+`docs/handoffs/transactional-authority-consumption-batch-7-complete.md`. Preparation Batch 0, the
 separately versioned Batch 1 contracts, and the first operational cognition claim adoption in Batch
 2 are complete. Batch 3 proves the adopted claim at every internal recovery observation without
 adding a second transaction record or moving provider I/O. Batch 4 adopts the structurally parallel
@@ -229,7 +229,10 @@ Delegate Senate consumers from Steps 19–42 under exact authority locks without
 jurisdictions, actors, or result schemas. Five cognition-bearing consumers remain
 `RECOVERY_INCOMPLETE` because their model-call outcome cannot truthfully be reconstructed by a post-I/O
 transaction envelope.
-Batch 7 remains unopened pending explicit authorization.
+Batch 7 adopts only the three model-bound Profile Senate opening consumers with an existing exact
+single-use authority ID, Lord Speaker, immutable source, `opened_at`, and one-result commit. Legacy
+boolean-authority records, deterministic multi-write or missing-timestamp paths, and all Profile
+Senate cognition remain outside adoption. Batch 8 remains unopened pending explicit authorization.
 
 The campaign does not alter this route or any credential, provider-journal, external-I/O,
 propagation, telemetry, containment, incident, Iron Gate, Lazaretto, sortie, or credential-platform
