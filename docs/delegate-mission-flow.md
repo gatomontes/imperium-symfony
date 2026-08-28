@@ -226,11 +226,12 @@ transactionally canonical and does not alter this terminal Delegate route.
 The next separately selected campaign is Iron Gate Execution Authority and Receipt Binding,
 governed by `docs/next-campaign-iron-gate-execution-receipt-binding.md` and the completed inventory
 `docs/iron-gate-execution-receipt-binding-preparation-inventory.md`. Preparation Batch 0 and
-contract-definition Batch 1, assessment/route Batches 2–4, native-record Batch 5 and durable-claim
-Batch 6 are complete;
+contract-definition Batch 1, assessment/route Batches 2–4, native-record Batch 5, durable-claim
+Batch 6 and effect-start-journal Batch 7 are complete;
 the active handoff is
-`docs/handoffs/iron-gate-execution-receipt-binding-batch-6-complete.md`. Batch 6 consumes one exact
-outbound authorization into a durable deterministic claim and stops at `CLAIMED_PRE_IO`. It neither
-consumes nor resolves a credential. Batch 7 is not authorized. The campaign has opened no provider-journal, external-I/O, propagation,
+`docs/handoffs/iron-gate-execution-receipt-binding-batch-7-complete.md`. Batch 7 binds the exact
+claim, credential-use identity, provider key and request fingerprint into a conservative durable
+`EFFECT_STARTED / UNKNOWN_REPLAY_PROHIBITED` journal. The transition neither consumes nor resolves
+a credential and invokes no provider. Batch 8 is not authorized. The campaign has opened no external-I/O, propagation,
 telemetry, containment, incident, Iron Gate, Lazaretto, sortie, receipt or credential-platform
 behavior. No residual Transactional Authority Consumption Adoption batch remains.

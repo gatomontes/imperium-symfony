@@ -44,7 +44,7 @@ final class TransactionalAuthorityConsumptionCampaignCloseoutDocumentationTest e
         foreach (['external call', 'credential', 'Lazaretto', 'sortie', 'revocation', 'telemetry', 'containment', 'incident'] as $boundary) {
             self::assertStringContainsString($boundary, $ready);
         }
-        self::assertStringContainsString('Batch 6 is complete with native request', $index);
-        self::assertStringContainsString('Batch 7 is not authorized', $index);
+        self::assertStringContainsString('Batch 7 is complete with native request', $index);
+        self::assertStringContainsString('Batch 8 is not authorized', $index);
     }
 }
