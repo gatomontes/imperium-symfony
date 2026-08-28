@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Imperium\Runtime;
 
 use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\Clavium\OperationalCognitionInvocationClaimFaultInjector;
 use App\Imperium\Runtime\Clavium\OperationalCognitionInvocationClaimService;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -77,6 +78,61 @@ final class OperationalCognitionInvocationClaimServiceTest extends TestCase
 
         $this->expectExceptionMessage('OCA405_OPERATIONAL_INVOCATION_CLAIM_CONFLICT');
         $service->claim($leaseId, $authorityId, new \DateTimeImmutable('2026-08-26T16:04:00+00:00'));
+    }
+
+    #[DataProvider('transactionCheckpointCases')]
+    public function testEveryTransactionCheckpointRecoversToOneExactImmutableClaim(string $checkpoint, int $durableAfterFailure): void
+    {
+        [$leaseId, $authorityId] = $this->fixtures();
+        $at = new \DateTimeImmutable('2026-08-26T16:03:00+00:00');
+        $fault = new class($checkpoint) implements OperationalCognitionInvocationClaimFaultInjector {
+            public function __construct(private readonly string $selected)
+            {
+            }
+
+            public function after(string $checkpoint): void
+            {
+                if ($this->selected === $checkpoint) {
+                    throw new \RuntimeException('TEST_OPERATIONAL_CLAIM_FAULT_'.$checkpoint);
+                }
+            }
+        };
+
+        try {
+            (new OperationalCognitionInvocationClaimService($this->root, faults: $fault))->claim($leaseId, $authorityId, $at);
+            self::fail('The selected transaction checkpoint did not inject a failure.');
+        } catch (\RuntimeException $exception) {
+            self::assertSame('TEST_OPERATIONAL_CLAIM_FAULT_'.$checkpoint, $exception->getMessage());
+        }
+
+        $claimPaths = glob($this->root.'/var/imperium/runtime/operational-cognition-invocation-claims/*.json') ?: [];
+        self::assertCount($durableAfterFailure, $claimPaths);
+
+        $service = new OperationalCognitionInvocationClaimService($this->root);
+        $recovered = $service->claim($leaseId, $authorityId, $at);
+        $replayed = $service->claim($leaseId, $authorityId, $at->modify('+1 minute'));
+
+        self::assertSame($recovered, $replayed);
+        self::assertCount(1, glob($this->root.'/var/imperium/runtime/operational-cognition-invocation-claims/*.json') ?: []);
+        self::assertTrue($recovered['lease_consumption']['consumed']);
+        self::assertTrue($recovered['cognition_authority_consumption']['consumed']);
+        self::assertSame('COMPLETE', $recovered['transactional_consumption']['recovery']['checkpoint']);
+        self::assertSame([$authorityId, $leaseId], array_column($recovered['transactional_consumption']['authority_set'], 'authority_id'));
+        self::assertFalse($recovered['provider_request']['external_io_started']);
+        self::assertFalse($recovered['provider_invoked']);
+        self::assertFalse($recovered['credential_resolved']);
+        self::assertFalse($recovered['network_access_performed']);
+        self::assertCount(0, glob($this->root.'/var/imperium/runtime/provider-invocation-journal/*.json') ?: []);
+    }
+
+    public static function transactionCheckpointCases(): array
+    {
+        return [
+            ['PREPARED', 0],
+            ['CONSUMPTION_COMMITTED', 1],
+            ['RESULT_COMMITTED', 1],
+            ['COMPLETE', 1],
+        ];
     }
 
     #[DataProvider('invalidSourceCases')]

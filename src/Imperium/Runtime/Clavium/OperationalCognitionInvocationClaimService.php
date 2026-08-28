@@ -31,6 +31,7 @@ final readonly class OperationalCognitionInvocationClaimService
         ?ImmutableRecordStore $records = null,
         ?AtomicTransition $atomic = null,
         ?OperationalLeaseInterruptionAdmissionGuard $interruptionGuard = null,
+        private ?OperationalCognitionInvocationClaimFaultInjector $faults = null,
     ) {
         $this->validator = $validator ?? new RecordReferenceValidator($root);
         $this->atomic = $atomic ?? new AtomicTransition($root);
@@ -122,7 +123,7 @@ final readonly class OperationalCognitionInvocationClaimService
 
         $idempotencyIdentity = 'imperium-'.$claimId;
         $transactionalConsumption = TransactionalAuthorityConsumptionEnvelope::complete($claimId, (string) $lease['instance_id'], $authoritySet, $authoritativeInputs, $fingerprint, $consumer, $lockPlan, $immutableResult, $claimedAt);
-        return $this->records->put(self::CLAIMS, $claimId, [
+        $candidate = [
             'schema' => 'imperium.clavium-operational-cognition-invocation-claim/v1',
             'claim_id' => $claimId,
             'claim_fingerprint' => $fingerprint,
@@ -153,7 +154,17 @@ final readonly class OperationalCognitionInvocationClaimService
             'network_access_performed' => false,
             'execution_continuation_authority' => false,
             'sealed' => true,
-        ]);
+        ];
+        $this->faults?->after('PREPARED');
+        $claim = $this->records->put(self::CLAIMS, $claimId, $candidate);
+
+        // Consumption and result share one immutable commit. These logical recovery checkpoints
+        // therefore observe the same complete record and cannot expose torn authority state.
+        $this->faults?->after('CONSUMPTION_COMMITTED');
+        $this->faults?->after('RESULT_COMMITTED');
+        $this->faults?->after('COMPLETE');
+
+        return $claim;
     }
 
     private function authoritySet(string $leaseId, array $lease, string $cognitionAuthorityId, array $request): array

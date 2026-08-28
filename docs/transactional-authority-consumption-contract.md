@@ -2,12 +2,13 @@
 
 ## Status
 
-`BATCH_2_OPERATIONAL_CLAIM_ADOPTED`
+`BATCH_3_OPERATIONAL_CLAIM_COMMIT_BOUNDARIES_PROVED`
 
 This document defines the shared version-1 mechanics represented by
 `TransactionalAuthorityConsumptionContract` and `AuthorityConsumptionRecoveryContract`. The
-contracts describe a future transactional envelope. They do not issue, consume, revoke, persist,
-lock, recover, retry, or execute anything, and no current consumer reads them.
+contract classes remain declarative and do not themselves issue, consume, revoke, persist, lock,
+recover, retry, or execute anything. The adopted operational claim composes them through
+`TransactionalAuthorityConsumptionEnvelope`; other consumers remain unmigrated.
 
 ## Consumption envelope
 
@@ -74,18 +75,24 @@ Adoption preserves the exact lock order:
 
 Exact replay validates the embedded envelope; changed transactional metadata is a conflict.
 
-## First-adoption proof obligations
+## Batch 3 commit-boundary proof
 
-The separately authorized Batch 2 migration is complete. Its remaining Batch 3 proof obligations
-are:
+The first adoption now has direct fault-injection proof at `PREPARED`,
+`CONSUMPTION_COMMITTED`, `RESULT_COMMITTED`, and `COMPLETE`. The operational claim deliberately
+does not create a second mutable transaction record. Its two consumptions and immutable lifecycle
+result are one physical `ImmutableRecordStore::put()` commit:
 
-- one winner for claim/claim and claim/interruption competition;
-- complete replay equivalence and conflicting replay refusal;
-- one immutable result and both exact authority consumptions;
-- recovery behavior after `PREPARED`, `CONSUMPTION_COMMITTED`, `RESULT_COMMITTED`, and `COMPLETE`;
-- no credential resolution, provider journal, network access, or external I/O inside the
-  consumption transition; and
-- unchanged issuer, consumer, authority schemas, scope, expiry, lock scopes, and lock order.
+- failure after `PREPARED` leaves no consumption or result artifact, and exact retry may perform the
+  single commit;
+- failure observed at any later logical checkpoint leaves the same complete immutable result with
+  both exact consumptions;
+- exact retry and replay return that result, while divergent transactional metadata fails stopped;
+- the existing claim/claim and claim/interruption proofs retain one winner; and
+- every recovery case retains `credential_resolved=false`, no provider journal, no provider
+  invocation, no network access, and no external I/O.
+
+No checkpoint grants rollback or authority unconsumption. No provider outcome exists inside this
+transition.
 
 ## Closed boundaries
 
