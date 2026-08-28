@@ -2,7 +2,7 @@
 
 ## Campaign status
 
-`BATCH_5_COMPLETE_BATCH_6_NOT_AUTHORIZED`
+`BATCH_6_DETERMINISTIC_DELEGATE_SENATE_ADOPTED_BATCH_7_NOT_AUTHORIZED`
 
 Operational Cognition Lease Interruption is terminal through Batch 6. The next separately bounded
 campaign is adoption of canonical transactional authority-consumption and recovery semantics across
@@ -112,22 +112,47 @@ transition.
 The completion handoff is
 `docs/handoffs/transactional-authority-consumption-batch-5-complete.md`.
 
-Batch 6 remains unopened pending explicit authorization. Its smallest safe candidate is the
-Delegate Senate engine cluster, subject to preserving each competent actor and authority type.
+## Batch 6 result
+
+Batch 6 adopts the eight deterministic Delegate Senate consumers from Steps 19–42 through
+`DelegateMissionSenateAuthorityTransition`. Each act retains its existing public API, authority,
+jurisdiction, actor, source validation, result schema and ID, while acquiring one new shared scope
+derived from that exact lifecycle authority before replay selection:
+
+`delegate-senate-authority:<sha256 authorityId>`
+
+The helper seals the complete lifecycle result surface and exact source digest into a
+`ReplayFingerprint`, embeds the shared transaction/recovery envelope, and commits through
+`ImmutableRecordStore`. Historical immutable results remain valid without rewrite. Adopted results
+validate their envelope against the exact producing consumer and schema. Claim/claim contention and
+a fault-after-commit proof converge on the same immutable result with no authority rollback or
+external effect.
+
+Five cognition-bearing consumers are deliberately not decorated: question authorship, testimony,
+Senator finding, finding reconciliation, and final Senate disposition. Their Symfony AI call occurs
+before the lifecycle result is sealed. A crash in that interval can repeat cognition, so an envelope
+claiming `external_effect.started=false` would be false. They remain `RECOVERY_INCOMPLETE` pending a
+separately prepared pre-I/O claim, journal, and unknown-outcome boundary.
+
+The completion handoff is
+`docs/handoffs/transactional-authority-consumption-batch-6-complete.md`.
+
+Batch 7 remains unopened pending explicit authorization. Its smallest safe candidate is the
+deterministic portion of the legacy and model-bound Profile Senate cluster, with cognition-bearing
+consumers kept outside adoption unless a separate recovery boundary is first authorized.
 
 ## Provisional remaining-batch countdown
 
-Eight batches remain after Batch 5 under the current inventory. This is a planning forecast, not
+Seven batches remain after Batch 6 under the current inventory. This is a planning forecast, not
 authorization to combine consumers when proof exposes a narrower boundary:
 
-1. Batch 6 — Delegate Senate engines;
-2. Batch 7 — legacy and model-bound Profile Senate engines;
-3. Batch 8 — operational-adoption consumers;
-4. Batch 9 — Oracle and model-governance consumers;
-5. Batch 10 — construction and admission consumers;
-6. Batch 11 — older multi-write operational, bootstrap, and Legate recovery clusters;
-7. Batch 12 — mechanical coverage reconstruction, explicit exclusions, and adversarial review; and
-8. Batch 13 — documentation-only campaign closeout.
+1. Batch 7 — legacy and model-bound Profile Senate engines;
+2. Batch 8 — operational-adoption consumers;
+3. Batch 9 — Oracle and model-governance consumers;
+4. Batch 10 — construction and admission consumers;
+5. Batch 11 — older multi-write operational, bootstrap, and Legate recovery clusters;
+6. Batch 12 — mechanical coverage reconstruction, explicit exclusions, and adversarial review; and
+7. Batch 13 — documentation-only campaign closeout.
 
 Any cluster that cannot share one lock, replay, recovery, and proof boundary must split rather than
 be forced into this forecast.

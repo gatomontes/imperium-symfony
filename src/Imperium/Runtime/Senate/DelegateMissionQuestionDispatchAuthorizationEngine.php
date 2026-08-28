@@ -28,6 +28,18 @@ final readonly class DelegateMissionQuestionDispatchAuthorizationEngine
         $c = $this->configuration($jurisdiction);
         if (!preg_match('/^delegate-mission-profile-examination-question-[a-f0-9]{20}$/', $questionId)) throw new \InvalidArgumentException($c['errors'][0]);
         if (!preg_match('/^senate-lord-speaker-binding-[a-f0-9]{20}$/', $lordSpeakerBindingId)) throw new \InvalidArgumentException($c['errors'][1]);
+        if (!in_array(strtoupper(trim($disposition)), ['AUTHORIZED', 'REFUSED'], true) || '' === trim($rationale)) throw new \InvalidArgumentException($c['errors'][2]);
+        $question = $this->read($this->questions.'/'.$questionId.'.json', $c['errors'][3]);
+        $authorityId = (string) ($question['question_dispatch_authorization_authority']['authority_id'] ?? $questionId);
+
+        return DelegateMissionSenateAuthorityTransition::run($this->decisions, $authorityId, fn (): array => $this->decideWhileLocked($jurisdiction, $questionId, $lordSpeakerBindingId, $disposition, $rationale, $decidedAt));
+    }
+
+    private function decideWhileLocked(string $jurisdiction, string $questionId, string $lordSpeakerBindingId, string $disposition, string $rationale, \DateTimeImmutable $decidedAt): array
+    {
+        $c = $this->configuration($jurisdiction);
+        if (!preg_match('/^delegate-mission-profile-examination-question-[a-f0-9]{20}$/', $questionId)) throw new \InvalidArgumentException($c['errors'][0]);
+        if (!preg_match('/^senate-lord-speaker-binding-[a-f0-9]{20}$/', $lordSpeakerBindingId)) throw new \InvalidArgumentException($c['errors'][1]);
         $disposition = strtoupper(trim($disposition)); $rationale = trim($rationale);
         if (!in_array($disposition, ['AUTHORIZED', 'REFUSED'], true) || '' === $rationale) throw new \InvalidArgumentException($c['errors'][2]);
 
@@ -74,13 +86,9 @@ final readonly class DelegateMissionQuestionDispatchAuthorizationEngine
     }
 
     private function read(string $p, string $e): array { if (!is_file($p)) throw new \RuntimeException($e); return json_decode((string) file_get_contents($p), true, 512, JSON_THROW_ON_ERROR); }
-    private function valid(array $r): bool { $d = $r['record_digest'] ?? null; unset($r['record_digest']); return is_string($d) && hash_equals($d, hash('sha256', CanonicalJson::encode($r))); }
+    private function valid(array $r): bool { if (!DelegateMissionSenateAuthorityTransition::isExactOrHistorical($r)) return false; $d = $r['record_digest'] ?? null; unset($r['record_digest']); return is_string($d) && hash_equals($d, hash('sha256', CanonicalJson::encode($r))); }
     private function save(array $c, string $id, array $r): array
     {
-        if (!is_dir($this->decisions) && !mkdir($this->decisions, 0770, true) && !is_dir($this->decisions)) throw new \RuntimeException($c['errors'][8]);
-        $r['record_digest'] = hash('sha256', CanonicalJson::encode($r)); $p = $this->decisions.'/'.$id.'.json';
-        if (is_file($p)) { $x = $this->read($p, $c['errors'][9]); if (CanonicalJson::encode($x) !== CanonicalJson::encode($r)) throw new \RuntimeException($c['errors'][9]); return $x; }
-        if (false === file_put_contents($p, json_encode($r, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)."\n", LOCK_EX)) throw new \RuntimeException($c['errors'][8]);
-        return $r;
+        return DelegateMissionSenateAuthorityTransition::put($this->decisions, $id, $r, self::class, $c['errors'][8], $c['errors'][9]);
     }
 }

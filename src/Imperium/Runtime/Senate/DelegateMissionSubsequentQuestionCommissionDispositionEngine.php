@@ -29,6 +29,18 @@ final readonly class DelegateMissionSubsequentQuestionCommissionDispositionEngin
     public function decide(string $jurisdiction, string $commissionId, string $senatorBindingId, string $disposition, string $rationale, \DateTimeImmutable $decidedAt): array
     {
         $c = $this->configuration($jurisdiction);
+        if (!preg_match('/^delegate-mission-profile-examination-question-commission-[a-f0-9]{20}$/', $commissionId)) throw new \InvalidArgumentException($c['errors'][0]);
+        if (!preg_match($c['binding_pattern'], $senatorBindingId)) throw new \InvalidArgumentException($c['errors'][1]);
+        if (!in_array(strtoupper(trim($disposition)), ['ACCEPTED', 'REFUSED'], true) || '' === trim($rationale)) throw new \InvalidArgumentException($c['errors'][2]);
+        $commission = $this->read($this->commissions.'/'.$commissionId.'.json', $c['errors'][3]);
+        $authorityId = (string) ($commission['recipient_acceptance_disposition_authority']['authority_id'] ?? $commissionId);
+
+        return DelegateMissionSenateAuthorityTransition::run($this->dispositions, $authorityId, fn (): array => $this->decideWhileLocked($jurisdiction, $commissionId, $senatorBindingId, $disposition, $rationale, $decidedAt));
+    }
+
+    private function decideWhileLocked(string $jurisdiction, string $commissionId, string $senatorBindingId, string $disposition, string $rationale, \DateTimeImmutable $decidedAt): array
+    {
+        $c = $this->configuration($jurisdiction);
         if (!preg_match('/^delegate-mission-profile-examination-question-commission-[a-f0-9]{20}$/', $commissionId)) {
             throw new \InvalidArgumentException($c['errors'][0]);
         }
@@ -177,21 +189,13 @@ final readonly class DelegateMissionSubsequentQuestionCommissionDispositionEngin
 
     private function valid(array $record): bool
     {
+        if (!DelegateMissionSenateAuthorityTransition::isExactOrHistorical($record)) { return false; }
         $digest = $record['record_digest'] ?? null; unset($record['record_digest']);
         return is_string($digest) && hash_equals($digest, hash('sha256', CanonicalJson::encode($record)));
     }
 
     private function save(array $c, string $id, array $record): array
     {
-        if (!is_dir($this->dispositions) && !mkdir($this->dispositions, 0770, true) && !is_dir($this->dispositions)) { throw new \RuntimeException($c['errors'][8]); }
-        $record['record_digest'] = hash('sha256', CanonicalJson::encode($record));
-        $path = $this->dispositions.'/'.$id.'.json';
-        if (is_file($path)) {
-            $prior = $this->read($path, $c['errors'][9]);
-            if (CanonicalJson::encode($prior) !== CanonicalJson::encode($record)) { throw new \RuntimeException($c['errors'][9]); }
-            return $prior;
-        }
-        if (false === file_put_contents($path, json_encode($record, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)."\n", LOCK_EX)) { throw new \RuntimeException($c['errors'][8]); }
-        return $record;
+        return DelegateMissionSenateAuthorityTransition::put($this->dispositions, $id, $record, self::class, $c['errors'][8], $c['errors'][9]);
     }
 }

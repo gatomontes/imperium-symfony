@@ -2,14 +2,14 @@
 
 ## Status
 
-`BATCH_5_DELEGATE_PROVIDER_CLAIM_ADOPTED`
+`BATCH_6_DETERMINISTIC_DELEGATE_SENATE_SUBCLUSTER_ADOPTED`
 
 This document defines the shared version-1 mechanics represented by
 `TransactionalAuthorityConsumptionContract` and `AuthorityConsumptionRecoveryContract`. The
 contract classes remain declarative and do not themselves issue, consume, revoke, persist, lock,
 recover, retry, or execute anything. The adopted operational, governance, and Delegate provider
-claims compose them through `TransactionalAuthorityConsumptionEnvelope`; other consumers remain
-unmigrated.
+claims plus the deterministic Delegate Senate results compose them through
+`TransactionalAuthorityConsumptionEnvelope`; other consumers remain unmigrated.
 
 ## Consumption envelope
 
@@ -136,6 +136,34 @@ are returned without rewrite. Adopted claims validate the complete fingerprint a
 The immutable claim commits both logical consumptions and the result together before any provider
 journal, credential resolution, provider invocation, network access, or external effect. Existing
 unknown-outcome and sealed-response forward-recovery semantics remain unchanged.
+
+## Batch 6 Delegate Senate adoption
+
+Eight deterministic authority consumers in Delegate Mission Steps 19–42 now compose the contract
+through `DelegateMissionSenateAuthorityTransition`. The shared mechanism does not merge their authorities,
+actors, jurisdictions, source records, cognition gateways, schemas, or immutable results.
+
+Each consumer derives one lock from the exact authority it already consumes:
+
+`delegate-senate-authority:<sha256 authorityId>`
+
+The lock encloses the consumer's existing reread, chain validation, replay scan, and result commit.
+The unchanged lifecycle result receives one embedded transaction
+envelope whose authoritative inputs are the complete pre-envelope result surface, including the
+exact immutable source digest and occupied actor. Authorities with no lifecycle expiry retain that
+fact through the explicit `NO_EXPIRY_DECLARED` sentinel; no expiry or revocation behavior is added.
+
+`ImmutableRecordStore` provides the one physical result commit. Historical results without an
+envelope remain valid and are not rewritten. Adopted records are validated against the exact
+consumer implied by their unchanged schema and jurisdiction. A fault immediately after result
+commit leaves the complete transaction and exact retry recovers that one record; rollback,
+authority unconsumption, and external effects remain prohibited.
+
+Question authorship, testimony response, Senator finding, finding reconciliation, and final Senate
+disposition are not adopted in Batch 6. Each crosses a Symfony AI gateway before its result exists.
+A process death after that call has an unknown outcome; neither a lock nor a post-I/O envelope can
+make replay truthful or effectively once-only. Those consumers remain `RECOVERY_INCOMPLETE` until a
+separate pre-I/O claim/journal/recovery boundary is explicitly prepared and authorized.
 
 ## Closed boundaries
 

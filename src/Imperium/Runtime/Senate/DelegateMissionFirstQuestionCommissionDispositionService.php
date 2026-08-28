@@ -30,6 +30,17 @@ final readonly class DelegateMissionFirstQuestionCommissionDispositionService
 
     public function decide(string $commissionId, string $trustSenatorBindingId, string $disposition, string $rationale, \DateTimeImmutable $decidedAt): array
     {
+        if (!preg_match('/^delegate-mission-profile-examination-question-commission-[a-f0-9]{20}$/', $commissionId)) throw new \InvalidArgumentException('S550_DELEGATE_MISSION_QUESTION_COMMISSION_ID_INVALID');
+        if (!preg_match('/^senate-committee-trust-binding-[a-f0-9]{20}$/', $trustSenatorBindingId)) throw new \InvalidArgumentException('S551_DELEGATE_MISSION_TRUST_SENATOR_BINDING_ID_INVALID');
+        if (!in_array(strtoupper(trim($disposition)), self::DISPOSITIONS, true) || '' === trim($rationale)) throw new \InvalidArgumentException('S552_DELEGATE_MISSION_QUESTION_COMMISSION_DISPOSITION_INVALID');
+        $commission = $this->read($this->commissions.'/'.$commissionId.'.json', 'S553_DELEGATE_MISSION_QUESTION_COMMISSION_ABSENT');
+        $authorityId = (string) ($commission['recipient_acceptance_disposition_authority']['authority_id'] ?? $commissionId);
+
+        return DelegateMissionSenateAuthorityTransition::run($this->dispositions, $authorityId, fn (): array => $this->decideWhileLocked($commissionId, $trustSenatorBindingId, $disposition, $rationale, $decidedAt));
+    }
+
+    private function decideWhileLocked(string $commissionId, string $trustSenatorBindingId, string $disposition, string $rationale, \DateTimeImmutable $decidedAt): array
+    {
         if (!preg_match('/^delegate-mission-profile-examination-question-commission-[a-f0-9]{20}$/', $commissionId)) {
             throw new \InvalidArgumentException('S550_DELEGATE_MISSION_QUESTION_COMMISSION_ID_INVALID');
         }
@@ -201,6 +212,9 @@ final readonly class DelegateMissionFirstQuestionCommissionDispositionService
 
     private function valid(array $record): bool
     {
+        if (!DelegateMissionSenateAuthorityTransition::isExactOrHistorical($record)) {
+            return false;
+        }
         $digest = $record['record_digest'] ?? null;
         unset($record['record_digest']);
 
@@ -209,23 +223,6 @@ final readonly class DelegateMissionFirstQuestionCommissionDispositionService
 
     private function save(string $id, array $record): array
     {
-        if (!is_dir($this->dispositions) && !mkdir($this->dispositions, 0770, true) && !is_dir($this->dispositions)) {
-            throw new \RuntimeException('S558_DELEGATE_MISSION_QUESTION_COMMISSION_DISPOSITION_PERSISTENCE_FAILED');
-        }
-        $record['record_digest'] = hash('sha256', CanonicalJson::encode($record));
-        $path = $this->dispositions.'/'.$id.'.json';
-        if (is_file($path)) {
-            $prior = $this->read($path, 'S559_DELEGATE_MISSION_QUESTION_COMMISSION_DISPOSITION_CONFLICT');
-            if (CanonicalJson::encode($prior) !== CanonicalJson::encode($record)) {
-                throw new \RuntimeException('S559_DELEGATE_MISSION_QUESTION_COMMISSION_DISPOSITION_CONFLICT');
-            }
-
-            return $prior;
-        }
-        if (false === file_put_contents($path, json_encode($record, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)."\n", LOCK_EX)) {
-            throw new \RuntimeException('S558_DELEGATE_MISSION_QUESTION_COMMISSION_DISPOSITION_PERSISTENCE_FAILED');
-        }
-
-        return $record;
+        return DelegateMissionSenateAuthorityTransition::put($this->dispositions, $id, $record, self::class, 'S558_DELEGATE_MISSION_QUESTION_COMMISSION_DISPOSITION_PERSISTENCE_FAILED', 'S559_DELEGATE_MISSION_QUESTION_COMMISSION_DISPOSITION_CONFLICT');
     }
 }

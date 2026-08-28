@@ -23,6 +23,15 @@ final readonly class DelegateMissionFindingAuthorityOpeningService
     public function open(string $usabilityTurnId, string $lordSpeakerBindingId, \DateTimeImmutable $openedAt): array
     {
         if (!preg_match('/^delegate-mission-profile-examination-testimony-turn-[a-f0-9]{20}$/', $usabilityTurnId)) throw new \InvalidArgumentException('S720_DELEGATE_MISSION_TESTIMONY_TURN_ID_INVALID');
+        $turn = $this->read($this->turns.'/'.$usabilityTurnId.'.json', 'S721_DELEGATE_MISSION_USABILITY_TESTIMONY_TURN_ABSENT');
+        $authorityId = (string) ($turn['finding_phase_opening_authority']['authority_id'] ?? $usabilityTurnId);
+
+        return DelegateMissionSenateAuthorityTransition::run($this->openings, $authorityId, fn (): array => $this->openWhileLocked($usabilityTurnId, $lordSpeakerBindingId, $openedAt));
+    }
+
+    private function openWhileLocked(string $usabilityTurnId, string $lordSpeakerBindingId, \DateTimeImmutable $openedAt): array
+    {
+        if (!preg_match('/^delegate-mission-profile-examination-testimony-turn-[a-f0-9]{20}$/', $usabilityTurnId)) throw new \InvalidArgumentException('S720_DELEGATE_MISSION_TESTIMONY_TURN_ID_INVALID');
         $usability = $this->read($this->turns.'/'.$usabilityTurnId.'.json', 'S721_DELEGATE_MISSION_USABILITY_TESTIMONY_ABSENT');
         $securityId = $usability['source_prior_testimony_turn']['id'] ?? '';
         $trustId = $usability['source_earlier_testimony_turn']['id'] ?? '';
@@ -97,6 +106,6 @@ final readonly class DelegateMissionFindingAuthorityOpeningService
     }
 
     private function read(string $path, string $error): array { if (!is_file($path)) throw new \RuntimeException($error); return json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR); }
-    private function valid(array $record): bool { $digest = $record['record_digest'] ?? null; unset($record['record_digest']); return is_string($digest) && hash_equals($digest, hash('sha256', CanonicalJson::encode($record))); }
-    private function save(string $id, array $record): array { if (!is_dir($this->openings) && !mkdir($this->openings, 0770, true) && !is_dir($this->openings)) throw new \RuntimeException('S728_DELEGATE_MISSION_FINDING_AUTHORITY_OPENING_FAILED'); $record['record_digest'] = hash('sha256', CanonicalJson::encode($record)); $path = $this->openings.'/'.$id.'.json'; if (is_file($path)) { $existing = $this->read($path, 'S729_DELEGATE_MISSION_FINDING_AUTHORITY_OPENING_CONFLICT'); if ($existing !== $record) throw new \RuntimeException('S729_DELEGATE_MISSION_FINDING_AUTHORITY_OPENING_CONFLICT'); return $existing; } if (false === file_put_contents($path, json_encode($record, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)."\n", LOCK_EX)) throw new \RuntimeException('S728_DELEGATE_MISSION_FINDING_AUTHORITY_OPENING_FAILED'); return $record; }
+    private function valid(array $record): bool { if (!DelegateMissionSenateAuthorityTransition::isExactOrHistorical($record)) return false; $digest = $record['record_digest'] ?? null; unset($record['record_digest']); return is_string($digest) && hash_equals($digest, hash('sha256', CanonicalJson::encode($record))); }
+    private function save(string $id, array $record): array { return DelegateMissionSenateAuthorityTransition::put($this->openings, $id, $record, self::class, 'S728_DELEGATE_MISSION_FINDING_AUTHORITY_OPENING_FAILED', 'S729_DELEGATE_MISSION_FINDING_AUTHORITY_OPENING_CONFLICT'); }
 }
