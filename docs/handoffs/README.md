@@ -47,11 +47,15 @@ For the current Delegate Mission state, read in this order:
 41. `docs/iron-gate-execution-receipt-binding-contract.md`;
 42. `docs/handoffs/iron-gate-execution-receipt-binding-batch-1-complete.md`;
 43. `docs/iron-gate-agentmail-provider-safety-assessment.md`;
-44. `docs/handoffs/iron-gate-execution-receipt-binding-batch-2-complete.md`; and
-45. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
+44. `docs/handoffs/iron-gate-execution-receipt-binding-batch-2-complete.md`;
+45. `docs/iron-gate-outbound-email-authorization-contract.md`;
+46. `docs/iron-gate-agentmail-idempotent-send-assessment.md`;
+47. `docs/handoffs/iron-gate-execution-receipt-binding-batch-3-complete.md`; and
+48. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
 
-Item 44 is the active continuation handoff. Batch 2 is complete with no eligible consumer; Batch 3
-is not authorized and no consumer migration or external-I/O implementation batch is open.
+Item 47 is the active continuation handoff. Batch 3 proves provider idempotency and defines the
+authorization shape only; Batch 4 is not authorized and no consumer migration or external-I/O
+implementation batch is open.
 
 `docs/handoffs/operational-cognition-access-lifecycle-ready.md` and the numbered credential-boundary handoffs are historical execution records. They are not active continuation prompts.
 
@@ -62,7 +66,7 @@ Operational Cognition Lease Interruption is terminal through Batch 6. The prepar
 `docs/handoffs/operational-cognition-lease-interruption-campaign-complete.md`.
 The exact disposition, enforcement-authority, native admission-result, and read-only reconstruction
 boundaries are complete. Transactional Authority Consumption Adoption is terminal through Batch
-13. Iron Gate Execution Authority and Receipt Binding Batch 2 is complete with no eligible
-consumer. Batch 3 is not authorized.
+13. Iron Gate Execution Authority and Receipt Binding Batch 3 is complete with provider idempotency
+proved but the native issuer and durable claim absent. Batch 4 is not authorized.
 Continuous Agent Governance Controls, Credential-boundary remediation, and Institutional
 Decision Integrity remain terminal.
