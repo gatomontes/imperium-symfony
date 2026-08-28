@@ -36,7 +36,7 @@ final class OperationalCognitionLeaseInterruptionCampaignSelectionDocumentationT
         self::assertStringContainsString('Operational Cognition Lease Interruption', $flow);
         self::assertStringContainsString('does not alter this route', $flow);
         self::assertStringContainsString('terminal through Batch 6', $flow);
-        self::assertStringContainsString('No next runtime', $flow);
+        self::assertStringContainsString('next separately selected campaign is Transactional Authority Consumption Adoption', $flow);
         self::assertStringContainsString('No next runtime implementation campaign is selected', $closeout);
     }
 }
