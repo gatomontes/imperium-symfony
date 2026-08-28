@@ -44,7 +44,9 @@ final readonly class DeterministicTransitionCallerAuthorityIssuanceService
     private function issue(array $source, array $principal, string $transition, array $target, \DateTimeImmutable $issuedAt, \DateTimeImmutable $expiresAt): array
     {
         if (DeterministicTransitionCallerAuthorityContract::REQUIRED_REFERENCE_FIELDS !== array_keys($target) || !is_string($target['id']) || '' === trim($target['id']) || !preg_match('/^[a-f0-9]{64}$/', (string) $target['digest']) || $expiresAt <= $issuedAt || $expiresAt > $issuedAt->modify('+15 minutes')) throw new \InvalidArgumentException('IGA105_CALLER_AUTHORITY_INPUT_INVALID');
-        $sourceId = (string) ($source['binding_id'] ?? $source['principal_id'] ?? '');
+        $sourceId = 'imperium.imperator-runtime-principal/v1' === ($source['schema'] ?? null)
+            ? (string) ($source['principal_id'] ?? '')
+            : (string) ($source['binding_id'] ?? '');
         $authorityId = 'deterministic-transition-caller-authority-'.substr(hash('sha256', CanonicalJson::encode([$principal, $sourceId, $source['record_digest'], $transition, $target, $issuedAt->format(DATE_ATOM), $expiresAt->format(DATE_ATOM)])), 0, 20);
         $record = ['schema' => DeterministicTransitionCallerAuthorityContract::SCHEMA, 'authority_id' => $authorityId, 'instance_id' => $source['instance_id'], 'principal' => $principal, 'source' => ['id' => $sourceId, 'digest' => $source['record_digest']], 'permitted_transition' => $transition, 'target' => $target, 'authority_single_use' => true, 'authority_exercisable' => true, 'issued_at' => $issuedAt->format(DATE_ATOM), 'expires_at' => $expiresAt->format(DATE_ATOM), 'consumed' => false, 'continuing_authority' => false, 'sealed' => true];
         return $this->atomic->run('iron-gate-caller-authority:'.$authorityId, fn (): array => $this->records->put(self::AUTHORITIES, $authorityId, $record));

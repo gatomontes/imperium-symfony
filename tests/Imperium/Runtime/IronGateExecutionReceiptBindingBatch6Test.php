@@ -15,6 +15,8 @@ use PHPUnit\Framework\TestCase;
 
 final class IronGateExecutionReceiptBindingBatch6Test extends TestCase
 {
+    use IronGateCallerAuthorityTestTrait;
+
     private string $root;
     private string $bindingId = 'curia-seneschal-binding-abcdef0123456789abcd';
 
@@ -26,6 +28,7 @@ final class IronGateExecutionReceiptBindingBatch6Test extends TestCase
         $directory = $this->root.'/var/imperium/offices/curia/occupancy';
         mkdir($directory, 0770, true);
         file_put_contents($directory.'/'.$this->bindingId.'.json', json_encode($record, JSON_THROW_ON_ERROR));
+        $this->writeImperatorPrincipal();
     }
 
     protected function tearDown(): void
@@ -93,9 +96,9 @@ final class IronGateExecutionReceiptBindingBatch6Test extends TestCase
 
     private function issuance(): array
     {
-        $request = (new OutboundEmailAuthorizationRequestService($this->root))->request($this->bindingId, $this->holder(), 'Send the sealed operational notice', $this->scope(), $this->providerSafety(), $this->time('+10 minutes'), $this->time());
-        $decision = (new OutboundEmailDecisionService($this->root))->decide($request['request_id'], 'AUTHORIZED', 'Exact act approved.', 'No scope widening.', $this->time('+8 minutes'), $this->time('+1 minute'));
-        return (new OutboundEmailAuthorizationIssuanceService($this->root))->issue($decision['decision_id'], $this->time('+2 minutes'));
+        $request = $this->authorizedRequest($this->bindingId, $this->holder(), 'Send the sealed operational notice', $this->scope(), $this->providerSafety(), $this->time('+10 minutes'), $this->time());
+        $decision = $this->authorizedDecision($request['request_id'], 'AUTHORIZED', 'Exact act approved.', 'No scope widening.', $this->time('+8 minutes'), $this->time('+1 minute'));
+        return $this->authorizedIssuance($decision['decision_id'], $this->time('+2 minutes'));
     }
 
     private function credential(string $id): CredentialCapability
