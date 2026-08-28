@@ -42,7 +42,8 @@ final class IronGateExecutionReceiptBindingCampaignSelectionDocumentationTest ex
             self::assertStringContainsString($stop, $campaign);
         }
         self::assertStringContainsString('Preparation Batch 0 is complete', $flow);
-        self::assertStringContainsString('Preparation opened no credential', $flow);
-        self::assertStringContainsString('Batch 1 is not', $flow);
+        self::assertStringContainsString('has opened no credential', $flow);
+        self::assertStringContainsString('Batch 1 has defined', $flow);
+        self::assertStringContainsString('Batch 2 is', $flow);
     }
 }
