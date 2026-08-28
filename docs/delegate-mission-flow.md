@@ -244,6 +244,8 @@ Batch 0 is complete under `docs/next-campaign-iron-gate-evidence-authenticity-re
 adversarial finding is exact: provider invocation and result sealing are separate, reconstruction
 skips the effect-start/admission boundary, actor attribution is not caller authority, and unkeyed
 digests prove trusted-writer integrity rather than hostile-writer non-forgeability. Only a
-callback-bound response-envelope contract may next be considered. No live consumer, external I/O,
+callback-bound response-envelope contract is defined in Batch 1 with a sole invocation-bound
+producer posture and two non-operational consumer postures. Only its bounded in-memory producer may
+next be considered. No live consumer, external I/O,
 Iron Gate, Lazaretto, sortie, credential-platform, revocation, propagation, telemetry, reassessment,
 containment or incident boundary is opened.

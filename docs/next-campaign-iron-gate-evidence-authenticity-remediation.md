@@ -2,7 +2,7 @@
 
 ## Status
 
-`PREPARATION_BATCH_0_COMPLETE`
+`BATCH_1_RESPONSE_ENVELOPE_CONTRACT_DEFINED`
 
 Iron Gate Execution Authority and Receipt Binding remains terminal through Batch 11. Its adversarial
 review found that the unused deterministic corridor is structurally coherent but not yet eligible
@@ -10,7 +10,7 @@ for live consumer adoption: a caller can separately nominate response bytes afte
 callback, reconstruction skips effect-start and invocation-admission evidence, and institutional
 actor and tamper claims exceed what the current enforcement proves.
 
-Only separately bounded Batch 1 may next be considered. Nothing below authorizes runtime behavior,
+Preparation Batch 0 and Batch 1 are complete. Only separately bounded Batch 2 may next be considered. Nothing below authorizes runtime behavior,
 external I/O or live consumer adoption.
 
 ## Preparation inventory
@@ -34,8 +34,8 @@ No batch is authorized merely because it is listed:
 
 1. **Completed.** Preparation Batch 0 — preserve the adversarial findings, classifications,
    postures, deployment assumption and stop conditions;
-2. define a separately versioned callback-bound response-envelope contract without invoking a
-   provider or migrating a consumer;
+2. **Completed.** Define a separately versioned callback-bound response-envelope contract without
+   invoking a provider or migrating a consumer;
 3. bind one response envelope to one invocation admission and prohibit caller-nominated provider
    truth;
 4. separate admission, credential-attempt, callback-may-have-run and response-observed states;
