@@ -164,10 +164,10 @@ final class IronGateExecutionReceiptBindingBatch7Test extends TestCase
 
     public function testObservedAcceptedResponseSealsRawReceiptAndExactProviderIdentity(): void
     {
-        $admission = $this->invokeOnce();
         $bytes = '{"message_id":"message-test","thread_id":"thread-test"}';
+        $envelope = $this->invokeOnce(200, $bytes);
         $service = new DeterministicRawProviderResultService($this->root);
-        $result = $service->seal($admission['admission_id'], 200, $bytes, $this->time('+3 minutes'), $this->time('+3 minutes'));
+        $result = $service->seal($envelope['envelope_id']);
 
         self::assertSame(DeterministicRawProviderResultContract::REQUIRED_FIELDS, array_keys($result));
         self::assertSame('ACCEPTED', $result['provider_outcome']['status']);
@@ -177,7 +177,7 @@ final class IronGateExecutionReceiptBindingBatch7Test extends TestCase
         self::assertSame('RAW_RECEIPT_SEALED', $result['recovery']['checkpoint']);
         self::assertFalse($result['recovery']['automatic_replay_permitted']);
         self::assertFalse($result['recovery']['provider_reinvoked']);
-        self::assertSame($result, $service->seal($admission['admission_id'], 200, $bytes, $this->time('+4 minutes'), $this->time('+4 minutes')));
+        self::assertSame($result, $service->seal($envelope['envelope_id']));
         $binding = (new DeterministicLazarettoReceiptAdmissionService($this->root))->admit($result['result_id'], $this->time('+5 minutes'));
         self::assertSame('imperium.la-cortine.deterministic-receipt-binding/v1', $binding['schema']);
         self::assertTrue($binding['lazaretto_admission']['expected_return_contract_validated']);
@@ -188,8 +188,8 @@ final class IronGateExecutionReceiptBindingBatch7Test extends TestCase
 
     public function testObservedRejectionIsNotMisreportedAsAcceptance(): void
     {
-        $admission = $this->invokeOnce();
-        $result = (new DeterministicRawProviderResultService($this->root))->seal($admission['admission_id'], 422, '{"error":"rejected"}', $this->time('+3 minutes'), $this->time('+3 minutes'));
+        $envelope = $this->invokeOnce(422, '{"error":"rejected"}');
+        $result = (new DeterministicRawProviderResultService($this->root))->seal($envelope['envelope_id']);
 
         self::assertSame('REJECTED', $result['provider_outcome']['status']);
         self::assertNull($result['provider_outcome']['provider_receipt_identity']);
@@ -234,12 +234,12 @@ final class IronGateExecutionReceiptBindingBatch7Test extends TestCase
         return '{"to":["test@example.test"]}';
     }
 
-    private function invokeOnce(): array
+    private function invokeOnce(int $httpStatus = 200, string $body = '{"message_id":"message-test","thread_id":"thread-test"}'): array
     {
         $journal = (new DeterministicEffectStartJournalService($this->root))->start($this->claimId, $this->time('+1 minute'));
         $capability = new CredentialCapability('credential-capability.test', 'credential-reference-only', 'commission-test', 'email.send', $this->time('+5 minutes'));
-        (new DeterministicJournalBoundCredentialBroker($this->root, $this->credentials($capability), new AgentMailIdempotencyHeaderAdapter()))->invoke($journal['journal_id'], $capability, $this->payload(), $this->time('+2 minutes'), static fn (): array => ['observed' => true]);
-        $paths = glob($this->root.'/'.DeterministicJournalBoundCredentialBroker::ADMISSIONS.'/*.json') ?: [];
+        (new DeterministicJournalBoundCredentialBroker($this->root, $this->credentials($capability), new AgentMailIdempotencyHeaderAdapter()))->invoke($journal['journal_id'], $capability, $this->payload(), $this->time('+2 minutes'), fn (): array => ['http_status' => $httpStatus, 'headers' => ['Content-Type' => 'application/json'], 'body' => $body, 'observed_at' => $this->time('+3 minutes')->format(DATE_ATOM), 'received_at' => $this->time('+3 minutes')->format(DATE_ATOM)]);
+        $paths = glob($this->root.'/'.DeterministicJournalBoundCredentialBroker::RESPONSE_ENVELOPES.'/*.json') ?: [];
         self::assertCount(1, $paths);
         return json_decode((string) file_get_contents($paths[0]), true, 512, JSON_THROW_ON_ERROR);
     }

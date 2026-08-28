@@ -6,12 +6,13 @@ namespace App\Imperium\Runtime\LaCortine;
 
 final class DeterministicRawProviderResultContract
 {
-    public const string SCHEMA = 'imperium.la-cortine.deterministic-raw-provider-result/v1';
+    public const string SCHEMA = 'imperium.la-cortine.deterministic-raw-provider-result/v2';
 
     public const array REQUIRED_FIELDS = [
         'schema',
         'result_id',
         'instance_id',
+        'provider_response_envelope',
         'provider_invocation_admission',
         'execution_claim',
         'provider_outcome',

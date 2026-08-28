@@ -1,5 +1,15 @@
 # Iron Gate raw provider result
 
+## Authenticity remediation
+
+`DeterministicRawProviderResultContract` is now version 2. Raw-result sealing accepts only one
+`deterministic-provider-response-envelope-*` identity and resolves status, observation times and
+sealed bytes from that intact invocation-produced envelope. The sealer no longer accepts an
+invocation admission, caller-nominated HTTP status, response bytes or timestamps.
+
+The original Batch 9 evidence below remains historical proof of outcome classification. Provider
+provenance is now governed by Iron Gate Evidence Authenticity Remediation Batch 3.
+
 ## Status
 
 `BATCH_9_RAW_PROVIDER_RECEIPT_AND_OUTCOME_DURABLE`
@@ -35,4 +45,3 @@ Only a separately authorized Batch 10 may validate the expected return contract,
 raw result through a deterministic Lazaretto boundary and provide read-only reconstruction from
 source authorization to admitted receipt. It may not expand Lazaretto trust or sanitization policy,
 reinvoke the provider or merge sortie.
-
