@@ -2,7 +2,7 @@
 
 ## Status
 
-`BATCH_4_COMPLETE_COMPETENT_ROUTE_DEFINED_ONLY`
+`BATCH_5_NATIVE_AUTHORIZATION_ROUTE_IMPLEMENTED_NO_CONSUMER`
 
 Transactional Authority Consumption Adoption is terminal through Batch 13. This successor is
 selected for preparation only. No runtime implementation, external call or authority change is
@@ -10,11 +10,11 @@ authorized merely because it appears below.
 
 ## Current continuation point
 
-Preparation Batch 0 and contract/assessment Batches 1–4 are complete. AgentMail direct-send
-idempotency, the outbound-email authorization shape and the competent Curia request → Imperator
-decision → separate Imperator issuance route are declaratively canonical. The route is not
-implemented and no durable execution claim or consumer adoption exists. Only bounded Batch 5 may
-next be considered, and it is not authorized without an explicit continuation instruction.
+Preparation Batch 0 and Batches 1–5 are complete. AgentMail direct-send idempotency and the
+outbound-email authorization shape are canonical. The competent Curia request → Imperator decision
+→ separate Imperator issuance route now exists as immutable native records. No durable execution
+claim or consumer adoption exists. Only bounded Batch 6 may next be considered, and it is not
+authorized without an explicit continuation instruction.
 
 ## Selected boundary
 

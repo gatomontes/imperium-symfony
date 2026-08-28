@@ -40,7 +40,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
         $approvedSuccessors = $this->approvedPostBatch12RuntimeFiles();
         $frozenCandidates = array_values(array_diff($candidates, $approvedSuccessors));
         self::assertSame($approvedSuccessors, array_values(array_intersect($files, $approvedSuccessors)));
-        self::assertCount(486, $files);
+        self::assertCount(489, $files);
         self::assertCount(482, array_values(array_diff($files, $approvedSuccessors)));
         self::assertCount(371, array_values(array_diff($authorityFiles, $approvedSuccessors)));
         self::assertCount(231, $frozenCandidates);
@@ -178,7 +178,10 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
     private function approvedPostBatch12RuntimeFiles(): array
     {
         return [
+            'src/Imperium/Runtime/Curia/OutboundEmailAuthorizationRequestService.php',
             'src/Imperium/Runtime/Imperator/OutboundEmailAuthorizationIssuanceContract.php',
+            'src/Imperium/Runtime/Imperator/OutboundEmailAuthorizationIssuanceService.php',
+            'src/Imperium/Runtime/Imperator/OutboundEmailDecisionService.php',
             'src/Imperium/Runtime/LaCortine/DeterministicExecutionClaimContract.php',
             'src/Imperium/Runtime/LaCortine/DeterministicOutboundEmailAuthorizationContract.php',
             'src/Imperium/Runtime/LaCortine/DeterministicReceiptBindingContract.php',

@@ -52,11 +52,13 @@ For the current Delegate Mission state, read in this order:
 46. `docs/iron-gate-agentmail-idempotent-send-assessment.md`;
 47. `docs/handoffs/iron-gate-execution-receipt-binding-batch-3-complete.md`;
 48. `docs/iron-gate-outbound-email-issuer-route.md`;
-49. `docs/handoffs/iron-gate-execution-receipt-binding-batch-4-complete.md`; and
-50. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
+49. `docs/handoffs/iron-gate-execution-receipt-binding-batch-4-complete.md`;
+50. `docs/iron-gate-outbound-email-native-records.md`;
+51. `docs/handoffs/iron-gate-execution-receipt-binding-batch-5-complete.md`; and
+52. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
 
-Item 49 is the active continuation handoff. Batch 4 defines the competent native route only; Batch
-5 is not authorized and no consumer migration or external-I/O implementation batch is open.
+Item 51 is the active continuation handoff. Batch 5 implements the competent native authorization
+route without a consumer; Batch 6 is not authorized and no external-I/O implementation batch is open.
 
 `docs/handoffs/operational-cognition-access-lifecycle-ready.md` and the numbered credential-boundary handoffs are historical execution records. They are not active continuation prompts.
 
@@ -67,7 +69,7 @@ Operational Cognition Lease Interruption is terminal through Batch 6. The prepar
 `docs/handoffs/operational-cognition-lease-interruption-campaign-complete.md`.
 The exact disposition, enforcement-authority, native admission-result, and read-only reconstruction
 boundaries are complete. Transactional Authority Consumption Adoption is terminal through Batch
-13. Iron Gate Execution Authority and Receipt Binding Batch 4 is complete with the competent route
-defined but not implemented and the durable claim absent. Batch 5 is not authorized.
+13. Iron Gate Execution Authority and Receipt Binding Batch 5 is complete with native request,
+decision and issuance records implemented and the durable claim absent. Batch 6 is not authorized.
 Continuous Agent Governance Controls, Credential-boundary remediation, and Institutional
 Decision Integrity remain terminal.
