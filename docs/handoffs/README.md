@@ -53,6 +53,6 @@ Operational Cognition Lease Interruption is terminal through Batch 6. The prepar
 `docs/handoffs/operational-cognition-lease-interruption-campaign-complete.md`.
 The exact disposition, enforcement-authority, native admission-result, and read-only reconstruction
 boundaries are complete. Transactional Authority Consumption Adoption is terminal through Batch
-13. Iron Gate Execution Authority and Receipt Binding is selected next for Preparation Batch 0
-only. Continuous Agent Governance Controls, Credential-boundary remediation, and Institutional
+13. Iron Gate Execution Authority and Receipt Binding is selected next for Preparation Batch 0 only.
+Continuous Agent Governance Controls, Credential-boundary remediation, and Institutional
 Decision Integrity remain terminal.
