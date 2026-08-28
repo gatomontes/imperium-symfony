@@ -6,7 +6,7 @@ namespace App\Imperium\Runtime\LaCortine;
 
 final class DeterministicProviderInvocationAdmissionContract
 {
-    public const string SCHEMA = 'imperium.la-cortine.deterministic-provider-invocation-admission/v1';
+    public const string SCHEMA = 'imperium.la-cortine.deterministic-provider-invocation-admission/v2';
 
     public const array REQUIRED_FIELDS = [
         'schema',

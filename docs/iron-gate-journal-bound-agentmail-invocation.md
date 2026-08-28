@@ -13,7 +13,10 @@ operation, payload digest, expiry, replay identity and provider key. It then per
 provider-invocation admission under the journal lock.
 
 That admission is written before credential resolution and callback entry. It records
-`credential_use_committed=true`, `provider_callback_may_have_run=true` and
+The version-2 admission records `admission_committed=true`, `consumption_attempted=false`,
+`provider_callback_may_have_run=false` and `outcome=NOT_ATTEMPTED`. Separate immutable credential
+attempt and callback-start checkpoints then record the exact progression to
+`provider_callback_may_have_run=true` and
 `outcome=UNKNOWN_REPLAY_PROHIBITED`, but never credential secret material. A crash after admission
 and before callback therefore stops rather than replaying. Every later invocation against the same
 journal is refused durably, including after process restart.
@@ -44,4 +47,3 @@ Only a separately authorized Batch 9 may validate a governed provider result and
 provider receipt plus an exact accepted/rejected outcome against the invocation admission. Missing
 or interrupted responses must remain `UNKNOWN_REPLAY_PROHIBITED`. Lazaretto admission and
 reconstruction remain closed.
-

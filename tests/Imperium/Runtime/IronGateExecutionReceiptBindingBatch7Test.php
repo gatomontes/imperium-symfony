@@ -162,6 +162,26 @@ final class IronGateExecutionReceiptBindingBatch7Test extends TestCase
         self::assertSame([], glob($this->root.'/'.DeterministicJournalBoundCredentialBroker::RESPONSE_CONTENT.'/*.json') ?: []);
     }
 
+    public function testCredentialFailureProvesAttemptWithoutCallbackOrResponse(): void
+    {
+        $journal = (new DeterministicEffectStartJournalService($this->root))->start($this->claimId, $this->time('+1 minute'));
+        $capability = new CredentialCapability('credential-capability.test', 'credential-reference-only', 'commission-test', 'email.send', $this->time('+5 minutes'));
+        $credentials = new class implements CredentialBroker {
+            public function issue(string $credentialRef, string $commissionId, string $operation, \DateTimeImmutable $expiresAt, int $maxUses = 1): CredentialCapability { throw new \LogicException('Not permitted.'); }
+            public function consume(CredentialCapability $capability, callable $providerOperation): mixed { throw new \RuntimeException('credential-resolution-failed'); }
+        };
+        try {
+            (new DeterministicJournalBoundCredentialBroker($this->root, $credentials, new AgentMailIdempotencyHeaderAdapter()))->invoke($journal['journal_id'], $capability, $this->payload(), $this->time('+2 minutes'), static fn (): array => []);
+            self::fail('Credential failure must escape.');
+        } catch (\RuntimeException $exception) {
+            self::assertSame('credential-resolution-failed', $exception->getMessage());
+        }
+        self::assertCount(1, glob($this->root.'/'.DeterministicJournalBoundCredentialBroker::ADMISSIONS.'/*.json') ?: []);
+        self::assertCount(1, glob($this->root.'/'.DeterministicJournalBoundCredentialBroker::CREDENTIAL_ATTEMPTS.'/*.json') ?: []);
+        self::assertSame([], glob($this->root.'/'.DeterministicJournalBoundCredentialBroker::CALLBACK_STARTS.'/*.json') ?: []);
+        self::assertSame([], glob($this->root.'/'.DeterministicJournalBoundCredentialBroker::RESPONSE_ENVELOPES.'/*.json') ?: []);
+    }
+
     public function testObservedAcceptedResponseSealsRawReceiptAndExactProviderIdentity(): void
     {
         $bytes = '{"message_id":"message-test","thread_id":"thread-test"}';
