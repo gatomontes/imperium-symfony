@@ -58,11 +58,13 @@ For the current Delegate Mission state, read in this order:
 52. `docs/iron-gate-deterministic-execution-claim.md`;
 53. `docs/handoffs/iron-gate-execution-receipt-binding-batch-6-complete.md`;
 54. `docs/iron-gate-effect-start-journal.md`;
-55. `docs/handoffs/iron-gate-execution-receipt-binding-batch-7-complete.md`; and
-56. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
+55. `docs/handoffs/iron-gate-execution-receipt-binding-batch-7-complete.md`;
+56. `docs/iron-gate-journal-bound-agentmail-invocation.md`;
+57. `docs/handoffs/iron-gate-execution-receipt-binding-batch-8-complete.md`; and
+58. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
 
-Item 55 is the active continuation handoff. Batch 7 implements the conservative durable effect-start
-journal; Batch 8 is not authorized and no provider-invocation batch is open.
+Item 57 is the active continuation handoff. Batch 8 gates credential use and the in-memory provider
+callback behind durable admission; Batch 9 is not authorized and no receipt batch is open.
 
 `docs/handoffs/operational-cognition-access-lifecycle-ready.md` and the numbered credential-boundary handoffs are historical execution records. They are not active continuation prompts.
 
@@ -73,7 +75,7 @@ Operational Cognition Lease Interruption is terminal through Batch 6. The prepar
 `docs/handoffs/operational-cognition-lease-interruption-campaign-complete.md`.
 The exact disposition, enforcement-authority, native admission-result, and read-only reconstruction
 boundaries are complete. Transactional Authority Consumption Adoption is terminal through Batch
-13. Iron Gate Execution Authority and Receipt Binding Batch 7 is complete with native request,
-decision, issuance, claim and effect-start journal records. Batch 8 is not authorized.
+13. Iron Gate Execution Authority and Receipt Binding Batch 8 is complete with native request,
+decision, issuance, claim, effect-start journal and provider-callback admission. Batch 9 is not authorized.
 Continuous Agent Governance Controls, Credential-boundary remediation, and Institutional
 Decision Integrity remain terminal.

@@ -45,7 +45,7 @@ final readonly class OutboundEmailAuthorizationRequestService
         foreach (['recipient_set_digest', 'subject_digest', 'body_digest', 'attachment_manifest_digest', 'payload_digest', 'credential_reference_digest'] as $digest) {
             if (!preg_match('/^[a-f0-9]{64}$/', $scope[$digest])) throw new \InvalidArgumentException('IGR103_OUTBOUND_EMAIL_SCOPE_INVALID');
         }
-        if ('email.send' !== $scope['operation'] || 'PROVIDER_IDEMPOTENCY_KEY' !== $providerSafety['strategy'] || 'agentmail' !== $providerSafety['provider'] || $scope['destination'] !== $providerSafety['endpoint'] || !hash_equals(hash('sha256', $providerSafety['idempotency_key']), $providerSafety['idempotency_key_digest']) || !preg_match('/^[a-f0-9]{64}$/', $providerSafety['request_fingerprint']) || new \DateTimeImmutable($providerSafety['provider_key_expires_at']) < $expiresAt) {
+        if ('email.send' !== $scope['operation'] || 'PROVIDER_IDEMPOTENCY_KEY' !== $providerSafety['strategy'] || 'agentmail' !== $providerSafety['provider'] || $scope['destination'] !== $providerSafety['endpoint'] || 1 !== preg_match('#^https://api\.agentmail\.to/v0/inboxes/[^/]+/messages/send$#', $scope['destination']) || !hash_equals(hash('sha256', $providerSafety['idempotency_key']), $providerSafety['idempotency_key_digest']) || !preg_match('/^[a-f0-9]{64}$/', $providerSafety['request_fingerprint']) || new \DateTimeImmutable($providerSafety['provider_key_expires_at']) < $expiresAt) {
             throw new \InvalidArgumentException('IGR105_OUTBOUND_EMAIL_REQUEST_SCOPE_MISMATCH');
         }
         $requester = ['actor_id' => $occupancy['manifestation_id'], 'office' => 'curia', 'seat' => 'curia.seneschal', 'binding_id' => $bindingId, 'runtime_principal_id' => $bindingId];

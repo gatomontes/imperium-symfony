@@ -227,11 +227,11 @@ The next separately selected campaign is Iron Gate Execution Authority and Recei
 governed by `docs/next-campaign-iron-gate-execution-receipt-binding.md` and the completed inventory
 `docs/iron-gate-execution-receipt-binding-preparation-inventory.md`. Preparation Batch 0 and
 contract-definition Batch 1, assessment/route Batches 2–4, native-record Batch 5, durable-claim
-Batch 6 and effect-start-journal Batch 7 are complete;
+Batch 6, effect-start-journal Batch 7 and journal-gated-callback Batch 8 are complete;
 the active handoff is
-`docs/handoffs/iron-gate-execution-receipt-binding-batch-7-complete.md`. Batch 7 binds the exact
-claim, credential-use identity, provider key and request fingerprint into a conservative durable
-`EFFECT_STARTED / UNKNOWN_REPLAY_PROHIBITED` journal. The transition neither consumes nor resolves
-a credential and invokes no provider. Batch 8 is not authorized. The campaign has opened no external-I/O, propagation,
+`docs/handoffs/iron-gate-execution-receipt-binding-batch-8-complete.md`. Batch 8 puts credential
+resolution and the AgentMail idempotency header behind one durable callback admission. Proof uses
+an in-memory provider callback; no live external I/O or receipt exists. Batch 9 is not authorized.
+The campaign has opened no live external-I/O, propagation,
 telemetry, containment, incident, Iron Gate, Lazaretto, sortie, receipt or credential-platform
 behavior. No residual Transactional Authority Consumption Adoption batch remains.
