@@ -82,11 +82,13 @@ For the current Delegate Mission state, read in this order:
 76. `docs/handoffs/iron-gate-evidence-authenticity-remediation-batch-8-complete.md`;
 77. `docs/handoffs/iron-gate-evidence-authenticity-remediation-batch-9-complete.md`;
 78. `docs/iron-gate-evidence-authenticity-adversarial-proof.md`;
-79. `docs/handoffs/iron-gate-evidence-authenticity-remediation-batch-10-complete.md`; and
-80. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
+79. `docs/handoffs/iron-gate-evidence-authenticity-remediation-batch-10-complete.md`;
+80. `docs/iron-gate-evidence-authenticity-remediation-terminal-audit.md`;
+81. `docs/handoffs/iron-gate-evidence-authenticity-remediation-campaign-complete.md`; and
+82. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
 
-Item 79 is the active continuation handoff. Iron Gate Evidence Authenticity Remediation Batch 10 is
-complete; only documentation-only closeout in Batch 11 may next be considered. Live
+Item 81 is the terminal handoff. Iron Gate Evidence Authenticity Remediation is complete through
+Batch 11. No remediation batches remain. Live
 deterministic consumer adoption and sortie remain deferred boundaries.
 
 `docs/handoffs/operational-cognition-access-lifecycle-ready.md` and the numbered credential-boundary handoffs are historical execution records. They are not active continuation prompts.

@@ -2,7 +2,7 @@
 
 ## Status
 
-`BATCH_10_ADVERSARIAL_PROOF_COMPLETE`
+`TERMINAL_THROUGH_BATCH_11`
 
 Iron Gate Execution Authority and Receipt Binding remains terminal through Batch 11. Its adversarial
 review found that the unused deterministic corridor is structurally coherent but not yet eligible
@@ -10,7 +10,7 @@ for live consumer adoption: a caller can separately nominate response bytes afte
 callback, reconstruction skips effect-start and invocation-admission evidence, and institutional
 actor and tamper claims exceed what the current enforcement proves.
 
-Preparation Batch 0 and Batches 1–10 are complete. Only separately bounded Batch 11 may next be considered. Nothing below authorizes live consumer behavior,
+Preparation Batch 0 and Batches 1–11 are complete. No batches remain. Nothing below authorizes live consumer behavior,
 external I/O or live consumer adoption.
 
 ## Preparation inventory
@@ -56,7 +56,7 @@ No batch is authorized merely because it is listed:
     Imperator decision and issuance attribution from the consumed native principal authority;
 11. **Completed with explicit deferred limits.** Prove idempotency registration, response provenance, fault, concurrency, tamper and secret
    exclusion without live external I/O; and
-12. close remediation before selecting any live deterministic consumer campaign.
+12. **Completed.** Close remediation without selecting or authorizing any live deterministic consumer campaign.
 
 ## Stop conditions
 
