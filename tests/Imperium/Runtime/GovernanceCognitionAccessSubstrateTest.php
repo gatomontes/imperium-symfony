@@ -66,6 +66,17 @@ final class GovernanceCognitionAccessSubstrateTest extends TestCase
         self::assertTrue($claim['governance_authority_consumption']['consumed']);
         self::assertFalse($claim['provider_request']['external_io_started']);
         self::assertFalse($claim['recovery']['automatic_replay_permitted']);
+        $transaction = $claim['transactional_consumption'];
+        self::assertSame('imperium.runtime-transactional-authority-consumption/v1', $transaction['schema']);
+        self::assertSame($claim['claim_id'], $transaction['transaction_id']);
+        self::assertSame($claim['claim_fingerprint'], $transaction['replay_fingerprint']);
+        self::assertSame([$this->resolver->authority['authority_id'], $lease['lease_id']], array_column($transaction['authority_set'], 'authority_id'));
+        self::assertSame([1, 2], array_column($transaction['lock_plan'], 'order'));
+        self::assertSame('gca-authority:'.hash('sha256', $this->resolver->authority['authority_id']), $transaction['lock_plan'][0]['scope']);
+        self::assertSame('gca-lease:'.hash('sha256', $lease['lease_id']), $transaction['lock_plan'][1]['scope']);
+        self::assertSame($this->resolver->authority, $transaction['authoritative_inputs']['governance_authority']);
+        self::assertSame('COMPLETE', $transaction['recovery']['checkpoint']);
+        self::assertFalse($transaction['recovery']['external_effect']['started']);
         $journal = new ProviderInvocationJournalService($this->root);
         self::assertSame('INVOCATION_RESERVED_PRE_IO', $journal->reserveGovernance($claim, new \DateTimeImmutable('2026-08-26T18:03:10+00:00'))['status']);
         self::assertSame('INVOCATION_IN_FLIGHT', $journal->startReservedGovernance($claim, new \DateTimeImmutable('2026-08-26T18:03:20+00:00'))['status']);
@@ -178,6 +189,75 @@ final class GovernanceCognitionAccessSubstrateTest extends TestCase
         ]);
         $this->expectExceptionMessage('GCA404_GOVERNANCE_INVOCATION_CLAIM_CONFLICT');
         (new GovernanceCognitionInvocationClaimService($this->root, $this->registry))->claim($lease['lease_id'], $request['authority_identity'], new \DateTimeImmutable('2026-08-26T18:04:00+00:00'));
+    }
+
+    public function testStructurallyDivergentTransactionalEnvelopeFailsReplayStopped(): void
+    {
+        [, , $lease, $claim] = $this->lifecycle();
+        $path = 'var/imperium/runtime/governance-cognition-invocation-claims/'.$claim['claim_id'].'.json';
+        unset($claim['record_digest']);
+        $claim['transactional_consumption']['lock_plan'][0]['scope'] = 'gca-lease:'.hash('sha256', $lease['lease_id']);
+        $this->persist($path, $claim);
+
+        $this->expectExceptionMessage('GCA404_GOVERNANCE_INVOCATION_CLAIM_CONFLICT');
+        (new GovernanceCognitionInvocationClaimService($this->root, $this->registry))->claim(
+            $lease['lease_id'],
+            $this->resolver->authority['authority_id'],
+            new \DateTimeImmutable('2026-08-26T18:04:00+00:00'),
+        );
+    }
+
+    public function testHistoricalClaimWithoutTransactionalEnvelopeRemainsExactReplay(): void
+    {
+        [, , $lease, $claim] = $this->lifecycle();
+        $path = 'var/imperium/runtime/governance-cognition-invocation-claims/'.$claim['claim_id'].'.json';
+        unset($claim['record_digest'], $claim['claim_fingerprint'], $claim['transactional_consumption']);
+        $this->persist($path, $claim);
+        $historical = json_decode((string) file_get_contents($this->root.'/'.$path), true, 512, JSON_THROW_ON_ERROR);
+
+        self::assertSame(
+            $historical,
+            (new GovernanceCognitionInvocationClaimService($this->root, $this->registry))->claim(
+                $lease['lease_id'],
+                $this->resolver->authority['authority_id'],
+                new \DateTimeImmutable('2026-08-26T18:04:00+00:00'),
+            ),
+        );
+    }
+
+    public function testTwoProcessesConvergeOnOneTransactionalClaim(): void
+    {
+        if (!function_exists('proc_open')) {
+            self::markTestSkipped('proc_open is required for process-level contention proof.');
+        }
+        [, , $lease] = $this->lifecycle(false);
+        $authorityPath = $this->root.'/governance-authority.json';
+        file_put_contents($authorityPath, json_encode($this->resolver->authority, JSON_THROW_ON_ERROR));
+        $gate = $this->root.'/go';
+        $worker = dirname(__DIR__, 2).'/fixtures/governance-cognition-claim-contender.php';
+        $descriptors = [1 => ['pipe', 'w'], 2 => ['pipe', 'w']];
+        $processes = $pipes = [];
+        for ($i = 0; $i < 2; ++$i) {
+            $processes[$i] = proc_open([PHP_BINARY, $worker, $this->root, $lease['lease_id'], $authorityPath, $gate], $descriptors, $pipes[$i]);
+            self::assertIsResource($processes[$i]);
+        }
+        touch($gate);
+        $results = [];
+        for ($i = 0; $i < 2; ++$i) {
+            $results[] = stream_get_contents($pipes[$i][1]);
+            $errors = stream_get_contents($pipes[$i][2]);
+            fclose($pipes[$i][1]);
+            fclose($pipes[$i][2]);
+            self::assertSame(0, proc_close($processes[$i]));
+            self::assertSame('', $errors);
+        }
+
+        self::assertSame($results[0], $results[1]);
+        $claims = glob($this->root.'/var/imperium/runtime/governance-cognition-invocation-claims/*.json') ?: [];
+        self::assertCount(1, $claims);
+        $claim = json_decode((string) file_get_contents($claims[0]), true, 512, JSON_THROW_ON_ERROR);
+        self::assertSame('imperium.runtime-transactional-authority-consumption/v1', $claim['transactional_consumption']['schema']);
+        self::assertSame([$this->resolver->authority['authority_id'], $lease['lease_id']], array_column($claim['transactional_consumption']['authority_set'], 'authority_id'));
     }
 
     private function lifecycle(bool $claim = true): array

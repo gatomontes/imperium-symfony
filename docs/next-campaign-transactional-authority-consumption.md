@@ -2,7 +2,7 @@
 
 ## Campaign status
 
-`BATCH_3_COMPLETE_BATCH_4_NOT_AUTHORIZED`
+`BATCH_4_COMPLETE_BATCH_5_NOT_AUTHORIZED`
 
 Operational Cognition Lease Interruption is terminal through Batch 6. The next separately bounded
 campaign is adoption of canonical transactional authority-consumption and recovery semantics across
@@ -80,10 +80,42 @@ journal creation, provider invocation, network access, rollback, or authority un
 The completion handoff is
 `docs/handoffs/transactional-authority-consumption-batch-3-complete.md`.
 
-Batch 4 remains unopened pending explicit authorization. Its smallest safe candidate is the
-structurally parallel governance cognition claim, subject to preserving the exact governance
-authority resolver, authority→lease lock order, interruption competition, and external-I/O
-boundary.
+## Batch 4 result
+
+Batch 4 adopts the transaction and recovery contracts in
+`GovernanceCognitionInvocationClaimService`. New claims retain the existing claim schema and
+deterministic claim ID while binding the exact normalized resolver output, complete request,
+decision, lease and provider inputs, the governance authority→lease lock plan, both consumptions,
+and the immutable pre-I/O result. Historical claims without the envelope remain exact replays.
+
+Exact replay validates the complete fingerprint and envelope. Divergent transactional metadata
+fails stopped, and a new two-process proof converges on one immutable claim. The existing
+governance-lease interruption admission and enforcement paths retain the same competing lock order.
+
+The completion handoff is
+`docs/handoffs/transactional-authority-consumption-batch-4-complete.md`.
+
+Batch 5 remains unopened pending explicit authorization. Its smallest safe candidate is the
+Delegate provider invocation claim, subject to preserving provider-journal and unknown-outcome
+semantics and keeping provider I/O outside the consumption transition.
+
+## Provisional remaining-batch countdown
+
+Nine batches remain after Batch 4 under the current inventory. This is a planning forecast, not
+authorization to combine consumers when proof exposes a narrower boundary:
+
+1. Batch 5 — Delegate provider invocation claim;
+2. Batch 6 — Delegate Senate engines;
+3. Batch 7 — legacy and model-bound Profile Senate engines;
+4. Batch 8 — operational-adoption consumers;
+5. Batch 9 — Oracle and model-governance consumers;
+6. Batch 10 — construction and admission consumers;
+7. Batch 11 — older multi-write operational, bootstrap, and Legate recovery clusters;
+8. Batch 12 — mechanical coverage reconstruction, explicit exclusions, and adversarial review; and
+9. Batch 13 — documentation-only campaign closeout.
+
+Any cluster that cannot share one lock, replay, recovery, and proof boundary must split rather than
+be forced into this forecast.
 
 ## Preparation stop conditions
 
