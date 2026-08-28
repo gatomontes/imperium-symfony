@@ -31,11 +31,20 @@ final readonly class OperationalAdoptionDispositionService
         $disposition = strtoupper(trim($disposition)); $rationale = trim($rationale); $limitations = $this->strings($limitations);
         if (!in_array($disposition, self::DISPOSITIONS, true) || '' === $rationale || ('ADOPTED_WITH_LIMITATIONS' === $disposition && [] === $limitations)) throw new \InvalidArgumentException('CUR537_ADOPTION_DISPOSITION_INVALID');
 
+        return OperationalAdoptionAuthorityTransition::run(
+            $this->dispositions,
+            $authorityId,
+            fn (): array => $this->decideLocked($openingId, $authorityId, $seneschalBindingId, $disposition, $rationale, $limitations, $decidedAt),
+        );
+    }
+
+    private function decideLocked(string $openingId, string $authorityId, string $seneschalBindingId, string $disposition, string $rationale, array $limitations, \DateTimeImmutable $decidedAt): array
+    {
         $opening = $this->read($this->openings.'/'.$openingId.'.json', 'CUR538_ADOPTION_DECISION_OPENING_ABSENT');
         foreach (glob($this->dispositions.'/*.json') ?: [] as $path) {
             $prior = $this->read($path, 'CUR542_ADOPTION_DISPOSITION_CONFLICT');
             if (($prior['source_decision_opening']['id'] ?? null) === $openingId) {
-                if (($prior['source_decision_opening']['digest'] ?? null) !== ($opening['record_digest'] ?? null) || ($prior['decision_maker']['binding_id'] ?? null) !== $seneschalBindingId || ($prior['disposition'] ?? null) !== $disposition || ($prior['rationale'] ?? null) !== $rationale || ($prior['limitations'] ?? null) !== $limitations) throw new \RuntimeException('CUR542_ADOPTION_DISPOSITION_CONFLICT');
+                if (!$this->valid($prior) || ($prior['source_decision_opening']['digest'] ?? null) !== ($opening['record_digest'] ?? null) || ($prior['decision_maker']['binding_id'] ?? null) !== $seneschalBindingId || ($prior['disposition'] ?? null) !== $disposition || ($prior['rationale'] ?? null) !== $rationale || ($prior['limitations'] ?? null) !== $limitations || !OperationalAdoptionAuthorityTransition::isExactOrHistorical($prior)) throw new \RuntimeException('CUR542_ADOPTION_DISPOSITION_CONFLICT');
                 return $prior;
             }
         }
@@ -46,7 +55,7 @@ final readonly class OperationalAdoptionDispositionService
         $actor = ['seat' => 'curia.seneschal', 'binding_id' => $seneschalBindingId, 'binding_digest' => $seneschal['record_digest'], 'manifestation_id' => $seneschal['manifestation_id'], 'occupancy_generation' => $seneschal['occupancy_generation']];
         $id = 'legate-result-adoption-disposition-'.substr(hash('sha256', CanonicalJson::encode([$openingId, $opening['record_digest'], $authorityId, $actor, $disposition, $rationale, $limitations])), 0, 20);
         $adopted = in_array($disposition, ['ADOPTED', 'ADOPTED_WITH_LIMITATIONS'], true);
-        return $this->save($id, [
+        return OperationalAdoptionAuthorityTransition::put($this->dispositions, $id, [
             'schema' => 'imperium.legate-result-adoption-disposition/v1', 'disposition_id' => $id,
             'instance_id' => $opening['instance_id'], 'source_decision_opening' => ['id' => $openingId, 'digest' => $opening['record_digest']],
             'source_reconciliation' => $opening['source_reconciliation'], 'source_reconciliation_opening' => $opening['source_reconciliation_opening'],
@@ -63,12 +72,12 @@ final readonly class OperationalAdoptionDispositionService
             'provider_invocation_authority' => false, 'credential_use_authority' => false, 'tool_use_authority' => false,
             'operational_use_permitted' => false, 'external_action_authority' => false, 'execution_authority' => false,
             'continuing_turn_authority' => false, 'sealed' => true,
-        ]);
+        ], self::class, 'CUR541_ADOPTION_DISPOSITION_PERSISTENCE_FAILED', 'CUR542_ADOPTION_DISPOSITION_CONFLICT');
     }
 
     private function status(string$d):string{return match($d){'ADOPTED'=>'OPERATIONAL_ADOPTION_DISPOSITION_ADOPTED_LIFECYCLE_CLOSED_NO_ACTION_AUTHORITY','ADOPTED_WITH_LIMITATIONS'=>'OPERATIONAL_ADOPTION_DISPOSITION_ADOPTED_WITH_LIMITATIONS_LIFECYCLE_CLOSED_NO_ACTION_AUTHORITY','NOT_ADOPTED'=>'OPERATIONAL_ADOPTION_DISPOSITION_NOT_ADOPTED_LIFECYCLE_CLOSED_NO_AUTHORITY',default=>'OPERATIONAL_ADOPTION_DISPOSITION_UNRESOLVED_LIFECYCLE_CLOSED_NO_AUTHORITY'};}
     private function strings(array$v):array{$o=[];foreach($v as$x){if(!is_string($x)||''===trim($x))throw new \InvalidArgumentException('CUR537_ADOPTION_DISPOSITION_INVALID');$o[]=trim($x);}return array_values($o);}
     private function validate(string$id,array$o,string$authorityId,string$bindingId,array$s):void{$a=$o['adoption_decision_authority']??[];if(!$this->valid($o)||'imperium.legate-result-adoption-decision-opening/v1'!==($o['schema']??null)||$id!==($o['opening_id']??null)||'OPERATIONAL_ADOPTION_DECISION_AUTHORITY_OPENED_PENDING_SENESCHAL_DISPOSITION'!==($o['status']??null)||$authorityId!==($a['authority_id']??null)||true!==($a['single_use']??null)||false!==($a['consumed']??null)||true!==($a['exercisable']??null)||$bindingId!==($a['recipient']['binding_id']??null)||true===($o['adoption_disposition_authored']??null)||true===($o['result_operationally_adopted']??null)||true===($o['planning_amendment_authority']??null)||true===($o['operational_use_permitted']??null)||true===($o['execution_authority']??null)||!$this->valid($s)||$bindingId!==($s['binding_id']??null)||($a['recipient']['binding_digest']??null)!==($s['record_digest']??null)||'curia.seneschal'!==($s['seat']??null)||'ACTIVE'!==($s['status']??null)||true!==($s['sealed']??null))throw new \RuntimeException('CUR540_ADOPTION_DISPOSITION_CHAIN_INVALID');}
     private function assertSoleCurrentSeneschal(array$s):void{foreach(glob($this->occupancy.'/*.json')?:[]as$p){$x=$this->read($p,'CUR543_SENESCHAL_OCCUPANCY_CONFLICT');if('curia.seneschal'===($x['seat']??null)&&($x['binding_id']??null)!==($s['binding_id']??null)&&'ACTIVE'===($x['status']??null))throw new \RuntimeException('CUR543_SENESCHAL_OCCUPANCY_CONFLICT');}}
-    private function read(string$p,string$e):array{if(!is_file($p))throw new \RuntimeException($e);return json_decode((string)file_get_contents($p),true,512,JSON_THROW_ON_ERROR);}private function valid(array$r):bool{$d=$r['record_digest']??null;unset($r['record_digest']);return is_string($d)&&hash_equals($d,hash('sha256',CanonicalJson::encode($r)));}private function save(string$id,array$r):array{if(!is_dir($this->dispositions)&&!mkdir($this->dispositions,0770,true)&&!is_dir($this->dispositions))throw new \RuntimeException('CUR541_ADOPTION_DISPOSITION_PERSISTENCE_FAILED');$r['record_digest']=hash('sha256',CanonicalJson::encode($r));$p=$this->dispositions.'/'.$id.'.json';file_put_contents($p,json_encode($r,JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_THROW_ON_ERROR)."\n",LOCK_EX);return$r;}
+    private function read(string$p,string$e):array{if(!is_file($p))throw new \RuntimeException($e);return json_decode((string)file_get_contents($p),true,512,JSON_THROW_ON_ERROR);}private function valid(array$r):bool{$d=$r['record_digest']??null;unset($r['record_digest']);return is_string($d)&&hash_equals($d,hash('sha256',CanonicalJson::encode($r)));}
 }

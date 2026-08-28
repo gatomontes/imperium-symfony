@@ -2,14 +2,15 @@
 
 ## Status
 
-`BATCH_7_MODEL_BOUND_PROFILE_SENATE_OPENINGS_ADOPTED`
+`BATCH_8_OPERATIONAL_ADOPTION_SINGLE_RESULT_AUTHORITIES_ADOPTED`
 
 This document defines the shared version-1 mechanics represented by
 `TransactionalAuthorityConsumptionContract` and `AuthorityConsumptionRecoveryContract`. The
 contract classes remain declarative and do not themselves issue, consume, revoke, persist, lock,
 recover, retry, or execute anything. The adopted operational, governance, and Delegate provider
-claims plus the deterministic Delegate Senate and model-bound Profile Senate opening results
-compose them through `TransactionalAuthorityConsumptionEnvelope`; other consumers remain unmigrated.
+claims plus the deterministic Delegate Senate, model-bound Profile Senate opening, and
+operational-adoption reconciliation/disposition results compose them through
+`TransactionalAuthorityConsumptionEnvelope`; other consumers remain unmigrated.
 
 ## Consumption envelope
 
@@ -194,6 +195,29 @@ problem. Model-bound disposition-authority opening and both approval consumers l
 complete existing authority/timestamp surface. All Profile question/finding, reconciliation and
 disposition cognition remains `RECOVERY_INCOMPLETE` pending a separately authorized pre-I/O claim,
 journal and unknown-outcome design.
+
+## Batch 8 operational-adoption single-result adoption
+
+Two deterministic Seneschal consumers now compose the contract through
+`OperationalAdoptionAuthorityTransition`: assessment reconciliation and final adoption
+disposition. Each already receives one explicit single-use authority ID, validates one immutable
+opening and current Seneschal, records an existing commit timestamp, and produces one immutable
+result.
+
+Each consumer derives one lock from its unchanged authority:
+
+`operational-adoption-authority:<sha256 authorityId>`
+
+The lock encloses reread, validation, result selection, logical consumption and the immutable
+commit. Historical results remain valid without rewrite. Adopted records reconstruct the exact
+producing service from their unchanged schema; divergent envelope data fails validation.
+Contention and fault-after-commit recovery converge without rollback, authority unconsumption or
+external effect.
+
+Governing intake is not adopted because no canonical single-use intake authority exists.
+Independent assessment remains `RECOVERY_INCOMPLETE` because the assessment and optional panel
+completion are separate writes without a checkpoint that can preserve the original completion
+timestamp. Batch 8 does not invent either missing contract.
 
 ## Closed boundaries
 
