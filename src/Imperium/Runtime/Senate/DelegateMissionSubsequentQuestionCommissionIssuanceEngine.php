@@ -30,6 +30,18 @@ final readonly class DelegateMissionSubsequentQuestionCommissionIssuanceEngine
         if (!preg_match('/^delegate-mission-profile-examination-testimony-turn-[a-f0-9]{20}$/', $turnId)) throw new \InvalidArgumentException($config['errors']['turn_id']);
         if (!preg_match('/^senate-lord-speaker-binding-[a-f0-9]{20}$/', $lordSpeakerBindingId)) throw new \InvalidArgumentException($config['errors']['speaker_id']);
         if (!preg_match('/^senate-committee-'.$jurisdiction.'-binding-[a-f0-9]{20}$/', $senatorBindingId)) throw new \InvalidArgumentException($config['errors']['senator_id']);
+        $turn = $this->read($this->turns.'/'.$turnId.'.json', $config['errors']['turn_absent']);
+        $authorityId = (string) ($turn['next_question_commission_authority']['authority_id'] ?? $turnId);
+
+        return DelegateMissionSenateAuthorityTransition::run($this->commissions, $authorityId, fn (): array => $this->issueWhileLocked($jurisdiction, $turnId, $lordSpeakerBindingId, $senatorBindingId, $issuedAt));
+    }
+
+    private function issueWhileLocked(string $jurisdiction, string $turnId, string $lordSpeakerBindingId, string $senatorBindingId, \DateTimeImmutable $issuedAt): array
+    {
+        $config = $this->config($jurisdiction);
+        if (!preg_match('/^delegate-mission-profile-examination-testimony-turn-[a-f0-9]{20}$/', $turnId)) throw new \InvalidArgumentException($config['errors']['turn_id']);
+        if (!preg_match('/^senate-lord-speaker-binding-[a-f0-9]{20}$/', $lordSpeakerBindingId)) throw new \InvalidArgumentException($config['errors']['speaker_id']);
+        if (!preg_match('/^senate-committee-'.$jurisdiction.'-binding-[a-f0-9]{20}$/', $senatorBindingId)) throw new \InvalidArgumentException($config['errors']['senator_id']);
 
         $turn = $this->read($this->turns.'/'.$turnId.'.json', $config['errors']['turn_absent']);
         $lordSpeaker = $this->read($this->occupancy.'/'.$lordSpeakerBindingId.'.json', $config['errors']['speaker_absent']);
@@ -155,13 +167,9 @@ final readonly class DelegateMissionSubsequentQuestionCommissionIssuanceEngine
     }
 
     private function read(string $path, string $error): array { if (!is_file($path)) throw new \RuntimeException($error); return json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR); }
-    private function valid(array $record): bool { $digest = $record['record_digest'] ?? null; unset($record['record_digest']); return is_string($digest) && hash_equals($digest, hash('sha256', CanonicalJson::encode($record))); }
+    private function valid(array $record): bool { if (!DelegateMissionSenateAuthorityTransition::isExactOrHistorical($record)) return false; $digest = $record['record_digest'] ?? null; unset($record['record_digest']); return is_string($digest) && hash_equals($digest, hash('sha256', CanonicalJson::encode($record))); }
     private function save(string $id, array $record, array $errors): array
     {
-        if (!is_dir($this->commissions) && !mkdir($this->commissions, 0770, true) && !is_dir($this->commissions)) throw new \RuntimeException($errors['persistence']);
-        $record['record_digest'] = hash('sha256', CanonicalJson::encode($record)); $path = $this->commissions.'/'.$id.'.json';
-        if (is_file($path)) { $prior = $this->read($path, $errors['conflict']); if (CanonicalJson::encode($prior) !== CanonicalJson::encode($record)) throw new \RuntimeException($errors['conflict']); return $prior; }
-        if (false === file_put_contents($path, json_encode($record, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)."\n", LOCK_EX)) throw new \RuntimeException($errors['persistence']);
-        return $record;
+        return DelegateMissionSenateAuthorityTransition::put($this->commissions, $id, $record, self::class, $errors['persistence'], $errors['conflict']);
     }
 }
