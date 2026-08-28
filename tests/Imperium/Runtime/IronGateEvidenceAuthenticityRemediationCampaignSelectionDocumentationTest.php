@@ -33,7 +33,7 @@ final class IronGateEvidenceAuthenticityRemediationCampaignSelectionDocumentatio
 
         foreach (['live consumer behavior', 'external I/O', '`AgentMailEmailSendCommand`', '`DeterministicBoundaryExecutor`', '`AgentMailEmailTransport`', '`IronGate`', 'expand Lazaretto', 'credentials', 'assess sortie', 'revocation', 'telemetry', 'containment', 'incident'] as $boundary) self::assertStringContainsString($boundary, $campaign);
         self::assertStringContainsString('next separately selected campaign is Iron Gate Evidence Authenticity Remediation', $flow);
-        self::assertStringContainsString('only three-consumer authority enforcement', $index);
+        self::assertStringContainsString('only adversarial proof', $index);
         self::assertStringContainsString('deterministic consumer adoption and sortie remain deferred', $index);
     }
 }
