@@ -2,7 +2,7 @@
 
 ## Status
 
-`BATCH_11_ORACLE_ELIGIBILITY_RECOVERY_ADOPTED`
+`BATCH_12_MECHANICAL_COVERAGE_AND_ADVERSARIAL_REVIEW_COMPLETE`
 
 This document defines the shared version-1 mechanics represented by
 `TransactionalAuthorityConsumptionContract` and `AuthorityConsumptionRecoveryContract`. The
@@ -277,6 +277,20 @@ separate complete consumption record commit.
 Fault injection proves forward recovery after finding commit, phase reconciliation and transaction
 commit. Two-process opposing findings converge to one finding, one phase and one consumption record.
 No cognition, provider, credential, network or external effect participates.
+
+## Batch 12 mechanical coverage and adversarial review
+
+Batch 12 changes no runtime contract or consumer. The exact runtime snapshot records 26
+`TRANSACTIONAL_CANONICAL` consumers, 3 `LOCKED_FRAGMENTED` interruption consumers and 202 stronger
+lexical candidates that remain inventoried noncanonical surfaces or issuers. Nine files build the
+version-1 envelope and only `DelegateMissionTurnRecoveryService` consumes through the generic
+`AuthorityConsumptionStore`.
+
+The adversarial review confirms that adoption remains corridor-specific. Immutable same-ID
+uniqueness is not semantic winner selection, locally documented lock order is not global lock-order
+enforcement, a lexical tripwire is not semantic classification, and internal convergence is not an
+external-effect or receipt proof. These limits are part of the contract's truthful scope, not
+defects erased by campaign closeout.
 
 ## Closed boundaries
 

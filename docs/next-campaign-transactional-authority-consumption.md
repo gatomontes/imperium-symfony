@@ -2,7 +2,7 @@
 
 ## Campaign status
 
-`BATCH_11_ORACLE_ELIGIBILITY_RECOVERY_ADOPTED_BATCH_12_NOT_AUTHORIZED`
+`BATCH_12_COVERAGE_AND_ADVERSARIAL_REVIEW_COMPLETE_BATCH_13_NOT_AUTHORIZED`
 
 Operational Cognition Lease Interruption is terminal through Batch 6. The next separately bounded
 campaign is adoption of canonical transactional authority-consumption and recovery semantics across
@@ -262,16 +262,32 @@ remain explicit `RECOVERY_INCOMPLETE` exclusions for mechanical coverage and adv
 The completion handoff is
 `docs/handoffs/transactional-authority-consumption-batch-11-complete.md`.
 
-Batch 12 remains unopened pending explicit authorization. It is the mechanical coverage
-reconstruction, explicit-exclusion verification and adversarial-review batch.
+## Batch 12 result
+
+Batch 12 changes no runtime source. Mechanical reconstruction inspected all 482 runtime PHP files,
+identified 371 authority-bearing files and froze 231 stronger consumable-authority candidates in
+`docs/transactional-authority-consumption-runtime-coverage-snapshot.tsv`. The exact result is 26
+`TRANSACTIONAL_CANONICAL` consumers, 3 `LOCKED_FRAGMENTED` interruption consumers and 202
+inventoried noncanonical candidates or issuers. Nine version-1 envelope builders and the single
+generic `AuthorityConsumptionStore` consumer are exact; no transition helper leaked into La
+Cortine, Sortie or Oracle research.
+
+The adversarial review rejects runtime-wide canonicality, immutable-store sufficiency, global
+lock-order proof, lexical semantic completeness and inheritance of internal proof by external
+effects. No hidden canonical consumer, false helper adoption, perimeter leak or in-scope runtime
+defect was found. The detailed audit is
+`docs/transactional-authority-consumption-coverage-audit.md`; the completion handoff is
+`docs/handoffs/transactional-authority-consumption-batch-12-complete.md`.
+
+Batch 13 remains unopened pending explicit authorization. It is documentation-only campaign
+closeout and successor selection.
 
 ## Provisional remaining-batch countdown
 
-Two batches remain after Batch 11 under the current inventory. This is a planning forecast, not
+One batch remains after Batch 12 under the current inventory. This is a planning forecast, not
 authorization to combine consumers when proof exposes a narrower boundary:
 
-1. Batch 12 — mechanical coverage reconstruction, explicit exclusions, and adversarial review; and
-2. Batch 13 — documentation-only campaign closeout.
+1. Batch 13 — documentation-only campaign closeout.
 
 Any cluster that cannot share one lock, replay, recovery, and proof boundary must split rather than
 be forced into this forecast.

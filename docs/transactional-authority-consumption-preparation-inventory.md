@@ -154,8 +154,10 @@ No step is authorized by this inventory.
 6. **The deterministic Delegate Senate subcluster completed in Batch 6; three explicit model-bound Profile Senate openings completed in Batch 7; operational-adoption reconciliation and final disposition completed in Batch 8; Delegate model-criteria presentation and model selection completed in Batch 9; Delegate model-binding sealing completed in Batch 10; Oracle eligibility finding and phase recovery completed in Batch 11.** Intake, older construction/admission and legacy Oracle boolean authorities are absent; canonical admission, assessment, issuance and cohort construction remain multi-write recovery boundaries; legacy Oracle recommendation/planning results omit native instance identity. The five Delegate cognition consumers and all legacy boolean-authority, Profile multi-write, missing-timestamp, credential-platform and cognition paths remain explicit exclusions pending their own authority or recovery contracts.
 7. Migrate older multi-write operational, bootstrap, and Legate paths only through explicit
    recoverable checkpoints; a consumption wrapper alone cannot repair torn state.
-8. Mechanically reconstruct coverage, retain explicit external exclusions, run adversarial review,
-   and close the campaign documentation-only.
+8. **Completed in Batch 12.** Mechanically reconstruct coverage, retain explicit external
+   exclusions, and run adversarial review. The frozen source tripwire contains 231 candidates: 26
+   canonical consumers, 3 locked-fragmented consumers, and 202 inventoried noncanonical candidates
+   or issuers. Batch 13 remains documentation-only campaign closeout.
 
 ## Preserved boundary
 
