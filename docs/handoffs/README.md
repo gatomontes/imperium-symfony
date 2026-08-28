@@ -64,11 +64,14 @@ For the current Delegate Mission state, read in this order:
 58. `docs/iron-gate-raw-provider-result.md`;
 59. `docs/handoffs/iron-gate-execution-receipt-binding-batch-9-complete.md`;
 60. `docs/iron-gate-lazaretto-receipt-binding-and-reconstruction.md`;
-61. `docs/handoffs/iron-gate-execution-receipt-binding-batch-10-complete.md`; and
-62. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
+61. `docs/handoffs/iron-gate-execution-receipt-binding-batch-10-complete.md`;
+62. `docs/iron-gate-execution-receipt-binding-terminal-evidence-audit.md`;
+63. `docs/handoffs/iron-gate-execution-receipt-binding-campaign-complete.md`; and
+64. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
 
-Item 61 is the active continuation handoff. Batch 10 binds accepted receipts through deterministic
-Lazaretto admission and read-only reconstruction; Batch 11 adversarial closeout is not authorized.
+Item 63 is the active terminal handoff. Iron Gate Execution Authority and Receipt Binding is
+terminal through Batch 11. No batches remain; live deterministic consumer adoption and sortie are
+separate deferred boundaries.
 
 `docs/handoffs/operational-cognition-access-lifecycle-ready.md` and the numbered credential-boundary handoffs are historical execution records. They are not active continuation prompts.
 
@@ -79,7 +82,7 @@ Operational Cognition Lease Interruption is terminal through Batch 6. The prepar
 `docs/handoffs/operational-cognition-lease-interruption-campaign-complete.md`.
 The exact disposition, enforcement-authority, native admission-result, and read-only reconstruction
 boundaries are complete. Transactional Authority Consumption Adoption is terminal through Batch
-13. Iron Gate Execution Authority and Receipt Binding Batch 10 is complete through accepted receipt
-binding and read-only reconstruction. Batch 11 is not authorized.
+13. Iron Gate Execution Authority and Receipt Binding is terminal through Batch 11. Its bounded
+deterministic evidence corridor is complete; no live command or transport is migrated.
 Continuous Agent Governance Controls, Credential-boundary remediation, and Institutional
 Decision Integrity remain terminal.

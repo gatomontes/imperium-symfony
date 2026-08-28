@@ -2,7 +2,7 @@
 
 ## Status
 
-`BATCH_10_ACCEPTED_RECEIPT_BOUND_AND_RECONSTRUCTIBLE`
+`TERMINAL_THROUGH_BATCH_11`
 
 Transactional Authority Consumption Adoption is terminal through Batch 13. This successor is
 selected for preparation only. No runtime implementation, external call or authority change is
@@ -10,7 +10,7 @@ authorized merely because it appears below.
 
 ## Current continuation point
 
-Preparation Batch 0 and Batches 1–10 are complete. AgentMail direct-send idempotency and the
+Preparation Batch 0 and Batches 1–11 are complete. AgentMail direct-send idempotency and the
 outbound-email authorization shape are canonical. The competent Curia request → Imperator decision
 → separate Imperator issuance route exists as immutable native records. One deterministic La
 Cortine claim consumes the exact authorization. Its effect-start journal establishes the durable
@@ -18,9 +18,9 @@ Cortine claim consumes the exact authorization. Its effect-start journal establi
 header are reachable only after durable one-shot admission. Observed HTTP responses now produce one
 truthful immutable accepted/rejected raw-result aggregate; absence remains unknown. Accepted results
 matching the exact return contract now bind through deterministic Lazaretto admission and read-only
-reconstruction. Only bounded Batch 11 may
-next be considered, and it is not
-authorized without an explicit continuation instruction.
+reconstruction. Batch 11 proves the complete accepted path, both unknown-outcome crash windows,
+replay refusal, tamper failure and secret exclusion. No batches remain. The existing live command,
+transport, Iron Gate and sortie consumers remain unmigrated deferred boundaries.
 
 ## Selected boundary
 
@@ -102,10 +102,12 @@ No step is authorized merely because it is listed:
 3. **Completed.** Define the missing native outbound authorization shape and prove the provider's
    direct-send idempotency contract without issuing authority or adopting a consumer;
 4. **Completed.** Identify the competent native decision and issuance route without implementing it;
-5. prove competing execution, crash-before-I/O, unknown-outcome and receipt-recovery behavior;
-6. add read-only reconstruction from source authority through admitted receipt;
-7. assess the sortie lane as a separate boundary only after deterministic proof; and
-8. close the campaign documentation-only.
+5. **Completed.** Prove competing execution, crash-before-I/O and unknown-outcome behavior;
+6. **Completed.** Gate one in-memory provider callback behind the journal and seal raw results;
+7. **Completed.** Bind an accepted receipt and add read-only reconstruction;
+8. **Completed.** Adversarially prove the entire deterministic corridor and close the campaign.
+
+Sortie assessment remains a separate deferred boundary and is not a residual batch.
 
 Any missing authority identity, provider receipt, idempotency key, durable checkpoint or recovery
 rule must remain `ABSENT` or `EXISTS_FRAGMENTED`; preparation may not manufacture it to preserve the
