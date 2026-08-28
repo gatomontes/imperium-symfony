@@ -2,7 +2,7 @@
 
 ## Status
 
-`BATCH_3_OPERATIONAL_CLAIM_COMMIT_BOUNDARIES_PROVED`
+`BATCH_4_GOVERNANCE_CLAIM_ADOPTED`
 
 This document defines the shared version-1 mechanics represented by
 `TransactionalAuthorityConsumptionContract` and `AuthorityConsumptionRecoveryContract`. The
@@ -93,6 +93,28 @@ result are one physical `ImmutableRecordStore::put()` commit:
 
 No checkpoint grants rollback or authority unconsumption. No provider outcome exists inside this
 transition.
+
+## Batch 4 governance adoption
+
+`GovernanceCognitionInvocationClaimService` is the second adopted consumer. It retains the exact
+`imperium.clavium-governance-cognition-invocation-claim/v1` schema and its pre-existing claim-ID
+derivation for compatibility. The complete `ReplayFingerprint` is separately sealed into each new
+claim and transaction envelope.
+
+The authoritative inputs include the complete normalized output reread through the exact
+`GovernanceCognitionAuthorityRegistry` resolver, plus the request, resource decision, lease,
+provider/model configuration, resource ceiling, target, and input digest. This prevents adoption
+from weakening cluster-specific authority resolution.
+
+Adoption preserves the exact lock order:
+
+`gca-authority:<sha256 authorityId>` → `gca-lease:<sha256 leaseId>`
+
+Historical immutable claims without the envelope remain replayable and are not rewritten. New
+claims validate exact replay and reject divergent envelope metadata. The two-process claim proof
+converges on one immutable result, while the existing governance-lease interruption path continues
+to compete on the same lock scopes. Provider-journal creation and external I/O remain later,
+separate boundaries.
 
 ## Closed boundaries
 
