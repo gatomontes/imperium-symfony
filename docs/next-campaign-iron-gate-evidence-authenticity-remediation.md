@@ -2,7 +2,7 @@
 
 ## Status
 
-`BATCH_7_CALLER_AUTHORITY_ISSUER_IMPLEMENTED`
+`BATCH_8_CALLER_AUTHORITY_CONSUMER_IMPLEMENTED`
 
 Iron Gate Execution Authority and Receipt Binding remains terminal through Batch 11. Its adversarial
 review found that the unused deterministic corridor is structurally coherent but not yet eligible
@@ -10,7 +10,7 @@ for live consumer adoption: a caller can separately nominate response bytes afte
 callback, reconstruction skips effect-start and invocation-admission evidence, and institutional
 actor and tamper claims exceed what the current enforcement proves.
 
-Preparation Batch 0 and Batches 1–7 are complete. Only separately bounded Batch 8 may next be considered. Nothing below authorizes live consumer behavior,
+Preparation Batch 0 and Batches 1–8 are complete. Only separately bounded Batch 9 may next be considered. Nothing below authorizes live consumer behavior,
 external I/O or live consumer adoption.
 
 ## Preparation inventory
@@ -44,14 +44,18 @@ No batch is authorized merely because it is listed:
    response-observed states;
 6. **Completed.** Reconstruct the entire occupancy/request/decision/issuance/claim/journal/admission/
    attempt/callback/response/result/binding chain read only;
-7. **Contract complete; enforcement remains.** Define runtime-principal caller authority and state
+7. **Complete.** Define runtime-principal caller authority and state
    the exact integrity threat model;
-8. **Issuer complete; consumption remains.** Issue three exact caller authorities for request,
+8. **Completed.** Issue three exact caller authorities for request,
    decision and issuance transitions;
-9. consume those authorities at all three transitions through `AuthorityConsumptionStore`;
-10. prove idempotency registration, response provenance, fault, concurrency, tamper and secret
+9. **Consumer primitive complete; adoption remains.** Validate exact transition, target, time window,
+   source digest, instance, binding and generation immediately before immutable single-use
+   consumption through `AuthorityConsumptionStore`. Consumption precedes a target commit and is
+   deliberately forward-recoverable by the same consumer after an interrupted write;
+10. adopt that primitive at the request, decision and issuance transitions;
+11. prove idempotency registration, response provenance, fault, concurrency, tamper and secret
    exclusion without live external I/O; and
-11. close remediation before selecting any live deterministic consumer campaign.
+12. close remediation before selecting any live deterministic consumer campaign.
 
 ## Stop conditions
 
