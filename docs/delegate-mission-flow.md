@@ -218,9 +218,10 @@ replay equivalence.
 
 The next separately selected campaign is Transactional Authority Consumption Adoption, governed by
 `docs/next-campaign-transactional-authority-consumption.md` and
-`docs/handoffs/transactional-authority-consumption-campaign-ready.md`. Only Preparation Batch 0 is
-authorized: a read-only inventory of every consumable authority, lock and replay path, partial-state
-exposure, recovery rule, and concurrency proof. No runtime consumer migration is open.
+`docs/handoffs/transactional-authority-consumption-preparation-batch-0-complete.md`. Preparation
+Batch 0 is complete as a read-only inventory of every consumable authority, lock and replay path,
+partial-state exposure, recovery rule, and concurrency proof. Batch 1 and runtime consumer
+migration remain unopened pending explicit authorization.
 
 The campaign does not alter this route or any credential, provider-journal, external-I/O,
 propagation, telemetry, containment, incident, Iron Gate, Lazaretto, sortie, or credential-platform
