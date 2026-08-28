@@ -25,8 +25,9 @@ For the current Delegate Mission state, read in this order:
 19. `docs/handoffs/operational-cognition-lease-interruption-campaign-complete.md`; and
 20. `docs/handoffs/operational-cognition-lease-interruption-terminal-evidence-remediation-batch-6-complete.md`; and
 21. `docs/next-campaign-transactional-authority-consumption.md`;
-22. `docs/handoffs/transactional-authority-consumption-campaign-ready.md`; and
-23. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
+22. `docs/transactional-authority-consumption-preparation-inventory.md`;
+23. `docs/handoffs/transactional-authority-consumption-preparation-batch-0-complete.md`; and
+24. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
 
 `docs/handoffs/operational-cognition-access-lifecycle-ready.md` and the numbered credential-boundary handoffs are historical execution records. They are not active continuation prompts.
 
@@ -36,7 +37,7 @@ Operational Cognition Lease Interruption is terminal through Batch 6. The prepar
 `docs/operational-cognition-lease-interruption-preparation-inventory.md`, and the active handoff is
 `docs/handoffs/operational-cognition-lease-interruption-campaign-complete.md`.
 The exact disposition, enforcement-authority, native admission-result, and read-only reconstruction
-boundaries are complete. Transactional Authority Consumption Adoption is selected next, with only
-Preparation Batch 0 authorized. Continuous Agent
+boundaries are complete. Transactional Authority Consumption Adoption Preparation Batch 0 is
+complete; Batch 1 remains unopened pending explicit authorization. Continuous Agent
 Governance Controls, Credential-boundary remediation, and Institutional Decision Integrity remain
 terminal.
