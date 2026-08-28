@@ -2,7 +2,7 @@
 
 ## Campaign status
 
-`BATCH_8_OPERATIONAL_ADOPTION_SINGLE_RESULT_AUTHORITIES_ADOPTED_BATCH_9_NOT_AUTHORIZED`
+`BATCH_9_DELEGATE_MODEL_GOVERNANCE_AUTHORITIES_ADOPTED_BATCH_10_NOT_AUTHORIZED`
 
 Operational Cognition Lease Interruption is terminal through Batch 6. The next separately bounded
 campaign is adoption of canonical transactional authority-consumption and recovery semantics across
@@ -186,19 +186,42 @@ invented.
 The completion handoff is
 `docs/handoffs/transactional-authority-consumption-batch-8-complete.md`.
 
-Batch 9 remains unopened pending explicit authorization. Its smallest safe candidate is the Oracle
-and model-governance consumer cluster.
+## Batch 9 result
+
+Batch 9 audits the Oracle/model-governance cluster and adopts exactly two Delegate Mission Curia
+consumers with complete native transaction identity: model-criteria presentation and model-selection
+decision. Both now share:
+
+`delegate-model-governance-authority:<sha256 authorityId>`
+
+The exact authority lock encloses source reread, actor validation, replay selection, logical
+consumption and one immutable result commit. `DelegateMissionModelGovernanceAuthorityTransition`
+fingerprints the unchanged result surface and embeds one complete version-1 envelope. Historical
+results remain valid without rewrite; adopted envelope divergence fails stopped; contention and
+fault-after-commit recovery converge without external effect.
+
+The remainder is not forced into the boundary. Legacy Oracle acceptance, case-opening and
+comparative-assessment powers are booleans without canonical single-use IDs. Eligibility finding
+can separately close the phase; commission issuance writes both Curia and Oracle inbox records.
+Legacy recommendation and planning-selection results omit native `instance_id`. Oracle research
+crosses the sortie/external-evidence boundary. Delegate binding, access, resource and activation
+consumers remain separately bounded construction, credential and provider-admission work.
+
+The completion handoff is
+`docs/handoffs/transactional-authority-consumption-batch-9-complete.md`.
+
+Batch 10 remains unopened pending explicit authorization. Its smallest safe candidate is the
+construction and admission consumer cluster.
 
 ## Provisional remaining-batch countdown
 
-Five batches remain after Batch 8 under the current inventory. This is a planning forecast, not
+Four batches remain after Batch 9 under the current inventory. This is a planning forecast, not
 authorization to combine consumers when proof exposes a narrower boundary:
 
-1. Batch 9 — Oracle and model-governance consumers;
-2. Batch 10 — construction and admission consumers;
-3. Batch 11 — older multi-write operational, bootstrap, Legate, and deferred operational-adoption recovery clusters;
-4. Batch 12 — mechanical coverage reconstruction, explicit exclusions, and adversarial review; and
-5. Batch 13 — documentation-only campaign closeout.
+1. Batch 10 — construction and admission consumers;
+2. Batch 11 — older multi-write operational, bootstrap, Legate, Oracle/model-governance, and deferred operational-adoption recovery clusters;
+3. Batch 12 — mechanical coverage reconstruction, explicit exclusions, and adversarial review; and
+4. Batch 13 — documentation-only campaign closeout.
 
 Any cluster that cannot share one lock, replay, recovery, and proof boundary must split rather than
 be forced into this forecast.

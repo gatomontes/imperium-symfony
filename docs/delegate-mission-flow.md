@@ -218,7 +218,7 @@ replay equivalence.
 
 The next separately selected campaign is Transactional Authority Consumption Adoption, governed by
 `docs/next-campaign-transactional-authority-consumption.md` and
-`docs/handoffs/transactional-authority-consumption-batch-8-complete.md`. Preparation Batch 0, the
+`docs/handoffs/transactional-authority-consumption-batch-9-complete.md`. Preparation Batch 0, the
 separately versioned Batch 1 contracts, and the first operational cognition claim adoption in Batch
 2 are complete. Batch 3 proves the adopted claim at every internal recovery observation without
 adding a second transaction record or moving provider I/O. Batch 4 adopts the structurally parallel
@@ -235,7 +235,11 @@ boolean-authority records, deterministic multi-write or missing-timestamp paths,
 Senate cognition remain outside adoption. Batch 8 adopts only operational-adoption reconciliation
 and final disposition under exact authority locks. Governing intake has no canonical single-use
 authority identity, while independent assessment still has an uncheckpointed assessment-to-panel-
-completion write boundary. Batch 9 remains unopened pending explicit authorization.
+completion write boundary. Batch 9 adopts only the Delegate model-criteria request and model-
+selection decision authorities whose native results preserve exact instance, source, actor and
+timestamp identity. Boolean, multi-write, missing-instance, external research, construction,
+credential and provider-admission paths remain outside adoption. Batch 10 remains unopened pending
+explicit authorization.
 
 The campaign does not alter this route or any credential, provider-journal, external-I/O,
 propagation, telemetry, containment, incident, Iron Gate, Lazaretto, sortie, or credential-platform

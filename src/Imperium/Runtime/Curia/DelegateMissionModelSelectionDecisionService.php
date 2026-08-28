@@ -32,11 +32,23 @@ final readonly class DelegateMissionModelSelectionDecisionService
             throw new \InvalidArgumentException('C301_DELEGATE_MODEL_SELECTION_DISPOSITION_INVALID');
         }
 
+        return DelegateMissionModelGovernanceAuthorityTransition::run(
+            $this->decisions,
+            $authorityId,
+            fn (): array => $this->decideLocked($recommendationId, $authorityId, $bindingId, $disposition, $model, $configuration, $rationale, $decidedAt),
+        );
+    }
+
+    private function decideLocked(string $recommendationId, string $authorityId, string $bindingId, string $disposition, ?string $model, array $configuration, string $rationale, \DateTimeImmutable $decidedAt): array
+    {
         $recommendation = $this->read($this->recommendations.'/'.$recommendationId.'.json', 'C302_DELEGATE_MODEL_RECOMMENDATION_ABSENT');
         $seneschal = $this->read($this->occupancy.'/'.$bindingId.'.json', 'C303_DELEGATE_MODEL_SENESCHAL_ABSENT');
         foreach (glob($this->decisions.'/*.json') ?: [] as $path) {
             $existing = $this->read($path, 'C309_DELEGATE_MODEL_SELECTION_CONFLICT');
             if (($existing['source_recommendation']['id'] ?? null) === $recommendationId) {
+                if (!$this->validDigest($existing) || !DelegateMissionModelGovernanceAuthorityTransition::isExactOrHistorical($existing)) {
+                    throw new \RuntimeException('C309_DELEGATE_MODEL_SELECTION_CONFLICT');
+                }
                 return $existing;
             }
         }
@@ -69,7 +81,7 @@ final readonly class DelegateMissionModelSelectionDecisionService
         $decisionId = 'delegate-mission-model-selection-decision-'.substr(hash('sha256', CanonicalJson::encode([$recommendationId, $recommendation['record_digest'], $authorityId, $actor, $disposition, $model, $configuration, $rationale])), 0, 20);
         $sealAuthorityId = $selected ? 'delegate-mission-model-binding-sealing-authority-'.substr(hash('sha256', CanonicalJson::encode([$decisionId, $model, $configuration, $recommendation['commission']])), 0, 20) : null;
 
-        return $this->save($decisionId, [
+        return DelegateMissionModelGovernanceAuthorityTransition::put($this->decisions, $decisionId, [
             'schema' => 'imperium.curia-delegate-mission-model-selection-decision/v1', 'decision_id' => $decisionId, 'instance_id' => $seneschal['instance_id'], 'decision_maker' => $actor,
             'source_recommendation' => ['id' => $recommendationId, 'digest' => $recommendation['record_digest']], 'source_commission' => $recommendation['commission'], 'source_comparative_assessment' => $recommendation['comparative_assessment'],
             'eligible_models' => $eligible, 'runtime_bindings' => $runtimeBindings, 'recommended_model' => $recommendation['recommended_model'], 'disposition' => $disposition, 'selected_model' => $selected ? $model : null, 'selected_runtime_binding' => $selected ? $runtimeBindings[$model] : null, 'configuration' => $selected ? $configuration : [], 'rationale' => $rationale,
@@ -77,7 +89,7 @@ final readonly class DelegateMissionModelSelectionDecisionService
             'status' => $selected ? 'DELEGATE_MISSION_MODEL_SELECTED_PENDING_CONSCRIPTION_BINDING_SEAL' : 'DELEGATE_MISSION_MODEL_NOT_SELECTED', 'model_selected' => $selected,
             'model_binding_sealing_authority' => $selected ? ['authority_id' => $sealAuthorityId, 'authority_single_use' => true, 'authority_exercisable' => true, 'holder' => 'conscription.recruiter', 'purpose' => 'SEAL_EXACT_SELECTED_MODEL_TO_DELEGATE_MISSION_TURN_ONE', 'consumed' => false, 'continuing_authority' => false] : null,
             'model_assignment_authority' => false, 'profile_mutation_authority' => false, 'credential_release_authority' => false, 'provider_invocation_authority' => false, 'resource_authority' => false, 'external_action_authority' => false, 'execution_authority' => false, 'sealed' => true,
-        ]);
+        ], self::class, 'C305_DELEGATE_MODEL_SELECTION_WRITE_FAILED', 'C309_DELEGATE_MODEL_SELECTION_CONFLICT');
     }
 
     private function read(string $path, string $error): array
@@ -104,13 +116,4 @@ final readonly class DelegateMissionModelSelectionDecisionService
             && is_string($binding['runtime_model']) && '' !== trim($binding['runtime_model']);
     }
 
-    private function save(string $decisionId, array $record): array
-    {
-        if (!is_dir($this->decisions) && !mkdir($this->decisions, 0770, true) && !is_dir($this->decisions)) {
-            throw new \RuntimeException('C305_DELEGATE_MODEL_SELECTION_WRITE_FAILED');
-        }
-        $record['record_digest'] = hash('sha256', CanonicalJson::encode($record));
-        file_put_contents($this->decisions.'/'.$decisionId.'.json', json_encode($record, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)."\n", LOCK_EX);
-        return $record;
-    }
 }

@@ -21,6 +21,18 @@ final readonly class DelegateMissionModelCriteriaRequestService
     \DateTimeImmutable$at):array{
         if(!preg_match('/^delegate-mission-resource-invocation-readiness-assessment-[a-f0-9]{20}$/',
         $id))throw new \InvalidArgumentException('C280_DELEGATE_MODEL_READINESS_ID_INVALID');
+        $source=$this->read($this->a.'/'.$id.'.json',
+        'C281_DELEGATE_MODEL_READINESS_ABSENT');
+        $authorityId=(string)($source['oracle_model_requirement_commission_authority']['authority_id']??'');
+        return DelegateMissionModelGovernanceAuthorityTransition::run($this->r,
+        $authorityId,
+        fn():array=>$this->presentLocked($id,$bindingId,$criteria,$at));
+
+    }
+    private function presentLocked(string$id,
+    string$bindingId,
+    array$criteria,
+    \DateTimeImmutable$at):array{
         $a=$this->read($this->a.'/'.$id.'.json',
         'C281_DELEGATE_MODEL_READINESS_ABSENT');
         $s=$this->read($this->o.'/'.$bindingId.'.json',
@@ -29,7 +41,10 @@ final readonly class DelegateMissionModelCriteriaRequestService
         foreach(glob($this->r.'/*.json')?:[]as$p){
             $x=$this->read($p,
             'C289_DELEGATE_MODEL_CRITERIA_REQUEST_CONFLICT');
-            if(($x['source_readiness']['id']??null)===$id)return$x;
+            if(($x['source_readiness']['id']??null)===$id){
+                if(!$this->ok($x)||!DelegateMissionModelGovernanceAuthorityTransition::isExactOrHistorical($x))throw new \RuntimeException('C289_DELEGATE_MODEL_CRITERIA_REQUEST_CONFLICT');
+                return$x;
+            }
 
         }
         $auth=$a['oracle_model_requirement_commission_authority']??[];
@@ -59,7 +74,7 @@ final readonly class DelegateMissionModelCriteriaRequestService
         $criteria])),
         0,
         20);
-        return$this->save($rid,
+        return DelegateMissionModelGovernanceAuthorityTransition::put($this->r,$rid,
         ['schema'=>'imperium.curia-delegate-mission-model-criteria-request/v1',
         'request_id'=>$rid,
         'instance_id'=>$a['instance_id'],
@@ -87,7 +102,7 @@ final readonly class DelegateMissionModelCriteriaRequestService
         'provider_invocation_authority'=>false,
         'resource_authority'=>false,
         'execution_authority'=>false,
-        'sealed'=>true]);
+        'sealed'=>true],self::class,'C288_DELEGATE_MODEL_CRITERIA_REQUEST_WRITE_FAILED','C289_DELEGATE_MODEL_CRITERIA_REQUEST_CONFLICT');
 
     }
     private function criteria(array$c):array{
@@ -148,20 +163,4 @@ final readonly class DelegateMissionModelCriteriaRequestService
         CanonicalJson::encode($r)));
 
     }
-    private function save($id,
-    array$r):array{
-        if(!is_dir($this->r))mkdir($this->r,
-        0770,
-        true);
-        $r['record_digest']=hash('sha256',
-        CanonicalJson::encode($r));
-        file_put_contents($this->r.'/'.$id.'.json',
-        json_encode($r,
-        JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_THROW_ON_ERROR)."\n",
-        LOCK_EX);
-        return$r;
-
-    }
-
 }
-
