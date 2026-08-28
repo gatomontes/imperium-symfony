@@ -249,7 +249,8 @@ producer posture and two non-operational consumer postures. Batch 2 implements t
 inside the journal-gated callback boundary; thrown callbacks and non-response values create no
 envelope. Batch 3 makes raw-result sealing consume only that envelope; callers can no longer supply
 provider status, bytes or observation times. Batch 4 separates admission, credential-attempt, callback-start and response-observed
-truth into distinct immutable checkpoints. Only complete read-only chain reconstruction may next be
-considered. No live consumer, external I/O,
+truth into distinct immutable checkpoints. Batch 5 reconstructs the complete occupancy-through-
+receipt chain read only and fails on any missing or altered intermediate. Only enforceable caller
+authority and integrity threat-model work may next be considered. No live consumer, external I/O,
 Iron Gate, Lazaretto, sortie, credential-platform, revocation, propagation, telemetry, reassessment,
 containment or incident boundary is opened.
