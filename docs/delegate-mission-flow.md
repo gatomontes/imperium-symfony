@@ -251,6 +251,7 @@ envelope. Batch 3 makes raw-result sealing consume only that envelope; callers c
 provider status, bytes or observation times. Batch 4 separates admission, credential-attempt, callback-start and response-observed
 truth into distinct immutable checkpoints. Batch 5 reconstructs the complete occupancy-through-
 receipt chain read only and fails on any missing or altered intermediate. Only enforceable caller
-authority and integrity threat-model work may next be considered. No live consumer, external I/O,
+authority and integrity threat-model contract is defined in Batch 6 without claiming enforcement.
+Only native issuance and three-consumer authority consumption may next be considered. No live consumer, external I/O,
 Iron Gate, Lazaretto, sortie, credential-platform, revocation, propagation, telemetry, reassessment,
 containment or incident boundary is opened.
