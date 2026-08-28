@@ -43,11 +43,13 @@ For the current Delegate Mission state, read in this order:
 37. `docs/next-campaign-iron-gate-execution-receipt-binding.md`;
 38. `docs/handoffs/iron-gate-execution-receipt-binding-campaign-ready.md`;
 39. `docs/iron-gate-execution-receipt-binding-preparation-inventory.md`;
-40. `docs/handoffs/iron-gate-execution-receipt-binding-preparation-batch-0-complete.md`; and
-41. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
+40. `docs/handoffs/iron-gate-execution-receipt-binding-preparation-batch-0-complete.md`;
+41. `docs/iron-gate-execution-receipt-binding-contract.md`;
+42. `docs/handoffs/iron-gate-execution-receipt-binding-batch-1-complete.md`; and
+43. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
 
-Item 40 is the active continuation handoff. Preparation Batch 0 is complete; Batch 1 is not
-authorized and no implementation batch is open.
+Item 42 is the active continuation handoff. Batch 1 is complete; Batch 2 is not authorized and no
+consumer migration or external-I/O implementation batch is open.
 
 `docs/handoffs/operational-cognition-access-lifecycle-ready.md` and the numbered credential-boundary handoffs are historical execution records. They are not active continuation prompts.
 
@@ -58,7 +60,7 @@ Operational Cognition Lease Interruption is terminal through Batch 6. The prepar
 `docs/handoffs/operational-cognition-lease-interruption-campaign-complete.md`.
 The exact disposition, enforcement-authority, native admission-result, and read-only reconstruction
 boundaries are complete. Transactional Authority Consumption Adoption is terminal through Batch
-13. Iron Gate Execution Authority and Receipt Binding Preparation Batch 0 is complete. Batch 1 is
-not authorized.
+13. Iron Gate Execution Authority and Receipt Binding Batch 1 is complete. Batch 2 is not
+authorized.
 Continuous Agent Governance Controls, Credential-boundary remediation, and Institutional
 Decision Integrity remain terminal.
