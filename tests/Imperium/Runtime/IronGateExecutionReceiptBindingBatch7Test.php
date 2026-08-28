@@ -13,6 +13,7 @@ use App\Imperium\Runtime\LaCortine\DeterministicEffectStartJournalContract;
 use App\Imperium\Runtime\LaCortine\DeterministicEffectStartJournalService;
 use App\Imperium\Runtime\LaCortine\DeterministicExecutionClaimContract;
 use App\Imperium\Runtime\LaCortine\DeterministicExecutionClaimService;
+use App\Imperium\Runtime\LaCortine\DeterministicLazarettoReceiptAdmissionService;
 use App\Imperium\Runtime\LaCortine\DeterministicRawProviderResultContract;
 use App\Imperium\Runtime\LaCortine\DeterministicRawProviderResultService;
 use PHPUnit\Framework\TestCase;
@@ -139,7 +140,12 @@ final class IronGateExecutionReceiptBindingBatch7Test extends TestCase
         self::assertFalse($result['recovery']['automatic_replay_permitted']);
         self::assertFalse($result['recovery']['provider_reinvoked']);
         self::assertSame($result, $service->seal($admission['admission_id'], 200, $bytes, $this->time('+4 minutes'), $this->time('+4 minutes')));
-        self::assertFalse(is_dir($this->root.'/var/imperium/lazaretto'));
+        $binding = (new DeterministicLazarettoReceiptAdmissionService($this->root))->admit($result['result_id'], $this->time('+5 minutes'));
+        self::assertSame('imperium.la-cortine.deterministic-receipt-binding/v1', $binding['schema']);
+        self::assertTrue($binding['lazaretto_admission']['expected_return_contract_validated']);
+        self::assertSame('VALIDATED_AGENTMAIL_MESSAGE_RECEIPT_NO_CONTENT_MUTATION', $binding['lazaretto_admission']['transformation']);
+        self::assertSame('COMPLETE', $binding['recovery']['checkpoint']);
+        self::assertFalse($binding['recovery']['provider_reinvoked']);
     }
 
     public function testObservedRejectionIsNotMisreportedAsAcceptance(): void
@@ -150,6 +156,8 @@ final class IronGateExecutionReceiptBindingBatch7Test extends TestCase
         self::assertSame('REJECTED', $result['provider_outcome']['status']);
         self::assertNull($result['provider_outcome']['provider_receipt_identity']);
         self::assertSame('RAW_RECEIPT_SEALED', $result['recovery']['checkpoint']);
+        $this->expectExceptionMessage('IGL802_RAW_PROVIDER_RESULT_NOT_ADMISSIBLE');
+        (new DeterministicLazarettoReceiptAdmissionService($this->root))->admit($result['result_id'], $this->time('+5 minutes'));
     }
 
     private function writeClaim(): void

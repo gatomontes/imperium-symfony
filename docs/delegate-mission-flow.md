@@ -227,10 +227,12 @@ The next separately selected campaign is Iron Gate Execution Authority and Recei
 governed by `docs/next-campaign-iron-gate-execution-receipt-binding.md` and the completed inventory
 `docs/iron-gate-execution-receipt-binding-preparation-inventory.md`. Preparation Batch 0 and
 contract-definition Batch 1, assessment/route Batches 2–4, native-record Batch 5, durable-claim
-Batch 6, effect-start-journal Batch 7, journal-gated-callback Batch 8 and raw-result Batch 9 are complete;
+Batch 6, effect-start-journal Batch 7, journal-gated-callback Batch 8, raw-result Batch 9 and
+receipt-binding/reconstruction Batch 10 are complete;
 the active handoff is
-`docs/handoffs/iron-gate-execution-receipt-binding-batch-9-complete.md`. Batch 9 seals one observed
-response into a truthful accepted/rejected raw-result aggregate; missing responses remain unknown.
-The raw result is not Lazaretto-admitted. Batch 10 is not authorized. The campaign has opened no live external-I/O, propagation,
+`docs/handoffs/iron-gate-execution-receipt-binding-batch-10-complete.md`. Batch 10 admits only an
+accepted response matching the exact return contract and reconstructs its source authority through
+final receipt binding read only. Rejection and unknown remain unadmitted. Batch 11 is not authorized.
+The campaign has opened no live external-I/O, propagation,
 telemetry, containment, incident, Iron Gate, Lazaretto, sortie, receipt or credential-platform
 behavior. No residual Transactional Authority Consumption Adoption batch remains.
