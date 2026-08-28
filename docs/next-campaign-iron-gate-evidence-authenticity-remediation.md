@@ -2,7 +2,7 @@
 
 ## Status
 
-`BATCH_5_COMPLETE_CHAIN_RECONSTRUCTIBLE`
+`BATCH_6_CALLER_AUTHORITY_CONTRACT_AND_THREAT_MODEL_DEFINED`
 
 Iron Gate Execution Authority and Receipt Binding remains terminal through Batch 11. Its adversarial
 review found that the unused deterministic corridor is structurally coherent but not yet eligible
@@ -10,7 +10,7 @@ for live consumer adoption: a caller can separately nominate response bytes afte
 callback, reconstruction skips effect-start and invocation-admission evidence, and institutional
 actor and tamper claims exceed what the current enforcement proves.
 
-Preparation Batch 0 and Batches 1–5 are complete. Only separately bounded Batch 6 may next be considered. Nothing below authorizes live consumer behavior,
+Preparation Batch 0 and Batches 1–6 are complete. Only separately bounded Batch 7 may next be considered. Nothing below authorizes live consumer behavior,
 external I/O or live consumer adoption.
 
 ## Preparation inventory
@@ -44,11 +44,12 @@ No batch is authorized merely because it is listed:
    response-observed states;
 6. **Completed.** Reconstruct the entire occupancy/request/decision/issuance/claim/journal/admission/
    attempt/callback/response/result/binding chain read only;
-7. bind authority transitions to enforceable caller authority and state the exact integrity threat
-   model;
-8. prove idempotency registration, response provenance, fault, concurrency, tamper and secret
+7. **Contract complete; enforcement remains.** Define runtime-principal caller authority and state
+   the exact integrity threat model;
+8. issue and consume three exact caller authorities at request, decision and issuance transitions;
+9. prove idempotency registration, response provenance, fault, concurrency, tamper and secret
    exclusion without live external I/O; and
-9. close remediation before selecting any live deterministic consumer campaign.
+10. close remediation before selecting any live deterministic consumer campaign.
 
 ## Stop conditions
 
