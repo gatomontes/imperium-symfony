@@ -254,7 +254,7 @@ receipt chain read only and fails on any missing or altered intermediate. Only e
 authority and integrity threat-model contract is defined in Batch 6 without claiming enforcement.
 Batch 7 implements native issuance without claiming consumer enforcement. Batch 8 adds the canonical
 consumer and Batch 9 enforces it at request, decision and issuance. Batch 10 proves the offline
-adversarial cases and preserves provider-side, hostile-writer and distributed-storage limits. Only
-documentation-only closeout may next be considered. No live consumer, external I/O,
+adversarial cases and preserves provider-side, hostile-writer and distributed-storage limits.
+Batch 11 closes remediation without authorizing live adoption. No remediation batches remain. No live consumer, external I/O,
 Iron Gate, Lazaretto, sortie, credential-platform, revocation, propagation, telemetry, reassessment,
 containment or incident boundary is opened.
