@@ -236,3 +236,14 @@ existing live command, transport and Iron Gate consumers remain unmigrated, and 
 separate deferred boundary. The campaign has opened no live external-I/O, propagation,
 telemetry, containment, incident, Iron Gate, Lazaretto, sortie, receipt or credential-platform
 behavior. No residual Transactional Authority Consumption Adoption batch remains.
+
+The next separately selected campaign is Iron Gate Evidence Authenticity Remediation. Preparation
+Batch 0 is complete under `docs/next-campaign-iron-gate-evidence-authenticity-remediation.md` and
+`docs/iron-gate-evidence-authenticity-remediation-preparation-inventory.md`; the active handoff is
+`docs/handoffs/iron-gate-evidence-authenticity-remediation-preparation-batch-0-complete.md`. The
+adversarial finding is exact: provider invocation and result sealing are separate, reconstruction
+skips the effect-start/admission boundary, actor attribution is not caller authority, and unkeyed
+digests prove trusted-writer integrity rather than hostile-writer non-forgeability. Only a
+callback-bound response-envelope contract may next be considered. No live consumer, external I/O,
+Iron Gate, Lazaretto, sortie, credential-platform, revocation, propagation, telemetry, reassessment,
+containment or incident boundary is opened.
