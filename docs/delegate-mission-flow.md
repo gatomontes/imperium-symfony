@@ -255,6 +255,9 @@ authority and integrity threat-model contract is defined in Batch 6 without clai
 Batch 7 implements native issuance without claiming consumer enforcement. Batch 8 adds the canonical
 consumer and Batch 9 enforces it at request, decision and issuance. Batch 10 proves the offline
 adversarial cases and preserves provider-side, hostile-writer and distributed-storage limits.
-Batch 11 closes remediation without authorizing live adoption. No remediation batches remain. No live consumer, external I/O,
+Batch 11 closes remediation without authorizing live adoption. No remediation batches remain.
+Provider Execution Assurance is selected next for Preparation Batch 0 only: inventory provider-side
+idempotency, duplicate/unknown-outcome, correlation and authorship evidence before proposing any
+migration. No live consumer, external I/O,
 Iron Gate, Lazaretto, sortie, credential-platform, revocation, propagation, telemetry, reassessment,
 containment or incident boundary is opened.
