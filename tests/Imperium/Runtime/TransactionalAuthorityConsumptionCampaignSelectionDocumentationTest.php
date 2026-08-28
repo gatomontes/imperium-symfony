@@ -16,7 +16,7 @@ final class TransactionalAuthorityConsumptionCampaignSelectionDocumentationTest 
         $flow = (string) file_get_contents($root.'/docs/delegate-mission-flow.md');
         $index = (string) file_get_contents($root.'/docs/handoffs/README.md');
 
-        self::assertStringContainsString('`BATCH_10_DELEGATE_MODEL_BINDING_AUTHORITY_ADOPTED_BATCH_11_NOT_AUTHORIZED`', $campaign);
+        self::assertStringContainsString('`BATCH_11_ORACLE_ELIGIBILITY_RECOVERY_ADOPTED_BATCH_12_NOT_AUTHORIZED`', $campaign);
         self::assertStringContainsString('Only Preparation Batch 0 is', $handoff);
         self::assertStringContainsString('No implementation step is authorized merely because it is listed', $campaign);
         foreach (['`EXISTS_CANONICALLY`', '`EXISTS_FRAGMENTED`', '`ABSENT`', '`DEFERRED_BOUNDARY`'] as $classification) {
@@ -28,7 +28,7 @@ final class TransactionalAuthorityConsumptionCampaignSelectionDocumentationTest 
         foreach (['Generalized revocation', 'telemetry', 'containment', 'incidents', 'Iron Gate execution', 'Lazaretto expansion', 'sorties', 'new credential-platform work'] as $boundary) {
             self::assertStringContainsString($boundary, $handoff);
         }
-        self::assertStringContainsString('Batch 11 remains unopened pending explicit authorization', $flow);
-        self::assertStringContainsString('Transactional Authority Consumption Adoption is complete through Batch 10', $index);
+        self::assertStringContainsString('Batch 12 remains unopened pending explicit authorization', $flow);
+        self::assertStringContainsString('Transactional Authority Consumption Adoption is complete through Batch 11', $index);
     }
 }

@@ -2,7 +2,7 @@
 
 ## Campaign status
 
-`BATCH_10_DELEGATE_MODEL_BINDING_AUTHORITY_ADOPTED_BATCH_11_NOT_AUTHORIZED`
+`BATCH_11_ORACLE_ELIGIBILITY_RECOVERY_ADOPTED_BATCH_12_NOT_AUTHORIZED`
 
 Operational Cognition Lease Interruption is terminal through Batch 6. The next separately bounded
 campaign is adoption of canonical transactional authority-consumption and recovery semantics across
@@ -236,18 +236,42 @@ remains unchanged between those surfaces.
 The completion handoff is
 `docs/handoffs/transactional-authority-consumption-batch-10-complete.md`.
 
-Batch 11 remains unopened pending explicit authorization. Its smallest safe candidate is the older
-multi-write operational, bootstrap, Legate, Oracle/model-governance and deferred operational-
-adoption recovery cluster.
+## Batch 11 result
+
+Batch 11 audits the older recovery-incomplete cluster and adopts exactly one corridor whose
+original authored act is fully recoverable: `ModelEligibilityFindingService`. Each evaluation case
+now serializes its per-model findings under:
+
+`oracle-eligibility-case:<sha256 caseId>`
+
+The immutable native finding is the durable post-consumption checkpoint. Phase reconciliation
+rereads every exact finding and derives `closed_at` from the latest native `issued_at`, so a crash
+after the final finding cannot strand the phase or substitute a retry timestamp. A separate
+immutable `OracleEligibilityAuthorityTransition` record seals instance, case/authority, Augur,
+finding result, replay fingerprint and complete recovery envelope without changing the native
+finding or phase schemas.
+
+Faults after finding commit, phase reconciliation and transaction commit all recover forward to
+one finding, one phase and one consumption record. Opposing processes converge under the case lock.
+No provider, credential, network or external effect enters the transition.
+
+The remaining multi-write operational, bootstrap, Legate, construction/admission, Oracle issuance
+and operational-adoption assessment paths lack a truthful shared checkpoint in this batch. They
+remain explicit `RECOVERY_INCOMPLETE` exclusions for mechanical coverage and adversarial review.
+
+The completion handoff is
+`docs/handoffs/transactional-authority-consumption-batch-11-complete.md`.
+
+Batch 12 remains unopened pending explicit authorization. It is the mechanical coverage
+reconstruction, explicit-exclusion verification and adversarial-review batch.
 
 ## Provisional remaining-batch countdown
 
-Three batches remain after Batch 10 under the current inventory. This is a planning forecast, not
+Two batches remain after Batch 11 under the current inventory. This is a planning forecast, not
 authorization to combine consumers when proof exposes a narrower boundary:
 
-1. Batch 11 — older multi-write operational, bootstrap, Legate, Oracle/model-governance, and deferred operational-adoption recovery clusters;
-2. Batch 12 — mechanical coverage reconstruction, explicit exclusions, and adversarial review; and
-3. Batch 13 — documentation-only campaign closeout.
+1. Batch 12 — mechanical coverage reconstruction, explicit exclusions, and adversarial review; and
+2. Batch 13 — documentation-only campaign closeout.
 
 Any cluster that cannot share one lock, replay, recovery, and proof boundary must split rather than
 be forced into this forecast.
