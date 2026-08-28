@@ -2,7 +2,7 @@
 
 ## Status
 
-`BATCH_3_COMPLETE_PROVIDER_SAFE_AUTHORITY_SHAPE_ONLY`
+`BATCH_4_COMPLETE_COMPETENT_ROUTE_DEFINED_ONLY`
 
 Transactional Authority Consumption Adoption is terminal through Batch 13. This successor is
 selected for preparation only. No runtime implementation, external call or authority change is
@@ -10,12 +10,11 @@ authorized merely because it appears below.
 
 ## Current continuation point
 
-Preparation Batch 0, execution/receipt contract Batch 1, initial provider assessment Batch 2 and
-outbound-email authority-shape/provider-reassessment Batch 3 are complete. AgentMail now documents
-truthful `Idempotency-Key` semantics for direct send, and the required authorization shape is
-canonicalized in `docs/iron-gate-outbound-email-authorization-contract.md`. No competent native
-issuer, durable claim or consumer adoption exists. Only declarative Batch 4 may next be considered,
-and it is not authorized without an explicit continuation instruction.
+Preparation Batch 0 and contract/assessment Batches 1–4 are complete. AgentMail direct-send
+idempotency, the outbound-email authorization shape and the competent Curia request → Imperator
+decision → separate Imperator issuance route are declaratively canonical. The route is not
+implemented and no durable execution claim or consumer adoption exists. Only bounded Batch 5 may
+next be considered, and it is not authorized without an explicit continuation instruction.
 
 ## Selected boundary
 
@@ -96,10 +95,11 @@ No step is authorized merely because it is listed:
    contracts without migrating a consumer;
 3. **Completed.** Define the missing native outbound authorization shape and prove the provider's
    direct-send idempotency contract without issuing authority or adopting a consumer;
-4. prove competing execution, crash-before-I/O, unknown-outcome and receipt-recovery behavior;
-5. add read-only reconstruction from source authority through admitted receipt;
-6. assess the sortie lane as a separate boundary only after deterministic proof; and
-7. close the campaign documentation-only.
+4. **Completed.** Identify the competent native decision and issuance route without implementing it;
+5. prove competing execution, crash-before-I/O, unknown-outcome and receipt-recovery behavior;
+6. add read-only reconstruction from source authority through admitted receipt;
+7. assess the sortie lane as a separate boundary only after deterministic proof; and
+8. close the campaign documentation-only.
 
 Any missing authority identity, provider receipt, idempotency key, durable checkpoint or recovery
 rule must remain `ABSENT` or `EXISTS_FRAGMENTED`; preparation may not manufacture it to preserve the
