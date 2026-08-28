@@ -19,7 +19,7 @@ final class IronGateExecutionReceiptBindingBatch3Test extends TestCase
         foreach (['source_decision', 'issuer', 'holder', 'scope', 'provider_safety', 'single_use', 'expires_at'] as $field) {
             self::assertContains($field, DeterministicOutboundEmailAuthorizationContract::REQUIRED_FIELDS);
         }
-        foreach (['recipient_set_digest', 'payload_digest', 'credential_reference_digest', 'expected_return_contract'] as $field) {
+        foreach (['commission_id', 'recipient_set_digest', 'payload_digest', 'credential_reference_digest', 'expected_return_contract'] as $field) {
             self::assertContains($field, DeterministicOutboundEmailAuthorizationContract::REQUIRED_SCOPE_FIELDS);
         }
         self::assertSame('email.send', DeterministicOutboundEmailAuthorizationContract::EXACT_SCOPE_RULES['operation']);

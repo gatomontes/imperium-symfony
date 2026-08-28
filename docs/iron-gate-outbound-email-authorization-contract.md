@@ -26,7 +26,7 @@ One authorization binds:
 - operation `email.send`;
 - one AgentMail inbox and one provider endpoint;
 - recipient-set, subject, body, attachment-manifest and complete payload digests;
-- credential-reference digest without credential secret material; and
+- commission identity and credential-reference digest without credential secret material; and
 - exact expected return contract.
 
 Any scope change requires a new source decision and authorization. The authorization is expiring,

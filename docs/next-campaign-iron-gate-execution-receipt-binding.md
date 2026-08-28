@@ -2,7 +2,7 @@
 
 ## Status
 
-`BATCH_5_NATIVE_AUTHORIZATION_ROUTE_IMPLEMENTED_NO_CONSUMER`
+`BATCH_6_DURABLE_AUTHORIZATION_CONSUMPTION_CLAIMED_PRE_IO`
 
 Transactional Authority Consumption Adoption is terminal through Batch 13. This successor is
 selected for preparation only. No runtime implementation, external call or authority change is
@@ -10,10 +10,11 @@ authorized merely because it appears below.
 
 ## Current continuation point
 
-Preparation Batch 0 and Batches 1–5 are complete. AgentMail direct-send idempotency and the
+Preparation Batch 0 and Batches 1–6 are complete. AgentMail direct-send idempotency and the
 outbound-email authorization shape are canonical. The competent Curia request → Imperator decision
-→ separate Imperator issuance route now exists as immutable native records. No durable execution
-claim or consumer adoption exists. Only bounded Batch 6 may next be considered, and it is not
+→ separate Imperator issuance route exists as immutable native records. One deterministic La
+Cortine claim now consumes the exact authorization and stops durably at `CLAIMED_PRE_IO`. Only
+bounded Batch 7 may next be considered, and it is not
 authorized without an explicit continuation instruction.
 
 ## Selected boundary

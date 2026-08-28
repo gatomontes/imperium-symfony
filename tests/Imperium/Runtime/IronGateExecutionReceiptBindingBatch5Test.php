@@ -109,7 +109,7 @@ final class IronGateExecutionReceiptBindingBatch5Test extends TestCase
 
     private function scope(): array
     {
-        return ['operation' => 'email.send', 'inbox_id' => 'inbox-test', 'destination' => '/v0/inboxes/inbox-test/messages', 'recipient_set_digest' => hash('sha256', 'recipient'), 'subject_digest' => hash('sha256', 'subject'), 'body_digest' => hash('sha256', 'body'), 'attachment_manifest_digest' => hash('sha256', 'attachments'), 'payload_digest' => hash('sha256', 'payload'), 'credential_reference_digest' => hash('sha256', 'credential-reference-only'), 'expected_return_contract' => 'agentmail.message/v1'];
+        return ['operation' => 'email.send', 'commission_id' => 'commission-test', 'inbox_id' => 'inbox-test', 'destination' => '/v0/inboxes/inbox-test/messages', 'recipient_set_digest' => hash('sha256', 'recipient'), 'subject_digest' => hash('sha256', 'subject'), 'body_digest' => hash('sha256', 'body'), 'attachment_manifest_digest' => hash('sha256', 'attachments'), 'payload_digest' => hash('sha256', 'payload'), 'credential_reference_digest' => hash('sha256', 'credential-reference-only'), 'expected_return_contract' => 'agentmail.message/v1'];
     }
 
     private function providerSafety(): array

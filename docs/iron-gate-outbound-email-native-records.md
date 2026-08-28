@@ -12,7 +12,7 @@ Batch 5 implements the competent route selected in Batch 4 as three immutable re
 | Decision | Imperator | `imperium.imperator-deterministic-outbound-email-decision/v1` | refusal opens nothing; authorization opens one expiring issuance authority |
 | Issuance | separate Imperator issuer | `imperium.imperator-outbound-email-authorization-issuance/v1` | consumes that issuance authority and embeds one exact outbound authorization |
 
-The records bind the instance, actor, holder, request and decision digests, exact operation,
+The records bind the instance, actor, holder, request and decision digests, exact commission, operation,
 destination, payload digests, credential-reference digest, expected return contract, provider
 idempotency identity and expiry. Every record is content-digested and immutable.
 
@@ -46,4 +46,3 @@ authorized claim transition exists.
 Only a separately authorized Batch 6 may define and prove one durable execution-claim transition
 that consumes the embedded authorization before external I/O. It must stop before credential
 resolution, command migration, provider invocation, raw receipt, Lazaretto admission and sortie.
-

@@ -226,10 +226,11 @@ transactionally canonical and does not alter this terminal Delegate route.
 The next separately selected campaign is Iron Gate Execution Authority and Receipt Binding,
 governed by `docs/next-campaign-iron-gate-execution-receipt-binding.md` and the completed inventory
 `docs/iron-gate-execution-receipt-binding-preparation-inventory.md`. Preparation Batch 0 and
-contract-definition Batch 1 and assessment/route Batches 2–4 and native-record Batch 5 are complete;
+contract-definition Batch 1, assessment/route Batches 2–4, native-record Batch 5 and durable-claim
+Batch 6 are complete;
 the active handoff is
-`docs/handoffs/iron-gate-execution-receipt-binding-batch-5-complete.md`. Batch 5 implements the Curia
-request, Imperator decision and separate Imperator issuance records without migrating a consumer.
-The durable claim remains absent. Batch 6 is not authorized. The campaign has opened no credential, provider-journal, external-I/O, propagation,
+`docs/handoffs/iron-gate-execution-receipt-binding-batch-6-complete.md`. Batch 6 consumes one exact
+outbound authorization into a durable deterministic claim and stops at `CLAIMED_PRE_IO`. It neither
+consumes nor resolves a credential. Batch 7 is not authorized. The campaign has opened no provider-journal, external-I/O, propagation,
 telemetry, containment, incident, Iron Gate, Lazaretto, sortie, receipt or credential-platform
 behavior. No residual Transactional Authority Consumption Adoption batch remains.
