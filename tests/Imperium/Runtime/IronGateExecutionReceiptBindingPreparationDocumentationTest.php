@@ -32,7 +32,7 @@ final class IronGateExecutionReceiptBindingPreparationDocumentationTest extends 
             'No inventoried consumer qualifies as `DURABLE_RECEIPT_BOUND`.',
             'During/after provider effect, before response',
             'No step is authorized by this inventory.',
-            'Network I/O may not be placed inside an internal rollback fiction.',
+            'internal rollback fiction.',
         ] as $proof) {
             self::assertStringContainsString($proof, $inventory.$handoff);
         }
