@@ -13,6 +13,8 @@ use App\Imperium\Runtime\LaCortine\DeterministicEffectStartJournalContract;
 use App\Imperium\Runtime\LaCortine\DeterministicEffectStartJournalService;
 use App\Imperium\Runtime\LaCortine\DeterministicExecutionClaimContract;
 use App\Imperium\Runtime\LaCortine\DeterministicExecutionClaimService;
+use App\Imperium\Runtime\LaCortine\DeterministicRawProviderResultContract;
+use App\Imperium\Runtime\LaCortine\DeterministicRawProviderResultService;
 use PHPUnit\Framework\TestCase;
 
 final class IronGateExecutionReceiptBindingBatch7Test extends TestCase
@@ -121,6 +123,35 @@ final class IronGateExecutionReceiptBindingBatch7Test extends TestCase
         self::assertFalse($called);
     }
 
+    public function testObservedAcceptedResponseSealsRawReceiptAndExactProviderIdentity(): void
+    {
+        $admission = $this->invokeOnce();
+        $bytes = '{"message_id":"message-test","thread_id":"thread-test"}';
+        $service = new DeterministicRawProviderResultService($this->root);
+        $result = $service->seal($admission['admission_id'], 200, $bytes, $this->time('+3 minutes'), $this->time('+3 minutes'));
+
+        self::assertSame(DeterministicRawProviderResultContract::REQUIRED_FIELDS, array_keys($result));
+        self::assertSame('ACCEPTED', $result['provider_outcome']['status']);
+        self::assertSame(['message_id' => 'message-test', 'thread_id' => 'thread-test'], $result['provider_outcome']['provider_receipt_identity']);
+        self::assertSame(hash('sha256', $bytes), $result['raw_receipt']['content_digest']);
+        self::assertSame($bytes, base64_decode($result['raw_receipt']['content_base64'], true));
+        self::assertSame('RAW_RECEIPT_SEALED', $result['recovery']['checkpoint']);
+        self::assertFalse($result['recovery']['automatic_replay_permitted']);
+        self::assertFalse($result['recovery']['provider_reinvoked']);
+        self::assertSame($result, $service->seal($admission['admission_id'], 200, $bytes, $this->time('+4 minutes'), $this->time('+4 minutes')));
+        self::assertFalse(is_dir($this->root.'/var/imperium/lazaretto'));
+    }
+
+    public function testObservedRejectionIsNotMisreportedAsAcceptance(): void
+    {
+        $admission = $this->invokeOnce();
+        $result = (new DeterministicRawProviderResultService($this->root))->seal($admission['admission_id'], 422, '{"error":"rejected"}', $this->time('+3 minutes'), $this->time('+3 minutes'));
+
+        self::assertSame('REJECTED', $result['provider_outcome']['status']);
+        self::assertNull($result['provider_outcome']['provider_receipt_identity']);
+        self::assertSame('RAW_RECEIPT_SEALED', $result['recovery']['checkpoint']);
+    }
+
     private function writeClaim(): void
     {
         $record = [
@@ -155,6 +186,16 @@ final class IronGateExecutionReceiptBindingBatch7Test extends TestCase
     private function payload(): string
     {
         return '{"to":["test@example.test"]}';
+    }
+
+    private function invokeOnce(): array
+    {
+        $journal = (new DeterministicEffectStartJournalService($this->root))->start($this->claimId, $this->time('+1 minute'));
+        $capability = new CredentialCapability('credential-capability.test', 'credential-reference-only', 'commission-test', 'email.send', $this->time('+5 minutes'));
+        (new DeterministicJournalBoundCredentialBroker($this->root, $this->credentials($capability), new AgentMailIdempotencyHeaderAdapter()))->invoke($journal['journal_id'], $capability, $this->payload(), $this->time('+2 minutes'), static fn (): array => ['observed' => true]);
+        $paths = glob($this->root.'/'.DeterministicJournalBoundCredentialBroker::ADMISSIONS.'/*.json') ?: [];
+        self::assertCount(1, $paths);
+        return json_decode((string) file_get_contents($paths[0]), true, 512, JSON_THROW_ON_ERROR);
     }
 
     private function credentials(CredentialCapability $expected): CredentialBroker

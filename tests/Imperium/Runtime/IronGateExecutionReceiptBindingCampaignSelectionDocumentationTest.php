@@ -14,7 +14,7 @@ final class IronGateExecutionReceiptBindingCampaignSelectionDocumentationTest ex
         $campaign = (string) file_get_contents($root.'/docs/next-campaign-iron-gate-execution-receipt-binding.md');
         $ready = (string) file_get_contents($root.'/docs/handoffs/iron-gate-execution-receipt-binding-campaign-ready.md');
 
-        self::assertStringContainsString('`BATCH_8_JOURNAL_GATED_PROVIDER_CALLBACK_NO_LIVE_IO`', $campaign);
+        self::assertStringContainsString('`BATCH_9_RAW_PROVIDER_RECEIPT_AND_OUTCOME_DURABLE`', $campaign);
         self::assertStringContainsString('The smallest first migration candidate is the deterministic lane', $campaign);
         foreach (['OutboundRequest', 'IronGate::dispatch()', 'DeterministicBoundaryExecutor', 'CredentialBroker', 'RawExternalPayload', 'Lazaretto', 'Sortie lane'] as $surface) {
             self::assertStringContainsString($surface, $campaign);
@@ -26,7 +26,7 @@ final class IronGateExecutionReceiptBindingCampaignSelectionDocumentationTest ex
             self::assertStringContainsString($classification, $campaign);
         }
         self::assertStringContainsString('Only Preparation Batch 0 is authorized', $ready);
-        self::assertStringContainsString('Batches 1–8 are complete', $campaign);
+        self::assertStringContainsString('Batches 1–9 are complete', $campaign);
         self::assertStringContainsString('Preparation Batch 0, which is now complete', $ready);
         self::assertStringContainsString('Batch 1 is', $ready);
         self::assertStringContainsString('No residual Transactional Authority Consumption Adoption batch remains', $ready);
@@ -42,8 +42,8 @@ final class IronGateExecutionReceiptBindingCampaignSelectionDocumentationTest ex
             self::assertStringContainsString($stop, $campaign);
         }
         self::assertStringContainsString('Preparation Batch 0 and', $flow);
-        self::assertStringContainsString('in-memory provider callback', $flow);
-        self::assertStringContainsString('Batch 8 puts credential', $flow);
-        self::assertStringContainsString('Batch 9 is not authorized', $flow);
+        self::assertStringContainsString('missing responses remain unknown', $flow);
+        self::assertStringContainsString('Batch 9 seals one observed', $flow);
+        self::assertStringContainsString('Batch 10 is not authorized', $flow);
     }
 }
