@@ -14,7 +14,7 @@ final class IronGateExecutionReceiptBindingCampaignSelectionDocumentationTest ex
         $campaign = (string) file_get_contents($root.'/docs/next-campaign-iron-gate-execution-receipt-binding.md');
         $ready = (string) file_get_contents($root.'/docs/handoffs/iron-gate-execution-receipt-binding-campaign-ready.md');
 
-        self::assertStringContainsString('`BATCH_10_ACCEPTED_RECEIPT_BOUND_AND_RECONSTRUCTIBLE`', $campaign);
+        self::assertStringContainsString('`TERMINAL_THROUGH_BATCH_11`', $campaign);
         self::assertStringContainsString('The smallest first migration candidate is the deterministic lane', $campaign);
         foreach (['OutboundRequest', 'IronGate::dispatch()', 'DeterministicBoundaryExecutor', 'CredentialBroker', 'RawExternalPayload', 'Lazaretto', 'Sortie lane'] as $surface) {
             self::assertStringContainsString($surface, $campaign);
@@ -26,7 +26,7 @@ final class IronGateExecutionReceiptBindingCampaignSelectionDocumentationTest ex
             self::assertStringContainsString($classification, $campaign);
         }
         self::assertStringContainsString('Only Preparation Batch 0 is authorized', $ready);
-        self::assertStringContainsString('Batches 1–10 are complete', $campaign);
+        self::assertStringContainsString('Batches 1–11 are complete', $campaign);
         self::assertStringContainsString('Preparation Batch 0, which is now complete', $ready);
         self::assertStringContainsString('Batch 1 is', $ready);
         self::assertStringContainsString('No residual Transactional Authority Consumption Adoption batch remains', $ready);
@@ -43,7 +43,8 @@ final class IronGateExecutionReceiptBindingCampaignSelectionDocumentationTest ex
         }
         self::assertStringContainsString('Preparation Batch 0 and', $flow);
         self::assertStringContainsString('Rejection and unknown remain unadmitted', $flow);
-        self::assertStringContainsString('Batch 10 admits only an', $flow);
-        self::assertStringContainsString('Batch 11 is not authorized', $flow);
+        self::assertStringContainsString('adversarial closeout Batch 11 are complete', $flow);
+        self::assertStringContainsString('No batches remain', $flow);
+        self::assertStringContainsString('sortie remains a', strtolower($flow));
     }
 }
