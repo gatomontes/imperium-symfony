@@ -2,14 +2,14 @@
 
 ## Status
 
-`BATCH_8_OPERATIONAL_ADOPTION_SINGLE_RESULT_AUTHORITIES_ADOPTED`
+`BATCH_9_DELEGATE_MODEL_GOVERNANCE_AUTHORITIES_ADOPTED`
 
 This document defines the shared version-1 mechanics represented by
 `TransactionalAuthorityConsumptionContract` and `AuthorityConsumptionRecoveryContract`. The
 contract classes remain declarative and do not themselves issue, consume, revoke, persist, lock,
 recover, retry, or execute anything. The adopted operational, governance, and Delegate provider
 claims plus the deterministic Delegate Senate, model-bound Profile Senate opening, and
-operational-adoption reconciliation/disposition results compose them through
+operational-adoption reconciliation/disposition and Delegate model-governance results compose them through
 `TransactionalAuthorityConsumptionEnvelope`; other consumers remain unmigrated.
 
 ## Consumption envelope
@@ -218,6 +218,26 @@ Governing intake is not adopted because no canonical single-use intake authority
 Independent assessment remains `RECOVERY_INCOMPLETE` because the assessment and optional panel
 completion are separate writes without a checkpoint that can preserve the original completion
 timestamp. Batch 8 does not invent either missing contract.
+
+## Batch 9 Delegate model-governance adoption
+
+Two deterministic Curia consumers now compose the contract through
+`DelegateMissionModelGovernanceAuthorityTransition`: presentation of exact model criteria and the
+post-Oracle Delegate model-selection decision. Each result already carries instance identity, one
+explicit single-use authority ID, exact immutable source digest, Seneschal identity and an existing
+commit timestamp.
+
+Each consumer derives one lock from its unchanged authority:
+
+`delegate-model-governance-authority:<sha256 authorityId>`
+
+The lock encloses reread, validation, result selection, logical consumption and immutable commit.
+Historical results remain valid without rewrite. Adopted records reconstruct the exact consumer
+from their schema; contention and fault-after-commit recovery converge without external effect.
+
+No version-1 envelope is synthesized for legacy Oracle results that omit instance identity or use
+boolean authority, nor for multi-write eligibility/issuance paths. Oracle research, model binding,
+credential access, resource decision and provider activation remain outside this batch.
 
 ## Closed boundaries
 
