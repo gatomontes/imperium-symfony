@@ -30,10 +30,26 @@ final readonly class DelegateMissionModelBindingSealingService
             throw new \InvalidArgumentException('R280_DELEGATE_MODEL_SELECTION_DECISION_ID_INVALID');
         }
 
+        return DelegateMissionModelBindingAuthorityTransition::run(
+            $this->bindings,
+            $authorityId,
+            fn (): array => $this->sealLocked($decisionId, $authorityId, $sealedAt),
+        );
+    }
+
+    private function sealLocked(string $decisionId, string $authorityId, \DateTimeImmutable $sealedAt): array
+    {
         $decision = $this->read($this->decisions.'/'.$decisionId.'.json', 'R281_DELEGATE_MODEL_SELECTION_DECISION_ABSENT');
         foreach (glob($this->bindings.'/*.json') ?: [] as $path) {
             $existing = $this->read($path, 'R289_DELEGATE_MODEL_BINDING_CONFLICT');
             if (($existing['source_selection_decision']['id'] ?? null) === $decisionId) {
+                if (!$this->validDigest($decision)
+                    || ($existing['source_selection_decision']['digest'] ?? null) !== ($decision['record_digest'] ?? null)
+                    || ($existing['binding_authority']['id'] ?? null) !== $authorityId
+                    || !$this->validDigest($existing)
+                    || !DelegateMissionModelBindingAuthorityTransition::isExactOrHistorical($existing)) {
+                    throw new \RuntimeException('R289_DELEGATE_MODEL_BINDING_CONFLICT');
+                }
                 return $existing;
             }
         }
@@ -76,7 +92,7 @@ final readonly class DelegateMissionModelBindingSealingService
         $bindingId = 'delegate-mission-model-binding-'.substr(hash('sha256', CanonicalJson::encode([$decisionId, $decision['record_digest'], $authorityId, $decision['selected_model'], $decision['configuration'], $target])), 0, 20);
         $attestationAuthorityId = 'delegate-mission-model-access-attestation-authority-'.substr(hash('sha256', CanonicalJson::encode([$bindingId, $decision['selected_model'], $target])), 0, 20);
 
-        return $this->save($bindingId, [
+        return DelegateMissionModelBindingAuthorityTransition::put($this->bindings, $bindingId, [
             'schema' => 'imperium.conscription-delegate-mission-model-binding/v1', 'binding_id' => $bindingId, 'instance_id' => $instanceId, 'binder' => $actor,
             'source_selection_decision' => ['id' => $decisionId, 'digest' => $decision['record_digest']], 'source_recommendation' => $decision['source_recommendation'], 'source_oracle_commission' => ['id' => $oracleCommissionId, 'digest' => $oracleCommission['record_digest']], 'source_commission' => ['id' => $commissionId, 'digest' => $commission['record_digest']],
             'target' => $target, 'provider_model_version' => $decision['selected_model'], 'runtime_binding' => $decision['selected_runtime_binding'], 'configuration' => $decision['configuration'],
@@ -84,7 +100,7 @@ final readonly class DelegateMissionModelBindingSealingService
             'status' => 'DELEGATE_MISSION_MODEL_BINDING_SEALED_PENDING_ACCESS_ATTESTATION', 'model_binding_sealed' => true,
             'model_access_attestation_authority' => ['authority_id' => $attestationAuthorityId, 'authority_single_use' => true, 'authority_exercisable' => true, 'holder' => 'clavium.locksmith', 'purpose' => 'ATTEST_ACCESS_TO_EXACT_BOUND_MODEL_WITHOUT_RELEASING_CREDENTIALS', 'consumed' => false, 'continuing_authority' => false],
             'profile_mutated' => false, 'model_assigned' => false, 'access_attested' => false, 'credential_released' => false, 'provider_invoked' => false, 'resource_available' => false, 'external_action_authorized' => false, 'execution_authority' => false, 'sealed' => true,
-        ]);
+        ], self::class, 'R288_DELEGATE_MODEL_BINDING_FAILED', 'R289_DELEGATE_MODEL_BINDING_CONFLICT');
     }
 
     private function recruiter(): array
@@ -117,13 +133,4 @@ final readonly class DelegateMissionModelBindingSealingService
         return is_string($digest) && hash_equals($digest, hash('sha256', CanonicalJson::encode($record)));
     }
 
-    private function save(string $bindingId, array $record): array
-    {
-        if (!is_dir($this->bindings) && !mkdir($this->bindings, 0770, true) && !is_dir($this->bindings)) {
-            throw new \RuntimeException('R288_DELEGATE_MODEL_BINDING_FAILED');
-        }
-        $record['record_digest'] = hash('sha256', CanonicalJson::encode($record));
-        file_put_contents($this->bindings.'/'.$bindingId.'.json', json_encode($record, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)."\n", LOCK_EX);
-        return $record;
-    }
 }

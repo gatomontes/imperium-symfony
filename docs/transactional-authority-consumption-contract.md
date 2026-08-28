@@ -2,14 +2,14 @@
 
 ## Status
 
-`BATCH_9_DELEGATE_MODEL_GOVERNANCE_AUTHORITIES_ADOPTED`
+`BATCH_10_DELEGATE_MODEL_BINDING_AUTHORITY_ADOPTED`
 
 This document defines the shared version-1 mechanics represented by
 `TransactionalAuthorityConsumptionContract` and `AuthorityConsumptionRecoveryContract`. The
 contract classes remain declarative and do not themselves issue, consume, revoke, persist, lock,
 recover, retry, or execute anything. The adopted operational, governance, and Delegate provider
 claims plus the deterministic Delegate Senate, model-bound Profile Senate opening, and
-operational-adoption reconciliation/disposition and Delegate model-governance results compose them through
+operational-adoption reconciliation/disposition, Delegate model-governance and Delegate model-binding results compose them through
 `TransactionalAuthorityConsumptionEnvelope`; other consumers remain unmigrated.
 
 ## Consumption envelope
@@ -238,6 +238,26 @@ from their schema; contention and fault-after-commit recovery converge without e
 No version-1 envelope is synthesized for legacy Oracle results that omit instance identity or use
 boolean authority, nor for multi-write eligibility/issuance paths. Oracle research, model binding,
 credential access, resource decision and provider activation remain outside this batch.
+
+## Batch 10 Delegate model-binding adoption
+
+The exact selected-model construction act now composes the contract through
+`DelegateMissionModelBindingAuthorityTransition`. Its existing result preserves one explicit
+single-use authority ID, instance identity, immutable selection-decision digest, occupied Recruiter,
+complete target/model/runtime/configuration and `sealed_at`.
+
+The unchanged authority derives one lock:
+
+`delegate-model-binding-authority:<sha256 authorityId>`
+
+That lock encloses authoritative reread, validation, replay selection, logical consumption and one
+immutable binding commit. Historical records replay without rewrite; adopted records reconstruct
+their exact envelope. Contention and fault-after-commit recovery converge without model access,
+credential resolution, provider activation or external effect.
+
+Construction/admission paths that expose only boolean power, omit a native commit timestamp, or
+write multiple dependent records remain undecorated. Clavium access and provider activation remain
+deferred credential-platform work; Imperator resource/invocation decision remains unchanged.
 
 ## Closed boundaries
 
