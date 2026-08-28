@@ -83,7 +83,8 @@ final class DelegateMissionSenateAuthorityTransitionTest extends TestCase
             $processes[$index] = proc_open([PHP_BINARY, $worker, $this->root, $authorityId, $gate, $contender], $descriptors, $pipes[$index]);
             self::assertIsResource($processes[$index]);
         }
-        touch($gate);
+        self::assertTrue(is_dir($this->root) || mkdir($this->root, 0770, true));
+        self::assertTrue(touch($gate));
         $results = [];
         for ($index = 0; $index < 2; ++$index) {
             $results[] = stream_get_contents($pipes[$index][1]);
