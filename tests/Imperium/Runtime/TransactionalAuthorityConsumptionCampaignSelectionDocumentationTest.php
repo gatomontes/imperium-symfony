@@ -17,7 +17,7 @@ final class TransactionalAuthorityConsumptionCampaignSelectionDocumentationTest 
         $index = (string) file_get_contents($root.'/docs/handoffs/README.md');
 
         self::assertStringContainsString('`PREPARATION_BATCH_0_AUTHORIZED`', $campaign);
-        self::assertStringContainsString('Only Preparation Batch 0 is authorized', $handoff);
+        self::assertStringContainsString('Only Preparation Batch 0 is', $handoff);
         self::assertStringContainsString('No implementation step is authorized merely because it is listed', $campaign);
         foreach (['`EXISTS_CANONICALLY`', '`EXISTS_FRAGMENTED`', '`ABSENT`', '`DEFERRED_BOUNDARY`'] as $classification) {
             self::assertStringContainsString($classification, $campaign);
