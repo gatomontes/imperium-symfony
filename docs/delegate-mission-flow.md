@@ -223,9 +223,9 @@ separately versioned Batch 1 contracts, and the first operational cognition clai
 2 are complete. Batch 3 proves the adopted claim at every internal recovery observation without
 adding a second transaction record or moving provider I/O. Batch 4 adopts the structurally parallel
 governance cognition claim without weakening resolver identity, changing lock order, or moving the
-provider journal. Batch 5 adopts the Delegate provider claim under its unchanged composite lock and
-keeps provider I/O and recovery outside the transaction. Batch 6 remains unopened pending explicit
-authorization.
+provider journal. Batch 5 adopts the Delegate provider claim under its unchanged composite lock
+and keeps provider I/O and recovery outside the transaction.
+Batch 6 remains unopened pending explicit authorization.
 
 The campaign does not alter this route or any credential, provider-journal, external-I/O,
 propagation, telemetry, containment, incident, Iron Gate, Lazaretto, sortie, or credential-platform
