@@ -39,7 +39,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
 
         $approvedSuccessors = $this->approvedPostBatch12RuntimeFiles();
         self::assertSame($approvedSuccessors, array_values(array_intersect($files, $approvedSuccessors)));
-        self::assertCount(485, $files);
+        self::assertCount(486, $files);
         self::assertCount(482, array_values(array_diff($files, $approvedSuccessors)));
         self::assertCount(371, array_values(array_diff($authorityFiles, $approvedSuccessors)));
         self::assertCount(231, $candidates);
@@ -94,7 +94,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
             $this->phpFiles($root, $runtime.'/Sortie'),
         );
         sort($perimeter, SORT_STRING);
-        $approvedSuccessors = $this->approvedPostBatch12RuntimeFiles();
+        $approvedSuccessors = $this->approvedPostBatch12PerimeterFiles();
         self::assertSame($approvedSuccessors, array_values(array_intersect($perimeter, $approvedSuccessors)));
         self::assertCount(42, $perimeter);
         self::assertCount(39, array_values(array_diff($perimeter, $approvedSuccessors)));
@@ -175,6 +175,17 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
 
     /** @return list<string> */
     private function approvedPostBatch12RuntimeFiles(): array
+    {
+        return [
+            'src/Imperium/Runtime/Imperator/OutboundEmailAuthorizationIssuanceContract.php',
+            'src/Imperium/Runtime/LaCortine/DeterministicExecutionClaimContract.php',
+            'src/Imperium/Runtime/LaCortine/DeterministicOutboundEmailAuthorizationContract.php',
+            'src/Imperium/Runtime/LaCortine/DeterministicReceiptBindingContract.php',
+        ];
+    }
+
+    /** @return list<string> */
+    private function approvedPostBatch12PerimeterFiles(): array
     {
         return [
             'src/Imperium/Runtime/LaCortine/DeterministicExecutionClaimContract.php',
