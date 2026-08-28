@@ -2,7 +2,7 @@
 
 ## Campaign status
 
-`BATCH_9_DELEGATE_MODEL_GOVERNANCE_AUTHORITIES_ADOPTED_BATCH_10_NOT_AUTHORIZED`
+`BATCH_10_DELEGATE_MODEL_BINDING_AUTHORITY_ADOPTED_BATCH_11_NOT_AUTHORIZED`
 
 Operational Cognition Lease Interruption is terminal through Batch 6. The next separately bounded
 campaign is adoption of canonical transactional authority-consumption and recovery semantics across
@@ -210,18 +210,44 @@ consumers remain separately bounded construction, credential and provider-admiss
 The completion handoff is
 `docs/handoffs/transactional-authority-consumption-batch-9-complete.md`.
 
-Batch 10 remains unopened pending explicit authorization. Its smallest safe candidate is the
-construction and admission consumer cluster.
+## Batch 10 result
+
+Batch 10 audits the construction/admission cluster and adopts exactly one complete construction
+consumer: `DelegateMissionModelBindingSealingService`. Its native binding result already preserves
+the exact instance, selection-decision digest, Recruiter identity, single-use binding authority ID,
+complete model/target/configuration and `sealed_at` through one immutable write.
+
+`DelegateMissionModelBindingAuthorityTransition` locks
+
+`delegate-model-binding-authority:<sha256 authorityId>`
+
+before authoritative reread, actor validation, winner selection, logical consumption and immutable
+commit. It fingerprints the unchanged result, accepts exact historical replay without rewrite, and
+rejects divergent adopted envelopes. Two-process competing bindings and fault-after-commit recovery
+converge without model access, credentials, provider invocation or external effect.
+
+No admission consumer is forced into that boundary. Canonical subordinate admission writes custody
+and disposition separately under occupancy booleans and has no recovery checkpoint or native commit
+timestamp. Older commissioning, conscription, cohort binding and construction paths use boolean
+authority, omit native transaction identity, or fan out over multiple writes. Clavium access and
+activation remain deferred credential-platform boundaries; Imperator resource/invocation decision
+remains unchanged between those surfaces.
+
+The completion handoff is
+`docs/handoffs/transactional-authority-consumption-batch-10-complete.md`.
+
+Batch 11 remains unopened pending explicit authorization. Its smallest safe candidate is the older
+multi-write operational, bootstrap, Legate, Oracle/model-governance and deferred operational-
+adoption recovery cluster.
 
 ## Provisional remaining-batch countdown
 
-Four batches remain after Batch 9 under the current inventory. This is a planning forecast, not
+Three batches remain after Batch 10 under the current inventory. This is a planning forecast, not
 authorization to combine consumers when proof exposes a narrower boundary:
 
-1. Batch 10 — construction and admission consumers;
-2. Batch 11 — older multi-write operational, bootstrap, Legate, Oracle/model-governance, and deferred operational-adoption recovery clusters;
-3. Batch 12 — mechanical coverage reconstruction, explicit exclusions, and adversarial review; and
-4. Batch 13 — documentation-only campaign closeout.
+1. Batch 11 — older multi-write operational, bootstrap, Legate, Oracle/model-governance, and deferred operational-adoption recovery clusters;
+2. Batch 12 — mechanical coverage reconstruction, explicit exclusions, and adversarial review; and
+3. Batch 13 — documentation-only campaign closeout.
 
 Any cluster that cannot share one lock, replay, recovery, and proof boundary must split rather than
 be forced into this forecast.
