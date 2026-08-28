@@ -20,6 +20,13 @@ The deterministic lane is the first candidate to assess because its operation, d
 payload are already decided and it uses no external cognition. The sortie lane remains separately
 bounded unless the inventory proves otherwise.
 
+## Exact launch point
+
+This is the active continuation handoff. Begin Preparation Batch 0 and stop after the inventory,
+classifications, consumer postures and smallest safe migration sequence are documented and tested.
+No later step in the provisional campaign sequence is open.
+No residual Transactional Authority Consumption Adoption batch remains.
+
 ## Preserved boundaries
 
 Preparation opens no Iron Gate execution, external call, authority, receipt, provider journal,
@@ -29,7 +36,7 @@ containment or incident behavior. No terminal campaign or Delegate Mission step 
 ## New-chat continuation
 
 > Continue Imperium from `main` after the merged Transactional Authority Consumption Adoption
-> campaign-closeout commit.
+> campaign-closeout and documentation-assertion repair commits.
 >
 > Read `docs/handoffs/transactional-authority-consumption-campaign-complete.md`,
 > `docs/handoffs/iron-gate-execution-receipt-binding-campaign-ready.md`,
