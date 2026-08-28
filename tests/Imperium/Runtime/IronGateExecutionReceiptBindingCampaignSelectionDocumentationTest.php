@@ -42,7 +42,7 @@ final class IronGateExecutionReceiptBindingCampaignSelectionDocumentationTest ex
             self::assertStringContainsString($stop, $campaign);
         }
         self::assertStringContainsString('Preparation Batch 0 and', $flow);
-        self::assertStringContainsString('Rejection and unknown remain unadmitted', $flow);
+        self::assertStringContainsString('rejection and unknown remain unadmitted', $flow);
         self::assertStringContainsString('adversarial closeout Batch 11 are complete', $flow);
         self::assertStringContainsString('No batches remain', $flow);
         self::assertStringContainsString('sortie remains a', strtolower($flow));
