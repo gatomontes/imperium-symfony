@@ -16,6 +16,7 @@ use App\Imperium\Runtime\LaCortine\DeterministicExecutionClaimService;
 use App\Imperium\Runtime\LaCortine\DeterministicLazarettoReceiptAdmissionService;
 use App\Imperium\Runtime\LaCortine\DeterministicRawProviderResultContract;
 use App\Imperium\Runtime\LaCortine\DeterministicRawProviderResultService;
+use App\Imperium\Runtime\LaCortine\DeterministicProviderResponseEnvelopeContract;
 use PHPUnit\Framework\TestCase;
 
 final class IronGateExecutionReceiptBindingBatch7Test extends TestCase
@@ -122,6 +123,43 @@ final class IronGateExecutionReceiptBindingBatch7Test extends TestCase
             self::assertSame('IGB611_EFFECT_START_JOURNAL_ABSENT', $exception->getMessage());
         }
         self::assertFalse($called);
+    }
+
+    public function testExactObservedCallbackResponseProducesOneBoundEnvelopeAndSealedContent(): void
+    {
+        $journal = (new DeterministicEffectStartJournalService($this->root))->start($this->claimId, $this->time('+1 minute'));
+        $capability = new CredentialCapability('credential-capability.test', 'credential-reference-only', 'commission-test', 'email.send', $this->time('+5 minutes'));
+        $body = '{"message_id":"message-observed","thread_id":"thread-observed"}';
+        $response = ['http_status' => 200, 'headers' => ['Content-Type' => 'application/json'], 'body' => $body, 'observed_at' => $this->time('+2 minutes')->format(DATE_ATOM), 'received_at' => $this->time('+2 minutes')->format(DATE_ATOM)];
+
+        self::assertSame($response, (new DeterministicJournalBoundCredentialBroker($this->root, $this->credentials($capability), new AgentMailIdempotencyHeaderAdapter()))->invoke($journal['journal_id'], $capability, $this->payload(), $this->time('+2 minutes'), static fn (): array => $response));
+        $envelopes = glob($this->root.'/'.DeterministicJournalBoundCredentialBroker::RESPONSE_ENVELOPES.'/*.json') ?: [];
+        $contents = glob($this->root.'/'.DeterministicJournalBoundCredentialBroker::RESPONSE_CONTENT.'/*.json') ?: [];
+        self::assertCount(1, $envelopes);
+        self::assertCount(1, $contents);
+        $envelope = json_decode((string) file_get_contents($envelopes[0]), true, 512, JSON_THROW_ON_ERROR);
+        $content = json_decode((string) file_get_contents($contents[0]), true, 512, JSON_THROW_ON_ERROR);
+        self::assertSame(DeterministicProviderResponseEnvelopeContract::REQUIRED_FIELDS, array_keys($envelope));
+        self::assertSame(DeterministicProviderResponseEnvelopeContract::PRODUCER, $envelope['produced_by']);
+        self::assertSame('PROVIDER_RESPONSE_OBSERVED', $envelope['recovery']['checkpoint']);
+        self::assertSame(hash('sha256', $body), $envelope['provider_observation']['content_digest']);
+        self::assertSame($body, base64_decode($content['content_base64'], true));
+        self::assertStringNotContainsString('test-secret-material', (string) file_get_contents($envelopes[0]).(string) file_get_contents($contents[0]));
+    }
+
+    public function testThrownCallbackCreatesAdmissionButNoResponseEnvelope(): void
+    {
+        $journal = (new DeterministicEffectStartJournalService($this->root))->start($this->claimId, $this->time('+1 minute'));
+        $capability = new CredentialCapability('credential-capability.test', 'credential-reference-only', 'commission-test', 'email.send', $this->time('+5 minutes'));
+        try {
+            (new DeterministicJournalBoundCredentialBroker($this->root, $this->credentials($capability), new AgentMailIdempotencyHeaderAdapter()))->invoke($journal['journal_id'], $capability, $this->payload(), $this->time('+2 minutes'), static fn (): never => throw new \RuntimeException('provider-timeout'));
+            self::fail('The provider exception must escape without manufacturing response evidence.');
+        } catch (\RuntimeException $exception) {
+            self::assertSame('provider-timeout', $exception->getMessage());
+        }
+        self::assertCount(1, glob($this->root.'/'.DeterministicJournalBoundCredentialBroker::ADMISSIONS.'/*.json') ?: []);
+        self::assertSame([], glob($this->root.'/'.DeterministicJournalBoundCredentialBroker::RESPONSE_ENVELOPES.'/*.json') ?: []);
+        self::assertSame([], glob($this->root.'/'.DeterministicJournalBoundCredentialBroker::RESPONSE_CONTENT.'/*.json') ?: []);
     }
 
     public function testObservedAcceptedResponseSealsRawReceiptAndExactProviderIdentity(): void

@@ -13,6 +13,7 @@ use App\Imperium\Runtime\LaCortine\DeterministicEffectStartJournalService;
 use App\Imperium\Runtime\LaCortine\DeterministicExecutionClaimContract;
 use App\Imperium\Runtime\LaCortine\DeterministicExecutionClaimService;
 use App\Imperium\Runtime\LaCortine\DeterministicProviderInvocationAdmissionContract;
+use App\Imperium\Runtime\LaCortine\DeterministicProviderResponseEnvelopeContract;
 use App\Imperium\Runtime\Persistence\AtomicTransition;
 use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
 use App\Imperium\Runtime\Persistence\RecordReferenceValidator;
@@ -21,6 +22,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 final readonly class DeterministicJournalBoundCredentialBroker
 {
     public const string ADMISSIONS = 'var/imperium/la-cortine/deterministic-provider-invocation-admissions';
+    public const string RESPONSE_ENVELOPES = 'var/imperium/la-cortine/deterministic-provider-response-envelopes';
+    public const string RESPONSE_CONTENT = 'var/imperium/la-cortine/deterministic-provider-response-content';
     private RecordReferenceValidator $validator;
     private ImmutableRecordStore $records;
     private AtomicTransition $atomic;
@@ -99,6 +102,75 @@ final readonly class DeterministicJournalBoundCredentialBroker
             ]);
         });
 
-        return $this->credentials->consume($capability, fn (mixed $authentication): mixed => $this->adapter->invoke($journal, $admission['provider_request']['destination'], $payload, $authentication, $providerCallback));
+        return $this->credentials->consume($capability, function (mixed $authentication) use ($journal, $admission, $claim, $payload, $providerCallback, $at): mixed {
+            $response = $this->adapter->invoke($journal, $admission['provider_request']['destination'], $payload, $authentication, $providerCallback);
+            if ($this->isObservedResponse($response)) {
+                $this->captureResponse($journal, $admission, $claim, $response, $at, $authentication);
+            }
+
+            return $response;
+        });
+    }
+
+    private function isObservedResponse(mixed $response): bool
+    {
+        return is_array($response) && ['http_status', 'headers', 'body', 'observed_at', 'received_at'] === array_keys($response);
+    }
+
+    private function captureResponse(array $journal, array $admission, array $claim, array $response, \DateTimeImmutable $callbackStartedAt, mixed $authentication): array
+    {
+        if (!is_int($response['http_status']) || $response['http_status'] < 100 || $response['http_status'] > 599
+            || !is_array($response['headers']) || !is_string($response['body'])
+            || !is_string($response['observed_at']) || !is_string($response['received_at'])) {
+            throw new \RuntimeException('IGB616_PROVIDER_RESPONSE_OBSERVATION_INVALID');
+        }
+        try {
+            $observedAt = new \DateTimeImmutable($response['observed_at']);
+            $receivedAt = new \DateTimeImmutable($response['received_at']);
+        } catch (\Exception $exception) {
+            throw new \RuntimeException('IGB616_PROVIDER_RESPONSE_OBSERVATION_INVALID', 0, $exception);
+        }
+        if ($observedAt < $callbackStartedAt || $receivedAt < $observedAt || $receivedAt > new \DateTimeImmutable($journal['expires_at'])) {
+            throw new \RuntimeException('IGB616_PROVIDER_RESPONSE_OBSERVATION_INVALID');
+        }
+        foreach ($response['headers'] as $name => $value) {
+            if (!is_string($name) || '' === trim($name) || (!is_string($value) && !is_array($value))) throw new \RuntimeException('IGB616_PROVIDER_RESPONSE_OBSERVATION_INVALID');
+            if (is_array($value)) foreach ($value as $item) if (!is_string($item)) throw new \RuntimeException('IGB616_PROVIDER_RESPONSE_OBSERVATION_INVALID');
+        }
+        if (is_string($authentication) && '' !== $authentication && (str_contains($response['body'], $authentication) || str_contains(CanonicalJson::encode($response['headers']), $authentication))) {
+            throw new \RuntimeException('IGB616_PROVIDER_RESPONSE_OBSERVATION_INVALID');
+        }
+
+        $contentDigest = hash('sha256', $response['body']);
+        $headersDigest = hash('sha256', CanonicalJson::encode($response['headers']));
+        $contentId = 'deterministic-provider-response-content-'.substr(hash('sha256', CanonicalJson::encode([$admission['admission_id'], $contentDigest])), 0, 20);
+        $envelopeId = 'deterministic-provider-response-envelope-'.substr(hash('sha256', CanonicalJson::encode([$admission['admission_id'], $admission['record_digest'], $response['http_status'], $headersDigest, $contentDigest])), 0, 20);
+        $envelope = [
+            'schema' => DeterministicProviderResponseEnvelopeContract::SCHEMA,
+            'envelope_id' => $envelopeId,
+            'instance_id' => $journal['instance_id'],
+            'provider_invocation_admission' => ['id' => $admission['admission_id'], 'digest' => $admission['record_digest']],
+            'effect_start_journal' => ['id' => $journal['journal_id'], 'digest' => $journal['record_digest']],
+            'execution_claim' => ['id' => $claim['claim_id'], 'digest' => $claim['record_digest']],
+            'source_authorization' => ['id' => $claim['source_authorization']['id'], 'digest' => $claim['source_authorization']['digest']],
+            'request' => ['operation' => $claim['request']['operation'], 'destination' => $claim['request']['destination'], 'payload_digest' => $claim['request']['payload_digest'], 'provider_idempotency_key' => $journal['provider_safety']['provider_idempotency_key'], 'request_fingerprint' => $journal['provider_safety']['request_fingerprint']],
+            'provider_observation' => ['http_status' => $response['http_status'], 'headers_digest' => $headersDigest, 'content_digest' => $contentDigest, 'sealed_content_reference' => self::RESPONSE_CONTENT.'/'.$contentId.'.json#content_base64', 'callback_started_at' => $callbackStartedAt->format(DATE_ATOM), 'response_observed_at' => $observedAt->format(DATE_ATOM), 'received_at' => $receivedAt->format(DATE_ATOM)],
+            'recovery' => ['checkpoint' => 'PROVIDER_RESPONSE_OBSERVED', 'automatic_replay_permitted' => false, 'provider_reinvoked' => false],
+            'produced_by' => DeterministicProviderResponseEnvelopeContract::PRODUCER,
+            'captured_at' => $receivedAt->format(DATE_ATOM),
+            'sealed' => true,
+        ];
+
+        return $this->atomic->run('iron-gate-provider-response:'.$admission['admission_id'], function () use ($admission, $contentId, $contentDigest, $response, $envelopeId, $envelope): array {
+            foreach (glob($this->root.'/'.self::RESPONSE_ENVELOPES.'/*.json') ?: [] as $path) {
+                $prior = $this->validator->read($path, 'IGB617_PROVIDER_RESPONSE_ENVELOPE_CONFLICT');
+                if (($prior['provider_invocation_admission']['id'] ?? null) !== $admission['admission_id']) continue;
+                if (!$this->validator->isIntact($prior) || ($prior['envelope_id'] ?? null) !== $envelopeId) throw new \RuntimeException('IGB617_PROVIDER_RESPONSE_ENVELOPE_CONFLICT');
+                return $prior;
+            }
+            $this->records->put(self::RESPONSE_CONTENT, $contentId, ['schema' => 'imperium.la-cortine.deterministic-provider-response-content/v1', 'content_id' => $contentId, 'provider_invocation_admission' => ['id' => $admission['admission_id'], 'digest' => $admission['record_digest']], 'content_digest' => $contentDigest, 'content_base64' => base64_encode($response['body']), 'sealed' => true]);
+
+            return $this->records->put(self::RESPONSE_ENVELOPES, $envelopeId, $envelope);
+        });
     }
 }

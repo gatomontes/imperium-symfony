@@ -2,11 +2,11 @@
 
 ## Status
 
-`CONTRACT_DEFINED_NOT_IMPLEMENTED`
+`SOLE_PRODUCER_IMPLEMENTED_NO_CONSUMER_MIGRATED`
 
 `DeterministicProviderResponseEnvelopeContract` defines the first authoritative evidence object that
-may represent bytes observed from the admitted provider callback. It grants no authority, captures
-nothing and has no runtime producer in Batch 1.
+may represent bytes observed from the admitted provider callback. Batch 2 implements its sole
+producer inside `DeterministicJournalBoundCredentialBroker`; no downstream consumer is migrated.
 
 ## Sole producer
 
@@ -51,6 +51,7 @@ false. No envelope can authorize another callback.
 
 ## Batch 1 boundary
 
-Batch 1 adds the schema and documentation assertions only. It does not change
-`DeterministicJournalBoundCredentialBroker`, `DeterministicRawProviderResultService`, Lazaretto,
-reconstruction, AgentMail transport, Iron Gate or any live consumer. No external I/O occurs.
+Batch 2 changes only the existing in-memory journal-gated callback boundary. An exact observed
+response is sealed; a thrown callback or non-response legacy value creates no envelope. It does not
+change `DeterministicRawProviderResultService`, Lazaretto, reconstruction, AgentMail transport, Iron
+Gate or any live consumer. No external I/O occurs.
