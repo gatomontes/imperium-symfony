@@ -41,12 +41,42 @@ final class OperationalCognitionInvocationClaimServiceTest extends TestCase
         self::assertFalse($claim['network_access_performed']);
         self::assertFalse($claim['recovery']['automatic_replay_permitted']);
         self::assertTrue($claim['recovery']['unknown_outcome_requires_governed_resolution']);
+        $transaction = $claim['transactional_consumption'];
+        self::assertSame('imperium.runtime-transactional-authority-consumption/v1', $transaction['schema']);
+        self::assertSame($claim['claim_id'], $transaction['transaction_id']);
+        self::assertSame($claim['claim_fingerprint'], $transaction['replay_fingerprint']);
+        self::assertSame([$authorityId, $leaseId], array_column($transaction['authority_set'], 'authority_id'));
+        self::assertSame([1, 2], array_column($transaction['lock_plan'], 'order'));
+        self::assertSame('oca-cognition-authority:'.hash('sha256', $authorityId), $transaction['lock_plan'][0]['scope']);
+        self::assertSame('oca-lease:'.hash('sha256', $leaseId), $transaction['lock_plan'][1]['scope']);
+        self::assertSame('COMMITTED', $transaction['consumption_result']['state']);
+        self::assertFalse($transaction['consumption_result']['continuing_authority']);
+        self::assertSame('imperium.runtime-authority-consumption-recovery/v1', $transaction['recovery']['schema']);
+        self::assertSame('COMPLETE', $transaction['recovery']['checkpoint']);
+        self::assertFalse($transaction['recovery']['retry']['automatic_retry_permitted']);
+        self::assertFalse($transaction['recovery']['rollback']['authority_unconsume_permitted']);
+        self::assertFalse($transaction['recovery']['retry']['provider_reinvocation_permitted']);
+        self::assertFalse($transaction['recovery']['external_effect']['started']);
         self::assertSame($claim, $service->claim($leaseId, $authorityId, $at->modify('+1 minute')));
         self::assertCount(1, glob($this->root.'/var/imperium/runtime/operational-cognition-invocation-claims/*.json') ?: []);
         $serialized = CanonicalJson::encode($claim);
         foreach (['"credential_ref":', 'DEEPSEEK_API_KEY', 'Bearer ', 'https://api.'] as $forbidden) {
             self::assertStringNotContainsString($forbidden, $serialized);
         }
+    }
+
+    public function testStructurallyDivergentTransactionalEnvelopeFailsReplayStopped(): void
+    {
+        [$leaseId, $authorityId] = $this->fixtures();
+        $service = new OperationalCognitionInvocationClaimService($this->root);
+        $claim = $service->claim($leaseId, $authorityId, new \DateTimeImmutable('2026-08-26T16:03:00+00:00'));
+        $path = $this->root.'/var/imperium/runtime/operational-cognition-invocation-claims/'.$claim['claim_id'].'.json';
+        unset($claim['record_digest']);
+        $claim['transactional_consumption']['lock_plan'][0]['scope'] = 'oca-lease:'.hash('sha256', $leaseId);
+        $this->write($path, $claim);
+
+        $this->expectExceptionMessage('OCA405_OPERATIONAL_INVOCATION_CLAIM_CONFLICT');
+        $service->claim($leaseId, $authorityId, new \DateTimeImmutable('2026-08-26T16:04:00+00:00'));
     }
 
     #[DataProvider('invalidSourceCases')]

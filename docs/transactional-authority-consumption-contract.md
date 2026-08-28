@@ -2,7 +2,7 @@
 
 ## Status
 
-`BATCH_1_CONTRACT_DEFINED_NO_CONSUMER_MIGRATED`
+`BATCH_2_OPERATIONAL_CLAIM_ADOPTED`
 
 This document defines the shared version-1 mechanics represented by
 `TransactionalAuthorityConsumptionContract` and `AuthorityConsumptionRecoveryContract`. The
@@ -60,10 +60,24 @@ authorizes it.
 
 The contract itself grants no recovery authority and cannot infer one from a checkpoint.
 
+## Batch 2 adoption
+
+`OperationalCognitionInvocationClaimService` is the first and only adopted consumer. New claims
+embed a sealed transaction envelope while retaining the lifecycle claim schema and all existing
+consumption fields. The envelope is complete before any provider journal, credential resolution,
+network access, or external I/O. Existing pre-adoption immutable claims are neither rewritten nor
+treated as proof of adoption.
+
+Adoption preserves the exact lock order:
+
+`oca-cognition-authority:<sha256 authorityId>` → `oca-lease:<sha256 leaseId>`
+
+Exact replay validates the embedded envelope; changed transactional metadata is a conflict.
+
 ## First-adoption proof obligations
 
-No consumer migration is authorized by this contract. A separately authorized operational claim
-migration must prove:
+The separately authorized Batch 2 migration is complete. Its remaining Batch 3 proof obligations
+are:
 
 - one winner for claim/claim and claim/interruption competition;
 - complete replay equivalence and conflicting replay refusal;

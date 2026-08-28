@@ -120,6 +120,11 @@ final class InternalOperationalLeaseInterruptionEnforcementServiceTest extends T
         $results = glob($this->root.'/var/imperium/runtime/operational-cognition-lease-interruption-enforcement-results/*.json') ?: [];
         self::assertSame(1, count($claims) + count($results));
         self::assertFalse([] !== $claims && [] !== $results);
+        if ([] !== $claims) {
+            $claim = json_decode((string) file_get_contents($claims[0]), true, 512, JSON_THROW_ON_ERROR);
+            self::assertSame('imperium.runtime-transactional-authority-consumption/v1', $claim['transactional_consumption']['schema']);
+            self::assertSame([$cognitionAuthorityId, $leaseId], array_column($claim['transactional_consumption']['authority_set'], 'authority_id'));
+        }
     }
 
     private function fixtures(): array
