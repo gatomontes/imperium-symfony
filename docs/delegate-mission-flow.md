@@ -214,7 +214,13 @@ defined in `docs/next-campaign-operational-cognition-lease-interruption.md` and 
 source-authorizer `INTERRUPT` disposition, one single-use Locksmith authority, and native
 admission-result enforcement and rotation-safe read-only nine-artifact reconstruction exist. Batch
 6 additionally proves validate-before-select admission, strict timestamps, and complete canonical
-replay equivalence. No next runtime campaign is selected by the resealed closeout.
+replay equivalence.
+
+The next separately selected campaign is Transactional Authority Consumption Adoption, governed by
+`docs/next-campaign-transactional-authority-consumption.md` and
+`docs/handoffs/transactional-authority-consumption-campaign-ready.md`. Only Preparation Batch 0 is
+authorized: a read-only inventory of every consumable authority, lock and replay path, partial-state
+exposure, recovery rule, and concurrency proof. No runtime consumer migration is open.
 
 The campaign does not alter this route or any credential, provider-journal, external-I/O,
 propagation, telemetry, containment, incident, Iron Gate, Lazaretto, sortie, or credential-platform

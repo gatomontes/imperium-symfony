@@ -30,13 +30,13 @@ final class OperationalCognitionLeaseInterruptionCampaignSelectionDocumentationT
             self::assertStringContainsString($boundary, $document);
         }
         self::assertStringContainsString('Operational Cognition Lease Interruption is terminal through Batch 6', $index);
-        self::assertStringContainsString('no next runtime campaign is selected', $index);
+        self::assertStringContainsString('Transactional Authority Consumption Adoption is selected next', $index);
         self::assertStringContainsString('Only Preparation Batch 0 is authorized.', $handoff);
         self::assertStringContainsString('`oca-cognition-authority` → `oca-lease` lock order', $handoff);
         self::assertStringContainsString('Operational Cognition Lease Interruption', $flow);
         self::assertStringContainsString('does not alter this route', $flow);
         self::assertStringContainsString('terminal through Batch 6', $flow);
-        self::assertStringContainsString('No next runtime', $flow);
+        self::assertStringContainsString('next separately selected campaign is Transactional Authority Consumption Adoption', $flow);
         self::assertStringContainsString('No next runtime implementation campaign is selected', $closeout);
     }
 }
