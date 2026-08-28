@@ -218,12 +218,14 @@ replay equivalence.
 
 The next separately selected campaign is Transactional Authority Consumption Adoption, governed by
 `docs/next-campaign-transactional-authority-consumption.md` and
-`docs/handoffs/transactional-authority-consumption-batch-4-complete.md`. Preparation Batch 0, the
+`docs/handoffs/transactional-authority-consumption-batch-5-complete.md`. Preparation Batch 0, the
 separately versioned Batch 1 contracts, and the first operational cognition claim adoption in Batch
 2 are complete. Batch 3 proves the adopted claim at every internal recovery observation without
 adding a second transaction record or moving provider I/O. Batch 4 adopts the structurally parallel
 governance cognition claim without weakening resolver identity, changing lock order, or moving the
-provider journal. Batch 5 remains unopened pending explicit authorization.
+provider journal. Batch 5 adopts the Delegate provider claim under its unchanged composite lock and
+keeps provider I/O and recovery outside the transaction. Batch 6 remains unopened pending explicit
+authorization.
 
 The campaign does not alter this route or any credential, provider-journal, external-I/O,
 propagation, telemetry, containment, incident, Iron Gate, Lazaretto, sortie, or credential-platform

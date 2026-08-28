@@ -9,6 +9,7 @@ use App\Imperium\Runtime\Persistence\AtomicTransition;
 use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
 use App\Imperium\Runtime\Persistence\ReplayFingerprint;
 use App\Imperium\Runtime\Persistence\RecordReferenceValidator;
+use App\Imperium\Runtime\Persistence\TransactionalAuthorityConsumptionEnvelope;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class ProviderInvocationClaimService
@@ -61,13 +62,30 @@ final readonly class ProviderInvocationClaimService
             $turnAuthorityId,
         ])), 0, 20);
         $path = $this->claims.'/'.$claimId.'.json';
-        $authoritativeInputs = [
+        $legacyAuthoritativeInputs = [
             'activation_id' => $activationId,
             'activation_digest' => $activation['record_digest'],
             'turn_authority_id' => $turnAuthorityId,
             'lease_id' => $activation['credential_lease']['lease_id'],
         ];
+        $authoritativeInputs = [
+            'activation' => $activation,
+            'turn_authority_id' => $turnAuthorityId,
+            'credential_lease_id' => $activation['credential_lease']['lease_id'],
+        ];
         $fingerprint = ReplayFingerprint::of($authoritativeInputs);
+        $authoritySet = $this->authoritySet($activation, $activationId, $turnAuthorityId);
+        $consumer = [
+            'actor' => ['kind' => 'runtime-service', 'id' => self::class],
+            'competent_service' => self::class,
+            'bounded_act' => 'CLAIM_ONE_DELEGATE_PROVIDER_INVOCATION_PRE_IO',
+        ];
+        $lockScope = 'provider-invocation-claim:'.hash('sha256', $activationId);
+        $lockPlan = [
+            ['order' => 1, 'scope' => $lockScope, 'authority_id' => $turnAuthorityId],
+            ['order' => 2, 'scope' => $lockScope, 'authority_id' => $activation['credential_lease']['lease_id']],
+        ];
+        $immutableResult = ['schema' => 'imperium.clavium-provider-invocation-claim/v1', 'id' => $claimId, 'embedded' => true];
 
         foreach (glob($this->claims.'/*.json') ?: [] as $existingPath) {
             $existing = $this->read($existingPath, 'CLV403_PROVIDER_INVOCATION_CLAIM_CONFLICT');
@@ -77,19 +95,30 @@ final readonly class ProviderInvocationClaimService
             if (($existing['source_activation']['id'] ?? null) !== $activationId) {
                 continue;
             }
-            ReplayFingerprint::requireMatch($existing['claim_fingerprint'] ?? null, $authoritativeInputs, 'CLV403_PROVIDER_INVOCATION_CLAIM_CONFLICT');
+            $this->assertReplayIsExact($existing, $claimId, $activation, $authoritySet, $authoritativeInputs, $legacyAuthoritativeInputs, $fingerprint, $consumer, $lockPlan, $immutableResult);
 
             return $existing;
         }
 
         if (is_file($path)) {
             $existing = $this->records->read('var/imperium/runtime/provider-invocations', $claimId);
-            ReplayFingerprint::requireMatch($existing['claim_fingerprint'] ?? null, $authoritativeInputs, 'CLV403_PROVIDER_INVOCATION_CLAIM_CONFLICT');
+            $this->assertReplayIsExact($existing, $claimId, $activation, $authoritySet, $authoritativeInputs, $legacyAuthoritativeInputs, $fingerprint, $consumer, $lockPlan, $immutableResult);
 
             return $existing;
         }
 
         $idempotencyKey = 'imperium-'.$claimId;
+        $transactionalConsumption = TransactionalAuthorityConsumptionEnvelope::complete(
+            $claimId,
+            (string) $activation['instance_id'],
+            $authoritySet,
+            $authoritativeInputs,
+            $fingerprint,
+            $consumer,
+            $lockPlan,
+            $immutableResult,
+            $claimedAt,
+        );
         $record = [
             'schema' => 'imperium.clavium-provider-invocation-claim/v1',
             'claim_id' => $claimId,
@@ -123,6 +152,7 @@ final readonly class ProviderInvocationClaimService
                 'automatic_replay_permitted' => false,
                 'unknown_outcome_requires_governed_resolution' => true,
             ],
+            'transactional_consumption' => $transactionalConsumption,
             'claimed_at' => $claimedAt->format(DATE_ATOM),
             'status' => 'INVOCATION_CLAIMED_PENDING_EXTERNAL_IO',
             'provider_invoked' => false,
@@ -131,6 +161,84 @@ final readonly class ProviderInvocationClaimService
         ];
 
         return $this->records->put('var/imperium/runtime/provider-invocations', $claimId, $record);
+    }
+
+    private function assertReplayIsExact(
+        array $existing,
+        string $claimId,
+        array $activation,
+        array $authoritySet,
+        array $authoritativeInputs,
+        array $legacyAuthoritativeInputs,
+        string $fingerprint,
+        array $consumer,
+        array $lockPlan,
+        array $immutableResult,
+    ): void {
+        if (!array_key_exists('transactional_consumption', $existing)) {
+            ReplayFingerprint::requireMatch($existing['claim_fingerprint'] ?? null, $legacyAuthoritativeInputs, 'CLV403_PROVIDER_INVOCATION_CLAIM_CONFLICT');
+
+            return;
+        }
+        if (!is_array($existing['transactional_consumption'])) {
+            throw new \RuntimeException('CLV403_PROVIDER_INVOCATION_CLAIM_CONFLICT');
+        }
+        ReplayFingerprint::requireMatch($existing['claim_fingerprint'] ?? null, $authoritativeInputs, 'CLV403_PROVIDER_INVOCATION_CLAIM_CONFLICT');
+        try {
+            $recordedAt = new \DateTimeImmutable((string) ($existing['claimed_at'] ?? ''));
+        } catch (\Exception) {
+            throw new \RuntimeException('CLV403_PROVIDER_INVOCATION_CLAIM_CONFLICT');
+        }
+        $expected = TransactionalAuthorityConsumptionEnvelope::complete(
+            $claimId,
+            (string) $activation['instance_id'],
+            $authoritySet,
+            $authoritativeInputs,
+            $fingerprint,
+            $consumer,
+            $lockPlan,
+            $immutableResult,
+            $recordedAt,
+        );
+        TransactionalAuthorityConsumptionEnvelope::requireExact($existing['transactional_consumption'], $expected, 'CLV403_PROVIDER_INVOCATION_CLAIM_CONFLICT');
+    }
+
+    private function authoritySet(array $activation, string $activationId, string $turnAuthorityId): array
+    {
+        $lease = $activation['credential_lease'];
+        $source = ['id' => $activationId, 'digest' => $activation['record_digest']];
+        $issuer = ['kind' => 'source-record', 'id' => $activationId];
+
+        return [
+            [
+                'authority_id' => $turnAuthorityId,
+                'authority_schema' => (string) $activation['schema'],
+                'source' => $source,
+                'issuer' => $issuer,
+                'holder' => $activation['target'],
+                'scope' => ['target' => $activation['target'], 'model' => $activation['model'], 'maximum_turns' => 1],
+                'expires_at' => $lease['expires_at'],
+                'single_use' => true,
+                'expected_unconsumed' => true,
+            ],
+            [
+                'authority_id' => $lease['lease_id'],
+                'authority_schema' => (string) $activation['schema'],
+                'source' => $source,
+                'issuer' => $issuer,
+                'holder' => $activation['target'],
+                'scope' => [
+                    'target' => $activation['target'],
+                    'provider' => $lease['provider'],
+                    'model' => $activation['model'],
+                    'lease_scope' => $lease['scope'],
+                    'credential_reference_digest' => $lease['credential_reference_digest'],
+                ],
+                'expires_at' => $lease['expires_at'],
+                'single_use' => true,
+                'expected_unconsumed' => true,
+            ],
+        ];
     }
 
     private function assertActivationIsClaimable(
