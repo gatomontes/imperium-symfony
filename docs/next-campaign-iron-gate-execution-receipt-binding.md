@@ -2,7 +2,7 @@
 
 ## Status
 
-`SELECTED_PREPARATION_BATCH_0_ONLY`
+`PREPARATION_BATCH_0_COMPLETE`
 
 Transactional Authority Consumption Adoption is terminal through Batch 13. This successor is
 selected for preparation only. No runtime implementation, external call or authority change is
@@ -10,9 +10,10 @@ authorized merely because it appears below.
 
 ## Current continuation point
 
-Preparation Batch 0 is ready to begin and is the only active continuation. No preparation inventory
-has yet been accepted, no implementation batch is open, and the provisional sequence below grants
-no authority beyond documentation-only inspection, classification and migration planning.
+Preparation Batch 0 is complete in
+`docs/iron-gate-execution-receipt-binding-preparation-inventory.md`. No implementation batch is
+open. Only Batch 1 may next be considered, and it is not authorized without an explicit
+continuation instruction.
 
 ## Selected boundary
 
@@ -87,7 +88,8 @@ only. It may not:
 
 No step is authorized merely because it is listed:
 
-1. Preparation Batch 0 — complete issuer/consumer, effect, receipt, recovery and proof inventory;
+1. **Completed.** Preparation Batch 0 — complete issuer/consumer, effect, receipt, recovery and
+   proof inventory;
 2. define separately versioned deterministic execution-claim and receipt-binding contracts only if
    the inventory proves exact native authority and provider idempotency/unknown-outcome semantics;
 3. adopt one deterministic operation without placing network I/O inside an internal rollback fiction;
