@@ -216,38 +216,15 @@ admission-result enforcement and rotation-safe read-only nine-artifact reconstru
 6 additionally proves validate-before-select admission, strict timestamps, and complete canonical
 replay equivalence.
 
-The next separately selected campaign is Transactional Authority Consumption Adoption, governed by
+Transactional Authority Consumption Adoption is terminal through Batch 13, governed by
 `docs/next-campaign-transactional-authority-consumption.md` and
-`docs/handoffs/transactional-authority-consumption-batch-12-complete.md`. Preparation Batch 0, the
-separately versioned Batch 1 contracts, and the first operational cognition claim adoption in Batch
-2 are complete. Batch 3 proves the adopted claim at every internal recovery observation without
-adding a second transaction record or moving provider I/O. Batch 4 adopts the structurally parallel
-governance cognition claim without weakening resolver identity, changing lock order, or moving the
-provider journal. Batch 5 adopts the Delegate provider claim under its unchanged composite lock
-and keeps provider I/O and recovery outside the transaction. Batch 6 adopts the eight deterministic
-Delegate Senate consumers from Steps 19–42 under exact authority locks without merging
-jurisdictions, actors, or result schemas. Five cognition-bearing consumers remain
-`RECOVERY_INCOMPLETE` because their model-call outcome cannot truthfully be reconstructed by a post-I/O
-transaction envelope.
-Batch 7 adopts only the three model-bound Profile Senate opening consumers with an existing exact
-single-use authority ID, Lord Speaker, immutable source, `opened_at`, and one-result commit. Legacy
-boolean-authority records, deterministic multi-write or missing-timestamp paths, and all Profile
-Senate cognition remain outside adoption. Batch 8 adopts only operational-adoption reconciliation
-and final disposition under exact authority locks. Governing intake has no canonical single-use
-authority identity, while independent assessment still has an uncheckpointed assessment-to-panel-
-completion write boundary. Batch 9 adopts only the Delegate model-criteria request and model-
-selection decision authorities whose native results preserve exact instance, source, actor and
-timestamp identity. Boolean, multi-write, missing-instance, external research, construction,
-credential and provider-admission paths remain outside adoption.
-Batch 10 adopts only the exact Delegate model-binding sealing authority. Older construction and
-admission powers are boolean, missing-time, or multi-write; Clavium access/activation remains a
-deferred credential-platform boundary, and the intervening resource decision is unchanged.
-Batch 11 adopts Oracle eligibility finding consumption plus deterministic forward recovery of the
-dependent phase closure under one evaluation-case lock. Other recovery-incomplete paths remain
-explicit exclusions. Batch 12 mechanically reconstructs all runtime coverage, freezes 231 strong
-authority candidates, verifies the exact 26 canonical and 3 locked-fragmented consumers, and
-records the adversarial limits without changing runtime behavior. Batch 13 remains unopened pending explicit authorization.
+`docs/handoffs/transactional-authority-consumption-campaign-complete.md`. Its terminal record is 26
+canonical consumers, 3 locked-fragmented consumers and 202 inventoried noncanonical candidates or
+issuers. The campaign preserves the explicit limit that adopted corridors do not make the runtime
+transactionally canonical and does not alter this terminal Delegate route.
 
-The campaign does not alter this route or any credential, provider-journal, external-I/O,
-propagation, telemetry, containment, incident, Iron Gate, Lazaretto, sortie, or credential-platform
-boundary.
+The next separately selected campaign is Iron Gate Execution Authority and Receipt Binding,
+governed by `docs/next-campaign-iron-gate-execution-receipt-binding.md` and
+`docs/handoffs/iron-gate-execution-receipt-binding-campaign-ready.md`. Only Preparation Batch 0 is
+authorized. Selection opens no credential, provider-journal, external-I/O, propagation, telemetry,
+containment, incident, Iron Gate, Lazaretto, sortie, receipt or credential-platform behavior.

@@ -38,8 +38,11 @@ For the current Delegate Mission state, read in this order:
 32. `docs/handoffs/transactional-authority-consumption-batch-10-complete.md`;
 33. `docs/handoffs/transactional-authority-consumption-batch-11-complete.md`;
 34. `docs/transactional-authority-consumption-coverage-audit.md`;
-35. `docs/handoffs/transactional-authority-consumption-batch-12-complete.md`; and
-36. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
+35. `docs/handoffs/transactional-authority-consumption-batch-12-complete.md`;
+36. `docs/handoffs/transactional-authority-consumption-campaign-complete.md`;
+37. `docs/next-campaign-iron-gate-execution-receipt-binding.md`;
+38. `docs/handoffs/iron-gate-execution-receipt-binding-campaign-ready.md`; and
+39. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
 
 `docs/handoffs/operational-cognition-access-lifecycle-ready.md` and the numbered credential-boundary handoffs are historical execution records. They are not active continuation prompts.
 
@@ -49,7 +52,7 @@ Operational Cognition Lease Interruption is terminal through Batch 6. The prepar
 `docs/operational-cognition-lease-interruption-preparation-inventory.md`, and the active handoff is
 `docs/handoffs/operational-cognition-lease-interruption-campaign-complete.md`.
 The exact disposition, enforcement-authority, native admission-result, and read-only reconstruction
-boundaries are complete. Transactional Authority Consumption Adoption is complete through Batch 12;
-Batch 13 remains unopened pending explicit authorization. Continuous Agent
-Governance Controls, Credential-boundary remediation, and Institutional Decision Integrity remain
-terminal.
+boundaries are complete. Transactional Authority Consumption Adoption is terminal through Batch
+13. Iron Gate Execution Authority and Receipt Binding is selected next for Preparation Batch 0
+only. Continuous Agent Governance Controls, Credential-boundary remediation, and Institutional
+Decision Integrity remain terminal.

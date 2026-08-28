@@ -158,6 +158,9 @@ No step is authorized by this inventory.
    exclusions, and run adversarial review. The frozen source tripwire contains 231 candidates: 26
    canonical consumers, 3 locked-fragmented consumers, and 202 inventoried noncanonical candidates
    or issuers. Batch 13 remains documentation-only campaign closeout.
+9. **Completed in Batch 13.** Close the campaign documentation-only without reclassifying residual
+   consumers or opening a deferred boundary. Iron Gate Execution Authority and Receipt Binding is
+   selected separately for Preparation Batch 0 only.
 
 ## Preserved boundary
 
