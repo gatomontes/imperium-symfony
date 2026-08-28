@@ -224,9 +224,10 @@ issuers. The campaign preserves the explicit limit that adopted corridors do not
 transactionally canonical and does not alter this terminal Delegate route.
 
 The next separately selected campaign is Iron Gate Execution Authority and Receipt Binding,
-governed by `docs/next-campaign-iron-gate-execution-receipt-binding.md` and
-`docs/handoffs/iron-gate-execution-receipt-binding-campaign-ready.md`. Only Preparation Batch 0 is
-authorized. Selection opens no credential, provider-journal, external-I/O, propagation, telemetry,
-containment, incident, Iron Gate, Lazaretto, sortie, receipt or credential-platform behavior.
-The current continuation point is documentation-only Preparation Batch 0; no implementation batch
-is open and no residual Transactional Authority Consumption Adoption batch remains.
+governed by `docs/next-campaign-iron-gate-execution-receipt-binding.md` and the completed inventory
+`docs/iron-gate-execution-receipt-binding-preparation-inventory.md`. Preparation Batch 0 is complete;
+its active handoff is
+`docs/handoffs/iron-gate-execution-receipt-binding-preparation-batch-0-complete.md`. Batch 1 is not
+authorized. Preparation opened no credential, provider-journal, external-I/O, propagation,
+telemetry, containment, incident, Iron Gate, Lazaretto, sortie, receipt or credential-platform
+behavior. No residual Transactional Authority Consumption Adoption batch remains.

@@ -20,12 +20,11 @@ The deterministic lane is the first candidate to assess because its operation, d
 payload are already decided and it uses no external cognition. The sortie lane remains separately
 bounded unless the inventory proves otherwise.
 
-## Exact launch point
+## Historical launch point
 
-This is the active continuation handoff. Begin Preparation Batch 0 and stop after the inventory,
-classifications, consumer postures and smallest safe migration sequence are documented and tested.
-No later step in the provisional campaign sequence is open.
-No residual Transactional Authority Consumption Adoption batch remains.
+This handoff authorized Preparation Batch 0, which is now complete. The active continuation handoff
+is `docs/handoffs/iron-gate-execution-receipt-binding-preparation-batch-0-complete.md`. Batch 1 is not
+authorized. No residual Transactional Authority Consumption Adoption batch remains.
 
 ## Preserved boundaries
 

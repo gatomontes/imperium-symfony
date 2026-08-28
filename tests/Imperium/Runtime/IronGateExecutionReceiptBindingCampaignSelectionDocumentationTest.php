@@ -14,7 +14,7 @@ final class IronGateExecutionReceiptBindingCampaignSelectionDocumentationTest ex
         $campaign = (string) file_get_contents($root.'/docs/next-campaign-iron-gate-execution-receipt-binding.md');
         $ready = (string) file_get_contents($root.'/docs/handoffs/iron-gate-execution-receipt-binding-campaign-ready.md');
 
-        self::assertStringContainsString('`SELECTED_PREPARATION_BATCH_0_ONLY`', $campaign);
+        self::assertStringContainsString('`PREPARATION_BATCH_0_COMPLETE`', $campaign);
         self::assertStringContainsString('The smallest first migration candidate is the deterministic lane', $campaign);
         foreach (['OutboundRequest', 'IronGate::dispatch()', 'DeterministicBoundaryExecutor', 'CredentialBroker', 'RawExternalPayload', 'Lazaretto', 'Sortie lane'] as $surface) {
             self::assertStringContainsString($surface, $campaign);
@@ -26,9 +26,9 @@ final class IronGateExecutionReceiptBindingCampaignSelectionDocumentationTest ex
             self::assertStringContainsString($classification, $campaign);
         }
         self::assertStringContainsString('Only Preparation Batch 0 is authorized', $ready);
-        self::assertStringContainsString('Preparation Batch 0 is ready to begin and is the only active continuation', $campaign);
-        self::assertStringContainsString('This is the active continuation handoff', $ready);
-        self::assertStringContainsString('No later step in the provisional campaign sequence is open', $ready);
+        self::assertStringContainsString('Preparation Batch 0 is complete', $campaign);
+        self::assertStringContainsString('Preparation Batch 0, which is now complete', $ready);
+        self::assertStringContainsString('Batch 1 is not authorized', $ready);
         self::assertStringContainsString('No residual Transactional Authority Consumption Adoption batch remains', $ready);
     }
 
@@ -41,8 +41,8 @@ final class IronGateExecutionReceiptBindingCampaignSelectionDocumentationTest ex
         foreach (['change `OutboundRequest`', 'perform a live external call', 'create a durable claim', 'merge deterministic execution with sortie cognition', 'expand Lazaretto', 'new credential-platform work', 'generalized revocation', 'telemetry', 'containment', 'incidents', 'Delegate Mission Step 70'] as $stop) {
             self::assertStringContainsString($stop, $campaign);
         }
-        self::assertStringContainsString('Only Preparation Batch 0 is', $flow);
-        self::assertStringContainsString('Selection opens no credential', $flow);
-        self::assertStringContainsString('no implementation batch', $flow);
+        self::assertStringContainsString('Preparation Batch 0 is complete', $flow);
+        self::assertStringContainsString('Preparation opened no credential', $flow);
+        self::assertStringContainsString('Batch 1 is not', $flow);
     }
 }
