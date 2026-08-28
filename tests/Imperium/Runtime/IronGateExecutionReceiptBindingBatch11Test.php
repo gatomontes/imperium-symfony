@@ -66,6 +66,7 @@ final class IronGateExecutionReceiptBindingBatch11Test extends TestCase
         self::assertSame($claim, $proof['execution_claim']);
         self::assertSame($result, $proof['raw_provider_result']);
         self::assertSame($binding, $proof['receipt_binding']);
+        foreach (['curia_occupancy', 'source_request', 'source_decision', 'authorization_issuance', 'effect_start_journal', 'provider_invocation_admission', 'credential_consumption_attempt', 'provider_callback_start', 'provider_response_envelope'] as $link) self::assertIsArray($proof[$link]);
         self::assertFalse($proof['provider_reinvoked']);
         self::assertFalse($proof['credential_resolved']);
         self::assertFalse($proof['external_io_performed']);
@@ -112,6 +113,19 @@ final class IronGateExecutionReceiptBindingBatch11Test extends TestCase
         file_put_contents($path, json_encode($tampered, JSON_THROW_ON_ERROR));
 
         $this->expectExceptionMessage('IGX902_RECEIPT_BINDING_INVALID');
+        (new DeterministicReceiptReconstructionService($this->root))->reconstruct($binding['binding_id']);
+    }
+
+    public function testTamperedCallbackCheckpointBreaksCompleteReconstruction(): void
+    {
+        [, , , , $envelope] = $this->throughObservedProviderResponse('{"message_id":"message-final","thread_id":"thread-final"}');
+        $result = (new DeterministicRawProviderResultService($this->root))->seal($envelope['envelope_id']);
+        $binding = (new DeterministicLazarettoReceiptAdmissionService($this->root))->admit($result['result_id'], $this->time('+7 minutes'));
+        $path = (glob($this->root.'/'.DeterministicJournalBoundCredentialBroker::CALLBACK_STARTS.'/*.json') ?: [])[0];
+        $tampered = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+        $tampered['state']['provider_callback_may_have_run'] = false;
+        file_put_contents($path, json_encode($tampered, JSON_THROW_ON_ERROR));
+        $this->expectExceptionMessage('IGX907_PROVIDER_CALLBACK_START_INVALID');
         (new DeterministicReceiptReconstructionService($this->root))->reconstruct($binding['binding_id']);
     }
 

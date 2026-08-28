@@ -2,7 +2,7 @@
 
 ## Status
 
-`BATCH_4_CHECKPOINT_STATES_SEPARATED`
+`BATCH_5_COMPLETE_CHAIN_RECONSTRUCTIBLE`
 
 Iron Gate Execution Authority and Receipt Binding remains terminal through Batch 11. Its adversarial
 review found that the unused deterministic corridor is structurally coherent but not yet eligible
@@ -10,7 +10,7 @@ for live consumer adoption: a caller can separately nominate response bytes afte
 callback, reconstruction skips effect-start and invocation-admission evidence, and institutional
 actor and tamper claims exceed what the current enforcement proves.
 
-Preparation Batch 0 and Batches 1–4 are complete. Only separately bounded Batch 5 may next be considered. Nothing below authorizes live consumer behavior,
+Preparation Batch 0 and Batches 1–5 are complete. Only separately bounded Batch 6 may next be considered. Nothing below authorizes live consumer behavior,
 external I/O or live consumer adoption.
 
 ## Preparation inventory
@@ -42,8 +42,8 @@ No batch is authorized merely because it is listed:
    prohibit caller-nominated status, bytes and times;
 5. **Completed.** Separate admission, credential-attempt, callback-may-have-run and
    response-observed states;
-6. reconstruct the entire occupancy/request/decision/issuance/claim/journal/admission/response/
-   result/binding chain read only;
+6. **Completed.** Reconstruct the entire occupancy/request/decision/issuance/claim/journal/admission/
+   attempt/callback/response/result/binding chain read only;
 7. bind authority transitions to enforceable caller authority and state the exact integrity threat
    model;
 8. prove idempotency registration, response provenance, fault, concurrency, tamper and secret
