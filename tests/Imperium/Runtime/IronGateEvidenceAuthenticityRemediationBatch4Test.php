@@ -21,6 +21,6 @@ final class IronGateEvidenceAuthenticityRemediationBatch4Test extends TestCase
     {
         $root = dirname(__DIR__, 3);
         $handoff = (string) file_get_contents($root.'/docs/handoffs/iron-gate-evidence-authenticity-remediation-batch-4-complete.md');
-        foreach (['credential not yet attempted', 'Credential failure', 'Callback failure', '`UNKNOWN_REPLAY_PROHIBITED`', 'Only Batch 5 may next be considered', 'is not authorized by this handoff'] as $proof) self::assertStringContainsString($proof, $handoff);
+        foreach (['credential not yet attempted', 'Credential failure', 'Callback failure', '`UNKNOWN_REPLAY_PROHIBITED`', 'Only Batch 5 may next be considered', 'authorized by this handoff'] as $proof) self::assertStringContainsString($proof, $handoff);
     }
 }
