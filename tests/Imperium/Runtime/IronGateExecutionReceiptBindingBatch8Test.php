@@ -11,7 +11,7 @@ final class IronGateExecutionReceiptBindingBatch8Test extends TestCase
 {
     public function testAdmissionContractAndDocumentationKeepLiveIoAndReceiptsClosed(): void
     {
-        self::assertSame('imperium.la-cortine.deterministic-provider-invocation-admission/v1', DeterministicProviderInvocationAdmissionContract::SCHEMA);
+        self::assertSame('imperium.la-cortine.deterministic-provider-invocation-admission/v2', DeterministicProviderInvocationAdmissionContract::SCHEMA);
         foreach (['effect_start_journal', 'execution_claim', 'credential_use', 'provider_request'] as $field) {
             self::assertContains($field, DeterministicProviderInvocationAdmissionContract::REQUIRED_FIELDS);
         }
