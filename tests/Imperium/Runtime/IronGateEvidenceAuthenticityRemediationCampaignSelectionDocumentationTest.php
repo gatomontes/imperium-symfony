@@ -15,7 +15,7 @@ final class IronGateEvidenceAuthenticityRemediationCampaignSelectionDocumentatio
         $inventory = (string) file_get_contents($root.'/docs/iron-gate-evidence-authenticity-remediation-preparation-inventory.md');
         $handoff = (string) file_get_contents($root.'/docs/handoffs/iron-gate-evidence-authenticity-remediation-preparation-batch-0-complete.md');
 
-        self::assertStringContainsString('`BATCH_3_RAW_RESULT_ENVELOPE_BOUND`', $campaign);
+        self::assertStringContainsString('`BATCH_4_CHECKPOINT_STATES_SEPARATED`', $campaign);
         foreach (['`EXISTS_FRAGMENTED`', '`ABSENT`', '`DEFERRED_BOUNDARY`'] as $classification) self::assertStringContainsString($classification, $campaign);
         foreach (['`PROVIDER_RESPONSE_ENVELOPE_REQUIRED`', '`COMPLETE_CHAIN_RECONSTRUCTION_REQUIRED`', '`CALLER_AUTHORITY_REQUIRED`', '`THREAT_MODEL_BOUNDED_INTEGRITY`', '`PROVIDER_PROVENANCE_REQUIRED`', '`SINGLE_AUTHORITATIVE_ROOT_ONLY`'] as $posture) self::assertStringContainsString($posture, $campaign);
         self::assertStringContainsString('can nominate accepted response bytes', $inventory);
@@ -33,7 +33,7 @@ final class IronGateEvidenceAuthenticityRemediationCampaignSelectionDocumentatio
 
         foreach (['live consumer behavior', 'external I/O', '`AgentMailEmailSendCommand`', '`DeterministicBoundaryExecutor`', '`AgentMailEmailTransport`', '`IronGate`', 'expand Lazaretto', 'redesign credentials', 'assess sortie', 'revocation', 'telemetry', 'containment', 'incident'] as $boundary) self::assertStringContainsString($boundary, $campaign);
         self::assertStringContainsString('next separately selected campaign is Iron Gate Evidence Authenticity Remediation', $flow);
-        self::assertStringContainsString('only exact checkpoint-state separation', $index);
+        self::assertStringContainsString('only complete read-only chain reconstruction', $index);
         self::assertStringContainsString('Live deterministic consumer adoption and sortie remain deferred', $index);
     }
 }

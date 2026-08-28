@@ -87,8 +87,13 @@ final class IronGateExecutionReceiptBindingBatch11Test extends TestCase
     public function testCrashAfterProviderAdmissionRetainsUnknownAndProhibitsSecondCallback(): void
     {
         [, , $journal, $admission] = $this->throughProviderAdmission();
-        self::assertSame('UNKNOWN_REPLAY_PROHIBITED', $admission['provider_request']['outcome']);
-        self::assertTrue($admission['provider_request']['provider_callback_may_have_run']);
+        self::assertSame('NOT_ATTEMPTED', $admission['provider_request']['outcome']);
+        self::assertFalse($admission['provider_request']['provider_callback_may_have_run']);
+        $callbackStarts = glob($this->root.'/'.DeterministicJournalBoundCredentialBroker::CALLBACK_STARTS.'/*.json') ?: [];
+        self::assertCount(1, $callbackStarts);
+        $callbackStart = json_decode((string) file_get_contents($callbackStarts[0]), true, 512, JSON_THROW_ON_ERROR);
+        self::assertTrue($callbackStart['state']['provider_callback_may_have_run']);
+        self::assertSame('UNKNOWN_REPLAY_PROHIBITED', $callbackStart['state']['outcome']);
         self::assertSame([], glob($this->root.'/'.DeterministicRawProviderResultService::RESULTS.'/*.json') ?: []);
 
         $capability = $this->capability();

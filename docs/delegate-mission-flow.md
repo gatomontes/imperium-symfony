@@ -240,7 +240,7 @@ behavior. No residual Transactional Authority Consumption Adoption batch remains
 The next separately selected campaign is Iron Gate Evidence Authenticity Remediation. Preparation
 Batch 0 is complete under `docs/next-campaign-iron-gate-evidence-authenticity-remediation.md` and
 `docs/iron-gate-evidence-authenticity-remediation-preparation-inventory.md`; the active handoff is
-`docs/handoffs/iron-gate-evidence-authenticity-remediation-preparation-batch-0-complete.md`. The
+`docs/handoffs/iron-gate-evidence-authenticity-remediation-batch-4-complete.md`. The
 adversarial finding is exact: provider invocation and result sealing are separate, reconstruction
 skips the effect-start/admission boundary, actor attribution is not caller authority, and unkeyed
 digests prove trusted-writer integrity rather than hostile-writer non-forgeability. Only a
@@ -248,7 +248,8 @@ callback-bound response-envelope contract is defined in Batch 1 with a sole invo
 producer posture and two non-operational consumer postures. Batch 2 implements the sole producer
 inside the journal-gated callback boundary; thrown callbacks and non-response values create no
 envelope. Batch 3 makes raw-result sealing consume only that envelope; callers can no longer supply
-provider status, bytes or observation times. Only exact checkpoint-state separation may next be
+provider status, bytes or observation times. Batch 4 separates admission, credential-attempt, callback-start and response-observed
+truth into distinct immutable checkpoints. Only complete read-only chain reconstruction may next be
 considered. No live consumer, external I/O,
 Iron Gate, Lazaretto, sortie, credential-platform, revocation, propagation, telemetry, reassessment,
 containment or incident boundary is opened.

@@ -13,6 +13,7 @@ use App\Imperium\Runtime\LaCortine\DeterministicEffectStartJournalService;
 use App\Imperium\Runtime\LaCortine\DeterministicExecutionClaimContract;
 use App\Imperium\Runtime\LaCortine\DeterministicExecutionClaimService;
 use App\Imperium\Runtime\LaCortine\DeterministicProviderInvocationAdmissionContract;
+use App\Imperium\Runtime\LaCortine\DeterministicProviderInvocationCheckpointContract;
 use App\Imperium\Runtime\LaCortine\DeterministicProviderResponseEnvelopeContract;
 use App\Imperium\Runtime\Persistence\AtomicTransition;
 use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
@@ -24,6 +25,8 @@ final readonly class DeterministicJournalBoundCredentialBroker
     public const string ADMISSIONS = 'var/imperium/la-cortine/deterministic-provider-invocation-admissions';
     public const string RESPONSE_ENVELOPES = 'var/imperium/la-cortine/deterministic-provider-response-envelopes';
     public const string RESPONSE_CONTENT = 'var/imperium/la-cortine/deterministic-provider-response-content';
+    public const string CREDENTIAL_ATTEMPTS = 'var/imperium/la-cortine/deterministic-credential-consumption-attempts';
+    public const string CALLBACK_STARTS = 'var/imperium/la-cortine/deterministic-provider-callback-starts';
     private RecordReferenceValidator $validator;
     private ImmutableRecordStore $records;
     private AtomicTransition $atomic;
@@ -94,18 +97,26 @@ final readonly class DeterministicJournalBoundCredentialBroker
                 'instance_id' => $journal['instance_id'],
                 'effect_start_journal' => ['id' => $journalId, 'digest' => $journal['record_digest']],
                 'execution_claim' => ['id' => $claim['claim_id'], 'digest' => $claim['record_digest']],
-                'credential_use' => ['capability_id' => $capability->capabilityId, 'credential_reference_digest' => hash('sha256', $capability->credentialRef), 'credential_use_committed' => true, 'credential_secret_persisted' => false],
-                'provider_request' => ['operation' => $claim['request']['operation'], 'destination' => $claim['request']['destination'], 'payload_digest' => $claim['request']['payload_digest'], 'idempotency_key' => $journal['provider_safety']['provider_idempotency_key'], 'request_fingerprint' => $journal['provider_safety']['request_fingerprint'], 'provider_callback_may_have_run' => true, 'outcome' => 'UNKNOWN_REPLAY_PROHIBITED'],
+                'credential_use' => ['capability_id' => $capability->capabilityId, 'credential_reference_digest' => hash('sha256', $capability->credentialRef), 'admission_committed' => true, 'consumption_attempted' => false, 'credential_secret_persisted' => false],
+                'provider_request' => ['operation' => $claim['request']['operation'], 'destination' => $claim['request']['destination'], 'payload_digest' => $claim['request']['payload_digest'], 'idempotency_key' => $journal['provider_safety']['provider_idempotency_key'], 'request_fingerprint' => $journal['provider_safety']['request_fingerprint'], 'callback_admitted' => false, 'provider_callback_may_have_run' => false, 'outcome' => 'NOT_ATTEMPTED'],
                 'admitted_at' => $at->format(DATE_ATOM),
                 'expires_at' => $journal['expires_at'],
                 'sealed' => true,
             ]);
         });
 
-        return $this->credentials->consume($capability, function (mixed $authentication) use ($journal, $admission, $claim, $payload, $providerCallback, $at): mixed {
-            $response = $this->adapter->invoke($journal, $admission['provider_request']['destination'], $payload, $authentication, $providerCallback);
+        $attempt = $this->checkpoint(DeterministicProviderInvocationCheckpointContract::CREDENTIAL_ATTEMPT_SCHEMA, self::CREDENTIAL_ATTEMPTS, 'credential-attempt', $admission, $claim, ['credential_consumption_attempted' => true, 'provider_callback_may_have_run' => false, 'outcome' => 'UNKNOWN_REPLAY_PROHIBITED'], $at);
+
+        return $this->credentials->consume($capability, function (mixed $authentication) use ($journal, $admission, $claim, $payload, $providerCallback, $at, $attempt): mixed {
+            $callbackStart = null;
+            $wrapped = function (array $request) use (&$callbackStart, $admission, $claim, $providerCallback, $at, $attempt): mixed {
+                $callbackStart = $this->checkpoint(DeterministicProviderInvocationCheckpointContract::CALLBACK_START_SCHEMA, self::CALLBACK_STARTS, 'callback-start', $admission, $claim, ['credential_consumption_attempt_id' => $attempt['checkpoint_id'], 'provider_callback_may_have_run' => true, 'outcome' => 'UNKNOWN_REPLAY_PROHIBITED'], $at);
+                return $providerCallback($request);
+            };
+            $response = $this->adapter->invoke($journal, $admission['provider_request']['destination'], $payload, $authentication, $wrapped);
             if ($this->isObservedResponse($response)) {
-                $this->captureResponse($journal, $admission, $claim, $response, $at, $authentication);
+                if (!is_array($callbackStart)) throw new \RuntimeException('IGB618_PROVIDER_CALLBACK_START_ABSENT');
+                $this->captureResponse($journal, $admission, $callbackStart, $claim, $response, $at, $authentication);
             }
 
             return $response;
@@ -117,7 +128,7 @@ final readonly class DeterministicJournalBoundCredentialBroker
         return is_array($response) && ['http_status', 'headers', 'body', 'observed_at', 'received_at'] === array_keys($response);
     }
 
-    private function captureResponse(array $journal, array $admission, array $claim, array $response, \DateTimeImmutable $callbackStartedAt, mixed $authentication): array
+    private function captureResponse(array $journal, array $admission, array $callbackStart, array $claim, array $response, \DateTimeImmutable $callbackStartedAt, mixed $authentication): array
     {
         if (!is_int($response['http_status']) || $response['http_status'] < 100 || $response['http_status'] > 599
             || !is_array($response['headers']) || !is_string($response['body'])
@@ -150,6 +161,7 @@ final readonly class DeterministicJournalBoundCredentialBroker
             'envelope_id' => $envelopeId,
             'instance_id' => $journal['instance_id'],
             'provider_invocation_admission' => ['id' => $admission['admission_id'], 'digest' => $admission['record_digest']],
+            'provider_callback_start' => ['id' => $callbackStart['checkpoint_id'], 'digest' => $callbackStart['record_digest']],
             'effect_start_journal' => ['id' => $journal['journal_id'], 'digest' => $journal['record_digest']],
             'execution_claim' => ['id' => $claim['claim_id'], 'digest' => $claim['record_digest']],
             'source_authorization' => ['id' => $claim['source_authorization']['id'], 'digest' => $claim['source_authorization']['digest']],
@@ -173,4 +185,11 @@ final readonly class DeterministicJournalBoundCredentialBroker
             return $this->records->put(self::RESPONSE_ENVELOPES, $envelopeId, $envelope);
         });
     }
+
+    private function checkpoint(string $schema, string $directory, string $kind, array $admission, array $claim, array $state, \DateTimeImmutable $at): array
+    {
+        $id = 'deterministic-provider-'.$kind.'-'.substr(hash('sha256', CanonicalJson::encode([$admission['admission_id'], $admission['record_digest'], $state])), 0, 20);
+        return $this->records->put($directory, $id, ['schema' => $schema, 'checkpoint_id' => $id, 'instance_id' => $admission['instance_id'], 'provider_invocation_admission' => ['id' => $admission['admission_id'], 'digest' => $admission['record_digest']], 'execution_claim' => ['id' => $claim['claim_id'], 'digest' => $claim['record_digest']], 'state' => $state, 'recorded_at' => $at->format(DATE_ATOM), 'sealed' => true]);
+    }
+
 }

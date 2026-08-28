@@ -18,6 +18,7 @@ final class DeterministicProviderResponseEnvelopeContract
         'envelope_id',
         'instance_id',
         'provider_invocation_admission',
+        'provider_callback_start',
         'effect_start_journal',
         'execution_claim',
         'source_authorization',

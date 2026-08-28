@@ -37,10 +37,11 @@ final readonly class DeterministicRawProviderResultService
             || DeterministicProviderInvocationAdmissionContract::REQUIRED_FIELDS !== array_keys($admission)
             || DeterministicProviderInvocationAdmissionContract::SCHEMA !== ($admission['schema'] ?? null)
             || $admissionId !== ($admission['admission_id'] ?? null)
-            || true !== ($admission['credential_use']['credential_use_committed'] ?? null)
+            || true !== ($admission['credential_use']['admission_committed'] ?? null)
+            || false !== ($admission['credential_use']['consumption_attempted'] ?? null)
             || false !== ($admission['credential_use']['credential_secret_persisted'] ?? null)
-            || true !== ($admission['provider_request']['provider_callback_may_have_run'] ?? null)
-            || 'UNKNOWN_REPLAY_PROHIBITED' !== ($admission['provider_request']['outcome'] ?? null)
+            || false !== ($admission['provider_request']['provider_callback_may_have_run'] ?? null)
+            || 'NOT_ATTEMPTED' !== ($admission['provider_request']['outcome'] ?? null)
             || ($envelope['provider_invocation_admission']['digest'] ?? null) !== ($admission['record_digest'] ?? null)) {
             throw new \RuntimeException('IGR702_PROVIDER_INVOCATION_ADMISSION_INVALID');
         }
@@ -60,6 +61,10 @@ final readonly class DeterministicRawProviderResultService
             || ($envelope['request']['request_fingerprint'] ?? null) !== ($admission['provider_request']['request_fingerprint'] ?? null)) {
             throw new \RuntimeException('IGR703_EXECUTION_CLAIM_INVALID');
         }
+        $callbackId = $envelope['provider_callback_start']['id'] ?? null;
+        if (!is_string($callbackId)) throw new \RuntimeException('IGR706_PROVIDER_CALLBACK_START_INVALID');
+        $callbackStart = $this->validator->read($this->root.'/'.DeterministicJournalBoundCredentialBroker::CALLBACK_STARTS.'/'.$callbackId.'.json', 'IGR706_PROVIDER_CALLBACK_START_INVALID');
+        if (!$this->validator->isIntact($callbackStart) || DeterministicProviderInvocationCheckpointContract::REQUIRED_FIELDS !== array_keys($callbackStart) || DeterministicProviderInvocationCheckpointContract::CALLBACK_START_SCHEMA !== ($callbackStart['schema'] ?? null) || ($envelope['provider_callback_start']['digest'] ?? null) !== ($callbackStart['record_digest'] ?? null) || true !== ($callbackStart['state']['provider_callback_may_have_run'] ?? null) || 'UNKNOWN_REPLAY_PROHIBITED' !== ($callbackStart['state']['outcome'] ?? null)) throw new \RuntimeException('IGR706_PROVIDER_CALLBACK_START_INVALID');
 
         $reference = (string) ($envelope['provider_observation']['sealed_content_reference'] ?? '');
         if (!preg_match('~^'.preg_quote(DeterministicJournalBoundCredentialBroker::RESPONSE_CONTENT, '~').'/([^/]+)\.json#content_base64$~', $reference, $matches)) throw new \RuntimeException('IGR704_PROVIDER_RESPONSE_CONTENT_INVALID');
