@@ -308,3 +308,8 @@ through the canonical caller-authority consumer and immutable target store. Same
 and exact replay converge; expiry, changed replay and competing-consumer reuse refuse. Only Batch 3
 stranded-artifact disposition is authorized next, with source mutation and every operational
 boundary prohibited.
+
+Batch 3 now seals `QUARANTINED_EXPIRED_UNUSED` for exact expired, unused activation artifacts bound
+to the terminal refusal and complete interruption evidence. It cannot dispose unexpired artifacts
+or retire the corridor while principal provenance remains absent. Only Batch 4 credential-reference
+boundary hardening is authorized next; the custody refusal and operational perimeter remain closed.

@@ -68,3 +68,10 @@ Batch 2 is complete in `docs/provider-binding-activation-transition-interruption
 offline demonstration proves same-consumer convergence, exact target replay, expiry refusal,
 conflicting replay refusal and single-winner consumption for both activation transitions across all
 three crash cuts. Only Batch 3's exact stranded-artifact disposition is authorized next.
+
+## Batch 3 result
+
+Batch 3 is complete in `docs/provider-binding-stranded-activation-artifact-disposition.md`. Only an
+exact expired and unused authority or lease may receive `QUARANTINED_EXPIRED_UNUSED`, bound to the
+terminal refusal and complete interruption evidence. Unexpired quarantine and corridor retirement
+remain unavailable. Only Batch 4's credential-reference boundary hardening is authorized next.

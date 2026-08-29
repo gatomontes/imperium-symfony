@@ -40,7 +40,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
         $approvedSuccessors = $this->approvedPostBatch12RuntimeFiles();
         $frozenCandidates = array_values(array_diff($candidates, $approvedSuccessors));
         self::assertSame($approvedSuccessors, array_values(array_intersect($files, $approvedSuccessors)));
-        self::assertCount(543, $files);
+        self::assertCount(544, $files);
         self::assertCount(482, array_values(array_diff($files, $approvedSuccessors)));
         self::assertCount(371, array_values(array_diff($authorityFiles, $approvedSuccessors)));
         self::assertCount(231, $frozenCandidates);
@@ -101,7 +101,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
         sort($perimeter, SORT_STRING);
         $approvedSuccessors = $this->approvedPostBatch12PerimeterFiles();
         self::assertSame($approvedSuccessors, array_values(array_intersect($perimeter, $approvedSuccessors)));
-        self::assertCount(75, $perimeter);
+        self::assertCount(76, $perimeter);
         self::assertCount(39, array_values(array_diff($perimeter, $approvedSuccessors)));
         $forbidden = [
             'TransactionalAuthorityConsumptionEnvelope',
@@ -231,6 +231,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
             'src/Imperium/Runtime/LaCortine/SingleExecutionProviderBindingActivationContract.php',
             'src/Imperium/Runtime/LaCortine/SingleExecutionProviderBindingActivationService.php',
             'src/Imperium/Runtime/LaCortine/StrandedActivationArtifactDispositionContract.php',
+            'src/Imperium/Runtime/LaCortine/StrandedActivationArtifactDispositionService.php',
             'src/Imperium/Runtime/LaCortine/ProviderNeutralRawEvidenceContract.php',
             'src/Imperium/Runtime/LaCortine/ProviderNeutralRawEvidenceService.php',
             'src/Imperium/Runtime/LaCortine/DeterministicProviderInvocationAdmissionContract.php',
@@ -277,6 +278,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
             'src/Imperium/Runtime/LaCortine/SingleExecutionProviderBindingActivationContract.php',
             'src/Imperium/Runtime/LaCortine/SingleExecutionProviderBindingActivationService.php',
             'src/Imperium/Runtime/LaCortine/StrandedActivationArtifactDispositionContract.php',
+            'src/Imperium/Runtime/LaCortine/StrandedActivationArtifactDispositionService.php',
             'src/Imperium/Runtime/LaCortine/ProviderNeutralRawEvidenceContract.php',
             'src/Imperium/Runtime/LaCortine/ProviderNeutralRawEvidenceService.php',
             'src/Imperium/Runtime/LaCortine/DeterministicProviderInvocationAdmissionContract.php',
