@@ -28,7 +28,7 @@ final class ProviderExecutionAssurancePreparationDocumentationTest extends TestC
             self::assertNotFalse(stripos($inventory.$handoff, $boundary), $boundary);
         }
 
-        self::assertStringContainsString('`PREPARATION_BATCH_0_COMPLETE_PAUSED_FOR_TOOL_PROVIDER_SEPARATION`', $campaign);
+        self::assertStringContainsString('`PREPARATION_BATCH_0_COMPLETE_PAUSED_FOR_BINDING_ACTIVATION_AND_CAPABILITY_CUSTODY`', $campaign);
         self::assertStringContainsString('No Provider Execution Assurance Batch 1 is authorized', $handoff);
         self::assertStringContainsString('active continuation is Governed Tool and Provider Separation', $handoff);
     }
