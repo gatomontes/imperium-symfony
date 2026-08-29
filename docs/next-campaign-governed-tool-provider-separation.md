@@ -2,7 +2,7 @@
 
 ## Status
 
-`BATCH_1_COMPLETE_BATCH_2_ELIGIBLE_NOT_AUTHORIZED`
+`BATCH_2_COMPLETE_BATCH_3_ELIGIBLE_NOT_AUTHORIZED`
 
 Provider Execution Assurance Preparation Batch 0 established useful AgentMail facts, but review of
 the executable corridor found that AgentMail is not merely an adapter behind a governed
@@ -25,6 +25,12 @@ Batch 1 is now complete in `docs/governed-tool-provider-separation-contracts.md`
 versioned provider-neutral contracts define exact identities, producer/consumer postures,
 substitution prohibitions and non-authorities. No producer or consumer is implemented. Only Batch 2
 may next be considered, and it is not authorized by campaign status alone.
+
+Batch 2 is now complete in `docs/governed-email-send-tool-definition.md`. Armory owns one immutable,
+provider-neutral `email.send` version-1 definition with exact payload, effect, normalized-result,
+secret and provider-binding policies. It remains `DEFINED_INACTIVE`; no provider is selected, no
+credential is available and no consumer is migrated. Only Batch 3 may next be considered, and it is
+not authorized by campaign status alone.
 
 ## Governing invariants
 
