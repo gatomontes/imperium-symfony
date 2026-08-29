@@ -121,3 +121,11 @@ Batch 3 is complete in `docs/provider-binding-single-execution-activation.md`. L
 the exact Batch 2 authority and seals one immutable `ACTIVATED_UNCONSUMED` execution-scoped lease
 without mutating the inactive provider binding or opening credential or I/O behavior. Only Batch 4's
 truthful opaque capability custody and one-time delivery route is authorized next.
+
+## Batch 4 terminal result
+
+Batch 4 is complete in `docs/provider-binding-capability-custody-feasibility-refusal.md`. The
+environment-backed broker cannot prove possession of the same already-issued capability across
+processes; another broker recognizes neither the object nor its authority. The campaign therefore
+terminates with `REFUSED_CROSS_PROCESS_CUSTODY_UNPROVABLE`. No custody or delivery record is
+produced, and no Batch 5 is authorized.
