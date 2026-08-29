@@ -30,8 +30,8 @@ opaque credential capability into a later command process.
 
 Two facts remain absent, not defective implementations hidden behind prose:
 
-1. a separately issued, single-use authority to activate one exact provider binding for one exact
-   execution; and
+1. provider-binding activation backed by a separately issued, single-use authority to activate one
+   exact provider binding for one exact execution; and
 2. a cross-process opaque capability custodian that can deliver the exact already-issued capability
    without persisting secret material, reconstructing authority or issuing a replacement.
 
