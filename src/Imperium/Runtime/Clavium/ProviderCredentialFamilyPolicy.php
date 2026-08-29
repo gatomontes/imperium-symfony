@@ -8,5 +8,5 @@ interface ProviderCredentialFamilyPolicy
 {
     public function supports(string $providerId, string $familyId): bool;
 
-    public function acceptsReference(string $credentialReference): bool;
+    public function acceptsReferenceDigest(string $credentialReferenceDigest): bool;
 }

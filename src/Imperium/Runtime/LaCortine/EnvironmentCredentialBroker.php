@@ -9,6 +9,9 @@ final class EnvironmentCredentialBroker implements CredentialBroker
     /** @var array<string, CredentialCapability> */
     private array $issued = [];
 
+    /** @var array<string, string> */
+    private array $issuedReferences = [];
+
     /** @var array<string, int> */
     private array $uses = [];
 
@@ -42,6 +45,7 @@ final class EnvironmentCredentialBroker implements CredentialBroker
             $maxUses,
         );
         $this->issued[$capability->capabilityId] = $capability;
+        $this->issuedReferences[$capability->capabilityId] = $credentialRef;
 
         return $capability;
     }
@@ -62,7 +66,11 @@ final class EnvironmentCredentialBroker implements CredentialBroker
             throw new \RuntimeException('CREDENTIAL_CAPABILITY_CONSUMED: capability use limit has been reached.');
         }
 
-        $name = substr($capability->credentialRef, 4);
+        $credentialRef = $this->issuedReferences[$capability->capabilityId] ?? null;
+        if (!is_string($credentialRef)) {
+            throw new \RuntimeException('CREDENTIAL_REFERENCE_UNAVAILABLE: issuing broker no longer holds the live reference.');
+        }
+        $name = substr($credentialRef, 4);
         if ('' === $name) {
             throw new \RuntimeException('CREDENTIAL_REFERENCE_INVALID: environment variable name is missing.');
         }

@@ -313,3 +313,10 @@ Batch 3 now seals `QUARANTINED_EXPIRED_UNUSED` for exact expired, unused activat
 to the terminal refusal and complete interruption evidence. It cannot dispose unexpired artifacts
 or retire the corridor while principal provenance remains absent. Only Batch 4 credential-reference
 boundary hardening is authorized next; the custody refusal and operational perimeter remain closed.
+
+Batch 4 now removes the clear credential reference from generic capability state and metadata.
+Ordinary eligibility, claim, feasibility and journal readers compare only its digest; the issuing
+environment broker alone keeps the live clear reference in a private process-local map. Logs,
+exceptions and durable records exclude the clear reference and secret. This does not prove memory
+zeroization, dump immunity or cross-process custody. Only Batch 5 offline process-loss evidence is
+authorized next, with credential resolution and every operational boundary still closed.

@@ -125,7 +125,8 @@ final class LaCortineRuntimeTest extends TestCase
         $metadata = $capability->metadata();
         self::assertArrayNotHasKey('secret', $metadata);
         self::assertArrayNotHasKey('token', $metadata);
-        self::assertSame('clavium://email/provider-account', $metadata['credential_ref']);
+        self::assertArrayNotHasKey('credential_ref', $metadata);
+        self::assertSame(hash('sha256', 'clavium://email/provider-account'), $metadata['credential_reference_digest']);
     }
 
     private function request(OutboundExecutionMode $mode, \DateTimeImmutable $now): OutboundRequest

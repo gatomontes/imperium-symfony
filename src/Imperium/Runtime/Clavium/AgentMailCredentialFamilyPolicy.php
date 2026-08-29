@@ -14,8 +14,8 @@ final readonly class AgentMailCredentialFamilyPolicy implements ProviderCredenti
             && AgentMailProviderProfile::CREDENTIAL_FAMILY_ID === $familyId;
     }
 
-    public function acceptsReference(string $credentialReference): bool
+    public function acceptsReferenceDigest(string $credentialReferenceDigest): bool
     {
-        return AgentMailProviderProfile::CREDENTIAL_REFERENCE_SYNTAX === $credentialReference;
+        return hash_equals(hash('sha256', AgentMailProviderProfile::CREDENTIAL_REFERENCE_SYNTAX), $credentialReferenceDigest);
     }
 }

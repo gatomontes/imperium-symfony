@@ -6,9 +6,11 @@ namespace App\Imperium\Runtime\LaCortine;
 
 final readonly class CredentialCapability
 {
+    public string $credentialReferenceDigest;
+
     public function __construct(
         public string $capabilityId,
-        public string $credentialRef,
+        string $credentialRef,
         public string $commissionId,
         public string $operation,
         public \DateTimeImmutable $expiresAt,
@@ -20,6 +22,8 @@ final readonly class CredentialCapability
         if ($maxUses < 1) {
             throw new \InvalidArgumentException('Credential capability maxUses must be positive.');
         }
+
+        $this->credentialReferenceDigest = hash('sha256', $credentialRef);
     }
 
     /**
@@ -29,7 +33,7 @@ final readonly class CredentialCapability
     {
         return [
             'capability_id' => $this->capabilityId,
-            'credential_ref' => $this->credentialRef,
+            'credential_reference_digest' => $this->credentialReferenceDigest,
             'commission_id' => $this->commissionId,
             'operation' => $this->operation,
             'expires_at' => $this->expiresAt->format(DATE_ATOM),

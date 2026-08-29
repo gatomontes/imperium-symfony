@@ -73,7 +73,7 @@ final readonly class DeterministicJournalBoundCredentialBroker
             || ($journal['execution_claim']['replay_fingerprint'] ?? null) !== ($claim['replay_fingerprint'] ?? null)
             || ($journal['execution_claim']['execution_id'] ?? null) !== ($claim['execution_identity']['execution_id'] ?? null)
             || $capability->capabilityId !== ($claim['credential_capability']['capability_id'] ?? null)
-            || hash('sha256', $capability->credentialRef) !== ($claim['credential_capability']['credential_reference_digest'] ?? null)
+            || $capability->credentialReferenceDigest !== ($claim['credential_capability']['credential_reference_digest'] ?? null)
             || $capability->commissionId !== ($claim['request']['commission_id'] ?? null)
             || $capability->operation !== ($claim['request']['operation'] ?? null)
             || 'email.send' !== ($claim['request']['operation'] ?? null)
@@ -97,7 +97,7 @@ final readonly class DeterministicJournalBoundCredentialBroker
                 'instance_id' => $journal['instance_id'],
                 'effect_start_journal' => ['id' => $journalId, 'digest' => $journal['record_digest']],
                 'execution_claim' => ['id' => $claim['claim_id'], 'digest' => $claim['record_digest']],
-                'credential_use' => ['capability_id' => $capability->capabilityId, 'credential_reference_digest' => hash('sha256', $capability->credentialRef), 'admission_committed' => true, 'consumption_attempted' => false, 'credential_secret_persisted' => false],
+                'credential_use' => ['capability_id' => $capability->capabilityId, 'credential_reference_digest' => $capability->credentialReferenceDigest, 'admission_committed' => true, 'consumption_attempted' => false, 'credential_secret_persisted' => false],
                 'provider_request' => ['operation' => $claim['request']['operation'], 'destination' => $claim['request']['destination'], 'payload_digest' => $claim['request']['payload_digest'], 'idempotency_key' => $journal['provider_safety']['provider_idempotency_key'], 'request_fingerprint' => $journal['provider_safety']['request_fingerprint'], 'callback_admitted' => false, 'provider_callback_may_have_run' => false, 'outcome' => 'NOT_ATTEMPTED'],
                 'admitted_at' => $at->format(DATE_ATOM),
                 'expires_at' => $journal['expires_at'],

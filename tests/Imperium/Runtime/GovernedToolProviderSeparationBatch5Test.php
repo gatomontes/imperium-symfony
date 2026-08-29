@@ -65,8 +65,8 @@ final class GovernedToolProviderSeparationBatch5Test extends TestCase
         yield 'provider' => [static function (array $binding, CredentialCapability $capability): array { $binding['provider_implementation']['provider_id'] = 'substitute'; return [self::seal($binding), $capability]; }];
         yield 'family' => [static function (array $binding, CredentialCapability $capability): array { $binding['credential_family']['family_id'] = 'substitute-family'; return [self::seal($binding), $capability]; }];
         yield 'reference' => [static fn (array $binding, CredentialCapability $capability): array => [$binding, new CredentialCapability($capability->capabilityId, 'env:OTHER_KEY', $capability->commissionId, $capability->operation, $capability->expiresAt)]];
-        yield 'target' => [static fn (array $binding, CredentialCapability $capability): array => [$binding, new CredentialCapability($capability->capabilityId, $capability->credentialRef, 'other-target', $capability->operation, $capability->expiresAt)]];
-        yield 'operation' => [static fn (array $binding, CredentialCapability $capability): array => [$binding, new CredentialCapability($capability->capabilityId, $capability->credentialRef, $capability->commissionId, 'other.operation', $capability->expiresAt)]];
+        yield 'target' => [static fn (array $binding, CredentialCapability $capability): array => [$binding, new CredentialCapability($capability->capabilityId, AgentMailProviderProfile::CREDENTIAL_REFERENCE_SYNTAX, 'other-target', $capability->operation, $capability->expiresAt)]];
+        yield 'operation' => [static fn (array $binding, CredentialCapability $capability): array => [$binding, new CredentialCapability($capability->capabilityId, AgentMailProviderProfile::CREDENTIAL_REFERENCE_SYNTAX, $capability->commissionId, 'other.operation', $capability->expiresAt)]];
     }
 
     public function testExpiredCapabilityAndTamperedBindingFailClosed(): void

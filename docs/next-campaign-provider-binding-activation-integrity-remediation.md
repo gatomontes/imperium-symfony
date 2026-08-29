@@ -75,3 +75,12 @@ Batch 3 is complete in `docs/provider-binding-stranded-activation-artifact-dispo
 exact expired and unused authority or lease may receive `QUARANTINED_EXPIRED_UNUSED`, bound to the
 terminal refusal and complete interruption evidence. Unexpired quarantine and corridor retirement
 remain unavailable. Only Batch 4's credential-reference boundary hardening is authorized next.
+
+## Batch 4 result
+
+Batch 4 is complete in `docs/provider-binding-credential-reference-boundary-hardening.md`. Generic
+capability state and metadata retain only the credential-reference digest; the issuing environment
+broker alone retains the clear reference in its private process-local live map. Logs, exceptions
+and durable records exclude the clear reference and secret. This does not establish memory
+zeroization, dump immunity or cross-process custody. Only Batch 5's offline process-loss evidence
+is authorized next.
