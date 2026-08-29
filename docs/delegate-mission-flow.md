@@ -351,3 +351,9 @@ operator-originated constitution authority, one canonical Imperator runtime-prin
 one lifecycle disposition. The future-instance and existing-instance routes remain
 non-interchangeable. Contract existence grants no authority; only Batch 2 validators and immutable
 stores are authorized next.
+
+Principal Provenance Remediation Batch 2 now fail-closed validates and immutably stores caller-
+supplied offline fixtures for the three contracts. Exact route, transition, identity, source,
+scope, lifecycle, generation, successor and secret-exclusion rules are enforced. The evidence
+stores are not a live registry. Only Batch 3 offline interruption demonstrations are authorized
+next.
