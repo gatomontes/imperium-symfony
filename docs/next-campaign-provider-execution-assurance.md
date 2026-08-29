@@ -2,7 +2,7 @@
 
 ## Status
 
-`PREPARATION_BATCH_0_COMPLETE_PAUSED_FOR_TOOL_PROVIDER_SEPARATION`
+`PREPARATION_BATCH_0_COMPLETE_PAUSED_FOR_BINDING_ACTIVATION_AND_CAPABILITY_CUSTODY`
 
 Historical selection posture: `CAMPAIGN_SELECTED_PREPARATION_BATCH_0_ONLY`.
 
@@ -80,6 +80,9 @@ query-before-retry and remote cryptographic authorship do not.
 The exact safe posture remains `UNKNOWN_REPLAY_PROHIBITED` for any callback-started operation without
 an observed response. The previously proposed provider-contract Batch 1 is superseded before work
 begins: AgentMail is fused into authority, credential-bound invocation, decoding and admission.
-Provider Execution Assurance is paused while the separately selected Governed Tool and Provider
-Separation campaign establishes the provider-neutral boundary. No Provider Execution Assurance
-Batch 1 is currently authorized.
+Governed Tool and Provider Separation subsequently established the provider-neutral boundary and
+retired the self-authorizing command, but its terminal audit proves that execution still lacks an
+exact provider-binding activation authority and cross-process opaque capability custody. Provider
+Execution Assurance therefore remains paused while the separately selected Provider Binding
+Activation and Capability Custody campaign begins with Preparation Batch 0 only. No Provider
+Execution Assurance Batch 1 is currently authorized.

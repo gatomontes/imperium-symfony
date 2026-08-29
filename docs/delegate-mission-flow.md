@@ -256,13 +256,22 @@ Batch 7 implements native issuance without claiming consumer enforcement. Batch 
 consumer and Batch 9 enforces it at request, decision and issuance. Batch 10 proves the offline
 adversarial cases and preserves provider-side, hostile-writer and distributed-storage limits.
 Batch 11 closes remediation without authorizing live adoption. No remediation batches remain.
-Provider Execution Assurance Preparation Batch 0 is complete but paused after discovering that
-AgentMail-specific facts are fused into tool authority, credential-bound invocation, decoding and
-admission. Governed Tool and Provider Separation Preparation Batch 0 is complete in
-`docs/governed-tool-provider-separation-preparation-inventory.md`. Batch 1 defines the five
-provider-neutral separation contracts. Batch 2 implements one immutable Armory-owned `email.send`
-definition with `DEFINED_INACTIVE` status and no provider or credential. Only Batch 3's separately
-governed provider-binding route may next be considered; it is not authorized by completion alone.
-No live consumer, external I/O,
-Iron Gate, Lazaretto, sortie, credential-platform, revocation, propagation, telemetry, reassessment,
-containment or incident boundary is opened.
+Governed Tool and Provider Separation is terminal through Batch 9 under
+`docs/next-campaign-governed-tool-provider-separation.md` and
+`docs/handoffs/governed-tool-provider-separation-campaign-complete.md`. Tool definition, provider
+binding, credential eligibility, request encoding, raw evidence, bound decoding, normalized
+admission and read-only reconstruction are separately versioned and substitution-resistant. The
+self-authorizing AgentMail command is retired and fails closed. A sterile second adapter proves the
+provider-neutral seam without external I/O. Provider Execution Assurance remains paused because no
+authority activates an exact provider binding and no cross-process custodian delivers the exact
+already-issued opaque capability.
+
+The next separately selected campaign is Provider Binding Activation and Capability Custody. Only
+Preparation Batch 0 is authorized under
+`docs/next-campaign-provider-binding-activation-capability-custody.md` and
+`docs/handoffs/provider-binding-activation-capability-custody-campaign-ready.md`. Preparation may
+inventory activation authority, capability custody and transfer, atomic pre-I/O consumption,
+recovery, concurrency, revocation and secret exclusion. It may not define contracts, activate a
+binding, issue or resolve a credential, migrate the command, invoke a provider, perform external
+I/O, or open Iron Gate, Lazaretto, sortie, propagation, telemetry, reassessment, containment or
+incident behavior.
