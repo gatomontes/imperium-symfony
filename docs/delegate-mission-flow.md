@@ -289,3 +289,10 @@ reachability, Batch 2 interruption recovery, stranded Batch 2–3 artifacts, cre
 memory exposure and partly declarative cross-process evidence. Only Preparation Batch 0 is
 authorized under `docs/next-campaign-provider-binding-activation-integrity-remediation.md`. The
 terminal refusal remains authoritative and Provider Execution Assurance remains paused.
+
+Preparation Batch 0 is complete under
+`docs/provider-binding-activation-integrity-remediation-preparation-inventory.md`. It classifies the
+activation-principal producer, transition interruption recovery, stranded-artifact disposition,
+credential-reference exposure and real process-loss proof. Only Batch 1's five authority-empty
+remediation evidence and disposition contracts are authorized; runtime behavior and the terminal
+custody refusal remain unchanged.
