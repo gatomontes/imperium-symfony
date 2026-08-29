@@ -114,3 +114,10 @@ Batch 2 is complete in `docs/provider-binding-activation-decision-and-issuance.m
 owns separate exact decision and single-use issuance transitions, producing one sealed activation
 authority without activating the inactive binding or opening custody, credential or I/O behavior.
 Only Batch 3's immutable single-execution activation transition is authorized next.
+
+## Batch 3 result
+
+Batch 3 is complete in `docs/provider-binding-single-execution-activation.md`. La Cortine consumes
+the exact Batch 2 authority and seals one immutable `ACTIVATED_UNCONSUMED` execution-scoped lease
+without mutating the inactive provider binding or opening credential or I/O behavior. Only Batch 4's
+truthful opaque capability custody and one-time delivery route is authorized next.
