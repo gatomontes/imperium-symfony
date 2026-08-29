@@ -47,3 +47,14 @@ external I/O; or open Iron Gate or Lazaretto.
 The activation corridor remains policy-quarantined and operationally unusable.
 `REFUSED_CROSS_PROCESS_CUSTODY_UNPROVABLE` remains authoritative. Provider Execution Assurance
 remains paused.
+
+## Preparation Batch 0 result
+
+Preparation Batch 0 is complete in
+`docs/provider-binding-activation-principal-provenance-remediation-preparation-inventory.md`.
+Competent constitution authority, principal production, source authority and lifecycle are absent;
+schema recognition, generation checking, recovery and secret exclusion are fragmented. Operator
+Root is the only plausible authority owner and MasterMason only a possible mechanical producer.
+Future-instance establishment and existing-instance remediation require non-interchangeable source
+authorities. Only Batch 1's three authority-empty constitution and lifecycle contracts are
+authorized next.
