@@ -2,7 +2,7 @@
 
 ## Status
 
-`BATCH_2_COMPLETE_BATCH_3_ELIGIBLE_NOT_AUTHORIZED`
+`BATCH_3_COMPLETE_BATCH_4_ELIGIBLE_NOT_AUTHORIZED`
 
 Provider Execution Assurance Preparation Batch 0 established useful AgentMail facts, but review of
 the executable corridor found that AgentMail is not merely an adapter behind a governed
@@ -31,6 +31,12 @@ provider-neutral `email.send` version-1 definition with exact payload, effect, n
 secret and provider-binding policies. It remains `DEFINED_INACTIVE`; no provider is selected, no
 credential is available and no consumer is migrated. Only Batch 3 may next be considered, and it is
 not authorized by campaign status alone.
+
+Batch 3 is now complete in `docs/governed-provider-binding-route.md`. La Cortine can consume one
+exact, pre-existing Imperator provider-binding authority and seal its provider, adapter, assurance,
+credential-family, encoder, decoder and destination-policy identities against one exact inactive
+tool target. The binding producer has no provider-selection arguments and cannot issue its source
+authority. Only Batch 4 may next be considered, and it is not authorized by campaign status alone.
 
 ## Governing invariants
 
