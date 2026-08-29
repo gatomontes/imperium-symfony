@@ -92,3 +92,13 @@ offline issuer subprocess loses a random possession witness on exit; a distinct 
 observes only its digest, recovers no possession and attempts no reconstruction. The exact prior
 custody refusal remains bound and the evidence classifies `POSSESSION_LOST`. Only Batch 6 activation-
 corridor disposition is authorized next.
+
+## Batch 6 terminal result
+
+Batch 6 is complete in `docs/provider-binding-activation-corridor-disposition.md`. The evidence
+cannot support a competent corridor decision because the required Imperator principal provenance
+remains absent. The campaign terminates at
+`CORRIDOR_DISPOSITION_REFUSED_PRINCIPAL_PROVENANCE_ABSENT` without implementing a runtime
+disposition producer, manufacturing a disposition record or creating successor authority. The
+corridor remains policy-quarantined and operationally unusable. No further implementation batch is
+authorized.

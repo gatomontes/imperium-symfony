@@ -326,3 +326,9 @@ process creates a random possession witness, persists only its digest and exits;
 recovers nothing and attempts no reconstruction. The evidence binds the prior custody refusal and
 classifies `POSSESSION_LOST`. Only Batch 6 activation-corridor disposition is authorized next; all
 credential and operational boundaries remain closed.
+
+Batch 6 refuses to manufacture a corridor decision while the competent Imperator principal
+provenance remains absent. The campaign terminates at
+`CORRIDOR_DISPOSITION_REFUSED_PRINCIPAL_PROVENANCE_ABSENT`: no runtime disposition producer, new
+disposition record or successor authority exists. The corridor remains policy-quarantined and
+operationally unusable, and no further implementation batch is authorized.
