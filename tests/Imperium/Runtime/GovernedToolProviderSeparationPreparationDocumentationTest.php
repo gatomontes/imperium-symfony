@@ -22,17 +22,17 @@ final class GovernedToolProviderSeparationPreparationDocumentationTest extends T
             self::assertStringContainsString($posture, $inventory);
         }
         foreach (['28 source and test files', 'ten production PHP files', 'seven production files belong to the outbound corridor', 'Provider Execution Assurance remains paused', 'Runtime behavior is unchanged.', 'No step is authorized by this inventory'] as $proof) {
-            self::assertStringContainsStringIgnoringCase($proof, $inventory.$handoff);
+            self::assertNotFalse(stripos($inventory.$handoff, $proof), $proof);
         }
         foreach (['GovernedToolOperationContract', 'ProviderImplementationBindingContract', 'ProviderRequestEncoderContract', 'ProviderEvidenceDecoderContract', 'NormalizedToolResultContract'] as $contract) {
             self::assertStringContainsString($contract, $inventory.$handoff);
         }
         foreach (['Iron Gate', 'Lazaretto', 'AgentMail', 'credential', 'external I/O', 'inbound webhook', 'sortie', 'revocation', 'telemetry', 'incident'] as $boundary) {
-            self::assertStringContainsStringIgnoringCase($boundary, $inventory.$handoff);
+            self::assertNotFalse(stripos($inventory.$handoff, $boundary), $boundary);
         }
 
         self::assertStringContainsString('`BATCH_1_COMPLETE_BATCH_2_ELIGIBLE_NOT_AUTHORIZED`', $campaign);
         self::assertStringContainsString('Only Batch 1 is authorized', $handoff);
-        self::assertStringContainsString('Batch 1 may not implement', $campaign);
+        self::assertStringContainsString('No producer or consumer is implemented', $campaign);
     }
 }
