@@ -12,9 +12,9 @@ admission can remain separate. It also proves that the live command cannot lawfu
 produced provider binding remains `BOUND_INACTIVE`, and `EnvironmentCredentialBroker` retains an
 issued opaque capability only inside the issuing process.
 
-This campaign addresses exactly those two missing execution facts. Only Preparation Batch 0 is
-authorized. Preparation is read-only inventory and classification; it defines no contract and
-changes no runtime behavior.
+This campaign addresses exactly those two missing execution facts. Only Preparation Batch 0 is authorized.
+Preparation is read-only inventory and classification; it defines no contract and changes no runtime
+behavior.
 
 ## Preparation questions
 

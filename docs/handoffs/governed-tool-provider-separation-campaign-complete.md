@@ -26,4 +26,5 @@ Gate or Lazaretto on the separated route.
 The separately selected continuation is Provider Binding Activation and Capability Custody
 Preparation Batch 0 only. Read
 `docs/handoffs/provider-binding-activation-capability-custody-campaign-ready.md` and do not infer any
-runtime authority from completion of this campaign.
+runtime authority from completion of this campaign. Do not infer authorization.
+Do not infer fresh authorization.
