@@ -40,7 +40,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
         $approvedSuccessors = $this->approvedPostBatch12RuntimeFiles();
         $frozenCandidates = array_values(array_diff($candidates, $approvedSuccessors));
         self::assertSame($approvedSuccessors, array_values(array_intersect($files, $approvedSuccessors)));
-        self::assertCount(545, $files);
+        self::assertCount(548, $files);
         self::assertCount(482, array_values(array_diff($files, $approvedSuccessors)));
         self::assertCount(371, array_values(array_diff($authorityFiles, $approvedSuccessors)));
         self::assertCount(231, $frozenCandidates);
@@ -204,6 +204,9 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
             'src/Imperium/Runtime/Imperator/OutboundEmailDecisionService.php',
             'src/Imperium/Runtime/Imperator/ActivationPrincipalProvenanceEvidenceContract.php',
             'src/Imperium/Runtime/Imperator/ActivationTransitionInterruptionEvidenceContract.php',
+            'src/Imperium/Runtime/Imperator/ImperatorPrincipalConstitutionAuthorityContract.php',
+            'src/Imperium/Runtime/Imperator/ImperatorPrincipalLifecycleDispositionContract.php',
+            'src/Imperium/Runtime/Imperator/ImperatorRuntimePrincipalVersionContract.php',
             'src/Imperium/Runtime/Imperator/ProviderBindingAuthorizationContract.php',
             'src/Imperium/Runtime/Imperator/ProviderBindingActivationAuthorityContract.php',
             'src/Imperium/Runtime/Imperator/ProviderBindingActivationDecisionService.php',

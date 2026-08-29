@@ -58,3 +58,12 @@ Root is the only plausible authority owner and MasterMason only a possible mecha
 Future-instance establishment and existing-instance remediation require non-interchangeable source
 authorities. Only Batch 1's three authority-empty constitution and lifecycle contracts are
 authorized next.
+
+## Batch 1 result
+
+Batch 1 is complete in
+`docs/provider-binding-activation-principal-provenance-remediation-contracts.md`. Three separately
+versioned, authority-empty contracts define operator-originated constitution authority, canonical
+Imperator runtime-principal versions and lifecycle dispositions. The two constitution routes remain
+non-interchangeable. Only Batch 2 fail-closed validators and canonical immutable stores are
+authorized next.
