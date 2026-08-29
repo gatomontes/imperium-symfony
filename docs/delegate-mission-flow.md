@@ -275,6 +275,8 @@ environment-backed broker recognizes only the exact object held by its issuing p
 defines five separate activation and custody contracts without implementing them. Batch 2 now
 implements only the separately governed activation decision and single-use authority issuance
 route. It does not activate a binding or open custody, credential, provider or I/O behavior. Only
-Batch 3's immutable single-execution activation transition is authorized next; Iron Gate,
-Lazaretto, sortie, propagation, telemetry, reassessment, containment and incident behavior remain
-closed.
+Batch 3 now consumes the exact issued authority into one immutable, execution-scoped
+`ACTIVATED_UNCONSUMED` lease without mutating the inactive binding. Only Batch 4's truthful opaque
+capability custody and one-time delivery route is authorized next; Iron Gate, Lazaretto, atomic
+execution admission, credential resolution, sortie, propagation, telemetry, reassessment,
+containment and incident behavior remain closed.
