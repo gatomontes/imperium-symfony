@@ -90,6 +90,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
         ));
         self::assertSame([
             'src/Imperium/Runtime/Citadel/DelegateMissionTurnRecoveryService.php',
+            'src/Imperium/Runtime/Evidence/ImperatorPrincipalProvenanceInterruptionDemonstration.php',
             'src/Imperium/Runtime/LaCortine/DeterministicTransitionCallerAuthorityConsumer.php',
             'src/Imperium/Runtime/LaCortine/ProviderImplementationBindingService.php',
         ], $storeUsers);
