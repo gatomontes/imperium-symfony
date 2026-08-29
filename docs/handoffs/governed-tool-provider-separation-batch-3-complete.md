@@ -11,8 +11,7 @@ version, assurance profile, credential family, request encoder, evidence decoder
 policy and exact authorization target. Exact replay converges and substitution fails closed.
 
 No provider adapter was implemented. No credential was issued or resolved. No request was encoded,
-no external I/O occurred, and no existing runtime consumer was migrated. Runtime behavior is
-unchanged.
+no external I/O occurred, and no existing runtime consumer was migrated. Runtime behavior is unchanged.
 
 ## Authorized continuation
 
