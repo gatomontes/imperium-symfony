@@ -256,8 +256,12 @@ Batch 7 implements native issuance without claiming consumer enforcement. Batch 
 consumer and Batch 9 enforces it at request, decision and issuance. Batch 10 proves the offline
 adversarial cases and preserves provider-side, hostile-writer and distributed-storage limits.
 Batch 11 closes remediation without authorizing live adoption. No remediation batches remain.
-Provider Execution Assurance is selected next for Preparation Batch 0 only: inventory provider-side
-idempotency, duplicate/unknown-outcome, correlation and authorship evidence before proposing any
-migration. No live consumer, external I/O,
+Provider Execution Assurance Preparation Batch 0 is complete but paused after discovering that
+AgentMail-specific facts are fused into tool authority, credential-bound invocation, decoding and
+admission. Governed Tool and Provider Separation Preparation Batch 0 is complete in
+`docs/governed-tool-provider-separation-preparation-inventory.md`. Batch 1 defines the five
+provider-neutral separation contracts without implementing a producer or consumer. Only Batch 2's
+canonical Armory-owned `email.send` tool definition may next be considered; it is not authorized by
+completion alone. No live consumer, external I/O,
 Iron Gate, Lazaretto, sortie, credential-platform, revocation, propagation, telemetry, reassessment,
 containment or incident boundary is opened.

@@ -86,12 +86,21 @@ For the current Delegate Mission state, read in this order:
 80. `docs/iron-gate-evidence-authenticity-remediation-terminal-audit.md`;
 81. `docs/handoffs/iron-gate-evidence-authenticity-remediation-campaign-complete.md`;
 82. `docs/next-campaign-provider-execution-assurance.md`;
-83. `docs/handoffs/provider-execution-assurance-campaign-ready.md`; and
-84. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
+83. `docs/handoffs/provider-execution-assurance-campaign-ready.md`;
+84. `docs/provider-execution-assurance-preparation-inventory.md`;
+85. `docs/handoffs/provider-execution-assurance-preparation-batch-0-complete.md`;
+86. `docs/next-campaign-governed-tool-provider-separation.md`;
+87. `docs/governed-tool-provider-separation-preparation-inventory.md`;
+88. `docs/handoffs/governed-tool-provider-separation-preparation-batch-0-complete.md`;
+89. `docs/governed-tool-provider-separation-contracts.md`;
+90. `docs/handoffs/governed-tool-provider-separation-batch-1-complete.md`; and
+91. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
 
-Item 83 is the active continuation handoff. Iron Gate Evidence Authenticity Remediation is complete
+Item 90 is the active continuation handoff. Iron Gate Evidence Authenticity Remediation is complete
 through Batch 11. No remediation batches remain. Provider Execution Assurance is selected for
-Preparation Batch 0 only. Live
+Preparation Batch 0 but paused before Batch 1. Governed Tool and Provider Separation Preparation
+Batch 0 and contract-definition Batch 1 are complete; only Batch 2 may next be considered and is not
+authorized by completion alone. Live
 deterministic consumer adoption and sortie remain deferred boundaries.
 
 `docs/handoffs/operational-cognition-access-lifecycle-ready.md` and the numbered credential-boundary handoffs are historical execution records. They are not active continuation prompts.
