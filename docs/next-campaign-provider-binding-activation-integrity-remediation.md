@@ -61,3 +61,10 @@ Batch 1 is complete in `docs/provider-binding-activation-integrity-remediation-c
 separately versioned contracts define authority-empty evidence and terminal-disposition vocabulary
 without implementation. Only Batch 2's offline decision and issuance interruption demonstrations
 are authorized next.
+
+## Batch 2 result
+
+Batch 2 is complete in `docs/provider-binding-activation-transition-interruption-evidence.md`. The
+offline demonstration proves same-consumer convergence, exact target replay, expiry refusal,
+conflicting replay refusal and single-winner consumption for both activation transitions across all
+three crash cuts. Only Batch 3's exact stranded-artifact disposition is authorized next.
