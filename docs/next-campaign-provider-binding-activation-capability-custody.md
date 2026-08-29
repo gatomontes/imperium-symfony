@@ -2,7 +2,9 @@
 
 ## Status
 
-`CAMPAIGN_SELECTED_PREPARATION_BATCH_0_ONLY`
+`PREPARATION_BATCH_0_COMPLETE_BATCH_1_AUTHORIZED`
+
+Historical selection posture: `CAMPAIGN_SELECTED_PREPARATION_BATCH_0_ONLY`.
 
 Governed Tool and Provider Separation is terminal through Batch 9. It proves that tool authority,
 provider selection, credential eligibility, provider request/response translation and normalized
@@ -81,3 +83,16 @@ telemetry, reassessment, containment or incident behavior.
 
 Provider Execution Assurance remains paused. Refusal is a valid preparation result if exact
 cross-process custody cannot preserve capability identity without manufacturing authority.
+
+## Preparation Batch 0 result
+
+Preparation Batch 0 is complete in
+`docs/provider-binding-activation-capability-custody-preparation-inventory.md`. Provider selection,
+inactive binding, eligibility, claims, effect-start journaling and read-only reconstruction exist,
+but exact activation authority, a single-execution activation lease and durable cross-process
+capability custody are absent. `EnvironmentCredentialBroker` recognizes issuance only through the
+exact capability object retained by the issuing broker process; another broker instance refuses the
+same capability as unissued.
+
+Only Batch 1 is authorized: contract definition without implementation. Provider Execution
+Assurance remains paused, and no runtime execution boundary is opened.
