@@ -107,3 +107,10 @@ serialized capability material from durable custody records.
 
 Only Batch 2 is authorized: the separately governed provider-binding activation decision and
 issuance route. No activation, custody, delivery, credential or I/O implementation is authorized.
+
+## Batch 2 result
+
+Batch 2 is complete in `docs/provider-binding-activation-decision-and-issuance.md`. Imperator now
+owns separate exact decision and single-use issuance transitions, producing one sealed activation
+authority without activating the inactive binding or opening custody, credential or I/O behavior.
+Only Batch 3's immutable single-execution activation transition is authorized next.

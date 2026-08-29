@@ -272,8 +272,9 @@ Preparation Batch 0 is authorized in the historical selection and is now complet
 `docs/handoffs/provider-binding-activation-capability-custody-preparation-batch-0-complete.md`.
 It proves that activation authority and durable cross-process capability custody are absent; the
 environment-backed broker recognizes only the exact object held by its issuing process. Batch 1
-defines five separate activation and custody contracts without implementing them. Only Batch 2's
-governed activation decision and issuance route is authorized. It may not activate a
-binding, issue or resolve a credential, migrate the command, invoke a provider, perform external
-I/O, or open Iron Gate, Lazaretto, sortie, propagation, telemetry, reassessment, containment or
-incident behavior.
+defines five separate activation and custody contracts without implementing them. Batch 2 now
+implements only the separately governed activation decision and single-use authority issuance
+route. It does not activate a binding or open custody, credential, provider or I/O behavior. Only
+Batch 3's immutable single-execution activation transition is authorized next; Iron Gate,
+Lazaretto, sortie, propagation, telemetry, reassessment, containment and incident behavior remain
+closed.
