@@ -40,7 +40,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
         $approvedSuccessors = $this->approvedPostBatch12RuntimeFiles();
         $frozenCandidates = array_values(array_diff($candidates, $approvedSuccessors));
         self::assertSame($approvedSuccessors, array_values(array_intersect($files, $approvedSuccessors)));
-        self::assertCount(516, $files);
+        self::assertCount(520, $files);
         self::assertCount(482, array_values(array_diff($files, $approvedSuccessors)));
         self::assertCount(371, array_values(array_diff($authorityFiles, $approvedSuccessors)));
         self::assertCount(231, $frozenCandidates);
@@ -186,6 +186,10 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
             'src/Imperium/Runtime/Armory/CanonicalEmailSendToolDefinitionService.php',
             'src/Imperium/Runtime/Armory/GovernedToolOperationContract.php',
             'src/Imperium/Runtime/Clavium/DeterministicJournalBoundCredentialBroker.php',
+            'src/Imperium/Runtime/Clavium/AgentMailCredentialFamilyPolicy.php',
+            'src/Imperium/Runtime/Clavium/ProviderBoundCredentialEligibilityContract.php',
+            'src/Imperium/Runtime/Clavium/ProviderBoundCredentialEligibilityService.php',
+            'src/Imperium/Runtime/Clavium/ProviderCredentialFamilyPolicy.php',
             'src/Imperium/Runtime/Curia/OutboundEmailAuthorizationRequestService.php',
             'src/Imperium/Runtime/Imperator/OutboundEmailAuthorizationIssuanceContract.php',
             'src/Imperium/Runtime/Imperator/OutboundEmailAuthorizationIssuanceService.php',
