@@ -54,3 +54,10 @@ provenance is absent, transition recovery is fragmented, stranded-artifact dispo
 credential-reference exclusion is fragmented and real process-loss evidence is absent. Only Batch 1
 is authorized: define five authority-empty remediation evidence and disposition contracts without
 implementation.
+
+## Batch 1 result
+
+Batch 1 is complete in `docs/provider-binding-activation-integrity-remediation-contracts.md`. Five
+separately versioned contracts define authority-empty evidence and terminal-disposition vocabulary
+without implementation. Only Batch 2's offline decision and issuance interruption demonstrations
+are authorized next.

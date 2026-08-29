@@ -296,3 +296,9 @@ activation-principal producer, transition interruption recovery, stranded-artifa
 credential-reference exposure and real process-loss proof. Only Batch 1's five authority-empty
 remediation evidence and disposition contracts are authorized; runtime behavior and the terminal
 custody refusal remain unchanged.
+
+Batch 1 now defines five authority-empty remediation evidence and disposition contracts without a
+producer or consumer. Only Batch 2's offline interruption demonstrations for the activation decision
+and issuance transitions are authorized next; principal provenance, artifact disposition,
+credential-reference hardening, process-loss custody proof and all operational boundaries remain
+closed.

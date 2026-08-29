@@ -40,7 +40,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
         $approvedSuccessors = $this->approvedPostBatch12RuntimeFiles();
         $frozenCandidates = array_values(array_diff($candidates, $approvedSuccessors));
         self::assertSame($approvedSuccessors, array_values(array_intersect($files, $approvedSuccessors)));
-        self::assertCount(537, $files);
+        self::assertCount(542, $files);
         self::assertCount(482, array_values(array_diff($files, $approvedSuccessors)));
         self::assertCount(371, array_values(array_diff($authorityFiles, $approvedSuccessors)));
         self::assertCount(231, $frozenCandidates);
@@ -101,7 +101,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
         sort($perimeter, SORT_STRING);
         $approvedSuccessors = $this->approvedPostBatch12PerimeterFiles();
         self::assertSame($approvedSuccessors, array_values(array_intersect($perimeter, $approvedSuccessors)));
-        self::assertCount(74, $perimeter);
+        self::assertCount(75, $perimeter);
         self::assertCount(39, array_values(array_diff($perimeter, $approvedSuccessors)));
         $forbidden = [
             'TransactionalAuthorityConsumptionEnvelope',
@@ -187,8 +187,10 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
             'src/Imperium/Runtime/Armory/GovernedToolOperationContract.php',
             'src/Imperium/Runtime/Clavium/DeterministicJournalBoundCredentialBroker.php',
             'src/Imperium/Runtime/Clavium/AgentMailCredentialFamilyPolicy.php',
+            'src/Imperium/Runtime/Clavium/CredentialReferenceExposureObservationContract.php',
             'src/Imperium/Runtime/Clavium/CrossProcessCapabilityCustodyFeasibilityContract.php',
             'src/Imperium/Runtime/Clavium/CrossProcessCapabilityCustodyFeasibilityService.php',
+            'src/Imperium/Runtime/Clavium/ProcessLossCapabilityCustodyEvidenceContract.php',
             'src/Imperium/Runtime/Clavium/OneTimeCapabilityDeliveryContract.php',
             'src/Imperium/Runtime/Clavium/OpaqueCapabilityCustodyContract.php',
             'src/Imperium/Runtime/Clavium/ProviderBoundCredentialEligibilityContract.php',
@@ -198,6 +200,8 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
             'src/Imperium/Runtime/Imperator/OutboundEmailAuthorizationIssuanceContract.php',
             'src/Imperium/Runtime/Imperator/OutboundEmailAuthorizationIssuanceService.php',
             'src/Imperium/Runtime/Imperator/OutboundEmailDecisionService.php',
+            'src/Imperium/Runtime/Imperator/ActivationPrincipalProvenanceEvidenceContract.php',
+            'src/Imperium/Runtime/Imperator/ActivationTransitionInterruptionEvidenceContract.php',
             'src/Imperium/Runtime/Imperator/ProviderBindingAuthorizationContract.php',
             'src/Imperium/Runtime/Imperator/ProviderBindingActivationAuthorityContract.php',
             'src/Imperium/Runtime/Imperator/ProviderBindingActivationDecisionService.php',
@@ -225,6 +229,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
             'src/Imperium/Runtime/LaCortine/ProviderRequestEncoderContract.php',
             'src/Imperium/Runtime/LaCortine/SingleExecutionProviderBindingActivationContract.php',
             'src/Imperium/Runtime/LaCortine/SingleExecutionProviderBindingActivationService.php',
+            'src/Imperium/Runtime/LaCortine/StrandedActivationArtifactDispositionContract.php',
             'src/Imperium/Runtime/LaCortine/ProviderNeutralRawEvidenceContract.php',
             'src/Imperium/Runtime/LaCortine/ProviderNeutralRawEvidenceService.php',
             'src/Imperium/Runtime/LaCortine/DeterministicProviderInvocationAdmissionContract.php',
@@ -270,6 +275,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
             'src/Imperium/Runtime/LaCortine/ProviderRequestEncoderContract.php',
             'src/Imperium/Runtime/LaCortine/SingleExecutionProviderBindingActivationContract.php',
             'src/Imperium/Runtime/LaCortine/SingleExecutionProviderBindingActivationService.php',
+            'src/Imperium/Runtime/LaCortine/StrandedActivationArtifactDispositionContract.php',
             'src/Imperium/Runtime/LaCortine/ProviderNeutralRawEvidenceContract.php',
             'src/Imperium/Runtime/LaCortine/ProviderNeutralRawEvidenceService.php',
             'src/Imperium/Runtime/LaCortine/DeterministicProviderInvocationAdmissionContract.php',
