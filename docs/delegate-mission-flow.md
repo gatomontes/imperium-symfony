@@ -266,12 +266,13 @@ provider-neutral seam without external I/O. Provider Execution Assurance remains
 authority activates an exact provider binding and no cross-process custodian delivers the exact
 already-issued opaque capability.
 
-The next separately selected campaign is Provider Binding Activation and Capability Custody. Only
-Preparation Batch 0 is authorized under
-`docs/next-campaign-provider-binding-activation-capability-custody.md` and
-`docs/handoffs/provider-binding-activation-capability-custody-campaign-ready.md`. Preparation may
-inventory activation authority, capability custody and transfer, atomic pre-I/O consumption,
-recovery, concurrency, revocation and secret exclusion. It may not define contracts, activate a
+The next separately selected campaign is Provider Binding Activation and Capability Custody.
+Preparation Batch 0 is authorized in the historical selection and is now complete under
+`docs/provider-binding-activation-capability-custody-preparation-inventory.md` and
+`docs/handoffs/provider-binding-activation-capability-custody-preparation-batch-0-complete.md`.
+It proves that activation authority and durable cross-process capability custody are absent; the
+environment-backed broker recognizes only the exact object held by its issuing process. Only Batch
+1 contract definition is authorized. It may not implement activation or custody, activate a
 binding, issue or resolve a credential, migrate the command, invoke a provider, perform external
 I/O, or open Iron Gate, Lazaretto, sortie, propagation, telemetry, reassessment, containment or
 incident behavior.
