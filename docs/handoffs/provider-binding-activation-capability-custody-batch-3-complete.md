@@ -12,7 +12,7 @@ Provider Execution Assurance remains paused.
 ## Authorized continuation
 
 Only Batch 4 is authorized: implement truthful opaque capability custody for one exact
-already-issued capability and its one-time cross-process delivery route. It must preserve capability
+already-issued capability and its one-time delivery route across processes. It must preserve capability
 identity without persisting or reconstructing credential references, secrets, serialized capability
 material or provider authentication material. Refusal is required if the environment-backed broker
 cannot prove the same already-issued capability across processes.
