@@ -19,6 +19,6 @@ generation-one `PENDING_ACTIVATION` Imperator principal version without reopenin
 founding-personnel installer.
 
 Batch 4 may not implement existing-instance remediation, activate the principal, issue caller authority,
-implement later lifecycle transitions or a current-state index, reconsider corridor
-disposition, activate a binding, mutate or consume an activation artifact, handle a credential,
+implement later lifecycle transitions or a current-state index, reconsider corridor disposition,
+activate a binding, mutate or consume an activation artifact, handle a credential,
 invoke a provider, perform external I/O, or open Iron Gate or Lazaretto.
