@@ -282,3 +282,10 @@ the environment-backed broker cannot preserve the exact already-issued capabilit
 without reconstructing authority. No Batch 5 is authorized. Iron Gate, Lazaretto, atomic execution
 admission, credential resolution, sortie, propagation, telemetry, reassessment, containment and
 incident behavior remain closed.
+
+The separately selected continuation is Provider Binding Activation Integrity Remediation. The
+Blackquill review accepts the terminal custody refusal but identifies unproved activation-principal
+reachability, Batch 2 interruption recovery, stranded Batch 2–3 artifacts, credential-reference
+memory exposure and partly declarative cross-process evidence. Only Preparation Batch 0 is
+authorized under `docs/next-campaign-provider-binding-activation-integrity-remediation.md`. The
+terminal refusal remains authoritative and Provider Execution Assurance remains paused.
