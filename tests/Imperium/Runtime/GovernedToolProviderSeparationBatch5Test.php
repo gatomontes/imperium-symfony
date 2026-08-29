@@ -10,6 +10,7 @@ use App\Imperium\Runtime\Clavium\ProviderBoundCredentialEligibilityContract;
 use App\Imperium\Runtime\Clavium\ProviderBoundCredentialEligibilityService;
 use App\Imperium\Runtime\LaCortine\AgentMailProviderProfile;
 use App\Imperium\Runtime\LaCortine\CredentialCapability;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class GovernedToolProviderSeparationBatch5Test extends TestCase
@@ -51,7 +52,7 @@ final class GovernedToolProviderSeparationBatch5Test extends TestCase
         self::assertSame($service->assess($this->binding(), $this->capability(), $at), $service->assess($this->binding(), $this->capability(), $at));
     }
 
-    /** @dataProvider substitutions */
+    #[DataProvider('substitutions')]
     public function testMismatchFailsBeforeAnyCredentialResolution(callable $change): void
     {
         [$binding, $capability] = $change($this->binding(), $this->capability());
