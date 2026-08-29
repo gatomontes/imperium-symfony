@@ -12,6 +12,16 @@ final class EnvironmentCredentialBroker implements CredentialBroker
     /** @var array<string, int> */
     private array $uses = [];
 
+    public function recognizesExactCapability(CredentialCapability $capability): bool
+    {
+        return ($this->issued[$capability->capabilityId] ?? null) === $capability;
+    }
+
+    public function supportsCrossProcessCustody(): bool
+    {
+        return false;
+    }
+
     public function issue(
         string $credentialRef,
         string $commissionId,

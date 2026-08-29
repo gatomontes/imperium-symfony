@@ -277,6 +277,8 @@ implements only the separately governed activation decision and single-use autho
 route. It does not activate a binding or open custody, credential, provider or I/O behavior. Only
 Batch 3 now consumes the exact issued authority into one immutable, execution-scoped
 `ACTIVATED_UNCONSUMED` lease without mutating the inactive binding. Only Batch 4's truthful opaque
-capability custody and one-time delivery route is authorized next; Iron Gate, Lazaretto, atomic
-execution admission, credential resolution, sortie, propagation, telemetry, reassessment,
-containment and incident behavior remain closed.
+capability custody feasibility gate now terminates in `REFUSED_CROSS_PROCESS_CUSTODY_UNPROVABLE`:
+the environment-backed broker cannot preserve the exact already-issued capability across processes
+without reconstructing authority. No Batch 5 is authorized. Iron Gate, Lazaretto, atomic execution
+admission, credential resolution, sortie, propagation, telemetry, reassessment, containment and
+incident behavior remain closed.
