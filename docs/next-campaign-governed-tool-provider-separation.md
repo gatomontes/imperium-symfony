@@ -2,7 +2,7 @@
 
 ## Status
 
-`BATCH_3_COMPLETE_BATCH_4_ELIGIBLE_NOT_AUTHORIZED`
+`BATCH_4_COMPLETE_BATCH_5_ELIGIBLE_NOT_AUTHORIZED`
 
 Provider Execution Assurance Preparation Batch 0 established useful AgentMail facts, but review of
 the executable corridor found that AgentMail is not merely an adapter behind a governed
@@ -37,6 +37,11 @@ exact, pre-existing Imperator provider-binding authority and seal its provider, 
 credential-family, encoder, decoder and destination-policy identities against one exact inactive
 tool target. The binding producer has no provider-selection arguments and cannot issue its source
 authority. Only Batch 4 may next be considered, and it is not authorized by campaign status alone.
+
+Batch 4 is now complete in `docs/governed-agentmail-adapter-profile.md`. AgentMail endpoint,
+authentication-header and credential-reference syntax, request encoding and receipt decoding are
+separately extracted but inert. Existing consumers remain unchanged. Only Batch 5 may next be
+considered, and it is not authorized by campaign status alone.
 
 ## Governing invariants
 
