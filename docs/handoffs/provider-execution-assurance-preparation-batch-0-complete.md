@@ -14,6 +14,9 @@ HTTPS does not prove remote cryptographic authorship.
 The current safe posture remains `UNKNOWN_REPLAY_PROHIBITED` whenever a callback may have run but no
 response envelope exists. Runtime behavior is unchanged.
 
+Iron Gate, Lazaretto, sortie, credential-platform, revocation, propagation, telemetry,
+reassessment, containment and incident behavior remain closed.
+
 ## Superseded continuation
 
 The direct Provider Execution Assurance Batch 1 proposed by this handoff is superseded before work
