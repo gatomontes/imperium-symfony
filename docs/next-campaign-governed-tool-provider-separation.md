@@ -2,7 +2,7 @@
 
 ## Status
 
-`BATCH_7_COMPLETE_BATCH_8_ELIGIBLE_NOT_AUTHORIZED`
+`BATCH_8_COMPLETE_BATCH_9_ELIGIBLE_NOT_AUTHORIZED`
 
 Provider Execution Assurance Preparation Batch 0 established useful AgentMail facts, but review of
 the executable corridor found that AgentMail is not merely an adapter behind a governed
@@ -57,6 +57,13 @@ Batch 7 is now complete in `docs/governed-tool-result-reconstruction.md`. The co
 chain is reconstructable read only with exact reference and digest validation and no invented
 credential attempt. Only Batch 8 may next be considered, and it is not authorized by campaign
 status alone.
+
+Batch 8 is now complete in
+`docs/handoffs/governed-tool-provider-separation-batch-8-complete.md`. The self-authorizing live
+command is retired and fails closed. The inactive provider binding and process-local opaque
+capability cannot truthfully support live execution, so the campaign's narrower-sequence rule
+prohibits fabricated activation or capability reissuance. Only Batch 9 may next be considered, and
+it is not authorized by campaign status alone.
 
 ## Governing invariants
 
