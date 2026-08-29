@@ -84,3 +84,12 @@ transitions converge or refuse safely across all three authority-consume-to-targ
 Exact replay, conflict, expiry, competing-consumer single winner and read-only reconstruction are
 proved on disposable roots. Only Batch 4 future-instance root-establishment production is
 authorized next.
+
+## Batch 4 result
+
+Batch 4 is complete in
+`docs/handoffs/provider-binding-activation-principal-provenance-remediation-batch-4-complete.md`.
+One exact future-instance constitution authority is consumed into one immutable generation-one
+`PENDING_ACTIVATION` principal before operationalization sealing. No authority issuer, activation,
+caller-authority issuer or external effect is opened. Only Batch 5 existing-instance remediation is
+authorized next.

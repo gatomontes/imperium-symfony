@@ -23,6 +23,12 @@ final readonly class ImperatorPrincipalProvenanceFixtureStore
 
     public function putConstitutionAuthority(array $fixture): array
     {
+        $this->assertConstitutionAuthority($fixture);
+        return $this->records->put(self::CONSTITUTION_AUTHORITIES, $fixture['authority_id'], $fixture);
+    }
+
+    public function assertConstitutionAuthority(array $fixture): void
+    {
         $this->common($fixture, ImperatorPrincipalConstitutionAuthorityContract::REQUIRED_FIELDS, ImperatorPrincipalConstitutionAuthorityContract::SCHEMA, 'PPV100_CONSTITUTION_AUTHORITY_INVALID');
         $route = $fixture['route'] ?? null;
         $transition = $fixture['permitted_transition'] ?? null;
@@ -43,10 +49,15 @@ final readonly class ImperatorPrincipalProvenanceFixtureStore
             || !$this->timeWindow($fixture['issued_at'] ?? null, $fixture['expires_at'] ?? null, 15)) {
             throw new \RuntimeException('PPV100_CONSTITUTION_AUTHORITY_INVALID');
         }
-        return $this->records->put(self::CONSTITUTION_AUTHORITIES, $fixture['authority_id'], $fixture);
     }
 
     public function putPrincipalVersion(array $fixture): array
+    {
+        $this->assertPrincipalVersion($fixture);
+        return $this->records->put(self::PRINCIPAL_VERSIONS, $fixture['principal_version_id'], $fixture);
+    }
+
+    public function assertPrincipalVersion(array $fixture): void
     {
         $this->common($fixture, ImperatorRuntimePrincipalVersionContract::REQUIRED_FIELDS, ImperatorRuntimePrincipalVersionContract::SCHEMA, 'PPV110_PRINCIPAL_VERSION_INVALID');
         $lifecycle = $fixture['lifecycle'] ?? null;
@@ -68,7 +79,6 @@ final readonly class ImperatorPrincipalProvenanceFixtureStore
             || !$this->lifecycle($lifecycle, $fixture['principal_generation'])) {
             throw new \RuntimeException('PPV110_PRINCIPAL_VERSION_INVALID');
         }
-        return $this->records->put(self::PRINCIPAL_VERSIONS, $fixture['principal_version_id'], $fixture);
     }
 
     public function putLifecycleDisposition(array $fixture): array
