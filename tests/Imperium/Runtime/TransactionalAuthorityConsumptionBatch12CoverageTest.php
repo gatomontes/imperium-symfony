@@ -40,7 +40,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
         $approvedSuccessors = $this->approvedPostBatch12RuntimeFiles();
         $frozenCandidates = array_values(array_diff($candidates, $approvedSuccessors));
         self::assertSame($approvedSuccessors, array_values(array_intersect($files, $approvedSuccessors)));
-        self::assertCount(550, $files);
+        self::assertCount(551, $files);
         self::assertCount(482, array_values(array_diff($files, $approvedSuccessors)));
         self::assertCount(371, array_values(array_diff($authorityFiles, $approvedSuccessors)));
         self::assertCount(231, $frozenCandidates);
@@ -91,6 +91,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
         self::assertSame([
             'src/Imperium/Runtime/Citadel/DelegateMissionTurnRecoveryService.php',
             'src/Imperium/Runtime/Evidence/ImperatorPrincipalProvenanceInterruptionDemonstration.php',
+            'src/Imperium/Runtime/Imperator/FutureInstanceImperatorPrincipalConstitutionService.php',
             'src/Imperium/Runtime/LaCortine/DeterministicTransitionCallerAuthorityConsumer.php',
             'src/Imperium/Runtime/LaCortine/ProviderImplementationBindingService.php',
         ], $storeUsers);
@@ -206,6 +207,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
             'src/Imperium/Runtime/Imperator/OutboundEmailDecisionService.php',
             'src/Imperium/Runtime/Imperator/ActivationPrincipalProvenanceEvidenceContract.php',
             'src/Imperium/Runtime/Imperator/ActivationTransitionInterruptionEvidenceContract.php',
+            'src/Imperium/Runtime/Imperator/FutureInstanceImperatorPrincipalConstitutionService.php',
             'src/Imperium/Runtime/Imperator/ImperatorPrincipalConstitutionAuthorityContract.php',
             'src/Imperium/Runtime/Imperator/ImperatorPrincipalLifecycleDispositionContract.php',
             'src/Imperium/Runtime/Imperator/ImperatorPrincipalProvenanceFixtureStore.php',

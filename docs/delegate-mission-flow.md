@@ -362,3 +362,8 @@ Principal Provenance Remediation Batch 3 now proves 24 disposable-root interrupt
 constitution and all seven lifecycle transitions. Same-consumer recovery and exact replay converge;
 changed targets, expiry and competing consumers refuse; reconstruction is read-only. Only Batch 4
 future-instance root-establishment production is authorized next.
+
+Principal Provenance Remediation Batch 4 now consumes one exact operator-root future-instance
+constitution authority into one immutable generation-one `PENDING_ACTIVATION` Imperator principal
+before operationalization sealing. It opens no activation, caller-authority, credential or execution
+path. Only Batch 5 existing-instance remediation is authorized next.
