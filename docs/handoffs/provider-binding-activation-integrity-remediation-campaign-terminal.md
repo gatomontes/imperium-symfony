@@ -8,8 +8,7 @@ decision because the required Imperator principal provenance remains absent.
 
 The activation corridor remains policy-quarantined and operationally unusable. The terminal
 custody result `REFUSED_CROSS_PROCESS_CUSTODY_UNPROVABLE` remains authoritative. No runtime
-disposition producer was implemented, no disposition record was manufactured, and no successor
-authority was created. Provider Execution Assurance remains paused.
+disposition producer was implemented, no disposition record was manufactured, and no successor authority was created. Provider Execution Assurance remains paused.
 
 ## No implied continuation
 
