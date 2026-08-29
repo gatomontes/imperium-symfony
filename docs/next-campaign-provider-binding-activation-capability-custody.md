@@ -2,7 +2,7 @@
 
 ## Status
 
-`PREPARATION_BATCH_0_COMPLETE_BATCH_1_AUTHORIZED`
+`BATCH_1_CONTRACTS_COMPLETE_BATCH_2_AUTHORIZED`
 
 Historical selection posture: `CAMPAIGN_SELECTED_PREPARATION_BATCH_0_ONLY`.
 
@@ -96,3 +96,14 @@ same capability as unissued.
 
 Only Batch 1 is authorized: contract definition without implementation. Provider Execution
 Assurance remains paused, and no runtime execution boundary is opened.
+
+## Batch 1 result
+
+Batch 1 is complete in `docs/provider-binding-activation-capability-custody-contracts.md`. Five
+separately versioned contracts distinguish exact activation authority, immutable single-execution
+activation, opaque capability custody, one-time delivery and atomic pre-I/O admission. They name
+exact producer, consumer and non-authority postures and exclude credential references, secrets and
+serialized capability material from durable custody records.
+
+Only Batch 2 is authorized: the separately governed provider-binding activation decision and
+issuance route. No activation, custody, delivery, credential or I/O implementation is authorized.
