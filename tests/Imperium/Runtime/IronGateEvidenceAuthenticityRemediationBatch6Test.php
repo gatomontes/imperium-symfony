@@ -7,8 +7,14 @@ final class IronGateEvidenceAuthenticityRemediationBatch6Test extends TestCase
 {
     public function testCallerAuthoritiesAreDistinctAndThreatModelIsHonest(): void
     {
-        self::assertCount(3, DeterministicTransitionCallerAuthorityContract::TRANSITIONS);
-        self::assertSame(3, count(array_unique(DeterministicTransitionCallerAuthorityContract::TRANSITIONS)));
+        self::assertSame([
+            'REQUEST_EXACT_OUTBOUND_EMAIL_AUTHORIZATION',
+            'DECIDE_EXACT_OUTBOUND_EMAIL_REQUEST',
+            'ISSUE_EXACT_OUTBOUND_EMAIL_AUTHORIZATION',
+            'DECIDE_EXACT_PROVIDER_BINDING_ACTIVATION',
+            'ISSUE_EXACT_PROVIDER_BINDING_ACTIVATION_AUTHORITY',
+        ], DeterministicTransitionCallerAuthorityContract::TRANSITIONS);
+        self::assertCount(5, array_unique(DeterministicTransitionCallerAuthorityContract::TRANSITIONS));
         $root=dirname(__DIR__,3);$doc=(string)file_get_contents($root.'/docs/iron-gate-runtime-principal-caller-authority-and-integrity-threat-model.md');
         foreach(['The contract alone authenticates nothing','`TRUSTED_WRITER_CANONICAL_INTEGRITY`','`HOSTILE_WRITER_NON_FORGEABILITY`','`SINGLE_AUTHORITATIVE_ROOT_ONLY`','does not issue or consume caller authority'] as $proof)self::assertStringContainsString($proof,$doc);
     }
