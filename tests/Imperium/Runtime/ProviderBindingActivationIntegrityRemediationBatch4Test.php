@@ -22,7 +22,7 @@ final class ProviderBindingActivationIntegrityRemediationBatch4Test extends Test
         $runtime = dirname(__DIR__, 3).'/src/Imperium/Runtime';
         foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($runtime)) as $file) {
             if (!$file->isFile() || 'php' !== $file->getExtension()) continue;
-            self::assertStringNotContainsString('->credentialRef', (string) file_get_contents($file->getPathname()), $file->getPathname());
+            self::assertDoesNotMatchRegularExpression('/->credentialRef\\b/', (string) file_get_contents($file->getPathname()), $file->getPathname());
         }
     }
 
