@@ -339,3 +339,9 @@ exact producer and source authority, complete lifecycle, recovery, consumers and
 an Imperator runtime principal bearing `provider_binding_activation_authority`. Selection creates no
 principal, authority or corridor disposition and leaves every credential and operational boundary
 closed.
+
+Principal Provenance Remediation Preparation Batch 0 now classifies the constituting authority,
+producer, source authority, lifecycle, recovery, replay, contention, reconstruction and historical
+interpretation gaps. Operator Root is the only plausible authority owner; MasterMason can only be a
+mechanical producer. Future-instance establishment and existing-instance remediation are separate
+routes, and neither exists. Only Batch 1's three authority-empty contracts are authorized next.
