@@ -19,6 +19,6 @@ routes and must grant no implementation authority.
 
 Batch 1 may not implement an authority producer, principal producer, installer, lifecycle
 transition, validator, store, recovery service or runtime consumer; install or mutate a principal;
-grant `provider_binding_activation_authority`; issue caller authority; reconsider corridor
-disposition; activate a binding; handle a credential; invoke a provider; perform external I/O; or
+grant `provider_binding_activation_authority`; issue caller authority; reconsider corridor disposition;
+activate a binding; handle a credential; invoke a provider; perform external I/O; or
 open Iron Gate or Lazaretto. Provider Execution Assurance remains paused.
