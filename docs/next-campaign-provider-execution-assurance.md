@@ -2,7 +2,9 @@
 
 ## Status
 
-`CAMPAIGN_SELECTED_PREPARATION_BATCH_0_ONLY`
+`PREPARATION_BATCH_0_COMPLETE_PAUSED_FOR_TOOL_PROVIDER_SEPARATION`
+
+Historical selection posture: `CAMPAIGN_SELECTED_PREPARATION_BATCH_0_ONLY`.
 
 Iron Gate Evidence Authenticity Remediation is terminal through Batch 11. Its local deterministic
 evidence corridor is coherent and caller-authority bound, but its terminal audit deliberately leaves
@@ -66,3 +68,18 @@ revocation, propagation, telemetry, reassessment, containment, incident or live-
 It may not redesign hostile-writer hardening or distributed persistence, which remain separate
 campaigns. It may not reopen completed evidence-authenticity or receipt-binding campaigns.
 
+## Preparation Batch 0 result
+
+Preparation Batch 0 is complete in
+`docs/provider-execution-assurance-preparation-inventory.md`. AgentMail direct send has declared
+organization-scoped idempotency with exact-duplicate return, changed-request `409` refusal and
+24-hour retention after provider completion. Canonical local request binding exists, but provider
+contract admission, organization-wide key registration, in-progress duplicate behavior,
+query-before-retry and remote cryptographic authorship do not.
+
+The exact safe posture remains `UNKNOWN_REPLAY_PROHIBITED` for any callback-started operation without
+an observed response. The previously proposed provider-contract Batch 1 is superseded before work
+begins: AgentMail is fused into authority, credential-bound invocation, decoding and admission.
+Provider Execution Assurance is paused while the separately selected Governed Tool and Provider
+Separation campaign establishes the provider-neutral boundary. No Provider Execution Assurance
+Batch 1 is currently authorized.
