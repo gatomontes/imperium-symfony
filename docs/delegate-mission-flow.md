@@ -332,3 +332,10 @@ provenance remains absent. The campaign terminates at
 `CORRIDOR_DISPOSITION_REFUSED_PRINCIPAL_PROVENANCE_ABSENT`: no runtime disposition producer, new
 disposition record or successor authority exists. The corridor remains policy-quarantined and
 operationally unusable, and no further implementation batch is authorized.
+
+The separately selected continuation is Provider Binding Activation Principal Provenance
+Remediation, Preparation Batch 0 only. It must inventory the competent constituting authority,
+exact producer and source authority, complete lifecycle, recovery, consumers and non-authorities for
+an Imperator runtime principal bearing `provider_binding_activation_authority`. Selection creates no
+principal, authority or corridor disposition and leaves every credential and operational boundary
+closed.
