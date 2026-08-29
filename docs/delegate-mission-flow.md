@@ -302,3 +302,9 @@ producer or consumer. Only Batch 2's offline interruption demonstrations for the
 and issuance transitions are authorized next; principal provenance, artifact disposition,
 credential-reference hardening, process-loss custody proof and all operational boundaries remain
 closed.
+
+Batch 2 now proves the activation decision and issuance consume-to-commit interruption cuts offline
+through the canonical caller-authority consumer and immutable target store. Same-consumer recovery
+and exact replay converge; expiry, changed replay and competing-consumer reuse refuse. Only Batch 3
+stranded-artifact disposition is authorized next, with source mutation and every operational
+boundary prohibited.
