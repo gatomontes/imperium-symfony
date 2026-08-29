@@ -18,5 +18,4 @@ current-state index, recovery service, reconstruction service or runtime consume
 
 Batch 2 may not install or mutate a principal, grant `provider_binding_activation_authority`, issue
 caller authority, reconsider corridor disposition, activate a binding, mutate or consume an
-activation artifact, handle a credential, invoke a provider, perform external I/O, or open Iron
-Gate or Lazaretto. Provider Execution Assurance remains paused.
+activation artifact, handle a credential, invoke a provider, perform external I/O, or open Iron Gate or Lazaretto. Provider Execution Assurance remains paused.
