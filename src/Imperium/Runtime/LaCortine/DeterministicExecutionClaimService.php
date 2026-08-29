@@ -65,7 +65,7 @@ final readonly class DeterministicExecutionClaimService
         $provider = $authorization['provider_safety'];
         if ($credential->commissionId !== ($scope['commission_id'] ?? null)
             || $credential->operation !== ($scope['operation'] ?? null)
-            || !hash_equals((string) ($scope['credential_reference_digest'] ?? ''), hash('sha256', $credential->credentialRef))
+            || !hash_equals((string) ($scope['credential_reference_digest'] ?? ''), $credential->credentialReferenceDigest)
             || 1 !== $credential->maxUses
             || $credential->expiresAt <= $claimedAt
             || $credential->expiresAt > new \DateTimeImmutable($authorization['expires_at'])) {
@@ -85,7 +85,7 @@ final readonly class DeterministicExecutionClaimService
         ];
         $credentialMetadata = [
             'capability_id' => $credential->capabilityId,
-            'credential_reference_digest' => hash('sha256', $credential->credentialRef),
+            'credential_reference_digest' => $credential->credentialReferenceDigest,
             'commission_id' => $credential->commissionId,
             'operation' => $credential->operation,
             'expires_at' => $credential->expiresAt->format(DATE_ATOM),

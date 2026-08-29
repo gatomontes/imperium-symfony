@@ -44,7 +44,7 @@ final readonly class ProviderBoundCredentialEligibilityService
             || false !== ($binding['credential_family']['secret_persistence_permitted'] ?? null)
             || false !== ($binding['scope']['provider_substitution_permitted'] ?? null)
             || !$this->policy->supports($provider, $family)
-            || !$this->policy->acceptsReference($capability->credentialRef)
+            || !$this->policy->acceptsReferenceDigest($capability->credentialReferenceDigest)
             || $targetId !== $capability->commissionId
             || ($binding['scope']['operation'] ?? null) !== $capability->operation
             || 'email.send' !== $capability->operation
@@ -65,7 +65,7 @@ final readonly class ProviderBoundCredentialEligibilityService
             'instance_id' => $binding['instance_id'],
             'provider_binding' => $bindingReference,
             'authorization_target' => ['id' => $targetId, 'digest' => $targetDigest],
-            'credential_capability' => ['capability_id' => $capability->capabilityId, 'credential_reference_digest' => hash('sha256', $capability->credentialRef), 'operation' => $capability->operation, 'max_uses' => $capability->maxUses],
+            'credential_capability' => ['capability_id' => $capability->capabilityId, 'credential_reference_digest' => $capability->credentialReferenceDigest, 'operation' => $capability->operation, 'max_uses' => $capability->maxUses],
             'provider' => $provider,
             'credential_family' => $family,
             'status' => 'ELIGIBLE_INACTIVE',
