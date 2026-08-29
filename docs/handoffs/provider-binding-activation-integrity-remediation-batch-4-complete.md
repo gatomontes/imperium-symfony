@@ -8,8 +8,7 @@ ordinary validators consume the digest. Logs, exceptions and durable records exc
 reference and credential secret.
 
 This is boundary hardening, not custody repair. PHP memory zeroization and dump immunity are not
-claimed. `REFUSED_CROSS_PROCESS_CUSTODY_UNPROVABLE` remains authoritative and Provider Execution
-Assurance remains paused.
+claimed. `REFUSED_CROSS_PROCESS_CUSTODY_UNPROVABLE` remains authoritative. Provider Execution Assurance remains paused.
 
 ## Authorized continuation
 
