@@ -84,3 +84,11 @@ broker alone retains the clear reference in its private process-local live map. 
 and durable records exclude the clear reference and secret. This does not establish memory
 zeroization, dump immunity or cross-process custody. Only Batch 5's offline process-loss evidence
 is authorized next.
+
+## Batch 5 result
+
+Batch 5 is complete in `docs/provider-binding-process-loss-capability-custody-evidence.md`. An
+offline issuer subprocess loses a random possession witness on exit; a distinct restart subprocess
+observes only its digest, recovers no possession and attempts no reconstruction. The exact prior
+custody refusal remains bound and the evidence classifies `POSSESSION_LOST`. Only Batch 6 activation-
+corridor disposition is authorized next.
