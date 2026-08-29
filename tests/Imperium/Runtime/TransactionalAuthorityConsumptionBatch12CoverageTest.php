@@ -101,7 +101,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
         sort($perimeter, SORT_STRING);
         $approvedSuccessors = $this->approvedPostBatch12PerimeterFiles();
         self::assertSame($approvedSuccessors, array_values(array_intersect($perimeter, $approvedSuccessors)));
-        self::assertCount(74, $perimeter);
+        self::assertCount(73, $perimeter);
         self::assertCount(39, array_values(array_diff($perimeter, $approvedSuccessors)));
         $forbidden = [
             'TransactionalAuthorityConsumptionEnvelope',

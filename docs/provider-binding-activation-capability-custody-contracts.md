@@ -46,5 +46,5 @@ consuming any runtime record:
 No producer, custodian, delivery mechanism or consumer is implemented. No existing service or
 command changes. No binding is activated and no capability is issued, persisted, reconstructed,
 transferred, consumed or resolved. No credential reference or secret is exposed. No provider is
-invoked, no external I/O occurs, and Iron Gate and Lazaretto remain closed. Provider Execution
-Assurance remains paused.
+invoked, no external I/O occurs, and Iron Gate and Lazaretto remain closed.
+Provider Execution Assurance remains paused.
