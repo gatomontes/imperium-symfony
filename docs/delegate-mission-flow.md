@@ -345,3 +345,9 @@ producer, source authority, lifecycle, recovery, replay, contention, reconstruct
 interpretation gaps. Operator Root is the only plausible authority owner; MasterMason can only be a
 mechanical producer. Future-instance establishment and existing-instance remediation are separate
 routes, and neither exists. Only Batch 1's three authority-empty contracts are authorized next.
+
+Principal Provenance Remediation Batch 1 now defines separate versioned contracts for one
+operator-originated constitution authority, one canonical Imperator runtime-principal version and
+one lifecycle disposition. The future-instance and existing-instance routes remain
+non-interchangeable. Contract existence grants no authority; only Batch 2 validators and immutable
+stores are authorized next.
