@@ -31,7 +31,7 @@ final class GovernedToolProviderSeparationPreparationDocumentationTest extends T
             self::assertNotFalse(stripos($inventory.$handoff, $boundary), $boundary);
         }
 
-        self::assertStringContainsString('`BATCH_1_COMPLETE_BATCH_2_ELIGIBLE_NOT_AUTHORIZED`', $campaign);
+        self::assertStringContainsString('`BATCH_2_COMPLETE_BATCH_3_ELIGIBLE_NOT_AUTHORIZED`', $campaign);
         self::assertStringContainsString('Only Batch 1 is authorized', $handoff);
         self::assertStringContainsString('No producer or consumer is implemented', $campaign);
     }
