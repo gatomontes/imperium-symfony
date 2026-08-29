@@ -59,6 +59,15 @@ Future-instance establishment and existing-instance remediation require non-inte
 authorities. Only Batch 1's three authority-empty constitution and lifecycle contracts are
 authorized next.
 
+## Batch 1 result
+
+Batch 1 is complete in
+`docs/provider-binding-activation-principal-provenance-remediation-contracts.md`. Three separately
+versioned, authority-empty contracts define operator-originated constitution authority, canonical
+Imperator runtime-principal versions and lifecycle dispositions. The two constitution routes remain
+non-interchangeable. Only Batch 2 fail-closed validators and canonical immutable stores are
+authorized next.
+
 ## Batch 2 result
 
 Batch 2 is complete in
@@ -67,11 +76,11 @@ boundary fail-closed validates and immutably stores the three contract shapes in
 directories. It implements no producer, installer, lifecycle transition, current-state index or
 runtime consumer. Only Batch 3 offline interruption demonstrations are authorized next.
 
-## Batch 1 result
+## Batch 3 result
 
-Batch 1 is complete in
-`docs/provider-binding-activation-principal-provenance-remediation-contracts.md`. Three separately
-versioned, authority-empty contracts define operator-originated constitution authority, canonical
-Imperator runtime-principal versions and lifecycle dispositions. The two constitution routes remain
-non-interchangeable. Only Batch 2 fail-closed validators and canonical immutable stores are
+Batch 3 is complete in
+`docs/provider-binding-activation-principal-provenance-interruption-evidence.md`. All eight principal
+transitions converge or refuse safely across all three authority-consume-to-target-commit cuts.
+Exact replay, conflict, expiry, competing-consumer single winner and read-only reconstruction are
+proved on disposable roots. Only Batch 4 future-instance root-establishment production is
 authorized next.

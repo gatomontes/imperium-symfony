@@ -357,3 +357,8 @@ supplied offline fixtures for the three contracts. Exact route, transition, iden
 scope, lifecycle, generation, successor and secret-exclusion rules are enforced. The evidence
 stores are not a live registry. Only Batch 3 offline interruption demonstrations are authorized
 next.
+
+Principal Provenance Remediation Batch 3 now proves 24 disposable-root interruption cases across
+constitution and all seven lifecycle transitions. Same-consumer recovery and exact replay converge;
+changed targets, expiry and competing consumers refuse; reconstruction is read-only. Only Batch 4
+future-instance root-establishment production is authorized next.
