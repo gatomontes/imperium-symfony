@@ -59,6 +59,14 @@ Future-instance establishment and existing-instance remediation require non-inte
 authorities. Only Batch 1's three authority-empty constitution and lifecycle contracts are
 authorized next.
 
+## Batch 2 result
+
+Batch 2 is complete in
+`docs/provider-binding-activation-principal-provenance-validation-and-stores.md`. One offline fixture
+boundary fail-closed validates and immutably stores the three contract shapes in separate evidence
+directories. It implements no producer, installer, lifecycle transition, current-state index or
+runtime consumer. Only Batch 3 offline interruption demonstrations are authorized next.
+
 ## Batch 1 result
 
 Batch 1 is complete in
