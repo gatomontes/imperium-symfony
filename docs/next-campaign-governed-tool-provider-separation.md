@@ -2,7 +2,7 @@
 
 ## Status
 
-`BATCH_6_COMPLETE_BATCH_7_ELIGIBLE_NOT_AUTHORIZED`
+`BATCH_7_COMPLETE_BATCH_8_ELIGIBLE_NOT_AUTHORIZED`
 
 Provider Execution Assurance Preparation Batch 0 established useful AgentMail facts, but review of
 the executable corridor found that AgentMail is not merely an adapter behind a governed
@@ -52,6 +52,11 @@ Batch 6 is now complete in `docs/governed-provider-neutral-evidence-admission.md
 uninterpreted until the exact bound decoder produces a normalized tool result; Lazaretto admits
 only that normalized schema. Existing consumers remain unchanged. Only Batch 7 may next be
 considered, and it is not authorized by campaign status alone.
+
+Batch 7 is now complete in `docs/governed-tool-result-reconstruction.md`. The complete separated
+chain is reconstructable read only with exact reference and digest validation and no invented
+credential attempt. Only Batch 8 may next be considered, and it is not authorized by campaign
+status alone.
 
 ## Governing invariants
 
