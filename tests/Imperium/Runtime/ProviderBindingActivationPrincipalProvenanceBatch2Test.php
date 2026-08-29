@@ -57,7 +57,9 @@ final class ProviderBindingActivationPrincipalProvenanceBatch2Test extends TestC
                 $record = $invalid();
                 2 > $index ? $store->putConstitutionAuthority($record) : (2 === $index ? $store->putPrincipalVersion($record) : $store->putLifecycleDisposition($record));
                 self::fail('Invalid fixture accepted at '.$index);
-            } catch (\RuntimeException) {}
+            } catch (\RuntimeException $exception) {
+                self::assertStringStartsWith('PPV', $exception->getMessage());
+            }
         }
     }
 
