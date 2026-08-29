@@ -2,7 +2,7 @@
 
 ## Status
 
-`BATCH_8_COMPLETE_BATCH_9_ELIGIBLE_NOT_AUTHORIZED`
+`CAMPAIGN_COMPLETE_PROVIDER_EXECUTION_ASSURANCE_REMAINS_PAUSED`
 
 Provider Execution Assurance Preparation Batch 0 established useful AgentMail facts, but review of
 the executable corridor found that AgentMail is not merely an adapter behind a governed
@@ -64,6 +64,13 @@ command is retired and fails closed. The inactive provider binding and process-l
 capability cannot truthfully support live execution, so the campaign's narrower-sequence rule
 prohibits fabricated activation or capability reissuance. Only Batch 9 may next be considered, and
 it is not authorized by campaign status alone.
+
+Batch 9 is complete in `docs/governed-tool-provider-separation-terminal-evidence-audit.md`.
+Adversarial proof covers substitution, mismatch, deterministic collision behavior, tamper,
+unknown-outcome replay prohibition, secret exclusion and a sterile second provider adapter. The
+separated inactive corridor is canonical, but execution remains unavailable because no authority
+activates a provider binding and no cross-process custodian can deliver an already-issued opaque
+capability. This campaign is complete. Provider Execution Assurance remains paused.
 
 ## Governing invariants
 
