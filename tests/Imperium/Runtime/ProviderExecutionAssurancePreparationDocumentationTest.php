@@ -22,10 +22,10 @@ final class ProviderExecutionAssurancePreparationDocumentationTest extends TestC
             self::assertStringContainsString($posture, $inventory.$handoff);
         }
         foreach (['organization', '24 hours after completion', '`409 Conflict`', 'duplicate while first request is in progress', 'remote cryptographic authorship', 'No step is authorized merely because it appears here.', 'Runtime behavior is unchanged.'] as $proof) {
-            self::assertStringContainsStringIgnoringCase($proof, $inventory.$handoff);
+            self::assertNotFalse(stripos($inventory.$handoff, $proof), $proof);
         }
         foreach (['Iron Gate', 'Lazaretto', 'sortie', 'credential-platform', 'revocation', 'propagation', 'telemetry', 'reassessment', 'containment', 'incident'] as $boundary) {
-            self::assertStringContainsStringIgnoringCase($boundary, $inventory.$handoff);
+            self::assertNotFalse(stripos($inventory.$handoff, $boundary), $boundary);
         }
 
         self::assertStringContainsString('`PREPARATION_BATCH_0_COMPLETE_PAUSED_FOR_TOOL_PROVIDER_SEPARATION`', $campaign);
