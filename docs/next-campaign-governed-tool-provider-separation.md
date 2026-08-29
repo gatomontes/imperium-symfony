@@ -2,7 +2,7 @@
 
 ## Status
 
-`BATCH_5_COMPLETE_BATCH_6_ELIGIBLE_NOT_AUTHORIZED`
+`BATCH_6_COMPLETE_BATCH_7_ELIGIBLE_NOT_AUTHORIZED`
 
 Provider Execution Assurance Preparation Batch 0 established useful AgentMail facts, but review of
 the executable corridor found that AgentMail is not merely an adapter behind a governed
@@ -46,6 +46,11 @@ considered, and it is not authorized by campaign status alone.
 Batch 5 is now complete in `docs/governed-provider-bound-credential-eligibility.md`. Clavium refuses
 provider, family, credential-reference, authorization-target and operation mismatch before any
 credential resolution. Eligibility remains inactive and opens no I/O. Only Batch 6 may next be
+considered, and it is not authorized by campaign status alone.
+
+Batch 6 is now complete in `docs/governed-provider-neutral-evidence-admission.md`. Raw bytes remain
+uninterpreted until the exact bound decoder produces a normalized tool result; Lazaretto admits
+only that normalized schema. Existing consumers remain unchanged. Only Batch 7 may next be
 considered, and it is not authorized by campaign status alone.
 
 ## Governing invariants

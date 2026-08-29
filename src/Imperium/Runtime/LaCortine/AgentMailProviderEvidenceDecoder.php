@@ -6,12 +6,17 @@ namespace App\Imperium\Runtime\LaCortine;
 
 use App\Bootstrap\CanonicalJson;
 
-final readonly class AgentMailProviderEvidenceDecoder
+final readonly class AgentMailProviderEvidenceDecoder implements BoundProviderEvidenceDecoder
 {
+    public function supports(array $binding): bool
+    {
+        return AgentMailProviderProfile::PROVIDER_ID === ($binding['provider_implementation']['provider_id'] ?? null)
+            && AgentMailProviderProfile::EVIDENCE_DECODER_ID === ($binding['evidence_decoder']['id'] ?? null);
+    }
+
     public function decode(array $binding, array $rawResult, string $rawContent, \DateTimeImmutable $decodedAt): array
     {
-        if (AgentMailProviderProfile::PROVIDER_ID !== ($binding['provider_implementation']['provider_id'] ?? null)
-            || AgentMailProviderProfile::EVIDENCE_DECODER_ID !== ($binding['evidence_decoder']['id'] ?? null)
+        if (!$this->supports($binding)
             || !is_string($rawResult['id'] ?? null)
             || !is_string($rawResult['digest'] ?? null)
             || !preg_match('/^[a-f0-9]{64}$/', $rawResult['digest'])
