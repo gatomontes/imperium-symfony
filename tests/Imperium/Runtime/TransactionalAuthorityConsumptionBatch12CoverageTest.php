@@ -40,7 +40,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
         $approvedSuccessors = $this->approvedPostBatch12RuntimeFiles();
         $frozenCandidates = array_values(array_diff($candidates, $approvedSuccessors));
         self::assertSame($approvedSuccessors, array_values(array_intersect($files, $approvedSuccessors)));
-        self::assertCount(510, $files);
+        self::assertCount(512, $files);
         self::assertCount(482, array_values(array_diff($files, $approvedSuccessors)));
         self::assertCount(371, array_values(array_diff($authorityFiles, $approvedSuccessors)));
         self::assertCount(231, $frozenCandidates);
@@ -91,6 +91,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
         self::assertSame([
             'src/Imperium/Runtime/Citadel/DelegateMissionTurnRecoveryService.php',
             'src/Imperium/Runtime/LaCortine/DeterministicTransitionCallerAuthorityConsumer.php',
+            'src/Imperium/Runtime/LaCortine/ProviderImplementationBindingService.php',
         ], $storeUsers);
 
         $perimeter = array_merge(
@@ -100,7 +101,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
         sort($perimeter, SORT_STRING);
         $approvedSuccessors = $this->approvedPostBatch12PerimeterFiles();
         self::assertSame($approvedSuccessors, array_values(array_intersect($perimeter, $approvedSuccessors)));
-        self::assertCount(60, $perimeter);
+        self::assertCount(61, $perimeter);
         self::assertCount(39, array_values(array_diff($perimeter, $approvedSuccessors)));
         $forbidden = [
             'TransactionalAuthorityConsumptionEnvelope',
@@ -189,6 +190,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
             'src/Imperium/Runtime/Imperator/OutboundEmailAuthorizationIssuanceContract.php',
             'src/Imperium/Runtime/Imperator/OutboundEmailAuthorizationIssuanceService.php',
             'src/Imperium/Runtime/Imperator/OutboundEmailDecisionService.php',
+            'src/Imperium/Runtime/Imperator/ProviderBindingAuthorizationContract.php',
             'src/Imperium/Runtime/LaCortine/AgentMailIdempotencyHeaderAdapter.php',
             'src/Imperium/Runtime/LaCortine/DeterministicEffectStartJournalContract.php',
             'src/Imperium/Runtime/LaCortine/DeterministicEffectStartJournalService.php',
@@ -199,6 +201,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
             'src/Imperium/Runtime/LaCortine/NormalizedToolResultContract.php',
             'src/Imperium/Runtime/LaCortine/ProviderEvidenceDecoderContract.php',
             'src/Imperium/Runtime/LaCortine/ProviderImplementationBindingContract.php',
+            'src/Imperium/Runtime/LaCortine/ProviderImplementationBindingService.php',
             'src/Imperium/Runtime/LaCortine/ProviderRequestEncoderContract.php',
             'src/Imperium/Runtime/LaCortine/DeterministicProviderInvocationAdmissionContract.php',
             'src/Imperium/Runtime/LaCortine/DeterministicProviderInvocationCheckpointContract.php',
@@ -230,6 +233,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
             'src/Imperium/Runtime/LaCortine/NormalizedToolResultContract.php',
             'src/Imperium/Runtime/LaCortine/ProviderEvidenceDecoderContract.php',
             'src/Imperium/Runtime/LaCortine/ProviderImplementationBindingContract.php',
+            'src/Imperium/Runtime/LaCortine/ProviderImplementationBindingService.php',
             'src/Imperium/Runtime/LaCortine/ProviderRequestEncoderContract.php',
             'src/Imperium/Runtime/LaCortine/DeterministicProviderInvocationAdmissionContract.php',
             'src/Imperium/Runtime/LaCortine/DeterministicProviderInvocationCheckpointContract.php',
