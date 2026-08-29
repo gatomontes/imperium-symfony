@@ -45,3 +45,12 @@ or Lazaretto; or change inbound webhook, sortie, revocation, propagation, teleme
 containment or incident behavior.
 
 The terminal custody refusal remains authoritative. Provider Execution Assurance remains paused.
+
+## Preparation Batch 0 result
+
+Preparation Batch 0 is complete in
+`docs/provider-binding-activation-integrity-remediation-preparation-inventory.md`. Principal
+provenance is absent, transition recovery is fragmented, stranded-artifact disposition is absent,
+credential-reference exclusion is fragmented and real process-loss evidence is absent. Only Batch 1
+is authorized: define five authority-empty remediation evidence and disposition contracts without
+implementation.
