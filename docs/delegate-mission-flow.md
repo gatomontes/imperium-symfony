@@ -320,3 +320,9 @@ environment broker alone keeps the live clear reference in a private process-loc
 exceptions and durable records exclude the clear reference and secret. This does not prove memory
 zeroization, dump immunity or cross-process custody. Only Batch 5 offline process-loss evidence is
 authorized next, with credential resolution and every operational boundary still closed.
+
+Batch 5 now proves process-local possession loss through two real offline PHP processes. The issuer
+process creates a random possession witness, persists only its digest and exits; the restart process
+recovers nothing and attempts no reconstruction. The evidence binds the prior custody refusal and
+classifies `POSSESSION_LOST`. Only Batch 6 activation-corridor disposition is authorized next; all
+credential and operational boundaries remain closed.
