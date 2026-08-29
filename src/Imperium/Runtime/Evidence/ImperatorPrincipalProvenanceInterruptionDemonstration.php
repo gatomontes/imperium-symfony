@@ -82,7 +82,7 @@ final readonly class ImperatorPrincipalProvenanceInterruptionDemonstration
 
     private function evidenceDirectory(string $directory): string
     {
-        $absolute = str_starts_with($directory, '/') || 1 === preg_match('/^[A-Za-z]:[\\\/]/', $directory) || str_starts_with($directory, '\\\\');
+        $absolute = str_starts_with($directory, '/') || 1 === preg_match('~^[A-Za-z]:[\\\\/]~', $directory) || str_starts_with($directory, '\\\\');
         $path = $absolute ? $directory : $this->projectRoot.'/'.$directory;
         if (!is_dir($path) && !mkdir($path, 0770, true) && !is_dir($path)) throw new \RuntimeException('PPR_DEMO_EVIDENCE_DIRECTORY_FAILED');
         return $path;
