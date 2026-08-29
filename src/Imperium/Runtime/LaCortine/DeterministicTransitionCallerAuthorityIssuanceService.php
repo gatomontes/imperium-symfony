@@ -35,9 +35,10 @@ final readonly class DeterministicTransitionCallerAuthorityIssuanceService
 
     public function issueImperator(string $principalId, string $transition, array $target, \DateTimeImmutable $issuedAt, \DateTimeImmutable $expiresAt): array
     {
-        if (!in_array($transition, ['DECIDE_EXACT_OUTBOUND_EMAIL_REQUEST', 'ISSUE_EXACT_OUTBOUND_EMAIL_AUTHORIZATION'], true)) throw new \InvalidArgumentException('IGA102_IMPERATOR_TRANSITION_INVALID');
+        if (!in_array($transition, ['DECIDE_EXACT_OUTBOUND_EMAIL_REQUEST', 'ISSUE_EXACT_OUTBOUND_EMAIL_AUTHORIZATION', 'DECIDE_EXACT_PROVIDER_BINDING_ACTIVATION', 'ISSUE_EXACT_PROVIDER_BINDING_ACTIVATION_AUTHORITY'], true)) throw new \InvalidArgumentException('IGA102_IMPERATOR_TRANSITION_INVALID');
         $source = $this->validator->read($this->root.'/'.self::IMPERATOR_PRINCIPALS.'/'.$principalId.'.json', 'IGA103_IMPERATOR_PRINCIPAL_ABSENT');
-        if (!$this->validator->isIntact($source) || 'imperium.imperator-runtime-principal/v1' !== ($source['schema'] ?? null) || 'ACTIVE' !== ($source['status'] ?? null) || true !== ($source['outbound_email_authority'] ?? null)) throw new \RuntimeException('IGA104_IMPERATOR_PRINCIPAL_INVALID');
+        $requiredAuthority = str_contains($transition, 'PROVIDER_BINDING_ACTIVATION') ? 'provider_binding_activation_authority' : 'outbound_email_authority';
+        if (!$this->validator->isIntact($source) || 'imperium.imperator-runtime-principal/v1' !== ($source['schema'] ?? null) || 'ACTIVE' !== ($source['status'] ?? null) || true !== ($source[$requiredAuthority] ?? null)) throw new \RuntimeException('IGA104_IMPERATOR_PRINCIPAL_INVALID');
         return $this->issue($source, ['principal_id' => $principalId, 'office' => 'imperator', 'seat' => 'imperator', 'binding_id' => $source['binding_id'], 'generation' => $source['principal_generation']], $transition, $target, $issuedAt, $expiresAt);
     }
 
