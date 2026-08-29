@@ -17,7 +17,7 @@ identity without persisting or reconstructing credential references, secrets, se
 material or provider authentication material. Refusal is required if the environment-backed broker
 cannot prove the same already-issued capability across processes.
 
-Batch 4 may not issue a credential capability, consume the activation lease, implement atomic
-execution admission, resolve credentials, migrate the command, invoke a provider, perform external
+Batch 4 may not issue a credential capability, consume the activation lease, implement atomic execution admission,
+resolve credentials, migrate the command, invoke a provider, perform external
 I/O, open Iron Gate or Lazaretto, or change inbound webhook, sortie, credential-platform,
 revocation, propagation, telemetry, reassessment, containment or incident behavior.
