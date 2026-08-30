@@ -45,6 +45,21 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderActivationConsumptionRemed
 php vendor/bin/phpunit tests/Imperium/Runtime/ProviderExecutionEffectReadinessPreparationBatch0Test.php
 ```
 
+## Cleared Batch 1
+
+### Provider Execution Effect Readiness Batch 1
+
+- Source PR: `#600`
+- Source merge commit: `7a41094a2b6f3991c1476bbfedd4851c7290a7ff`
+- Final status: `CLEAR_OPERATOR_REPORTED`
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/ProviderExecutionEffectReadinessBatch1Test.php
+```
+
+- Counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
