@@ -75,3 +75,12 @@ Batch 3 is complete in
 service classifies exact canonical-principal and immutable-evidence bases as `ELIGIBLE`,
 `INCOMPLETE`, `CONFLICTED` or `REFUSED` without writing a record or creating authority. Only Batch 4
 offline replay, contention and disposition-interruption evidence is authorized next.
+
+## Batch 4 result
+
+Batch 4 is complete in
+`docs/provider-binding-activation-corridor-disposition-interruption-evidence.md`. Six disposable-root
+cases prove exact replay, changed-evidence refusal, expiry/revocation refusal, a single
+consumer/outcome winner and read-only recovery across both candidate outcomes and all three cuts.
+No activation artifact is mutated and no live authority or disposition exists. Batch 5 is not
+authorized because its instance-specific active-principal and explicit-authority gate is unmet.
