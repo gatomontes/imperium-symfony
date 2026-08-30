@@ -62,6 +62,10 @@ final class ProviderExecutorPrincipalActivationContractValidator
             || !is_string($decision['limitations'] ?? null)
             || '' === trim($decision['limitations'])
             || !$this->validity($validity, $at)
+            || new \DateTimeImmutable($validity['expires_at'])
+                > new \DateTimeImmutable($attestation['validity']['expires_at'])
+            || new \DateTimeImmutable($validity['expires_at'])
+                > new \DateTimeImmutable($assurance['validity']['review_due_at'])
             || !$this->date($decision['decided_at'] ?? null)
             || $decision['decided_at'] !== $validity['effective_at']
             || false !== ($decision['external_action_performed'] ?? null)) {
@@ -136,7 +140,8 @@ final class ProviderExecutorPrincipalActivationContractValidator
                 $validity,
                 ProviderExecutorPrincipalActivationContract::REQUIRED_VALIDITY_FIELDS,
             )
-            || $decision['validity'] !== $validity
+            || $decision['validity']['effective_at'] !== ($validity['effective_at'] ?? null)
+            || $decision['validity']['expires_at'] !== ($validity['expires_at'] ?? null)
             || !$this->exact(
                 $reconstruction,
                 ProviderExecutorPrincipalActivationContract::REQUIRED_RECONSTRUCTION_FIELDS,
@@ -337,7 +342,7 @@ final class ProviderExecutorPrincipalActivationContractValidator
         )
             && $this->date($value['effective_at'] ?? null)
             && $this->date($value['expires_at'] ?? null)
-            && new \DateTimeImmutable($value['effective_at']) === $at
+            && $value['effective_at'] === $at->format(DATE_ATOM)
             && $at < new \DateTimeImmutable($value['expires_at'])
             && null === ($value['revocation_reference'] ?? null);
     }
