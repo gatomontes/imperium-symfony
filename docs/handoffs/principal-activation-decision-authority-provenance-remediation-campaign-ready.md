@@ -30,3 +30,17 @@ perform external I/O, authorize retry, migrate a consumer, or open Iron Gate or
 Lazaretto.
 
 Binding activation remains paused. UNKNOWN_REPLAY_PROHIBITED remains binding.
+
+
+## Preparation Batch 0 result
+
+Preparation Batch 0 is complete at
+PREPARATION_BATCH_0_COMPLETE_OPERATOR_ROOT_SCOPE_SUCCESSOR_REQUIRED.
+
+The current canonical active v2 Imperator generation lacks the exact
+provider-executor-principal activation-decision scope and cannot self-widen.
+Only authority-empty Batch 1 scope-grant, successor-generation and later
+decision-issuance-authorization contracts may next be considered.
+
+The active handoff is
+docs/handoffs/principal-activation-decision-authority-provenance-remediation-preparation-batch-0-complete.md.
