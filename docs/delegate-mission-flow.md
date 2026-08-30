@@ -644,3 +644,13 @@ generation and later decision-issuance authorization may next be considered.
 Provider Effect Principal and Binding Activation remains paused. The active
 handoff is
 docs/handoffs/principal-activation-decision-authority-provenance-remediation-preparation-batch-0-complete.md.
+
+
+Principal Activation Decision Authority Provenance Remediation Batch 1 is
+complete at
+`BATCH_1_AUTHORITY_EMPTY_SCOPE_SUCCESSOR_AND_DECISION_ISSUANCE_CONTRACTS_COMPLETE`.
+The exact Operator Root scope grant, immutable pending successor and later
+active-successor-bound decision-issuance authorization are separately versioned
+and authority-empty. Only Batch 2 pure fail-closed validators and segregated
+immutable caller-supplied offline fixture stores may next be considered.
+Provider Effect Principal and Binding Activation remains paused.

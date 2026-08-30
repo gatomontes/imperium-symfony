@@ -252,6 +252,21 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderEffectPrincipalBindingActi
 
 - Counts: not supplied and therefore not inferred.
 
+## Cleared decision-authority provenance preparation
+
+### Principal Activation Decision Authority Provenance Remediation Preparation Batch 0
+
+- Source PR: #615
+- Source merge commit: 88e9fce4be7549deb146f81e8d96aed570631772
+- Final status: CLEAR_OPERATOR_REPORTED
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/PrincipalActivationDecisionAuthorityProvenanceRemediationPreparationBatch0Test.php
+```
+
+- Counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
