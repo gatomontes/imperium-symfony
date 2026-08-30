@@ -105,10 +105,12 @@ For the current Delegate Mission state, read in this order:
 99. `docs/handoffs/provider-binding-activation-corridor-disposition-reconsideration-preparation-batch-0-complete.md`;
 100. `docs/provider-binding-activation-corridor-disposition-reconsideration-contracts.md`;
 101. `docs/handoffs/provider-binding-activation-corridor-disposition-reconsideration-batch-1-complete.md`;
-102. `docs/provider-binding-activation-corridor-disposition-caller-authority-validation.md`; and
-103. `docs/handoffs/provider-binding-activation-corridor-disposition-reconsideration-batch-2-complete.md`.
+102. `docs/provider-binding-activation-corridor-disposition-caller-authority-validation.md`;
+103. `docs/handoffs/provider-binding-activation-corridor-disposition-reconsideration-batch-2-complete.md`;
+104. `docs/provider-binding-activation-corridor-disposition-read-only-reconstruction.md`; and
+105. `docs/handoffs/provider-binding-activation-corridor-disposition-reconsideration-batch-3-complete.md`.
 
-Item 103 is the active continuation handoff. Iron Gate Evidence Authenticity Remediation is complete
+Item 105 is the active continuation handoff. Iron Gate Evidence Authenticity Remediation is complete
 through Batch 11. No remediation batches remain. Provider Execution Assurance is selected for
 Preparation Batch 0 but paused before Batch 1. Governed Tool and Provider Separation Preparation
 Batch 0, contract-definition Batch 1 and canonical-tool Batch 2 are complete; only Batch 3 may next
@@ -137,4 +139,5 @@ corridor-disposition caller authority, eligible evidence dossier or candidate-di
 exists. Neither candidate outcome is presently sealable, the custody refusal remains authoritative,
 and Batch 1 now defines only authority-empty target, dossier and eligibility contracts. Only Batch 2
 caller-authority contracts and validators are now complete. Only Batch 3 read-only reconstruction
-and refusal classification is authorized next.
+and refusal classification is now complete. Only Batch 4 offline replay, contention and disposition-
+interruption evidence is authorized next.

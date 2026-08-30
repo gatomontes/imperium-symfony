@@ -67,3 +67,11 @@ authority-empty caller-authority contract and one pure storeless validator bind 
 dossier, eligibility, candidate, canonical principal scope/lifecycle, expiry and winner
 requirements. No authority or record is produced. Only Batch 3 read-only reconstruction and refusal
 classification is authorized next.
+
+## Batch 3 result
+
+Batch 3 is complete in
+`docs/provider-binding-activation-corridor-disposition-read-only-reconstruction.md`. One read-only
+service classifies exact canonical-principal and immutable-evidence bases as `ELIGIBLE`,
+`INCOMPLETE`, `CONFLICTED` or `REFUSED` without writing a record or creating authority. Only Batch 4
+offline replay, contention and disposition-interruption evidence is authorized next.
