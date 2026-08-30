@@ -21,9 +21,9 @@ mandatory.
 
 ## Successor validation
 
-The transition must bind the exact grant and its source/successor references, increment generation
-by exactly one, preserve identity, binding and non-corridor scope, add only corridor scope, and remain
-at `PENDING_ACTIVATION`. Grant consumption is represented, while source mutation, premature source
+The transition must bind the exact grant and its source/successor references, enforce generation
+continuity by incrementing exactly once, preserve identity, binding and non-corridor scope, add only
+corridor scope, and remain at `PENDING_ACTIVATION`. Grant consumption is represented, while source mutation, premature source
 supersession, caller-authority issuance and continuing authority must remain false. Separate
 activation authority remains mandatory.
 
