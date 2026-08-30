@@ -150,9 +150,9 @@ final class ProviderExecutionEffectReadinessBatch7Test extends ProviderExecution
             'GovernedProviderExecutionCombinedAdmissionService',
             'DurableProviderExecutionAuthorityIssuanceService',
             'AuthorityConsumptionStore',
-            'function activate',
-            'function issue',
-            'function consume',
+            'public function activate',
+            'public function issue',
+            'public function consume',
         ] as $forbidden) {
             self::assertStringNotContainsString($forbidden, $sources);
         }
