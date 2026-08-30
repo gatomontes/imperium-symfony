@@ -431,3 +431,8 @@ contracts: an Operator Root corridor-scope grant, a mechanical next-generation s
 `PENDING_ACTIVATION`, and a later active-principal-bound caller-authority issuance authorization.
 No authority or principal is produced. Only Batch 2 validators and immutable fixture stores are
 authorized; Reconsideration Batch 5 remains paused.
+
+Corridor Disposition Principal Authority Remediation Batch 2 now validates and immutably stores only
+caller-supplied offline scope-grant, pending-successor and issuance-authorization fixtures. Exact
+lineage, generation, scope preservation, activation separation, lifecycle, candidate, expiry,
+revocation and custody rules fail closed. Only Batch 3 offline interruption proof is authorized.
