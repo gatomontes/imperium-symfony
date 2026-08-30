@@ -236,6 +236,22 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderEffectPrincipalBindingActi
 
 - Counts: not supplied and therefore not inferred.
 
+## Cleared principal-production terminal audit
+
+### Provider Effect Principal and Binding Activation Batch 2
+
+- Source PR: #614
+- Source merge commit: 8dd7df83ea527362d8c95a983bc225925169e81c
+- Final status: CLEAR_OPERATOR_REPORTED
+- Audit disposition: BATCH_2_TERMINAL_AUDIT_REFUSED_UNPROVEN_DECISION_AUTHORITY_PROVENANCE
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/ProviderEffectPrincipalBindingActivationBatch2TerminalAuditTest.php
+```
+
+- Counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
