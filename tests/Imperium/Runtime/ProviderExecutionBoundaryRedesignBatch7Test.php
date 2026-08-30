@@ -82,12 +82,19 @@ final class ProviderExecutionBoundaryRedesignBatch7Test extends TestCase
             self::assertFalse($effect);
         }
 
-        foreach (glob($this->root.'/var/imperium/**/*.json') ?: [] as $path) {
-            self::assertStringNotContainsString(
-                'test-secret-never-persisted',
-                (string) file_get_contents($path),
-            );
-            self::assertStringNotContainsString('AGENTMAIL_API_KEY', (string) file_get_contents($path));
+        $files = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator(
+                $this->root.'/var/imperium',
+                \FilesystemIterator::SKIP_DOTS,
+            ),
+        );
+        foreach ($files as $file) {
+            if (!$file->isFile() || 'json' !== $file->getExtension()) {
+                continue;
+            }
+            $contents = (string) file_get_contents($file->getPathname());
+            self::assertStringNotContainsString('test-secret-never-persisted', $contents);
+            self::assertStringNotContainsString('AGENTMAIL_API_KEY', $contents);
         }
         foreach (StationaryCredentialResolutionProofContract::NON_AUTHORITIES as $permission) {
             self::assertFalse($permission);
