@@ -37,3 +37,15 @@ disposition; mutate, consume or reinterpret an activation artifact; issue or rec
 capability; select a credential platform; resolve credentials; migrate the command; invoke a
 provider; perform external I/O; or open Iron Gate or Lazaretto. Provider Execution Assurance
 remains paused.
+
+## Preparation Batch 0 result
+
+Preparation Batch 0 is complete in
+`docs/provider-binding-activation-corridor-disposition-reconsideration-preparation-inventory.md`.
+Canonical principal lifecycle enforcement exists, but instance-specific active-principal evidence,
+a corridor-disposition caller authority, exact target, eligible evidence dossier, candidate
+eligibility rules, producer, single-winner domain and aggregate reconstruction are absent. Neither
+`QUARANTINED_PENDING_REMEDIATION` nor `RETIRE_CORRIDOR` is presently sealable.
+
+The cross-process custody refusal remains authoritative. Only authority-empty Batch 1 contracts may
+next be considered under separate authorization; Preparation Batch 0 does not authorize them.
