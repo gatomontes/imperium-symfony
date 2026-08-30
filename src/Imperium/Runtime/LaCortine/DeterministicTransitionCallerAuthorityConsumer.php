@@ -8,6 +8,7 @@ use App\Imperium\Runtime\Persistence\AtomicTransition;
 use App\Imperium\Runtime\Persistence\AuthorityConsumptionStore;
 use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
 use App\Imperium\Runtime\Persistence\RecordReferenceValidator;
+use App\Imperium\Runtime\Imperator\ImperatorRuntimePrincipalVersionContract;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class DeterministicTransitionCallerAuthorityConsumer
@@ -66,7 +67,8 @@ final readonly class DeterministicTransitionCallerAuthorityConsumer
             || $authority['instance_id'] !== ($current['instance_id'] ?? null)
             || $principal['binding_id'] !== ($current['binding_id'] ?? null)
             || $principal['generation'] !== $generation
-            || 'ACTIVE' !== ($current['status'] ?? null)) {
+            || 'ACTIVE' !== ($current['status'] ?? null)
+            || ('imperator' === $principal['office'] && ImperatorRuntimePrincipalVersionContract::SCHEMA !== ($current['schema'] ?? null))) {
             throw new \RuntimeException('IGA114_CALLER_PRINCIPAL_STALE');
         }
 
