@@ -125,3 +125,20 @@ Only Batch 3 may next be considered: offline interruption, exact replay,
 changed-evidence conflict and same-root contention proof for all three fixture
 paths. The active handoff is
 `docs/handoffs/provider-execution-effect-readiness-batch-2-complete.md`.
+
+
+## Batch 3 result
+
+Batch 3 is complete at
+`BATCH_3_OFFLINE_ASSURANCE_FIXTURE_INTERRUPTION_PROVED`.
+
+Pre-commit cuts leave no record; post-commit cuts leave one immutable winner;
+exact replay converges; changed evidence conflicts; and two store instances on
+one authoritative root converge.
+
+Only Batch 4 may next be considered: read-only aggregate reconstruction and
+classification of the exact fixture chain. The active handoff is
+`docs/handoffs/provider-execution-effect-readiness-batch-3-complete.md`.
+
+Estimated countdown after Batch 3: approximately seven batches, excluding any
+separately selected sterile provider-conformance campaign.
