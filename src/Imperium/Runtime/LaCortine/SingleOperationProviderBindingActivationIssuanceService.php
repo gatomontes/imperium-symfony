@@ -262,7 +262,11 @@ final readonly class SingleOperationProviderBindingActivationIssuanceService
             || $decision['basis']['assurance_profile'] !== $candidate['assurance_profile']
             || $binding['tool_operation'] !== $candidate['tool_authority']
             || $binding['assurance_profile'] !== $candidate['assurance_profile']
-            || $binding['destination_policy'] !== $candidate['destination_policy']
+            || $candidate['destination_policy'] !== [
+                'id' => $binding['destination_policy']['policy_id'] ?? null,
+                'digest' => $binding['destination_policy']['policy_digest'] ?? null,
+                'schema' => 'imperium.la-cortine.destination-policy/v1',
+            ]
             || ProviderImplementationBindingContract::REQUIRED_PROVIDER_IMPLEMENTATION_FIELDS
                 !== array_keys($binding['provider_implementation'] ?? [])
             || ProviderImplementationBindingContract::REQUIRED_VALIDITY_FIELDS
@@ -307,6 +311,20 @@ final readonly class SingleOperationProviderBindingActivationIssuanceService
                 'digest' => $activation['record_digest'],
                 'schema' => $activation['schema'],
             ]
+            || SingleOperationProviderBindingActivationContract::REQUIRED_REFERENCE_FIELDS
+                !== array_keys($activation['source_activation_authority'] ?? [])
+            || SingleOperationProviderBindingActivationContract::REQUIRED_REFERENCE_FIELDS
+                !== array_keys($activation['execution_boundary'] ?? [])
+            || SingleOperationProviderBindingActivationContract::REQUIRED_REFERENCE_FIELDS
+                !== array_keys($activation['executor_principal'] ?? [])
+            || SingleOperationProviderBindingActivationContract::REQUIRED_REFERENCE_FIELDS
+                !== array_keys($activation['provider_binding'] ?? [])
+            || SingleOperationProviderBindingActivationContract::REQUIRED_REQUEST_FIELDS
+                !== array_keys($activation['request'] ?? [])
+            || SingleOperationProviderBindingActivationContract::REQUIRED_SCOPE_FIELDS
+                !== array_keys($activation['scope'] ?? [])
+            || SingleOperationProviderBindingActivationContract::REQUIRED_CONSUMPTION_FIELDS
+                !== array_keys($activation['activation_authority_consumption'] ?? [])
             || 'ACTIVATED_UNCONSUMED' !== $activation['status']
             || true !== $activation['single_operation']
             || true !== $activation['activation_authority_consumption']['consumed']
