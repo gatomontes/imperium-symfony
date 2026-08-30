@@ -31,6 +31,9 @@ final class DurableProviderExecutionAuthorityIssuanceContract
         'external_action_performed', 'sealed', 'record_digest',
     ];
     public const array REQUIRED_REFERENCE_FIELDS = ['id', 'digest', 'schema'];
+    public const array REQUIRED_CONSUMED_AUTHORITY_FIELDS = [
+        'id', 'digest', 'schema', 'consumed_at', 'consumed', 'continuing_authority',
+    ];
     public const array REQUIRED_ACTOR_FIELDS = [
         'principal_id', 'office', 'seat', 'binding_id', 'generation',
     ];
