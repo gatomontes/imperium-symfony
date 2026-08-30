@@ -67,7 +67,7 @@ final class ProviderExecutionBoundaryRedesignIssuanceContractValidator
             || !$this->identifier($issuance['issuance_id'] ?? null)
             || ($issuance['instance_id'] ?? null) !== ($decision['instance_id'] ?? null)
             || !$this->matches($issuance['source_decision'] ?? null, $decision, 'decision_id', $contract)
-            || !$this->reference($issuance['consumed_issuance_authority'] ?? null, $contract)
+            || !$this->consumedAuthority($issuance['consumed_issuance_authority'] ?? null, $contract)
             || ($issuance['consumed_issuance_authority']['id'] ?? null)
                 !== ($decision['issuance_authority']['authority_id'] ?? null)
             || ($issuance['consumed_issuance_authority']['digest'] ?? null)
@@ -143,6 +143,17 @@ final class ProviderExecutionBoundaryRedesignIssuanceContractValidator
             && $this->identifier($reference['id'] ?? null)
             && $this->digest($reference['digest'] ?? null)
             && $this->identifier($reference['schema'] ?? null);
+    }
+
+    private function consumedAuthority(mixed $authority, string $contract): bool
+    {
+        return $this->exact($authority, $contract::REQUIRED_CONSUMED_AUTHORITY_FIELDS)
+            && $this->identifier($authority['id'] ?? null)
+            && $this->digest($authority['digest'] ?? null)
+            && $this->identifier($authority['schema'] ?? null)
+            && $this->date($authority['consumed_at'] ?? null)
+            && true === ($authority['consumed'] ?? null)
+            && false === ($authority['continuing_authority'] ?? null);
     }
 
     private function matches(
