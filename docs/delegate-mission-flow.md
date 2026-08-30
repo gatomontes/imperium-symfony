@@ -684,3 +684,13 @@ ELIGIBLE, INCOMPLETE, CONFLICTED or REFUSED. Only Batch 5 separately authorized
 scope-remediation production and exact decision/activation-authority issuance
 may next be considered. Provider Effect Principal and Binding Activation remains
 paused.
+
+
+Principal Activation Decision Authority Provenance Remediation Batch 5 refuses
+at
+`BATCH_5_PRODUCTION_REFUSED_SUCCESSOR_PRINCIPAL_AND_DECISION_LINEAGE_CONTRACTS_ABSENT`.
+The v2 principal schema cannot carry the required sixth scope field, no
+canonical v3 successor-principal contract exists, and the issuance
+authorization does not bind the complete activation-decision actor and payload.
+Only authority-empty Batch 5A corrective contracts may next be considered.
+Provider Effect Principal and Binding Activation remains paused.
