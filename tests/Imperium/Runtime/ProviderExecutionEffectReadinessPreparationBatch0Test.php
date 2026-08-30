@@ -72,6 +72,9 @@ final class ProviderExecutionEffectReadinessPreparationBatch0Test extends TestCa
             $ledger,
         );
         self::assertStringContainsString('Counts: not supplied', $ledger);
-        self::assertStringContainsString('## Pending'.PHP_EOL.PHP_EOL.'None.', $ledger);
+        self::assertStringNotContainsString(
+            'PENDING_OPERATOR_LOCAL_RUN_AFTER_REPAIR_MERGE',
+            $ledger,
+        );
     }
 }

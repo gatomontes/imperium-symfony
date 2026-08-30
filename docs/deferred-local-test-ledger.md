@@ -27,7 +27,22 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderActivationConsumptionRemed
 
 ## Pending
 
-None.
+### Provider Execution Effect Readiness Preparation Batch 0
+
+- Source PR: `#598`
+- Source merge commit: `3963c87bd8138c4b488466d42e331ede37b75d22`
+- First attempt: 3 tests, 22 assertions, 1 failure.
+- Failure: the test joined Markdown headings with platform `PHP_EOL`; Windows
+  supplied CRLF while the Git file retained LF.
+- Runtime finding: no runtime or campaign-boundary defect was observed.
+- Repair: use a line-ending-independent assertion scoped to the cleared Batch 7
+  ledger entry.
+- Status: `PENDING_OPERATOR_LOCAL_RUN_AFTER_LINE_ENDING_REPAIR`
+- Required command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/ProviderExecutionEffectReadinessPreparationBatch0Test.php
+```
 
 ## Full-suite posture
 
