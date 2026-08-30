@@ -157,7 +157,22 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderExecutionEffectReadinessBa
 
 ## Pending
 
-None.
+### Provider Execution Effect Readiness Batch 8 test-inheritance repair
+
+- Source PR: `#608`
+- Source merge commit: `0f2ffcb7496eae2e15de562c42367d7482683484`
+- First attempt: PHPUnit terminated before discovery with a fatal class-inheritance
+  error; no test or assertion counts were produced.
+- Failure: Batch 8 extends Batch 7 to reuse its exact protected fixtures, but the
+  Batch 7 test class remained declared `final`.
+- Repair: remove the accidental `final` modifier from the test class only.
+- Runtime finding: no production or provider-boundary behavior was exercised.
+- Status: `PENDING_OPERATOR_LOCAL_RUN_AFTER_TEST_INHERITANCE_REPAIR`
+- Required command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/ProviderExecutionEffectReadinessBatch8Test.php
+```
 
 ## Full-suite posture
 
