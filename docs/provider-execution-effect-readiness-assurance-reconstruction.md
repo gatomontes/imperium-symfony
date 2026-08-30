@@ -26,8 +26,10 @@ operation. A complete chain proves only that caller-supplied offline evidence
 passed the local contracts and immutable storage boundary.
 
 Corruption is not downgraded to absence. Ineligible but canonically sealed
-evidence is not called conflicted. Invalid identifiers refuse before filesystem
-access.
+evidence is not called conflicted. Reconstruction reads and validates each
+artifact in source/profile/admission order, so invalid existing evidence refuses
+before a later absent artifact can classify the chain as incomplete. Invalid
+identifiers refuse before filesystem access.
 
 ## Threat model
 
