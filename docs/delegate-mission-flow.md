@@ -552,3 +552,16 @@ binding activation, live-call runtime, execution or retry authority, credential
 access, provider invocation, external I/O, live adoption, Iron Gate or
 Lazaretto behavior. The active handoff is
 `docs/handoffs/provider-execution-effect-readiness-batch-1-complete.md`.
+
+
+Provider Execution Effect Readiness Batch 2 is complete at
+`BATCH_2_FAIL_CLOSED_ASSURANCE_FIXTURE_VALIDATION_COMPLETE`. Exact assurance
+source, AgentMail direct-send profile and evidence-admission fixtures now fail
+closed under canonical validation and immutable offline storage.
+
+The stores fetch nothing and prove neither current provider truth nor
+conformance. They create no activation, live-call, credential, execution,
+retry, provider, external-I/O, adoption, Iron Gate or Lazaretto authority. Only
+offline interruption, replay, conflict and same-root contention proof may next
+be considered under
+`docs/handoffs/provider-execution-effect-readiness-batch-2-complete.md`.
