@@ -44,8 +44,8 @@ final class ProviderBindingActivationCorridorDispositionReconsiderationBatch1Tes
     public function testDocumentationAuthorizesOnlyCallerAuthorityContractsAndValidatorsNext(): void
     {
         $root = dirname(__DIR__, 3);
-        $contracts = (string) file_get_contents($root.'/docs/provider-binding-activation-corridor-disposition-reconsideration-contracts.md');
-        $handoff = (string) file_get_contents($root.'/docs/handoffs/provider-binding-activation-corridor-disposition-reconsideration-batch-1-complete.md');
+        $contracts = preg_replace('/\s+/', ' ', (string) file_get_contents($root.'/docs/provider-binding-activation-corridor-disposition-reconsideration-contracts.md'));
+        $handoff = preg_replace('/\s+/', ' ', (string) file_get_contents($root.'/docs/handoffs/provider-binding-activation-corridor-disposition-reconsideration-batch-1-complete.md'));
 
         foreach (['BATCH_1_AUTHORITY_EMPTY_TARGET_DOSSIER_AND_ELIGIBILITY_CONTRACTS_COMPLETE', 'Every `NON_AUTHORITIES` value is false', 'Repository schemas and test fixtures are not instance evidence', 'REFUSED_CROSS_PROCESS_CUSTODY_UNPROVABLE', 'No principal or binding is activated', 'external I/O', 'Iron Gate', 'Lazaretto', 'Provider Execution Assurance remains paused'] as $proof) self::assertNotFalse(stripos($contracts, $proof), $proof);
         foreach (['Only Batch 2 is authorized', 'caller-authority transition', 'contracts and validators only', 'may not issue or consume authority', 'effectively `ACTIVE`', 'corridor_disposition_authority=true', 'may not identify a live target', 'seal a corridor disposition', 'external I/O', 'Iron Gate', 'Lazaretto'] as $boundary) self::assertNotFalse(stripos($handoff, $boundary), $boundary);
