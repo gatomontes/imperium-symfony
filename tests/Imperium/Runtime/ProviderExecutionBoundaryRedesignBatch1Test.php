@@ -107,7 +107,7 @@ final class ProviderExecutionBoundaryRedesignBatch1Test extends TestCase
     {
         $root = dirname(__DIR__, 3);
         $contracts = (string) file_get_contents($root.'/docs/provider-execution-boundary-redesign-contracts.md');
-        $handoff = (string) file_get_contents($root.'/docs/handoffs/provider-execution-boundary-redesign-batch-1-complete.md');
+        $handoff = preg_replace('/\\s+/', ' ', (string) file_get_contents($root.'/docs/handoffs/provider-execution-boundary-redesign-batch-1-complete.md'));
 
         foreach ([
             '`BATCH_1_CONTRACTS_COMPLETE_NO_IMPLEMENTATION`',
