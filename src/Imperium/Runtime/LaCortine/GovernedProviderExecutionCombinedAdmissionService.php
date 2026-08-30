@@ -16,7 +16,6 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 final readonly class GovernedProviderExecutionCombinedAdmissionService
 {
     public const string ADMISSIONS = 'var/imperium/offices/la-cortine/governed-provider-execution-combined-admissions';
-    public const string REVOCATIONS = 'var/imperium/offices/la-cortine/provider-binding-activation-revocations';
 
     private AtomicTransition $atomic;
     private ImmutableRecordStore $records;
@@ -81,10 +80,13 @@ final readonly class GovernedProviderExecutionCombinedAdmissionService
                     }
                 }
 
-                $revocationId = ProviderBindingActivationRevocationContract::ID_PREFIX
+                $revocationId = ProviderBindingActivationRevocationWinnerContract::ID_PREFIX
                     .substr(hash('sha256', $activationId.'|'.$activationDigest), 0, 20);
                 try {
-                    $this->records->read(self::REVOCATIONS, $revocationId);
+                    $this->records->read(
+                        ProviderBindingActivationRevocationWinnerService::WINNERS,
+                        $revocationId,
+                    );
                     throw new \RuntimeException('PEB622_PROVIDER_ACTIVATION_REVOKED');
                 } catch (\RuntimeException $exception) {
                     if ('PST112_IMMUTABLE_RECORD_ABSENT' !== $exception->getMessage()) {
