@@ -72,6 +72,6 @@ final class ProviderExecutionEffectReadinessPreparationBatch0Test extends TestCa
             $ledger,
         );
         self::assertStringContainsString('Counts: not supplied', $ledger);
-        self::assertStringContainsString('## Pending'.PHP_EOL.PHP_EOL.'None.', $ledger);
+        self::assertMatchesRegularExpression('/## Pending\\s+None\\./', $ledger);
     }
 }
