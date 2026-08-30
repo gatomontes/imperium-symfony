@@ -304,6 +304,30 @@ php vendor/bin/phpunit tests/Imperium/Runtime/PrincipalActivationDecisionAuthori
 
 - Clear rerun counts: not supplied and therefore not inferred.
 
+## Cleared decision-authority provenance Batch 3
+
+### Principal Activation Decision Authority Provenance Remediation Batch 3
+
+- Source PR: #619
+- Source merge commit: 2ad07dfc82a27f38375ad67954b7b1bba681bb14
+- Repair PR: #620
+- Repair merge commit: 0861a6c2667676349fda4cd41049d2124f9b3fee
+- First attempt: 4 tests, 112 assertions, 1 documentation-expectation
+  failure.
+- Repair: normalized `two same-root contenders` to the asserted term
+  `same-root contention`.
+- Runtime finding: all interruption, replay, refusal, contention and recovery
+  assertions completed; no proof or provider-boundary behavior defect was
+  observed.
+- Final status: CLEAR_OPERATOR_REPORTED_AFTER_DOCUMENTATION_REPAIR
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/PrincipalActivationDecisionAuthorityProvenanceRemediationBatch3Test.php
+```
+
+- Clear rerun counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
