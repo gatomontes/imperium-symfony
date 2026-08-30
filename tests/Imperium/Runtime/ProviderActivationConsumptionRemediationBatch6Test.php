@@ -112,6 +112,41 @@ final class ProviderActivationConsumptionRemediationBatch6Test extends ProviderE
         }
     }
 
+    public function testDocumentationAuthorizesOnlyAdversarialAuditNext(): void
+    {
+        $root = dirname(__DIR__, 3);
+        $document = preg_replace(
+            '/\\s+/',
+            ' ',
+            (string) file_get_contents(
+                $root.'/docs/'
+                .'provider-activation-consumption-remediation-stationary-resolution-v2.md',
+            ),
+        );
+        $handoff = preg_replace(
+            '/\\s+/',
+            ' ',
+            (string) file_get_contents(
+                $root.'/docs/handoffs/'
+                .'provider-activation-consumption-remediation-batch-6-complete.md',
+            ),
+        );
+
+        foreach ([
+            'BATCH_6_STATIONARY_RESOLUTION_REQUIRES_COMBINED_V2_WINNER',
+            'A v1 admission ID is rejected',
+            'Only remediation Batch 7 may next be considered',
+            'adversarial proof and repeated terminal audit',
+            'may not invoke a provider',
+            'external I/O',
+            'Iron Gate',
+            'Lazaretto',
+            'one batch',
+        ] as $boundary) {
+            self::assertNotFalse(stripos($document.$handoff, $boundary), $boundary);
+        }
+    }
+
     public function testV2SourceHasNoCapabilityProviderOrExternalIoPath(): void
     {
         $source = (string) file_get_contents(
