@@ -113,3 +113,20 @@ Estimated remediation countdown: approximately four batches.
 
 The active handoff is
 docs/handoffs/principal-activation-decision-authority-provenance-remediation-batch-3-complete.md.
+
+## Batch 4 result
+
+Batch 4 is complete at
+BATCH_4_READ_ONLY_AGGREGATE_RECONSTRUCTION_COMPLETE.
+
+The exact offline chain now reconstructs without persistence as ELIGIBLE,
+INCOMPLETE, CONFLICTED or REFUSED. It creates and repairs nothing.
+
+Only remediation Batch 5 may next be considered: separately authorized scope
+remediation production, separate lifecycle activation, and exact
+decision/activation-authority issuance. Provider Effect Principal and Binding
+Activation remains paused. Estimated remediation countdown: approximately
+three batches.
+
+The active handoff is
+docs/handoffs/principal-activation-decision-authority-provenance-remediation-batch-4-complete.md.
