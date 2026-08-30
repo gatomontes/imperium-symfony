@@ -4,21 +4,34 @@ declare(strict_types=1);
 
 namespace App\Imperium\Runtime\LaCortine;
 
-final class ProviderBindingActivationRevocationAuthorityConsumptionContract
+final class ProviderBindingActivationRevocationWinnerContract
 {
     public const string SCHEMA =
-        'imperium.la-cortine.provider-binding-activation-revocation-authority-consumption/v1';
+        'imperium.la-cortine.provider-binding-activation-revocation-winner/v1';
     public const int VERSION = 1;
-    public const string PRODUCTION_POSTURE = 'DO_NOT_PRODUCE_SEPARATELY';
+    public const string PRODUCER_POSTURE =
+        'la-cortine.activation-keyed-authorized-revocation-winner';
+    public const array CONSUMER_POSTURES = [
+        'la-cortine.activation-keyed-combined-provider-execution-admission',
+        'la-cortine.provider-execution-reconstruction-v2',
+    ];
     public const array REQUIRED_FIELDS = [
-        'schema', 'consumption_id', 'instance_id', 'revocation_authority',
-        'provider_binding_activation', 'revocation_fact',
-        'single_use', 'consumed', 'continuing_authority',
-        'winner_scope', 'consumed_at', 'sealed', 'record_digest',
+        'schema', 'winner_id', 'instance_id',
+        'provider_binding_activation', 'revocation_authority',
+        'revocation_authority_consumption', 'reason_code',
+        'winner_scope', 'revoked_at', 'sealed', 'record_digest',
     ];
     public const array REQUIRED_REFERENCE_FIELDS = ['id', 'digest', 'schema'];
+    public const array REQUIRED_CONSUMPTION_FIELDS = [
+        'authority_id', 'authority_digest', 'single_use',
+        'consumed', 'continuing_authority',
+    ];
+    public const string ID_PREFIX =
+        'provider-binding-activation-revocation-winner-';
     public const string WINNER_SCOPE_PREFIX =
         'single-authoritative-root:provider-binding-activation:';
+    public const string LOCK_SCOPE_PREFIX =
+        'governed-provider-execution-admission:';
     public const array NON_AUTHORITIES = [
         'issues_revocation_authority' => false,
         'issues_activation' => false,

@@ -9,6 +9,7 @@ final class ProviderBindingActivationRevocationContract
     public const string SCHEMA =
         'imperium.la-cortine.provider-binding-activation-revocation/v1';
     public const int VERSION = 1;
+    public const string PRODUCTION_POSTURE = 'DO_NOT_PRODUCE_SEPARATELY';
     public const string PRODUCER_POSTURE =
         'la-cortine.activation-keyed-revocation-transition';
     public const array CONSUMER_POSTURES = [
