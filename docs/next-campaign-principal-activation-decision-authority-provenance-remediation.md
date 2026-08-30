@@ -96,3 +96,20 @@ Estimated remediation countdown: approximately five batches.
 
 The active handoff is
 docs/handoffs/principal-activation-decision-authority-provenance-remediation-batch-2-complete.md.
+
+## Batch 3 result
+
+Batch 3 is complete at
+BATCH_3_OFFLINE_INTERRUPTION_REPLAY_AND_CONTENTION_PROOF_COMPLETE.
+
+Disposable-root proof now covers absent-before-commit, one immutable winner,
+exact replay, changed-evidence refusal, expiry and revocation refusal,
+same-root contention and read-only recovery for all three offline fixture paths.
+
+Only remediation Batch 4 may next be considered: read-only aggregate
+reconstruction with ELIGIBLE, INCOMPLETE, CONFLICTED and REFUSED results.
+Provider Effect Principal and Binding Activation remains paused.
+Estimated remediation countdown: approximately four batches.
+
+The active handoff is
+docs/handoffs/principal-activation-decision-authority-provenance-remediation-batch-3-complete.md.

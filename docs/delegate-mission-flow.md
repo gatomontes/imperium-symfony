@@ -664,3 +664,13 @@ fixtures now fail closed and store immutably in segregated evidence paths. Only
 Batch 3 disposable-root interruption, replay, conflict and contention proof may
 next be considered. Provider Effect Principal and Binding Activation remains
 paused.
+
+
+Principal Activation Decision Authority Provenance Remediation Batch 3 is
+complete at
+`BATCH_3_OFFLINE_INTERRUPTION_REPLAY_AND_CONTENTION_PROOF_COMPLETE`.
+All three offline fixture paths now prove absent-before-commit, one immutable
+winner, exact replay, changed-evidence conflict, expiry and revocation refusal,
+same-root contention and read-only recovery without repair. Only Batch 4
+read-only aggregate reconstruction may next be considered. Provider Effect
+Principal and Binding Activation remains paused.

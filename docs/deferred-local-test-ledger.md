@@ -282,6 +282,28 @@ php vendor/bin/phpunit tests/Imperium/Runtime/PrincipalActivationDecisionAuthori
 
 - Counts: not supplied and therefore not inferred.
 
+## Cleared decision-authority provenance Batch 2
+
+### Principal Activation Decision Authority Provenance Remediation Batch 2
+
+- Source PR: #617
+- Source merge commit: e69e7fa5c180c0fdc46b8413a203c630872ad0ad
+- Repair PR: #618
+- Repair merge commit: f5b481aff4b91d7c336121b49d3b33f445962a09
+- First attempt: 4 tests, 27 assertions, 1 documentation-expectation failure.
+- Repair: stated the already-binding authority prohibition as the contiguous
+  phrase `may not issue or consume authority`.
+- Runtime finding: no validator, fixture-store, or provider-boundary behavior
+  defect was observed.
+- Final status: CLEAR_OPERATOR_REPORTED_AFTER_DOCUMENTATION_REPAIR
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/PrincipalActivationDecisionAuthorityProvenanceRemediationBatch2Test.php
+```
+
+- Clear rerun counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
