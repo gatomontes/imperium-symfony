@@ -110,3 +110,18 @@ record or runtime consumer and grant no authority.
 Only Batch 2 may next be considered: pure fail-closed validators and immutable
 caller-supplied offline fixture stores for those contracts. The active handoff
 is `docs/handoffs/provider-execution-effect-readiness-batch-1-complete.md`.
+
+
+## Batch 2 result
+
+Batch 2 is complete at
+`BATCH_2_FAIL_CLOSED_ASSURANCE_FIXTURE_VALIDATION_COMPLETE`.
+
+Pure validators and immutable caller-supplied offline fixture stores enforce
+the three Batch 1 schemas without fetching provider evidence or creating live
+provider truth or authority.
+
+Only Batch 3 may next be considered: offline interruption, exact replay,
+changed-evidence conflict and same-root contention proof for all three fixture
+paths. The active handoff is
+`docs/handoffs/provider-execution-effect-readiness-batch-2-complete.md`.
