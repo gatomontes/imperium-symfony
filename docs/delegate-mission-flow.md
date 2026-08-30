@@ -591,3 +591,22 @@ Offline eligibility is not live provider truth, activation, live-call,
 credential, execution, retry, provider, external-I/O, adoption, Iron Gate or
 Lazaretto authority. The active handoff is
 `docs/handoffs/provider-execution-effect-readiness-batch-4-complete.md`.
+
+
+## Provider effect principal and binding activation frontier
+
+Provider Execution Effect Readiness is complete pre-provider only at
+PROVIDER_EXECUTION_EFFECT_READINESS_COMPLETE_PRE_PROVIDER_ONLY.
+
+The separately selected next campaign is Provider Effect Principal and Binding
+Activation, Preparation Batch 0 only. Preparation classifies principal
+activation and operation-scoped binding activation as separate ordered
+sub-boundaries with separately consumed authorities. The exact principal
+generation must become durably ACTIVE before any binding activation may be
+considered.
+
+Preparation authorizes no runtime change, activation, authority issuance or
+consumption, credential or capability handling, live-call contract, provider
+invocation, external I/O, retry, live adoption, Iron Gate or Lazaretto behavior.
+The active handoff is
+docs/handoffs/provider-effect-principal-binding-activation-preparation-batch-0-complete.md.
