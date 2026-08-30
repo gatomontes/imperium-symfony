@@ -120,10 +120,12 @@ For the current Delegate Mission state, read in this order:
 114. `docs/handoffs/corridor-disposition-principal-authority-remediation-batch-2-complete.md`;
 115. `docs/corridor-disposition-principal-authority-remediation-interruption-evidence.md`;
 116. `docs/handoffs/corridor-disposition-principal-authority-remediation-batch-3-complete.md`;
-117. `docs/corridor-disposition-principal-authority-remediation-read-only-aggregate-reconstruction.md`; and
-118. `docs/handoffs/corridor-disposition-principal-authority-remediation-batch-4-complete.md`.
+117. `docs/corridor-disposition-principal-authority-remediation-read-only-aggregate-reconstruction.md`;
+118. `docs/handoffs/corridor-disposition-principal-authority-remediation-batch-4-complete.md`;
+119. `docs/corridor-disposition-principal-authority-remediation-production.md`; and
+120. `docs/handoffs/corridor-disposition-principal-authority-remediation-batch-5-complete.md`.
 
-Item 118 is the active continuation handoff. Iron Gate Evidence Authenticity Remediation is complete
+Item 120 is the active continuation handoff. Iron Gate Evidence Authenticity Remediation is complete
 through Batch 11. No remediation batches remain. Provider Execution Assurance is selected for
 Preparation Batch 0 but paused before Batch 1. Governed Tool and Provider Separation Preparation
 Batch 0, contract-definition Batch 1 and canonical-tool Batch 2 are complete; only Batch 3 may next
@@ -177,3 +179,7 @@ Only Batch 4 read-only aggregate reconstruction is authorized next.
 Corridor Disposition Principal Authority Remediation Batch 4 now reconstructs the exact offline
 chain read-only and classifies it as eligible, incomplete, conflicted, or refused. Only Batch 5
 separately authorized scope remediation production is authorized next.
+
+Corridor Disposition Principal Authority Remediation Batch 5 now implements the bounded production
+chain through one pending successor, separate activation, and one exact corridor caller authority.
+Only the read-only terminal audit is authorized next. Reconsideration Batch 5 remains paused.

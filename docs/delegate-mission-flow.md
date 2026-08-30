@@ -446,3 +446,9 @@ Corridor Disposition Principal Authority Remediation Batch 4 now reconstructs th
 chain without persistence and classifies it as eligible, incomplete, conflicted, or refused. It
 creates no authority or state. Only Batch 5 separately authorized scope remediation production is
 authorized; Reconsideration Batch 5 remains paused.
+
+Corridor Disposition Principal Authority Remediation Batch 5 now consumes one exact Operator Root
+scope grant into one immutable pending successor, requires a separately consumed activation, and
+then consumes one exact issuance authorization into one corridor caller authority. It selects no
+disposition and performs no external action. Only the terminal audit is authorized next;
+Reconsideration Batch 5 remains paused.
