@@ -37,30 +37,46 @@ final readonly class ProviderAssuranceEvidenceAggregateReconstructor
             return $this->result('REFUSED', [], ['IDENTIFIER_INVALID']);
         }
 
-        try {
-            $source = $this->records->read(
-                ProviderAssuranceEvidenceFixtureStore::SOURCES,
-                $sourceId,
-            );
-            $profile = $this->records->read(
-                ProviderAssuranceEvidenceFixtureStore::PROFILES,
-                $profileId,
-            );
-            $admission = $this->records->read(
-                ProviderAssuranceEvidenceFixtureStore::ADMISSIONS,
-                $admissionId,
-            );
-        } catch (\RuntimeException $exception) {
-            if ('PST112_IMMUTABLE_RECORD_ABSENT' === $exception->getMessage()) {
-                return $this->result('INCOMPLETE', [], ['FIXTURE_ABSENT']);
-            }
-
-            return $this->result('CONFLICTED', [], [$exception->getMessage()]);
+        $sourceRead = $this->read(
+            ProviderAssuranceEvidenceFixtureStore::SOURCES,
+            $sourceId,
+        );
+        if (null !== $sourceRead['classification']) {
+            return $this->result($sourceRead['classification'], [], $sourceRead['reasons']);
         }
+        $source = $sourceRead['record'];
 
         try {
             $this->validator->assertSource($source);
+        } catch (\RuntimeException $exception) {
+            return $this->result('REFUSED', [], [$exception->getMessage()]);
+        }
+
+        $profileRead = $this->read(
+            ProviderAssuranceEvidenceFixtureStore::PROFILES,
+            $profileId,
+        );
+        if (null !== $profileRead['classification']) {
+            return $this->result($profileRead['classification'], [], $profileRead['reasons']);
+        }
+        $profile = $profileRead['record'];
+
+        try {
             $this->validator->assertProfile($profile, [$source]);
+        } catch (\RuntimeException $exception) {
+            return $this->result('REFUSED', [], [$exception->getMessage()]);
+        }
+
+        $admissionRead = $this->read(
+            ProviderAssuranceEvidenceFixtureStore::ADMISSIONS,
+            $admissionId,
+        );
+        if (null !== $admissionRead['classification']) {
+            return $this->result($admissionRead['classification'], [], $admissionRead['reasons']);
+        }
+        $admission = $admissionRead['record'];
+
+        try {
             $this->validator->assertAdmission($admission, $profile, [$source]);
         } catch (\RuntimeException $exception) {
             return $this->result('REFUSED', [], [$exception->getMessage()]);
@@ -75,6 +91,31 @@ final readonly class ProviderAssuranceEvidenceAggregateReconstructor
             ],
             [],
         );
+    }
+
+    private function read(string $directory, string $id): array
+    {
+        try {
+            return [
+                'record' => $this->records->read($directory, $id),
+                'classification' => null,
+                'reasons' => [],
+            ];
+        } catch (\RuntimeException $exception) {
+            if ('PST112_IMMUTABLE_RECORD_ABSENT' === $exception->getMessage()) {
+                return [
+                    'record' => null,
+                    'classification' => 'INCOMPLETE',
+                    'reasons' => ['FIXTURE_ABSENT'],
+                ];
+            }
+
+            return [
+                'record' => null,
+                'classification' => 'CONFLICTED',
+                'reasons' => [$exception->getMessage()],
+            ];
+        }
     }
 
     private function result(string $classification, array $chain, array $reasons): array
