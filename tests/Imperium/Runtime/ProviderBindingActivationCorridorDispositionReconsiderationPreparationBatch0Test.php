@@ -20,8 +20,8 @@ final class ProviderBindingActivationCorridorDispositionReconsiderationPreparati
     public function testPreparationPreservesTheCustodyRefusalAndOperationalPerimeter(): void
     {
         $root = dirname(__DIR__, 3);
-        $inventory = (string) file_get_contents($root.'/docs/provider-binding-activation-corridor-disposition-reconsideration-preparation-inventory.md');
-        $handoff = (string) file_get_contents($root.'/docs/handoffs/provider-binding-activation-corridor-disposition-reconsideration-preparation-batch-0-complete.md');
+        $inventory = preg_replace('/\s+/', ' ', (string) file_get_contents($root.'/docs/provider-binding-activation-corridor-disposition-reconsideration-preparation-inventory.md'));
+        $handoff = preg_replace('/\s+/', ' ', (string) file_get_contents($root.'/docs/handoffs/provider-binding-activation-corridor-disposition-reconsideration-preparation-batch-0-complete.md'));
 
         foreach (['REFUSED_CROSS_PROCESS_CUSTODY_UNPROVABLE', 'Neither candidate', 'presently eligible to be sealed', 'Only Batch 1 may next be considered', 'does not authorize Batch 1', 'No runtime contract was defined', 'runtime behavior is unchanged', 'No principal or binding was activated', 'no caller authority was issued or consumed', 'no disposition was sealed', 'no activation artifact was mutated', 'no credential or capability was handled', 'no provider was invoked', 'external I/O', 'Iron Gate', 'Lazaretto', 'Provider Execution Assurance remains paused'] as $boundary) {
             self::assertNotFalse(stripos($inventory.$handoff, $boundary), $boundary);
