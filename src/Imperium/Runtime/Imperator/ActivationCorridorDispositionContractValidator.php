@@ -155,7 +155,7 @@ final class ActivationCorridorDispositionContractValidator
             || !$this->matches($eligibility['evidence_dossier'], $dossier, 'dossier_id')
             || !$this->matches($eligibility['principal'], $principal, 'principal_version_id')
             || $authority['proposed_disposition'] !== $eligibility['proposed_disposition']
-            || 'ACTIVE' !== ($principal['status'] ?? null)
+            || !in_array($principal['status'] ?? null, ['PENDING_ACTIVATION', 'ACTIVE'], true)
             || true !== ($principal['authority_scope']['corridor_disposition_authority'] ?? null)
             || false !== ($principal['authority_scope']['outbound_email_authority'] ?? null)
             || false !== ($principal['authority_scope']['credential_authority'] ?? null)

@@ -89,3 +89,10 @@ The separately selected continuation is Corridor Disposition Principal Authority
 Preparation Batch 0 inventories the exact scope-grant, successor-generation and caller-authority
 gaps. Reconsideration Batch 5 remains paused and may resume only after remediation terminal evidence
 proves its gate canonically.
+
+## Batch 5 result
+
+Principal Authority Remediation is complete and the instance-specific audit gate is enforceable.
+Batch 5 now consumes one exact corridor caller authority and immutably seals its already-bound
+eligible outcome without source mutation or external action. Only the read-only Reconsideration
+terminal audit is authorized next.
