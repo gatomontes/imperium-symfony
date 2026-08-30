@@ -20,9 +20,9 @@ final class PrincipalActivationDecisionAuthorityProvenanceRemediationBatch5Readi
         );
         self::assertFalse(Principal::NON_AUTHORITIES['self_widens_scope']);
         self::assertContains('successor_principal', Successor::REQUIRED_FIELDS);
-        self::assertFileDoesNotExist(
-            dirname(__DIR__, 3).'/src/Imperium/Runtime/Imperator/'
-                .'ImperatorRuntimePrincipalVersionV3Contract.php',
+        self::assertSame(
+            ['id', 'digest', 'schema', 'generation'],
+            Successor::REQUIRED_PRINCIPAL_FIELDS,
         );
     }
 
