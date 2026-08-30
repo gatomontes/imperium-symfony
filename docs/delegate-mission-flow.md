@@ -413,3 +413,9 @@ principal/evidence basis read-only and classifies it as eligible, incomplete, co
 It writes no record and creates no authority or disposition. Missing or lifecycle-ineligible
 principal evidence refuses before completeness is considered. Only Batch 4 offline replay,
 contention and disposition-interruption evidence is authorized next.
+
+Provider Binding Activation Corridor Disposition Reconsideration Batch 4 now proves both candidate
+outcomes across pre-consumption, post-consumption/pre-commit and post-commit cuts using disposable
+offline fixtures. Exact replay converges; changed evidence, expiry, revocation and competing outcomes
+refuse; recovery is read-only; and activation artifacts remain unchanged. Batch 5 is not authorized:
+the required instance-specific active principal and explicit caller authority do not exist.
