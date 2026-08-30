@@ -31,7 +31,7 @@ final class PrincipalActivationDecisionAuthorityProvenanceRemediationBatch5ACont
             ImperatorRuntimePrincipalVersionContract::REQUIRED_AUTHORITY_SCOPE_FIELDS,
             array_slice(ImperatorRuntimePrincipalVersionV3Contract::REQUIRED_AUTHORITY_SCOPE_FIELDS, 0, 5),
         );
-        self::assertNotContains(true, ImperatorRuntimePrincipalVersionV3Contract::NON_AUTHORITIES, true);
+        self::assertNotContains(true, ImperatorRuntimePrincipalVersionV3Contract::NON_AUTHORITIES);
     }
 
     public function testProductionEnvelopeCarriesTheCompleteDecisionShape(): void
@@ -59,7 +59,7 @@ final class PrincipalActivationDecisionAuthorityProvenanceRemediationBatch5ACont
         foreach (['issuance_authorization', 'actor', 'scope', 'disposition', 'rationale', 'limitations', 'activation_authority', 'validity', 'decision_id'] as $field) {
             self::assertContains($field, ProviderExecutorPrincipalActivationDecisionProductionEnvelopeContract::REQUIRED_FIELDS);
         }
-        self::assertNotContains(true, ProviderExecutorPrincipalActivationDecisionProductionEnvelopeContract::NON_AUTHORITIES, true);
+        self::assertNotContains(true, ProviderExecutorPrincipalActivationDecisionProductionEnvelopeContract::NON_AUTHORITIES);
     }
 
     public function testDocumentationPreservesThePausedRuntimePerimeter(): void
