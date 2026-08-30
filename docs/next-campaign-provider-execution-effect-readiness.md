@@ -95,3 +95,18 @@ Iron Gate or Lazaretto authority.
 
 The active handoff is
 `docs/handoffs/provider-execution-effect-readiness-preparation-batch-0-complete.md`.
+
+
+## Batch 1 result
+
+Batch 1 is complete at
+`BATCH_1_AUTHORITY_EMPTY_PROVIDER_ASSURANCE_CONTRACTS_COMPLETE`.
+
+Three separately versioned contracts now define evidence-source provenance,
+the exact AgentMail direct-send assurance profile and a future evidence
+admission result. They have no producer, validator, fixture, immutable admitted
+record or runtime consumer and grant no authority.
+
+Only Batch 2 may next be considered: pure fail-closed validators and immutable
+caller-supplied offline fixture stores for those contracts. The active handoff
+is `docs/handoffs/provider-execution-effect-readiness-batch-1-complete.md`.
