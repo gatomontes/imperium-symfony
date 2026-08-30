@@ -75,7 +75,7 @@ final class CorridorDispositionPrincipalAuthorityRemediationContractValidator
             || $authorization['instance_id'] !== ($target['instance_id'] ?? null) || $authorization['instance_id'] !== ($dossier['instance_id'] ?? null) || $authorization['instance_id'] !== ($eligibility['instance_id'] ?? null)
             || $authorization['issuer_principal']['generation'] !== $successor['successor_generation']
             || !$this->matches($successor['successor_principal'] ?? [], $issuerPrincipal, 'principal_version_id')
-            || 'ACTIVE' !== $issuerPrincipal['status'] || true !== $issuerPrincipal['authority_scope']['corridor_disposition_authority']
+            || !in_array($issuerPrincipal['status'], ['PENDING_ACTIVATION', 'ACTIVE'], true) || true !== $issuerPrincipal['authority_scope']['corridor_disposition_authority']
             || false !== $issuerPrincipal['credential_reference_persisted'] || false !== $issuerPrincipal['credential_secret_persisted'] || false !== $issuerPrincipal['serialized_capability_persisted']
             || !$this->exact($lifecycle, ImperatorRuntimePrincipalVersionContract::REQUIRED_LIFECYCLE_FIELDS)
             || !$this->date($lifecycle['effective_at'] ?? null) || !$this->date($lifecycle['expires_at'] ?? null)

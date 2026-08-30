@@ -57,6 +57,13 @@ Batch 4 is complete in
 The pure reconstructor classifies exact caller-supplied fixtures and interruption evidence without
 writes or authority. Only Batch 5, the separately authorized scope remediation producer, is next.
 
+## Batch 5 result
+
+Batch 5 is complete in `docs/corridor-disposition-principal-authority-remediation-production.md`.
+The bounded producer consumes one exact scope grant, commits one pending successor, requires separate
+activation, and then consumes one exact issuance authorization to create one corridor caller
+authority. Only the terminal audit and return-gate decision are authorized next.
+
 ## Preserved perimeter
 
 Preparation creates no principal, successor, scope grant, caller authority or disposition. It does
