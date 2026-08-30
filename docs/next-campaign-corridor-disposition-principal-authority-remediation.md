@@ -64,6 +64,13 @@ The bounded producer consumes one exact scope grant, commits one pending success
 activation, and then consumes one exact issuance authorization to create one corridor caller
 authority. Only the terminal audit and return-gate decision are authorized next.
 
+## Terminal audit result
+
+The terminal audit is implemented in
+`docs/corridor-disposition-principal-authority-remediation-terminal-audit.md`. The remediation
+campaign is complete. Reconsideration Batch 5 may resume only for an exact instance with a
+`RETURN_GATE_SATISFIED` result; refusal grants no repair or continuation authority.
+
 ## Preserved perimeter
 
 Preparation creates no principal, successor, scope grant, caller authority or disposition. It does
