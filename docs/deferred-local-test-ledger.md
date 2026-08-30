@@ -25,7 +25,7 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderActivationConsumptionRemed
 - Counts: not supplied for the clear rerun and therefore not inferred.
 - Runtime finding: no provider-boundary runtime behavior defect was observed.
 
-## Pending
+## Cleared preparation follow-up
 
 ### Provider Execution Effect Readiness Preparation Batch 0
 
@@ -37,12 +37,17 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderActivationConsumptionRemed
 - Runtime finding: no runtime or campaign-boundary defect was observed.
 - Repair: use a line-ending-independent assertion scoped to the cleared Batch 7
   ledger entry.
-- Status: `PENDING_OPERATOR_LOCAL_RUN_AFTER_LINE_ENDING_REPAIR`
+- Final status: `CLEAR_OPERATOR_REPORTED_AFTER_LINE_ENDING_REPAIR`
+- Clear rerun counts: not supplied and therefore not inferred.
 - Required command:
 
 ```bash
 php vendor/bin/phpunit tests/Imperium/Runtime/ProviderExecutionEffectReadinessPreparationBatch0Test.php
 ```
+
+## Pending
+
+None.
 
 ## Full-suite posture
 
