@@ -195,3 +195,20 @@ handoff is
 
 Estimated countdown after Batch 6: approximately four batches, excluding any
 separately selected sterile provider-conformance campaign.
+
+## Batch 7 result
+
+Batch 7 is complete at
+`BATCH_7_FAIL_CLOSED_PRINCIPAL_ACTIVATION_FIXTURE_VALIDATION_COMPLETE`.
+
+Pure validation and immutable caller-supplied offline fixture stores now enforce
+the Batch 6 decision and activation shapes without producing a decision,
+authority or activation.
+
+Only Batch 8 may next be considered: offline interruption, exact replay,
+changed-evidence conflict and same-root contention proof for both fixture paths.
+The active handoff is
+`docs/handoffs/provider-execution-effect-readiness-batch-7-complete.md`.
+
+Estimated countdown after Batch 7: approximately three batches, excluding any
+separately selected sterile provider-conformance campaign.
