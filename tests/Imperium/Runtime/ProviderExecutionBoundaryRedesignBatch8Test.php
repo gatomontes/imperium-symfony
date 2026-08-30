@@ -120,7 +120,7 @@ final class ProviderExecutionBoundaryRedesignBatch8Test extends ProviderExecutio
         self::assertCount(1, $files);
         file_put_contents($files[0], '{}');
 
-        $this->expectExceptionMessage('PEB714_STATIONARY_CREDENTIAL_PROOF_CONFLICT');
+        $this->expectExceptionMessage('PST113_IMMUTABLE_RECORD_TAMPERED');
         (new GovernedStationaryCredentialResolutionService($this->root))
             ->prove($admission['admission_id'], $at->modify('+20 minutes'));
     }
