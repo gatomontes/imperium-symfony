@@ -654,3 +654,13 @@ active-successor-bound decision-issuance authorization are separately versioned
 and authority-empty. Only Batch 2 pure fail-closed validators and segregated
 immutable caller-supplied offline fixture stores may next be considered.
 Provider Effect Principal and Binding Activation remains paused.
+
+
+Principal Activation Decision Authority Provenance Remediation Batch 2 is
+complete at
+`BATCH_2_FAIL_CLOSED_VALIDATORS_AND_IMMUTABLE_FIXTURE_STORES_COMPLETE`.
+Exact caller-supplied offline grant, pending-successor and issuance-authorization
+fixtures now fail closed and store immutably in segregated evidence paths. Only
+Batch 3 disposable-root interruption, replay, conflict and contention proof may
+next be considered. Provider Effect Principal and Binding Activation remains
+paused.

@@ -78,3 +78,21 @@ Estimated remediation countdown: approximately six batches.
 
 The active handoff is
 docs/handoffs/principal-activation-decision-authority-provenance-remediation-batch-1-complete.md.
+
+## Batch 2 result
+
+Batch 2 is complete at
+BATCH_2_FAIL_CLOSED_VALIDATORS_AND_IMMUTABLE_FIXTURE_STORES_COMPLETE.
+
+Pure validators now enforce the exact scope-grant, pending-successor and later
+decision-issuance-authorization lineage. Segregated immutable stores accept
+only caller-supplied offline fixtures and are not a live registry.
+
+Only remediation Batch 3 may next be considered: disposable-root offline
+interruption, replay, changed-evidence conflict and same-root contention proof.
+No live principal, scope, authority, decision or activation is created.
+Provider Effect Principal and Binding Activation remains paused.
+Estimated remediation countdown: approximately five batches.
+
+The active handoff is
+docs/handoffs/principal-activation-decision-authority-provenance-remediation-batch-2-complete.md.
