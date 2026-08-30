@@ -7,7 +7,6 @@ namespace App\Tests\Imperium\Runtime;
 use App\Imperium\Runtime\Clavium\GovernedStationaryCredentialResolutionV2Service;
 use App\Imperium\Runtime\LaCortine\GovernedProviderExecutionAdmissionService;
 use App\Imperium\Runtime\LaCortine\GovernedProviderExecutionCombinedAdmissionService;
-use App\Imperium\Runtime\LaCortine\ProviderBindingActivationRevocationWinnerService;
 
 final class ProviderActivationConsumptionRemediationBatch7TerminalTest extends ProviderExecutionBoundaryRedesignBatch6Test
 {
@@ -167,4 +166,45 @@ final class ProviderActivationConsumptionRemediationBatch7TerminalTest extends P
             );
         }
     }
+
+    public function testTerminalDocumentationClosesOnlyThePreProviderCampaign(): void
+    {
+        $repository = dirname(__DIR__, 3);
+        $audit = (string) file_get_contents(
+            $repository.'/docs/provider-activation-consumption-remediation-terminal-audit.md',
+        );
+        $remediation = (string) file_get_contents(
+            $repository.'/docs/handoffs/provider-activation-consumption-remediation-campaign-complete.md',
+        );
+        $campaign = (string) file_get_contents(
+            $repository.'/docs/handoffs/provider-execution-boundary-redesign-campaign-complete.md',
+        );
+        $documentation = $audit.$remediation.$campaign;
+
+        foreach ([
+            'BATCH_7_ADVERSARIAL_PROOF_COMPLETE_TERMINAL_AUDIT_PASSED',
+            'BATCH_10_TERMINAL_AUDIT_REFUSED_ACTIVATION_NOT_CONSUMED',
+            'PROVIDER_EXECUTION_BOUNDARY_REDESIGN_COMPLETE_PRE_PROVIDER_ONLY',
+            'activation-keyed contention',
+            'admission and revocation mutual exclusion',
+            'trusted writer root',
+            'No remediation batches remain',
+            'does not authorize live adoption',
+            'Provider execution remains refused',
+            'UNKNOWN_REPLAY_PROHIBITED',
+            'Iron Gate',
+            'Lazaretto',
+        ] as $required) {
+            self::assertStringContainsString($required, $documentation);
+        }
+
+        foreach ([
+            'credential bytes',
+            'environment-variable names',
+            'process-local capability identity',
+        ] as $excluded) {
+            self::assertStringContainsString($excluded, $documentation);
+        }
+    }
+
 }
