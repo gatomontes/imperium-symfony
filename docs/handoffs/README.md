@@ -129,14 +129,17 @@ For the current Delegate Mission state, read in this order:
 123. `docs/provider-binding-activation-corridor-disposition-production.md`;
 124. `docs/handoffs/provider-binding-activation-corridor-disposition-reconsideration-batch-5-complete.md`;
 125. `docs/provider-binding-activation-corridor-disposition-terminal-audit.md`; and
-126. `docs/handoffs/provider-binding-activation-corridor-disposition-reconsideration-campaign-complete.md`.
+126. `docs/handoffs/provider-binding-activation-corridor-disposition-reconsideration-campaign-complete.md`;
+127. `docs/next-campaign-provider-execution-assurance-reconsideration.md`;
+128. `docs/handoffs/provider-execution-assurance-reconsideration-campaign-ready.md`;
+129. `docs/provider-execution-assurance-reconsideration-preparation-inventory.md`; and
+130. `docs/handoffs/provider-execution-assurance-reconsideration-preparation-batch-0-complete.md`.
 
-Item 126 is the active continuation handoff. Iron Gate Evidence Authenticity Remediation is complete
-through Batch 11. No remediation batches remain. Provider Execution Assurance is selected for
-Preparation Batch 0 but paused before Batch 1. Governed Tool and Provider Separation Preparation
-Batch 0, contract-definition Batch 1 and canonical-tool Batch 2 are complete; only Batch 3 may next
-be considered and is not authorized by completion alone. Live
-deterministic consumer adoption and sortie remain deferred boundaries.
+Item 130 is the active continuation handoff. Iron Gate Evidence Authenticity Remediation and
+Governed Tool and Provider Separation are complete. Provider Execution Assurance has been
+separately reselected and its reconsideration Preparation Batch 0 is complete. The custody refusal
+remains authoritative and no Provider Execution Assurance Batch 1 is authorized. Live deterministic
+consumer adoption and sortie remain deferred boundaries.
 
 `docs/handoffs/operational-cognition-access-lifecycle-ready.md` and the numbered credential-boundary handoffs are historical execution records. They are not active continuation prompts.
 
@@ -201,3 +204,8 @@ read-only terminal audit is authorized next.
 Provider Binding Activation Corridor Disposition Reconsideration is complete. Its terminal audit
 proves the one-outcome boundary without creating further authority. There is no Batch 7 and Provider
 Execution Assurance remains paused.
+
+Provider Execution Assurance has been separately reselected for reconsideration Preparation Batch 0
+only. The fresh inventory admits the completed separation and disposition evidence but confirms that
+no provider-binding activation authority or provable cross-process opaque capability custody exists.
+`REFUSED_CROSS_PROCESS_CUSTODY_UNPROVABLE` remains authoritative. No Batch 1 is authorized.
