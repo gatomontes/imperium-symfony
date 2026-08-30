@@ -11,7 +11,7 @@ use App\Imperium\Runtime\LaCortine\ProviderExecutorPrincipalActivationContractVa
 use App\Imperium\Runtime\LaCortine\ProviderExecutorPrincipalActivationFixtureStore;
 use App\Imperium\Runtime\LaCortine\ProviderExecutorPrincipalContract;
 
-final class ProviderExecutionEffectReadinessBatch7Test extends ProviderExecutionEffectReadinessBatch2Test
+class ProviderExecutionEffectReadinessBatch7Test extends ProviderExecutionEffectReadinessBatch2Test
 {
     public function testExactOfflineDecisionAndActivationValidateStoreAndReplay(): void
     {
