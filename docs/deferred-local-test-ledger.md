@@ -155,24 +155,30 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderExecutionEffectReadinessBa
 
 - Counts: not supplied and therefore not inferred.
 
-## Pending
+## Cleared Batch 8
 
-### Provider Execution Effect Readiness Batch 8 test-inheritance repair
+### Provider Execution Effect Readiness Batch 8
 
 - Source PR: `#608`
 - Source merge commit: `0f2ffcb7496eae2e15de562c42367d7482683484`
+- Repair PR: `#609`
+- Repair merge commit: `2ba5b4384e3d544e7935388419a120986db6c07a`
 - First attempt: PHPUnit terminated before discovery with a fatal class-inheritance
   error; no test or assertion counts were produced.
-- Failure: Batch 8 extends Batch 7 to reuse its exact protected fixtures, but the
-  Batch 7 test class remained declared `final`.
-- Repair: remove the accidental `final` modifier from the test class only.
-- Runtime finding: no production or provider-boundary behavior was exercised.
-- Status: `PENDING_OPERATOR_LOCAL_RUN_AFTER_TEST_INHERITANCE_REPAIR`
-- Required command:
+- Repair: removed the accidental `final` modifier from the Batch 7 test class.
+- Runtime finding: no production or provider-boundary defect was observed.
+- Final status: `CLEAR_OPERATOR_REPORTED_AFTER_TEST_INHERITANCE_REPAIR`
+- Clear command:
 
 ```bash
 php vendor/bin/phpunit tests/Imperium/Runtime/ProviderExecutionEffectReadinessBatch8Test.php
 ```
+
+- Clear rerun counts: not supplied and therefore not inferred.
+
+## Pending
+
+None.
 
 ## Full-suite posture
 
