@@ -14,8 +14,8 @@ effect. Provider Execution Assurance remains paused.
 
 ## Authorized continuation
 
-Only Batch 5 is authorized: implement the existing-instance remediation producer against one intact
-operationalization seal and one exact operator-originated `EXISTING_INSTANCE_REMEDIATION` authority.
+Only Batch 5 is authorized: implement the existing-instance remediation producer against one
+intact operationalization seal and one exact operator-originated `EXISTING_INSTANCE_REMEDIATION` authority.
 It may constitute only a provably absent principal and must not reopen or alter founding personnel.
 
 Batch 5 may not activate a principal, issue caller authority, implement lifecycle transitions or a
