@@ -578,3 +578,16 @@ No fixture is promoted into live provider truth or activation, live-call,
 credential, execution, retry, provider, external-I/O, adoption, Iron Gate or
 Lazaretto authority. The active handoff is
 `docs/handoffs/provider-execution-effect-readiness-batch-3-complete.md`.
+
+
+Provider Execution Effect Readiness Batch 4 is complete at
+`BATCH_4_READ_ONLY_ASSURANCE_AGGREGATE_RECONSTRUCTION_COMPLETE`. Exact
+assurance source, profile and admission fixtures reconstruct read only as
+eligible offline evidence, incomplete, conflicted or refused. Reconstruction
+creates and repairs nothing.
+
+Only the terminal offline assurance-evidence audit may next be considered.
+Offline eligibility is not live provider truth, activation, live-call,
+credential, execution, retry, provider, external-I/O, adoption, Iron Gate or
+Lazaretto authority. The active handoff is
+`docs/handoffs/provider-execution-effect-readiness-batch-4-complete.md`.
