@@ -15,7 +15,7 @@ Across all six cases:
 - absent before commit leaves no fixture;
 - recovery creates one immutable winner;
 - exact replay converges on the same digest;
-- two same-root contenders converge for identical evidence;
+- same-root contention converges for identical evidence;
 - changed evidence and a changed contender refuse;
 - expiry and revocation refuse before fixture admission;
 - read-only recovery changes no file and performs no repair; and
