@@ -516,3 +516,25 @@ live-adoption behavior.
 The Batch 7 terminal PHPUnit run is pending because of an operator power outage
 and is recorded in `docs/deferred-local-test-ledger.md`. Continued preparation
 does not convert the pending run into green evidence.
+
+
+Provider Execution Effect Readiness Preparation Batch 0 is complete at
+`PREPARATION_BATCH_0_COMPLETE_EFFECT_GATES_SEPARABLE_ASSURANCE_FIRST`. It
+classifies the inert executor principal, inactive implementation binding,
+absent live-call contract and incomplete provider assurance as separate stop
+conditions. The smallest lawful order admits provider assurance evidence first,
+then treats principal activation, operation-scoped binding activation,
+authority-empty live-call definition, sterile conformance and live adoption as
+separate boundaries.
+
+Only authority-empty Provider Assurance Evidence Admission contracts may next
+be considered. No principal or binding is activated, no provider evidence is
+live authority, no credential or execution authority is handled, no provider
+effect or retry is authorized, and Iron Gate and Lazaretto remain closed. The
+active handoff is
+`docs/handoffs/provider-execution-effect-readiness-preparation-batch-0-complete.md`.
+
+The previously deferred Batch 7 terminal test is now
+`CLEAR_OPERATOR_REPORTED_AFTER_REPAIR` in
+`docs/deferred-local-test-ledger.md`; no unreported assertion count or
+full-suite result is inferred.
