@@ -84,6 +84,7 @@ final readonly class SingleOperationProviderBindingActivationIssuanceService
             $at,
         );
 
+        $candidateDigest = hash('sha256', CanonicalJson::encode($candidate));
         $expiresAt = $this->minimumExpiry(
             $decision['expires_at'],
             $principal['validity']['expires_at'],
@@ -122,7 +123,7 @@ final readonly class SingleOperationProviderBindingActivationIssuanceService
             'sealed' => true,
         ];
         $activation['record_digest'] = hash('sha256', CanonicalJson::encode($activation));
-        $this->assertActivation($activation, $decision);
+        $this->assertActivation($activation, $decision, $candidateDigest);
 
         return $this->commit($decision, $activation, $contract, $at);
     }
@@ -299,7 +300,11 @@ final readonly class SingleOperationProviderBindingActivationIssuanceService
         }
     }
 
-    private function assertActivation(array $activation, array $decision): void
+    private function assertActivation(
+        array $activation,
+        array $decision,
+        string $candidateDigest,
+    ): void
     {
         if (SingleOperationProviderBindingActivationContract::REQUIRED_FIELDS
                 !== array_keys($activation)
@@ -308,7 +313,7 @@ final readonly class SingleOperationProviderBindingActivationIssuanceService
             || $decision['target'] !== [
                 'kind' => SingleOperationProviderBindingActivationIssuanceContract::TARGET_KIND,
                 'id' => $activation['activation_id'],
-                'digest' => $activation['record_digest'],
+                'digest' => $candidateDigest,
                 'schema' => $activation['schema'],
             ]
             || SingleOperationProviderBindingActivationContract::REQUIRED_REFERENCE_FIELDS
