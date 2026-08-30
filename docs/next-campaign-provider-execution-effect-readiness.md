@@ -159,3 +159,22 @@ audit and documentary-sufficiency disposition. The active handoff is
 
 Estimated countdown after Batch 4: approximately six batches, excluding any
 separately selected sterile provider-conformance campaign.
+
+## Batch 5 result
+
+Batch 5 is complete at
+`BATCH_5_DOCUMENTARY_ASSURANCE_SUB_BOUNDARY_CLOSED`.
+
+The terminal offline audit selects
+`DOCUMENTARY_ASSURANCE_SUB_BOUNDARY_CLOSED` for the six exact admitted
+AgentMail documentary claims while preserving authenticated-channel trust,
+completion-anchored retention, every explicit unknown and
+`UNKNOWN_REPLAY_PROHIBITED`. Remote conformance remains unproved.
+
+Only Batch 6 may next be considered: separately versioned, authority-empty
+contracts for the exact attested inert executor-principal activation lifecycle.
+The active handoff is
+`docs/handoffs/provider-execution-effect-readiness-batch-5-complete.md`.
+
+Estimated countdown after Batch 5: approximately five batches, excluding any
+separately selected sterile provider-conformance campaign.

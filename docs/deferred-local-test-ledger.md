@@ -90,24 +90,29 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderExecutionEffectReadinessBa
 
 - Counts: not supplied and therefore not inferred.
 
-## Pending
+## Cleared Batch 4
 
-### Provider Execution Effect Readiness Batch 4 classification-order repair
+### Provider Execution Effect Readiness Batch 4
 
 - Source PR: `#603`
 - Source merge commit: `c169b3a60ae51d70674a2d3a11cf7d615657a5c8`
-- First attempt: 7 tests, 46 assertions, 1 failure.
-- Failure: the read-only reconstructor read the later admission before validating
-  the existing profile, so later absence masked canonically intact refused
-  evidence as `INCOMPLETE`.
+- Repair PR: `#604`
+- Repair merge commit: `d5f1e8508ff03db32315a08f983bf39975689f9d`
+- First attempt: 7 tests, 46 assertions, 1 classification-order failure.
 - Repair: validate each existing source/profile/admission artifact before reading
-  the next artifact.
-- Status: `PENDING_OPERATOR_LOCAL_RUN_AFTER_CLASSIFICATION_ORDER_REPAIR`
-- Required command:
+  the next artifact so refused evidence is not masked by later absence.
+- Final status: `CLEAR_OPERATOR_REPORTED_AFTER_CLASSIFICATION_ORDER_REPAIR`
+- Clear command:
 
 ```bash
 php vendor/bin/phpunit tests/Imperium/Runtime/ProviderExecutionEffectReadinessBatch4Test.php
 ```
+
+- Clear rerun counts: not supplied and therefore not inferred.
+
+## Pending
+
+None.
 
 ## Full-suite posture
 
