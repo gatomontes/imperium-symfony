@@ -467,3 +467,16 @@ Provider Binding Activation Corridor Disposition Reconsideration is complete. It
 proves one immutable outcome, exact consumption, intact history, preserved consequences and
 attribution, no source mutation, no successor authority, and the continuing custody refusal. There
 is no Batch 7; Provider Execution Assurance remains separately paused.
+
+Provider Execution Assurance reconsideration Preparation Batch 0 is complete and authorizes no
+Batch 1. Its refusal triggered a Blackquill architectural review, which found that the design
+incorrectly required process-local capability-object identity to survive process death while
+prohibiting every external continuity mechanism. The truthful custody refusal remains historical
+evidence; it is not execution authority.
+
+The separately selected continuation is Provider Execution Boundary Redesign, Preparation Batch 0
+only. It must inventory a corrected boundary in which credentials remain stationary inside one
+credential-owning executor and exact durable execution authority is validated and consumed there.
+Selection defines no runtime contract, changes no runtime behavior, activates no principal or
+binding, handles no credential or capability, performs no provider invocation or external I/O, and
+keeps Iron Gate and Lazaretto closed.

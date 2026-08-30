@@ -133,9 +133,12 @@ For the current Delegate Mission state, read in this order:
 127. `docs/next-campaign-provider-execution-assurance-reconsideration.md`;
 128. `docs/handoffs/provider-execution-assurance-reconsideration-campaign-ready.md`;
 129. `docs/provider-execution-assurance-reconsideration-preparation-inventory.md`; and
-130. `docs/handoffs/provider-execution-assurance-reconsideration-preparation-batch-0-complete.md`.
+130. `docs/handoffs/provider-execution-assurance-reconsideration-preparation-batch-0-complete.md`;
+131. `docs/provider-execution-boundary-redesign-blackquill-review.md`;
+132. `docs/next-campaign-provider-execution-boundary-redesign.md`; and
+133. `docs/handoffs/provider-execution-boundary-redesign-campaign-ready.md`.
 
-Item 130 is the active continuation handoff. Iron Gate Evidence Authenticity Remediation and
+Item 133 is the active continuation handoff. Iron Gate Evidence Authenticity Remediation and
 Governed Tool and Provider Separation are complete. Provider Execution Assurance has been
 separately reselected and its reconsideration Preparation Batch 0 is complete. The custody refusal
 remains authoritative and no Provider Execution Assurance Batch 1 is authorized. Live deterministic
@@ -209,3 +212,8 @@ Provider Execution Assurance has been separately reselected for reconsideration 
 only. The fresh inventory admits the completed separation and disposition evidence but confirms that
 no provider-binding activation authority or provable cross-process opaque capability custody exists.
 `REFUSED_CROSS_PROCESS_CUSTODY_UNPROVABLE` remains authoritative. No Batch 1 is authorized.
+
+The Blackquill review of that refusal identifies a category error between credential possession,
+durable execution authority and process-local capability identity. Provider Execution Boundary
+Redesign is now selected for Preparation Batch 0 only. It may inventory a stationary-credential,
+credential-owning execution boundary but grants no runtime or external-action authority.
