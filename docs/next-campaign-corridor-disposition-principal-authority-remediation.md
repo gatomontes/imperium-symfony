@@ -42,6 +42,14 @@ Pure fail-closed validation and segregated immutable fixture stores accept only 
 offline records. They create no live registry, authority or principal. Only Batch 3 offline replay
 and interruption proof is authorized next.
 
+## Batch 3 result
+
+Batch 3 is complete in
+`docs/corridor-disposition-principal-authority-remediation-interruption-evidence.md`. Twelve
+disposable-root cases prove exact replay, refusal, contention, and read-only recovery for the four
+offline remediation transitions. No live authority or principal exists. Only Batch 4 read-only
+aggregate reconstruction is authorized next.
+
 ## Preserved perimeter
 
 Preparation creates no principal, successor, scope grant, caller authority or disposition. It does
