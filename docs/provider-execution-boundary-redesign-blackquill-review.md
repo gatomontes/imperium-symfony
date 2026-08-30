@@ -29,7 +29,7 @@ Imperium currently claims one authoritative filesystem root and
 consensus or split-brain resistance. Requiring immortal PHP object identity does not protect against
 an attacker who can replace code, rewrite records or read process credentials, and it exceeds the
 identity continuity required to address the declared crash, replay, contention and stale-authority
-threats.
+threats under the trusted-writer model.
 
 The corrected question is not how to transfer a credential-capability object between processes. It
 is how one credential-owning execution boundary validates and atomically consumes an exact durable
