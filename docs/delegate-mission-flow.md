@@ -626,3 +626,21 @@ The campaign is paused before binding activation. Only Preparation Batch 0 of
 Principal Activation Decision Authority Provenance Remediation may next be
 selected. The active handoff is
 docs/handoffs/principal-activation-decision-authority-provenance-remediation-campaign-ready.md.
+
+
+## Principal activation decision-authority remediation frontier
+
+Principal Activation Decision Authority Provenance Remediation Preparation Batch
+0 is complete at
+PREPARATION_BATCH_0_COMPLETE_OPERATOR_ROOT_SCOPE_SUCCESSOR_REQUIRED.
+
+Operator Root is the only competent owner of the missing narrow scope. The
+canonical active v2 Imperator generation cannot self-widen, and its existing
+provider-binding activation scope is not interchangeable with
+provider-executor-principal activation-decision authority.
+
+Only authority-empty Batch 1 contracts for the exact scope grant, successor
+generation and later decision-issuance authorization may next be considered.
+Provider Effect Principal and Binding Activation remains paused. The active
+handoff is
+docs/handoffs/principal-activation-decision-authority-provenance-remediation-preparation-batch-0-complete.md.
