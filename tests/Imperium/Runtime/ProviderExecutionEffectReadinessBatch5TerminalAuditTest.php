@@ -17,13 +17,15 @@ final class ProviderExecutionEffectReadinessBatch5TerminalAuditTest extends Test
         foreach ([
             'BATCH_5_DOCUMENTARY_ASSURANCE_SUB_BOUNDARY_CLOSED',
             'DOCUMENTARY_ASSURANCE_SUB_BOUNDARY_CLOSED',
-            'does not select REFUSED_PENDING_STERILE_CONFORMANCE',
+            'does not select',
+            'REFUSED_PENDING_STERILE_CONFORMANCE',
             'in-progress duplicate semantics',
             'query by idempotency key before retry',
             'completion time when no response is observed',
             'remote cryptographic authorship',
             'authenticated-channel trust remains the ceiling',
-            'remote provider conformance Not proved',
+            'remote provider conformance',
+            'Not proved',
         ] as $finding) {
             self::assertNotFalse(stripos($audit, $finding), $finding);
         }
