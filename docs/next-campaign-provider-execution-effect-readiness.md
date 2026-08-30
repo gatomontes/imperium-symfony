@@ -76,3 +76,22 @@ a live consumer or command, or open Iron Gate or Lazaretto.
 
 `UNKNOWN_REPLAY_PROHIBITED` remains binding after any possible provider
 effect-start unless separately admitted evidence resolves the outcome.
+
+
+## Preparation Batch 0 result
+
+Preparation Batch 0 is complete at
+`PREPARATION_BATCH_0_COMPLETE_EFFECT_GATES_SEPARABLE_ASSURANCE_FIRST` in
+`docs/provider-execution-effect-readiness-preparation-inventory.md`.
+
+The inert principal, inactive implementation binding, absent live-call
+contract and incomplete provider assurance remain separate authoritative stop
+conditions. They may not be collapsed into one activation-and-call action.
+
+Only Batch 1 may next be considered: authority-empty Provider Assurance
+Evidence Admission contracts for exact AgentMail direct send. Batch 1 grants no
+provider, activation, credential, execution, retry, external-I/O, live-adoption,
+Iron Gate or Lazaretto authority.
+
+The active handoff is
+`docs/handoffs/provider-execution-effect-readiness-preparation-batch-0-complete.md`.
