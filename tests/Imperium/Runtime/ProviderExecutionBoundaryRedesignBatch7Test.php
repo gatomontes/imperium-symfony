@@ -19,10 +19,10 @@ use App\Imperium\Runtime\Persistence\AtomicTransition;
 use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
 use PHPUnit\Framework\TestCase;
 
-final class ProviderExecutionBoundaryRedesignBatch7Test extends TestCase
+class ProviderExecutionBoundaryRedesignBatch7Test extends TestCase
 {
-    private string $root;
-    private ImmutableRecordStore $records;
+    protected string $root;
+    protected ImmutableRecordStore $records;
 
     protected function setUp(): void
     {
@@ -169,7 +169,7 @@ final class ProviderExecutionBoundaryRedesignBatch7Test extends TestCase
         }
     }
 
-    private function seedLineage(\DateTimeImmutable $at): array
+    protected function seedLineage(\DateTimeImmutable $at): array
     {
         $boundary = $this->records->put(
             ProviderExecutionBoundaryRedesignInertIssuanceService::BOUNDARIES,
@@ -241,7 +241,7 @@ final class ProviderExecutionBoundaryRedesignBatch7Test extends TestCase
         );
     }
 
-    private function authority(
+    protected function authority(
         array $boundaryRef,
         array $principalRef,
         array $bindingRef,
@@ -296,7 +296,7 @@ final class ProviderExecutionBoundaryRedesignBatch7Test extends TestCase
         ];
     }
 
-    private function boundary(\DateTimeImmutable $at): array
+    protected function boundary(\DateTimeImmutable $at): array
     {
         return [
             'schema' => ProviderExecutionBoundaryContract::SCHEMA,
@@ -335,7 +335,7 @@ final class ProviderExecutionBoundaryRedesignBatch7Test extends TestCase
         ];
     }
 
-    private function principal(
+    protected function principal(
         array $boundaryRef,
         \DateTimeImmutable $at,
     ): array {
@@ -370,7 +370,7 @@ final class ProviderExecutionBoundaryRedesignBatch7Test extends TestCase
         ];
     }
 
-    private function binding(\DateTimeImmutable $at): array
+    protected function binding(\DateTimeImmutable $at): array
     {
         return [
             'schema' => ProviderImplementationBindingContract::SCHEMA,
@@ -412,7 +412,7 @@ final class ProviderExecutionBoundaryRedesignBatch7Test extends TestCase
         ];
     }
 
-    private function ref(array $record, string $idField): array
+    protected function ref(array $record, string $idField): array
     {
         return [
             'id' => $record[$idField],
@@ -421,7 +421,7 @@ final class ProviderExecutionBoundaryRedesignBatch7Test extends TestCase
         ];
     }
 
-    private function reference(string $id): array
+    protected function reference(string $id): array
     {
         return [
             'id' => $id,
