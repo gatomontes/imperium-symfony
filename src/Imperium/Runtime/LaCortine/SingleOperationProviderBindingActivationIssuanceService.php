@@ -280,6 +280,14 @@ final readonly class SingleOperationProviderBindingActivationIssuanceService
                 !== array_keys($candidate['request'] ?? [])
             || SingleOperationProviderBindingActivationContract::REQUIRED_SCOPE_FIELDS
                 !== array_keys($candidate['scope'] ?? [])
+            || ($candidate['effect_authorization']['id'] ?? null)
+                !== $binding['scope']['authorization_target_id']
+            || ($candidate['effect_authorization']['digest'] ?? null)
+                !== $binding['scope']['authorization_target_digest']
+            || ($candidate['request_reference']['id'] ?? null)
+                !== ($candidate['request']['request_id'] ?? null)
+            || ($principal['competence']['credential_family'] ?? null)
+                !== ($binding['credential_family']['family_id'] ?? null)
             || $candidate['request']['operation'] !== $binding['scope']['operation']
             || $candidate['request']['operation'] !== $principal['competence']['operation']
             || $candidate['scope']['provider_id']
