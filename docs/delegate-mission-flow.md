@@ -407,3 +407,9 @@ exact basis requires a complete dossier and one active, unexpired, unrevoked can
 with corridor-disposition scope, but the existing constitution route still grants no such scope.
 No authority or record is produced. Only Batch 3 read-only reconstruction and refusal
 classification is authorized next.
+
+Provider Binding Activation Corridor Disposition Reconsideration Batch 3 now reconstructs the exact
+principal/evidence basis read-only and classifies it as eligible, incomplete, conflicted or refused.
+It writes no record and creates no authority or disposition. Missing or lifecycle-ineligible
+principal evidence refuses before completeness is considered. Only Batch 4 offline replay,
+contention and disposition-interruption evidence is authorized next.
