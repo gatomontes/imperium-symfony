@@ -57,5 +57,5 @@ final class CorridorDispositionPrincipalAuthorityRemediationBatch5Test extends T
         (new ImmutableRecordStore($this->root, new AtomicTransition($this->root)))->put(FutureInstanceImperatorPrincipalConstitutionService::PRINCIPAL_VERSIONS, $source['principal_version_id'], $source);
         return compact('source', 'pending', 'grant', 'successor', 'target', 'dossier', 'eligibility', 'activation', 'authorization') + ['at' => new \DateTimeImmutable('2026-08-30T12:05:00+00:00')];
     }
-    private function invoke(string $method, mixed ...$arguments): mixed { $fixture = new CorridorDispositionPrincipalAuthorityRemediationBatch2Test(); $reflection = new \ReflectionMethod($fixture, $method); return $reflection->invoke($fixture, ...$arguments); }
+    private function invoke(string $method, mixed ...$arguments): mixed { $fixture = new CorridorDispositionPrincipalAuthorityRemediationBatch2Test('testExactOfflineFixturesStoreIdempotentlyWithoutCreatingAuthority'); $reflection = new \ReflectionMethod($fixture, $method); return $reflection->invoke($fixture, ...$arguments); }
 }
