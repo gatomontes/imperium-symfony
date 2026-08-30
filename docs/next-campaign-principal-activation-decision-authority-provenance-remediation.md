@@ -58,3 +58,23 @@ existence grants no scope, successor, authority, decision or activation.
 
 The active handoff is
 docs/handoffs/principal-activation-decision-authority-provenance-remediation-preparation-batch-0-complete.md.
+
+## Batch 1 result
+
+Batch 1 is complete at
+BATCH_1_AUTHORITY_EMPTY_SCOPE_SUCCESSOR_AND_DECISION_ISSUANCE_CONTRACTS_COMPLETE.
+
+The exact Operator Root narrow-scope grant, immutable successor generation held
+at PENDING_ACTIVATION, and later active-successor-bound decision-issuance
+authorization are now separately versioned authority-empty contracts. Existing
+scope is preserved and the only scope delta is
+provider_executor_principal_activation_decision_authority.
+
+Only remediation Batch 2 may next be considered: pure fail-closed validators
+and segregated immutable stores for caller-supplied offline fixtures of those
+three contracts. No live principal, scope, authority, decision or activation is
+created. Provider Effect Principal and Binding Activation remains paused.
+Estimated remediation countdown: approximately six batches.
+
+The active handoff is
+docs/handoffs/principal-activation-decision-authority-provenance-remediation-batch-1-complete.md.
