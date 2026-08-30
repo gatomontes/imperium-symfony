@@ -245,3 +245,21 @@ handoff is
 
 Estimated countdown after Batch 9: approximately one batch, excluding any
 separately selected sterile provider-conformance campaign.
+
+## Batch 10 result
+
+Batch 10 is complete at
+BATCH_10_TERMINAL_ADVERSARIAL_AUDIT_PASSED_PRE_PROVIDER_READINESS_COMPLETE.
+
+The disposition is
+PROVIDER_EXECUTION_EFFECT_READINESS_COMPLETE_PRE_PROVIDER_ONLY. This campaign
+has no Batch 11. Its closure grants no provider-effect or live-adoption
+authority.
+
+The active terminal handoff is
+docs/handoffs/provider-execution-effect-readiness-campaign-complete.md.
+
+The smallest candidate next campaign is Provider Effect Principal and Binding
+Activation, beginning with Preparation Batch 0 only after explicit selection.
+Sterile provider conformance, live-call contract definition and live-consumer
+adoption remain separate later boundaries.
