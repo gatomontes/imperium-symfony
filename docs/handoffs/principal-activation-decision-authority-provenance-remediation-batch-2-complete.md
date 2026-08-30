@@ -28,10 +28,10 @@ inspection.
 ## Preserved perimeter
 
 Batch 3 may not identify a live Operator Root or principal, grant scope, produce
-or activate a successor, issue or consume authority, create an activation
-decision, modify the existing activation winner, handle a credential or
-capability, invoke a provider, perform external I/O, authorize retry, migrate a
-consumer, or open Iron Gate or Lazaretto.
+or activate a successor, create an activation decision, modify the existing
+activation winner, handle a credential or capability, invoke a provider,
+perform external I/O, authorize retry, migrate a consumer, or open Iron Gate or
+Lazaretto. It may not issue or consume authority.
 
 Provider Effect Principal and Binding Activation remains paused.
 UNKNOWN_REPLAY_PROHIBITED remains binding.
