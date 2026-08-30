@@ -229,3 +229,19 @@ handoff is
 
 Estimated countdown after Batch 8: approximately two batches, excluding any
 separately selected sterile provider-conformance campaign.
+
+## Batch 9 result
+
+Batch 9 is complete at
+`BATCH_9_READ_ONLY_PRINCIPAL_ACTIVATION_AGGREGATE_RECONSTRUCTION_COMPLETE`.
+
+The exact decision/activation evidence chain reconstructs read only as
+`ELIGIBLE_OFFLINE_EVIDENCE`, `INCOMPLETE`, `CONFLICTED` or `REFUSED`
+with existing-artifact validation preceding later absence.
+
+Only Batch 10 may next be considered: the terminal adversarial audit. The active
+handoff is
+`docs/handoffs/provider-execution-effect-readiness-batch-9-complete.md`.
+
+Estimated countdown after Batch 9: approximately one batch, excluding any
+separately selected sterile provider-conformance campaign.
