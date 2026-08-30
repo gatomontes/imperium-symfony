@@ -9,6 +9,7 @@ final class ProviderBindingActivationRevocationAuthorityConsumptionContract
     public const string SCHEMA =
         'imperium.la-cortine.provider-binding-activation-revocation-authority-consumption/v1';
     public const int VERSION = 1;
+    public const string PRODUCTION_POSTURE = 'DO_NOT_PRODUCE_SEPARATELY';
     public const array REQUIRED_FIELDS = [
         'schema', 'consumption_id', 'instance_id', 'revocation_authority',
         'provider_binding_activation', 'revocation_fact',
