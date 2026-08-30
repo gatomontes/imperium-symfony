@@ -380,3 +380,9 @@ Only Batch 7 read-only reconstruction and lifecycle enforcement is authorized ne
 Principal Provenance Remediation Batch 7 now reconstructs lifecycle state read-only and blocks
 caller-authority issuance and consumption unless the canonical generation is effectively `ACTIVE`.
 The campaign is complete. There is no Batch 8 and no implied corridor-reconsideration authority.
+
+The separately selected next campaign is Provider Binding Activation Corridor Disposition
+Reconsideration. Preparation Batch 0 will inventory whether one active canonical Imperator
+generation and the accumulated immutable evidence can competently support
+`QUARANTINED_PENDING_REMEDIATION` or `RETIRE_CORRIDOR`. Selection grants no disposition or runtime
+authority; the custody refusal remains authoritative and Provider Execution Assurance stays paused.

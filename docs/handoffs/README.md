@@ -96,9 +96,13 @@ For the current Delegate Mission state, read in this order:
 90. `docs/handoffs/governed-tool-provider-separation-batch-1-complete.md`;
 91. `docs/governed-email-send-tool-definition.md`;
 92. `docs/handoffs/governed-tool-provider-separation-batch-2-complete.md`; and
-93. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup.
+93. `todo/blackquill-todos.md` for genuinely residual evidence and secondary cleanup;
+94. `docs/handoffs/provider-binding-activation-capability-custody-campaign-terminal-refusal.md`;
+95. `docs/handoffs/provider-binding-activation-principal-provenance-remediation-campaign-complete.md`;
+96. `docs/next-campaign-provider-binding-activation-corridor-disposition-reconsideration.md`; and
+97. `docs/handoffs/provider-binding-activation-corridor-disposition-reconsideration-campaign-ready.md`.
 
-Item 92 is the active continuation handoff. Iron Gate Evidence Authenticity Remediation is complete
+Item 97 is the active continuation handoff. Iron Gate Evidence Authenticity Remediation is complete
 through Batch 11. No remediation batches remain. Provider Execution Assurance is selected for
 Preparation Batch 0 but paused before Batch 1. Governed Tool and Provider Separation Preparation
 Batch 0, contract-definition Batch 1 and canonical-tool Batch 2 are complete; only Batch 3 may next
@@ -119,3 +123,8 @@ deterministic evidence corridor is complete but the separately selected authenti
 records that provider response provenance is not yet sufficient for live adoption.
 Continuous Agent Governance Controls, Credential-boundary remediation, and Institutional
 Decision Integrity remain terminal.
+
+Provider Binding Activation and Capability Custody terminated in refusal. Principal Provenance
+Remediation is terminal through Batch 7. Provider Binding Activation Corridor Disposition
+Reconsideration is selected for Preparation Batch 0 only; no corridor disposition or runtime
+authority exists by selection alone.
