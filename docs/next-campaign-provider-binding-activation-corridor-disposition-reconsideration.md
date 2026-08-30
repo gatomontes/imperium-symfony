@@ -58,3 +58,12 @@ separately versioned, authority-empty contracts define the exact corridor target
 evidence dossier and candidate-disposition eligibility and consequences. No producer, validator,
 store, caller authority, assessment or disposition is implemented. Only Batch 2 caller-authority
 contracts and fail-closed validators are authorized next.
+
+## Batch 2 result
+
+Batch 2 is complete in
+`docs/provider-binding-activation-corridor-disposition-caller-authority-validation.md`. One
+authority-empty caller-authority contract and one pure storeless validator bind exact target,
+dossier, eligibility, candidate, canonical principal scope/lifecycle, expiry and winner
+requirements. No authority or record is produced. Only Batch 3 read-only reconstruction and refusal
+classification is authorized next.

@@ -400,3 +400,10 @@ authority-empty v1 contracts for the exact corridor target, read-only evidence d
 disposition eligibility. Contract existence creates no target, dossier, assessment, caller authority
 or disposition. The custody refusal remains authoritative. Only Batch 2 caller-authority contracts
 and validators are authorized next; all operational boundaries remain closed.
+
+Provider Binding Activation Corridor Disposition Reconsideration Batch 2 now defines one authority-
+empty caller-authority contract and pure fail-closed validators for caller-supplied fixtures. The
+exact basis requires a complete dossier and one active, unexpired, unrevoked canonical principal
+with corridor-disposition scope, but the existing constitution route still grants no such scope.
+No authority or record is produced. Only Batch 3 read-only reconstruction and refusal
+classification is authorized next.
