@@ -110,6 +110,21 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderExecutionEffectReadinessBa
 
 - Clear rerun counts: not supplied and therefore not inferred.
 
+## Cleared Batch 5
+
+### Provider Execution Effect Readiness Batch 5
+
+- Source PR: `#605`
+- Source merge commit: `389c6572c63e35617bd8d1a8bac2ca33d4f2b13a`
+- Final status: `CLEAR_OPERATOR_REPORTED`
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/ProviderExecutionEffectReadinessBatch5TerminalAuditTest.php
+```
+
+- Counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
