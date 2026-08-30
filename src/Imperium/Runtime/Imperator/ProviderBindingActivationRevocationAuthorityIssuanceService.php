@@ -237,6 +237,8 @@ final readonly class ProviderBindingActivationRevocationAuthorityIssuanceService
             || new \DateTimeImmutable($validity['effective_at']) > $at
             || new \DateTimeImmutable($validity['expires_at']) <= $at
             || new \DateTimeImmutable($validity['expires_at'])
+                > new \DateTimeImmutable($decision['expires_at'])
+            || new \DateTimeImmutable($validity['expires_at'])
                 > new \DateTimeImmutable($activation['expires_at'])
             || new \DateTimeImmutable($validity['expires_at'])
                 > new \DateTimeImmutable($principal['validity']['expires_at'])
