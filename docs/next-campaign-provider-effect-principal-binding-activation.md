@@ -82,3 +82,20 @@ docs/handoffs/provider-effect-principal-binding-activation-batch-1-complete.md.
 
 Estimated campaign countdown after Batch 1: approximately six batches, subject
 to the Batch 2 terminal audit.
+
+## Batch 2 terminal audit result
+
+Batch 2 refuses at
+BATCH_2_TERMINAL_AUDIT_REFUSED_UNPROVEN_DECISION_AUTHORITY_PROVENANCE.
+
+The Batch 1 combined consumption-and-activation mechanism remains valid, but
+competent decision issuance is unproved. The contract still names a future
+producer and the transition accepts caller-supplied decision evidence without a
+canonical issuer, custody path or source-authority reconstruction.
+
+This campaign is paused. Binding activation is not authorized. Only Preparation
+Batch 0 of Principal Activation Decision Authority Provenance Remediation may
+next be considered under
+docs/handoffs/principal-activation-decision-authority-provenance-remediation-campaign-ready.md.
+
+Campaign countdown is suspended pending remediation.

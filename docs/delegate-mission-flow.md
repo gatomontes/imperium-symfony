@@ -610,3 +610,19 @@ consumption, credential or capability handling, live-call contract, provider
 invocation, external I/O, retry, live adoption, Iron Gate or Lazaretto behavior.
 The active handoff is
 docs/handoffs/provider-effect-principal-binding-activation-preparation-batch-0-complete.md.
+
+
+## Principal activation decision-authority provenance stop
+
+Provider Effect Principal and Binding Activation Batch 2 refuses at
+BATCH_2_TERMINAL_AUDIT_REFUSED_UNPROVEN_DECISION_AUTHORITY_PROVENANCE.
+
+The combined Batch 1 consumption-and-activation winner is mechanically atomic,
+but the decision contract still names a future producer and the activation
+transition accepts caller-supplied decision evidence. Canonical competent
+decision issuance, custody and source-authority reconstruction are absent.
+
+The campaign is paused before binding activation. Only Preparation Batch 0 of
+Principal Activation Decision Authority Provenance Remediation may next be
+selected. The active handoff is
+docs/handoffs/principal-activation-decision-authority-provenance-remediation-campaign-ready.md.
