@@ -441,3 +441,8 @@ Corridor Disposition Principal Authority Remediation Batch 3 now proves twelve d
 interruption cases spanning scope-grant issuance/consumption, successor commit, separate activation,
 and caller-authority issuance. Exact replay converges and changed evidence, expiry, revocation, and
 competing consumers refuse. Only Batch 4 read-only aggregate reconstruction is authorized.
+
+Corridor Disposition Principal Authority Remediation Batch 4 now reconstructs the exact offline
+chain without persistence and classifies it as eligible, incomplete, conflicted, or refused. It
+creates no authority or state. Only Batch 5 separately authorized scope remediation production is
+authorized; Reconsideration Batch 5 remains paused.

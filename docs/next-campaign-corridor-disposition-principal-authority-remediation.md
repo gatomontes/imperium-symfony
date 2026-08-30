@@ -50,6 +50,13 @@ disposable-root cases prove exact replay, refusal, contention, and read-only rec
 offline remediation transitions. No live authority or principal exists. Only Batch 4 read-only
 aggregate reconstruction is authorized next.
 
+## Batch 4 result
+
+Batch 4 is complete in
+`docs/corridor-disposition-principal-authority-remediation-read-only-aggregate-reconstruction.md`.
+The pure reconstructor classifies exact caller-supplied fixtures and interruption evidence without
+writes or authority. Only Batch 5, the separately authorized scope remediation producer, is next.
+
 ## Preserved perimeter
 
 Preparation creates no principal, successor, scope grant, caller authority or disposition. It does
