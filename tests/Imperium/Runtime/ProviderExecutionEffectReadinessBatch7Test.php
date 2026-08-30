@@ -170,9 +170,9 @@ final class ProviderExecutionEffectReadinessBatch7Test extends ProviderExecution
         foreach ([
             'BATCH_7_FAIL_CLOSED_PRINCIPAL_ACTIVATION_FIXTURE_VALIDATION_COMPLETE',
             'caller-supplied offline fixtures',
-            'refused decision carries no activation authority',
+            'carries no activation authority',
             'does not produce a competent decision',
-            'does not consume activation authority',
+            'consume activation authority',
             'principal remains inert',
             'provider binding remains inactive',
             'UNKNOWN_REPLAY_PROHIBITED',
