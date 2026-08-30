@@ -188,6 +188,31 @@ final class ProviderExecutionBoundaryRedesignBatch3Test extends TestCase
         }
     }
 
+    public function testBatchDocumentationAuthorizesOnlyInertActivationNext(): void
+    {
+        $root = dirname(__DIR__, 3);
+        $handoff = preg_replace(
+            '/\\s+/',
+            ' ',
+            (string) file_get_contents(
+                $root.'/docs/handoffs/provider-execution-boundary-redesign-batch-3-complete.md',
+            ),
+        );
+
+        foreach ([
+            'Only Batch 4 may next be considered',
+            'ACTIVATED_UNCONSUMED',
+            'may not issue or consume durable provider-execution authority',
+            'handle a credential or capability',
+            'external I/O',
+            'Iron Gate',
+            'Lazaretto',
+            'Provider Execution Assurance remains paused',
+        ] as $boundary) {
+            self::assertNotFalse(stripos($handoff, $boundary), $boundary);
+        }
+    }
+
     private function boundaryDefinition(): array
     {
         return [
