@@ -117,7 +117,7 @@ final class ProviderActivationConsumptionRemediationBatch3Test extends TestCase
         foreach ([
             'BATCH_3_REVOCATION_AUTHORITY_ISSUANCE_AND_CONSUMPTION_CONTRACTS_DEFINED',
             'No authority or revocation fact is produced',
-            'shared activation lock',
+            'activation-keyed',
             'Only remediation Batch 4 may next be considered',
             'may not migrate stationary credential resolution',
             'handle a credential or capability',
