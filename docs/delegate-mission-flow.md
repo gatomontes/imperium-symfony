@@ -436,3 +436,8 @@ Corridor Disposition Principal Authority Remediation Batch 2 now validates and i
 caller-supplied offline scope-grant, pending-successor and issuance-authorization fixtures. Exact
 lineage, generation, scope preservation, activation separation, lifecycle, candidate, expiry,
 revocation and custody rules fail closed. Only Batch 3 offline interruption proof is authorized.
+
+Corridor Disposition Principal Authority Remediation Batch 3 now proves twelve disposable-root
+interruption cases spanning scope-grant issuance/consumption, successor commit, separate activation,
+and caller-authority issuance. Exact replay converges and changed evidence, expiry, revocation, and
+competing consumers refuse. Only Batch 4 read-only aggregate reconstruction is authorized.
