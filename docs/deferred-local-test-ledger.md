@@ -361,6 +361,27 @@ php vendor/bin/phpunit tests/Imperium/Runtime/PrincipalActivationDecisionAuthori
 - Runtime finding: production did not begin; no principal, authority, decision,
   credential, capability or provider-boundary effect was created.
 
+## Cleared decision-authority provenance Batch 5A
+
+### Principal Activation Decision Authority Provenance Remediation Batch 5A
+
+- Source PR: #623
+- Source merge commit: 2ef3741c8e6e85e7c5f63010af5d5d925a36d3d4
+- Repair PR: #624
+- Repair merge commit: a3d5888d62734b542caff2ff9187a8b14e4f2b2e
+- First attempt: 3 tests, 28 assertions, 2 test-API errors.
+- Repair: removed obsolete strictness booleans passed as the PHPUnit
+  `assertNotContains()` message argument.
+- Runtime finding: no contract or provider-boundary behavior defect was observed.
+- Final status: CLEAR_OPERATOR_REPORTED_AFTER_PHPUNIT_COMPATIBILITY_REPAIR
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/PrincipalActivationDecisionAuthorityProvenanceRemediationBatch5AContractTest.php
+```
+
+- Clear rerun counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
