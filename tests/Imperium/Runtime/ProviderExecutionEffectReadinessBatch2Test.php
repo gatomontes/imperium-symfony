@@ -12,9 +12,9 @@ use App\Imperium\Runtime\LaCortine\ProviderAssuranceEvidenceFixtureStore;
 use App\Imperium\Runtime\LaCortine\ProviderAssuranceEvidenceSourceContract;
 use PHPUnit\Framework\TestCase;
 
-final class ProviderExecutionEffectReadinessBatch2Test extends TestCase
+class ProviderExecutionEffectReadinessBatch2Test extends TestCase
 {
-    private string $root;
+    protected string $root;
 
     protected function setUp(): void
     {
@@ -109,7 +109,7 @@ final class ProviderExecutionEffectReadinessBatch2Test extends TestCase
         }
     }
 
-    private function source(): array
+    protected function source(): array
     {
         return self::seal([
             'schema' => ProviderAssuranceEvidenceSourceContract::SCHEMA,
@@ -126,7 +126,7 @@ final class ProviderExecutionEffectReadinessBatch2Test extends TestCase
         ]);
     }
 
-    private function profile(array $sources): array
+    protected function profile(array $sources): array
     {
         return self::seal([
             'schema' => AgentMailDirectSendAssuranceProfileContract::SCHEMA,
@@ -181,7 +181,7 @@ final class ProviderExecutionEffectReadinessBatch2Test extends TestCase
         ]);
     }
 
-    private function admission(array $profile, array $sources): array
+    protected function admission(array $profile, array $sources): array
     {
         return self::seal([
             'schema' => ProviderAssuranceEvidenceAdmissionContract::SCHEMA,
@@ -221,7 +221,7 @@ final class ProviderExecutionEffectReadinessBatch2Test extends TestCase
         ]);
     }
 
-    private static function reference(array $record, string $idField): array
+    protected static function reference(array $record, string $idField): array
     {
         return [
             'id' => $record[$idField],
@@ -230,7 +230,7 @@ final class ProviderExecutionEffectReadinessBatch2Test extends TestCase
         ];
     }
 
-    private static function seal(array $record): array
+    protected static function seal(array $record): array
     {
         unset($record['record_digest']);
         $record['record_digest'] = hash('sha256', CanonicalJson::encode($record));
