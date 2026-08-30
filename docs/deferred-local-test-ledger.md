@@ -343,6 +343,24 @@ php vendor/bin/phpunit tests/Imperium/Runtime/PrincipalActivationDecisionAuthori
 
 - Counts: not supplied and therefore not inferred.
 
+## Cleared decision-authority provenance Batch 5 production refusal
+
+### Principal Activation Decision Authority Provenance Remediation Batch 5 readiness refusal
+
+- Source PR: #622
+- Source merge commit: dce0d8b4988b2e3d4d85826cef3b64f832547013
+- Final status: CLEAR_OPERATOR_REPORTED
+- Refusal disposition: BATCH_5_PRODUCTION_REFUSED_SUCCESSOR_PRINCIPAL_AND_DECISION_LINEAGE_CONTRACTS_ABSENT
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/PrincipalActivationDecisionAuthorityProvenanceRemediationBatch5ReadinessRefusalTest.php
+```
+
+- Counts: not supplied and therefore not inferred.
+- Runtime finding: production did not begin; no principal, authority, decision,
+  credential, capability or provider-boundary effect was created.
+
 ## Pending
 
 None.
