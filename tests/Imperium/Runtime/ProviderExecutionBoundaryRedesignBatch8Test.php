@@ -151,6 +151,30 @@ final class ProviderExecutionBoundaryRedesignBatch8Test extends ProviderExecutio
         }
     }
 
+    public function testBatchDocumentationKeepsAssuranceAndProviderEffectsClosed(): void
+    {
+        $handoff = preg_replace(
+            '/\\s+/',
+            ' ',
+            (string) file_get_contents(
+                dirname(__DIR__, 3)
+                .'/docs/handoffs/provider-execution-boundary-redesign-batch-8-complete.md',
+            ),
+        );
+
+        foreach ([
+            'BATCH_8_ADVERSARIAL_PRE_PROVIDER_CORRIDOR_PROVED_NO_IO',
+            'Only Batch 9 may next be considered',
+            'Provider Execution Assurance',
+            'may not invoke a provider',
+            'UNKNOWN_REPLAY_PROHIBITED',
+            'Iron Gate',
+            'Lazaretto',
+        ] as $boundary) {
+            self::assertNotFalse(stripos($handoff, $boundary), $boundary);
+        }
+    }
+
     protected function authority(
         array $boundaryRef,
         array $principalRef,
