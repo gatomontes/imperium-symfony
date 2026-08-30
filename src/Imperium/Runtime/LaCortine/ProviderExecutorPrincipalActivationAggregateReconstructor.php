@@ -51,13 +51,22 @@ final readonly class ProviderExecutorPrincipalActivationAggregateReconstructor
         }
         $decision = $decisionRead['record'];
 
+        $decidedAt = \DateTimeImmutable::createFromFormat(
+            DATE_ATOM,
+            (string) ($decision['decided_at'] ?? ''),
+        );
+        if (false === $decidedAt
+            || $decidedAt->format(DATE_ATOM) !== ($decision['decided_at'] ?? null)) {
+            return $this->result('REFUSED', [], ['PEA700_ACTIVATION_DECISION_INVALID']);
+        }
+
         try {
             $this->validator->assertDecision(
                 $decision,
                 $attestation,
                 $assurance,
                 $boundary,
-                new \DateTimeImmutable($decision['decided_at']),
+                $decidedAt,
             );
         } catch (\RuntimeException $exception) {
             return $this->result('REFUSED', [], [$exception->getMessage()]);
