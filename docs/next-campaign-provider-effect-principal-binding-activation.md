@@ -66,3 +66,19 @@ retry, adoption, Iron Gate or Lazaretto authority.
 
 The active handoff is
 docs/handoffs/provider-effect-principal-binding-activation-preparation-batch-0-complete.md.
+
+## Batch 1 result
+
+Batch 1 is complete at
+BATCH_1_ATOMIC_PRINCIPAL_ACTIVATION_PRODUCTION_COMPLETE.
+
+The exact single-use authority and principal activation are one immutable
+generation-keyed winner. No consumption-only durable state exists. Exact replay
+converges and changed evidence conflicts.
+
+Only Batch 2 may next be considered: the principal-production lifecycle
+terminal audit. Binding activation remains unauthorized. The active handoff is
+docs/handoffs/provider-effect-principal-binding-activation-batch-1-complete.md.
+
+Estimated campaign countdown after Batch 1: approximately six batches, subject
+to the Batch 2 terminal audit.
