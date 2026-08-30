@@ -452,3 +452,8 @@ scope grant into one immutable pending successor, requires a separately consumed
 then consumes one exact issuance authorization into one corridor caller authority. It selects no
 disposition and performs no external action. Only the terminal audit is authorized next;
 Reconsideration Batch 5 remains paused.
+
+Corridor Disposition Principal Authority Remediation is now complete. Its read-only terminal audit
+proves the exact current generation, consumption winners, lifecycle, scope, caller binding, secret
+exclusion, non-mutation, and custody refusal. Provider Binding Activation Corridor Disposition
+Reconsideration Batch 5 may resume only behind an exact `RETURN_GATE_SATISFIED` audit result.
