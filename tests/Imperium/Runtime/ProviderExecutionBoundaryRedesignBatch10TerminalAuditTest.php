@@ -10,9 +10,13 @@ final class ProviderExecutionBoundaryRedesignBatch10TerminalAuditTest extends Te
 {
     public function testAuditNamesTheUnconsumedSingleOperationActivation(): void
     {
-        $audit = (string) file_get_contents(
-            dirname(__DIR__, 3)
-            .'/docs/provider-execution-boundary-redesign-terminal-audit.md',
+        $audit = preg_replace(
+            '/\\s+/',
+            ' ',
+            (string) file_get_contents(
+                dirname(__DIR__, 3)
+                .'/docs/provider-execution-boundary-redesign-terminal-audit.md',
+            ),
         );
 
         foreach ([
