@@ -109,10 +109,13 @@ For the current Delegate Mission state, read in this order:
 103. `docs/handoffs/provider-binding-activation-corridor-disposition-reconsideration-batch-2-complete.md`;
 104. `docs/provider-binding-activation-corridor-disposition-read-only-reconstruction.md`;
 105. `docs/handoffs/provider-binding-activation-corridor-disposition-reconsideration-batch-3-complete.md`;
-106. `docs/provider-binding-activation-corridor-disposition-interruption-evidence.md`; and
-107. `docs/handoffs/provider-binding-activation-corridor-disposition-reconsideration-batch-4-complete.md`.
+106. `docs/provider-binding-activation-corridor-disposition-interruption-evidence.md`;
+107. `docs/handoffs/provider-binding-activation-corridor-disposition-reconsideration-batch-4-complete.md`;
+108. `docs/next-campaign-corridor-disposition-principal-authority-remediation.md`;
+109. `docs/corridor-disposition-principal-authority-remediation-preparation-inventory.md`; and
+110. `docs/handoffs/corridor-disposition-principal-authority-remediation-campaign-ready.md`.
 
-Item 107 is the active continuation handoff. Iron Gate Evidence Authenticity Remediation is complete
+Item 110 is the active continuation handoff. Iron Gate Evidence Authenticity Remediation is complete
 through Batch 11. No remediation batches remain. Provider Execution Assurance is selected for
 Preparation Batch 0 but paused before Batch 1. Governed Tool and Provider Separation Preparation
 Batch 0, contract-definition Batch 1 and canonical-tool Batch 2 are complete; only Batch 3 may next
@@ -144,3 +147,9 @@ caller-authority contracts and validators are now complete. Batch 3 read-only re
 refusal classification and Batch 4 offline replay, contention and disposition-interruption evidence
 are now complete. Batch 5 is not authorized because its instance-specific active-principal and
 explicit caller-authority gate is unmet.
+
+Corridor Disposition Principal Authority Remediation Preparation Batch 0 is complete. Operator Root
+is the only competent scope-grant owner, but no corridor-scope grant, scope-changing successor route,
+mechanical successor producer or corridor caller-authority issuer/custody path exists. Only Batch 1
+authority-empty contracts are authorized. Reconsideration Batch 5 remains paused pending remediation
+terminal evidence.

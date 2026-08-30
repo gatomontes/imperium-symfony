@@ -419,3 +419,9 @@ outcomes across pre-consumption, post-consumption/pre-commit and post-commit cut
 offline fixtures. Exact replay converges; changed evidence, expiry, revocation and competing outcomes
 refuse; recovery is read-only; and activation artifacts remain unchanged. Batch 5 is not authorized:
 the required instance-specific active principal and explicit caller authority do not exist.
+
+Corridor Disposition Principal Authority Remediation Preparation Batch 0 now classifies the stopped
+gate. Operator Root is the only competent scope-grant owner; constitution fixes corridor scope to
+false; lifecycle supersession prohibits scope change; and no scope-grant successor route or corridor
+caller-authority issuer/custody path exists. Only authority-empty Batch 1 contracts are authorized.
+The prior Reconsideration campaign remains paused before Batch 5.

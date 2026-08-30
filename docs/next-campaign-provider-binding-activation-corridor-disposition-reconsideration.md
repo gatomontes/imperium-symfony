@@ -84,3 +84,8 @@ cases prove exact replay, changed-evidence refusal, expiry/revocation refusal, a
 consumer/outcome winner and read-only recovery across both candidate outcomes and all three cuts.
 No activation artifact is mutated and no live authority or disposition exists. Batch 5 is not
 authorized because its instance-specific active-principal and explicit-authority gate is unmet.
+
+The separately selected continuation is Corridor Disposition Principal Authority Remediation.
+Preparation Batch 0 inventories the exact scope-grant, successor-generation and caller-authority
+gaps. Reconsideration Batch 5 remains paused and may resume only after remediation terminal evidence
+proves its gate canonically.
