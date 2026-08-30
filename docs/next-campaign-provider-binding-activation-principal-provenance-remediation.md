@@ -93,3 +93,9 @@ One exact future-instance constitution authority is consumed into one immutable 
 `PENDING_ACTIVATION` principal before operationalization sealing. No authority issuer, activation,
 caller-authority issuer or external effect is opened. Only Batch 5 existing-instance remediation is
 authorized next.
+
+## Batch 5 result
+
+Batch 5 is complete in `docs/handoffs/provider-binding-activation-principal-provenance-remediation-batch-5-complete.md`.
+The existing-instance route now remediates only a provably absent principal against the intact
+operationalization seal. Only Batch 6 caller-authority issuer hardening is authorized next.

@@ -367,3 +367,8 @@ Principal Provenance Remediation Batch 4 now consumes one exact operator-root fu
 constitution authority into one immutable generation-one `PENDING_ACTIVATION` Imperator principal
 before operationalization sealing. It opens no activation, caller-authority, credential or execution
 path. Only Batch 5 existing-instance remediation is authorized next.
+
+Principal Provenance Remediation Batch 5 now consumes one exact existing-instance remediation
+authority against the intact operationalization seal and only when the target principal is absent.
+It creates one generation-one `PENDING_ACTIVATION` version without reopening founding personnel.
+Only Batch 6 caller-authority issuer hardening is authorized next.
