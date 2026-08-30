@@ -195,7 +195,7 @@ final class ProviderExecutionEffectReadinessBatch7Test extends ProviderExecution
         }
     }
 
-    private function fixtures(): array
+    protected function fixtures(): array
     {
         $decidedAt = new \DateTimeImmutable('2026-08-30T12:10:00+00:00');
         $activatedAt = $decidedAt;

@@ -212,3 +212,20 @@ The active handoff is
 
 Estimated countdown after Batch 7: approximately three batches, excluding any
 separately selected sterile provider-conformance campaign.
+
+## Batch 8 result
+
+Batch 8 is complete at
+`BATCH_8_OFFLINE_PRINCIPAL_ACTIVATION_FIXTURE_INTERRUPTION_PROVED`.
+
+Both fixture paths now prove pre-commit absence, post-commit survival, exact
+replay, changed-valid-evidence conflict and same-root convergence without
+performing a runtime transition.
+
+Only Batch 9 may next be considered: read-only aggregate reconstruction and
+classification of the exact decision/activation evidence chain. The active
+handoff is
+`docs/handoffs/provider-execution-effect-readiness-batch-8-complete.md`.
+
+Estimated countdown after Batch 8: approximately two batches, excluding any
+separately selected sterile provider-conformance campaign.
