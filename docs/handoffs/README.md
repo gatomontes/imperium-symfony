@@ -101,10 +101,12 @@ For the current Delegate Mission state, read in this order:
 95. `docs/handoffs/provider-binding-activation-principal-provenance-remediation-campaign-complete.md`;
 96. `docs/next-campaign-provider-binding-activation-corridor-disposition-reconsideration.md`;
 97. `docs/handoffs/provider-binding-activation-corridor-disposition-reconsideration-campaign-ready.md`;
-98. `docs/provider-binding-activation-corridor-disposition-reconsideration-preparation-inventory.md`; and
-99. `docs/handoffs/provider-binding-activation-corridor-disposition-reconsideration-preparation-batch-0-complete.md`.
+98. `docs/provider-binding-activation-corridor-disposition-reconsideration-preparation-inventory.md`;
+99. `docs/handoffs/provider-binding-activation-corridor-disposition-reconsideration-preparation-batch-0-complete.md`;
+100. `docs/provider-binding-activation-corridor-disposition-reconsideration-contracts.md`; and
+101. `docs/handoffs/provider-binding-activation-corridor-disposition-reconsideration-batch-1-complete.md`.
 
-Item 99 is the active continuation handoff. Iron Gate Evidence Authenticity Remediation is complete
+Item 101 is the active continuation handoff. Iron Gate Evidence Authenticity Remediation is complete
 through Batch 11. No remediation batches remain. Provider Execution Assurance is selected for
 Preparation Batch 0 but paused before Batch 1. Governed Tool and Provider Separation Preparation
 Batch 0, contract-definition Batch 1 and canonical-tool Batch 2 are complete; only Batch 3 may next
@@ -131,4 +133,5 @@ Remediation is terminal through Batch 7. Provider Binding Activation Corridor Di
 Reconsideration Preparation Batch 0 is complete. No instance-specific active principal evidence,
 corridor-disposition caller authority, eligible evidence dossier or candidate-disposition producer
 exists. Neither candidate outcome is presently sealable, the custody refusal remains authoritative,
-and Batch 1 requires separate authorization.
+and Batch 1 now defines only authority-empty target, dossier and eligibility contracts. Only Batch 2
+caller-authority contracts and validators are authorized next.

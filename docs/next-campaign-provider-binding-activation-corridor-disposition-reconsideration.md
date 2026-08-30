@@ -49,3 +49,12 @@ eligibility rules, producer, single-winner domain and aggregate reconstruction a
 
 The cross-process custody refusal remains authoritative. Only authority-empty Batch 1 contracts may
 next be considered under separate authorization; Preparation Batch 0 does not authorize them.
+
+## Batch 1 result
+
+Batch 1 is complete in
+`docs/provider-binding-activation-corridor-disposition-reconsideration-contracts.md`. Three
+separately versioned, authority-empty contracts define the exact corridor target, read-only eligible-
+evidence dossier and candidate-disposition eligibility and consequences. No producer, validator,
+store, caller authority, assessment or disposition is implemented. Only Batch 2 caller-authority
+contracts and fail-closed validators are authorized next.

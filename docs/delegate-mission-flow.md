@@ -394,3 +394,9 @@ eligibility rule, producer or aggregate reconstruction exists. Neither candidate
 presently sealable. The cross-process custody refusal remains authoritative. Only authority-empty
 Batch 1 contracts may next be considered under separate authorization; this completion does not
 authorize them.
+
+Provider Binding Activation Corridor Disposition Reconsideration Batch 1 now defines separate
+authority-empty v1 contracts for the exact corridor target, read-only evidence dossier and candidate-
+disposition eligibility. Contract existence creates no target, dossier, assessment, caller authority
+or disposition. The custody refusal remains authoritative. Only Batch 2 caller-authority contracts
+and validators are authorized next; all operational boundaries remain closed.
