@@ -92,7 +92,22 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderExecutionEffectReadinessBa
 
 ## Pending
 
-None.
+### Provider Execution Effect Readiness Batch 4 classification-order repair
+
+- Source PR: `#603`
+- Source merge commit: `c169b3a60ae51d70674a2d3a11cf7d615657a5c8`
+- First attempt: 7 tests, 46 assertions, 1 failure.
+- Failure: the read-only reconstructor read the later admission before validating
+  the existing profile, so later absence masked canonically intact refused
+  evidence as `INCOMPLETE`.
+- Repair: validate each existing source/profile/admission artifact before reading
+  the next artifact.
+- Status: `PENDING_OPERATOR_LOCAL_RUN_AFTER_CLASSIFICATION_ORDER_REPAIR`
+- Required command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/ProviderExecutionEffectReadinessBatch4Test.php
+```
 
 ## Full-suite posture
 
