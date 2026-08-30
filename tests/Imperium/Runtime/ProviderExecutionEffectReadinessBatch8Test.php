@@ -7,7 +7,7 @@ namespace App\Tests\Imperium\Runtime;
 use App\Imperium\Runtime\LaCortine\ProviderExecutorPrincipalActivationFixtureInterruptionProofService;
 use App\Imperium\Runtime\LaCortine\ProviderExecutorPrincipalActivationFixtureStore;
 
-final class ProviderExecutionEffectReadinessBatch8Test extends ProviderExecutionEffectReadinessBatch7Test
+class ProviderExecutionEffectReadinessBatch8Test extends ProviderExecutionEffectReadinessBatch7Test
 {
     public function testBothFixturePathsHaveTruthfulBeforeAndAfterCommitRecovery(): void
     {
