@@ -674,3 +674,13 @@ winner, exact replay, changed-evidence conflict, expiry and revocation refusal,
 same-root contention and read-only recovery without repair. Only Batch 4
 read-only aggregate reconstruction may next be considered. Provider Effect
 Principal and Binding Activation remains paused.
+
+
+Principal Activation Decision Authority Provenance Remediation Batch 4 is
+complete at `BATCH_4_READ_ONLY_AGGREGATE_RECONSTRUCTION_COMPLETE`. The exact
+offline grant, pending-successor, lifecycle, attestation, assurance, boundary
+and issuance-authorization chain now reconstructs without persistence as
+ELIGIBLE, INCOMPLETE, CONFLICTED or REFUSED. Only Batch 5 separately authorized
+scope-remediation production and exact decision/activation-authority issuance
+may next be considered. Provider Effect Principal and Binding Activation remains
+paused.
