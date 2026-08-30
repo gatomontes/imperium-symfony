@@ -93,11 +93,7 @@ final readonly class ProviderExecutionBoundaryRedesignInertIssuanceService
             'instance_id' => $decision['instance_id'],
             'execution_boundary' => $attestation['execution_boundary'] ?? null,
             'principal' => $attestation['principal'] ?? null,
-            'source_attestation' => [
-                'id' => $decisionId,
-                'digest' => $decision['record_digest'],
-                'schema' => $decision['schema'],
-            ],
+            'source_attestation' => $decision['source_authority'],
             'competence' => $attestation['competence'] ?? null,
             'validity' => $attestation['validity'] ?? null,
             'status' => 'ATTESTED_INERT',
@@ -247,7 +243,7 @@ final readonly class ProviderExecutionBoundaryRedesignInertIssuanceService
             || false !== ($artifact['credential_posture']['credential_reconstruction_permitted'] ?? null)
             || ProviderExecutionBoundaryContract::REQUIRED_ADMISSION_ORDERING_FIELDS
                 !== array_keys($artifact['admission_ordering'] ?? [])
-            || in_array(false, $artifact['admission_ordering'], true)
+            || [true, true, true, true] !== array_values($artifact['admission_ordering'])
             || ProviderExecutionBoundaryContract::REQUIRED_THREAT_MODEL_FIELDS
                 !== array_keys($artifact['threat_model'] ?? [])
             || 'TRUSTED_WRITER_CANONICAL_INTEGRITY'
