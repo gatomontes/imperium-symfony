@@ -126,10 +126,12 @@ For the current Delegate Mission state, read in this order:
 120. `docs/handoffs/corridor-disposition-principal-authority-remediation-batch-5-complete.md`;
 121. `docs/corridor-disposition-principal-authority-remediation-terminal-audit.md`;
 122. `docs/handoffs/corridor-disposition-principal-authority-remediation-campaign-complete.md`;
-123. `docs/provider-binding-activation-corridor-disposition-production.md`; and
-124. `docs/handoffs/provider-binding-activation-corridor-disposition-reconsideration-batch-5-complete.md`.
+123. `docs/provider-binding-activation-corridor-disposition-production.md`;
+124. `docs/handoffs/provider-binding-activation-corridor-disposition-reconsideration-batch-5-complete.md`;
+125. `docs/provider-binding-activation-corridor-disposition-terminal-audit.md`; and
+126. `docs/handoffs/provider-binding-activation-corridor-disposition-reconsideration-campaign-complete.md`.
 
-Item 124 is the active continuation handoff. Iron Gate Evidence Authenticity Remediation is complete
+Item 126 is the active continuation handoff. Iron Gate Evidence Authenticity Remediation is complete
 through Batch 11. No remediation batches remain. Provider Execution Assurance is selected for
 Preparation Batch 0 but paused before Batch 1. Governed Tool and Provider Separation Preparation
 Batch 0, contract-definition Batch 1 and canonical-tool Batch 2 are complete; only Batch 3 may next
@@ -195,3 +197,7 @@ continuation authority. The custody refusal and Provider Execution Assurance pau
 Provider Binding Activation Corridor Disposition Reconsideration Batch 5 now seals one exact
 caller-authorized eligible outcome under a target-wide winner without source mutation. Only its
 read-only terminal audit is authorized next.
+
+Provider Binding Activation Corridor Disposition Reconsideration is complete. Its terminal audit
+proves the one-outcome boundary without creating further authority. There is no Batch 7 and Provider
+Execution Assurance remains paused.

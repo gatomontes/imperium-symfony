@@ -96,3 +96,9 @@ Principal Authority Remediation is complete and the instance-specific audit gate
 Batch 5 now consumes one exact corridor caller authority and immutably seals its already-bound
 eligible outcome without source mutation or external action. Only the read-only Reconsideration
 terminal audit is authorized next.
+
+## Terminal audit result
+
+The read-only terminal audit is implemented in
+`docs/provider-binding-activation-corridor-disposition-terminal-audit.md`. The campaign is complete;
+there is no Batch 7 and no implied Provider Execution Assurance authority.
