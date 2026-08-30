@@ -83,6 +83,12 @@ final readonly class ImperatorPrincipalProvenanceFixtureStore
 
     public function putLifecycleDisposition(array $fixture): array
     {
+        $this->assertLifecycleDisposition($fixture);
+        return $this->records->put(self::LIFECYCLE_DISPOSITIONS, $fixture['disposition_id'], $fixture);
+    }
+
+    public function assertLifecycleDisposition(array $fixture): void
+    {
         $this->common($fixture, ImperatorPrincipalLifecycleDispositionContract::REQUIRED_FIELDS, ImperatorPrincipalLifecycleDispositionContract::SCHEMA, 'PPV120_LIFECYCLE_DISPOSITION_INVALID');
         $disposition = $fixture['disposition'] ?? null;
         $sourceStatus = $fixture['source_status'] ?? null;
@@ -105,7 +111,6 @@ final readonly class ImperatorPrincipalProvenanceFixtureStore
             || false !== ($fixture['external_action_performed'] ?? null)) {
             throw new \RuntimeException('PPV120_LIFECYCLE_DISPOSITION_INVALID');
         }
-        return $this->records->put(self::LIFECYCLE_DISPOSITIONS, $fixture['disposition_id'], $fixture);
     }
 
     private function common(array $fixture, array $fields, string $schema, string $failure): void

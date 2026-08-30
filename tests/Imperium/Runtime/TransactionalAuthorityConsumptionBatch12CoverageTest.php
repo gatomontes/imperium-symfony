@@ -40,7 +40,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
         $approvedSuccessors = $this->approvedPostBatch12RuntimeFiles();
         $frozenCandidates = array_values(array_diff($candidates, $approvedSuccessors));
         self::assertSame($approvedSuccessors, array_values(array_intersect($files, $approvedSuccessors)));
-        self::assertCount(552, $files);
+        self::assertCount(553, $files);
         self::assertCount(482, array_values(array_diff($files, $approvedSuccessors)));
         self::assertCount(371, array_values(array_diff($authorityFiles, $approvedSuccessors)));
         self::assertCount(231, $frozenCandidates);
@@ -211,6 +211,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
             'src/Imperium/Runtime/Imperator/ExistingInstanceImperatorPrincipalRemediationService.php',
             'src/Imperium/Runtime/Imperator/FutureInstanceImperatorPrincipalConstitutionService.php',
             'src/Imperium/Runtime/Imperator/ImperatorPrincipalConstitutionAuthorityContract.php',
+            'src/Imperium/Runtime/Imperator/ImperatorPrincipalLifecycleReconstructionService.php',
             'src/Imperium/Runtime/Imperator/ImperatorPrincipalLifecycleDispositionContract.php',
             'src/Imperium/Runtime/Imperator/ImperatorPrincipalProvenanceFixtureStore.php',
             'src/Imperium/Runtime/Imperator/ImperatorRuntimePrincipalVersionContract.php',

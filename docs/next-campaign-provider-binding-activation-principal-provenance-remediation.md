@@ -105,3 +105,9 @@ operationalization seal. Only Batch 6 caller-authority issuer hardening is autho
 Batch 6 hardens Imperator caller-authority issuance to canonical active v2 principal provenance and
 one winner per generation, transition and target. Only Batch 7 read-only reconstruction and
 lifecycle enforcement is authorized next.
+
+## Batch 7 and campaign result
+
+Batch 7 is complete. Read-only reconstruction makes lifecycle dispositions and expiry authoritative
+for downstream caller-authority issuance and consumption. The campaign is terminal; there is no
+Batch 8 and no implied corridor-reconsideration authority.

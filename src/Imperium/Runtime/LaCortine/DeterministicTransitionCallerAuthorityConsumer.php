@@ -9,6 +9,7 @@ use App\Imperium\Runtime\Persistence\AuthorityConsumptionStore;
 use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
 use App\Imperium\Runtime\Persistence\RecordReferenceValidator;
 use App\Imperium\Runtime\Imperator\ImperatorRuntimePrincipalVersionContract;
+use App\Imperium\Runtime\Imperator\ImperatorPrincipalLifecycleReconstructionService;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class DeterministicTransitionCallerAuthorityConsumer
@@ -61,13 +62,14 @@ final readonly class DeterministicTransitionCallerAuthorityConsumer
             ? 'var/imperium/offices/curia/occupancy/'.$source['id'].'.json'
             : DeterministicTransitionCallerAuthorityIssuanceService::IMPERATOR_PRINCIPALS.'/'.$source['id'].'.json';
         $current = $this->validator->read($this->root.'/'.$sourcePath, 'IGA113_CALLER_PRINCIPAL_ABSENT');
+        $effectiveStatus = 'imperator' === $principal['office'] ? (new ImperatorPrincipalLifecycleReconstructionService($this->root))->reconstruct((string) $source['id'], $at)['effective_status'] : ($current['status'] ?? null);
         $generation = 'curia' === $principal['office'] ? ($current['occupancy_generation'] ?? null) : ($current['principal_generation'] ?? null);
         if (!$this->validator->isIntact($current)
             || $source['digest'] !== ($current['record_digest'] ?? null)
             || $authority['instance_id'] !== ($current['instance_id'] ?? null)
             || $principal['binding_id'] !== ($current['binding_id'] ?? null)
             || $principal['generation'] !== $generation
-            || 'ACTIVE' !== ($current['status'] ?? null)
+            || 'ACTIVE' !== $effectiveStatus
             || ('imperator' === $principal['office'] && ImperatorRuntimePrincipalVersionContract::SCHEMA !== ($current['schema'] ?? null))) {
             throw new \RuntimeException('IGA114_CALLER_PRINCIPAL_STALE');
         }

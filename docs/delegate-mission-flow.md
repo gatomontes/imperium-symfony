@@ -376,3 +376,7 @@ Only Batch 6 caller-authority issuer hardening is authorized next.
 Principal Provenance Remediation Batch 6 now requires canonical active v2 principal provenance for
 Imperator caller-authority issuance and permits one winner per generation, transition and target.
 Only Batch 7 read-only reconstruction and lifecycle enforcement is authorized next.
+
+Principal Provenance Remediation Batch 7 now reconstructs lifecycle state read-only and blocks
+caller-authority issuance and consumption unless the canonical generation is effectively `ACTIVE`.
+The campaign is complete. There is no Batch 8 and no implied corridor-reconsideration authority.
