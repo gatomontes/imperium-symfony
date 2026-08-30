@@ -30,6 +30,8 @@ final class ProviderExecutorPrincipalActivationContractValidator
         $validity = $decision['validity'] ?? null;
         if (!$this->identifier($decision['decision_id'] ?? null)
             || !$this->identifier($decision['instance_id'] ?? null)
+            || $decision['instance_id'] !== $attestation['instance_id']
+            || $decision['instance_id'] !== $assurance['instance_id']
             || !$this->reference($decision['source_authority'] ?? null)
             || !$this->matches(
                 $decision['principal_attestation'] ?? null,
