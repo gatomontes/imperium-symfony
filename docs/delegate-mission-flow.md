@@ -425,3 +425,9 @@ gate. Operator Root is the only competent scope-grant owner; constitution fixes 
 false; lifecycle supersession prohibits scope change; and no scope-grant successor route or corridor
 caller-authority issuer/custody path exists. Only authority-empty Batch 1 contracts are authorized.
 The prior Reconsideration campaign remains paused before Batch 5.
+
+Corridor Disposition Principal Authority Remediation Batch 1 now defines three authority-empty v1
+contracts: an Operator Root corridor-scope grant, a mechanical next-generation successor held at
+`PENDING_ACTIVATION`, and a later active-principal-bound caller-authority issuance authorization.
+No authority or principal is produced. Only Batch 2 validators and immutable fixture stores are
+authorized; Reconsideration Batch 5 remains paused.
