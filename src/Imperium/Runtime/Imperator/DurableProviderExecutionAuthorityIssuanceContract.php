@@ -41,7 +41,8 @@ final class DurableProviderExecutionAuthorityIssuanceContract
         'kind', 'id', 'digest', 'schema',
     ];
     public const array REQUIRED_BASIS_FIELDS = [
-        'execution_boundary', 'executor_principal', 'provider_binding',
+        'execution_boundary', 'executor_principal', 'provider_binding_activation',
+        'provider_binding',
         'tool_authority', 'effect_authorization', 'request',
         'destination_policy', 'assurance_profile',
     ];
