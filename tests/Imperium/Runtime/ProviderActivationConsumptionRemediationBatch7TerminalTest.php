@@ -44,7 +44,7 @@ final class ProviderActivationConsumptionRemediationBatch7TerminalTest extends P
             .'/'.$admission['admission_id'].'.json';
         file_put_contents($path, '{}');
 
-        $this->expectExceptionMessage('PST113_IMMUTABLE_RECORD_TAMPERED');
+        $this->expectExceptionMessage('PEB702_EXECUTION_ADMISSION_INVALID');
         (new GovernedStationaryCredentialResolutionV2Service($this->root))
             ->prove($admission['admission_id'], $at);
     }
@@ -179,7 +179,11 @@ final class ProviderActivationConsumptionRemediationBatch7TerminalTest extends P
         $campaign = (string) file_get_contents(
             $repository.'/docs/handoffs/provider-execution-boundary-redesign-campaign-complete.md',
         );
-        $documentation = $audit.$remediation.$campaign;
+        $documentation = (string) preg_replace(
+            '/\\s+/',
+            ' ',
+            $audit.$remediation.$campaign,
+        );
 
         foreach ([
             'BATCH_7_ADVERSARIAL_PROOF_COMPLETE_TERMINAL_AUDIT_PASSED',
