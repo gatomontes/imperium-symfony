@@ -457,3 +457,8 @@ Corridor Disposition Principal Authority Remediation is now complete. Its read-o
 proves the exact current generation, consumption winners, lifecycle, scope, caller binding, secret
 exclusion, non-mutation, and custody refusal. Provider Binding Activation Corridor Disposition
 Reconsideration Batch 5 may resume only behind an exact `RETURN_GATE_SATISFIED` audit result.
+
+Provider Binding Activation Corridor Disposition Reconsideration Batch 5 now consumes one exact
+caller authority and seals its already-bound eligible corridor outcome under a target-wide winner.
+It mutates no source artifact and creates no successor authority. Only the Reconsideration terminal
+audit is authorized next; Provider Execution Assurance remains paused.
