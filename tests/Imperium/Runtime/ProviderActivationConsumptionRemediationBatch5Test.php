@@ -102,7 +102,7 @@ final class ProviderActivationConsumptionRemediationBatch5Test extends ProviderE
             'revocation_authority_consumption',
             "'consumed' => true",
             "'continuing_authority' => false",
-            'governed-provider-execution-admission:',
+            'LOCK_SCOPE_PREFIX',
             'PEB774_COMBINED_ADMISSION_ALREADY_WON',
         ] as $proof) {
             self::assertStringContainsString($proof, $sources);
