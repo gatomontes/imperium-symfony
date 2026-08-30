@@ -142,3 +142,20 @@ classification of the exact fixture chain. The active handoff is
 
 Estimated countdown after Batch 3: approximately seven batches, excluding any
 separately selected sterile provider-conformance campaign.
+
+
+## Batch 4 result
+
+Batch 4 is complete at
+`BATCH_4_READ_ONLY_ASSURANCE_AGGREGATE_RECONSTRUCTION_COMPLETE`.
+
+The exact source/profile/admission fixture chain now reconstructs without
+writes as `ELIGIBLE_OFFLINE_EVIDENCE`, `INCOMPLETE`, `CONFLICTED` or
+`REFUSED`. Eligibility remains offline evidence only.
+
+Only Batch 5 may next be considered: the terminal offline assurance-evidence
+audit and documentary-sufficiency disposition. The active handoff is
+`docs/handoffs/provider-execution-effect-readiness-batch-4-complete.md`.
+
+Estimated countdown after Batch 4: approximately six batches, excluding any
+separately selected sterile provider-conformance campaign.
