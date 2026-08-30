@@ -119,6 +119,42 @@ final class ProviderActivationConsumptionRemediationBatch5Test extends ProviderE
         }
     }
 
+    public function testDocumentationAuthorizesOnlyV2ResolutionMigrationNext(): void
+    {
+        $root = dirname(__DIR__, 3);
+        $document = preg_replace(
+            '/\\s+/',
+            ' ',
+            (string) file_get_contents(
+                $root.'/docs/'
+                .'provider-activation-consumption-remediation-revocation-production.md',
+            ),
+        );
+        $handoff = preg_replace(
+            '/\\s+/',
+            ' ',
+            (string) file_get_contents(
+                $root.'/docs/handoffs/'
+                .'provider-activation-consumption-remediation-batch-5-complete.md',
+            ),
+        );
+
+        foreach ([
+            'BATCH_5_LAWFUL_ATOMIC_ACTIVATION_REVOCATION_PRODUCTION_COMPLETE',
+            'same lock',
+            'No dual-write revocation state exists',
+            'Only remediation Batch 6 may next be considered',
+            'require the v2 combined admission',
+            'may not invoke a provider',
+            'external I/O',
+            'Iron Gate',
+            'Lazaretto',
+            'two batches',
+        ] as $boundary) {
+            self::assertNotFalse(stripos($document.$handoff, $boundary), $boundary);
+        }
+    }
+
     private function issueRevocationAuthority(
         array $executionAuthority,
         \DateTimeImmutable $at,
