@@ -538,3 +538,17 @@ The previously deferred Batch 7 terminal test is now
 `CLEAR_OPERATOR_REPORTED_AFTER_REPAIR` in
 `docs/deferred-local-test-ledger.md`; no unreported assertion count or
 full-suite result is inferred.
+
+
+Provider Execution Effect Readiness Batch 1 is complete at
+`BATCH_1_AUTHORITY_EMPTY_PROVIDER_ASSURANCE_CONTRACTS_COMPLETE`. Exact source
+provenance, AgentMail direct-send assurance semantics and a future evidence
+admission result are separately versioned but have no producer, validator,
+fixture, admitted record or runtime consumer.
+
+Only pure fail-closed validation and immutable caller-supplied offline fixture
+stores may next be considered. Contract existence grants no principal or
+binding activation, live-call runtime, execution or retry authority, credential
+access, provider invocation, external I/O, live adoption, Iron Gate or
+Lazaretto behavior. The active handoff is
+`docs/handoffs/provider-execution-effect-readiness-batch-1-complete.md`.
