@@ -372,3 +372,7 @@ Principal Provenance Remediation Batch 5 now consumes one exact existing-instanc
 authority against the intact operationalization seal and only when the target principal is absent.
 It creates one generation-one `PENDING_ACTIVATION` version without reopening founding personnel.
 Only Batch 6 caller-authority issuer hardening is authorized next.
+
+Principal Provenance Remediation Batch 6 now requires canonical active v2 principal provenance for
+Imperator caller-authority issuance and permits one winner per generation, transition and target.
+Only Batch 7 read-only reconstruction and lifecycle enforcement is authorized next.

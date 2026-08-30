@@ -9,14 +9,15 @@ use App\Imperium\Runtime\Curia\OutboundEmailAuthorizationRequestService;
 use App\Imperium\Runtime\Imperator\OutboundEmailAuthorizationIssuanceService;
 use App\Imperium\Runtime\Imperator\OutboundEmailDecisionService;
 use App\Imperium\Runtime\LaCortine\DeterministicTransitionCallerAuthorityIssuanceService;
+use App\Imperium\Runtime\Imperator\ImperatorRuntimePrincipalVersionContract;
 
 trait IronGateCallerAuthorityTestTrait
 {
-    private string $imperatorPrincipalId = 'imperator-test-principal';
+    private string $imperatorPrincipalId = 'imperator-test-principal-version-1';
 
     private function writeImperatorPrincipal(): void
     {
-        $record = ['schema' => 'imperium.imperator-runtime-principal/v1', 'principal_id' => $this->imperatorPrincipalId, 'instance_id' => 'imperium-test', 'binding_id' => 'imperator-test-binding', 'principal_generation' => 1, 'status' => 'ACTIVE', 'outbound_email_authority' => true, 'sealed' => true];
+        $record = ['schema' => ImperatorRuntimePrincipalVersionContract::SCHEMA, 'principal_version_id' => $this->imperatorPrincipalId, 'principal_id' => 'imperator-test-principal', 'instance_id' => 'imperium-test', 'binding_id' => 'imperator-test-binding', 'principal_generation' => 1, 'constitution_route' => 'FUTURE_INSTANCE_ROOT_ESTABLISHMENT', 'source_constitution_authority' => ['id' => 'authority-test', 'digest' => str_repeat('1', 64), 'schema' => 'authority/v1'], 'source_operator_root' => ['id' => 'operator-test', 'digest' => str_repeat('2', 64), 'schema' => 'operator/v1'], 'identity' => ['operator_id' => 'operator-test', 'operator_identity_digest' => str_repeat('3', 64), 'imperator_subject_id' => 'imperator-test', 'imperator_subject_digest' => str_repeat('4', 64)], 'authority_scope' => ['provider_binding_activation_authority' => true, 'outbound_email_authority' => true, 'credential_authority' => false, 'provider_execution_authority' => false, 'corridor_disposition_authority' => false], 'lifecycle' => ['constituted_at' => '2026-08-29T20:00:00+00:00', 'effective_at' => '2026-08-29T20:00:00+00:00', 'expires_at' => '2027-08-29T20:00:00+00:00', 'prior_version' => null, 'superseding_version' => null, 'current_disposition' => null], 'status' => 'ACTIVE', 'credential_reference_persisted' => false, 'credential_secret_persisted' => false, 'serialized_capability_persisted' => false, 'sealed' => true];
         $record['record_digest'] = hash('sha256', CanonicalJson::encode($record));
         $directory = $this->root.'/'.DeterministicTransitionCallerAuthorityIssuanceService::IMPERATOR_PRINCIPALS;
         if (!is_dir($directory)) mkdir($directory, 0770, true);

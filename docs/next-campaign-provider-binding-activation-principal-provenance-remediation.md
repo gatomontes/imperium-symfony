@@ -99,3 +99,9 @@ authorized next.
 Batch 5 is complete in `docs/handoffs/provider-binding-activation-principal-provenance-remediation-batch-5-complete.md`.
 The existing-instance route now remediates only a provably absent principal against the intact
 operationalization seal. Only Batch 6 caller-authority issuer hardening is authorized next.
+
+## Batch 6 result
+
+Batch 6 hardens Imperator caller-authority issuance to canonical active v2 principal provenance and
+one winner per generation, transition and target. Only Batch 7 read-only reconstruction and
+lifecycle enforcement is authorized next.
