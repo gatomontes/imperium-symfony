@@ -178,3 +178,20 @@ The active handoff is
 
 Estimated countdown after Batch 5: approximately five batches, excluding any
 separately selected sterile provider-conformance campaign.
+
+## Batch 6 result
+
+Batch 6 is complete at
+`BATCH_6_AUTHORITY_EMPTY_EXECUTOR_PRINCIPAL_ACTIVATION_CONTRACTS_COMPLETE`.
+
+Separate v1 contracts define a future competent activation decision and a
+future immutable activation result for the exact `ATTESTED_INERT` executor
+principal generation. No producer, validator, store or transition exists.
+
+Only Batch 7 may next be considered: pure fail-closed validators and immutable
+caller-supplied offline fixture stores for the Batch 6 contracts. The active
+handoff is
+`docs/handoffs/provider-execution-effect-readiness-batch-6-complete.md`.
+
+Estimated countdown after Batch 6: approximately four batches, excluding any
+separately selected sterile provider-conformance campaign.
