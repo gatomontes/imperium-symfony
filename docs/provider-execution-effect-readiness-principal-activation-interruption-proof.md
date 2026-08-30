@@ -5,7 +5,10 @@
 `BATCH_8_OFFLINE_PRINCIPAL_ACTIVATION_FIXTURE_INTERRUPTION_PROVED`
 
 Both caller-supplied principal-activation fixture paths now have truthful
-offline interruption, replay, conflict and same-root contention proof.
+offline interruption, replay, conflict and same-root contention proof. Before
+immutable commit leaves no record. After immutable commit leaves one winner.
+Exact replay converges. Changed valid evidence conflicts. Same-root services
+converge.
 
 ## Cut matrix
 
