@@ -27,6 +27,14 @@ are absent.
 Only Batch 1 authority-empty scope-grant, successor-principal and caller-authority-issuance contracts
 may next be considered under separate authorization.
 
+## Batch 1 result
+
+Batch 1 is complete in `docs/corridor-disposition-principal-authority-remediation-contracts.md`.
+Three authority-empty v1 contracts separate the Operator Root scope grant, mechanical pending
+successor and later active-principal-bound caller-authority issuance authorization. They produce
+nothing and preserve separate activation and the custody refusal. Only Batch 2 pure validators and
+immutable fixture stores are authorized next.
+
 ## Preserved perimeter
 
 Preparation creates no principal, successor, scope grant, caller authority or disposition. It does
