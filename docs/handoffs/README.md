@@ -114,10 +114,12 @@ For the current Delegate Mission state, read in this order:
 108. `docs/next-campaign-corridor-disposition-principal-authority-remediation.md`;
 109. `docs/corridor-disposition-principal-authority-remediation-preparation-inventory.md`;
 110. `docs/handoffs/corridor-disposition-principal-authority-remediation-campaign-ready.md`;
-111. `docs/corridor-disposition-principal-authority-remediation-contracts.md`; and
-112. `docs/handoffs/corridor-disposition-principal-authority-remediation-batch-1-complete.md`.
+111. `docs/corridor-disposition-principal-authority-remediation-contracts.md`;
+112. `docs/handoffs/corridor-disposition-principal-authority-remediation-batch-1-complete.md`;
+113. `docs/corridor-disposition-principal-authority-remediation-validation.md`; and
+114. `docs/handoffs/corridor-disposition-principal-authority-remediation-batch-2-complete.md`.
 
-Item 112 is the active continuation handoff. Iron Gate Evidence Authenticity Remediation is complete
+Item 114 is the active continuation handoff. Iron Gate Evidence Authenticity Remediation is complete
 through Batch 11. No remediation batches remain. Provider Execution Assurance is selected for
 Preparation Batch 0 but paused before Batch 1. Governed Tool and Provider Separation Preparation
 Batch 0, contract-definition Batch 1 and canonical-tool Batch 2 are complete; only Batch 3 may next
@@ -159,3 +161,7 @@ terminal evidence.
 Corridor Disposition Principal Authority Remediation Batch 1 now defines authority-empty scope-grant,
 pending-successor and caller-authority-issuance-authorization contracts. No authority or principal is
 produced. Only Batch 2 pure validators and immutable fixture stores are authorized next.
+
+Corridor Disposition Principal Authority Remediation Batch 2 now provides pure fail-closed validators
+and segregated immutable offline fixture stores. No live state or authority is produced. Only Batch 3
+offline replay and interruption proof is authorized next.

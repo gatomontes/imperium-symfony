@@ -35,6 +35,13 @@ successor and later active-principal-bound caller-authority issuance authorizati
 nothing and preserve separate activation and the custody refusal. Only Batch 2 pure validators and
 immutable fixture stores are authorized next.
 
+## Batch 2 result
+
+Batch 2 is complete in `docs/corridor-disposition-principal-authority-remediation-validation.md`.
+Pure fail-closed validation and segregated immutable fixture stores accept only exact caller-supplied
+offline records. They create no live registry, authority or principal. Only Batch 3 offline replay
+and interruption proof is authorized next.
+
 ## Preserved perimeter
 
 Preparation creates no principal, successor, scope grant, caller authority or disposition. It does
