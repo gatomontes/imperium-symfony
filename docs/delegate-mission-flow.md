@@ -480,3 +480,39 @@ credential-owning executor and exact durable execution authority is validated an
 Selection defines no runtime contract, changes no runtime behavior, activates no principal or
 binding, handles no credential or capability, performs no provider invocation or external I/O, and
 keeps Iron Gate and Lazaretto closed.
+
+
+## Provider execution frontier after boundary-redesign closure
+
+Provider Execution Boundary Redesign and Provider Activation-Consumption
+Remediation are complete pre-provider only. The corrected v2 corridor proves
+one combined activation, execution-authority consumption and effect-start
+winner; activation-keyed contention; mutually exclusive revocation; expiry and
+corrupt-reconstruction refusal; stationary callback-local credential
+resolution; exact read-only replay; and durable secret exclusion.
+
+The result is
+`PROVIDER_EXECUTION_BOUNDARY_REDESIGN_COMPLETE_PRE_PROVIDER_ONLY`, with the
+remediation terminal result
+`BATCH_7_ADVERSARIAL_PROOF_COMPLETE_TERMINAL_AUDIT_PASSED`. The earlier
+`BATCH_10_TERMINAL_AUDIT_REFUSED_ACTIVATION_NOT_CONSUMED` remains preserved as
+historical evidence.
+
+This closure creates neither Delegate Mission Step 70 nor Runtime Integrity
+Hardening Step 36. It does not activate the attested executor principal or
+inactive provider binding, define a live-call contract, admit current provider
+contract assurance, migrate a live command, authorize provider execution, or
+open Iron Gate or Lazaretto. `UNKNOWN_REPLAY_PROHIBITED` remains mandatory
+after possible provider effect-start.
+
+The separately selected next campaign is Provider Execution Effect Readiness,
+Preparation Batch 0 only, governed by
+`docs/next-campaign-provider-execution-effect-readiness.md` and
+`docs/handoffs/provider-execution-effect-readiness-campaign-ready.md`. It may
+inventory the remaining stop conditions and propose their lawful order, but
+grants no activation, authority, credential, provider, retry, external-I/O or
+live-adoption behavior.
+
+The Batch 7 terminal PHPUnit run is pending because of an operator power outage
+and is recorded in `docs/deferred-local-test-ledger.md`. Continued preparation
+does not convert the pending run into green evidence.

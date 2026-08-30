@@ -70,3 +70,23 @@ or provider binding; issue, consume or reconstruct authority; issue, transfer, r
 a credential capability; read a credential; invoke a provider; perform external I/O; migrate a live
 command; or open Iron Gate or Lazaretto. It may not claim hostile-writer, multi-host, distributed
 custody or split-brain guarantees.
+
+
+## Terminal closure and successor selection
+
+Provider Execution Boundary Redesign is complete pre-provider only at
+`PROVIDER_EXECUTION_BOUNDARY_REDESIGN_COMPLETE_PRE_PROVIDER_ONLY`.
+Activation-Consumption Remediation closed the Batch 10 defect at
+`BATCH_7_ADVERSARIAL_PROOF_COMPLETE_TERMINAL_AUDIT_PASSED` while preserving
+the earlier refusal marker as history.
+
+No provider effect is authorized. The executor principal remains inert, the
+provider binding remains inactive, no live-call contract exists, provider
+assurance gaps remain open, and `UNKNOWN_REPLAY_PROHIBITED` remains binding.
+
+The next separately selected campaign is Provider Execution Effect Readiness,
+Preparation Batch 0 only. Its campaign definition and new-chat handoff are:
+
+- `docs/next-campaign-provider-execution-effect-readiness.md`;
+- `docs/handoffs/provider-execution-effect-readiness-campaign-ready.md`; and
+- `docs/deferred-local-test-ledger.md` for the still-pending Batch 7 local run.
