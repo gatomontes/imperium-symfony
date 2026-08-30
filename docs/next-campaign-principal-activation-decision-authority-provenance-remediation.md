@@ -130,3 +130,21 @@ three batches.
 
 The active handoff is
 docs/handoffs/principal-activation-decision-authority-provenance-remediation-batch-4-complete.md.
+
+## Batch 5 production refusal
+
+Batch 5 refuses at
+BATCH_5_PRODUCTION_REFUSED_SUCCESSOR_PRINCIPAL_AND_DECISION_LINEAGE_CONTRACTS_ABSENT.
+
+The current v2 principal contract cannot represent the required sixth scope
+field, no canonical v3 successor-principal contract exists, and the
+decision-issuance authorization does not bind the complete actor and decision
+payload required by the activation-decision contract.
+
+Only authority-empty remediation Batch 5A contracts may next be considered.
+No scope, principal, authority, decision or activation was created or consumed.
+Provider Effect Principal and Binding Activation remains paused.
+Revised estimated remediation countdown: approximately four batches.
+
+The active handoff is
+docs/handoffs/principal-activation-decision-authority-provenance-remediation-batch-5-refused.md.
