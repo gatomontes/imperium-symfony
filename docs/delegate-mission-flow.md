@@ -970,3 +970,21 @@ authority, successor, adoption, credential, capability, provider effect,
 external I/O, live-command migration, Iron Gate or Lazaretto action is
 authorized. The active handoff is
 `docs/handoffs/provider-binding-successor-production-realization-campaign-ready.md`.
+
+
+Provider Binding Successor Production Realization Preparation Batch 0 is
+complete at
+`PREPARATION_BATCH_0_COMPLETE_PRODUCTION_REALIZATION_BOUNDARIES_CLASSIFIED`.
+
+The v2 decision, authority and adoption-target evidence contracts exist, while
+the production decision issuer, durable authority custody, atomic
+consumption-and-successor-creation winner, v3 admission and explicit adoption
+join are absent. Offline proof remains non-authority.
+
+Only Batch 1 authority-empty production-decision issuer and exact-principal
+contracts with pure validators may next be considered. No decision production,
+authority issuance or consumption, successor creation, v3 admission, adoption,
+activation, credential or capability handling, provider invocation, external
+I/O, live-command migration, Iron Gate or Lazaretto behavior is authorized. The
+active handoff is
+`docs/handoffs/provider-binding-successor-production-realization-preparation-batch-0-complete.md`.
