@@ -8,7 +8,7 @@ use App\Imperium\Runtime\Imperator\PrincipalActivationDecisionAuthorityProvenanc
 use App\Imperium\Runtime\Imperator\PrincipalActivationDecisionAuthorityProvenanceProductionInterruptionProofService as Proof;
 use App\Imperium\Runtime\Imperator\PrincipalActivationDecisionAuthorityProvenanceProductionService as Production;
 
-final class PrincipalActivationDecisionAuthorityProvenanceRemediationBatch5CProductionTest
+class PrincipalActivationDecisionAuthorityProvenanceRemediationBatch5CProductionTest
     extends PrincipalActivationDecisionAuthorityProvenanceRemediationBatch5BTest
 {
     public function testOneCombinedWinnerProducesExactDecisionAndUnconsumedAuthority(): void
@@ -162,7 +162,7 @@ final class PrincipalActivationDecisionAuthorityProvenanceRemediationBatch5CProd
         }
     }
 
-    private function productionBasis(): array
+    protected function productionBasis(): array
     {
         $fixtures = $this->fixtures();
         $at = new \DateTimeImmutable('2026-08-30T20:05:00+00:00');
@@ -217,7 +217,7 @@ final class PrincipalActivationDecisionAuthorityProvenanceRemediationBatch5CProd
         return $fixtures + compact('at', 'activation', 'aggregate');
     }
 
-    private function produce(
+    protected function produce(
         array $basis,
         ?Production $service = null,
         ?\DateTimeImmutable $at = null,
@@ -234,7 +234,7 @@ final class PrincipalActivationDecisionAuthorityProvenanceRemediationBatch5CProd
         );
     }
 
-    private function produceThroughProof(array $basis, Proof $proof, ?string $cut): array
+    protected function produceThroughProof(array $basis, Proof $proof, ?string $cut): array
     {
         return $proof->produce(
             $basis['aggregate'],
@@ -249,7 +249,7 @@ final class PrincipalActivationDecisionAuthorityProvenanceRemediationBatch5CProd
         );
     }
 
-    private function productionId(array $basis): string
+    protected function productionId(array $basis): string
     {
         $target = implode(':', [
             $basis['aggregate']['instance_id'],
