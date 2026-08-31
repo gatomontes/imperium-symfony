@@ -10,8 +10,7 @@ remains NOT_IMPLEMENTED and admits nothing.
 Only Provider Binding Successor Production Realization Batch 5 explicit adoption decision and successor-to-v3 join contracts may next be considered.
 
 Batch 5 may define authority-empty adoption-decision and join contracts with
-pure validation only. It may not decide or perform live adoption, admit
-execution, issue or consume authority, create a successor or start an effect.
+pure validation only. It may not decide or perform live adoption, admit execution, issue or consume authority, create a successor or start an effect.
 It may not activate a principal or provider binding.
 It may not handle or resolve a credential or capability.
 It may not invoke a provider.
