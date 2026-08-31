@@ -1216,3 +1216,18 @@ admission, live adoption, binding-state change, credential or capability
 handling, provider invocation, external I/O, effect start, retry, live-command
 migration, Iron Gate or Lazaretto behavior is authorized. The active handoff is
 `docs/handoffs/provider-binding-successor-live-adoption-batch-5-complete.md`.
+
+Provider Binding Successor Live Adoption Batch 6 is complete at
+`BATCH_6_READ_ONLY_LIVE_ADOPTION_ADVERSARIAL_READINESS_AUDIT_PASSED`.
+
+The pure caller-supplied audit passes the exact immutable winner and refuses
+substitution, changed evidence, same-root contention, incomplete proof, expiry,
+revocation, partial state, secret and capability material, false-v3,
+live-transition and provider-effect attacks.
+
+Only Batch 7 terminal audit and campaign closure may next be considered. No
+decision production, authority issuance or live consumption, execution
+admission, live adoption, binding-state change, credential or capability
+handling, provider invocation, external I/O, effect start, retry, live-command
+migration, Iron Gate or Lazaretto behavior is authorized. The active handoff is
+`docs/handoffs/provider-binding-successor-live-adoption-batch-6-complete.md`.
