@@ -20,6 +20,8 @@ classification, exact replay, changed-evidence conflict, expiry and revocation
 refusal, same-root contention visibility, deterministic reconstructed digest,
 secret exclusion and the absence of any reconstructive authority.
 
+Batch 3 may not issue or consume authority.
+
 Batch 3 may not resolve live custody, create or mutate a resolution admission,
 activation input or activation winner, alter either production service, activate
 a principal or provider binding, issue or consume authority, handle a credential
