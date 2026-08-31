@@ -158,6 +158,8 @@ final readonly class PrincipalActivationDecisionAuthorityProvenanceProductionSer
                 !== $this->reference($authorization, 'issuance_authorization_id')
             || ($aggregate['references']['activation_disposition'] ?? null)
                 !== $this->reference($activationDisposition, 'disposition_id')
+            || ($authorization['activation_disposition'] ?? null)
+                !== $this->reference($activationDisposition, 'disposition_id')
             || true === ($authorization['consumed'] ?? null)
             || null !== ($authorization['revocation'] ?? null)
             || $at < new \DateTimeImmutable($authorization['issued_at'] ?? '')
