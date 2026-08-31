@@ -1103,3 +1103,18 @@ execution admission, provider-binding activation, credential or capability
 handling, provider invocation, external I/O or any provider effect may be
 considered. The active handoff is
 `docs/handoffs/provider-binding-successor-production-realization-campaign-complete.md`.
+
+
+Provider Binding Successor Live Adoption is separately selected after production
+realization closed at
+`PROVIDER_BINDING_SUCCESSOR_PRODUCTION_REALIZATION_CAMPAIGN_COMPLETE_PRE_PROVIDER_EFFECT_ONLY`.
+
+Only Provider Binding Successor Live Adoption Preparation Batch 0 may next
+inventory and classify the competent adoption decision, single-use adoption
+authority, v3 admission, atomic adoption and binding-transition boundary,
+recovery, reconstruction and adversarial proof requirements.
+
+Selection grants no live-adoption, execution-admission, binding-activation,
+credential, capability, provider-invocation, external-I/O, effect-start, retry,
+live-command migration, Iron Gate or Lazaretto authority. The active handoff is
+`docs/handoffs/provider-binding-successor-live-adoption-campaign-ready.md`.
