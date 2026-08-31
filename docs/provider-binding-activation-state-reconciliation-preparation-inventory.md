@@ -9,8 +9,8 @@ implementation binding do not form one current binding lifecycle.
 
 `SingleOperationProviderBindingActivationIssuanceService` accepts only an
 `ATTESTED_INERT` principal attestation, emits `ACTIVATED_UNCONSUMED`, and
-records `provider_binding_activated=false`. The now-canonical principal truth is
-a separate immutable `ACTIVE` activation. The legacy operation activation
+records `provider_binding_activated=false`. The canonical principal truth is a
+separate immutable ACTIVE activation. The legacy operation activation
 cannot be promoted, replayed or reinterpreted as proof that the durable binding
 is active.
 
