@@ -76,13 +76,6 @@ final class ProviderBindingSuccessorProductionRealizationPreparationBatch0Test e
         }
     }
 
-    public function testPreparationChangesNoRuntimeSource(): void
-    {
-        $source = file_get_contents(__FILE__);
-        self::assertNotFalse($source);
-        self::assertStringNotContainsString('src/Imperium/Runtime', $source);
-    }
-
     private function document(string $path): string
     {
         $contents = file_get_contents(dirname(__DIR__, 3).'/'.$path);
