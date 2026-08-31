@@ -13,9 +13,9 @@ use App\Imperium\Runtime\LaCortine\ProviderExecutorPrincipalActivationCanonicalI
 use App\Imperium\Runtime\LaCortine\ProviderExecutorPrincipalActivationCanonicalResolutionAdmissionContract as Admission;
 use PHPUnit\Framework\TestCase;
 
-final class ProviderEffectPrincipalBindingActivationResumptionBatch2Test extends TestCase
+class ProviderEffectPrincipalBindingActivationResumptionBatch2Test extends TestCase
 {
-    private string $root;
+    protected string $root;
 
     protected function setUp(): void
     {
@@ -232,7 +232,7 @@ final class ProviderEffectPrincipalBindingActivationResumptionBatch2Test extends
         }
     }
 
-    private function fixtures(): array
+    protected function fixtures(): array
     {
         $at = new \DateTimeImmutable('2026-08-31T12:00:00+00:00');
         $attestation = self::artifact('principal_attestation_id', 'principal-attestation-1', 'imperium.provider-executor-principal/v1');
@@ -327,7 +327,7 @@ final class ProviderEffectPrincipalBindingActivationResumptionBatch2Test extends
         return compact('at', 'attestation', 'assurance', 'boundary', 'decision', 'production', 'admission', 'input');
     }
 
-    private function admission(
+    protected function admission(
         array $production,
         array $decision,
         array $attestation,
@@ -384,7 +384,7 @@ final class ProviderEffectPrincipalBindingActivationResumptionBatch2Test extends
         ]);
     }
 
-    private static function artifact(string $idField, string $id, string $schema): array
+    protected static function artifact(string $idField, string $id, string $schema): array
     {
         return self::seal([
             'schema' => $schema,
@@ -394,17 +394,17 @@ final class ProviderEffectPrincipalBindingActivationResumptionBatch2Test extends
         ]);
     }
 
-    private static function referenceRecord(string $id): array
+    protected static function referenceRecord(string $id): array
     {
         return ['id' => $id, 'digest' => str_repeat('a', 64), 'schema' => 'imperium.test.reference/v1'];
     }
 
-    private static function reference(array $record, string $idField): array
+    protected static function reference(array $record, string $idField): array
     {
         return ['id' => $record[$idField], 'digest' => $record['record_digest'], 'schema' => $record['schema']];
     }
 
-    private static function seal(array $record): array
+    protected static function seal(array $record): array
     {
         unset($record['record_digest']);
         $record['record_digest'] = hash('sha256', CanonicalJson::encode($record));
@@ -412,7 +412,7 @@ final class ProviderEffectPrincipalBindingActivationResumptionBatch2Test extends
         return $record;
     }
 
-    private function document(string $path): string
+    protected function document(string $path): string
     {
         return (string) preg_replace('/\s+/', ' ', (string) file_get_contents(dirname(__DIR__, 3).'/'.$path));
     }

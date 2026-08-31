@@ -480,6 +480,29 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderEffectPrincipalBindingActi
 
 - Counts: not supplied and therefore not inferred.
 
+## Cleared principal-and-binding resumption Batch 2
+
+### Provider Effect Principal and Binding Activation Resumption Batch 2
+
+- Source PR: #632
+- Source merge commit: 946421f249863025f57061f996b2e733ad05b10e
+- Repair PR: #633
+- Repair merge commit: 65eadd6b3cf0b47a17d3f745c1cde8b6f1bcf8ef
+- First attempt: 6 tests, 43 assertions, 2 test-expectation failures.
+- Repair: aligned same-identity changed-content contention with
+  `PST111_IMMUTABLE_RECORD_CONFLICT` and stated the authority prohibition as
+  the contiguous phrase `may not issue or consume authority`.
+- Runtime finding: no validator, fixture-store or provider-boundary behavior
+  defect was observed.
+- Final status: CLEAR_OPERATOR_REPORTED_AFTER_EXPECTATION_REPAIR
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/ProviderEffectPrincipalBindingActivationResumptionBatch2Test.php
+```
+
+- Clear rerun counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
