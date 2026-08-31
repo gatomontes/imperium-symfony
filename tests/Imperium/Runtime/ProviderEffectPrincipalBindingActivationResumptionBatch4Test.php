@@ -11,7 +11,7 @@ use App\Imperium\Runtime\LaCortine\ProviderExecutorPrincipalActivationCanonicalR
 use App\Imperium\Runtime\LaCortine\ProviderExecutorPrincipalActivationService;
 use App\Imperium\Runtime\LaCortine\ProviderExecutorPrincipalCanonicalActivationService;
 
-final class ProviderEffectPrincipalBindingActivationResumptionBatch4Test
+class ProviderEffectPrincipalBindingActivationResumptionBatch4Test
     extends ProviderExecutionEffectReadinessBatch7Test
 {
     public function testReadyCanonicalChainConsumesExactAuthorityAndActivatesExactPrincipal(): void
@@ -150,7 +150,7 @@ final class ProviderEffectPrincipalBindingActivationResumptionBatch4Test
         }
     }
 
-    private function canonicalFixtures(): array
+    protected function canonicalFixtures(): array
     {
         $f = $this->fixtures();
         $production = self::seal([
@@ -246,7 +246,7 @@ final class ProviderEffectPrincipalBindingActivationResumptionBatch4Test
         return $f + compact('production', 'admission', 'input');
     }
 
-    private function storeCanonicalChain(array $f): void
+    protected function storeCanonicalChain(array $f): void
     {
         $store = new ProviderExecutorPrincipalActivationCanonicalFixtureStore($this->root);
         $store->putResolutionAdmission(
@@ -259,7 +259,7 @@ final class ProviderEffectPrincipalBindingActivationResumptionBatch4Test
         );
     }
 
-    private function activate(
+    protected function activate(
         ProviderExecutorPrincipalCanonicalActivationService $service,
         array $f,
     ): array {
@@ -284,7 +284,7 @@ final class ProviderEffectPrincipalBindingActivationResumptionBatch4Test
         ];
     }
 
-    private function document(string $path): string
+    protected function document(string $path): string
     {
         return (string) preg_replace(
             '/\s+/',
