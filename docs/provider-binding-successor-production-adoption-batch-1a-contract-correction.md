@@ -21,8 +21,7 @@ exactly. The seal order is finite and acyclic:
 
 1. seal the v2 production decision and issuance target;
 2. seal the v2 authority from the decision and exact target;
-3. later, under separate authorization, atomically consume the authority and
-   create the successor.
+3. later, under separate authorization, atomically consume the authority and create the successor.
 
 The v1 adoption-target contract remains authority-empty and unchanged because
 it participates in no digest cycle.
