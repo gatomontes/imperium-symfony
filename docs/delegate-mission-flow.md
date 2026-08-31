@@ -862,3 +862,18 @@ successor creation, live adoption, credential handling, provider invocation,
 external I/O, Iron Gate or Lazaretto behavior is authorized. The active handoff
 is
 `docs/handoffs/provider-binding-successor-production-adoption-batch-2-refused.md`.
+
+
+Provider Binding Successor Production Adoption Batch 1A is complete at
+`BATCH_1A_AUTHORITY_EMPTY_ACYCLIC_DECISION_AUTHORITY_CONTRACTS_COMPLETE`.
+New v2 contracts preserve the defective v1 cycle as historical evidence while
+replacing the decision's future authority-record reference with an issuance
+target. The v2 authority may bind the already sealed decision and reproduce the
+target, producing a finite decision-then-authority seal order.
+
+Only Batch 2A pure fail-closed v2 validators and segregated immutable
+caller-supplied offline fixture stores may next be considered. No producer,
+authority issuance or consumption, successor creation, adoption, credential
+handling, provider invocation, external I/O, Iron Gate or Lazaretto behavior is
+authorized. The active handoff is
+`docs/handoffs/provider-binding-successor-production-adoption-batch-1a-complete.md`.
