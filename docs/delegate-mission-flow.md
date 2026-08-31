@@ -1170,3 +1170,20 @@ credential or capability handling, provider invocation, external I/O, effect
 start, retry, live-command migration, Iron Gate or Lazaretto behavior is
 authorized. The active handoff is
 `docs/handoffs/provider-binding-successor-live-adoption-batch-2-complete.md`.
+
+
+Provider Binding Successor Live Adoption Batch 3 is complete at
+`BATCH_3_INERT_SAME_ROOT_V3_ADMISSION_CONSUMPTION_ADOPTION_AND_BINDING_BOUNDARY_COMPLETE`.
+
+The future combined winner binds the exact decision, single-use authority and
+custody, completed successor, creation winner, target, v3 admission, adoption
+join, original binding and successor binding target under one root. The pure
+validator and inert seam perform no transition or write.
+
+Only Batch 4 caller-supplied interruption, replay, contention, expiry and
+revocation proof may next be considered. No decision production, authority
+issuance or live consumption, execution admission, live adoption, binding-state
+change, credential or capability handling, provider invocation, external I/O,
+effect start, retry, live-command migration, Iron Gate or Lazaretto behavior is
+authorized. The active handoff is
+`docs/handoffs/provider-binding-successor-live-adoption-batch-3-complete.md`.
