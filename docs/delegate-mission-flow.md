@@ -988,3 +988,20 @@ activation, credential or capability handling, provider invocation, external
 I/O, live-command migration, Iron Gate or Lazaretto behavior is authorized. The
 active handoff is
 `docs/handoffs/provider-binding-successor-production-realization-preparation-batch-0-complete.md`.
+
+
+Provider Binding Successor Production Realization Batch 1 is complete at
+`BATCH_1_AUTHORITY_EMPTY_PRODUCTION_DECISION_PRINCIPAL_AND_ISSUER_CONTRACTS_COMPLETE`.
+
+The exact principal and issuer boundary are separately versioned,
+authority-empty and pure-validated. The principal remains
+IDENTIFIED_NOT_ACTIVATED; the issuer produces no decision and holds no
+authority.
+
+Only Batch 2 single-use authority issuance and durable custody contracts with
+pure validators may next be considered. No decision production, authority
+issuance or consumption, successor creation, v3 admission, adoption, activation,
+credential or capability handling, provider invocation, external I/O,
+live-command migration, Iron Gate or Lazaretto behavior is authorized. The
+active handoff is
+`docs/handoffs/provider-binding-successor-production-realization-batch-1-complete.md`.
