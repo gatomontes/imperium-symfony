@@ -1017,6 +1017,29 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingSuccessorProduction
 
 - Counts: not supplied and therefore not inferred.
 
+## Cleared production-realization Batch 6
+
+### Provider Binding Successor Production Realization Batch 6
+
+- Source PR: #676
+- Source merge commit: a8705882feb4bf39b7994463ffe6d04500eb1897
+- Documentation repair PR: #677
+- Repair merge commit: fe19aab0cb8cbd4900c8c4cf0bfd17fabab41583
+- First attempt: 6 tests, 49 assertions, 1 documentation-contiguity failure.
+- Repair: kept the terminal-audit non-authority phrase
+  `may not decide or perform adoption, admit execution, issue or consume authority`
+  contiguous.
+- Runtime finding: no production-realization or provider-boundary behavior defect
+  was observed.
+- Final status: CLEAR_OPERATOR_REPORTED_AFTER_DOCUMENTATION_REPAIR
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingSuccessorProductionRealizationBatch6Test.php
+```
+
+- Clear rerun counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
