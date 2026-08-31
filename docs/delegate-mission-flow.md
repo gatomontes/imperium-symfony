@@ -1187,3 +1187,18 @@ change, credential or capability handling, provider invocation, external I/O,
 effect start, retry, live-command migration, Iron Gate or Lazaretto behavior is
 authorized. The active handoff is
 `docs/handoffs/provider-binding-successor-live-adoption-batch-3-complete.md`.
+
+Provider Binding Successor Live Adoption Batch 4 is complete at
+`BATCH_4_DISPOSABLE_INTERRUPTION_REPLAY_CONTENTION_EXPIRY_AND_REVOCATION_PROOF_COMPLETE`.
+
+The disposable caller-supplied proof establishes absent-before-commit,
+one-winner-after-commit, exact replay, changed-evidence conflict, same-root
+contention, expiry and revocation refusal and no partial state without
+persistence or live authority.
+
+Only Batch 5 read-only aggregate reconstruction may next be considered. No
+decision production, authority issuance or live consumption, execution
+admission, live adoption, binding-state change, credential or capability
+handling, provider invocation, external I/O, effect start, retry, live-command
+migration, Iron Gate or Lazaretto behavior is authorized. The active handoff is
+`docs/handoffs/provider-binding-successor-live-adoption-batch-4-complete.md`.
