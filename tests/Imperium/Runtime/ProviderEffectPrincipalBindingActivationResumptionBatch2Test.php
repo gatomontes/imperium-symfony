@@ -170,7 +170,7 @@ final class ProviderEffectPrincipalBindingActivationResumptionBatch2Test extends
         $contender['admitted_at'] = '2026-08-31T12:00:01+00:00';
         $contender = self::seal($contender);
 
-        $this->expectExceptionMessage('PST113_IMMUTABLE_RECORD_TAMPERED');
+        $this->expectExceptionMessage('PST111_IMMUTABLE_RECORD_CONFLICT');
         $store->putResolutionAdmission(
             $contender, $f['production'], $f['decision'], $f['attestation'],
             $f['assurance'], $f['boundary'], $f['at'],
