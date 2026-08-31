@@ -778,6 +778,27 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingSuccessorProduction
 
 - Clear rerun counts: not supplied and therefore not inferred.
 
+## Cleared production-adoption Batch 1A
+
+### Provider Binding Successor Production Adoption Batch 1A
+
+- Source PR: #657
+- Source merge commit: 1712e6e58ac2c95a26e6f91e6738fe66656af303
+- Documentation repair PR: #658
+- Repair merge commit: 79be86d70f44e2e702d28d8ce11f7e2db8a43adb
+- First attempt: 4 tests, 61 assertions, 1 documentation-contiguity failure.
+- Repair: made the atomic authority-consumption-and-successor-creation order
+  literal and contiguous.
+- Runtime finding: the v2 contract seal order remained acyclic and authority-empty.
+- Final status: CLEAR_OPERATOR_REPORTED_AFTER_DOCUMENTATION_REPAIR
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingSuccessorProductionAdoptionBatch1AContractTest.php
+```
+
+- Clear rerun counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
