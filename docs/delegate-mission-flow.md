@@ -1054,3 +1054,19 @@ activation, credential or capability handling, provider invocation, effect,
 external I/O, live-command migration, Iron Gate or Lazaretto behavior is
 authorized. The active handoff is
 `docs/handoffs/provider-binding-successor-production-realization-batch-4-complete.md`.
+
+
+Provider Binding Successor Production Realization Batch 5 is complete at
+`BATCH_5_AUTHORITY_EMPTY_ADOPTION_DECISION_AND_SUCCESSOR_TO_V3_JOIN_CONTRACTS_COMPLETE`.
+
+The explicit Imperator adoption-decision and La Cortine successor-to-v3 join
+boundaries now bind the exact successor, adoption target, v3 admission,
+operation scope and root. Both remain authority-empty, undecided and unjoined.
+
+Only Batch 6 caller-supplied disposable-root interruption, replay, contention,
+expiry, revocation and adversarial proof may next be considered. No adoption,
+execution admission, authority issuance or consumption, successor creation,
+activation, credential or capability handling, provider invocation, effect,
+external I/O, live-command migration, Iron Gate or Lazaretto behavior is
+authorized. The active handoff is
+`docs/handoffs/provider-binding-successor-production-realization-batch-5-complete.md`.
