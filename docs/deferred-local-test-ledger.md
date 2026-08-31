@@ -703,6 +703,23 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingActivationStateReco
 
 - Counts: not supplied and therefore not inferred.
 
+## Cleared binding-state reconciliation Batch 6 terminal audit
+
+### Provider Binding Activation State Reconciliation Batch 6 terminal audit
+
+- Source PR: #651
+- Source merge commit: 2ddf6317aba84dc9522f7d5cbc1faa9825c818fa
+- Final status: CLEAR_OPERATOR_REPORTED
+- Campaign disposition:
+  `PROVIDER_BINDING_ACTIVATION_STATE_RECONCILIATION_CAMPAIGN_COMPLETE_PRE_PROVIDER_ONLY`
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingActivationStateReconciliationBatch6TerminalAuditTest.php
+```
+
+- Counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
