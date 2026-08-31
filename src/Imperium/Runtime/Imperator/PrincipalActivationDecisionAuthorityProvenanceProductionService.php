@@ -46,6 +46,12 @@ final readonly class PrincipalActivationDecisionAuthorityProvenanceProductionSer
             $issuanceAuthorization,
             $successorPrincipal,
         );
+        if ('AUTHORIZED' !== $envelope['disposition']
+            || true !== $issuanceAuthorization['authority_single_use']
+            || true !== $issuanceAuthorization['authority_exercisable']
+            || false !== $issuanceAuthorization['continuing_authority']) {
+            throw new \RuntimeException('PAD5C00_PRODUCTION_NOT_ELIGIBLE');
+        }
 
         $target = implode(':', [
             $aggregate['instance_id'],
@@ -213,6 +219,8 @@ final readonly class PrincipalActivationDecisionAuthorityProvenanceProductionSer
             || true !== $consumption['consumed']
             || false !== $consumption['continuing_authority']
             || true !== $production['combined_winner']
+            || true !== $decision['activation_authority']['authority_single_use']
+            || true !== $decision['activation_authority']['authority_exercisable']
             || true === $decision['activation_authority']['consumed']
             || false !== $decision['activation_authority']['continuing_authority']
             || false !== $decision['external_action_performed']
