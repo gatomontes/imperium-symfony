@@ -26,21 +26,21 @@ final readonly class ProviderBindingSuccessorProductionAdoptionFixtureStore
         $this->validator = new ProviderBindingSuccessorProductionAdoptionContractValidator();
     }
 
-    public function putDecision(array $decision, array ...$lineage): array
+    public function putDecision(array $decision, mixed ...$lineage): array
     {
         $this->validator->assertDecision($decision, ...$lineage);
 
         return $this->records->put(self::DECISIONS, $decision['decision_id'], $decision);
     }
 
-    public function putAuthority(array $authority, array ...$lineage): array
+    public function putAuthority(array $authority, mixed ...$lineage): array
     {
         $this->validator->assertAuthority($authority, ...$lineage);
 
         return $this->records->put(self::AUTHORITIES, $authority['authority_id'], $authority);
     }
 
-    public function putAdoptionTarget(array $target, array ...$lineage): array
+    public function putAdoptionTarget(array $target, mixed ...$lineage): array
     {
         $this->validator->assertAdoptionTarget($target, ...$lineage);
 
