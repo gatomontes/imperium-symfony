@@ -918,3 +918,17 @@ producer, authority issuance or consumption, successor creation, adoption,
 execution-admission change, credential handling, provider invocation, external
 I/O, Iron Gate or Lazaretto behavior is authorized. The active handoff is
 `docs/handoffs/provider-binding-successor-production-adoption-batch-4-complete.md`.
+
+
+Provider Binding Successor Production Adoption Batch 5 is complete at
+`BATCH_5_ADVERSARIAL_READINESS_AUDIT_PASSED`.
+The pure caller-supplied audit passes the corrected offline chain and conflicts
+or refuses integrity, v1 substitution, acyclic-lineage, lifecycle, secret,
+authority, successor, adoption, false-v3 and effect attacks without persistence
+or runtime dependencies.
+
+Only Batch 6 terminal audit may next be considered. No producer, authority
+issuance or consumption, successor creation, adoption, execution-admission
+change, credential handling, provider invocation, external I/O, Iron Gate or
+Lazaretto behavior is authorized. The active handoff is
+`docs/handoffs/provider-binding-successor-production-adoption-batch-5-complete.md`.
