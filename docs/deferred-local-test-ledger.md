@@ -547,6 +547,31 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderEffectPrincipalBindingActi
 
 - Clear rerun counts: not supplied and therefore not inferred.
 
+## Cleared principal-and-binding resumption Batch 5
+
+### Provider Effect Principal and Binding Activation Resumption Batch 5
+
+- Source PR: #638
+- Source merge commit: 26d3d87ad12b2f424ff8bdcbf25335ab411cce98
+- Repair PRs: #639 and #640
+- Repair merge commits: b588dad0bec4d39e92d83990a444c40b02bc9333 and
+  c7dfe6a775fe218d127a1738cfc5a63032dcc162
+- First attempt: 19 tests, 138 assertions, 1 documentation-expectation failure.
+- Second attempt: 19 tests, 139 assertions, 1 documentation-expectation failure.
+- Repairs: made `may not activate a provider binding` and
+  `may not handle a credential or capability` literal, standalone prohibitions,
+  while retaining every downstream non-authority.
+- Runtime finding: the adversarial audit found no principal-activation or
+  provider-boundary runtime defect.
+- Final status: CLEAR_OPERATOR_REPORTED_AFTER_DOCUMENTATION_REPAIRS
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/ProviderEffectPrincipalBindingActivationResumptionBatch5Test.php
+```
+
+- Clear rerun counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
