@@ -717,3 +717,15 @@ activation evidence with durable implementation-binding state before any live
 adoption may be considered. No provider-binding activation is authorized.
 The active handoff is
 `docs/handoffs/provider-binding-activation-state-reconciliation-campaign-ready.md`.
+
+Provider Binding Activation State Reconciliation Preparation Batch 0 is complete
+at `PREPARATION_BATCH_0_COMPLETE_IMMUTABLE_BINDING_SUCCESSOR_REQUIRED`.
+The legacy operation activation remains immutable historical evidence tied to
+an ATTESTED_INERT principal and explicitly does not activate the implementation
+binding. It cannot be promoted to the current ACTIVE-principal lifecycle.
+
+Only authority-empty Batch 1 successor contracts may next be considered. The
+original binding remains BOUND_INACTIVE, global BOUND_ACTIVE mutation is
+rejected, and no provider, credential, external-I/O, retry, Iron Gate or
+Lazaretto authority is opened. The active handoff is
+`docs/handoffs/provider-binding-activation-state-reconciliation-preparation-batch-0-complete.md`.
