@@ -429,6 +429,27 @@ php vendor/bin/phpunit tests/Imperium/Runtime/PrincipalActivationDecisionAuthori
 - Runtime finding: the audit path remained read-only and found no provenance,
   secret-exclusion, or non-authority-perimeter defect.
 
+## Cleared decision-authority provenance Batch 7 terminal audit
+
+### Principal Activation Decision Authority Provenance Remediation Batch 7
+
+- Source PR: #628
+- Source merge commit: ef078a261d2ce40ac02d38ffc98b3a3122801c70
+- Repair PR: #629
+- Repair merge commit: 286746a04a57a51955b49de331199331c8e4cf6a
+- First attempt: 5 tests, 10 assertions, 4 undefined-helper errors.
+- Repair: added the missing test-local Markdown `document()` helper.
+- Runtime finding: no terminal doctrine, production, or provider-boundary defect
+  was observed.
+- Final status: CLEAR_OPERATOR_REPORTED_AFTER_TEST_HELPER_REPAIR
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/PrincipalActivationDecisionAuthorityProvenanceRemediationBatch7TerminalAuditTest.php
+```
+
+- Clear rerun counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
