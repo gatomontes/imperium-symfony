@@ -904,3 +904,17 @@ producer, authority issuance or consumption, successor creation, adoption,
 execution-admission change, credential handling, provider invocation, external
 I/O, Iron Gate or Lazaretto behavior is authorized. The active handoff is
 `docs/handoffs/provider-binding-successor-production-adoption-batch-3-complete.md`.
+
+
+Provider Binding Successor Production Adoption Batch 4 is complete at
+`BATCH_4_READ_ONLY_AGGREGATE_RECONSTRUCTION_COMPLETE`.
+The corrected v2 decision and authority, unchanged adoption target and exact
+reconciled lineage now reconstruct as eligible offline evidence, incomplete,
+conflicted or refused without persistence, repair, replacement, promotion,
+authority action or adoption.
+
+Only Batch 5 read-only adversarial readiness audit may next be considered. No
+producer, authority issuance or consumption, successor creation, adoption,
+execution-admission change, credential handling, provider invocation, external
+I/O, Iron Gate or Lazaretto behavior is authorized. The active handoff is
+`docs/handoffs/provider-binding-successor-production-adoption-batch-4-complete.md`.
