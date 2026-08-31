@@ -729,3 +729,15 @@ original binding remains BOUND_INACTIVE, global BOUND_ACTIVE mutation is
 rejected, and no provider, credential, external-I/O, retry, Iron Gate or
 Lazaretto authority is opened. The active handoff is
 `docs/handoffs/provider-binding-activation-state-reconciliation-preparation-batch-0-complete.md`.
+
+Provider Binding Activation State Reconciliation Batch 1 is complete at
+`BATCH_1_AUTHORITY_EMPTY_IMMUTABLE_BINDING_SUCCESSOR_CONTRACTS_COMPLETE`.
+The exact successor target, authority-empty decision input and immutable
+operation-scoped lifecycle successor are separately versioned. They create no
+record, authority, activation, revocation or runtime path.
+
+Only Batch 2 pure fail-closed validators and segregated immutable caller-supplied
+offline fixture stores may next be considered. The original implementation
+binding remains BOUND_INACTIVE and all provider, credential, external-I/O,
+retry, Iron Gate and Lazaretto boundaries remain closed. The active handoff is
+`docs/handoffs/provider-binding-activation-state-reconciliation-batch-1-complete.md`.
