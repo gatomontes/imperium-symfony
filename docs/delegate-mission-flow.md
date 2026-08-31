@@ -1037,3 +1037,20 @@ issuance or consumption, successor creation, adoption, activation, credential or
 capability handling, provider invocation, external I/O, live-command migration,
 Iron Gate or Lazaretto behavior is authorized. The active handoff is
 `docs/handoffs/provider-binding-successor-production-realization-batch-3-complete.md`.
+
+
+Provider Binding Successor Production Realization Batch 4 is complete at
+`BATCH_4_AUTHORITY_EMPTY_SUCCESSOR_ADMISSION_V3_CONTRACT_AND_VALIDATOR_COMPLETE`.
+
+The v3 admission shape now binds the completed successor, atomic winner,
+adoption target, executor principal, execution boundary and exact root. Its pure
+validator rejects substitution and false implementation. The boundary remains
+NOT_IMPLEMENTED and admits nothing.
+
+Only Batch 5 authority-empty explicit adoption-decision and successor-to-v3 join
+contracts with pure validation may next be considered. No live adoption,
+execution admission, authority issuance or consumption, successor creation,
+activation, credential or capability handling, provider invocation, effect,
+external I/O, live-command migration, Iron Gate or Lazaretto behavior is
+authorized. The active handoff is
+`docs/handoffs/provider-binding-successor-production-realization-batch-4-complete.md`.
