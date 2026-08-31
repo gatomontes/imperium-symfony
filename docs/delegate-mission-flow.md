@@ -768,3 +768,17 @@ original implementation binding remains BOUND_INACTIVE and all provider,
 credential, external-I/O, retry, Iron Gate and Lazaretto boundaries remain
 closed. The active handoff is
 `docs/handoffs/provider-binding-activation-state-reconciliation-batch-3-complete.md`.
+
+
+Provider Binding Activation State Reconciliation Batch 4 is complete at
+`BATCH_4_READ_ONLY_AGGREGATE_RECONSTRUCTION_COMPLETE`. The exact offline
+target, decision-input, lifecycle-successor, ACTIVE principal activation,
+BOUND_INACTIVE binding descriptor, assurance and execution-boundary chain now
+reconstructs as eligible, incomplete, conflicted or refused without persistence,
+repair, replacement or promotion.
+
+Only Batch 5 read-only adversarial readiness audit may next be considered. The
+original implementation binding remains BOUND_INACTIVE and all provider,
+credential, external-I/O, retry, Iron Gate and Lazaretto boundaries remain
+closed. The active handoff is
+`docs/handoffs/provider-binding-activation-state-reconciliation-batch-4-complete.md`.

@@ -7,7 +7,7 @@ namespace App\Tests\Imperium\Runtime;
 use App\Imperium\Runtime\LaCortine\ProviderBindingActivationReconciliationFixtureInterruptionProofService as Proof;
 use App\Imperium\Runtime\LaCortine\ProviderBindingActivationReconciliationFixtureStore;
 
-final class ProviderBindingActivationStateReconciliationBatch3Test extends ProviderBindingActivationStateReconciliationBatch2Test
+class ProviderBindingActivationStateReconciliationBatch3Test extends ProviderBindingActivationStateReconciliationBatch2Test
 {
     public function testAllThreePathsRemainAbsentWhenInterruptedBeforeCommit(): void
     {
