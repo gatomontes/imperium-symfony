@@ -741,3 +741,17 @@ offline fixture stores may next be considered. The original implementation
 binding remains BOUND_INACTIVE and all provider, credential, external-I/O,
 retry, Iron Gate and Lazaretto boundaries remain closed. The active handoff is
 `docs/handoffs/provider-binding-activation-state-reconciliation-batch-1-complete.md`.
+
+
+Provider Binding Activation State Reconciliation Batch 2 is complete at
+`BATCH_2_FAIL_CLOSED_VALIDATORS_AND_IMMUTABLE_FIXTURE_STORES_COMPLETE`.
+Exact caller-supplied target, decision-input and lifecycle-successor fixtures
+now fail closed under canonical validation and immutable segregated offline
+storage. Exact replay converges and changed same-identity evidence conflicts.
+
+Only Batch 3 disposable-root offline interruption, replay, conflict, expiry,
+revocation and same-root contention proof may next be considered. The original
+implementation binding remains BOUND_INACTIVE and all provider, credential,
+external-I/O, retry, Iron Gate and Lazaretto boundaries remain closed. The
+active handoff is
+`docs/handoffs/provider-binding-activation-state-reconciliation-batch-2-complete.md`.
