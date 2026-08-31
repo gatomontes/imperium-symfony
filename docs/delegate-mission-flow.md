@@ -1152,3 +1152,21 @@ or capability handling, provider invocation, external I/O, effect start, retry,
 live-command migration, Iron Gate or Lazaretto behavior is authorized. The
 active handoff is
 `docs/handoffs/provider-binding-successor-live-adoption-batch-1-complete.md`.
+
+
+Provider Binding Successor Live Adoption Batch 2 is complete at
+`BATCH_2_AUTHORITY_EMPTY_LIVE_ADOPTION_ISSUANCE_AND_DURABLE_CUSTODY_CONTRACTS_COMPLETE`.
+
+The future single-use authority shape, authority-empty issuance boundary and
+empty durable-custody boundary are separately versioned and join by exact
+custody reference, instance, schema and replay/contention root. No authority,
+credential, secret or process-local identity exists in either boundary.
+
+Only Batch 3 atomic same-root v3 admission, authority-consumption,
+successor-adoption and binding-transition winner contracts plus an inert seam
+may next be considered. No decision production, authority issuance or live
+consumption, execution admission, live adoption, binding-state change,
+credential or capability handling, provider invocation, external I/O, effect
+start, retry, live-command migration, Iron Gate or Lazaretto behavior is
+authorized. The active handoff is
+`docs/handoffs/provider-binding-successor-live-adoption-batch-2-complete.md`.
