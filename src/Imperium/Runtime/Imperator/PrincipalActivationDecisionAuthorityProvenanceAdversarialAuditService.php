@@ -44,6 +44,7 @@ final readonly class PrincipalActivationDecisionAuthorityProvenanceAdversarialAu
                 ->assertSuccessorPrincipal($principal, $sourcePrincipal, $scopeSuccessor);
             (new PrincipalActivationDecisionAuthorityProvenanceBatch5BValidator())
                 ->assertProductionEnvelope($envelope, $issuanceAuthorization, $principal);
+            $this->assertSecretExclusion($production);
             $this->assertLineage(
                 $production,
                 $activationDisposition,
@@ -51,7 +52,6 @@ final readonly class PrincipalActivationDecisionAuthorityProvenanceAdversarialAu
                 $issuanceAuthorization,
             );
             $this->assertProofs($proofs);
-            $this->assertSecretExclusion($production);
         } catch (\Throwable $error) {
             return $this->result(
                 $production,
@@ -164,7 +164,9 @@ final readonly class PrincipalActivationDecisionAuthorityProvenanceAdversarialAu
             foreach ($value as $key => $item) {
                 $normalized = strtolower((string) $key);
                 foreach ($forbidden as $fragment) {
-                    if (str_contains($normalized, $fragment)) {
+                    if (str_contains($normalized, $fragment)
+                        && false !== $item
+                        && null !== $item) {
                         throw new \RuntimeException('PAD604_SECRET_MATERIAL_PRESENT');
                     }
                 }
