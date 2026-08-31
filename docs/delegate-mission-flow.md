@@ -832,3 +832,18 @@ activation, authority issuance or consumption, credential or capability
 handling, provider invocation, external I/O, live-command migration, Iron Gate
 or Lazaretto behavior is authorized. The active handoff is
 `docs/handoffs/provider-binding-successor-production-adoption-preparation-batch-0-complete.md`.
+
+
+Provider Binding Successor Production Adoption Batch 1 is complete at
+`BATCH_1_AUTHORITY_EMPTY_PRODUCTION_DECISION_CREATION_AUTHORITY_AND_ADOPTION_TARGET_CONTRACTS_COMPLETE`.
+The exact competent production decision, decision-bound single-use
+successor-creation authority and explicit completed-successor adoption target
+are separately versioned and authority-empty.
+
+Only Batch 2 pure fail-closed validators and segregated immutable
+caller-supplied offline fixture stores may next be considered. No producer,
+authority issuance or consumption, successor creation, execution-admission
+change, live adoption, credential handling, provider invocation, external I/O,
+Iron Gate or Lazaretto behavior is authorized. The provider binding remains
+BOUND_INACTIVE. The active handoff is
+`docs/handoffs/provider-binding-successor-production-adoption-batch-1-complete.md`.
