@@ -29,7 +29,7 @@ The result includes a deterministic proof digest over the classification, chain
 and reasons. Exact replay returns the same proof. Invalid identifiers, expiry,
 revocation, changed evidence and recursive secret exclusion fail closed.
 
-A changed same-root contender remains visible as immutable contention while the
+A changed same-root contender remains visible as same-root contention while the
 original exact winner remains reconstructable. Reconstruction never repairs or
 replaces either fixture.
 
