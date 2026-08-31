@@ -12,7 +12,7 @@ They retain one winner after immutable commit.
 
 For every path, exact replay converges. Changed evidence for the same root
 conflicts. Different artifact identities cannot bypass same-root contention.
-Expiry and revocation refuse before commit and leave no record.
+The proof confirms that expiry and revocation refuse before commit and leave no record.
 
 Interruption after commit is reconstructable as the one immutable record;
 interruption before commit creates no partial evidence. No recovery path repairs,
