@@ -450,6 +450,21 @@ php vendor/bin/phpunit tests/Imperium/Runtime/PrincipalActivationDecisionAuthori
 
 - Clear rerun counts: not supplied and therefore not inferred.
 
+## Cleared principal-and-binding resumption preparation
+
+### Provider Effect Principal and Binding Activation Resumption Preparation Batch 0
+
+- Source PR: #630
+- Source merge commit: 23bd89d47c6c431f34acdc8a52427f41ea5bd902
+- Final status: CLEAR_OPERATOR_REPORTED
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/ProviderEffectPrincipalBindingActivationResumptionPreparationBatch0Test.php
+```
+
+- Counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
