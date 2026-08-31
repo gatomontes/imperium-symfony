@@ -6,8 +6,9 @@ BATCH_3_OFFLINE_INTERRUPTION_REPLAY_AND_CONTENTION_PROOF_COMPLETE
 
 All three segregated caller-supplied fixture paths are now keyed by the exact
 replay/contention root. The v2 production decision, v2 creation authority and
-unchanged adoption target remain absent before immutable commit and retain one
-winner after immutable commit.
+unchanged adoption target remain absent before immutable commit.
+
+They retain one winner after immutable commit.
 
 For every path, exact replay converges. Changed evidence for the same root
 conflicts. Different artifact identities cannot bypass same-root contention.
