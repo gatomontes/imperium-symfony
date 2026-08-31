@@ -720,6 +720,27 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingActivationStateReco
 
 - Counts: not supplied and therefore not inferred.
 
+## Cleared production-adoption Preparation Batch 0
+
+### Provider Binding Successor Production Adoption Preparation Batch 0
+
+- Source PR: #652
+- Source merge commit: 0411f4e3682e4b6e48bdffe5b86f5de9072dcad9
+- Documentation repair PR: #653
+- Repair merge commit: 36af5ee5fba16207bc439814d38f3e75f450b6f9
+- First attempt: 4 tests, 21 assertions, 2 documentation-contiguity failures.
+- Repair: made the closed activation prohibition and Batch 1 authority-empty
+  boundary literal and contiguous.
+- Runtime finding: no runtime or provider-boundary behavior defect was observed.
+- Final status: CLEAR_OPERATOR_REPORTED_AFTER_DOCUMENTATION_REPAIR
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingSuccessorProductionAdoptionPreparationBatch0Test.php
+```
+
+- Clear rerun counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
