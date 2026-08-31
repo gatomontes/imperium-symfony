@@ -177,6 +177,15 @@ final class PrincipalActivationDecisionAuthorityProvenanceRemediationBatch5CProd
             'external_action_performed' => false,
             'sealed' => true,
         ]);
+        $fixtures['authorization']['activation_disposition'] =
+            self::reference($activation, 'disposition_id');
+        $fixtures['authorization'] = self::seal($fixtures['authorization']);
+        $fixtures['envelope']['issuance_authorization'] =
+            self::reference($fixtures['authorization'], 'issuance_authorization_id');
+        $fixtures['envelope']['source_authority'] =
+            $fixtures['envelope']['issuance_authorization'];
+        $fixtures['envelope'] = self::seal($fixtures['envelope']);
+
         $aggregate = [
             'schema' => Aggregate::SCHEMA,
             'instance_id' => 'imperium-test',
