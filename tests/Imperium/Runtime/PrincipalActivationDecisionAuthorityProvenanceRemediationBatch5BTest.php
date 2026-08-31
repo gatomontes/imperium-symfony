@@ -14,9 +14,9 @@ use App\Imperium\Runtime\Imperator\ProviderExecutorPrincipalActivationDecisionIs
 use App\Imperium\Runtime\Imperator\ProviderExecutorPrincipalActivationDecisionProductionEnvelopeContract as Envelope;
 use PHPUnit\Framework\TestCase;
 
-final class PrincipalActivationDecisionAuthorityProvenanceRemediationBatch5BTest extends TestCase
+class PrincipalActivationDecisionAuthorityProvenanceRemediationBatch5BTest extends TestCase
 {
-    private string $root;
+    protected string $root;
 
     protected function setUp(): void
     {
@@ -150,7 +150,7 @@ final class PrincipalActivationDecisionAuthorityProvenanceRemediationBatch5BTest
         }
     }
 
-    private function fixtures(): array
+    protected function fixtures(): array
     {
         $identity = [
             'operator_id' => 'operator-test',
@@ -333,14 +333,14 @@ final class PrincipalActivationDecisionAuthorityProvenanceRemediationBatch5BTest
         return compact('source', 'transition', 'principal', 'authorization', 'envelope');
     }
 
-    private static function principalReference(array $record): array
+    protected static function principalReference(array $record): array
     {
         return self::reference($record, 'principal_version_id') + [
             'generation' => $record['principal_generation'],
         ];
     }
 
-    private static function referenceRecord(string $id): array
+    protected static function referenceRecord(string $id): array
     {
         return [
             'id' => $id,
@@ -349,7 +349,7 @@ final class PrincipalActivationDecisionAuthorityProvenanceRemediationBatch5BTest
         ];
     }
 
-    private static function reference(array $record, string $idField): array
+    protected static function reference(array $record, string $idField): array
     {
         return [
             'id' => $record[$idField],
@@ -358,7 +358,7 @@ final class PrincipalActivationDecisionAuthorityProvenanceRemediationBatch5BTest
         ];
     }
 
-    private static function seal(array $record): array
+    protected static function seal(array $record): array
     {
         unset($record['record_digest']);
         $record['record_digest'] = hash('sha256', CanonicalJson::encode($record));
@@ -366,7 +366,7 @@ final class PrincipalActivationDecisionAuthorityProvenanceRemediationBatch5BTest
         return $record;
     }
 
-    private function document(string $path): string
+    protected function document(string $path): string
     {
         return (string) preg_replace('/\s+/', ' ', (string) file_get_contents(dirname(__DIR__, 3).'/'.$path));
     }
