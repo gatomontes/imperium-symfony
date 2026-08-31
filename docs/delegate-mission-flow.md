@@ -794,3 +794,19 @@ Only Batch 6 terminal audit may next be considered. The original implementation
 binding remains BOUND_INACTIVE and all provider, credential, external-I/O,
 retry, Iron Gate and Lazaretto boundaries remain closed. The active handoff is
 `docs/handoffs/provider-binding-activation-state-reconciliation-batch-5-complete.md`.
+
+
+Provider Binding Activation State Reconciliation is complete pre-provider only at
+`PROVIDER_BINDING_ACTIVATION_STATE_RECONCILIATION_CAMPAIGN_COMPLETE_PRE_PROVIDER_ONLY`.
+Preparation Batch 0 and Batches 1 through 6 prove the immutable operation-scoped
+successor posture, canonical offline validation and storage, interruption,
+replay, same-root contention, read-only reconstruction and adversarial readiness.
+No reconciliation batch remains.
+
+The original implementation binding remains BOUND_INACTIVE. The legacy
+ACTIVATED_UNCONSUMED evidence is not promoted, and no production adoption,
+activation, authority, credential, provider, external-I/O, retry, Iron Gate or
+Lazaretto behavior is authorized. A separate explicitly selected campaign is
+required before live binding-successor creation or provider effect may be
+considered. The terminal handoff is
+`docs/handoffs/provider-binding-activation-state-reconciliation-campaign-complete.md`.
