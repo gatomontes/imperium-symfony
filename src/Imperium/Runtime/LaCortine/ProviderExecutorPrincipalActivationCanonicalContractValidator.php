@@ -196,7 +196,6 @@ final class ProviderExecutorPrincipalActivationCanonicalContractValidator
 
     private function rootMatches(mixed $root, array $admission, array $production, array $decision): bool
     {
-        $actor = $decision['actor'] ?? [];
         $scope = $decision['scope'] ?? [];
         $authority = $decision['activation_authority'] ?? [];
 
@@ -206,8 +205,8 @@ final class ProviderExecutorPrincipalActivationCanonicalContractValidator
         )
             && $this->identifier($root['root_id'] ?? null)
             && $root['instance_id'] === $admission['instance_id']
-            && $root['principal_id'] === ($actor['principal_id'] ?? null)
-            && $root['principal_generation'] === ($actor['generation'] ?? null)
+            && $root['principal_id'] === ($scope['principal_id'] ?? null)
+            && $root['principal_generation'] === ($scope['principal_generation'] ?? null)
             && $root['process_boundary_id'] === ($scope['process_boundary_id'] ?? null)
             && $root['production_id'] === ($production['production_id'] ?? null)
             && $root['decision_id'] === ($decision['decision_id'] ?? null)
