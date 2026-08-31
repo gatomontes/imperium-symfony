@@ -7,7 +7,7 @@ namespace App\Tests\Imperium\Runtime;
 use App\Imperium\Runtime\Imperator\ProviderBindingActivationStateReconciliationAdversarialAuditResultContract as Result;
 use App\Imperium\Runtime\Imperator\ProviderBindingActivationStateReconciliationAdversarialAuditService as Audit;
 
-final class ProviderBindingActivationStateReconciliationBatch5AdversarialAuditTest
+class ProviderBindingActivationStateReconciliationBatch5AdversarialAuditTest
     extends ProviderBindingActivationStateReconciliationBatch4Test
 {
     public function testExactEligibleChainPassesReadOnlyAudit(): void
