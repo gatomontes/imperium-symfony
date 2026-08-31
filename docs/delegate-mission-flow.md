@@ -1135,3 +1135,20 @@ activation, credential or capability handling, provider invocation, external
 I/O, effect start, retry, live-command migration, Iron Gate or Lazaretto
 behavior is authorized. The active handoff is
 `docs/handoffs/provider-binding-successor-live-adoption-preparation-batch-0-complete.md`.
+
+
+Provider Binding Successor Live Adoption Batch 1 is complete at
+`BATCH_1_AUTHORITY_EMPTY_LIVE_ADOPTION_DECISION_PRINCIPAL_AND_ISSUER_CONTRACTS_COMPLETE`.
+
+The exact competent Imperator decision principal and issuer are separately
+versioned, authority-empty and fail-closed. They bind active-principal lineage,
+instance, operation scope, replay/contention root and the existing immutable
+adoption-decision schema without producing a decision or holding authority.
+
+Only Batch 2 single-use live-adoption authority issuance and durable custody
+contracts may next be considered. No decision production, authority issuance or
+consumption, execution admission, live adoption, binding activation, credential
+or capability handling, provider invocation, external I/O, effect start, retry,
+live-command migration, Iron Gate or Lazaretto behavior is authorized. The
+active handoff is
+`docs/handoffs/provider-binding-successor-live-adoption-batch-1-complete.md`.
