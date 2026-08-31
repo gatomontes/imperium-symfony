@@ -1086,3 +1086,20 @@ creation, activation, credential or capability handling, provider invocation,
 effect, external I/O, live-command migration, Iron Gate or Lazaretto behavior is
 authorized. The active handoff is
 `docs/handoffs/provider-binding-successor-production-realization-batch-6-complete.md`.
+
+
+Provider Binding Successor Production Realization Batch 7 terminal audit is
+complete at
+`BATCH_7_TERMINAL_AUDIT_PASSED_PROVIDER_BINDING_SUCCESSOR_PRODUCTION_REALIZATION_COMPLETE`.
+
+The campaign closes at
+`PROVIDER_BINDING_SUCCESSOR_PRODUCTION_REALIZATION_CAMPAIGN_COMPLETE_PRE_PROVIDER_EFFECT_ONLY`.
+No production-realization batch remains. The provider binding remains
+BOUND_INACTIVE, v3 execution admission remains NOT_IMPLEMENTED and
+UNKNOWN_REPLAY_PROHIBITED remains binding.
+
+A separate explicitly selected campaign is required before live adoption,
+execution admission, provider-binding activation, credential or capability
+handling, provider invocation, external I/O or any provider effect may be
+considered. The active handoff is
+`docs/handoffs/provider-binding-successor-production-realization-campaign-complete.md`.
