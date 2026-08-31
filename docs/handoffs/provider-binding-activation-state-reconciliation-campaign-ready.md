@@ -53,8 +53,10 @@ UNKNOWN_REPLAY_PROHIBITED remains binding.
 > Continue Imperium from `main` after the merge commit that prepares Provider
 > Binding Activation State Reconciliation. Read
 > `docs/handoffs/provider-binding-activation-state-reconciliation-campaign-ready.md`
-> and every required source it names. Begin Provider Binding Activation State
-> Reconciliation Preparation Batch 0 only. Inventory and classify binding
+> and every required source it names.
+>
+> Begin Provider Binding Activation State Reconciliation Preparation Batch 0 only.
+> Inventory and classify binding
 > lifecycle vocabulary and ownership, operation-scoped activation evidence
 > versus durable implementation-binding state, the exact active executor
 > principal prerequisite, competent activation and revocation authorities,
