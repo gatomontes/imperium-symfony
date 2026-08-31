@@ -55,7 +55,7 @@ final class ProviderExecutorPrincipalActivationCanonicalContractValidator
             || $admission['instance_id'] !== ($assurance['instance_id'] ?? null)
             || $admission['instance_id'] !== ($boundary['instance_id'] ?? null)
             || !$this->decisionEligible($decision, $at)
-            || !$this->targetMatchesDecision($admission['activation_target'] ?? null, $decision)
+            || !$this->targetMatchesDecision($admission['activation_target'] ?? null, $decision, $attestation)
             || !$this->authorityMatchesDecision($admission['activation_authority'] ?? null, $decision)
             || !$this->rootMatches(
                 $admission['replay_contention_root'] ?? null,
@@ -150,21 +150,27 @@ final class ProviderExecutorPrincipalActivationCanonicalContractValidator
             && $authority['expires_at'] === $validity['expires_at'];
     }
 
-    private function targetMatchesDecision(mixed $target, array $decision): bool
-    {
-        $actor = $decision['actor'] ?? [];
+    private function targetMatchesDecision(
+        mixed $target,
+        array $decision,
+        array $attestation,
+    ): bool {
         $scope = $decision['scope'] ?? [];
+        $principal = $attestation['principal'] ?? null;
 
         return $this->exact(
             $target,
             ProviderExecutorPrincipalActivationCanonicalResolutionAdmissionContract::REQUIRED_ACTIVATION_TARGET_FIELDS,
         )
-            && $target['principal_id'] === ($actor['principal_id'] ?? null)
-            && $target['binding_id'] === ($actor['binding_id'] ?? null)
-            && $target['generation'] === ($actor['generation'] ?? null)
+            && $target['principal_id'] === ($scope['principal_id'] ?? null)
+            && $target['generation'] === ($scope['principal_generation'] ?? null)
             && $target['process_boundary_id'] === ($scope['process_boundary_id'] ?? null)
             && $target['provider_id'] === ($scope['provider_id'] ?? null)
-            && $target['operation'] === ($scope['operation'] ?? null);
+            && $target['operation'] === ($scope['operation'] ?? null)
+            && (
+                !is_array($principal)
+                || $target['binding_id'] === ($principal['binding_id'] ?? null)
+            );
     }
 
     private function authorityMatchesDecision(mixed $authority, array $decision): bool
