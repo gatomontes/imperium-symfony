@@ -756,6 +756,28 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingSuccessorProduction
 
 - Counts: not supplied and therefore not inferred.
 
+## Cleared production-adoption Batch 2 refusal
+
+### Provider Binding Successor Production Adoption Batch 2 refusal
+
+- Source PR: #655
+- Source merge commit: 323a6881fd7aefcaa2d20a3025983fe82c63999a
+- Documentation repair PR: #656
+- Repair merge commit: 44f3603b8593dc1bb80d5f48177153c41fd7c372
+- First attempt: 3 tests, 11 assertions, 2 documentation-contiguity failures.
+- Repair: made the finite-construction-order refusal and closed activation
+  prohibition literal and contiguous.
+- Runtime finding: the refusal identified a contract-level digest cycle before
+  any validator, fixture store or runtime path was created.
+- Final status: CLEAR_OPERATOR_REPORTED_AFTER_DOCUMENTATION_REPAIR
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingSuccessorProductionAdoptionBatch2RefusalTest.php
+```
+
+- Clear rerun counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
