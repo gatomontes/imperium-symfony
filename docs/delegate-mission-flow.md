@@ -932,3 +932,23 @@ issuance or consumption, successor creation, adoption, execution-admission
 change, credential handling, provider invocation, external I/O, Iron Gate or
 Lazaretto behavior is authorized. The active handoff is
 `docs/handoffs/provider-binding-successor-production-adoption-batch-5-complete.md`.
+
+
+Provider Binding Successor Production Adoption Batch 6 closes the offline
+readiness campaign at
+`BATCH_6_TERMINAL_AUDIT_PASSED_OFFLINE_PRODUCTION_ADOPTION_READINESS_COMPLETE`
+with campaign disposition
+`PROVIDER_BINDING_SUCCESSOR_PRODUCTION_ADOPTION_CAMPAIGN_COMPLETE_PRE_PRODUCTION_ONLY`.
+
+The defective v1 contracts remain historical refusal evidence and the corrected
+v2 lineage remains offline evidence. The provider binding remains
+BOUND_INACTIVE, the required v3 execution admission remains NOT_IMPLEMENTED and
+UNKNOWN_REPLAY_PROHIBITED remains binding. No production-adoption batch remains.
+
+A separate explicitly selected campaign is required before any production
+decision issuance, authority issuance or consumption, successor creation, v3
+execution admission or live adoption may be considered. No activation,
+credential or capability handling, provider invocation, external I/O,
+live-command migration, Iron Gate or Lazaretto behavior is authorized. The
+terminal handoff is
+`docs/handoffs/provider-binding-successor-production-adoption-campaign-complete.md`.
