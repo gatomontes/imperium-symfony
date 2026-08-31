@@ -50,7 +50,8 @@ final class ProviderBindingSuccessorProductionDecisionIssuerContractValidator
         );
 
         $reference = $issuer['exact_principal'] ?? null;
-        if (!$this->reference($reference)
+        if (!$this->identifier($issuer['issuer_id'] ?? null)
+            || !$this->reference($reference)
             || $reference['id'] !== $principal['principal_id']
             || $reference['digest'] !== $principal['record_digest']
             || $reference['schema'] !== $principal['schema']
