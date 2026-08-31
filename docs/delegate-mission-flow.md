@@ -891,3 +891,16 @@ issuance or consumption, successor creation, adoption, execution-admission
 change, credential handling, provider invocation, external I/O, Iron Gate or
 Lazaretto behavior is authorized. The active handoff is
 `docs/handoffs/provider-binding-successor-production-adoption-batch-2a-complete.md`.
+
+
+Provider Binding Successor Production Adoption Batch 3 is complete at
+`BATCH_3_OFFLINE_INTERRUPTION_REPLAY_AND_CONTENTION_PROOF_COMPLETE`.
+All three segregated offline fixture paths now prove absent-before-commit,
+one-winner-after-commit, exact replay, changed-evidence conflict, expiry and
+revocation refusal, and same-root contention under the exact replay root.
+
+Only Batch 4 read-only aggregate reconstruction may next be considered. No
+producer, authority issuance or consumption, successor creation, adoption,
+execution-admission change, credential handling, provider invocation, external
+I/O, Iron Gate or Lazaretto behavior is authorized. The active handoff is
+`docs/handoffs/provider-binding-successor-production-adoption-batch-3-complete.md`.

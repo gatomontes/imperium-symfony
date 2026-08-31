@@ -30,14 +30,14 @@ final readonly class ProviderBindingSuccessorProductionAdoptionFixtureStore
     {
         $this->validator->assertDecision($decision, ...$lineage);
 
-        return $this->records->put(self::DECISIONS, $decision['decision_id'], $decision);
+        return $this->records->put(self::DECISIONS, $this->rootId($decision), $decision);
     }
 
     public function putAuthority(array $authority, mixed ...$lineage): array
     {
         $this->validator->assertAuthority($authority, ...$lineage);
 
-        return $this->records->put(self::AUTHORITIES, $authority['authority_id'], $authority);
+        return $this->records->put(self::AUTHORITIES, $this->rootId($authority), $authority);
     }
 
     public function putAdoptionTarget(array $target, mixed ...$lineage): array
@@ -46,7 +46,7 @@ final readonly class ProviderBindingSuccessorProductionAdoptionFixtureStore
 
         return $this->records->put(
             self::ADOPTION_TARGETS,
-            $target['adoption_target_id'],
+            $this->rootId($target),
             $target,
         );
     }
@@ -64,5 +64,18 @@ final readonly class ProviderBindingSuccessorProductionAdoptionFixtureStore
     public function readAdoptionTarget(string $id): array
     {
         return $this->records->read(self::ADOPTION_TARGETS, $id);
+    }
+
+    private function rootId(array $record): string
+    {
+        $root = $record['replay_contention_root']
+            ?? $record['successor_creation_authority_issuance_target']['replay_contention_root']
+            ?? null;
+        $rootId = is_array($root) ? ($root['root_id'] ?? null) : null;
+        if (!is_string($rootId)) {
+            throw new \RuntimeException('PBA730_REPLAY_CONTENTION_ROOT_INVALID');
+        }
+
+        return $rootId;
     }
 }
