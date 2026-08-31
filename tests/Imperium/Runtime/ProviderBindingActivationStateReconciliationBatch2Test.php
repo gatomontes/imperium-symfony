@@ -12,7 +12,7 @@ use App\Imperium\Runtime\LaCortine\ProviderBindingActivationReconciliationContra
 use App\Imperium\Runtime\LaCortine\ProviderBindingActivationReconciliationFixtureStore;
 use PHPUnit\Framework\TestCase;
 
-final class ProviderBindingActivationStateReconciliationBatch2Test extends TestCase
+class ProviderBindingActivationStateReconciliationBatch2Test extends TestCase
 {
     public function testExactCallerSuppliedChainValidatesWithoutRuntimeAuthority(): void
     {
@@ -156,7 +156,7 @@ final class ProviderBindingActivationStateReconciliationBatch2Test extends TestC
         }
     }
 
-    private function fixture(): array
+    protected function fixture(): array
     {
         $principal = $this->seal([
             'schema' => 'imperium.provider-executor-principal-activation/v1',
@@ -307,7 +307,7 @@ final class ProviderBindingActivationStateReconciliationBatch2Test extends TestC
         return compact('principal', 'binding', 'assurance', 'boundary', 'target', 'input', 'successor');
     }
 
-    private function targetArguments(array $fixture): array
+    protected function targetArguments(array $fixture): array
     {
         return [
             $fixture['target'],
@@ -319,7 +319,7 @@ final class ProviderBindingActivationStateReconciliationBatch2Test extends TestC
         ];
     }
 
-    private function decisionArguments(array $fixture): array
+    protected function decisionArguments(array $fixture): array
     {
         return [
             $fixture['input'],
@@ -327,7 +327,7 @@ final class ProviderBindingActivationStateReconciliationBatch2Test extends TestC
         ];
     }
 
-    private function successorArguments(array $fixture): array
+    protected function successorArguments(array $fixture): array
     {
         return [
             $fixture['successor'],
@@ -336,7 +336,7 @@ final class ProviderBindingActivationStateReconciliationBatch2Test extends TestC
         ];
     }
 
-    private function seal(array $record): array
+    protected function seal(array $record): array
     {
         unset($record['record_digest']);
         $record['record_digest'] = hash('sha256', CanonicalJson::encode($record));
@@ -344,7 +344,7 @@ final class ProviderBindingActivationStateReconciliationBatch2Test extends TestC
         return $record;
     }
 
-    private function reference(array $record, string $idField): array
+    protected function reference(array $record, string $idField): array
     {
         return [
             'id' => $record[$idField],
@@ -353,7 +353,7 @@ final class ProviderBindingActivationStateReconciliationBatch2Test extends TestC
         ];
     }
 
-    private function expectFailure(string $message, callable $callable): void
+    protected function expectFailure(string $message, callable $callable): void
     {
         try {
             $callable();
@@ -363,7 +363,7 @@ final class ProviderBindingActivationStateReconciliationBatch2Test extends TestC
         }
     }
 
-    private function document(string $path): string
+    protected function document(string $path): string
     {
         return (string) preg_replace(
             '/\s+/',
@@ -372,7 +372,7 @@ final class ProviderBindingActivationStateReconciliationBatch2Test extends TestC
         );
     }
 
-    private function removeTree(string $path): void
+    protected function removeTree(string $path): void
     {
         if (!is_dir($path)) {
             return;
