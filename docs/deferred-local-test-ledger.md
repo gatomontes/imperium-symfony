@@ -610,6 +610,21 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingActivationStateReco
 
 - Clear rerun counts: not supplied and therefore not inferred.
 
+## Cleared binding-state reconciliation Preparation Batch 0
+
+### Provider Binding Activation State Reconciliation Preparation Batch 0
+
+- Source PR: #644
+- Source merge commit: 22298bf7a1f868edbd2e6dc678f06acdc11e40b7
+- Final status: CLEAR_OPERATOR_REPORTED
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingActivationStateReconciliationPreparationBatch0Test.php
+```
+
+- Counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
