@@ -755,3 +755,16 @@ implementation binding remains BOUND_INACTIVE and all provider, credential,
 external-I/O, retry, Iron Gate and Lazaretto boundaries remain closed. The
 active handoff is
 `docs/handoffs/provider-binding-activation-state-reconciliation-batch-2-complete.md`.
+
+
+Provider Binding Activation State Reconciliation Batch 3 is complete at
+`BATCH_3_OFFLINE_INTERRUPTION_REPLAY_AND_CONTENTION_PROOF_COMPLETE`.
+All three segregated offline fixture paths now prove absent-before-commit,
+one-winner-after-commit, exact replay, changed-evidence conflict, expiry and
+revocation refusal, and same-root contention.
+
+Only Batch 4 read-only aggregate reconstruction may next be considered. The
+original implementation binding remains BOUND_INACTIVE and all provider,
+credential, external-I/O, retry, Iron Gate and Lazaretto boundaries remain
+closed. The active handoff is
+`docs/handoffs/provider-binding-activation-state-reconciliation-batch-3-complete.md`.
