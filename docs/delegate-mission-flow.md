@@ -810,3 +810,25 @@ Lazaretto behavior is authorized. A separate explicitly selected campaign is
 required before live binding-successor creation or provider effect may be
 considered. The terminal handoff is
 `docs/handoffs/provider-binding-activation-state-reconciliation-campaign-complete.md`.
+
+
+## Provider binding successor production-adoption frontier
+
+Provider Binding Successor Production Adoption is separately selected and
+Preparation Batch 0 is complete at
+`PREPARATION_BATCH_0_COMPLETE_PRODUCTION_SUCCESSOR_DECISION_AND_ATOMIC_ADOPTION_ROUTE_REQUIRED`.
+
+The reconciled operation-scoped successor remains offline evidence. No exact
+competent production decision issuer, canonical single-use successor-creation
+authority, atomic authority-consumption-and-successor-creation winner or
+explicit execution-adoption join currently exists. The current v2 combined
+admission remains bound to the legacy inert-principal activation corridor and
+may not synthesize the reconciled successor.
+
+Only Batch 1 authority-empty contracts for the exact production decision,
+single-use successor-creation authority and explicit adoption target may next be
+considered. The original binding remains BOUND_INACTIVE. No runtime contract,
+activation, authority issuance or consumption, credential or capability
+handling, provider invocation, external I/O, live-command migration, Iron Gate
+or Lazaretto behavior is authorized. The active handoff is
+`docs/handoffs/provider-binding-successor-production-adoption-preparation-batch-0-complete.md`.
