@@ -1057,6 +1057,21 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingSuccessorProduction
 
 - Counts: not supplied and therefore not inferred.
 
+## Cleared successor live-adoption campaign selection
+
+### Provider Binding Successor Live Adoption campaign ready
+
+- Source PR: #679
+- Source merge commit: f4049d8a27802cd72a624d27e3152f579d49f99f
+- Final status: CLEAR_OPERATOR_REPORTED
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingSuccessorLiveAdoptionCampaignReadyTest.php
+```
+
+- Counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
