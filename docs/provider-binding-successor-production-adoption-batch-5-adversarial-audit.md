@@ -4,8 +4,8 @@
 
 BATCH_5_ADVERSARIAL_READINESS_AUDIT_PASSED
 
-A pure caller-supplied audit now pressure-tests immutable integrity, acyclic v2
-lineage, defective v1 refusal, lifecycle eligibility, expiry and revocation,
+A pure caller-supplied audit now pressure-tests immutable integrity.
+It proves acyclic v2 lineage, defective v1 refusal, lifecycle eligibility, expiry and revocation,
 substitution refusal, interruption cuts, exact replay, same-root contention,
 recursive secret exclusion, read-only reconstruction and the complete
 non-authority perimeter.
