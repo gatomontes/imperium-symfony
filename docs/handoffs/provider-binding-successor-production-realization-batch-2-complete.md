@@ -10,8 +10,7 @@ credential, secret or process-local capability identity.
 
 Only Provider Binding Successor Production Realization Batch 3 atomic same-root authority-consumption and successor-creation winner contracts may next be considered.
 
-Batch 3 may define contracts, pure validators and an inert transactional seam only. It may not issue authority, consume live authority, create a live
-successor, implement v3 admission or adopt the successor.
+Batch 3 may define contracts, pure validators and an inert transactional seam only. It may not issue authority, consume live authority, create a live successor, implement v3 admission or adopt the successor.
 It may not activate a principal or provider binding.
 It may not handle or resolve a credential or capability.
 It may not invoke a provider.
