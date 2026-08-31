@@ -1118,3 +1118,20 @@ Selection grants no live-adoption, execution-admission, binding-activation,
 credential, capability, provider-invocation, external-I/O, effect-start, retry,
 live-command migration, Iron Gate or Lazaretto authority. The active handoff is
 `docs/handoffs/provider-binding-successor-live-adoption-campaign-ready.md`.
+
+
+Provider Binding Successor Live Adoption Preparation Batch 0 is complete at
+`PREPARATION_BATCH_0_COMPLETE_LIVE_ADOPTION_DECISION_AUTHORITY_AND_ATOMIC_V3_TRANSITION_REQUIRED`.
+
+Canonical authority-empty decision, v3 validation and predecessor proof exist,
+but the competent live-adoption decision issuer, live-adoption authority,
+v3 producer, atomic adoption-and-binding winner and live-adoption reconstructor
+are absent.
+
+Only Batch 1 authority-empty competent decision-principal, issuer and immutable
+decision-lineage contracts may next be considered. No decision production,
+authority issuance or consumption, execution admission, live adoption, binding
+activation, credential or capability handling, provider invocation, external
+I/O, effect start, retry, live-command migration, Iron Gate or Lazaretto
+behavior is authorized. The active handoff is
+`docs/handoffs/provider-binding-successor-live-adoption-preparation-batch-0-complete.md`.
