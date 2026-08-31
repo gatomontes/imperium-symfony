@@ -412,6 +412,23 @@ php vendor/bin/phpunit tests/Imperium/Runtime/PrincipalActivationDecisionAuthori
 
 - Counts: not supplied and therefore not inferred.
 
+## Cleared decision-authority provenance Batch 6
+
+### Principal Activation Decision Authority Provenance Remediation Batch 6 adversarial audit
+
+- Source PR: #627
+- Source merge commit: 30c2c1038dd90f6cd81bec7cf3afd687085093ab
+- Final status: CLEAR_OPERATOR_REPORTED
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/PrincipalActivationDecisionAuthorityProvenanceRemediationBatch6AdversarialAuditTest.php
+```
+
+- Counts: not supplied and therefore not inferred.
+- Runtime finding: the audit path remained read-only and found no provenance,
+  secret-exclusion, or non-authority-perimeter defect.
+
 ## Pending
 
 None.
