@@ -65,7 +65,7 @@ final readonly class ProviderBindingActivationReconciliationFixtureStore
             $at,
         );
 
-        return $this->records->put(self::DECISION_INPUTS, $input['decision_input_id'], $input);
+        return $this->records->put(self::DECISION_INPUTS, $this->rootId($input), $input);
     }
 
     public function putLifecycleSuccessor(
@@ -91,8 +91,37 @@ final readonly class ProviderBindingActivationReconciliationFixtureStore
 
         return $this->records->put(
             self::LIFECYCLE_SUCCESSORS,
-            $successor['successor_id'],
+            $this->rootId($successor),
             $successor,
         );
     }
+
+    public function readTarget(string $rootId): array
+    {
+        return $this->records->read(self::TARGETS, $rootId);
+    }
+
+    public function readDecisionInput(string $rootId): array
+    {
+        return $this->records->read(self::DECISION_INPUTS, $rootId);
+    }
+
+    public function readLifecycleSuccessor(string $rootId): array
+    {
+        return $this->records->read(self::LIFECYCLE_SUCCESSORS, $rootId);
+    }
+
+    private function rootId(array $record): string
+    {
+        $root = $record['replay_contention_root']
+            ?? $record['basis']['replay_contention_root']
+            ?? null;
+        $rootId = is_array($root) ? ($root['root_id'] ?? null) : null;
+        if (!is_string($rootId)) {
+            throw new \RuntimeException('PBR230_REPLAY_CONTENTION_ROOT_INVALID');
+        }
+
+        return $rootId;
+    }
+
 }
