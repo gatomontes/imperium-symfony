@@ -10,8 +10,8 @@ false-v3 and non-authority attacks.
 
 Only Provider Binding Successor Production Realization Batch 7 terminal audit and campaign closure may next be considered.
 
-Batch 7 may write terminal documentation and focused audit guards only. It may
-not decide or perform adoption, admit execution, issue or consume authority,
+Batch 7 may write terminal documentation and focused audit guards only.
+It may not decide or perform adoption, admit execution, issue or consume authority,
 create a successor or start an effect.
 It may not activate a principal or provider binding.
 It may not handle or resolve a credential or capability.
