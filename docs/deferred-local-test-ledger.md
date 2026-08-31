@@ -589,6 +589,27 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderEffectPrincipalBindingActi
 
 - Counts: not supplied and therefore not inferred.
 
+## Cleared binding-state reconciliation campaign preparation
+
+### Provider Binding Activation State Reconciliation campaign-ready boundary
+
+- Source PR: #642
+- Source merge commit: c7a58baafcbc8d8e4c4245d32bba57e43613642a
+- Repair PR: #643
+- Repair merge commit: 088cef0048de23d8507ed7e898131cac158931e9
+- First attempt: 2 tests, 15 assertions, 1 documentation-expectation failure.
+- Repair: kept the exact Preparation Batch 0 directive contiguous across the
+  Markdown blockquote boundary.
+- Runtime finding: no runtime or provider-boundary behavior defect was observed.
+- Final status: CLEAR_OPERATOR_REPORTED_AFTER_DOCUMENTATION_REPAIR
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingActivationStateReconciliationCampaignReadyTest.php
+```
+
+- Clear rerun counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
