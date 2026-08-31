@@ -16,7 +16,8 @@ consumption-only state, and durable downstream non-authority.
 Only Provider Effect Principal and Binding Activation Resumption Batch 6 may
 next be considered. It may perform the terminal audit and close this resumption
 campaign if every prior result, refusal, repair, clear report, closed boundary
-and remaining non-authority is represented exactly.
+and remaining non-authority for provider binding, credentials, provider invocation
+and external I/O is represented exactly.
 
 Batch 6 may inspect and document existing records. It may not add a runtime
 authority path, activate a provider binding, handle a credential or capability,
