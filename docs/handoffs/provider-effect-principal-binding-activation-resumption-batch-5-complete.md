@@ -20,8 +20,8 @@ and remaining non-authority for provider binding, credentials, provider invocati
 and external I/O is represented exactly.
 
 Batch 6 may inspect and document existing records. It may not add a runtime
-authority path, activate a provider binding, handle a credential or capability,
-invoke a provider, perform external I/O, start a provider effect, authorize
+authority path. It may not activate a provider binding, handle a credential or
+capability, invoke a provider, perform external I/O, start a provider effect, authorize
 retry, migrate a live provider consumer, or open Iron Gate or Lazaretto.
 
 The provider binding remains BOUND_INACTIVE. UNKNOWN_REPLAY_PROHIBITED remains binding.
