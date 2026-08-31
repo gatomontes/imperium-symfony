@@ -694,3 +694,26 @@ canonical v3 successor-principal contract exists, and the issuance
 authorization does not bind the complete activation-decision actor and payload.
 Only authority-empty Batch 5A corrective contracts may next be considered.
 Provider Effect Principal and Binding Activation remains paused.
+
+## Principal activation resumption closure and binding-state frontier
+
+Provider Effect Principal and Binding Activation Resumption campaign is complete
+at
+`PROVIDER_EFFECT_PRINCIPAL_BINDING_ACTIVATION_RESUMPTION_CAMPAIGN_COMPLETE`.
+Batches 1 through 6 prove the authority-empty inputs, immutable validation,
+read-only reconstruction, one combined activation-authority-consumption and
+principal-activation winner, adversarial refusal behavior and terminal
+non-authority. No resumption batch remains.
+
+The exact executor-principal generation is durably ACTIVE and its exact
+single-use activation authority is consumed without continuing authority. The
+provider implementation binding remains BOUND_INACTIVE. No credential or
+capability was handled, no provider was invoked, no external I/O or provider
+effect occurred, and Iron Gate and Lazaretto remain closed.
+
+The separately selected next campaign is Provider Binding Activation State
+Reconciliation, Preparation Batch 0 only. It must reconcile operation-scoped
+activation evidence with durable implementation-binding state before any live
+adoption may be considered. No provider-binding activation is authorized.
+The active handoff is
+`docs/handoffs/provider-binding-activation-state-reconciliation-campaign-ready.md`.
