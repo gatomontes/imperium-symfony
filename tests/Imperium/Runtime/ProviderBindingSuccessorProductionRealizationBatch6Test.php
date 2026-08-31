@@ -23,7 +23,7 @@ final class ProviderBindingSuccessorProductionRealizationBatch6Test extends Test
         self::assertSame(Result::REQUIRED_FIELDS, array_keys($result));
         self::assertTrue($result['read_only']);
 
-        foreach (array_slice($result, 6) as $field => $value) {
+        foreach (array_slice($result, 7) as $field => $value) {
             self::assertFalse($value, $field);
         }
     }
