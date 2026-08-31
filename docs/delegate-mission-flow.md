@@ -877,3 +877,17 @@ authority issuance or consumption, successor creation, adoption, credential
 handling, provider invocation, external I/O, Iron Gate or Lazaretto behavior is
 authorized. The active handoff is
 `docs/handoffs/provider-binding-successor-production-adoption-batch-1a-complete.md`.
+
+
+Provider Binding Successor Production Adoption Batch 2A is complete at
+`BATCH_2A_FAIL_CLOSED_V2_VALIDATORS_AND_IMMUTABLE_OFFLINE_FIXTURE_STORES_COMPLETE`.
+The corrected v2 decision and authority plus unchanged adoption target now fail
+closed under pure validation and persist only as caller-supplied fixtures in
+three segregated immutable offline evidence paths.
+
+Only Batch 3 disposable-root interruption, replay, conflict, expiry, revocation
+and same-root contention proof may next be considered. No producer, authority
+issuance or consumption, successor creation, adoption, execution-admission
+change, credential handling, provider invocation, external I/O, Iron Gate or
+Lazaretto behavior is authorized. The active handoff is
+`docs/handoffs/provider-binding-successor-production-adoption-batch-2a-complete.md`.
