@@ -9,7 +9,7 @@ use App\Imperium\Runtime\LaCortine\ProviderExecutorPrincipalActivationCanonicalF
 use App\Imperium\Runtime\LaCortine\ProviderExecutorPrincipalActivationService;
 use App\Imperium\Runtime\LaCortine\ProviderExecutorPrincipalCanonicalActivationService;
 
-final class ProviderEffectPrincipalBindingActivationResumptionBatch5Test
+class ProviderEffectPrincipalBindingActivationResumptionBatch5Test
     extends ProviderEffectPrincipalBindingActivationResumptionBatch4Test
 {
     public function testChangedRootAndChangedEvidenceRefuseWithoutConsumptionOnlyState(): void
