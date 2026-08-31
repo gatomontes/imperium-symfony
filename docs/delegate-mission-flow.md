@@ -847,3 +847,18 @@ change, live adoption, credential handling, provider invocation, external I/O,
 Iron Gate or Lazaretto behavior is authorized. The provider binding remains
 BOUND_INACTIVE. The active handoff is
 `docs/handoffs/provider-binding-successor-production-adoption-batch-1-complete.md`.
+
+
+Provider Binding Successor Production Adoption Batch 2 refuses at
+`BATCH_2_REFUSED_CYCLIC_DECISION_AUTHORITY_DIGEST_DEPENDENCY`.
+The Batch 1 decision requires the final creation-authority digest while the
+creation authority requires the final decision digest. No immutable record can
+be sealed first, so validators and fixture stores are blocked.
+
+Only authority-empty Batch 1A cyclic-lineage correction contracts may next be
+considered. The decision must bind an authority issuance target; the later
+authority may bind the sealed decision and that target. No runtime authority,
+successor creation, live adoption, credential handling, provider invocation,
+external I/O, Iron Gate or Lazaretto behavior is authorized. The active handoff
+is
+`docs/handoffs/provider-binding-successor-production-adoption-batch-2-refused.md`.
