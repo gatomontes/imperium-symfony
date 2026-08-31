@@ -7,7 +7,7 @@ namespace App\Tests\Imperium\Runtime;
 use App\Imperium\Runtime\LaCortine\ProviderBindingActivationReconciliationAggregateReconstructor;
 use App\Imperium\Runtime\LaCortine\ProviderBindingActivationReconciliationFixtureStore;
 
-final class ProviderBindingActivationStateReconciliationBatch4Test extends ProviderBindingActivationStateReconciliationBatch3Test
+class ProviderBindingActivationStateReconciliationBatch4Test extends ProviderBindingActivationStateReconciliationBatch3Test
 {
     public function testCompleteExactChainReconstructsEligibleAndReadOnly(): void
     {
@@ -200,7 +200,7 @@ final class ProviderBindingActivationStateReconciliationBatch4Test extends Provi
         }
     }
 
-    private function storeChain(string $root, array $fixture): void
+    protected function storeChain(string $root, array $fixture): void
     {
         $store = new ProviderBindingActivationReconciliationFixtureStore($root);
         $store->putTarget(...$this->targetArguments($fixture));
@@ -208,12 +208,12 @@ final class ProviderBindingActivationStateReconciliationBatch4Test extends Provi
         $store->putLifecycleSuccessor(...$this->successorArguments($fixture));
     }
 
-    private function reconstructor(string $root): ProviderBindingActivationReconciliationAggregateReconstructor
+    protected function reconstructor(string $root): ProviderBindingActivationReconciliationAggregateReconstructor
     {
         return new ProviderBindingActivationReconciliationAggregateReconstructor($root);
     }
 
-    private function temporaryRootForBatch4(): string
+    protected function temporaryRootForBatch4(): string
     {
         $root = sys_get_temp_dir().'/imperium-pbr-batch4-'.bin2hex(random_bytes(8));
         mkdir($root, 0770, true);
@@ -221,7 +221,7 @@ final class ProviderBindingActivationStateReconciliationBatch4Test extends Provi
         return $root;
     }
 
-    private function snapshot(string $root): array
+    protected function snapshot(string $root): array
     {
         $snapshot = [];
         $iterator = new \RecursiveIteratorIterator(
