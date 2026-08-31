@@ -814,6 +814,28 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingSuccessorProduction
 
 - Counts: not supplied and therefore not inferred.
 
+## Cleared production-adoption Batch 3
+
+### Provider Binding Successor Production Adoption Batch 3
+
+- Source PR: #660
+- Source merge commit: 29a2122d5d0918de2d580eecab99fde7fa569c9e
+- Documentation repair PR: #661
+- Repair merge commit: 8e91855b365bc39f80f6eeb93b1d4ef40da51a4c
+- First attempt: 16 tests, 81 assertions, 1 case-sensitive
+  documentation-expectation failure.
+- Repair: normalized the exact lowercase expiry-and-revocation refusal finding.
+- Runtime finding: all interruption, replay and same-root contention behavior
+  passed without a runtime defect.
+- Final status: CLEAR_OPERATOR_REPORTED_AFTER_DOCUMENTATION_REPAIR
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingSuccessorProductionAdoptionBatch3Test.php
+```
+
+- Clear rerun counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
