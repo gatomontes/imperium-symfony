@@ -29,7 +29,7 @@ before activation.
 
 The exact principal generation becomes `ACTIVE`, and its exact activation
 authority is consumed with no continuing authority. The provider binding remains
-`BOUND_INACTIVE`.
+BOUND_INACTIVE.
 
 This entry point contains no credential or capability path, no provider
 invocation, no external I/O, no provider effect, no retry authority and no live
