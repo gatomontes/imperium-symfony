@@ -29,21 +29,28 @@ final class ProviderEffectPrincipalBindingActivationResumptionBatch5Test
         self::assertSame([], $this->activationFiles());
     }
 
-    public function testGenerationAndBindingSubstitutionRefuseBeforeWinner(): void
+    public function testGenerationSubstitutionRefusesBeforeWinner(): void
     {
-        foreach (['generation', 'binding_id'] as $field) {
-            $f = $this->canonicalFixtures();
-            $this->storeCanonicalChain($f);
-            $candidate = $f;
-            $candidate['attestation']['principal'][$field] =
-                'generation' === $field ? 2 : 'substituted-binding';
-            $candidate['attestation'] = self::seal($candidate['attestation']);
+        $f = $this->canonicalFixtures();
+        $this->storeCanonicalChain($f);
+        $candidate = $f;
+        $candidate['attestation']['principal']['generation'] = 2;
+        $candidate['attestation'] = self::seal($candidate['attestation']);
 
-            $this->expectCanonicalRefusal($candidate);
-            self::assertSame([], $this->activationFiles(), $field);
-            $this->tearDown();
-            $this->setUp();
-        }
+        $this->expectCanonicalRefusal($candidate);
+        self::assertSame([], $this->activationFiles());
+    }
+
+    public function testBindingSubstitutionRefusesBeforeWinner(): void
+    {
+        $f = $this->canonicalFixtures();
+        $this->storeCanonicalChain($f);
+        $candidate = $f;
+        $candidate['attestation']['principal']['binding_id'] = 'substituted-binding';
+        $candidate['attestation'] = self::seal($candidate['attestation']);
+
+        $this->expectCanonicalRefusal($candidate);
+        self::assertSame([], $this->activationFiles());
     }
 
     public function testCrashBoundariesAndProcessLocalReconstructionConvergeExactly(): void
