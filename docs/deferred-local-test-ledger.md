@@ -867,6 +867,24 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingSuccessorProduction
 
 - Counts: not supplied and therefore not inferred.
 
+
+## Cleared production-adoption Batch 6 terminal audit
+
+### Provider Binding Successor Production Adoption Batch 6 terminal audit
+
+- Source PR: #664
+- Source merge commit: e69562f65af959f92fdb23b1767299aa8b53c329
+- Final status: CLEAR_OPERATOR_REPORTED
+- Campaign disposition:
+  `PROVIDER_BINDING_SUCCESSOR_PRODUCTION_ADOPTION_CAMPAIGN_COMPLETE_PRE_PRODUCTION_ONLY`
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingSuccessorProductionAdoptionBatch6TerminalAuditTest.php
+```
+
+- Counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
