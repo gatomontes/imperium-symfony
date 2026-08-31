@@ -43,7 +43,7 @@ final readonly class ProviderBindingActivationReconciliationFixtureStore
             $at,
         );
 
-        return $this->records->put(self::TARGETS, $target['target_id'], $target);
+        return $this->records->put(self::TARGETS, $this->rootId($target), $target);
     }
 
     public function putDecisionInput(
