@@ -952,3 +952,21 @@ credential or capability handling, provider invocation, external I/O,
 live-command migration, Iron Gate or Lazaretto behavior is authorized. The
 terminal handoff is
 `docs/handoffs/provider-binding-successor-production-adoption-campaign-complete.md`.
+
+
+## Provider binding successor production-realization frontier
+
+Provider Binding Successor Production Realization is separately selected.
+Preparation Batch 0 only may inventory the exact production-decision issuer,
+single-use authority issuer and custodian, atomic authority-consumption and
+successor-creation winner, v3 execution-admission seam and explicit adoption
+join.
+
+The planning estimate is eight batches including preparation, but any refusal or
+correction batch expands that count. Selection grants no runtime authority. The
+provider binding remains BOUND_INACTIVE, required v3 execution admission remains
+NOT_IMPLEMENTED and UNKNOWN_REPLAY_PROHIBITED remains binding. No decision,
+authority, successor, adoption, credential, capability, provider effect,
+external I/O, live-command migration, Iron Gate or Lazaretto action is
+authorized. The active handoff is
+`docs/handoffs/provider-binding-successor-production-realization-campaign-ready.md`.
