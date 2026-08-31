@@ -1202,3 +1202,17 @@ admission, live adoption, binding-state change, credential or capability
 handling, provider invocation, external I/O, effect start, retry, live-command
 migration, Iron Gate or Lazaretto behavior is authorized. The active handoff is
 `docs/handoffs/provider-binding-successor-live-adoption-batch-4-complete.md`.
+
+Provider Binding Successor Live Adoption Batch 5 is complete at
+`BATCH_5_READ_ONLY_LIVE_ADOPTION_AGGREGATE_RECONSTRUCTION_COMPLETE`.
+
+The pure caller-supplied reconstructor classifies absent, incomplete,
+conflicted, refused and exact immutable-winner evidence without persistence,
+repair, replacement, authority action or live transition.
+
+Only Batch 6 read-only adversarial readiness audit may next be considered. No
+decision production, authority issuance or live consumption, execution
+admission, live adoption, binding-state change, credential or capability
+handling, provider invocation, external I/O, effect start, retry, live-command
+migration, Iron Gate or Lazaretto behavior is authorized. The active handoff is
+`docs/handoffs/provider-binding-successor-live-adoption-batch-5-complete.md`.
