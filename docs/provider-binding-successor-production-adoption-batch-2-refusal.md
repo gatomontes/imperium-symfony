@@ -14,9 +14,12 @@ reference. The successor-creation-authority contract simultaneously requires
 
 Therefore the canonical production-decision digest requires the authority
 digest before the decision can be sealed, while the canonical authority digest
-requires the decision digest before the authority can be sealed. No finite
-construction order exists. Placeholder digests, post-seal mutation or digest
-iteration would violate immutable canonical evidence.
+requires the decision digest before the authority can be sealed.
+
+No finite construction order exists.
+
+Placeholder digests, post-seal mutation or digest iteration would violate
+immutable canonical evidence.
 
 ## Required correction
 
