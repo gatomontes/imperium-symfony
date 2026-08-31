@@ -1070,3 +1070,19 @@ activation, credential or capability handling, provider invocation, effect,
 external I/O, live-command migration, Iron Gate or Lazaretto behavior is
 authorized. The active handoff is
 `docs/handoffs/provider-binding-successor-production-realization-batch-5-complete.md`.
+
+
+Provider Binding Successor Production Realization Batch 6 is complete at
+`BATCH_6_READ_ONLY_INTERRUPTION_REPLAY_CONTENTION_AND_ADVERSARIAL_PROOF_PASSED`.
+
+The caller-supplied audit proves interruption cuts, one-winner exact replay,
+same-root changed-evidence conflict, expiry and revocation refusal, recursive
+secret exclusion, false-v3 refusal and the complete non-authority perimeter. It
+imports no persistence or effect dependency.
+
+Only Batch 7 terminal audit and campaign closure may next be considered. No
+adoption, execution admission, authority issuance or consumption, successor
+creation, activation, credential or capability handling, provider invocation,
+effect, external I/O, live-command migration, Iron Gate or Lazaretto behavior is
+authorized. The active handoff is
+`docs/handoffs/provider-binding-successor-production-realization-batch-6-complete.md`.

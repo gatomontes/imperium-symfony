@@ -1001,6 +1001,22 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingSuccessorProduction
 
 - Clear rerun counts: not supplied and therefore not inferred.
 
+
+## Cleared production-realization Batch 5
+
+### Provider Binding Successor Production Realization Batch 5
+
+- Source PR: #675
+- Source merge commit: b069f820030fd79556fb6272dfcdd116d2a8774a
+- Final status: CLEAR_OPERATOR_REPORTED
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingSuccessorProductionRealizationBatch5Test.php
+```
+
+- Counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
