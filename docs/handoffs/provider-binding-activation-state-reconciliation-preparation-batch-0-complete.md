@@ -23,10 +23,11 @@ target, decision input and immutable lifecycle successor.
 
 Batch 1 may define fields and pure contract constants only. It may not implement
 a producer, validator, store, reconstruction path, activation or revocation
-transition. It may not activate a provider binding, issue or consume authority,
-handle or resolve a credential or capability, invoke a provider, perform
-external I/O, start a provider effect, authorize retry, migrate a live consumer
-or command, or open Iron Gate or Lazaretto.
+transition. It may not activate a provider binding. It may not issue or consume
+authority. It may not handle or resolve a credential or capability. It may not
+invoke a provider. It may not perform external I/O, start a provider effect,
+authorize retry, migrate a live consumer or command, or open Iron Gate or
+Lazaretto.
 
 The cross-process capability-custody refusal remains authoritative. The provider
 binding remains BOUND_INACTIVE. UNKNOWN_REPLAY_PROHIBITED remains binding.
