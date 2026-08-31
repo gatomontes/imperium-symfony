@@ -143,4 +143,12 @@ final class PrincipalActivationDecisionAuthorityProvenanceRemediationBatch7Termi
             self::assertNotFalse(stripos($handoff, $boundary), $boundary);
         }
     }
+    private function document(string $path): string
+    {
+        return (string) preg_replace(
+            '/\\s+/',
+            ' ',
+            (string) file_get_contents(dirname(__DIR__, 3).'/'.$path),
+        );
+    }
 }
