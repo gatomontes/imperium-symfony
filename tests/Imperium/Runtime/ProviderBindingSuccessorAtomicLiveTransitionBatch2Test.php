@@ -77,7 +77,7 @@ final class ProviderBindingSuccessorAtomicLiveTransitionBatch2Test extends TestC
             Delivery::NON_AUTHORITIES,
         ] as $posture) {
             self::assertNotEmpty($posture);
-            self::assertNotContains(true, $posture, true);
+            self::assertNotContains(true, $posture);
         }
 
         $roots = [
