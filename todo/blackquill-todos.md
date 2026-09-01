@@ -87,6 +87,13 @@ effect-capable dependencies fail closed. Only Batch 4 complete-chain secret and
 process-local capability exclusion may next be considered. The closure remains
 `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_EVIDENCE_PROVENANCE_DEFECT`.
 
+Batch 4 completed at
+`BATCH_4_COMPLETE_CHAIN_SECRET_AND_PROCESS_LOCAL_CAPABILITY_EXCLUSION_PROVED`.
+Twelve exact typed origin-to-closure sections now undergo recursive key, value,
+container, nested/alternative encoding, split-value, process-local identity and
+sanitized-exception inspection. Only Batch 5 separately authorized disposable
+real-mission execution may next be considered. The closure remains qualified.
+
 ### 1. Make credential custody real
 
 - [x] Remove provider credentials from the directly invokable Symfony platform service boundary. *(Credential-boundary Batch 17.)*
