@@ -1408,3 +1408,16 @@ remains. A separate explicitly selected campaign is required before executable
 atomic consumption, v3 admission, successor adoption or binding transition may
 be considered. The terminal handoff is
 `docs/handoffs/provider-binding-successor-atomic-live-transition-campaign-complete.md`.
+
+
+Post-closure Blackquill review qualifies the Atomic Live Transition campaign as
+`CAMPAIGN_CLOSURE_ACCEPTED_WITH_MATERIAL_EVIDENCE_DEFECT`. The underlying
+pre-execution contracts remain closed and canonical where independently proved,
+but Batch 6 accepts caller-supplied proof booleans and can pass empty evidence,
+while Batch 7 retains prose rather than recomputing the evidence chain.
+
+Atomic Transition Evidence Derivation Remediation is selected. Only Preparation
+Batch 0 inventory and classification is authorized. The estimated campaign is
+six batches including preparation. No audit repair or runtime behavior is yet
+authorized. The active handoff is
+`docs/handoffs/atomic-transition-evidence-derivation-remediation-campaign-ready.md`.
