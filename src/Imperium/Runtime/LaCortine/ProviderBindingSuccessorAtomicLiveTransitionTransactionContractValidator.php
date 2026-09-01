@@ -57,11 +57,11 @@ final class ProviderBindingSuccessorAtomicLiveTransitionTransactionContractValid
             || ($winner['replay_contention_root'] ?? null)
                 !== $journal['replay_contention_root']
             || !$this->referencesMatchWriteSet($winner, $journal['write_set'])
-            || true === ($winner['authority_consumed'] ?? null)
-            || true === ($winner['execution_admitted'] ?? null)
-            || true === ($winner['successor_adopted'] ?? null)
-            || true === ($winner['source_binding_deactivated'] ?? null)
-            || true === ($winner['successor_binding_activated'] ?? null)
+            || false !== ($winner['authority_consumed'] ?? null)
+            || false !== ($winner['execution_admitted'] ?? null)
+            || false !== ($winner['successor_adopted'] ?? null)
+            || false !== ($winner['source_binding_deactivated'] ?? null)
+            || false !== ($winner['successor_binding_activated'] ?? null)
             || false !== ($winner['combined_commit_performed'] ?? null)
             || false !== ($winner['continuing_authority'] ?? null)
             || ProviderBindingSuccessorAtomicLiveTransitionCombinedWinnerContract::STATUS
