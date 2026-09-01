@@ -116,6 +116,20 @@ The retained operational package survived independent reconstruction and both
 historical counterfeit closure paths remain disabled. No further batch in this
 campaign is authorized.
 
+Post-closure Blackquill review rejected
+`CAMPAIGN_CLOSURE_ACCEPTED_AFTER_AUTHENTICATED_OPERATIONAL_EVIDENCE_PROOF` at
+`AUTHENTICATED_OPERATIONAL_EVIDENCE_CLOSURE_REJECTED_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`.
+The reconstructor matches copied constants rather than underlying artifacts,
+the terminal auditor repeats the same implementation, and the private receipt
+cannot be independently inspected from its digest. Historical counterfeit
+closure paths remain correctly disabled.
+
+Atomic Transition Evidence Independent Verification Remediation is selected.
+Only Preparation Batch 0 inventory and boundary classification may next be
+considered. No receipt inspection, signing-key handling, verifier execution,
+mission rerun, provider invocation, external I/O, runtime mutation or closure
+restoration is authorized.
+
 ### 1. Make credential custody real
 
 - [x] Remove provider credentials from the directly invokable Symfony platform service boundary. *(Credential-boundary Batch 17.)*
