@@ -74,6 +74,11 @@ Batch 1 completed at
 Only Batch 2 trusted internal case execution that accepts no caller result or
 execution, finding or match boolean may next be considered.
 
+Batch 2 completed at
+`BATCH_2_TRUSTED_INTERNAL_CASE_EXECUTION_AND_PROVENANCE_BOUND_RESULTS_COMPLETE`.
+Only Batch 3 actual recursive dependency-capability graph derivation bound to
+the exact executing source/build may next be considered.
+
 ### 1. Make credential custody real
 
 - [x] Remove provider credentials from the directly invokable Symfony platform service boundary. *(Credential-boundary Batch 17.)*
