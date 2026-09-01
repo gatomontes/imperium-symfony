@@ -1,92 +1,62 @@
 [CmdletBinding()]
-param(
-    [string] $OutputDirectory = $env:TEMP
-)
+param([string] $OutputDirectory = $env:TEMP)
 
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
-
+function Get-StringSha256([string] $Value) {
+    $algorithm = [Security.Cryptography.SHA256]::Create()
+    try {
+        return ([BitConverter]::ToString(
+            $algorithm.ComputeHash([Text.Encoding]::UTF8.GetBytes($Value))
+        ) -replace '-', '').ToLowerInvariant()
+    } finally {
+        $algorithm.Dispose()
+    }
+}
 $projectRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 Set-Location $projectRoot
-
-$dirtyBefore = @(git status --porcelain)
-if ($LASTEXITCODE -ne 0 -or $dirtyBefore.Count -ne 0) {
-    throw 'REFUSED_DIRTY_EXECUTION_SOURCE'
-}
+if (@(git status --porcelain).Count -ne 0) { throw 'REFUSED_DIRTY_EXECUTION_SOURCE' }
 
 $sourceCommit = (git rev-parse HEAD).Trim()
-$sourceTree = (git rev-parse 'HEAD^{tree}').Trim()
-if ($LASTEXITCODE -ne 0) {
-    throw 'REFUSED_SOURCE_IDENTITY_UNAVAILABLE'
-}
-
+$treeObject = (git rev-parse 'HEAD^{tree}').Trim()
 $phpVersion = (& php -r 'echo PHP_VERSION;').Trim()
-if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($phpVersion)) {
-    throw 'REFUSED_PHP_RUNTIME_UNAVAILABLE'
-}
+if ($LASTEXITCODE -ne 0) { throw 'REFUSED_PHP_RUNTIME_UNAVAILABLE' }
 
-$missionId = 'ATOMIC-TRANSITION-DISPOSABLE-PROOF-1'
-$privateJunit = Join-Path $OutputDirectory 'imperium-batch5-private-junit.xml'
-$sanitizedSummary = Join-Path $OutputDirectory 'imperium-batch5-sanitized.json'
+$privateEvidence = Join-Path $OutputDirectory 'imperium-batch5-private-integrated-receipt.json'
+$sanitizedSummary = Join-Path $OutputDirectory 'imperium-batch5-sanitized-integrated.json'
 $runnerDigest = (Get-FileHash $PSCommandPath -Algorithm SHA256).Hash.ToLowerInvariant()
-$dependencyLockDigest = (Get-FileHash (Join-Path $projectRoot 'composer.lock') -Algorithm SHA256).Hash.ToLowerInvariant()
+$missionFile = Join-Path $projectRoot 'tools/run-atomic-transition-integrated-mission.php'
+$missionDigest = (Get-FileHash $missionFile -Algorithm SHA256).Hash.ToLowerInvariant()
+$lockDigest = (Get-FileHash (Join-Path $projectRoot 'composer.lock') -Algorithm SHA256).Hash.ToLowerInvariant()
+$treeDigest = Get-StringSha256 $treeObject
+$buildMaterial = "$sourceCommit`n$treeDigest`n$lockDigest`n$runnerDigest`n$missionDigest"
+$buildDigest = Get-StringSha256 $buildMaterial
 
-$phpunitArguments = @(
-    'vendor/bin/phpunit',
-    '--testdox',
-    '--log-junit', $privateJunit,
-    'tests/Imperium/Runtime/AtomicTransitionEvidenceProvenanceOperationalProofRemediationBatch2Test.php',
-    'tests/Imperium/Runtime/AtomicTransitionEvidenceProvenanceOperationalProofRemediationBatch3Test.php',
-    'tests/Imperium/Runtime/ProviderBindingSuccessorAtomicLiveTransitionBatch4Test.php',
-    'tests/Imperium/Runtime/AtomicTransitionEvidenceProvenanceOperationalProofRemediationBatch4Test.php'
-)
-
-& php @phpunitArguments
-$missionExitCode = $LASTEXITCODE
-if ($missionExitCode -ne 0) {
-    throw "REFUSED_DISPOSABLE_MISSION_FAILED:$missionExitCode"
+$bindings = @{
+    IMPERIUM_PROOF_SOURCE_COMMIT = $sourceCommit
+    IMPERIUM_PROOF_SOURCE_TREE_DIGEST = $treeDigest
+    IMPERIUM_PROOF_BUILD_DIGEST = $buildDigest
+    IMPERIUM_PROOF_LOCK_DIGEST = $lockDigest
+    IMPERIUM_PROOF_RUNNER_DIGEST = $runnerDigest
+    IMPERIUM_PROOF_MISSION_DIGEST = $missionDigest
+    IMPERIUM_PROOF_PRIVATE_FILE = $privateEvidence
+    IMPERIUM_PROOF_SANITIZED_FILE = $sanitizedSummary
+}
+foreach ($entry in $bindings.GetEnumerator()) { Set-Item "Env:$($entry.Key)" $entry.Value }
+try {
+    & php $missionFile
+    if ($LASTEXITCODE -ne 0) { throw "REFUSED_INTEGRATED_MISSION_FAILED:$LASTEXITCODE" }
+} finally {
+    foreach ($name in $bindings.Keys) { Remove-Item "Env:$name" -ErrorAction SilentlyContinue }
 }
 
-$dirtyAfter = @(git status --porcelain)
-if ($LASTEXITCODE -ne 0 -or $dirtyAfter.Count -ne 0) {
-    throw 'REFUSED_RUNTIME_MUTATED_WORKTREE'
+if (@(git status --porcelain).Count -ne 0) { throw 'REFUSED_RUNTIME_MUTATED_WORKTREE' }
+$evidence = Get-Content -Raw $sanitizedSummary | ConvertFrom-Json
+if ($evidence.disposition -ne 'PROVED' -or -not $evidence.integrated_operational_receipt_created) {
+    throw 'REFUSED_INTEGRATED_RECEIPT_INVALID'
 }
-
-[xml] $report = Get-Content -Raw $privateJunit
-$cases = @($report.SelectNodes('//testcase'))
-$failures = @($report.SelectNodes('//failure')).Count
-$errors = @($report.SelectNodes('//error')).Count
-$assertions = ($cases | ForEach-Object { [int] $_.assertions } | Measure-Object -Sum).Sum
-if ($cases.Count -ne 20 -or $assertions -ne 211 -or $failures -ne 0 -or $errors -ne 0) {
-    throw 'REFUSED_DISPOSABLE_MISSION_RESULT_SET_MISMATCH'
-}
-
-$evidence = [ordered] @{
-    schema = 'imperium.sanitized-atomic-transition-disposable-mission-evidence/v1'
-    mission_id = $missionId
-    source_commit = $sourceCommit
-    source_tree_digest = $sourceTree
-    dependency_lock_digest = $dependencyLockDigest
-    runner_digest = $runnerDigest
-    php_version = $phpVersion
-    worktree_clean_before_and_after = $true
-    tests = $cases.Count
-    assertions = $assertions
-    failures = $failures
-    errors = $errors
-    test_cases = @($cases | ForEach-Object { $_.name })
-    private_junit_digest = (Get-FileHash $privateJunit -Algorithm SHA256).Hash.ToLowerInvariant()
-    private_junit_retention = 'OPERATOR_LOCAL_ONLY_NOT_FOR_UPLOAD_OR_COMMIT'
-    provider_or_external_effect_authorized = $false
-    live_credential_or_capability_authorized = $false
-    disposition = 'PROVED'
-}
-
-$evidence | ConvertTo-Json -Depth 5 | Set-Content -Encoding UTF8 $sanitizedSummary
-
 Write-Host ''
-Write-Host 'DISPOSABLE MISSION PROVED'
+Write-Host 'INTEGRATED DISPOSABLE MISSION PROVED'
 Write-Host "Sanitized evidence: $sanitizedSummary"
-Write-Host "Private JUnit (retain locally only): $privateJunit"
-Write-Host ''
+Write-Host "Private receipt (retain locally only): $privateEvidence"
 Get-Content $sanitizedSummary
