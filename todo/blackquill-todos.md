@@ -130,6 +130,40 @@ considered. No receipt inspection, signing-key handling, verifier execution,
 mission rerun, provider invocation, external I/O, runtime mutation or closure
 restoration is authorized.
 
+Preparation Batch 0 completed at
+`PREPARATION_BATCH_0_COMPLETE_INDEPENDENT_VERIFICATION_BOUNDARY_CLASSIFIED`.
+Copied constants, producer/verifier overlap, unverified operator-local receipt
+availability, artifact-recomputation gaps, detached trust-anchor custody,
+sanitized-report requirements, counterfeit refusals and closure-consumer
+reachability are classified. Only Batch 1 authority-empty verifier-input,
+sanitized-report, public verification-identity and detached-attestation
+contracts may next be considered.
+
+Batch 1 completed at
+`BATCH_1_AUTHORITY_EMPTY_VERIFICATION_CONTRACTS_COMPLETE`. Separately
+versioned verifier-input, sanitized-report, public-identity and detached-
+attestation contracts now fail closed on producer conclusions and premature
+signing. Only Batch 2 separate read-only artifact-and-receipt verifier may next
+be considered.
+
+Batch 2 completed at
+`BATCH_2_SEPARATE_READ_ONLY_VERIFIER_COMPLETE_RETAINED_V1_MATRIX_INDETERMINATE`.
+The separate verifier derives artifact and receipt domains but refuses to copy
+the retained v1 acceptance conclusions. Batch 3 completed at
+`BATCH_3_SYNTHETIC_COUNTERFEIT_AND_DETACHED_ATTESTATION_REFUSAL_PROVED`.
+
+Batch 4 terminated local verification before private intake at
+`BATCH_4_LOCAL_VERIFICATION_REFUSED_BEFORE_PRIVATE_INTAKE_ACCEPTANCE_CASE_EVIDENCE_NOT_RETAINED`.
+No receipt or live signing capability was handled. Batch 5 completed at
+`BATCH_5_ATTESTED_REPORT_CONSUMER_COMPLETE_LEGACY_CLOSURE_DISABLED`; only exact
+fully passing, pre-trusted detached reports are admissible and the legacy
+terminal closure is disabled.
+
+Batch 6 terminates the campaign at
+`CAMPAIGN_TERMINATED_INDEPENDENT_VERIFICATION_EVIDENCE_INSUFFICIENT`. Closure is
+not restored. The controlling posture remains
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`.
+
 ### 1. Make credential custody real
 
 - [x] Remove provider credentials from the directly invokable Symfony platform service boundary. *(Credential-boundary Batch 17.)*

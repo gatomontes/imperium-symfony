@@ -19,36 +19,8 @@ final class AtomicTransitionEvidenceProvenanceOperationalProofRemediationBatch7T
             'atomic-transition-independent-reconstruction.1',
             $evidence,
         );
-        $closure = $this->auditor()->close(
-            'atomic-transition-authenticated-operational-closure.1',
-            $evidence,
-            $reconstruction,
-        );
-
-        self::assertSame(Closure::REQUIRED_FIELDS, array_keys($closure));
-        self::assertSame(Closure::STATUS, $closure['status']);
-        foreach ([
-            'authenticated_operational_evidence_survived',
-            'independent_reconstruction_survived',
-            'historical_boolean_audit_disabled',
-            'historical_self_recomputed_closure_disabled',
-            'material_evidence_defect_corrected', 'qualification_removed',
-            'campaign_closed', 'read_only',
-        ] as $derived) {
-            self::assertTrue($closure[$derived]);
-        }
-        foreach ([
-            'producer_disposition_imported', 'runtime_state_written',
-            'authority_issued_or_consumed', 'execution_admitted',
-            'provider_binding_changed', 'credential_or_capability_handled',
-            'provider_invoked', 'external_io_started', 'provider_effect_started',
-            'retry_authorized', 'live_command_adopted', 'continuing_authority',
-        ] as $refusal) {
-            self::assertFalse($closure[$refusal]);
-        }
-        self::assertSame('BOUND_INACTIVE', $closure['provider_binding_status']);
-        self::assertSame('NOT_IMPLEMENTED', $closure['required_v3_execution_admission']);
-        self::assertSame('UNKNOWN_REPLAY_PROHIBITED', $closure['unknown_replay_posture']);
+        $this->expectExceptionMessage('PBL1033_LEGACY_UNSIGNED_TERMINAL_CLOSURE_DISABLED');
+        $this->auditor()->close('atomic-transition-authenticated-operational-closure.1', $evidence, $reconstruction);
     }
 
     public function testTamperedPackageAndCounterfeitReconstructionFailClosed(): void
@@ -58,19 +30,8 @@ final class AtomicTransitionEvidenceProvenanceOperationalProofRemediationBatch7T
             'atomic-transition-independent-reconstruction.1',
             $evidence,
         );
-        $reconstruction['historical_boolean_audit_accepted'] = true;
-        $reconstruction = $this->reseal($reconstruction);
-
-        try {
-            $this->auditor()->close('closure.1', $evidence, $reconstruction);
-            self::fail('Expected counterfeit reconstruction refusal');
-        } catch (\RuntimeException $error) {
-            self::assertSame('PBL1021_TERMINAL_ADVERSARIAL_RECONSTRUCTION_INVALID', $error->getMessage());
-        }
-
-        $evidence['source_commit'] = str_repeat('0', 40);
-        $this->expectExceptionMessage('PBL1017_INDEPENDENT_RECONSTRUCTION_EVIDENCE_INVALID');
-        $this->auditor()->close('closure.1', $evidence, $this->reseal($reconstruction));
+        $this->expectExceptionMessage('PBL1033_LEGACY_UNSIGNED_TERMINAL_CLOSURE_DISABLED');
+        $this->auditor()->close('closure.1', $evidence, $reconstruction);
     }
 
     public function testHistoricalClosurePathsRemainRefusingAndUnregistered(): void

@@ -31,6 +31,8 @@ services:
             - '../src/Imperium/Runtime/Sortie/GovernedSortieToolRegistry.php'
             - '../src/Imperium/Runtime/Imperator/ProviderBindingSuccessorAtomicLiveTransitionAdversarialAuditService.php'
             - '../src/Imperium/Runtime/Imperator/AtomicTransitionEvidenceCorrectedClosureService.php'
+            - '../src/Imperium/Runtime/Imperator/AtomicTransitionEvidenceTerminalAdversarialAuditor.php'
+            - '../src/IndependentVerification/AtomicTransitionIndependentVerificationAdmissionConsumer.php'
 
     App\Bootstrap\ManifestValidator:
         arguments:

@@ -21,6 +21,9 @@ final readonly class AtomicTransitionEvidenceTerminalAdversarialAuditor
 
     public function close(string $closureId, array $evidence, array $reconstruction): array
     {
+        throw new \RuntimeException('PBL1033_LEGACY_UNSIGNED_TERMINAL_CLOSURE_DISABLED');
+
+        /* Historical implementation retained below for provenance only.
         $recomputed = $this->reconstructor->reconstruct(
             $reconstruction['reconstruction_id'] ?? '',
             $evidence,
@@ -80,7 +83,7 @@ final readonly class AtomicTransitionEvidenceTerminalAdversarialAuditor
             'continuing_authority' => false,
             'status' => AtomicTransitionEvidenceAuthenticatedClosureContract::STATUS,
             'sealed' => true,
-        ]);
+        ]); */
     }
 
     private function reference(array $record, string $id): array

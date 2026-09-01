@@ -168,8 +168,10 @@ final class ProviderExecutorPrincipalActivationCanonicalContractValidator
             && $target['provider_id'] === ($scope['provider_id'] ?? null)
             && $target['operation'] === ($scope['operation'] ?? null)
             && (
-                !is_array($principal)
-                || $target['binding_id'] === ($principal['binding_id'] ?? null)
+                is_array($principal)
+                    ? $target['binding_id'] === ($principal['binding_id'] ?? null)
+                    : (!isset($decision['actor']['binding_id'])
+                        || $target['binding_id'] === $decision['actor']['binding_id'])
             );
     }
 

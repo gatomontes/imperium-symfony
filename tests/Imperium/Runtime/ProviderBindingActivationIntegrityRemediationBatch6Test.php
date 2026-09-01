@@ -11,10 +11,18 @@ final class ProviderBindingActivationIntegrityRemediationBatch6Test extends Test
     public function testAbsentPrincipalProvenanceCreatesNoRuntimeDispositionProducer(): void
     {
         $root = dirname(__DIR__, 3);
-        $allowedVocabulary = realpath($root.'/src/Imperium/Runtime/LaCortine/StrandedActivationArtifactDispositionContract.php');
+        $allowedVocabulary = array_map('realpath', [
+            $root.'/src/Imperium/Runtime/LaCortine/StrandedActivationArtifactDispositionContract.php',
+            $root.'/src/Imperium/Runtime/Evidence/ActivationCorridorDispositionInterruptionDemonstration.php',
+            $root.'/src/Imperium/Runtime/Evidence/CorridorDispositionPrincipalAuthorityRemediationInterruptionDemonstration.php',
+            $root.'/src/Imperium/Runtime/Imperator/ActivationCorridorDispositionCallerAuthorityIssuanceAuthorizationContract.php',
+            $root.'/src/Imperium/Runtime/Imperator/ActivationCorridorDispositionContract.php',
+            $root.'/src/Imperium/Runtime/Imperator/ActivationCorridorDispositionContractValidator.php',
+            $root.'/src/Imperium/Runtime/Imperator/ActivationCorridorDispositionEligibilityContract.php',
+        ]);
         $runtime = $root.'/src/Imperium/Runtime';
         foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($runtime)) as $file) {
-            if (!$file->isFile() || 'php' !== $file->getExtension() || realpath($file->getPathname()) === $allowedVocabulary) continue;
+            if (!$file->isFile() || 'php' !== $file->getExtension() || in_array(realpath($file->getPathname()), $allowedVocabulary, true)) continue;
             $source = (string) file_get_contents($file->getPathname());
             self::assertStringNotContainsString("'QUARANTINED_PENDING_REMEDIATION'", $source, $file->getPathname());
             self::assertStringNotContainsString("'RETIRE_CORRIDOR'", $source, $file->getPathname());

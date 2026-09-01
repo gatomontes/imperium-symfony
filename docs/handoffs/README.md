@@ -148,6 +148,9 @@ consumer adoption and sortie remain deferred boundaries.
 
 Historical step handoffs remain retained for provenance. When historical prose conflicts with a current contract or canonical document, the current contract or canonical document governs.
 
+No remediation batches remain in the completed Iron Gate Evidence Authenticity Remediation campaign.
+Live deterministic consumer adoption and sortie remain deferred.
+
 Operational Cognition Lease Interruption is terminal through Batch 6. The preparation inventory remains
 `docs/operational-cognition-lease-interruption-preparation-inventory.md`, and the active handoff is
 `docs/handoffs/operational-cognition-lease-interruption-campaign-complete.md`.
