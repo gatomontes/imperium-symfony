@@ -101,6 +101,13 @@ executor graph, complete acceptance matrix and digest-bound private receipt;
 only its sanitized summary is committed. Only Batch 6 independent
 reconstruction and historical-audit disposition may next be considered.
 
+Batch 6 completed at
+`BATCH_6_INDEPENDENT_RECONSTRUCTION_COMPLETE_HISTORICAL_CLOSURE_PATHS_DISABLED`.
+The retained operational package reconstructs from pinned bindings without
+importing its producer disposition. Both historical counterfeit closure paths
+are container-excluded and fail closed. Only Batch 7 terminal adversarial audit
+and conditional closure may next be considered.
+
 ### 1. Make credential custody real
 
 - [x] Remove provider credentials from the directly invokable Symfony platform service boundary. *(Credential-boundary Batch 17.)*
