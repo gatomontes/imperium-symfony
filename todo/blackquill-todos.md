@@ -33,6 +33,11 @@ Only Batch 3 evidence-bound read-only aggregate audit receipt, typed
 action-capability manifest and value-aware secret-exclusion proof is next
 authorized.
 
+Batch 3 completed at
+`BATCH_3_EVIDENCE_BOUND_AGGREGATE_AUDIT_COMPLETE`.
+Only Batch 4 terminal read-only evidence-chain recomputation against the
+complete sealed aggregate is next authorized.
+
 ### 1. Make credential custody real
 
 - [x] Remove provider credentials from the directly invokable Symfony platform service boundary. *(Credential-boundary Batch 17.)*

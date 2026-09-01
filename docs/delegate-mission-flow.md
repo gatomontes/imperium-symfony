@@ -1,3 +1,6 @@
+Warning: truncated output (original token count: 23190)
+Total output lines: 1489
+
 # Delegate mission flow
 
 ## Governing taxonomy
@@ -528,250 +531,7 @@ authority-empty live-call definition, sterile conformance and live adoption as
 separate boundaries.
 
 Only authority-empty Provider Assurance Evidence Admission contracts may next
-be considered. No principal or binding is activated, no provider evidence is
-live authority, no credential or execution authority is handled, no provider
-effect or retry is authorized, and Iron Gate and Lazaretto remain closed. The
-active handoff is
-`docs/handoffs/provider-execution-effect-readiness-preparation-batch-0-complete.md`.
-
-The previously deferred Batch 7 terminal test is now
-`CLEAR_OPERATOR_REPORTED_AFTER_REPAIR` in
-`docs/deferred-local-test-ledger.md`; no unreported assertion count or
-full-suite result is inferred.
-
-
-Provider Execution Effect Readiness Batch 1 is complete at
-`BATCH_1_AUTHORITY_EMPTY_PROVIDER_ASSURANCE_CONTRACTS_COMPLETE`. Exact source
-provenance, AgentMail direct-send assurance semantics and a future evidence
-admission result are separately versioned but have no producer, validator,
-fixture, admitted record or runtime consumer.
-
-Only pure fail-closed validation and immutable caller-supplied offline fixture
-stores may next be considered. Contract existence grants no principal or
-binding activation, live-call runtime, execution or retry authority, credential
-access, provider invocation, external I/O, live adoption, Iron Gate or
-Lazaretto behavior. The active handoff is
-`docs/handoffs/provider-execution-effect-readiness-batch-1-complete.md`.
-
-
-Provider Execution Effect Readiness Batch 2 is complete at
-`BATCH_2_FAIL_CLOSED_ASSURANCE_FIXTURE_VALIDATION_COMPLETE`. Exact assurance
-source, AgentMail direct-send profile and evidence-admission fixtures now fail
-closed under canonical validation and immutable offline storage.
-
-The stores fetch nothing and prove neither current provider truth nor
-conformance. They create no activation, live-call, credential, execution,
-retry, provider, external-I/O, adoption, Iron Gate or Lazaretto authority. Only
-offline interruption, replay, conflict and same-root contention proof may next
-be considered under
-`docs/handoffs/provider-execution-effect-readiness-batch-2-complete.md`.
-
-
-Provider Execution Effect Readiness Batch 3 is complete at
-`BATCH_3_OFFLINE_ASSURANCE_FIXTURE_INTERRUPTION_PROVED`. Source, profile and
-admission fixture paths now prove no record before commit, one immutable winner
-after commit, exact replay, changed-evidence conflict and shared-root
-convergence.
-
-Only read-only aggregate fixture-chain reconstruction may next be considered.
-No fixture is promoted into live provider truth or activation, live-call,
-credential, execution, retry, provider, external-I/O, adoption, Iron Gate or
-Lazaretto authority. The active handoff is
-`docs/handoffs/provider-execution-effect-readiness-batch-3-complete.md`.
-
-
-Provider Execution Effect Readiness Batch 4 is complete at
-`BATCH_4_READ_ONLY_ASSURANCE_AGGREGATE_RECONSTRUCTION_COMPLETE`. Exact
-assurance source, profile and admission fixtures reconstruct read only as
-eligible offline evidence, incomplete, conflicted or refused. Reconstruction
-creates and repairs nothing.
-
-Only the terminal offline assurance-evidence audit may next be considered.
-Offline eligibility is not live provider truth, activation, live-call,
-credential, execution, retry, provider, external-I/O, adoption, Iron Gate or
-Lazaretto authority. The active handoff is
-`docs/handoffs/provider-execution-effect-readiness-batch-4-complete.md`.
-
-
-## Provider effect principal and binding activation frontier
-
-Provider Execution Effect Readiness is complete pre-provider only at
-PROVIDER_EXECUTION_EFFECT_READINESS_COMPLETE_PRE_PROVIDER_ONLY.
-
-The separately selected next campaign is Provider Effect Principal and Binding
-Activation, Preparation Batch 0 only. Preparation classifies principal
-activation and operation-scoped binding activation as separate ordered
-sub-boundaries with separately consumed authorities. The exact principal
-generation must become durably ACTIVE before any binding activation may be
-considered.
-
-Preparation authorizes no runtime change, activation, authority issuance or
-consumption, credential or capability handling, live-call contract, provider
-invocation, external I/O, retry, live adoption, Iron Gate or Lazaretto behavior.
-The active handoff is
-docs/handoffs/provider-effect-principal-binding-activation-preparation-batch-0-complete.md.
-
-
-## Principal activation decision-authority provenance stop
-
-Provider Effect Principal and Binding Activation Batch 2 refuses at
-BATCH_2_TERMINAL_AUDIT_REFUSED_UNPROVEN_DECISION_AUTHORITY_PROVENANCE.
-
-The combined Batch 1 consumption-and-activation winner is mechanically atomic,
-but the decision contract still names a future producer and the activation
-transition accepts caller-supplied decision evidence. Canonical competent
-decision issuance, custody and source-authority reconstruction are absent.
-
-The campaign is paused before binding activation. Only Preparation Batch 0 of
-Principal Activation Decision Authority Provenance Remediation may next be
-selected. The active handoff is
-docs/handoffs/principal-activation-decision-authority-provenance-remediation-campaign-ready.md.
-
-
-## Principal activation decision-authority remediation frontier
-
-Principal Activation Decision Authority Provenance Remediation Preparation Batch
-0 is complete at
-PREPARATION_BATCH_0_COMPLETE_OPERATOR_ROOT_SCOPE_SUCCESSOR_REQUIRED.
-
-Operator Root is the only competent owner of the missing narrow scope. The
-canonical active v2 Imperator generation cannot self-widen, and its existing
-provider-binding activation scope is not interchangeable with
-provider-executor-principal activation-decision authority.
-
-Only authority-empty Batch 1 contracts for the exact scope grant, successor
-generation and later decision-issuance authorization may next be considered.
-Provider Effect Principal and Binding Activation remains paused. The active
-handoff is
-docs/handoffs/principal-activation-decision-authority-provenance-remediation-preparation-batch-0-complete.md.
-
-
-Principal Activation Decision Authority Provenance Remediation Batch 1 is
-complete at
-`BATCH_1_AUTHORITY_EMPTY_SCOPE_SUCCESSOR_AND_DECISION_ISSUANCE_CONTRACTS_COMPLETE`.
-The exact Operator Root scope grant, immutable pending successor and later
-active-successor-bound decision-issuance authorization are separately versioned
-and authority-empty. Only Batch 2 pure fail-closed validators and segregated
-immutable caller-supplied offline fixture stores may next be considered.
-Provider Effect Principal and Binding Activation remains paused.
-
-
-Principal Activation Decision Authority Provenance Remediation Batch 2 is
-complete at
-`BATCH_2_FAIL_CLOSED_VALIDATORS_AND_IMMUTABLE_FIXTURE_STORES_COMPLETE`.
-Exact caller-supplied offline grant, pending-successor and issuance-authorization
-fixtures now fail closed and store immutably in segregated evidence paths. Only
-Batch 3 disposable-root interruption, replay, conflict and contention proof may
-next be considered. Provider Effect Principal and Binding Activation remains
-paused.
-
-
-Principal Activation Decision Authority Provenance Remediation Batch 3 is
-complete at
-`BATCH_3_OFFLINE_INTERRUPTION_REPLAY_AND_CONTENTION_PROOF_COMPLETE`.
-All three offline fixture paths now prove absent-before-commit, one immutable
-winner, exact replay, changed-evidence conflict, expiry and revocation refusal,
-same-root contention and read-only recovery without repair. Only Batch 4
-read-only aggregate reconstruction may next be considered. Provider Effect
-Principal and Binding Activation remains paused.
-
-
-Principal Activation Decision Authority Provenance Remediation Batch 4 is
-complete at `BATCH_4_READ_ONLY_AGGREGATE_RECONSTRUCTION_COMPLETE`. The exact
-offline grant, pending-successor, lifecycle, attestation, assurance, boundary
-and issuance-authorization chain now reconstructs without persistence as
-ELIGIBLE, INCOMPLETE, CONFLICTED or REFUSED. Only Batch 5 separately authorized
-scope-remediation production and exact decision/activation-authority issuance
-may next be considered. Provider Effect Principal and Binding Activation remains
-paused.
-
-
-Principal Activation Decision Authority Provenance Remediation Batch 5 refuses
-at
-`BATCH_5_PRODUCTION_REFUSED_SUCCESSOR_PRINCIPAL_AND_DECISION_LINEAGE_CONTRACTS_ABSENT`.
-The v2 principal schema cannot carry the required sixth scope field, no
-canonical v3 successor-principal contract exists, and the issuance
-authorization does not bind the complete activation-decision actor and payload.
-Only authority-empty Batch 5A corrective contracts may next be considered.
-Provider Effect Principal and Binding Activation remains paused.
-
-## Principal activation resumption closure and binding-state frontier
-
-Provider Effect Principal and Binding Activation Resumption campaign is complete
-at
-`PROVIDER_EFFECT_PRINCIPAL_BINDING_ACTIVATION_RESUMPTION_CAMPAIGN_COMPLETE`.
-Batches 1 through 6 prove the authority-empty inputs, immutable validation,
-read-only reconstruction, one combined activation-authority-consumption and
-principal-activation winner, adversarial refusal behavior and terminal
-non-authority. No resumption batch remains.
-
-The exact executor-principal generation is durably ACTIVE and its exact
-single-use activation authority is consumed without continuing authority. The
-provider implementation binding remains BOUND_INACTIVE. No credential or
-capability was handled, no provider was invoked, no external I/O or provider
-effect occurred, and Iron Gate and Lazaretto remain closed.
-
-The separately selected next campaign is Provider Binding Activation State
-Reconciliation, Preparation Batch 0 only. It must reconcile operation-scoped
-activation evidence with durable implementation-binding state before any live
-adoption may be considered. No provider-binding activation is authorized.
-The active handoff is
-`docs/handoffs/provider-binding-activation-state-reconciliation-campaign-ready.md`.
-
-Provider Binding Activation State Reconciliation Preparation Batch 0 is complete
-at `PREPARATION_BATCH_0_COMPLETE_IMMUTABLE_BINDING_SUCCESSOR_REQUIRED`.
-The legacy operation activation remains immutable historical evidence tied to
-an ATTESTED_INERT principal and explicitly does not activate the implementation
-binding. It cannot be promoted to the current ACTIVE-principal lifecycle.
-
-Only authority-empty Batch 1 successor contracts may next be considered. The
-original binding remains BOUND_INACTIVE, global BOUND_ACTIVE mutation is
-rejected, and no provider, credential, external-I/O, retry, Iron Gate or
-Lazaretto authority is opened. The active handoff is
-`docs/handoffs/provider-binding-activation-state-reconciliation-preparation-batch-0-complete.md`.
-
-Provider Binding Activation State Reconciliation Batch 1 is complete at
-`BATCH_1_AUTHORITY_EMPTY_IMMUTABLE_BINDING_SUCCESSOR_CONTRACTS_COMPLETE`.
-The exact successor target, authority-empty decision input and immutable
-operation-scoped lifecycle successor are separately versioned. They create no
-record, authority, activation, revocation or runtime path.
-
-Only Batch 2 pure fail-closed validators and segregated immutable caller-supplied
-offline fixture stores may next be considered. The original implementation
-binding remains BOUND_INACTIVE and all provider, credential, external-I/O,
-retry, Iron Gate and Lazaretto boundaries remain closed. The active handoff is
-`docs/handoffs/provider-binding-activation-state-reconciliation-batch-1-complete.md`.
-
-
-Provider Binding Activation State Reconciliation Batch 2 is complete at
-`BATCH_2_FAIL_CLOSED_VALIDATORS_AND_IMMUTABLE_FIXTURE_STORES_COMPLETE`.
-Exact caller-supplied target, decision-input and lifecycle-successor fixtures
-now fail closed under canonical validation and immutable segregated offline
-storage. Exact replay converges and changed same-identity evidence conflicts.
-
-Only Batch 3 disposable-root offline interruption, replay, conflict, expiry,
-revocation and same-root contention proof may next be considered. The original
-implementation binding remains BOUND_INACTIVE and all provider, credential,
-external-I/O, retry, Iron Gate and Lazaretto boundaries remain closed. The
-active handoff is
-`docs/handoffs/provider-binding-activation-state-reconciliation-batch-2-complete.md`.
-
-
-Provider Binding Activation State Reconciliation Batch 3 is complete at
-`BATCH_3_OFFLINE_INTERRUPTION_REPLAY_AND_CONTENTION_PROOF_COMPLETE`.
-All three segregated offline fixture paths now prove absent-before-commit,
-one-winner-after-commit, exact replay, changed-evidence conflict, expiry and
-revocation refusal, and same-root contention.
-
-Only Batch 4 read-only aggregate reconstruction may next be considered. The
-original implementation binding remains BOUND_INACTIVE and all provider,
-credential, external-I/O, retry, Iron Gate and Lazaretto boundaries remain
-closed. The active handoff is
-`docs/handoffs/provider-binding-activation-state-reconciliation-batch-3-complete.md`.
-
-
-Provider Binding Activation State Reconciliation Batch 4 is complete at
-`BATCH_4_READ_ONLY_AGGREGATE_RECONSTRUCTION_COMPLETE`. The exact offline
+be considered. No principal or binding is activated, no…3190 tokens truncated…Y_AGGREGATE_RECONSTRUCTION_COMPLETE`. The exact offline
 target, decision-input, lifecycle-successor, ACTIVE principal activation,
 BOUND_INACTIVE binding descriptor, assurance and execution-boundary chain now
 reconstructs as eligible, incomplete, conflicted or refused without persistence,
@@ -1471,3 +1231,19 @@ considered. No qualification removal, terminal recomputation, persistence,
 authority action, transition, live credential handling or provider effect is
 authorized. The active handoff is
 `docs/handoffs/atomic-transition-evidence-derivation-remediation-batch-2-complete.md`.
+
+
+Atomic Transition Evidence Derivation Remediation Batch 3 is complete at
+`BATCH_3_EVIDENCE_BOUND_AGGREGATE_AUDIT_COMPLETE`.
+
+The complete ordered typed case set now binds to sealed per-case results and an
+ordered result-set digest. A dependency-closure-scoped typed capability
+manifest and recursive value-aware secret-exclusion proof support the sealed
+read-only, non-durable aggregate audit receipt. No caller proof boolean is
+accepted.
+
+Only Batch 4 terminal read-only evidence-chain recomputation may next be
+considered. No qualification removal without a fully derived terminal result,
+persistence, authority action, transition, live credential handling or
+provider effect is authorized. The active handoff is
+`docs/handoffs/atomic-transition-evidence-derivation-remediation-batch-3-complete.md`.
