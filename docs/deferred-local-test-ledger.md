@@ -1281,6 +1281,21 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingSuccessorAtomicLive
 
 - Clear rerun counts: not supplied and therefore not inferred.
 
+## Cleared atomic live-transition Batch 4
+
+### Provider Binding Successor Atomic Live Transition Batch 4
+
+- Source PR: #696
+- Source merge commit: aa04a68086b0c8f60e6e34003a328cba0c5d3a1b
+- Final status: CLEAR_OPERATOR_REPORTED
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingSuccessorAtomicLiveTransitionBatch4Test.php
+```
+
+- Counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.

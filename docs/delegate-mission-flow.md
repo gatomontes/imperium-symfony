@@ -1357,3 +1357,20 @@ binding-state transition, durable winner or receipt, credential or capability
 handling, provider invocation, external I/O, effect start, retry, live-command
 migration, Iron Gate or Lazaretto behavior is authorized. The active handoff is
 `docs/handoffs/provider-binding-successor-atomic-live-transition-batch-4-complete.md`.
+
+
+Provider Binding Successor Atomic Live Transition Batch 5 is complete at
+`BATCH_5_READ_ONLY_RECOVERY_PLAN_AND_AGGREGATE_RECONSTRUCTION_COMPLETE`.
+
+The sealed recovery plan maps every caller-supplied evidence classification to
+one fail-closed directive. The pure aggregate reconstructor returns only the
+classification, directive, root and explicit false action flags. It performs no
+recovery or state change.
+
+Only Batch 6 read-only adversarial recovery and reconstruction audit may next be
+considered. No journal persistence, live lock, state write or repair, live
+authority action, execution admission, adoption, binding transition, durable
+winner or receipt, credential or capability handling, provider invocation,
+external I/O, effect start, retry, live-command migration, Iron Gate or
+Lazaretto behavior is authorized. The active handoff is
+`docs/handoffs/provider-binding-successor-atomic-live-transition-batch-5-complete.md`.
