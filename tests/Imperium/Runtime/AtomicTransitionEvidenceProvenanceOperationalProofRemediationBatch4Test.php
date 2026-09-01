@@ -78,6 +78,7 @@ final class AtomicTransitionEvidenceProvenanceOperationalProofRemediationBatch4T
     public function testStructuralDigestsAreNotDecodedAsPayloadOrJoinedAcrossRecords(): void
     {
         (new Service())->assertClean([
+            'mission_id' => 'ATOMIC-TRANSITION-DISPOSABLE-PROOF-1',
             'source_commit' => str_repeat('0', 40),
             'source_tree_digest' => str_repeat('0', 64),
             'runner_digest' => str_repeat('a', 64),
