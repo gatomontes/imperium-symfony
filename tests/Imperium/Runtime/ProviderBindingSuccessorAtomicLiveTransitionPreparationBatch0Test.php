@@ -84,11 +84,14 @@ final class ProviderBindingSuccessorAtomicLiveTransitionPreparationBatch0Test ex
         }
     }
 
-    public function testPreparationChangesNoRuntimeSource(): void
+    public function testPreparationExplicitlyChangesNoRuntimeSource(): void
     {
-        $source = (string) file_get_contents(__FILE__);
-
-        self::assertStringNotContainsString('src/Imperium/Runtime', $source);
+        self::assertStringContainsString(
+            'It changes no runtime source.',
+            $this->document(
+                'docs/provider-binding-successor-atomic-live-transition-preparation-inventory.md',
+            ),
+        );
     }
 
     private function document(string $path): string
