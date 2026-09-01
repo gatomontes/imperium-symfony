@@ -1676,3 +1676,21 @@ external effect, live credential or capability, runtime mutation, retry or live
 adoption. Future work requires separate campaign selection and explicit
 authorization. The terminal handoff is
 `docs/handoffs/atomic-transition-evidence-provenance-operational-proof-remediation-complete.md`.
+
+
+Post-closure Blackquill review rejects the authenticated-operational-evidence
+closure at
+`AUTHENTICATED_OPERATIONAL_EVIDENCE_CLOSURE_REJECTED_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`.
+
+The retained package is pinned but not independently reconstructed: copied
+constants accept producer claims, the private receipt is unavailable to the
+consumer, and the terminal auditor repeats the same reconstructor. Historical
+counterfeit closure paths remain genuinely disabled.
+
+The controlling posture is
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`.
+Atomic Transition Evidence Independent Verification Remediation is selected as
+a seven-batch campaign including Preparation Batch 0. Only Preparation Batch 0
+inventory and boundary classification may next be considered. The active
+handoff is
+`docs/handoffs/atomic-transition-evidence-independent-verification-remediation-campaign-ready.md`.
