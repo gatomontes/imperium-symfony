@@ -27,6 +27,12 @@ Batch 1 completed at
 Only Batch 2 deterministic pure case execution and finding derivation without
 proof booleans is next authorized.
 
+Batch 2 completed at
+`BATCH_2_DETERMINISTIC_CASE_EXECUTION_AND_FINDING_DERIVATION_COMPLETE`.
+Only Batch 3 evidence-bound read-only aggregate audit receipt, typed
+action-capability manifest and value-aware secret-exclusion proof is next
+authorized.
+
 ### 1. Make credential custody real
 
 - [x] Remove provider credentials from the directly invokable Symfony platform service boundary. *(Credential-boundary Batch 17.)*

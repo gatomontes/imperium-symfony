@@ -1454,3 +1454,20 @@ proof booleans may next be considered. No aggregate audit receipt,
 qualification removal, persistence, authority action, transition, credential
 handling or provider effect is authorized. The active handoff is
 `docs/handoffs/atomic-transition-evidence-derivation-remediation-batch-1-complete.md`.
+
+
+Atomic Transition Evidence Derivation Remediation Batch 2 is complete at
+`BATCH_2_DETERMINISTIC_CASE_EXECUTION_AND_FINDING_DERIVATION_COMPLETE`.
+
+The pure executor validates the complete typed case chain, verifies mutation
+material against its sealed digest, mutates only an in-memory copy and derives
+classification, directive, comparison, error and finding codes from the
+existing canonical evaluators. Empty evidence derives only ABSENT/NO_ACTION.
+No caller proof boolean is accepted.
+
+Only Batch 3 evidence-bound read-only aggregate audit receipt, typed
+action-capability manifest and value-aware secret-exclusion proof may next be
+considered. No qualification removal, terminal recomputation, persistence,
+authority action, transition, live credential handling or provider effect is
+authorized. The active handoff is
+`docs/handoffs/atomic-transition-evidence-derivation-remediation-batch-2-complete.md`.
