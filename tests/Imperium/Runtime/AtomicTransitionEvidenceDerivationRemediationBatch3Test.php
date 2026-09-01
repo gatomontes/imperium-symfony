@@ -103,13 +103,13 @@ final class AtomicTransitionEvidenceDerivationRemediationBatch3Test extends Test
                 'sealed' => true,
             ]);
             $cases[] = $case;
-            $results[] = $this->result($case, $index);
+            $results[] = $this->derivedResult($case, $index);
         }
 
         return [$cases, $results];
     }
 
-    private function result(array $case, int $index): array
+    private function derivedResult(array $case, int $index): array
     {
         return $this->seal([
             'schema' => Result::SCHEMA,
