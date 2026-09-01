@@ -43,6 +43,11 @@ Batch 4 completed at
 Only Batch 5 read-only corrected-closure replacement from the sealed successful
 terminal recomputation is next authorized.
 
+Atomic Transition Evidence Derivation Remediation completed at
+`ATOMIC_TRANSITION_EVIDENCE_DERIVATION_REMEDIATION_COMPLETE` with corrected
+closure `CAMPAIGN_CLOSURE_ACCEPTED_AFTER_MATERIAL_EVIDENCE_REMEDIATION`.
+There is no Batch 6.
+
 ### 1. Make credential custody real
 
 - [x] Remove provider credentials from the directly invokable Symfony platform service boundary. *(Credential-boundary Batch 17.)*

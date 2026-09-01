@@ -1502,3 +1502,18 @@ state write, authority action, provider-binding activation, v3 execution
 admission, credential handling or provider effect is authorized. The active
 handoff is
 `docs/handoffs/atomic-transition-evidence-derivation-remediation-batch-4-complete.md`.
+
+
+Atomic Transition Evidence Derivation Remediation is complete at
+`ATOMIC_TRANSITION_EVIDENCE_DERIVATION_REMEDIATION_COMPLETE`.
+
+The final closure independently reruns the terminal recomputation and replaces
+the materially qualified closure with
+`CAMPAIGN_CLOSURE_ACCEPTED_AFTER_MATERIAL_EVIDENCE_REMEDIATION`. The evidence
+qualification is removed; provider binding remains BOUND_INACTIVE, required v3
+execution admission remains NOT_IMPLEMENTED and UNKNOWN_REPLAY_PROHIBITED
+remains binding.
+
+There is no remediation Batch 6. Future work requires a separately selected
+campaign and explicit authorization. The terminal handoff is
+`docs/handoffs/atomic-transition-evidence-derivation-remediation-complete.md`.
