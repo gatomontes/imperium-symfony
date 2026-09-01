@@ -57,6 +57,7 @@ final class AtomicTransitionEvidenceProvenanceOperationalProofRemediationBatch4T
         $service = new Service();
         foreach ([
             ['payload' => 'UW1WaGNtVnlJR1p2Y21KcFpHUmxiaTF6WldOeVpYUT0='],
+            ['payload' => 'QmVhcmVyIGZvcmJpZGRlbi1zZWNyZXT_'],
             ['payload' => '42656172657220666f7262696464656e2d736563726574'],
             ['payload' => 'Bearer%20forbidden-secret'],
             ['payload' => ['Bearer ', 'forbidden-secret']],

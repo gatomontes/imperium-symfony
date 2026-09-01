@@ -29,7 +29,7 @@ final class AtomicTransitionCompleteChainExclusionService
         'SENSITIVE_KEY' => ['payload' => ['access_token' => 'opaque']],
         'CREDENTIAL_VALUE' => ['payload' => 'Bearer forbidden-secret'],
         'NESTED_BASE64_CREDENTIAL' => ['payload' => 'UW1WaGNtVnlJR1p2Y21KcFpHUmxiaTF6WldOeVpYUT0='],
-        'BASE64URL_CREDENTIAL' => ['payload' => 'QmVhcmVyIGZvcmJpZGRlbi1zZWNyZXQ'],
+        'BASE64URL_CREDENTIAL' => ['payload' => 'QmVhcmVyIGZvcmJpZGRlbi1zZWNyZXT_'],
         'HEX_CREDENTIAL' => ['payload' => '42656172657220666f7262696464656e2d736563726574'],
         'PERCENT_CREDENTIAL' => ['payload' => 'Bearer%20forbidden-secret'],
         'JSON_STRING_CREDENTIAL' => ['payload' => '"Bearer forbidden-secret"'],
@@ -133,7 +133,9 @@ final class AtomicTransitionCompleteChainExclusionService
                 }
             }
             if (array_is_list($value) && count($fragments) > 1) {
-                $this->assertStringClean(implode('', $fragments));
+                if ($this->prohibitedValue(implode('', $fragments))) {
+                    $this->refuse();
+                }
             }
             return;
         }
@@ -158,11 +160,14 @@ final class AtomicTransitionCompleteChainExclusionService
         }
 
         $decoded = [];
-        $base64 = base64_decode($value, true);
-        if (false !== $base64 && $base64 !== $value && '' !== $base64) {
-            $decoded[] = $base64;
+        if (preg_match('/={1,2}$/', $value)) {
+            $base64 = base64_decode($value, true);
+            if (false !== $base64 && $base64 !== $value && '' !== $base64) {
+                $decoded[] = $base64;
+            }
         }
-        if (preg_match('/^[A-Za-z0-9_-]{8,}$/', $value)) {
+        if (preg_match('/^[A-Za-z0-9_-]{8,}$/', $value)
+            && preg_match('/[-_]/', $value)) {
             $padded = strtr($value, '-_', '+/');
             $padded .= str_repeat('=', (4 - strlen($padded) % 4) % 4);
             $base64Url = base64_decode($padded, true);
