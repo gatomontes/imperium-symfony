@@ -1439,3 +1439,18 @@ case execution, audit finding, audit receipt, qualification removal, runtime
 behavior, authority action, transition, credential or provider effect is
 authorized. The active handoff is
 `docs/handoffs/atomic-transition-evidence-derivation-remediation-preparation-batch-0-complete.md`.
+
+
+Atomic Transition Evidence Derivation Remediation Batch 1 is complete at
+`BATCH_1_TYPED_CASE_MUTATION_EXPECTED_RESULT_AND_IMMUTABLE_FIXTURE_CONTRACTS_COMPLETE`.
+
+Separately versioned sealed fixture, mutation, expected-result and adversarial
+case contracts now join exact roots and immutable references in an acyclic seal
+order. Pure validation delegates journal, winner and receipt evidence to the
+existing strict validator. No case executes and no finding is derived.
+
+Only Batch 2 deterministic pure case execution and finding derivation without
+proof booleans may next be considered. No aggregate audit receipt,
+qualification removal, persistence, authority action, transition, credential
+handling or provider effect is authorized. The active handoff is
+`docs/handoffs/atomic-transition-evidence-derivation-remediation-batch-1-complete.md`.

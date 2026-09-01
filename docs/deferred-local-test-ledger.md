@@ -1326,6 +1326,25 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingSuccessorAtomicLive
 
 - Counts: not supplied and therefore not inferred.
 
+## Cleared evidence-derivation remediation Preparation Batch 0
+
+### Atomic Transition Evidence Derivation Remediation Preparation Batch 0
+
+- Source PR: #701
+- Source merge commit: b9dd08cea3d8135df97984c76322eceb10390ef3
+- Documentation repair PR: #702
+- Repair merge commit: d90da73d8e4ae5a9fb0495f4b6bd1ddaae78a4b8
+- First attempt: 4 tests, 36 assertions, 1 documentation-contiguity failure.
+- Repair: made every asserted Batch 1 prohibition independently literal.
+- Final status: CLEAR_OPERATOR_REPORTED_AFTER_DOCUMENTATION_REPAIR
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/AtomicTransitionEvidenceDerivationRemediationPreparationBatch0Test.php
+```
+
+- Clear rerun counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
