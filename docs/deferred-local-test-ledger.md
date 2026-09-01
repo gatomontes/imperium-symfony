@@ -1258,6 +1258,29 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingSuccessorAtomicLive
 
 - Clear rerun counts: not supplied and therefore not inferred.
 
+## Cleared atomic live-transition Batch 3
+
+### Provider Binding Successor Atomic Live Transition Batch 3
+
+- Source PR: #693
+- Source merge commit: f40bea08c2c672a5288971c9362422f11752b41d
+- Documentation repair PRs: #694 and #695
+- Repair merge commits: b3d68ee1b10be2e74dd3799c4de88dbf7c9415ca and
+  24a0be6778244f30b1606b39ff14cd164af5caad
+- First attempt: 6 tests, 46 assertions, 1 documentation-contiguity failure.
+- Second attempt: 6 tests, 47 assertions, 1 documentation-contiguity failure.
+- Repairs: made the live-lock and every shared-modal non-authority prohibition
+  independently literal.
+- Runtime finding: no transaction-contract or inert-seam defect was observed.
+- Final status: CLEAR_OPERATOR_REPORTED_AFTER_DOCUMENTATION_REPAIRS
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingSuccessorAtomicLiveTransitionBatch3Test.php
+```
+
+- Clear rerun counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
