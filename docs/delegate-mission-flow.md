@@ -1592,3 +1592,21 @@ historical-audit repair or disposition, closure qualification removal, runtime
 mutation, live credential or capability, provider invocation or external I/O is
 authorized. The active handoff is
 `docs/handoffs/atomic-transition-evidence-provenance-operational-proof-remediation-batch-2-complete.md`.
+
+
+Atomic Transition Evidence Provenance and Operational Proof Remediation Batch 3
+is complete at
+`BATCH_3_ACTUAL_RECURSIVE_EXECUTOR_DEPENDENCY_CAPABILITY_GRAPH_DERIVED`.
+
+The read-only derivation traverses the actual resolved Batch 2 executor object
+graph, records its recursive dependency edges, binds every admitted node to the
+loaded implementation digest and exact source/build identity, and refuses any
+unknown, substituted, mutable or effect-capable dependency. It does not execute
+a case or mission and produces no operational receipt.
+
+Only Batch 4 complete-chain secret and process-local capability exclusion may
+next be considered. No disposable real mission, historical-audit repair or
+disposition, closure qualification removal, runtime mutation, live credential
+or capability, provider invocation or external I/O is authorized. The active
+handoff is
+`docs/handoffs/atomic-transition-evidence-provenance-operational-proof-remediation-batch-3-complete.md`.
