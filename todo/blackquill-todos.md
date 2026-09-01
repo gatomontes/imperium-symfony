@@ -108,6 +108,14 @@ importing its producer disposition. Both historical counterfeit closure paths
 are container-excluded and fail closed. Only Batch 7 terminal adversarial audit
 and conditional closure may next be considered.
 
+Batch 7 terminal adversarial audit passed at
+`BATCH_7_TERMINAL_ADVERSARIAL_AUDIT_PASSED`. Atomic Transition Evidence
+Provenance and Operational Proof Remediation is closed at
+`CAMPAIGN_CLOSURE_ACCEPTED_AFTER_AUTHENTICATED_OPERATIONAL_EVIDENCE_PROOF`.
+The retained operational package survived independent reconstruction and both
+historical counterfeit closure paths remain disabled. No further batch in this
+campaign is authorized.
+
 ### 1. Make credential custody real
 
 - [x] Remove provider credentials from the directly invokable Symfony platform service boundary. *(Credential-boundary Batch 17.)*
