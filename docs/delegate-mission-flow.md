@@ -1231,3 +1231,18 @@ admission, live adoption, binding-state change, credential or capability
 handling, provider invocation, external I/O, effect start, retry, live-command
 migration, Iron Gate or Lazaretto behavior is authorized. The active handoff is
 `docs/handoffs/provider-binding-successor-live-adoption-batch-6-complete.md`.
+
+Provider Binding Successor Live Adoption Batch 7 terminal audit is complete at
+`BATCH_7_TERMINAL_AUDIT_PASSED_PROVIDER_BINDING_SUCCESSOR_LIVE_ADOPTION_READINESS_COMPLETE`.
+
+The campaign closes at
+`PROVIDER_BINDING_SUCCESSOR_LIVE_ADOPTION_CAMPAIGN_COMPLETE_PRE_LIVE_TRANSITION_ONLY`.
+No live-adoption readiness batch remains. The provider binding remains
+BOUND_INACTIVE, v3 execution admission remains NOT_IMPLEMENTED and
+UNKNOWN_REPLAY_PROHIBITED remains binding.
+
+A separate explicitly selected campaign is required before live authority
+consumption, execution admission, successor adoption, binding-state transition,
+credential or capability handling, provider invocation, external I/O or any
+provider effect may be considered. The terminal handoff is
+`docs/handoffs/provider-binding-successor-live-adoption-campaign-complete.md`.
