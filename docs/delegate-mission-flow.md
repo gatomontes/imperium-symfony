@@ -1421,3 +1421,21 @@ Batch 0 inventory and classification is authorized. The estimated campaign is
 six batches including preparation. No audit repair or runtime behavior is yet
 authorized. The active handoff is
 `docs/handoffs/atomic-transition-evidence-derivation-remediation-campaign-ready.md`.
+
+
+Atomic Transition Evidence Derivation Remediation Preparation Batch 0 is
+complete at
+`PREPARATION_BATCH_0_COMPLETE_FALSE_PROOF_DERIVATION_BOUNDARIES_CLASSIFIED`.
+
+Strict validators, the interruption classifier, pair comparison, recovery plan
+and aggregate reconstruction remain canonical. Typed cases and mutations,
+reusable fixtures, deterministic case execution, derived findings, case and
+result-set digests, a sealed read-only audit receipt, value-aware secret
+exclusion and terminal evidence-chain recomputation are absent or fragmented.
+
+Only Batch 1 typed adversarial case, mutation, expected-result and reusable
+immutable fixture contracts with pure validation may next be considered. No
+case execution, audit finding, audit receipt, qualification removal, runtime
+behavior, authority action, transition, credential or provider effect is
+authorized. The active handoff is
+`docs/handoffs/atomic-transition-evidence-derivation-remediation-preparation-batch-0-complete.md`.
