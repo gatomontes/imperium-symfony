@@ -94,6 +94,13 @@ container, nested/alternative encoding, split-value, process-local identity and
 sanitized-exception inspection. Only Batch 5 separately authorized disposable
 real-mission execution may next be considered. The closure remains qualified.
 
+Batch 5 completed at
+`BATCH_5_INTEGRATED_DISPOSABLE_INTERNAL_MISSION_OPERATIONAL_EVIDENCE_ACCEPTED`.
+One source/build-bound internal mission produced the trusted result, actual
+executor graph, complete acceptance matrix and digest-bound private receipt;
+only its sanitized summary is committed. Only Batch 6 independent
+reconstruction and historical-audit disposition may next be considered.
+
 ### 1. Make credential custody real
 
 - [x] Remove provider credentials from the directly invokable Symfony platform service boundary. *(Credential-boundary Batch 17.)*
