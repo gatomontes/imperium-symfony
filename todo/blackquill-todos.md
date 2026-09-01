@@ -48,6 +48,21 @@ Atomic Transition Evidence Derivation Remediation completed at
 closure `CAMPAIGN_CLOSURE_ACCEPTED_AFTER_MATERIAL_EVIDENCE_REMEDIATION`.
 There is no Batch 6.
 
+### Atomic transition evidence provenance and operational proof remediation — selected 2026-09-01
+
+- [ ] Requalify the corrected closure after the terminal adversarial rejection.
+- [ ] Make caller-constructed cases, results and execution booleans inadmissible to closure.
+- [ ] Bind every accepted result to a trusted executor, exact source/build identity and disposable mission root.
+- [ ] Derive the actual recursive dependency-capability graph instead of sealing a hard-coded declaration.
+- [ ] Scan the complete provenance-to-closure evidence chain for secrets and process-local capabilities.
+- [ ] Run one explicitly authorized disposable real mission through the actual internal corridor without provider or external effect.
+- [ ] Reconstruct independently without trusting producer conclusions.
+- [ ] Repair, disable or subordinate the historical defective audit path before corrected closure.
+
+Selected campaign:
+`docs/next-campaign-atomic-transition-evidence-provenance-operational-proof-remediation.md`.
+Only Preparation Batch 0 inventory and boundary classification is authorized.
+
 ### 1. Make credential custody real
 
 - [x] Remove provider credentials from the directly invokable Symfony platform service boundary. *(Credential-boundary Batch 17.)*

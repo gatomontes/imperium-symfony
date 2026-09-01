@@ -18,3 +18,15 @@ credential or capability has been handled, no provider has been invoked, no
 external I/O has occurred and no provider effect has started.
 
 Future work requires a separately selected campaign and explicit authorization.
+
+## Post-closure adversarial review
+
+Blackquill rejected the corrected closure because caller-constructible sealed
+results, a hard-coded capability declaration, result-only secret scanning and
+self-recomputation do not authenticate execution provenance. The controlling
+post-review posture is
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_EVIDENCE_PROVENANCE_DEFECT`.
+
+Atomic Transition Evidence Provenance and Operational Proof Remediation is now
+selected. Only its Preparation Batch 0 inventory and boundary classification
+may next be considered.
