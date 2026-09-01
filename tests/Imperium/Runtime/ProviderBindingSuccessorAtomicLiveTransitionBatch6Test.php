@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Imperium\Runtime;
 
 use App\Bootstrap\CanonicalJson;
-use App\Imperium\Runtime\Imperator\ProviderBindingSuccessorAtomicLiveTransitionAdversarialAuditResultContract as Result;
 use App\Imperium\Runtime\Imperator\ProviderBindingSuccessorAtomicLiveTransitionAdversarialAuditService as Audit;
 use App\Imperium\Runtime\LaCortine\ProviderBindingSuccessorAtomicLiveTransitionDisposableProofClassifier as Classifier;
 use App\Imperium\Runtime\LaCortine\ProviderBindingSuccessorAtomicLiveTransitionReadOnlyAggregateReconstructor as Reconstructor;
@@ -18,37 +17,20 @@ final class ProviderBindingSuccessorAtomicLiveTransitionBatch6Test extends TestC
 {
     public function testExactReadOnlyAuditPassesWithCompleteProofSet(): void
     {
-        $result = $this->audit()->audit($this->plan(), [], $this->proofs());
-
-        self::assertSame(Result::REQUIRED_FIELDS, array_keys($result));
-        self::assertSame('PASSED', $result['classification']);
-        self::assertSame('binding-reconciliation-root.1', $result['audited_root']);
-        self::assertTrue($result['read_only']);
-        foreach (array_slice($result, 5) as $action) {
-            self::assertFalse($action);
-        }
+        $this->expectExceptionMessage('PBL1015_HISTORICAL_BOOLEAN_AUDIT_DISABLED');
+        $this->audit()->audit($this->plan(), [], $this->proofs());
     }
 
     public function testMissingOrFalseProofFailsClosed(): void
     {
-        $proofs = $this->proofs();
-        $proofs['partial_write_refusal_proved'] = false;
-        $result = $this->audit()->audit($this->plan(), [], $proofs);
-
-        self::assertSame('CONFLICTED', $result['classification']);
-        self::assertStringContainsString('PBL951_ADVERSARIAL_PROOF_FAILED', $result['findings'][0]);
+        $this->expectExceptionMessage('PBL1015_HISTORICAL_BOOLEAN_AUDIT_DISABLED');
+        $this->audit()->audit($this->plan(), [], array_fill_keys(Audit::REQUIRED_PROOFS, false));
     }
 
     public function testTamperedPlanAndSecretMaterialFailClosed(): void
     {
-        $plan = $this->plan();
-        $plan['classification_directives']['ABSENT'] = 'REPAIR';
-        $plan = $this->seal($plan);
-        self::assertSame('CONFLICTED', $this->audit()->audit($plan, [], $this->proofs())['classification']);
-
-        $result = $this->audit()->audit($this->plan(), ['credential_token' => 'forbidden'], $this->proofs());
-        self::assertSame('CONFLICTED', $result['classification']);
-        self::assertStringContainsString('PBL953_SECRET_OR_CAPABILITY_MATERIAL_PRESENT', $result['findings'][0]);
+        $this->expectExceptionMessage('PBL1015_HISTORICAL_BOOLEAN_AUDIT_DISABLED');
+        $this->audit()->audit($this->plan(), ['credential_token' => 'forbidden'], $this->proofs());
     }
 
     public function testAuditIsPureAndAuthorizesTerminalAuditOnly(): void

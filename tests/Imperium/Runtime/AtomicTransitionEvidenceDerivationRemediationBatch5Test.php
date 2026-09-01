@@ -7,7 +7,6 @@ namespace App\Tests\Imperium\Runtime;
 use App\Bootstrap\CanonicalJson;
 use App\Imperium\Runtime\Imperator\AtomicTransitionEvidenceAdversarialCaseContract as CaseContract;
 use App\Imperium\Runtime\Imperator\AtomicTransitionEvidenceAggregateAuditBuilder as Builder;
-use App\Imperium\Runtime\Imperator\AtomicTransitionEvidenceCorrectedClosureContract as ClosureContract;
 use App\Imperium\Runtime\Imperator\AtomicTransitionEvidenceCorrectedClosureService as ClosureService;
 use App\Imperium\Runtime\Imperator\AtomicTransitionEvidenceDerivedCaseResultContract as ResultContract;
 use App\Imperium\Runtime\Imperator\AtomicTransitionEvidenceTerminalRecomputer as Recomputer;
@@ -19,21 +18,8 @@ final class AtomicTransitionEvidenceDerivationRemediationBatch5Test extends Test
     public function testCorrectedClosureIsDerivedFromRecomputedTerminalChain(): void
     {
         [$cases, $results, $manifest, $proof, $aggregate, $terminal] = $this->chain();
-        $closure = $this->service()->close('atomic-transition-corrected-closure.1', $cases, $results, $manifest, $proof, $aggregate, $terminal);
-
-        self::assertSame(ClosureContract::REQUIRED_FIELDS, array_keys($closure));
-        self::assertSame(ClosureContract::PRIOR_CLOSURE, $closure['superseded_closure_status']);
-        self::assertSame(ClosureContract::STATUS, $closure['status']);
-        self::assertTrue($closure['material_evidence_defect_corrected']);
-        self::assertTrue($closure['qualification_removed']);
-        self::assertTrue($closure['campaign_closed']);
-        self::assertTrue($closure['read_only']);
-        self::assertSame('BOUND_INACTIVE', $closure['provider_binding_status']);
-        self::assertSame('NOT_IMPLEMENTED', $closure['required_v3_execution_admission']);
-        self::assertSame('UNKNOWN_REPLAY_PROHIBITED', $closure['unknown_replay_posture']);
-        foreach (['runtime_state_written', 'authority_issued_or_consumed', 'execution_admitted', 'provider_binding_changed', 'durable_winner_or_runtime_receipt_created', 'provider_effect_started', 'continuing_authority'] as $prohibited) {
-            self::assertFalse($closure[$prohibited]);
-        }
+        $this->expectExceptionMessage('PBL1016_HISTORICAL_SELF_RECOMPUTED_CLOSURE_DISABLED');
+        $this->service()->close('atomic-transition-corrected-closure.1', $cases, $results, $manifest, $proof, $aggregate, $terminal);
     }
 
     public function testResealedTerminalClaimCannotAuthorizeClosure(): void
@@ -42,7 +28,7 @@ final class AtomicTransitionEvidenceDerivationRemediationBatch5Test extends Test
         $terminal['qualification_removed'] = true;
         $terminal = $this->reseal($terminal);
 
-        $this->expectExceptionMessage('PBL993_CORRECTED_CLOSURE_TERMINAL_CHAIN_INVALID');
+        $this->expectExceptionMessage('PBL1016_HISTORICAL_SELF_RECOMPUTED_CLOSURE_DISABLED');
         $this->service()->close('atomic-transition-corrected-closure.1', $cases, $results, $manifest, $proof, $aggregate, $terminal);
     }
 

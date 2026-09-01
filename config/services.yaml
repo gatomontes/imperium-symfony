@@ -29,6 +29,8 @@ services:
             - '../src/Imperium/Runtime/Sortie/SymfonyAiSortieCognitionGateway.php'
             - '../src/Imperium/Runtime/Sortie/HttpGetSortieToolExecutor.php'
             - '../src/Imperium/Runtime/Sortie/GovernedSortieToolRegistry.php'
+            - '../src/Imperium/Runtime/Imperator/ProviderBindingSuccessorAtomicLiveTransitionAdversarialAuditService.php'
+            - '../src/Imperium/Runtime/Imperator/AtomicTransitionEvidenceCorrectedClosureService.php'
 
     App\Bootstrap\ManifestValidator:
         arguments:
