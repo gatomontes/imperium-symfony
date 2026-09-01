@@ -17,6 +17,11 @@ This backlog records the findings from the post-implementation Blackquill review
 Selected campaign: `docs/next-campaign-atomic-transition-evidence-derivation-remediation.md`.
 Only Preparation Batch 0 is authorized.
 
+Preparation Batch 0 completed at
+`PREPARATION_BATCH_0_COMPLETE_FALSE_PROOF_DERIVATION_BOUNDARIES_CLASSIFIED`.
+Only Batch 1 typed case, mutation, expected-result and reusable fixture
+contracts with pure validation is next authorized.
+
 ### 1. Make credential custody real
 
 - [x] Remove provider credentials from the directly invokable Symfony platform service boundary. *(Credential-boundary Batch 17.)*
