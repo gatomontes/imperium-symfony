@@ -320,3 +320,8 @@ Preserve independent authorities, emitted records, and cross-office handoffs. Co
 ## Exit criterion
 
 The work is complete when the credential boundary, provider invocation, authority consumption, state transitions, and terminal retirement are enforced by the runtime under concurrency and failure—not merely described by records—and the test suite proves those properties.
+
+
+Post-campaign Blackquill review records `TERMINAL_REFUSAL_SUBSTANTIVELY_VALID_WITH_MATERIAL_TEST_PERIMETER_REGRESSION`. The evidence campaign's terminal refusal remains authoritative, but PR #728 weakened exact candidate/snapshot coverage, store-user equality and complete perimeter scanning while bundling unrelated runtime changes.
+
+Frozen Runtime Coverage Tripwire Restoration Preparation Batch 0 is complete at `PREPARATION_BATCH_0_COMPLETE_FROZEN_RUNTIME_TRIPWIRE_REGRESSION_CLASSIFIED`. Only Batch 1 mechanical tripwire restoration may next be considered. The evidence posture remains `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`.
