@@ -22,6 +22,11 @@ Preparation Batch 0 completed at
 Only Batch 1 typed case, mutation, expected-result and reusable fixture
 contracts with pure validation is next authorized.
 
+Batch 1 completed at
+`BATCH_1_TYPED_CASE_MUTATION_EXPECTED_RESULT_AND_IMMUTABLE_FIXTURE_CONTRACTS_COMPLETE`.
+Only Batch 2 deterministic pure case execution and finding derivation without
+proof booleans is next authorized.
+
 ### 1. Make credential custody real
 
 - [x] Remove provider credentials from the directly invokable Symfony platform service boundary. *(Credential-boundary Batch 17.)*
