@@ -189,8 +189,10 @@ final class AtomicTransitionCompleteChainExclusionService
     private function prohibitedValue(string $value): bool
     {
         return (bool) preg_match(
-            '/(?:^|[\s:{])Bearer\s+\S+|^sk-[A-Za-z0-9_-]+|'
-            .'^gh[pousr]_[A-Za-z0-9]+|^AKIA[A-Z0-9]{12,}|'
+            '/(?:^|[\s:{=])Bearer\s+\S+|'
+            .'(?:^|[\s:{=])sk-[A-Za-z0-9_-]+|'
+            .'(?:^|[\s:{=])gh[pousr]_[A-Za-z0-9]+|'
+            .'(?:^|[\s:{=])AKIA[A-Z0-9]{12,}|'
             .'-----BEGIN [A-Z ]+PRIVATE KEY-----|'
             .'process-local-(?:credential|capability):\/\/|'
             .'resource\(\d+\)|object\([A-Za-z_\\\\]|spl_object_id|\x00/',
