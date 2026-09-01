@@ -1340,3 +1340,20 @@ winner or receipt, credential or capability handling, provider invocation,
 external I/O, effect start, retry, live-command migration, Iron Gate or
 Lazaretto behavior is authorized. The active handoff is
 `docs/handoffs/provider-binding-successor-atomic-live-transition-batch-3-complete.md`.
+
+
+Provider Binding Successor Atomic Live Transition Batch 4 is complete at
+`BATCH_4_DISPOSABLE_INTERRUPTION_CONTENTION_REPLAY_PARTIAL_WRITE_AND_RECOVERY_CLASSIFICATION_PROOF_COMPLETE`.
+
+The pure caller-supplied proof classifies all four interruption cuts, incomplete
+evidence, exact replay, changed evidence, same-root contention and distinct
+roots. These are in-memory classifications only; no durable state or runtime
+action is claimed.
+
+Only Batch 5 read-only recovery-plan and aggregate reconstruction contracts with
+pure validation may next be considered. No journal persistence, live lock,
+state write or repair, live authority action, execution admission, adoption,
+binding-state transition, durable winner or receipt, credential or capability
+handling, provider invocation, external I/O, effect start, retry, live-command
+migration, Iron Gate or Lazaretto behavior is authorized. The active handoff is
+`docs/handoffs/provider-binding-successor-atomic-live-transition-batch-4-complete.md`.
