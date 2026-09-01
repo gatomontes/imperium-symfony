@@ -1360,6 +1360,21 @@ php vendor/bin/phpunit tests/Imperium/Runtime/AtomicTransitionEvidenceDerivation
 
 - Counts: not supplied and therefore not inferred.
 
+## Cleared evidence-derivation remediation Batch 2
+
+### Atomic Transition Evidence Derivation Remediation Batch 2
+
+- Source PR: #704
+- Source merge commit: 2b7eb996d216152b8e4669ddfa48e07b8ccee578
+- Final status: CLEAR_OPERATOR_REPORTED
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/AtomicTransitionEvidenceDerivationRemediationBatch2Test.php
+```
+
+- Counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.

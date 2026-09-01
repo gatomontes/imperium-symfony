@@ -1471,3 +1471,19 @@ considered. No qualification removal, terminal recomputation, persistence,
 authority action, transition, live credential handling or provider effect is
 authorized. The active handoff is
 `docs/handoffs/atomic-transition-evidence-derivation-remediation-batch-2-complete.md`.
+
+
+Atomic Transition Evidence Derivation Remediation Batch 3 is complete at
+`BATCH_3_EVIDENCE_BOUND_AGGREGATE_AUDIT_COMPLETE`.
+
+The complete ordered typed case set now binds to sealed per-case results and an
+ordered result-set digest. A dependency-closure-scoped typed capability
+manifest and recursive value-aware secret-exclusion proof support the sealed
+read-only, non-durable aggregate audit receipt. No caller proof boolean is
+accepted.
+
+Only Batch 4 terminal read-only evidence-chain recomputation may next be
+considered. No qualification removal without a fully derived terminal result,
+persistence, authority action, transition, live credential handling or
+provider effect is authorized. The active handoff is
+`docs/handoffs/atomic-transition-evidence-derivation-remediation-batch-3-complete.md`.
