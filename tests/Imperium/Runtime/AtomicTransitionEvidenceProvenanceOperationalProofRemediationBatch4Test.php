@@ -63,6 +63,7 @@ final class AtomicTransitionEvidenceProvenanceOperationalProofRemediationBatch4T
             ['payload' => 'process-local-capability://provider/1'],
             ['payload' => 'resource(3) of type (stream)'],
             ['payload' => new \stdClass()],
+            ['message' => 'failure: ghp_forbiddenSecretValue'],
         ] as $attack) {
             try {
                 $service->assertClean($attack);
