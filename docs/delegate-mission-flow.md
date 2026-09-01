@@ -1517,3 +1517,22 @@ remains binding.
 There is no remediation Batch 6. Future work requires a separately selected
 campaign and explicit authorization. The terminal handoff is
 `docs/handoffs/atomic-transition-evidence-derivation-remediation-complete.md`.
+
+
+The terminal Blackquill review rejects the Atomic Transition Evidence
+Derivation Remediation corrected closure at
+`CORRECTED_CLOSURE_REJECTED_MATERIAL_EVIDENCE_PROVENANCE_DEFECT`.
+
+Caller-constructible results, a hard-coded capability declaration, result-only
+secret inspection and self-recomputation prove internal consistency rather than
+authenticated execution. The controlling posture is
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_EVIDENCE_PROVENANCE_DEFECT`.
+
+Atomic Transition Evidence Provenance and Operational Proof Remediation is
+selected as an eight-batch campaign including Preparation Batch 0. Only
+Preparation Batch 0 counterfeitability inventory, provenance-boundary
+classification and disposable real-mission acceptance-matrix design is
+authorized. No mission execution, provider invocation, external effect,
+credential handling, runtime mutation, legacy-audit repair or qualification
+removal is authorized. The active handoff is
+`docs/handoffs/atomic-transition-evidence-provenance-operational-proof-remediation-campaign-ready.md`.
