@@ -79,6 +79,14 @@ Batch 2 completed at
 Only Batch 3 actual recursive dependency-capability graph derivation bound to
 the exact executing source/build may next be considered.
 
+Batch 3 completed at
+`BATCH_3_ACTUAL_RECURSIVE_EXECUTOR_DEPENDENCY_CAPABILITY_GRAPH_DERIVED`.
+The actual resolved Batch 2 executor object graph is recursively derived and
+bound to the exact loaded source/build. Unknown, substituted, mutable and
+effect-capable dependencies fail closed. Only Batch 4 complete-chain secret and
+process-local capability exclusion may next be considered. The closure remains
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_EVIDENCE_PROVENANCE_DEFECT`.
+
 ### 1. Make credential custody real
 
 - [x] Remove provider credentials from the directly invokable Symfony platform service boundary. *(Credential-boundary Batch 17.)*
