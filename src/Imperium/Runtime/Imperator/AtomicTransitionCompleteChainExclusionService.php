@@ -128,16 +128,22 @@ final class AtomicTransitionCompleteChainExclusionService
             $fragments = [];
             foreach ($value as $childKey => $child) {
                 $this->assertClean($child, is_string($childKey) ? $childKey : null);
-                if (is_string($child)) {
+                if (is_int($childKey) && is_string($child)) {
                     $fragments[] = $child;
                 }
             }
-            if (count($fragments) > 1) {
+            if (array_is_list($value) && count($fragments) > 1) {
                 $this->assertStringClean(implode('', $fragments));
             }
             return;
         }
         if (is_string($value)) {
+            if (null !== $key && preg_match('/(?:digest|commit)$/i', $key)) {
+                if ($this->prohibitedValue($value)) {
+                    $this->refuse();
+                }
+                return;
+            }
             $this->assertStringClean($value);
         }
     }
