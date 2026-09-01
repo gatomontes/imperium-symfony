@@ -1374,3 +1374,21 @@ winner or receipt, credential or capability handling, provider invocation,
 external I/O, effect start, retry, live-command migration, Iron Gate or
 Lazaretto behavior is authorized. The active handoff is
 `docs/handoffs/provider-binding-successor-atomic-live-transition-batch-5-complete.md`.
+
+
+Provider Binding Successor Atomic Live Transition Batch 6 is complete at
+`BATCH_6_READ_ONLY_ADVERSARIAL_RECOVERY_AND_RECONSTRUCTION_AUDIT_COMPLETE`.
+
+The pure caller-supplied adversarial audit fails closed on missing proof,
+tampered recovery evidence, secret or process-local capability material and any
+false action claim. It preserves the read-only, non-authority perimeter and
+imports no persistence or effect dependency.
+
+Only Batch 7 terminal audit and campaign closure may next be considered. It may
+inspect the canonical chain, adversarial findings, documentation and focused
+tests only. No journal persistence, live lock, state write or repair, live
+authority action, execution admission, adoption, binding transition, durable
+winner or receipt, credential or capability handling, provider invocation,
+external I/O, effect start, retry, live-command migration, Iron Gate or
+Lazaretto behavior is authorized. The active handoff is
+`docs/handoffs/provider-binding-successor-atomic-live-transition-batch-6-complete.md`.
