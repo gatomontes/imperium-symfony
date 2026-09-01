@@ -1745,3 +1745,8 @@ Provider binding remains `BOUND_INACTIVE`, required v3 execution admission
 remains `NOT_IMPLEMENTED`, and `UNKNOWN_REPLAY_PROHIBITED` remains binding. The
 terminal handoff is
 `docs/handoffs/atomic-transition-evidence-independent-verification-remediation-complete.md`.
+
+
+Post-campaign Blackquill review accepts the Independent Verification campaign's terminal refusal but finds a material test-perimeter regression in PR #728. Exact runtime/snapshot and store-user equality became one-way subset checks, complete perimeter scanning became snapshot-limited, and unrelated runtime changes were bundled into the evidence campaign.
+
+Frozen Runtime Coverage Tripwire Restoration is selected. Preparation Batch 0 is complete at `PREPARATION_BATCH_0_COMPLETE_FROZEN_RUNTIME_TRIPWIRE_REGRESSION_CLASSIFIED`. Only Batch 1 mechanical tripwire restoration may next be considered. It may change coverage tests and versioned inventories only; runtime adjudication remains Batch 2. The active local continuation handoff is `docs/handoffs/frozen-runtime-coverage-tripwire-restoration-batch-1-ready.md`.

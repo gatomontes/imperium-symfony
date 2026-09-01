@@ -220,3 +220,6 @@ The Blackquill review of that refusal identifies a category error between creden
 durable execution authority and process-local capability identity. Provider Execution Boundary
 Redesign is now selected for Preparation Batch 0 only. It may inventory a stationary-credential,
 credential-owning execution boundary but grants no runtime or external-action authority.
+
+
+Frozen Runtime Coverage Tripwire Restoration Preparation Batch 0 is complete. The active continuation instruction is `docs/handoffs/frozen-runtime-coverage-tripwire-restoration-batch-1-ready.md`. Only Batch 1 coverage-test and versioned-inventory restoration is authorized; runtime adjudication remains Batch 2.
