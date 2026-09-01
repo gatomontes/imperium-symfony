@@ -167,7 +167,10 @@ final class AtomicTransitionCompleteChainExclusionService
             }
         }
         if (preg_match('/^[A-Za-z0-9_-]{8,}$/', $value)
-            && preg_match('/[-_]/', $value)) {
+            && preg_match('/[-_]/', $value)
+            && preg_match('/[A-Z]/', $value)
+            && preg_match('/[a-z]/', $value)
+            && preg_match('/[0-9]/', $value)) {
             $padded = strtr($value, '-_', '+/');
             $padded .= str_repeat('=', (4 - strlen($padded) % 4) % 4);
             $base64Url = base64_decode($padded, true);
