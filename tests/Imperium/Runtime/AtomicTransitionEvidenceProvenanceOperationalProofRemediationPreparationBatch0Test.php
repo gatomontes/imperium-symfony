@@ -31,7 +31,7 @@ final class AtomicTransitionEvidenceProvenanceOperationalProofRemediationPrepara
             '`atomic-transition-evidence-origin/v1`', 'disposable-mission authorization',
             'source commit', 'source tree digest', 'build artifact digest',
             'dependency-lock digest', 'executor implementation digest', 'case-set root',
-            'sanitized evidence-package identifier', 'Recursive dependency traversal',
+            'case-set and sanitized package', 'Recursive dependency traversal',
             'Container-resolved dependency graph', 'Transitive capability classification',
             'Unknown/substituted dependency refusal', 'actual resolved executor graph',
         ] as $boundary) {
@@ -75,9 +75,10 @@ final class AtomicTransitionEvidenceProvenanceOperationalProofRemediationPrepara
         $handoff = $this->document('docs/handoffs/atomic-transition-evidence-provenance-operational-proof-remediation-preparation-batch-0-complete.md');
         foreach ([
             'Only Atomic Transition Evidence Provenance and Operational Proof Remediation Batch 1 separately versioned execution-provenance and evidence-origin contracts with pure validation may next be considered.',
-            'may not implement or invoke a trusted executor', 'may not execute a case or mission',
-            'may not produce an operational receipt', 'may not repair or disable the historical audit',
-            'may not remove the closure qualification', 'may not mutate runtime state',
+            'may not implement or invoke a trusted executor',
+            'may not execute a case or mission, produce an operational receipt',
+            'repair or disable the historical audit', 'remove the closure qualification',
+            'may not mutate runtime state',
             'may not handle a live credential or capability', 'invoke a provider',
             'perform external I/O', 'open Iron Gate or Lazaretto',
             '`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_EVIDENCE_PROVENANCE_DEFECT`',
