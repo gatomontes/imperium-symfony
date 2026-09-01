@@ -1694,3 +1694,54 @@ a seven-batch campaign including Preparation Batch 0. Only Preparation Batch 0
 inventory and boundary classification may next be considered. The active
 handoff is
 `docs/handoffs/atomic-transition-evidence-independent-verification-remediation-campaign-ready.md`.
+
+
+Atomic Transition Evidence Independent Verification Remediation Preparation
+Batch 0 is complete at
+`PREPARATION_BATCH_0_COMPLETE_INDEPENDENT_VERIFICATION_BOUNDARY_CLASSIFIED`.
+
+The retained summary is pinned through copied constants, while the source,
+build, receipt sections, acceptance matrix, exclusion result and non-authority
+perimeter are not independently recomputed. The current terminal auditor
+repeats the same reconstructor and remains internally reachable. Receipt
+availability is unverified because Preparation did not inspect operator-local
+private material.
+
+Only Batch 1 authority-empty verifier-input, sanitized-report, public
+verification-identity and detached-attestation contracts may next be
+considered. No private receipt inspection, live signing capability, verifier
+execution, mission rerun, provider invocation, external I/O, runtime mutation,
+provider-binding change, v3 admission, requalification removal or closure is
+authorized. The active handoff is
+`docs/handoffs/atomic-transition-evidence-independent-verification-remediation-preparation-batch-0-complete.md`.
+
+
+Atomic Transition Evidence Independent Verification Remediation Batch 1 is
+complete at `BATCH_1_AUTHORITY_EMPTY_VERIFICATION_CONTRACTS_COMPLETE`.
+Authority-empty verifier-input, sanitized-report, public-identity and detached-
+attestation contracts now exist with pure validation. Only Batch 2 separate
+read-only artifact-and-receipt verifier may next be considered. The active
+handoff is
+`docs/handoffs/atomic-transition-evidence-independent-verification-remediation-batch-1-complete.md`.
+
+
+Atomic Transition Evidence Independent Verification Remediation Batches 2 and
+3 are complete. The separate verifier classifies the retained v1 acceptance
+matrix as indeterminate because its underlying cases were not retained, and
+synthetic adversarial proof refuses counterfeit packages, substitutions,
+producer conclusions, secret leakage, wrong identities and malformed detached
+signatures.
+
+Batch 4 refused before private receipt intake or signing custody at
+`BATCH_4_LOCAL_VERIFICATION_REFUSED_BEFORE_PRIVATE_INTAKE_ACCEPTANCE_CASE_EVIDENCE_NOT_RETAINED`.
+Batch 5 installs the strict independently attested report consumer and disables
+the legacy unsigned terminal auditor.
+
+Batch 6 terminates the remediation campaign in evidence refusal at
+`CAMPAIGN_TERMINATED_INDEPENDENT_VERIFICATION_EVIDENCE_INSUFFICIENT`. Closure is
+not restored; the controlling posture remains
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`.
+Provider binding remains `BOUND_INACTIVE`, required v3 execution admission
+remains `NOT_IMPLEMENTED`, and `UNKNOWN_REPLAY_PROHIBITED` remains binding. The
+terminal handoff is
+`docs/handoffs/atomic-transition-evidence-independent-verification-remediation-complete.md`.

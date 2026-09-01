@@ -20,8 +20,8 @@ inspect the retained operational package, independent reconstruction,
 historical-path disposition, canonical documentation and focused tests before
 deciding whether the qualification may be removed.
 
-Batch 7 may not run another mission, invoke a provider, perform external I/O,
-handle a live credential or capability, mutate runtime state, change provider
+Batch 7 may not run another mission. It may not invoke a provider. It may not perform external I/O.
+It may not handle a live credential or capability. It may not mutate runtime state. It may not change provider
 binding, implement v3 execution admission, authorize retry or adopt a live
 command. It may not remove the closure qualification unless the complete
 terminal adversarial audit passes.
