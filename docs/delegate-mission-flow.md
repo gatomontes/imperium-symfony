@@ -1303,3 +1303,22 @@ adoption, binding-state change, credential or capability handling, provider
 invocation, external I/O, effect start, retry, live-command migration, Iron Gate
 or Lazaretto behavior is authorized. The active handoff is
 `docs/handoffs/provider-binding-successor-atomic-live-transition-batch-1-complete.md`.
+
+
+Provider Binding Successor Atomic Live Transition Batch 2 is complete at
+`BATCH_2_AUTHORITY_EMPTY_TRANSITION_AUTHORITY_ISSUANCE_CUSTODY_AND_DELIVERY_CONTRACTS_COMPLETE`.
+
+The future authority shape and the empty issuance, durable-custody and
+process-local delivery boundaries are separately versioned, exact-root joined
+and pure-validated. Their finite seal order is decision, custody, delivery,
+issuance and only later a future authority. No authority or process-local
+capability exists.
+
+Only Batch 3 exact-root transaction journal, canonical lock order, write-set,
+recovery-state and combined winner/receipt contracts with pure validation and
+an inert seam may next be considered. No journal persistence, live lock, state
+write, recovery, winner, receipt, authority action, execution admission,
+adoption, binding-state change, credential or capability handling, provider
+invocation, external I/O, effect start, retry, live-command migration, Iron Gate
+or Lazaretto behavior is authorized. The active handoff is
+`docs/handoffs/provider-binding-successor-atomic-live-transition-batch-2-complete.md`.
