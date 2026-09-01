@@ -38,6 +38,11 @@ Batch 3 completed at
 Only Batch 4 terminal read-only evidence-chain recomputation against the
 complete sealed aggregate is next authorized.
 
+Batch 4 completed at
+`BATCH_4_TERMINAL_EVIDENCE_CHAIN_RECOMPUTATION_COMPLETE`.
+Only Batch 5 read-only corrected-closure replacement from the sealed successful
+terminal recomputation is next authorized.
+
 ### 1. Make credential custody real
 
 - [x] Remove provider credentials from the directly invokable Symfony platform service boundary. *(Credential-boundary Batch 17.)*

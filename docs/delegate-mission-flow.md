@@ -1487,3 +1487,18 @@ considered. No qualification removal without a fully derived terminal result,
 persistence, authority action, transition, live credential handling or
 provider effect is authorized. The active handoff is
 `docs/handoffs/atomic-transition-evidence-derivation-remediation-batch-3-complete.md`.
+
+
+Atomic Transition Evidence Derivation Remediation Batch 4 is complete at
+`BATCH_4_TERMINAL_EVIDENCE_CHAIN_RECOMPUTATION_COMPLETE`.
+
+The pure terminal recomputer independently reconstructs the capability
+manifest, value-aware secret proof and aggregate audit receipt, then recomputes
+every seal, reference and ordered digest. Successful recomputation derives
+material-defect correction pending separately bounded closure replacement.
+
+Only Batch 5 read-only closure replacement may next be considered. No runtime
+state write, authority action, provider-binding activation, v3 execution
+admission, credential handling or provider effect is authorized. The active
+handoff is
+`docs/handoffs/atomic-transition-evidence-derivation-remediation-batch-4-complete.md`.

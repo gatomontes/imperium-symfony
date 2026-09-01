@@ -1375,6 +1375,24 @@ php vendor/bin/phpunit tests/Imperium/Runtime/AtomicTransitionEvidenceDerivation
 
 - Counts: not supplied and therefore not inferred.
 
+## Cleared evidence-derivation remediation Batch 3
+
+### Atomic Transition Evidence Derivation Remediation Batch 3
+
+- Source PR: #705
+- Source merge commit: a94876991f328b94b35d7a5be2195fded29343c8
+- PHPUnit compatibility repair PR: #706
+- Repair merge commit: 78dd3a8a79ae27879f2abe9242d9ebf83c1c21d4
+- Initial failure: test helper `result()` collided with final `TestCase::result()`.
+- Final status: CLEAR_OPERATOR_REPORTED_AFTER_PHPUNIT_COMPATIBILITY_REPAIR
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/AtomicTransitionEvidenceDerivationRemediationBatch3Test.php
+```
+
+- Clear rerun counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
