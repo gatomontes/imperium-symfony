@@ -1238,6 +1238,26 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingSuccessorAtomicLive
 
 - Counts: not supplied and therefore not inferred.
 
+## Cleared atomic live-transition Batch 2
+
+### Provider Binding Successor Atomic Live Transition Batch 2
+
+- Source PR: #691
+- Source merge commit: 3bbbe8b379af89c83b0cab51c37e045de26d4551
+- Test repair PR: #692
+- Repair merge commit: a21ffe3c3d4cdf018b5bdf924a716fc13a560f54
+- First attempt: 6 tests, 29 assertions, 1 PHPUnit signature error.
+- Repair: removed the obsolete boolean third argument from
+  `assertNotContains()`; this PHPUnit version reserves it for a string message.
+- Final status: CLEAR_OPERATOR_REPORTED_AFTER_TEST_COMPATIBILITY_REPAIR
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingSuccessorAtomicLiveTransitionBatch2Test.php
+```
+
+- Clear rerun counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.
