@@ -1322,3 +1322,21 @@ adoption, binding-state change, credential or capability handling, provider
 invocation, external I/O, effect start, retry, live-command migration, Iron Gate
 or Lazaretto behavior is authorized. The active handoff is
 `docs/handoffs/provider-binding-successor-atomic-live-transition-batch-2-complete.md`.
+
+
+Provider Binding Successor Atomic Live Transition Batch 3 is complete at
+`BATCH_3_INERT_EXACT_ROOT_JOURNAL_LOCK_WRITESET_RECOVERY_WINNER_AND_RECEIPT_CONTRACTS_COMPLETE`.
+
+The exact-root journal declares the canonical lock order, value-shaped write
+set and recovery vocabulary. The combined winner and receipt follow it in an
+acyclic seal order. Pure validation and the inert seam perform no persistence,
+lock, write, recovery or transition.
+
+Only Batch 4 disposable caller-supplied interruption, same-root contention,
+exact replay, changed-evidence, partial-write and recovery-classification proof
+may next be considered. No live journal, lock, write, recovery, authority
+consumption, execution admission, adoption, binding-state transition, durable
+winner or receipt, credential or capability handling, provider invocation,
+external I/O, effect start, retry, live-command migration, Iron Gate or
+Lazaretto behavior is authorized. The active handoff is
+`docs/handoffs/provider-binding-successor-atomic-live-transition-batch-3-complete.md`.
