@@ -1536,3 +1536,21 @@ authorized. No mission execution, provider invocation, external effect,
 credential handling, runtime mutation, legacy-audit repair or qualification
 removal is authorized. The active handoff is
 `docs/handoffs/atomic-transition-evidence-provenance-operational-proof-remediation-campaign-ready.md`.
+
+
+Atomic Transition Evidence Provenance and Operational Proof Remediation
+Preparation Batch 0 is complete at
+`PREPARATION_BATCH_0_COMPLETE_TRUSTED_EXECUTION_PROVENANCE_BOUNDARY_CLASSIFIED`.
+
+Caller-constructible cases, results and asserted execution findings can still
+reach the corrected closure without a trusted executor, exact source/build
+identity or disposable-mission origin. The capability manifest is declared
+rather than derived, result-only secret scanning is incomplete, and the
+historical Batch 6 audit remains internally reachable and unsubordinated.
+
+Only Batch 1 separately versioned execution-provenance and evidence-origin
+contracts with pure validation may next be considered. No trusted executor,
+case or mission execution, provider invocation, external I/O, credential or
+capability handling, runtime mutation, historical-audit repair or closure
+qualification removal is authorized. The active handoff is
+`docs/handoffs/atomic-transition-evidence-provenance-operational-proof-remediation-preparation-batch-0-complete.md`.

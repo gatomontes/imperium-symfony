@@ -63,6 +63,12 @@ Selected campaign:
 `docs/next-campaign-atomic-transition-evidence-provenance-operational-proof-remediation.md`.
 Only Preparation Batch 0 inventory and boundary classification is authorized.
 
+Preparation Batch 0 completed at
+`PREPARATION_BATCH_0_COMPLETE_TRUSTED_EXECUTION_PROVENANCE_BOUNDARY_CLASSIFIED`.
+Only Batch 1 separately versioned execution-provenance and evidence-origin
+contracts with pure validation may next be considered. The closure remains
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_EVIDENCE_PROVENANCE_DEFECT`.
+
 ### 1. Make credential custody real
 
 - [x] Remove provider credentials from the directly invokable Symfony platform service boundary. *(Credential-boundary Batch 17.)*
