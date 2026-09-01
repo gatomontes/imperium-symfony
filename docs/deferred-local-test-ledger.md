@@ -1193,6 +1193,21 @@ php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingSuccessorLiveAdopti
 
 - Counts: not supplied and therefore not inferred.
 
+## Cleared atomic live-transition campaign selection
+
+### Provider Binding Successor Atomic Live Transition campaign ready
+
+- Source PR: #688
+- Source merge commit: e4e67025ab414693fc394336ddf0adfd82b8bf86
+- Final status: CLEAR_OPERATOR_REPORTED
+- Clear command:
+
+```bash
+php vendor/bin/phpunit tests/Imperium/Runtime/ProviderBindingSuccessorAtomicLiveTransitionCampaignReadyTest.php
+```
+
+- Counts: not supplied and therefore not inferred.
+
 ## Pending
 
 None.

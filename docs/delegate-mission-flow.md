@@ -1268,3 +1268,22 @@ credential or capability handling, provider invocation, external I/O, effect
 start, retry, live-command migration, Iron Gate or Lazaretto action is
 authorized. The active handoff is
 `docs/handoffs/provider-binding-successor-atomic-live-transition-campaign-ready.md`.
+
+Provider Binding Successor Atomic Live Transition Preparation Batch 0 is
+complete at
+`PREPARATION_BATCH_0_COMPLETE_ATOMIC_LIVE_TRANSITION_EXECUTION_BOUNDARIES_CLASSIFIED`.
+
+The readiness contracts and generic persistence primitives exist, but the
+executable transition entry point, decision producer, authority
+issuer/custodian/delivery path, exact-root transaction journal and lock order,
+multi-record crash atomicity, recovery coordinator and durable receipt are
+absent or fragmented. Individual atomic renames and generic locks are not one
+recoverable combined commit.
+
+Only Batch 1 authority-empty transition-decision producer, exact-principal input
+and immutable result contracts with pure validation may next be considered. No
+decision production, authority issuance or consumption, execution admission,
+adoption, binding-state change, credential or capability handling, provider
+invocation, external I/O, effect start, retry, live-command migration, Iron Gate
+or Lazaretto behavior is authorized. The active handoff is
+`docs/handoffs/provider-binding-successor-atomic-live-transition-preparation-batch-0-complete.md`.
