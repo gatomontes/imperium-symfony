@@ -1246,3 +1246,25 @@ consumption, execution admission, successor adoption, binding-state transition,
 credential or capability handling, provider invocation, external I/O or any
 provider effect may be considered. The terminal handoff is
 `docs/handoffs/provider-binding-successor-live-adoption-campaign-complete.md`.
+
+## Provider binding successor atomic live-transition frontier
+
+Provider Binding Successor Atomic Live Transition is separately selected after
+live-adoption readiness closed at
+`PROVIDER_BINDING_SUCCESSOR_LIVE_ADOPTION_CAMPAIGN_COMPLETE_PRE_LIVE_TRANSITION_ONLY`.
+
+Only Preparation Batch 0 may inventory the exact runtime entry point,
+transition-decision producer, single-use authority issuance and delivery,
+combined same-root transaction, persistence and lock order, crash and recovery
+cuts, durable receipt, reconstruction and the final boundary before credential
+resolution or provider effect.
+
+The planning estimate is nine batches including preparation, but any refusal or
+correction batch expands that count. Selection grants no runtime authority. The
+provider binding remains BOUND_INACTIVE, v3 execution admission remains
+NOT_IMPLEMENTED and UNKNOWN_REPLAY_PROHIBITED remains binding. No decision,
+authority action, execution admission, adoption, binding-state change,
+credential or capability handling, provider invocation, external I/O, effect
+start, retry, live-command migration, Iron Gate or Lazaretto action is
+authorized. The active handoff is
+`docs/handoffs/provider-binding-successor-atomic-live-transition-campaign-ready.md`.
