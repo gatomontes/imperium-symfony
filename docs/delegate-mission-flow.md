@@ -1392,3 +1392,19 @@ winner or receipt, credential or capability handling, provider invocation,
 external I/O, effect start, retry, live-command migration, Iron Gate or
 Lazaretto behavior is authorized. The active handoff is
 `docs/handoffs/provider-binding-successor-atomic-live-transition-batch-6-complete.md`.
+
+
+Provider Binding Successor Atomic Live Transition Batch 7 terminal audit passed
+at `BATCH_7_TERMINAL_AUDIT_PASSED_ATOMIC_LIVE_TRANSITION_EVIDENCE_COMPLETE`.
+The campaign is closed at
+`PROVIDER_BINDING_SUCCESSOR_ATOMIC_LIVE_TRANSITION_CAMPAIGN_COMPLETE_PRE_EXECUTION_ONLY`.
+
+The exact-root contracts, interruption proof, read-only reconstruction and
+adversarial audit remain canonical pre-execution evidence only. They do not
+authorize an executable atomic transition. The provider binding remains
+BOUND_INACTIVE, required v3 execution admission remains NOT_IMPLEMENTED and
+UNKNOWN_REPLAY_PROHIBITED remains binding. No atomic-live-transition batch
+remains. A separate explicitly selected campaign is required before executable
+atomic consumption, v3 admission, successor adoption or binding transition may
+be considered. The terminal handoff is
+`docs/handoffs/provider-binding-successor-atomic-live-transition-campaign-complete.md`.
