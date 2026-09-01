@@ -1554,3 +1554,24 @@ case or mission execution, provider invocation, external I/O, credential or
 capability handling, runtime mutation, historical-audit repair or closure
 qualification removal is authorized. The active handoff is
 `docs/handoffs/atomic-transition-evidence-provenance-operational-proof-remediation-preparation-batch-0-complete.md`.
+
+
+Atomic Transition Evidence Provenance and Operational Proof Remediation Batch 1
+is complete at
+`BATCH_1_AUTHORITY_EMPTY_EVIDENCE_ORIGIN_AND_EXECUTION_PROVENANCE_CONTRACTS_COMPLETE`.
+
+The separately versioned evidence-origin and execution-provenance contracts bind
+the exact disposable mission, source, build, executor, input roots, custody,
+freshness, limitations and sanitized evidence-package identity. Pure validation
+fails closed on substitution, false execution claims and prohibited material.
+The contracts remain authority-empty and unproduced; their seals do not
+authenticate a producer or prove execution.
+
+Only Batch 2 trusted internal case execution may next be considered. It must
+accept no caller result or execution, finding or match boolean and bind every
+produced result to the exact Batch 1 provenance. No derived capability graph,
+complete-chain exclusion proof, disposable real mission, historical-audit
+repair, closure qualification removal, live credential or capability, provider
+invocation, external I/O or runtime mutation is authorized. The active handoff
+is
+`docs/handoffs/atomic-transition-evidence-provenance-operational-proof-remediation-batch-1-complete.md`.

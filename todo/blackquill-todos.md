@@ -69,6 +69,11 @@ Only Batch 1 separately versioned execution-provenance and evidence-origin
 contracts with pure validation may next be considered. The closure remains
 `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_EVIDENCE_PROVENANCE_DEFECT`.
 
+Batch 1 completed at
+`BATCH_1_AUTHORITY_EMPTY_EVIDENCE_ORIGIN_AND_EXECUTION_PROVENANCE_CONTRACTS_COMPLETE`.
+Only Batch 2 trusted internal case execution that accepts no caller result or
+execution, finding or match boolean may next be considered.
+
 ### 1. Make credential custody real
 
 - [x] Remove provider credentials from the directly invokable Symfony platform service boundary. *(Credential-boundary Batch 17.)*
