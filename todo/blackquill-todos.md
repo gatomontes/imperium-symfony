@@ -4,6 +4,19 @@ This backlog records the findings from the post-implementation Blackquill review
 
 ## Critical integrity work
 
+### Atomic transition evidence derivation remediation — selected 2026-09-01
+
+- [ ] Replace caller-supplied adversarial proof booleans with typed evidence cases and deterministic expected results.
+- [ ] Prevent empty or `ABSENT` evidence from proving replay, contention, committed-state or partial-write findings.
+- [ ] Derive every adversarial finding from executed cases and bind it to an evidence digest.
+- [ ] Replace constructed false action claims with typed non-authority evidence or narrow the claim explicitly.
+- [ ] Add value-aware recursive secret and process-local capability exclusion, including generic containers and encoded values.
+- [ ] Replace documentation-retention terminal checks with deterministic evidence-chain recomputation.
+- [ ] Retain the prior campaign closure as `CAMPAIGN_CLOSURE_ACCEPTED_WITH_MATERIAL_EVIDENCE_DEFECT` until remediation closes.
+
+Selected campaign: `docs/next-campaign-atomic-transition-evidence-derivation-remediation.md`.
+Only Preparation Batch 0 is authorized.
+
 ### 1. Make credential custody real
 
 - [x] Remove provider credentials from the directly invokable Symfony platform service boundary. *(Credential-boundary Batch 17.)*
