@@ -1,5 +1,21 @@
 # Delegate mission flow
 
+## Current Native Integration Remediation selection
+
+`EXECUTABLE_ATOMIC_TRANSITION_NATIVE_INTEGRATION_REMEDIATION_CAMPAIGN_READY`.
+The Batch 8 refusal and post-campaign Blackquill review confirm four canonical
+gaps: native principal/authority lineage, eligible-successor provenance, the
+selected La Cortine v3 admission and an authoritative binding-state consumer.
+The tested pinned-grant transition substrate is retained but cannot supply those
+facts by configuration.
+
+Only Preparation Batch 0 may next be considered. Campaign countdown at selection
+is eight stages including preparation. No principal scope widening, schema
+relabeling, fixture promotion, runtime mutation, authority action, admission,
+binding change, credential handling, provider invocation or external effect is
+authorized. Active local entrypoint:
+`docs/handoffs/executable-atomic-transition-native-integration-remediation-preparation-batch-0-local-ready.md`.
+
 ## Current Executable Atomic Transition terminal finding
 
 `EXECUTABLE_ATOMIC_TRANSITION_TERMINAL_AUDIT_REFUSED_NATIVE_INTEGRATION_ABSENT`.
