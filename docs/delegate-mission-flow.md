@@ -1759,3 +1759,18 @@ The terminal handoff is
 `docs/handoffs/frozen-runtime-coverage-tripwire-restoration-campaign-complete.md`.
 This restores test-perimeter alarms only; it does not change the controlling
 independent-verification evidence defect or reopen the terminal Delegate flow.
+
+
+## Activation-disposition vocabulary tripwire correction
+
+Post-PR #730 Blackquill review rejects the Frozen Runtime Coverage Tripwire
+Restoration completion claim because the activation-disposition detector is
+single-quote-sensitive. A valid double-quoted governed value can evade the exact
+producer inventory.
+
+Activation Disposition Vocabulary Tripwire Correction is selected at
+`ACTIVATION_DISPOSITION_VOCABULARY_TRIPWIRE_CORRECTION_CAMPAIGN_READY`. Only
+Preparation Batch 0 may next be considered. Batch 1 will own the mechanical
+detector correction; Batch 2 must be a separately sequenced terminal audit
+starting from merged Batch 1 `main`. The controlling independent-verification
+qualification remains unchanged.

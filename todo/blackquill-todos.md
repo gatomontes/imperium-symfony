@@ -332,3 +332,20 @@ versioned path coverage, Batch 2 individually adjudicated the PR #728 runtime
 and vocabulary changes, and Batch 3 proved the four unapproved synthetic
 addition classes fail closed while explicit candidate classification passes.
 The independent-verification evidence posture remains qualified and unchanged.
+
+
+## Activation Disposition Vocabulary Tripwire Correction — selected
+
+- [ ] Preparation Batch 0: inventory detector semantics, lexical forms,
+  false-positive surfaces, dynamic-construction limits and mutation gaps.
+- [ ] Batch 1: replace quote-sensitive discovery with deterministic
+  quote-independent exact-value detection and adversarial mutation proof.
+- [ ] Batch 2: perform a separately sequenced terminal Blackquill audit after
+  Batch 1 is merged.
+- [ ] Supersede the rejected prior closure only if Batch 2 passes.
+
+The current disposition-vocabulary detector accepts a double-quoted governed
+value without inventory admission. The prior tripwire-restoration closure is
+therefore requalified as
+`FROZEN_RUNTIME_COVERAGE_TRIPWIRE_RESTORATION_CLOSURE_REJECTED_WITH_MATERIAL_VOCABULARY_TRIPWIRE_GAP`.
+The broader independent-verification evidence qualification remains in force.
