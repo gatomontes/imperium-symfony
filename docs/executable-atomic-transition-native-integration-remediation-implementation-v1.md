@@ -1,5 +1,61 @@
 # Native Integration Remediation implementation v1
 
+## Approved continuation and Batch 1
+
+The operator explicitly approved the proposed signed Root-act trust route.
+The dependency decision below is historical and resolved for implementation.
+`NativeState`, `NativeRootActs`, `NativePrincipal` and `NativeAuthority` implement
+public verification, native source loading, pending constitution, separate signed
+activation/revocation and a principal -> decision -> value-shaped issuance target
+-> custody -> single-use authority aggregate. No live identity is provisioned.
+
+The trusted host operator owns `var/imperium/operator-root/transition-trust/identity.json`.
+There is no application endpoint for installing or changing it. Its exact schema
+binds anchor id, operator, instance, public key, validity and revocation. Rotation
+is a trusted maintenance replacement under the `native-provider-transition` lock
+and the `immutable:` hash lock of the trust directory; it invalidates outstanding
+old-anchor acts. A revoked or missing identity never falls back to prior identity
+or fixture keys. This conservative version cannot prove historical eligibility
+after removing its original anchor; reconstruction must report unknown then.
+Private signing stays outside runtime. Public verification requires ext-sodium.
+
+The signed act includes exact purpose/action, physical storage identity,
+operationalization seal, original native principal, preserved scopes,
+source/next generation, transition scope, binding, operation, target and validity.
+Native source records are reloaded; no scope is inferred from configured hashes.
+Existing v2 lifecycle is checked with explicit expiry and generation checks.
+Native v3 records with unsupported old lifecycle dispositions refuse migration;
+the loader never treats an embedded projection as a native principal record.
+
+The same global native lock encloses source-directory locks used by immutable
+writers, including trust, principal, lifecycle, descriptor, activation, boundary
+and attestation. Events use the retained fsync/pending/rename aggregate store.
+Independent record publication is not a multi-record transaction; issuance keeps
+decision, custody and authority in one aggregate. Constructor injection is the
+existing opt-in service boundary; no default container activation is introduced.
+
+Batch 1 focused proof: 4 tests, 18 assertions passed. Full suite: 1858 tests,
+44285 assertions passed. The exact successor/admission refinement remains subsequent work. Batch 1
+alone does not prove eligible-successor targeting or canonical transition success.
+
+Additional sources followed for this continuation:
+
+- `src/Imperium/Runtime/LaCortine/ProviderExecutorPrincipalActivationService.php`
+- `src/Imperium/Runtime/LaCortine/ProviderBindingActivationReconciliationContractValidator.php` (first 240 lines)
+- `src/Imperium/Runtime/LaCortine/GovernedProviderExecutionSuccessorAdmissionV3ContractValidator.php`
+- `src/Imperium/Runtime/Persistence/ImmutableRecordStore.php`
+- `src/Imperium/Runtime/Persistence/AtomicTransition.php`
+- `src/Imperium/Runtime/Imperator/ImperatorRuntimePrincipalVersionContract.php`
+- `tests/Imperium/Runtime/ProviderBindingActivationStateReconciliationBatch2Test.php` (first 80 lines)
+- `src/Imperium/Runtime/LaCortine/ProviderExecutorPrincipalCanonicalActivationService.php`
+- `src/Imperium/Runtime/LaCortine/ProviderExecutorPrincipalActivationCanonicalFixtureStore.php`
+- `src/Imperium/Runtime/LaCortine/ProviderExecutorPrincipalActivationContractValidator.php` (first 165 lines)
+- `src/Imperium/Runtime/Imperator/PrincipalActivationDecisionAuthorityProvenanceProductionService.php` (first 195 lines)
+- `tests/Imperium/Runtime/ProviderEffectPrincipalBindingActivationResumptionBatch2Test.php` (fixture and boundary portions)
+- `tests/Imperium/Runtime/ProviderEffectPrincipalBindingActivationResumptionBatch3Test.php` (first 125 lines)
+- `tests/Imperium/Runtime/ProviderEffectPrincipalBindingActivationResumptionBatch4Test.php` (first 80 lines)
+- `tests/Imperium/Runtime/ProviderExecutionEffectReadinessBatch7Test.php` (fixture source beginning at line 198)
+
 The operator authorized completion of the seven remaining batches and PHPUnit
 after each batch. Preparation-only restrictions in historical handoffs no longer
 limit implementation. Live provisioning, credentials, provider effects, external

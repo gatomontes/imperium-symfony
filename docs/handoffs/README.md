@@ -1,5 +1,11 @@
 # Handoff document status
 
+Latest Native Integration Remediation handoff:
+`docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-1-complete.md`.
+The Root trust route was explicitly approved. Batch 1 implementation/tests passed;
+six stages remain under continuous-campaign authorization. Dependency handoffs
+below are historical. Canonical transition acceptance remains unproved.
+
 Current Native Integration Remediation dependency handoff:
 `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-1-blocked.md`
 at `NATIVE_INTEGRATION_BATCH_1_BLOCKED_ROOT_TRUST_POLICY_REQUIRED`.

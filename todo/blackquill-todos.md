@@ -1,5 +1,15 @@
 # Blackquill Review TODOs
 
+## Native Integration Remediation Batch 1 implemented
+
+`NATIVE_INTEGRATION_BATCH_1_COMPETENCE_CHAIN_IMPLEMENTED`.
+Root trust-route policy approved; signature, native principal and separate
+lifecycle/issuance tests pass. Full suite: 1858 tests, 44285 assertions.
+Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-1-complete.md`.
+Six stages remain. Require exact successor provenance/targeting before treating
+the scoped issuance chain as executable transition authority. All earlier native
+terminal findings stay open. No live provisioning or provider effect is permitted.
+
 ## Current Native Integration Remediation Batch 1 dependency
 
 `NATIVE_INTEGRATION_BATCH_1_BLOCKED_ROOT_TRUST_POLICY_REQUIRED`.

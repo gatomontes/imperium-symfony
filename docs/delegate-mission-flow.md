@@ -1,5 +1,16 @@
 # Delegate mission flow
 
+## Native Integration Remediation Batch 1 implemented
+
+The operator approved the Root trust route. Current handoff:
+`docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-1-complete.md`.
+`NATIVE_INTEGRATION_BATCH_1_COMPETENCE_CHAIN_IMPLEMENTED` records public Root-act
+verification, native principal/lifecycle loading and decision/custody issuance.
+Full PHPUnit: 1858 tests, 44285 assertions passed. Six planned batches remain;
+exact successor targeting and canonical admission are not yet established.
+No live provisioning or provider effects occurred. Historical blocked entries
+below are superseded by the approval; the terminal native-integration refusal is not.
+
 ## Current Native Integration Remediation Batch 1 dependency
 
 `NATIVE_INTEGRATION_BATCH_1_BLOCKED_ROOT_TRUST_POLICY_REQUIRED`.
