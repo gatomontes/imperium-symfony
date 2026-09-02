@@ -1,5 +1,22 @@
 # Delegate mission flow
 
+## Current Native Integration Remediation Batch 1 dependency
+
+`NATIVE_INTEGRATION_BATCH_1_BLOCKED_ROOT_TRUST_POLICY_REQUIRED`.
+The operator authorized completing all remaining batches and testing each.
+Batch 1 began but is incomplete: an authenticated post-operationalization Root
+scope-grant ingress needs an explicit trust policy. The proposed route, exact
+source evidence and reading ledger are in
+`docs/executable-atomic-transition-native-integration-remediation-implementation-v1.md`.
+Current handoff:
+`docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-1-blocked.md`.
+Seven planned stages remain unfinished. Speculative runtime drafts were removed;
+runtime behavior and the prior terminal refusal remain unchanged. `BOUND_INACTIVE`,
+native v3 `NOT_IMPLEMENTED` and `UNKNOWN_REPLAY_PROHIBITED` remain. The pause is a
+Root trust-policy decision, not the historical preparation-only authorization
+wording. No live provisioning or provider effects occurred. Earlier entries below
+record historical checkpoints.
+
 ## Current Native Integration Remediation preparation
 
 `PREPARATION_BATCH_0_COMPLETE_NATIVE_INTEGRATION_GAPS_CLASSIFIED`.

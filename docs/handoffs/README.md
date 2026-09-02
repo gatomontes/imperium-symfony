@@ -1,5 +1,14 @@
 # Handoff document status
 
+Current Native Integration Remediation dependency handoff:
+`docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-1-blocked.md`
+at `NATIVE_INTEGRATION_BATCH_1_BLOCKED_ROOT_TRUST_POLICY_REQUIRED`.
+The operator authorized completing the campaign. Batch 1 began but remains
+incomplete pending the explicit Root trust-route policy described in the
+implementation ledger. Seven planned stages remain; no runtime change or native
+completion is claimed. The preparation-only authorization statements below are
+historical. All live-effect boundaries and the prior terminal refusal remain.
+
 Current Native Integration Remediation preparation completion:
 `docs/handoffs/executable-atomic-transition-native-integration-remediation-preparation-batch-0-complete.md`
 at `PREPARATION_BATCH_0_COMPLETE_NATIVE_INTEGRATION_GAPS_CLASSIFIED`.

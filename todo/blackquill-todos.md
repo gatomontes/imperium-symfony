@@ -1,5 +1,25 @@
 # Blackquill Review TODOs
 
+## Current Native Integration Remediation Batch 1 dependency
+
+`NATIVE_INTEGRATION_BATCH_1_BLOCKED_ROOT_TRUST_POLICY_REQUIRED`.
+Implementation of the full campaign is operator-authorized, but the exact Root
+trust route remains unresolved. Current handoff:
+`docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-1-blocked.md`.
+Evidence, concrete proposal and additional reading ledger:
+`docs/executable-atomic-transition-native-integration-remediation-implementation-v1.md`.
+
+- [x] Reject initial/missing-principal constitution and ordinary lifecycle as implicit scope-widening authority.
+- [x] Remove the speculative new trust-anchor runtime draft before delivery.
+- [ ] Resolve the post-operationalization Root identity, authenticated ingress and revocation policy.
+- [ ] Complete native principal competence and acyclic authority lineage in Batch 1.
+- [ ] Finish Batches 2 through 6 with PHPUnit after each, then the separately sequenced Batch 7 audit.
+
+Seven planned stages remain unfinished. No successful Batch 1 or terminal audit
+is claimed. `BOUND_INACTIVE`, native v3 `NOT_IMPLEMENTED`,
+`UNKNOWN_REPLAY_PROHIBITED` and the existing native-integration terminal refusal
+remain. Earlier preparation-only authorization statements below are historical.
+
 ## Current Native Integration Remediation preparation
 
 `PREPARATION_BATCH_0_COMPLETE_NATIVE_INTEGRATION_GAPS_CLASSIFIED`.
