@@ -421,7 +421,7 @@ remains controlling.
 - [x] Batch 1: authority-empty v2 contracts; PHPUnit 2 tests, 62 assertions.
 - [x] Batch 2: inert eight-case runner and immutable package; cumulative 6 tests, 143 assertions.
 - [x] Batch 3: independent case/source/graph/exclusion verification; cumulative 10 tests, 207 assertions.
-- [x] Batch 4: counterfeit/interruption proof and diagnostic fixes; 72 tests, 706 assertions including regressions.
+- [x] Batch 4: counterfeit/interruption proof and diagnostic fixes; 73 tests, 720 assertions including regressions and the request boundary.
 - [ ] Batch 5: approve exact source/command, then one new v2 disposable event.
 - [ ] Batch 6: separately approve independent intake, verification and signing custody.
 - [ ] Batch 7: admit only passing independently attested public evidence.

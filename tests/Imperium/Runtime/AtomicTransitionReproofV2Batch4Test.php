@@ -211,6 +211,23 @@ final class AtomicTransitionReproofV2Batch4Test extends TestCase
         self::sealOuter($package);
     }
 
+    public function testExactExecutionRequestRemainsUnapprovedAndSeparatesSigning(): void
+    {
+        $root = dirname(__DIR__, 3);
+        $request = json_decode(file_get_contents($root.'/docs/atomic-transition-reproof-v2-execution-request.json'), true, flags: JSON_THROW_ON_ERROR);
+        self::assertSame('REQUEST_NOT_AUTHORIZATION', $request['status']);
+        self::assertSame(1, $request['maximum_executions']);
+        self::assertSame(['-n'], $request['php_options']);
+        foreach (['provider_authorized', 'network_authorized', 'live_runtime_state_write_authorized',
+            'signing_authorized', 'admission_authorized', 'closure_authorized'] as $field) { self::assertFalse($request[$field]); }
+        $handoff = file_get_contents($root.'/docs/handoffs/atomic-transition-reproof-v2-batch-5-execution-approval.md');
+        self::assertStringContainsString(Records::hash($request), $handoff);
+        self::assertStringContainsString($request['source_commit'], $handoff);
+        self::assertStringContainsString($request['source_manifest_root'], $handoff);
+        self::assertStringContainsString('only after the operator approves this exact request', $handoff);
+        self::assertStringContainsString('CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT', $handoff);
+    }
+
     private static function sealOuter(array &$package): void
     {
         $package['receipt']['matrix'] = Records::seal($package['receipt']['matrix']);

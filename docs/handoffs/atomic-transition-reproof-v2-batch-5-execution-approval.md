@@ -46,3 +46,26 @@ Batch 8 must start separately from merged Batch 7 main.
 remains controlling. V1 remains refused and unchanged. `BOUND_INACTIVE`,
 `NOT_IMPLEMENTED` and `UNKNOWN_REPLAY_PROHIBITED` remain binding. The campaign
 is open with four stages remaining.
+
+## Exact reviewed request
+
+The detached source checkout is prepared at
+`2b5cb56c8ae60d80b628311377f929830401ca3e` and is clean. Read-only source capture
+and independent commit/tree/blob membership checking passed without executing
+the mission. Manifest root:
+`7867dede38bca0f4aace144868338c22d486d1e05467877407b9fa95bc9674d7`.
+
+The public request is `docs/atomic-transition-reproof-v2-execution-request.json`.
+Its canonical SHA-256 is
+`b3595f520434d4db6ce035910795fd20c96dded4456cb3a719bf166a624de4de`.
+It remains REQUEST_NOT_AUTHORIZATION. The following commands are proposed for
+execution only after the operator approves this exact request:
+
+```powershell
+New-Item -ItemType Directory -Force -Path 'E:/ai/imperium-reproof-v2-private' | Out-Null
+php -n E:/htdocs/imperium-reproof-v2/tools/run-atomic-transition-reproof-v2.php --approved-source 2b5cb56c8ae60d80b628311377f929830401ca3e --authorization-digest b3595f520434d4db6ce035910795fd20c96dded4456cb3a719bf166a624de4de reproof-v2-20260902-proof-2 E:/ai/imperium-reproof-v2-private
+```
+
+The source pin intentionally precedes this documentary approval packet; no
+runner or verifier source changed after that pin. The packet is kept on the
+implementation branch, outside the clean detached execution checkout.

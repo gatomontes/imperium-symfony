@@ -41,10 +41,11 @@ checked out with core.autocrlf=false is required for raw Git blob/loaded-byte
 identity. Existing runtime source is not normalized or modified. The source
 capture must pass before Batch 5 and no mission may run from a dirty checkout.
 
-Validation after Batch 4: PHP 8.4.14, PHPUnit 13.3.0, **72 tests, 706 assertions**
+Validation after Batch 4: PHP 8.4.14, PHPUnit 13.3.0, **73 tests, 720 assertions**
 across the four new batch files, the two preparation/selection files and the
 existing atomic-transition classifier Batch 4 file. New batches alone pass
-56 tests, 431 assertions. `git diff --check` and the explicit no-INI loader check
+57 tests, 445 assertions, including the exact-request documentary boundary.
+`git diff --check` and the explicit no-INI loader check
 pass. No real mission, existing private receipt intake, signing, provider or
 runtime-state mutation occurred.
 

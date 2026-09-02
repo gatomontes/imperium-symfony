@@ -1870,7 +1870,7 @@ remains controlling. `BOUND_INACTIVE`, `NOT_IMPLEMENTED` and
 `REPROOF_BATCH_4_COMPLETE_AWAITING_EXACT_SOURCE_EXECUTION_APPROVAL` is current.
 The operator's continuation authorized implementation and PHPUnit after each
 batch. V2 contracts, inert evidence-complete runner, independent verifier and
-synthetic counterfeit/interruption checks are complete: 72 tests, 706 assertions
+synthetic counterfeit/interruption checks are complete: 73 tests, 720 assertions
 including related regressions. Four stages remain. Active handoff:
 `docs/handoffs/atomic-transition-reproof-v2-batch-5-execution-approval.md`.
 Exact-source execution, separate verification/signing, admission and a terminal

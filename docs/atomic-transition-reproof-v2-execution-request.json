@@ -1,0 +1,20 @@
+{
+    "schema": "imperium.atomic-transition-reproof.execution-request/v2",
+    "status": "REQUEST_NOT_AUTHORIZATION",
+    "source_commit": "2b5cb56c8ae60d80b628311377f929830401ca3e",
+    "source_manifest_root": "7867dede38bca0f4aace144868338c22d486d1e05467877407b9fa95bc9674d7",
+    "source_checkout": "E:/htdocs/imperium-reproof-v2",
+    "entry_point": "tools/run-atomic-transition-reproof-v2.php",
+    "php_options": ["-n"],
+    "profile": "eight-retained-disposable-cases/v2",
+    "proof_id": "reproof-v2-20260902-proof-2",
+    "output_parent": "E:/ai/imperium-reproof-v2-private",
+    "maximum_executions": 1,
+    "requested_actions": ["internal_disposable_case_evaluation", "new_local_evidence_package"],
+    "provider_authorized": false,
+    "network_authorized": false,
+    "live_runtime_state_write_authorized": false,
+    "signing_authorized": false,
+    "admission_authorized": false,
+    "closure_authorized": false
+}
