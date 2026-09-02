@@ -8,6 +8,22 @@ use App\Bootstrap\CanonicalJson;
 
 final class GovernedProviderExecutionSuccessorAdmissionV3ContractValidator
 {
+    /** Shape check only: effective admission additionally requires a native combined commit. */
+    public function assertResult(array $result): void
+    {
+        $plain = $result; unset($plain['record_digest']);
+        if (($result['record_digest'] ?? null) !== hash('sha256', CanonicalJson::encode($plain))
+            || ($result['status'] ?? null) !== GovernedProviderExecutionSuccessorAdmissionV3Contract::RESULT_STATUS
+            || true !== ($result['execution_admitted'] ?? null) || true !== ($result['live_adoption_performed'] ?? null)) {
+            throw new \RuntimeException('PBR420_SUCCESSOR_ADMISSION_V3_RESULT_INVALID');
+        }
+        $boundary = $plain;
+        $boundary['status'] = GovernedProviderExecutionSuccessorAdmissionV3Contract::STATUS;
+        $boundary['execution_admitted'] = false; $boundary['live_adoption_performed'] = false;
+        $boundary['record_digest'] = hash('sha256', CanonicalJson::encode($boundary));
+        $this->assert($boundary);
+    }
+
     public function assert(array $admission): void
     {
         $digest = $admission['record_digest'] ?? null;

@@ -1,5 +1,10 @@
 # Delegate mission flow
 
+Latest native remediation: `NATIVE_INTEGRATION_BATCH_3_CANONICAL_ADMISSION_READER_IMPLEMENTED`.
+Four stages remain. Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-3-complete.md`.
+Full suite passed 1872 tests, 44367 assertions. Atomic publication and independent
+proof remain; candidates alone leave the descriptor interpretation inactive.
+
 Latest native remediation: `NATIVE_INTEGRATION_BATCH_2_NATIVE_SUCCESSOR_IMPLEMENTED`.
 Five stages remain. Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-2-complete.md`.
 Native production/activation/successor tests pass; admission, atomic integration

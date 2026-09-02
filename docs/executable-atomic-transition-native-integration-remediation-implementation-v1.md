@@ -1,5 +1,22 @@
 # Native Integration Remediation implementation v1
 
+## Batch 3 selected v3 result and binding interpretation
+
+`NATIVE_INTEGRATION_BATCH_3_CANONICAL_ADMISSION_READER_IMPLEMENTED`. Full suite: 1872 tests, 44367 assertions.
+Exact handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-3-complete.md`.
+NativeAdmission implements the existing selected schema as an executed result;
+the historical NOT_IMPLEMENTED boundary still validates only inert records.
+NativeBindingReader is the new operation reader. The eleven historical descriptor
+readers retain their original meanings; only a complete native publication may
+establish the new operation state. Receipt/winner and all five prior logical
+outcomes are computed together. No credential or effect permission is introduced.
+
+Reread for the next migration/integration stage: TransitionConsumer (first 120 lines),
+TransitionAuthority, TransitionReconstructor (first 73 lines), and
+`tests/Imperium/Runtime/ExecutableTransitionBatch4Test.php` (process harness).
+All new NativeState/RootActs/Principal/Authority/Successor/Admission/BindingReader
+source files and NativeTransitionBatch1/2/3Test files were read during implementation.
+
 ## Batch 2 native successor
 
 `NATIVE_INTEGRATION_BATCH_2_NATIVE_SUCCESSOR_IMPLEMENTED`. Full suite: 1864 tests, 44326 assertions passed.

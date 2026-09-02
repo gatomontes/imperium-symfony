@@ -1,5 +1,10 @@
 # Blackquill Review TODOs
 
+Latest: `NATIVE_INTEGRATION_BATCH_3_CANONICAL_ADMISSION_READER_IMPLEMENTED`. Four stages remain.
+Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-3-complete.md`.
+Require actual reader use after atomic publication and an independent verifier;
+producer-assisted reader validation alone is not independent proof.
+
 Latest: `NATIVE_INTEGRATION_BATCH_2_NATIVE_SUCCESSOR_IMPLEMENTED`. Five stages remain.
 Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-2-complete.md`.
 Require actual canonical v3/binding consumption and native atomic/process proof.
