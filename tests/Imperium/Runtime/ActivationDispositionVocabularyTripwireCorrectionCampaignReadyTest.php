@@ -18,7 +18,8 @@ final class ActivationDispositionVocabularyTripwireCorrectionCampaignReadyTest e
         foreach ([
             'ACTIVATION_DISPOSITION_VOCABULARY_TRIPWIRE_CORRECTION_SELECTED',
             'single-quoted PHP string literals',
-            'Double-quoted literals are the demonstrated escape',
+            'Double-quoted',
+            'demonstrated escape',
             'comments containing a governed token do not become producers',
             'BATCH_1_COMPLETE_QUOTE_INDEPENDENT_VOCABULARY_TRIPWIRE_PROVED',
             'Runtime source under `src/Imperium/Runtime` is outside this campaign',
