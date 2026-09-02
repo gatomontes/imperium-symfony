@@ -36,7 +36,7 @@ refusal or corrective evidence.
 3. **Batch 2 — evidence-complete disposable runner (complete).** An inert runner derives and retains every case input, expectation and observation with immutable package publication.
 4. **Batch 3 — separate v2 verifier and preflight (complete).** Independent case/source/graph/exclusion derivation and public report binding are implemented without producer evaluator imports.
 5. **Batch 4 — counterfeit and interruption proof (complete).** Synthetic substitution, malformed-input and publication-cut tests pass. No real mission executed.
-6. **Batch 5 — operator-authorized local execution.** Run one new disposable internal mission only after exact source and commands are separately authorized. Emit one local private v2 receipt and sanitized candidate.
+6. **Batch 5 — operator-authorized local execution (complete).** The separately approved exact-source command ran once and finalized one new local v2 package. The public candidate remains unverified.
 7. **Batch 6 — operator-authorized independent verification and signing.** Separately verify the v2 package and sign only its sanitized report. Receipt and signing material remain local.
 8. **Batch 7 — repository admission.** Admit only the passing detached report, public identity and sanitized evidence; keep unsigned, v1, producer-authored and indeterminate routes disabled.
 9. **Batch 8 — separately sequenced terminal Blackquill audit.** Start from merged Batch 7 `main`. Restore closure only at `CAMPAIGN_CLOSURE_ACCEPTED_AFTER_INDEPENDENTLY_ATTESTED_REPROOF`.
@@ -103,3 +103,15 @@ Progress and per-batch validation are recorded in
 No real mission, signing, evidence admission or closure occurred. Batch 5 exact
 source/command approval and Batch 6 independent verification/signing approval
 remain separate. The campaign remains open with the qualification intact.
+
+## Current Batch 5 completion
+
+The operator separately approved Batch 5. The pinned command ran once and the
+new candidate is recorded at `docs/evidence/atomic-transition-reproof-v2-proof-2-candidate.json`.
+Publication checks passed; this is not independent verification or admission.
+The completion handoff is `docs/handoffs/atomic-transition-reproof-v2-batch-5-complete.md`.
+Three stages remain. Current gate:
+`REPROOF_BATCH_5_COMPLETE_AWAITING_SEPARATE_VERIFICATION_SIGNING_APPROVAL`.
+Active handoff: `docs/handoffs/atomic-transition-reproof-v2-batch-6-verification-signing-approval.md`.
+The controller and separate custody request are prepared, with no key generated
+and no private receipt decoded. The qualification remains controlling.

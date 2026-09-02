@@ -254,3 +254,13 @@ Batches 1–4 are complete; per-batch tests and progress are in
 Four stages remain. No real mission, signing or admission occurred. The campaign
 remains open with
 `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT` intact.
+
+Atomic Transition Reproof Batch 5 is complete at
+`REPROOF_BATCH_5_LOCAL_EXECUTION_COMPLETE_CANDIDATE_NOT_VERIFIED`.
+Completion: `docs/handoffs/atomic-transition-reproof-v2-batch-5-complete.md`.
+The active continuation is now
+`docs/handoffs/atomic-transition-reproof-v2-batch-6-verification-signing-approval.md`.
+It requests separate private intake and fresh operator-only signing custody;
+neither has occurred. Three stages remain. The campaign remains open and
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+remains controlling.

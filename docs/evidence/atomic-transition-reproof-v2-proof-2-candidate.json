@@ -1,0 +1,14 @@
+{
+    "schema": "imperium.atomic-transition-reproof.sanitized-candidate/v2",
+    "proof_id": "reproof-v2-20260902-proof-2",
+    "source_commit": "2b5cb56c8ae60d80b628311377f929830401ca3e",
+    "source_manifest_root": "7867dede38bca0f4aace144868338c22d486d1e05467877407b9fa95bc9674d7",
+    "origin_digest": "cba608a92b41f5768fb5d0388ba594f645a1b8588673d91fb3292be4bfb0b40a",
+    "receipt_digest": "36f84646ed977eaaa7bf45803ce4ae326f174f2d43405d7dbfba7b02f339cbfb",
+    "input_root": "48846c40d559c86a4c201ec2a9cc34328f9cdc82b379bb383f00a448950c8b80",
+    "expected_root": "21ce42de15a8819f8a8abefd57b96cfcd640a70b36120d590ea1151ea1c0db55",
+    "observed_root": "b32aa1ad9b1ba32c5643f9cf848af9b6acbeaaf017cc41af41f501dc01bd16f4",
+    "retention": "OPERATOR_LOCAL_ONLY_NOT_FOR_UPLOAD_OR_COMMIT",
+    "disposition": "CANDIDATE_NOT_VERIFIED",
+    "record_digest": "cc86f24082e3d254e6802e8d81f675e334f4577790f92997d088b4c0c64fb3ab"
+}

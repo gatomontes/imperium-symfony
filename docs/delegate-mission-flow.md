@@ -1877,3 +1877,16 @@ Exact-source execution, separate verification/signing, admission and a terminal
 audit from merged Batch 7 main remain. No real mission or signing occurred.
 `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
 remains controlling; v1 is unchanged and the campaign remains open.
+
+### Independently Verifiable Reproof Batch 5 complete
+
+`REPROOF_BATCH_5_LOCAL_EXECUTION_COMPLETE_CANDIDATE_NOT_VERIFIED` records one
+separately approved exact-source run and a finalized local v2 package. Safe
+candidate commitments are retained publicly; publication integrity checks are
+not independent verification. PHPUnit through Batch 5 passes 75 tests and
+749 assertions. Three stages remain. Active handoff:
+`docs/handoffs/atomic-transition-reproof-v2-batch-6-verification-signing-approval.md`.
+The next controller and new operator-only custody request are prepared but
+unexecuted. No signing material, independent report, attestation or admission
+exists. `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+remains controlling; the campaign remains open.

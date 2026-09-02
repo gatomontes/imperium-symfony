@@ -422,7 +422,7 @@ remains controlling.
 - [x] Batch 2: inert eight-case runner and immutable package; cumulative 6 tests, 143 assertions.
 - [x] Batch 3: independent case/source/graph/exclusion verification; cumulative 10 tests, 207 assertions.
 - [x] Batch 4: counterfeit/interruption proof and diagnostic fixes; 73 tests, 720 assertions including regressions and the request boundary.
-- [ ] Batch 5: approve exact source/command, then one new v2 disposable event.
+- [x] Batch 5: separately approved exact-source command ran once; finalized candidate; cumulative PHPUnit 75 tests, 749 assertions.
 - [ ] Batch 6: separately approve independent intake, verification and signing custody.
 - [ ] Batch 7: admit only passing independently attested public evidence.
 - [ ] Batch 8: separately audit from merged Batch 7 main.
@@ -433,3 +433,14 @@ No real mission, private intake, signing, evidence admission or closure occurred
 V1 is unchanged and
 `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
 remains controlling. Earlier preparation countdown entries are historical.
+
+Batch 5 completion is recorded in
+`docs/handoffs/atomic-transition-reproof-v2-batch-5-complete.md`.
+Three stages remain at
+`REPROOF_BATCH_5_COMPLETE_AWAITING_SEPARATE_VERIFICATION_SIGNING_APPROVAL`.
+The current handoff is
+`docs/handoffs/atomic-transition-reproof-v2-batch-6-verification-signing-approval.md`.
+Its controller and new custody request are prepared, not executed. No private
+receipt decoding, key generation, signing, evidence admission or closure occurred.
+The new candidate remains unverified, v1 remains unchanged and the independent
+verification qualification remains controlling.
