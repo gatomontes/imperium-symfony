@@ -1930,3 +1930,27 @@ only as a separate terminal audit from clean merged Batch 7 main. Active handoff
 The campaign remains open and
 `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
 remains controlling.
+
+### Independently Verifiable Reproof campaign closed
+
+The separately sequenced Batch 8 audit accepts the finite eight-case v2 proof at
+`CAMPAIGN_CLOSURE_ACCEPTED_AFTER_INDEPENDENTLY_ATTESTED_REPROOF`. V1 remains
+refused. The acceptance grants no execution authority; provider binding remains
+`BOUND_INACTIVE`, v3 execution admission remains `NOT_IMPLEMENTED`, and
+`UNKNOWN_REPLAY_PROHIBITED` remains binding. No reproof stage remains.
+
+## Provider Binding Successor Executable Atomic Transition selected
+
+The earlier Atomic Live Transition campaign proved only the pre-execution model.
+Provider Binding Successor Executable Atomic Transition is separately selected
+to inventory and, only through later explicit gates, implement the real local
+transition consumer.
+
+Only Preparation Batch 0 may next be considered. Campaign countdown at selection
+is nine stages including Preparation Batch 0. No journal persistence, live lock,
+authority issuance or consumption, v3 admission, successor adoption, binding
+mutation, credential handling, provider invocation, external I/O, effect start,
+retry authority, Iron Gate or Lazaretto action is authorized.
+
+Active local entrypoint:
+`docs/handoffs/provider-binding-successor-executable-atomic-transition-preparation-batch-0-local-ready.md`.
