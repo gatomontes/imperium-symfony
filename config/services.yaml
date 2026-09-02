@@ -25,6 +25,7 @@ services:
     App\:
         resource: '../src/'
         exclude:
+            - '../src/Imperium/Runtime/ProviderTransition/'
             - '../src/ReproofV2/'
             - '../src/IndependentVerification/ReproofV2*'
             - '../src/Command/SortieRunCommand.php'
