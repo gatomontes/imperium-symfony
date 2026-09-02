@@ -392,3 +392,71 @@ v2 proof, not a rehabilitation of the v1 package. Only Preparation Batch 0
 inventory is authorized. Later mission execution, independent
 verification/signing, repository admission and terminal Blackquill audit remain
 separate authority boundaries.
+
+### Independently Verifiable Reproof preparation ledger
+
+- [x] Preparation Batch 0: inventory all eight missing case chains, runner/verifier coupling, custody classes, provenance, persistence/replay and closure boundaries.
+- [ ] Batch 1: define authority-empty v2 evidence contracts under a new instruction.
+- [ ] Batch 2: build the inert evidence-complete runner.
+- [ ] Batch 3: implement the separate verifier and preflight.
+- [ ] Batch 4: prove synthetic counterfeit and interruption refusals without a real mission.
+- [ ] Batch 5: obtain separate authorization for one new v2 disposable execution.
+- [ ] Batch 6: obtain separate authorization for independent verification and signing.
+- [ ] Batch 7: admit only passing detached public evidence.
+- [ ] Batch 8: audit from merged Batch 7 main before any closure decision.
+
+`PREPARATION_BATCH_0_COMPLETE_INDEPENDENTLY_VERIFIABLE_REPROOF_BOUNDARY_CLASSIFIED`
+is recorded in
+`docs/atomic-transition-independently-verifiable-reproof-preparation-inventory-v1.md`.
+Active handoff:
+`docs/handoffs/atomic-transition-independently-verifiable-reproof-preparation-batch-0-complete.md`.
+Eight stages remain. The campaign remains open. No private material was inspected,
+no v2 contract or runtime behavior was implemented, no mission/verifier/signing
+was executed and no evidence was admitted. V1 remains refused and unchanged.
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+remains controlling.
+
+### Current Independently Verifiable Reproof implementation ledger
+
+- [x] Batch 1: authority-empty v2 contracts; PHPUnit 2 tests, 62 assertions.
+- [x] Batch 2: inert eight-case runner and immutable package; cumulative 6 tests, 143 assertions.
+- [x] Batch 3: independent case/source/graph/exclusion verification; cumulative 10 tests, 207 assertions.
+- [x] Batch 4: counterfeit/interruption proof and diagnostic fixes; 73 tests, 720 assertions including regressions and the request boundary.
+- [x] Batch 5: separately approved exact-source command ran once; finalized candidate; cumulative PHPUnit 75 tests, 749 assertions.
+- [x] Batch 6: separate approval received; independent all-PASS report and detached attestation; PHPUnit 80 tests, 827 assertions.
+- [x] Batch 7: exact independently attested public evidence admitted pending terminal audit; PHPUnit 104 tests, 878 assertions.
+- [ ] Batch 8: separately audit from merged Batch 7 main.
+
+Four stages remain at `REPROOF_BATCH_4_COMPLETE_AWAITING_EXACT_SOURCE_EXECUTION_APPROVAL`.
+Active handoff: `docs/handoffs/atomic-transition-reproof-v2-batch-5-execution-approval.md`.
+No real mission, private intake, signing, evidence admission or closure occurred.
+V1 is unchanged and
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+remains controlling. Earlier preparation countdown entries are historical.
+
+Batch 5 completion is recorded in
+`docs/handoffs/atomic-transition-reproof-v2-batch-5-complete.md`.
+Three stages remain at
+`REPROOF_BATCH_5_COMPLETE_AWAITING_SEPARATE_VERIFICATION_SIGNING_APPROVAL`.
+The current handoff is
+`docs/handoffs/atomic-transition-reproof-v2-batch-6-verification-signing-approval.md`.
+Its controller and new custody request are prepared, not executed. No private
+receipt decoding, key generation, signing, evidence admission or closure occurred.
+The new candidate remains unverified, v1 remains unchanged and the independent
+verification qualification remains controlling.
+
+Batch 6 is complete under its separate operator approval:
+`docs/handoffs/atomic-transition-reproof-v2-batch-6-complete.md`.
+Two stages remain. The public all-PASS report, identity, attestation and
+operator-provisioned trust pins are ready for Batch 7 admission. No private
+key or receipt content is retained in Git and no closure decision occurred.
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+remains controlling.
+
+Batch 7 completion: `docs/handoffs/atomic-transition-reproof-v2-batch-7-complete.md`.
+One stage remains at `REPROOF_BATCH_7_COMPLETE_AWAITING_SEPARATE_TERMINAL_AUDIT`.
+Active handoff: `docs/handoffs/atomic-transition-reproof-v2-batch-8-terminal-audit-ready.md`.
+The admission is public, pinned and signed; it removes no qualification and
+closes no campaign. The final audit must start separately from clean merged
+Batch 7 main. V1 remains refused and the independent-verification qualification
+remains controlling.

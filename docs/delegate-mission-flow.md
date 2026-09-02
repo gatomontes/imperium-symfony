@@ -1845,3 +1845,73 @@ evidence admission or closure restoration is authorized. Active handoff:
 The local continuation entrypoint is
 `docs/handoffs/atomic-transition-independently-verifiable-reproof-preparation-batch-0-local-ready.md`.
 Campaign countdown at selection is nine stages including Preparation Batch 0.
+
+### Independently Verifiable Reproof Preparation Batch 0 complete
+
+`PREPARATION_BATCH_0_COMPLETE_INDEPENDENTLY_VERIFIABLE_REPROOF_BOUNDARY_CLASSIFIED`
+records the eight missing acceptance-case chains, single-case/matrix split,
+producer/verifier coupling, public/operator-local/forbidden evidence classes,
+provenance and output-persistence gaps, execution/signing custody and closure
+consumers. The inventory is
+`docs/atomic-transition-independently-verifiable-reproof-preparation-inventory-v1.md`.
+Eight stages remain. Only Batch 1 authority-empty contracts may next be considered
+under a new instruction. Batch 5 execution, Batch 6 verification/signing and
+Batch 8 terminal audit remain separate gates; the latter starts from merged
+Batch 7 main. Active handoff:
+`docs/handoffs/atomic-transition-independently-verifiable-reproof-preparation-batch-0-complete.md`.
+No v2 implementation or evidence execution occurred and no private material was
+inspected. The campaign remains open. V1 is neither repaired nor replaced, and
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+remains controlling. `BOUND_INACTIVE`, `NOT_IMPLEMENTED` and
+`UNKNOWN_REPLAY_PROHIBITED` are unchanged.
+
+### Independently Verifiable Reproof implementation Batches 1–4 complete
+
+`REPROOF_BATCH_4_COMPLETE_AWAITING_EXACT_SOURCE_EXECUTION_APPROVAL` is current.
+The operator's continuation authorized implementation and PHPUnit after each
+batch. V2 contracts, inert evidence-complete runner, independent verifier and
+synthetic counterfeit/interruption checks are complete: 73 tests, 720 assertions
+including related regressions. Four stages remain. Active handoff:
+`docs/handoffs/atomic-transition-reproof-v2-batch-5-execution-approval.md`.
+Exact-source execution, separate verification/signing, admission and a terminal
+audit from merged Batch 7 main remain. No real mission or signing occurred.
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+remains controlling; v1 is unchanged and the campaign remains open.
+
+### Independently Verifiable Reproof Batch 5 complete
+
+`REPROOF_BATCH_5_LOCAL_EXECUTION_COMPLETE_CANDIDATE_NOT_VERIFIED` records one
+separately approved exact-source run and a finalized local v2 package. Safe
+candidate commitments are retained publicly; publication integrity checks are
+not independent verification. PHPUnit through Batch 5 passes 75 tests and
+749 assertions. Three stages remain. Active handoff:
+`docs/handoffs/atomic-transition-reproof-v2-batch-6-verification-signing-approval.md`.
+The next controller and new operator-only custody request are prepared but
+unexecuted. No signing material, independent report, attestation or admission
+exists. `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+remains controlling; the campaign remains open.
+
+### Independently Verifiable Reproof Batch 6 complete
+
+`REPROOF_BATCH_6_INDEPENDENTLY_VERIFIED_AND_ATTESTED_PENDING_ADMISSION` records
+the separately approved all-PASS independent report and purpose-bound detached
+attestation. Fresh operator-only signing custody was established before intake;
+private key and receipt bytes remain outside Git. PHPUnit passes 80 tests,
+827 assertions. Two stages remain. Active handoff:
+`docs/handoffs/atomic-transition-reproof-v2-batch-6-complete.md`.
+Batch 7 admission cannot remove the qualification. The terminal audit must
+start separately from merged Batch 7 main. The campaign remains open with
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT` intact.
+
+### Independently Verifiable Reproof Batch 7 complete
+
+`REPROOF_BATCH_7_PUBLIC_EVIDENCE_ADMITTED_PENDING_SEPARATE_TERMINAL_AUDIT`
+records strict public admission of the separately attested proof. Its consumer
+pins the operator-provisioned anchor and every signed-evidence binding, verifies
+purpose/key/time/signature, and cannot remove the qualification or close the
+campaign. PHPUnit passes 104 tests, 878 assertions. One stage remains, starting
+only as a separate terminal audit from clean merged Batch 7 main. Active handoff:
+`docs/handoffs/atomic-transition-reproof-v2-batch-8-terminal-audit-ready.md`.
+The campaign remains open and
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+remains controlling.

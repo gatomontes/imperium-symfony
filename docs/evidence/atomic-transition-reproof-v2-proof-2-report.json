@@ -1,0 +1,23 @@
+{
+    "schema": "imperium.atomic-transition-reproof.independent-report/v2",
+    "proof_id": "reproof-v2-20260902-proof-2",
+    "candidate_digest": "cc86f24082e3d254e6802e8d81f675e334f4577790f92997d088b4c0c64fb3ab",
+    "receipt_digest": "36f84646ed977eaaa7bf45803ce4ae326f174f2d43405d7dbfba7b02f339cbfb",
+    "source_commit": "2b5cb56c8ae60d80b628311377f929830401ca3e",
+    "verifier_root": "ea2925e14c23c2bfe9346375597f446c7c28b3c1ff4ae9d492a999f1340d883d",
+    "trusted_identity_digest": "20aa9c1971635894a685586026ffe0a4b4139939d3abc90dc8b93abc8f485efa",
+    "domain_outcomes": {
+        "source_and_build": "PASS",
+        "receipt_structure": "PASS",
+        "origin_and_provenance": "PASS",
+        "trusted_result": "PASS",
+        "dependency_graph": "PASS",
+        "acceptance_matrix": "PASS",
+        "complete_chain_exclusion": "PASS",
+        "non_authority_perimeter": "PASS"
+    },
+    "disposition": "PASS",
+    "qualification_removed": false,
+    "campaign_closed": false,
+    "record_digest": "c44946f3627cb0728b9208e19f961c0ec08930a4a79daa080d320e979f7f39b0"
+}

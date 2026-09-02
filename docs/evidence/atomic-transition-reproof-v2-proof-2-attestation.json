@@ -1,0 +1,8 @@
+{
+    "schema": "imperium.atomic-transition-reproof.detached-attestation/v2",
+    "purpose": "imperium.atomic-transition-reproof.independent-report/v2",
+    "report_digest": "c44946f3627cb0728b9208e19f961c0ec08930a4a79daa080d320e979f7f39b0",
+    "identity_digest": "20aa9c1971635894a685586026ffe0a4b4139939d3abc90dc8b93abc8f485efa",
+    "signature": "35cb94351f1bb888a99890ddf23c3e164941eaf65d728d1fa62c9a62eafbe8a79cb26e4b56a058b00b9a4b34db1ee1727a9bbb1c4bb5a701f55fd1861e32ef07",
+    "record_digest": "8f9a934b3d74db8d9b7b826fbe1110684b03277aa1d187a3cf1c5491ef5161db"
+}
