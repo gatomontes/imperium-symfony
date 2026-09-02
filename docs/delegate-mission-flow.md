@@ -1,5 +1,23 @@
 # Delegate mission flow
 
+## Current Executable Atomic Transition preparation
+
+`PREPARATION_BATCH_0_COMPLETE_EXECUTABLE_ATOMIC_TRANSITION_BOUNDARY_CLASSIFIED`.
+Preparation Batch 0 started from clean synchronized `main` at `264743f` and
+read all required sources. The versioned inventory classifies 32 findings:
+`docs/provider-binding-successor-executable-atomic-transition-preparation-inventory-v1.md`.
+Completion handoff:
+`docs/handoffs/provider-binding-successor-executable-atomic-transition-preparation-batch-0-complete.md`.
+Eight planned stages remain. Only Batch 1 authority-empty contracts may next be
+considered under a new operator instruction. No executable consumer, live
+journal, authority action, v3 admission, adoption, binding transition or receipt
+was implemented. `BOUND_INACTIVE`, `NOT_IMPLEMENTED` and
+`UNKNOWN_REPLAY_PROHIBITED` remain binding. Real contention and interruption
+proof remain later gates; no physical power-loss durability is claimed.
+Provider, credential, capability, external-I/O, effect, retry, Iron Gate and
+Lazaretto boundaries remain closed. Selection/preparation-entry statements below
+are historical; this completion is the current continuation point.
+
 ## Current Atomic Transition Reproof disposition
 
 `CAMPAIGN_CLOSURE_ACCEPTED_AFTER_INDEPENDENTLY_ATTESTED_REPROOF`.

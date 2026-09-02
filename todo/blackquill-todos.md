@@ -1,5 +1,32 @@
 # Blackquill Review TODOs
 
+## Current Executable Atomic Transition Preparation Batch 0
+
+`PREPARATION_BATCH_0_COMPLETE_EXECUTABLE_ATOMIC_TRANSITION_BOUNDARY_CLASSIFIED`.
+Inventory and complete reading ledger:
+`docs/provider-binding-successor-executable-atomic-transition-preparation-inventory-v1.md`.
+Current handoff:
+`docs/handoffs/provider-binding-successor-executable-atomic-transition-preparation-batch-0-complete.md`.
+Eight planned stages remain; Batch 1 requires a new operator instruction.
+This is preparation bookkeeping, not a terminal Blackquill audit or closure.
+
+- [x] Classify exact entry point, authority lineage, v3 boundary and successor source (E00–E10).
+- [x] Classify stores, seven-part write set, lock order and irreversible cuts (E11–E18).
+- [x] Separate snapshot proof from executable contention, lifecycle and recovery evidence (E19–E22).
+- [x] Classify receipt, reconstruction, secret exclusion and platform limits (E23–E31).
+- [ ] Resolve authentic principal/decision/issuance/custody/consumer joins and eligible production successor provenance before execution.
+- [ ] Resolve root representation, exact consumer/transition identifiers and immutable binding-state interpretation in Batch 1.
+- [ ] Prove one recoverable combined commit, all actual interruption cuts and same-root separate-process losing-path refusal.
+- [ ] Prove exact store-backed reconstruction, including plan/evidence root joins and winner/receipt target identity.
+- [ ] Prove complete executable evidence/error/output exclusion; never treat caller proof booleans or inert false flags as execution evidence.
+- [ ] Retain measured platform limits; process termination is not physical power-loss proof.
+
+`BOUND_INACTIVE`, `NOT_IMPLEMENTED` and `UNKNOWN_REPLAY_PROHIBITED` remain.
+No runtime contract or behavior changed; no live authority, journal, lock,
+admission, adoption, binding mutation, winner or receipt was created. Provider
+effects, credentials/capabilities, external I/O, retry, Iron Gate and Lazaretto
+remain closed. The finite v2 reproof acceptance and historical v1 refusal stand.
+
 Current Atomic Transition Reproof result:
 `CAMPAIGN_CLOSURE_ACCEPTED_AFTER_INDEPENDENTLY_ATTESTED_REPROOF`.
 The separately approved Batch 8 review started from clean merged Batch 7 main
@@ -480,7 +507,7 @@ remains controlling.
 ### Executable Atomic Transition campaign selection ledger
 
 - [x] Independently Verifiable Reproof Batch 8: bounded v2 proof accepted; v1 remains refused.
-- [ ] Preparation Batch 0: classify the actual executable transition boundary without runtime mutation.
+- [x] Preparation Batch 0: classify the actual executable transition boundary without runtime mutation. See current inventory and handoff above.
 - [ ] Batch 1: define v3 admission and atomic-consumption contracts.
 - [ ] Batch 2: implement the durable local journal and lock boundary.
 - [ ] Batch 3: implement the governed atomic transition consumer.
@@ -490,6 +517,6 @@ remains controlling.
 - [ ] Batch 7: conduct adversarial evidence and secret-exclusion audit.
 - [ ] Batch 8: conduct a separate terminal Blackquill audit from merged Batch 7 main.
 
-The campaign starts with Preparation Batch 0 only. Do not translate the bounded
+Preparation Batch 0 is complete; later stages require separate authorization. Do not translate the bounded
 snapshot reproof into claims of live contention or physical power-loss durability.
 Provider effects remain outside this campaign.
