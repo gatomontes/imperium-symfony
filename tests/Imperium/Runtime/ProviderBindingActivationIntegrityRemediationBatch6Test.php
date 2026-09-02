@@ -8,25 +8,50 @@ use PHPUnit\Framework\TestCase;
 
 final class ProviderBindingActivationIntegrityRemediationBatch6Test extends TestCase
 {
-    public function testAbsentPrincipalProvenanceCreatesNoRuntimeDispositionProducer(): void
+    public function testActivationDispositionVocabularyIsLimitedToExactClassifiedRoles(): void
     {
-        $root = dirname(__DIR__, 3);
-        $allowedVocabulary = array_map('realpath', [
-            $root.'/src/Imperium/Runtime/LaCortine/StrandedActivationArtifactDispositionContract.php',
-            $root.'/src/Imperium/Runtime/Evidence/ActivationCorridorDispositionInterruptionDemonstration.php',
-            $root.'/src/Imperium/Runtime/Evidence/CorridorDispositionPrincipalAuthorityRemediationInterruptionDemonstration.php',
-            $root.'/src/Imperium/Runtime/Imperator/ActivationCorridorDispositionCallerAuthorityIssuanceAuthorizationContract.php',
-            $root.'/src/Imperium/Runtime/Imperator/ActivationCorridorDispositionContract.php',
-            $root.'/src/Imperium/Runtime/Imperator/ActivationCorridorDispositionContractValidator.php',
-            $root.'/src/Imperium/Runtime/Imperator/ActivationCorridorDispositionEligibilityContract.php',
-        ]);
-        $runtime = $root.'/src/Imperium/Runtime';
-        foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($runtime)) as $file) {
-            if (!$file->isFile() || 'php' !== $file->getExtension() || in_array(realpath($file->getPathname()), $allowedVocabulary, true)) continue;
-            $source = (string) file_get_contents($file->getPathname());
-            self::assertStringNotContainsString("'QUARANTINED_PENDING_REMEDIATION'", $source, $file->getPathname());
-            self::assertStringNotContainsString("'RETIRE_CORRIDOR'", $source, $file->getPathname());
+        $override = getenv('IMPERIUM_FROZEN_COVERAGE_ROOT');
+        $root = is_string($override) && '' !== $override
+            ? rtrim($override, '/\\')
+            : dirname(__DIR__, 3);
+        $inventory = [];
+        foreach (file(
+            $root.'/docs/frozen-runtime-coverage-tripwire-restoration-activation-disposition-exceptions-v1.tsv',
+            FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES,
+        ) ?: [] as $line) {
+            if (str_starts_with($line, '#')
+                || "classification\tpath\trole\tauthorizing_batch\tfocused_test" === $line) {
+                continue;
+            }
+            [$classification, $path, $role, $batch, $test] = explode("\t", $line, 5);
+            self::assertArrayNotHasKey($path, $inventory, $line);
+            self::assertNotSame('', $classification, $path);
+            self::assertNotSame('', $role, $path);
+            self::assertSame('FROZEN_RUNTIME_COVERAGE_TRIPWIRE_RESTORATION_BATCH_2', $batch, $path);
+            self::assertStringContainsString(__FUNCTION__, $test, $path);
+            $inventory[$path] = $classification;
         }
+        ksort($inventory, SORT_STRING);
+
+        $runtime = $root.'/src/Imperium/Runtime';
+        $observed = [];
+        foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($runtime)) as $file) {
+            if (!$file->isFile() || 'php' !== $file->getExtension()) {
+                continue;
+            }
+            $source = (string) file_get_contents($file->getPathname());
+            if (str_contains($source, "'QUARANTINED_PENDING_REMEDIATION'")
+                || str_contains($source, "'RETIRE_CORRIDOR'")) {
+                $observed[] = str_replace(
+                    '\\',
+                    '/',
+                    substr($file->getPathname(), strlen($root) + 1),
+                );
+            }
+        }
+        sort($observed, SORT_STRING);
+
+        self::assertSame(array_keys($inventory), $observed);
     }
 
     public function testCampaignTerminatesWithoutImpliedAuthority(): void
