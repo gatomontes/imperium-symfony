@@ -22,14 +22,17 @@ final class ExecutableTransitionBatch6Test extends TestCase
     {
         $directory = sys_get_temp_dir().'/eat-'.bin2hex(random_bytes(8)); mkdir($directory);
         try {
-            $grant = ExecutableTransitionBatch1Test::grant(); $pin = TransitionContract::digest($grant);
+            $grant = ExecutableTransitionBatch1Test::grant($directory); $pin = TransitionContract::digest($grant);
             $store = new TransitionStore($directory); $store->locked(fn () => $store->put('grant', $grant));
-            $custody = new TransitionAuthority($store, $pin); $custody->issue(150);
-            if ($state === 'COMMITTED') { (new TransitionConsumer($store, $custody))->execute($pin, 150); }
+            $custody = new TransitionAuthority($store, $pin, static fn () => 150); $custody->issue();
+            if ($state === 'COMMITTED') { (new TransitionConsumer($store, $custody, static fn () => 150))->execute($pin); }
             if ($state === 'REFUSED') {
-                try { (new TransitionConsumer($store, $custody))->execute($pin, 200); } catch (\RuntimeException) {}
+                try { (new TransitionConsumer($store, $custody, static fn () => 200))->execute($pin); } catch (\RuntimeException) {}
             }
-            if ($state === 'INCOMPLETE') { $store->locked(fn () => $store->put('journal', ['interrupted' => true])); }
+            if ($state === 'INCOMPLETE') { $store->locked(fn () => $store->put('journal', [
+                'schema' => TransitionContract::SCHEMA.'/journal', 'grant' => $pin,
+                'root' => TransitionContract::root($grant), 'authority' => TransitionContract::digest($store->read('authority')),
+                'state' => 'PREPARED'])); }
             if ($state === 'UNKNOWN_REPLAY_PROHIBITED') { file_put_contents($directory.'/commit.json', '{'); }
             $before = $this->hashes($directory);
             $result = (new TransitionReconstructor(new TransitionStore($directory), $pin))->reconstruct();

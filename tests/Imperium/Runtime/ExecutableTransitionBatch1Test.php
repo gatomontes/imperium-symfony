@@ -11,9 +11,11 @@ require_once dirname(__DIR__, 3).'/vendor/autoload.php';
 
 final class ExecutableTransitionBatch1Test extends TestCase
 {
-    public static function grant(): array
+    public static function grant(?string $directory = null): array
     {
         $grant = ['schema' => Contract::SCHEMA];
+        $grant['storage'] = null === $directory ? hash('sha256', 'contract-only')
+            : (new \App\Imperium\Runtime\ProviderTransition\TransitionStore($directory))->identity();
         foreach (['instance', 'principal', 'principal_activation', 'binding', 'binding_digest', 'successor',
             'successor_digest', 'successor_creation', 'assurance', 'execution_boundary', 'operation'] as $field) {
             $grant[$field] = hash('sha256', 'disposable-'.$field);

@@ -19,6 +19,12 @@ final class TransitionStore
         $this->directory = $resolved;
     }
 
+    public function identity(): string
+    {
+        $path = str_replace('\\', '/', $this->directory);
+        return hash('sha256', PHP_OS_FAMILY === 'Windows' ? strtolower($path) : $path);
+    }
+
     /** One domain lock also prevents cross-root authority reuse within this store. */
     public function locked(callable $action): mixed
     {

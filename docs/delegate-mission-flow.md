@@ -1,5 +1,21 @@
 # Delegate mission flow
 
+## Executable Atomic Transition implementation review
+
+`EXECUTABLE_ATOMIC_TRANSITION_BATCH_7_REVIEW_COMPLETE_NATIVE_INTEGRATION_UNPROVED`.
+The operator authorized continuous implementation and tests after preparation.
+An opt-in pinned-grant protocol now has single-aggregate publication, real process
+contention and interruption tests, and read-only reconstruction. The stable-tree
+suite passes 1836 tests, 43877 assertions. Native principal/successor source
+resolution, canonical v3 admission and native binding-reader integration remain
+unproved; no successful canonical-production closure follows.
+Current handoff:
+`docs/handoffs/provider-binding-successor-executable-atomic-transition-batch-7-complete.md`.
+Implementation and reading ledger:
+`docs/provider-binding-successor-executable-atomic-transition-implementation-v1.md`.
+Preparation-only authorization statements below are historical. Live state remains
+`BOUND_INACTIVE`, native v3 `NOT_IMPLEMENTED`, and `UNKNOWN_REPLAY_PROHIBITED`.
+
 ## Current Executable Atomic Transition preparation
 
 `PREPARATION_BATCH_0_COMPLETE_EXECUTABLE_ATOMIC_TRANSITION_BOUNDARY_CLASSIFIED`.

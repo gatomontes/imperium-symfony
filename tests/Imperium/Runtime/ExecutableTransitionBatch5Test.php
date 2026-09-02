@@ -26,10 +26,10 @@ final class ExecutableTransitionBatch5Test extends TestCase
     {
         $directory = sys_get_temp_dir().'/eat-'.bin2hex(random_bytes(8)); mkdir($directory);
         try {
-            $grant = ExecutableTransitionBatch1Test::grant(); $pin = TransitionContract::digest($grant);
+            $grant = ExecutableTransitionBatch1Test::grant($directory); $pin = TransitionContract::digest($grant);
             $store = new TransitionStore($directory);
             $store->locked(fn () => $store->put('grant', $grant));
-            if ($record !== 'authority') { (new TransitionAuthority($store, $pin))->issue(150); }
+            if ($record !== 'authority') { (new TransitionAuthority($store, $pin, static fn () => 150))->issue(); }
             $process = proc_open([PHP_BINARY, dirname(__DIR__, 2).'/fixtures/executable-transition-interruption-worker.php',
                 $directory, $pin, $record.'.'.$cut], [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes);
             self::assertIsResource($process);
@@ -44,7 +44,7 @@ final class ExecutableTransitionBatch5Test extends TestCase
                 self::assertNull($restarted->read('commit'));
             }
             if ($record === 'commit' && $cut !== 'after_publish') {
-                try { (new TransitionConsumer($restarted, new TransitionAuthority($restarted, $pin)))->execute($pin, 150); self::fail(); }
+                try { (new TransitionConsumer($restarted, new TransitionAuthority($restarted, $pin, static fn () => 150), static fn () => 150))->execute($pin); self::fail(); }
                 catch (\RuntimeException $e) { self::assertSame('UNKNOWN_REPLAY_PROHIBITED', $e->getMessage()); }
                 self::assertNull($restarted->read('commit'));
             }
@@ -62,11 +62,11 @@ final class ExecutableTransitionBatch5Test extends TestCase
     {
         $directory = sys_get_temp_dir().'/eat-'.bin2hex(random_bytes(8)); mkdir($directory);
         try {
-            $grant = ExecutableTransitionBatch1Test::grant(); $pin = TransitionContract::digest($grant);
+            $grant = ExecutableTransitionBatch1Test::grant($directory); $pin = TransitionContract::digest($grant);
             $store = new TransitionStore($directory); $store->locked(fn () => $store->put('grant', $grant));
-            $custody = new TransitionAuthority($store, $pin); $custody->issue(150);
+            $custody = new TransitionAuthority($store, $pin, static fn () => 150); $custody->issue();
             if ($revoke) { $custody->revoke(); }
-            try { (new TransitionConsumer($store, $custody))->execute($pin, $at); self::fail(); }
+            try { (new TransitionConsumer($store, $custody, static fn () => $at))->execute($pin); self::fail(); }
             catch (\RuntimeException $e) { self::assertSame($reason, $e->getMessage()); }
             self::assertNull($store->read('commit'));
             self::assertNull($store->read('journal'));

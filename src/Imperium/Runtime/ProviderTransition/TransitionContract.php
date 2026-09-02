@@ -16,7 +16,7 @@ final class TransitionContract
     public const array OUTCOMES = ['COMMITTED', 'REFUSED', 'INCOMPLETE', 'UNKNOWN_REPLAY_PROHIBITED'];
     public const array WRITE_SET = ['authority_consumption', 'v3_admission', 'adoption_join',
         'source_binding_transition', 'successor_binding_activation', 'winner_target', 'receipt_target'];
-    public const array GRANT_FIELDS = ['schema', 'instance', 'principal', 'generation', 'principal_activation',
+    public const array GRANT_FIELDS = ['schema', 'storage', 'instance', 'principal', 'generation', 'principal_activation',
         'binding', 'binding_digest', 'successor', 'successor_digest', 'successor_creation',
         'assurance', 'execution_boundary', 'operation', 'scope', 'effective_at', 'expires_at'];
 
@@ -33,7 +33,7 @@ final class TransitionContract
             || self::SCHEMA !== $grant['schema'] || self::SCOPE !== $grant['scope']) {
             throw new \RuntimeException('EAT_GRANT_NOT_TRUSTED');
         }
-        foreach (['instance', 'principal', 'principal_activation', 'binding', 'binding_digest',
+        foreach (['storage', 'instance', 'principal', 'principal_activation', 'binding', 'binding_digest',
             'successor', 'successor_digest', 'successor_creation', 'assurance', 'execution_boundary', 'operation'] as $key) {
             if (!is_string($grant[$key]) || !preg_match('/^[a-f0-9]{64}$/D', $grant[$key])) {
                 throw new \RuntimeException('EAT_GRANT_SHAPE_INVALID');

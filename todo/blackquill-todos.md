@@ -1,5 +1,25 @@
 # Blackquill Review TODOs
 
+## Executable Atomic Transition Batch 7 review
+
+`EXECUTABLE_ATOMIC_TRANSITION_BATCH_7_REVIEW_COMPLETE_NATIVE_INTEGRATION_UNPROVED`.
+Continuous implementation was authorized after preparation. Batches 1–7 have
+passing local mechanics and documentary tests; stable-tree full suite: 1836 tests,
+43877 assertions. This does not close the native campaign.
+
+- [x] Implement and test one opt-in aggregate, locks, process contention and interruption refusal.
+- [x] Correct caller-supplied clock and copied-storage-root weaknesses.
+- [x] Independently reconstruct seven record joins without writes or repair.
+- [ ] Resolve native principal competence and exact source lineage instead of accepting only pinned hashes.
+- [ ] Implement the actual canonical v3 admission and native operation-scoped binding consumer.
+- [ ] Obtain a passing terminal canonical-production audit; mechanics alone are insufficient.
+
+Current handoff:
+`docs/handoffs/provider-binding-successor-executable-atomic-transition-batch-7-complete.md`.
+Ledger: `docs/provider-binding-successor-executable-atomic-transition-implementation-v1.md`.
+No live grant or runtime state was provisioned. `BOUND_INACTIVE`, native v3
+`NOT_IMPLEMENTED` and `UNKNOWN_REPLAY_PROHIBITED` remain.
+
 ## Current Executable Atomic Transition Preparation Batch 0
 
 `PREPARATION_BATCH_0_COMPLETE_EXECUTABLE_ATOMIC_TRANSITION_BOUNDARY_CLASSIFIED`.

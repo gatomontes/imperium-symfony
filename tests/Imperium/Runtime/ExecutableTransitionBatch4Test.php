@@ -17,11 +17,11 @@ final class ExecutableTransitionBatch4Test extends TestCase
         $directory = sys_get_temp_dir().'/eat-'.bin2hex(random_bytes(8)); mkdir($directory);
         $processes = []; $pipes = [];
         try {
-            $grant = ExecutableTransitionBatch1Test::grant();
+            $grant = ExecutableTransitionBatch1Test::grant($directory);
             $pin = TransitionContract::digest($grant);
             $store = new TransitionStore($directory);
             $store->locked(fn () => $store->put('grant', $grant));
-            (new TransitionAuthority($store, $pin))->issue(150);
+            (new TransitionAuthority($store, $pin, static fn () => 150))->issue();
             for ($i = 0; $i < 2; ++$i) {
                 // Alternate spellings resolve to the same physical storage and lock.
                 $alias = $i === 0 ? $directory : $directory.'/.';

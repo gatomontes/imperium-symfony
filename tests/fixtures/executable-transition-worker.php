@@ -14,8 +14,8 @@ while (!is_file($gate)) {
 }
 try {
     $store = new TransitionStore($directory);
-    $consumer = new TransitionConsumer($store, new TransitionAuthority($store, $pin));
-    $consumer->execute($pin, 150);
+    $consumer = new TransitionConsumer($store, new TransitionAuthority($store, $pin, static fn () => 150), static fn () => 150);
+    $consumer->execute($pin);
     echo 'COMMITTED';
 } catch (RuntimeException $e) {
     echo $e->getMessage();

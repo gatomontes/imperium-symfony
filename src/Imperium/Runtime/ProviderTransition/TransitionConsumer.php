@@ -10,13 +10,15 @@ final readonly class TransitionConsumer
     public function __construct(
         private TransitionStore $store,
         private TransitionAuthority $custody,
+        private ?\Closure $clock = null,
     ) {
     }
 
-    /** Trusted orchestration supplies the clock; requests contain only the pinned grant digest. */
-    public function execute(string $requestDigest, int $at): array
+    /** Requests contain only the pinned grant digest; time is sampled inside the lock. */
+    public function execute(string $requestDigest): array
     {
-        return $this->store->locked(function () use ($requestDigest, $at): array {
+        return $this->store->locked(function () use ($requestDigest): array {
+            $at = null === $this->clock ? time() : ($this->clock)();
             $grant = $this->custody->grant();
             $pin = TransitionContract::digest($grant);
             if (!hash_equals($pin, $requestDigest)) { throw new \RuntimeException('EAT_REQUEST_SUBSTITUTION'); }
@@ -43,8 +45,11 @@ final readonly class TransitionConsumer
             $this->store->put('journal', ['schema' => TransitionContract::SCHEMA.'/journal',
                 'grant' => $pin, 'root' => TransitionContract::root($grant),
                 'authority' => TransitionContract::digest($authority), 'state' => 'PREPARED']);
+            $commitAt = null === $this->clock ? time() : ($this->clock)();
+            TransitionContract::current($grant, $commitAt);
+            $this->custody->assertNotRevoked();
             // All seven outcomes become visible in one rename. No earlier file consumes authority.
-            return $this->store->put('commit', self::aggregate($grant, $authority, $at));
+            return $this->store->put('commit', self::aggregate($grant, $authority, $commitAt));
         });
     }
 

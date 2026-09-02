@@ -17,6 +17,7 @@ final readonly class TransitionReconstructor
             $grant = $this->store->read('grant');
             if (null === $grant) { return $this->result('ABSENT'); }
             TransitionContract::grant($grant, $this->grantPin);
+            if ($grant['storage'] !== $this->store->identity()) { throw new \RuntimeException(); }
             $authority = $this->store->read('authority');
             $journal = $this->store->read('journal');
             $commit = $this->store->read('commit');
@@ -39,6 +40,10 @@ final readonly class TransitionReconstructor
                 }
                 return $this->result('REFUSED');
             }
+            if (null !== $journal && (null === $authority || $journal !== [
+                'schema' => TransitionContract::SCHEMA.'/journal', 'grant' => $this->grantPin,
+                'root' => TransitionContract::root($grant), 'authority' => TransitionContract::digest($authority),
+                'state' => 'PREPARED'])) { throw new \RuntimeException(); }
             return $this->result(null !== $journal ? 'INCOMPLETE' : 'ABSENT');
         } catch (\Throwable) {
             return $this->result('UNKNOWN_REPLAY_PROHIBITED');

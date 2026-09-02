@@ -7,7 +7,7 @@ namespace App\Imperium\Runtime\ProviderTransition;
 /** Operator-pinned grant custody; hashes alone without the configured pin grant nothing. */
 final readonly class TransitionAuthority
 {
-    public function __construct(private TransitionStore $store, private string $grantPin)
+    public function __construct(private TransitionStore $store, private string $grantPin, private ?\Closure $clock = null)
     {
     }
 
@@ -16,6 +16,7 @@ final readonly class TransitionAuthority
         $grant = $this->store->read('grant');
         if (null === $grant) { throw new \RuntimeException('EAT_GRANT_ABSENT'); }
         TransitionContract::grant($grant, $this->grantPin);
+        if ($grant['storage'] !== $this->store->identity()) { throw new \RuntimeException('EAT_STORAGE_ROOT_SUBSTITUTION'); }
         return $grant;
     }
 
@@ -32,13 +33,15 @@ final readonly class TransitionAuthority
     }
 
     /** Mechanical issuance from an already provisioned exact Operator Root grant. */
-    public function issue(int $at): array
+    public function issue(): array
     {
-        return $this->store->locked(function () use ($at): array {
+        return $this->store->locked(function (): array {
+            $at = null === $this->clock ? time() : ($this->clock)();
             $grant = $this->grant();
             TransitionContract::current($grant, $at);
             $this->assertNotRevoked();
             if (null !== $this->store->read('journal') || $this->store->pending('journal')
+                || $this->store->pending('commit') || $this->store->pending('refusal')
                 || null !== $this->store->read('commit') || null !== $this->store->read('refusal')) {
                 throw new \RuntimeException('EAT_ISSUANCE_AFTER_ATTEMPT_REFUSED');
             }

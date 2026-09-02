@@ -42,7 +42,7 @@ provides the trusted pin and dedicated storage. This is not a production activat
 ## Batch ledger
 
 Batch 1: new authority-empty scope/admission/consumption/write-set boundary.
-Validation result recorded after the batch run.
+Results and qualifications follow below.
 
 ## Additional reading ledger
 
@@ -52,6 +52,9 @@ Validation result recorded after the batch run.
 - `tests/Imperium/Runtime/FrozenRuntimeCoverageTripwireRestorationBatch3TerminalAuditTest.php` (adversarial coverage gates).
 - `docs/frozen-runtime-coverage-tripwire-restoration-inventory-v1.tsv`.
 - `config/services.yaml` (discovery boundary).
+- `src/Imperium/Runtime/LaCortine/ProviderExecutorPrincipalActivationContract.php` (native activation shape during integration review).
+- `src/Imperium/Runtime/LaCortine/ProviderBindingActivationReconciliationContractValidator.php` (target, decision and successor validation entry points through line 160).
+- `src/Imperium/Runtime/Imperator/ImperatorRuntimePrincipalVersionV3Contract.php` (six native scope fields; no exact transition scope).
 - `C:/Users/gatom/.codex/skills/blackquill/SKILL.md` (reserved for terminal audit).
 
 New campaign source, tests and batch documents are read as they are implemented.
@@ -67,3 +70,47 @@ Batch 4: two actual PHP processes, shared start gate and canonical-path alias co
 Batch 5: nine real child-process termination cuts around authority, journal and aggregate publication; expiry and revocation refusal; restart prohibits execution from incomplete commit state. 24 tests, 1808 assertions passed. Short/truncated pending-file refusal is separately synthetic. Checkpoint closure is trusted fault-harness configuration only. No power-loss or arbitrary-kill timing claim.
 
 Batch 6: separate read-only reconstructor checks seven record joins, root, grant, authority, journal and receipt without calling the consumer. Five outcome states preserve no-repair/no-retry. 29 tests, 1830 assertions passed with before/after file hashes unchanged.
+
+Batch 7 adversarial implementation corrections: clock values are no longer
+execute-request arguments; time is sampled under the lock and again after journal
+publication. Issuance refuses pending outcomes. The grant now binds canonical
+physical storage identity, preventing a copied grant from being used at another
+configured root. Malformed journal shape cannot be described as valid incomplete
+evidence. Resealed substitutions in all seven committed records refuse.
+Focused result: 40 tests, 1849 assertions, including unchanged exact coverage.
+
+### Material canonical-integration finding
+
+`EXECUTABLE_ATOMIC_TRANSITION_NATIVE_PROVENANCE_INTEGRATION_NOT_PROVED`.
+
+The new pinned-grant protocol is executable and its local mechanics are tested.
+It does **not** implement the full canonical campaign claim. The principal,
+activation, source binding, successor creation, assurance and execution-boundary
+hashes are operator-attested input values; their native source records are not
+loaded or independently validated. The tests demonstrate this directly: their
+grants commit successfully without native principal/successor files. Pin integrity
+does not prove that those native objects exist or are currently eligible.
+
+The new admission schema is `imperium.provider-successor-executable-admission/v3`.
+It is not an implementation of the existing
+`imperium.la-cortine.governed-provider-execution-admission/v3` contract, whose
+`NOT_IMPLEMENTED` state remains unchanged. The aggregate's operation-scoped
+binding projection has no migrated native consumer. These are integration gaps,
+not evidence that the required original admission or binding was activated.
+
+Consequently Batches 3–6 establish the new protocol's bounded mechanics only.
+A terminal audit must refuse an unqualified canonical-production completion.
+The directory remains service-excluded and no live grant is provisioned. Closing
+the gap requires native source resolution and lifecycle validation, an eligible
+production successor route, a canonical v3 admission producer/consumer and the
+native binding-state reader. The operator's broad continuation permits fixes;
+the choice between those native routes and an explicitly accepted new provisioning
+boundary has been surfaced rather than silently changing the campaign objective.
+
+The first full-suite attempt overlapped source corrections and therefore used
+mixed loaded/source versions. Its 25 errors and four failures are not accepted
+as a stable-tree result. A fresh full-suite run was started after the corrections.
+
+Stable-tree full-suite result after Batch 7: **1836 tests, 43877 assertions passed**
+on PHP 8.4.14 / PHPUnit 13.3.0. All new PHP files pass lint. No test gate was
+weakened. This validates the bounded implementation, not native source eligibility.
