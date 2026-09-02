@@ -1750,3 +1750,12 @@ terminal handoff is
 Post-campaign Blackquill review accepts the Independent Verification campaign's terminal refusal but finds a material test-perimeter regression in PR #728. Exact runtime/snapshot and store-user equality became one-way subset checks, complete perimeter scanning became snapshot-limited, and unrelated runtime changes were bundled into the evidence campaign.
 
 Frozen Runtime Coverage Tripwire Restoration is selected. Preparation Batch 0 is complete at `PREPARATION_BATCH_0_COMPLETE_FROZEN_RUNTIME_TRIPWIRE_REGRESSION_CLASSIFIED`. Only Batch 1 mechanical tripwire restoration may next be considered. It may change coverage tests and versioned inventories only; runtime adjudication remains Batch 2. The active local continuation handoff is `docs/handoffs/frozen-runtime-coverage-tripwire-restoration-batch-1-ready.md`.
+
+Frozen Runtime Coverage Tripwire Restoration is complete at
+`FROZEN_RUNTIME_COVERAGE_TRIPWIRE_RESTORATION_COMPLETE`. Exact candidate,
+`AuthorityConsumptionStore` consumer, LaCortine/Sortie helper and disposition-
+vocabulary inventories now fail closed under disposable adversarial additions.
+The terminal handoff is
+`docs/handoffs/frozen-runtime-coverage-tripwire-restoration-campaign-complete.md`.
+This restores test-perimeter alarms only; it does not change the controlling
+independent-verification evidence defect or reopen the terminal Delegate flow.
