@@ -246,13 +246,6 @@ audit are not authorized here. The campaign remains open. V1 remains refused and
 `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
 remains controlling.
 
-The current Reproof handoff is
-`docs/handoffs/atomic-transition-reproof-v2-batch-6-complete.md` at
-`REPROOF_BATCH_6_INDEPENDENTLY_VERIFIED_AND_ATTESTED_PENDING_ADMISSION`.
-The separately authorized report and attestation are complete; two stages
-remain. Admission and the terminal audit remain distinct, and the qualification
-has not been removed.
-
 The current Atomic Transition Reproof continuation is
 `docs/handoffs/atomic-transition-reproof-v2-batch-5-execution-approval.md` at
 `REPROOF_BATCH_4_COMPLETE_AWAITING_EXACT_SOURCE_EXECUTION_APPROVAL`.
@@ -269,5 +262,16 @@ The active continuation is now
 `docs/handoffs/atomic-transition-reproof-v2-batch-6-verification-signing-approval.md`.
 It requests separate private intake and fresh operator-only signing custody;
 neither has occurred. Three stages remain. The campaign remains open and
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+remains controlling.
+
+Batch 6 subsequently completed its separately approved verification/signing:
+`docs/handoffs/atomic-transition-reproof-v2-batch-6-complete.md`.
+Batch 7 has now admitted the exact public chain, pending the separate terminal
+audit: `docs/handoffs/atomic-transition-reproof-v2-batch-7-complete.md`.
+The current active continuation is
+`docs/handoffs/atomic-transition-reproof-v2-batch-8-terminal-audit-ready.md`.
+One stage remains and must start from clean merged Batch 7 main under separate
+authorization. No closure decision has occurred; the campaign remains open and
 `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
 remains controlling.

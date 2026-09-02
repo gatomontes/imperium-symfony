@@ -424,7 +424,7 @@ remains controlling.
 - [x] Batch 4: counterfeit/interruption proof and diagnostic fixes; 73 tests, 720 assertions including regressions and the request boundary.
 - [x] Batch 5: separately approved exact-source command ran once; finalized candidate; cumulative PHPUnit 75 tests, 749 assertions.
 - [x] Batch 6: separate approval received; independent all-PASS report and detached attestation; PHPUnit 80 tests, 827 assertions.
-- [ ] Batch 7: admit only passing independently attested public evidence.
+- [x] Batch 7: exact independently attested public evidence admitted pending terminal audit; PHPUnit 104 tests, 878 assertions.
 - [ ] Batch 8: separately audit from merged Batch 7 main.
 
 Four stages remain at `REPROOF_BATCH_4_COMPLETE_AWAITING_EXACT_SOURCE_EXECUTION_APPROVAL`.
@@ -451,4 +451,12 @@ Two stages remain. The public all-PASS report, identity, attestation and
 operator-provisioned trust pins are ready for Batch 7 admission. No private
 key or receipt content is retained in Git and no closure decision occurred.
 `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+remains controlling.
+
+Batch 7 completion: `docs/handoffs/atomic-transition-reproof-v2-batch-7-complete.md`.
+One stage remains at `REPROOF_BATCH_7_COMPLETE_AWAITING_SEPARATE_TERMINAL_AUDIT`.
+Active handoff: `docs/handoffs/atomic-transition-reproof-v2-batch-8-terminal-audit-ready.md`.
+The admission is public, pinned and signed; it removes no qualification and
+closes no campaign. The final audit must start separately from clean merged
+Batch 7 main. V1 remains refused and the independent-verification qualification
 remains controlling.

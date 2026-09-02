@@ -1902,3 +1902,16 @@ private key and receipt bytes remain outside Git. PHPUnit passes 80 tests,
 Batch 7 admission cannot remove the qualification. The terminal audit must
 start separately from merged Batch 7 main. The campaign remains open with
 `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT` intact.
+
+### Independently Verifiable Reproof Batch 7 complete
+
+`REPROOF_BATCH_7_PUBLIC_EVIDENCE_ADMITTED_PENDING_SEPARATE_TERMINAL_AUDIT`
+records strict public admission of the separately attested proof. Its consumer
+pins the operator-provisioned anchor and every signed-evidence binding, verifies
+purpose/key/time/signature, and cannot remove the qualification or close the
+campaign. PHPUnit passes 104 tests, 878 assertions. One stage remains, starting
+only as a separate terminal audit from clean merged Batch 7 main. Active handoff:
+`docs/handoffs/atomic-transition-reproof-v2-batch-8-terminal-audit-ready.md`.
+The campaign remains open and
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+remains controlling.

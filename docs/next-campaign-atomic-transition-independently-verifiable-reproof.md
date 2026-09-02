@@ -38,7 +38,7 @@ refusal or corrective evidence.
 5. **Batch 4 — counterfeit and interruption proof (complete).** Synthetic substitution, malformed-input and publication-cut tests pass. No real mission executed.
 6. **Batch 5 — operator-authorized local execution (complete).** The separately approved exact-source command ran once and finalized one new local v2 package. The public candidate remains unverified.
 7. **Batch 6 — operator-authorized independent verification and signing (complete).** The separately approved attempt passed all eight domains and produced a purpose-bound detached attestation. Receipt and signing material remain local.
-8. **Batch 7 — repository admission.** Admit only the passing detached report, public identity and sanitized evidence; keep unsigned, v1, producer-authored and indeterminate routes disabled.
+8. **Batch 7 — repository admission (complete).** The exact passing detached report, public identity and sanitized evidence are admitted pending terminal audit; unsigned, v1, producer-authored, substituted and indeterminate routes refuse.
 9. **Batch 8 — separately sequenced terminal Blackquill audit.** Start from merged Batch 7 `main`. Restore closure only at `CAMPAIGN_CLOSURE_ACCEPTED_AFTER_INDEPENDENTLY_ATTESTED_REPROOF`.
 
 ## Preparation Batch 0 questions
@@ -126,3 +126,15 @@ are retained; no private key or receipt payload entered Git. PHPUnit passes
 `docs/handoffs/atomic-transition-reproof-v2-batch-6-complete.md`.
 Batch 7 admits public evidence only; the terminal audit still starts separately
 from merged Batch 7 main. The qualification remains controlling.
+
+## Current Batch 7 completion and terminal gate
+
+`REPROOF_BATCH_7_PUBLIC_EVIDENCE_ADMITTED_PENDING_SEPARATE_TERMINAL_AUDIT`
+records the public admission at `2026-09-02T19:00:04Z`. The admission leaves
+qualification removal and campaign closure false. PHPUnit passes 104 tests,
+878 assertions. One stage remains. After Batch 7 is merged locally into main,
+the separately authorized Batch 8 audit must start from that clean merged main.
+Active handoff: `docs/handoffs/atomic-transition-reproof-v2-batch-8-terminal-audit-ready.md`.
+No terminal audit or closure was performed by the admission stage.
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+remains controlling.
