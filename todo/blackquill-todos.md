@@ -340,9 +340,9 @@ The independent-verification evidence posture remains qualified and unchanged.
   false-positive surfaces, dynamic-construction limits and mutation gaps.
 - [x] Batch 1: replace quote-sensitive discovery with deterministic
   quote-independent exact-value detection and adversarial mutation proof.
-- [ ] Batch 2: perform a separately sequenced terminal Blackquill audit after
+- [x] Batch 2: perform a separately sequenced terminal Blackquill audit after
   Batch 1 is merged.
-- [ ] Supersede the rejected prior closure only if Batch 2 passes.
+- [x] Supersede the rejected prior closure only if Batch 2 passes. *(Accepted for the literal-value boundary only; historical rejection retained.)*
 
 The current disposition-vocabulary detector accepts a double-quoted governed
 value without inventory admission. The prior tripwire-restoration closure is
@@ -373,3 +373,16 @@ The detector contract is
 Only the separately sequenced Batch 2 audit may follow its merge into main.
 Active handoff:
 `docs/handoffs/activation-disposition-vocabulary-tripwire-correction-batch-1-complete.md`.
+
+The campaign is complete at
+`ACTIVATION_DISPOSITION_VOCABULARY_TRIPWIRE_CORRECTION_COMPLETE`.
+Batch 2 started after Batch 1 merged locally into main and passed at
+`BATCH_2_TERMINAL_BLACKQUILL_AUDIT_PASSED_LITERAL_VOCABULARY_CLAIM`.
+The corrected closure is
+`FROZEN_RUNTIME_COVERAGE_TRIPWIRE_RESTORATION_CORRECTED_CLOSURE_ACCEPTED_LITERAL_VOCABULARY_ONLY`.
+Dynamic construction, indirection, concatenation and semantic-role limits remain
+explicit; no universal producer claim is reinstated. No campaign batch remains.
+Active handoff:
+`docs/handoffs/activation-disposition-vocabulary-tripwire-correction-campaign-complete.md`.
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+remains controlling.

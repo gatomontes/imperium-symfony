@@ -1809,3 +1809,17 @@ Batch 2 audit may follow merge into main. Active handoff:
 The rejected closure is not yet superseded and
 `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
 remains controlling.
+
+### Vocabulary correction campaign completed after separate Batch 2 audit
+
+`ACTIVATION_DISPOSITION_VOCABULARY_TRIPWIRE_CORRECTION_COMPLETE` follows the
+separate audit of merged local main at
+`76d0803ae9931c4470b4f49af216a56a14c111c3`. The accepted corrected closure is
+`FROZEN_RUNTIME_COVERAGE_TRIPWIRE_RESTORATION_CORRECTED_CLOSURE_ACCEPTED_LITERAL_VOCABULARY_ONLY`.
+It supersedes the rejected vocabulary closure only at the complete literal-value
+boundary; dynamic assembly, concatenation, indirection and semantic producer
+coverage remain excluded. No correction campaign batch remains. Active handoff:
+`docs/handoffs/activation-disposition-vocabulary-tripwire-correction-campaign-complete.md`.
+Runtime source and historical audit evidence remain unchanged. The controlling
+posture remains
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`.
