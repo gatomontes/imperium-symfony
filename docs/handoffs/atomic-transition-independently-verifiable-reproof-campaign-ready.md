@@ -49,8 +49,7 @@ Do not inspect private operator-local material, rerun or execute a mission,
 execute a verifier, create or use signing material, invoke a provider, perform external I/O,
 handle live credentials or capabilities, mutate runtime state,
 change provider binding, implement v3 execution admission, retain private
-evidence, repair or replace v1, admit v2, remove the qualification or close the
-campaign.
+evidence, repair or replace v1, admit v2, remove the qualification or close the campaign.
 
 Batch 5 execution, Batch 6 verification/signing and Batch 8 terminal audit each
 remain separately authorized and separately sequenced boundaries.
