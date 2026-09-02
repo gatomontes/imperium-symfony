@@ -325,3 +325,10 @@ The work is complete when the credential boundary, provider invocation, authorit
 Post-campaign Blackquill review records `TERMINAL_REFUSAL_SUBSTANTIVELY_VALID_WITH_MATERIAL_TEST_PERIMETER_REGRESSION`. The evidence campaign's terminal refusal remains authoritative, but PR #728 weakened exact candidate/snapshot coverage, store-user equality and complete perimeter scanning while bundling unrelated runtime changes.
 
 Frozen Runtime Coverage Tripwire Restoration Preparation Batch 0 is complete at `PREPARATION_BATCH_0_COMPLETE_FROZEN_RUNTIME_TRIPWIRE_REGRESSION_CLASSIFIED`. Only Batch 1 mechanical tripwire restoration may next be considered. The evidence posture remains `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`.
+
+Frozen Runtime Coverage Tripwire Restoration is complete at
+`FROZEN_RUNTIME_COVERAGE_TRIPWIRE_RESTORATION_COMPLETE`. Batch 1 restored exact
+versioned path coverage, Batch 2 individually adjudicated the PR #728 runtime
+and vocabulary changes, and Batch 3 proved the four unapproved synthetic
+addition classes fail closed while explicit candidate classification passes.
+The independent-verification evidence posture remains qualified and unchanged.
