@@ -476,3 +476,20 @@ The admission is public, pinned and signed; it removes no qualification and
 closes no campaign. The final audit must start separately from clean merged
 Batch 7 main. V1 remains refused and the independent-verification qualification
 remains controlling.
+
+### Executable Atomic Transition campaign selection ledger
+
+- [x] Independently Verifiable Reproof Batch 8: bounded v2 proof accepted; v1 remains refused.
+- [ ] Preparation Batch 0: classify the actual executable transition boundary without runtime mutation.
+- [ ] Batch 1: define v3 admission and atomic-consumption contracts.
+- [ ] Batch 2: implement the durable local journal and lock boundary.
+- [ ] Batch 3: implement the governed atomic transition consumer.
+- [ ] Batch 4: prove real separate-process single-winner contention.
+- [ ] Batch 5: prove interruption, replay and recovery behavior.
+- [ ] Batch 6: prove durable receipt and read-only reconstruction.
+- [ ] Batch 7: conduct adversarial evidence and secret-exclusion audit.
+- [ ] Batch 8: conduct a separate terminal Blackquill audit from merged Batch 7 main.
+
+The campaign starts with Preparation Batch 0 only. Do not translate the bounded
+snapshot reproof into claims of live contention or physical power-loss durability.
+Provider effects remain outside this campaign.

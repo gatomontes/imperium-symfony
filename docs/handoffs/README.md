@@ -285,3 +285,12 @@ One stage remains and must start from clean merged Batch 7 main under separate
 authorization. No closure decision has occurred; the campaign remains open and
 `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
 remains controlling.
+
+Atomic Transition Independently Verifiable Reproof is now complete at
+`CAMPAIGN_CLOSURE_ACCEPTED_AFTER_INDEPENDENTLY_ATTESTED_REPROOF`; completion is
+`docs/handoffs/atomic-transition-reproof-v2-campaign-complete.md`.
+
+Provider Binding Successor Executable Atomic Transition is selected next.
+Only Preparation Batch 0 is authorized. The canonical local entrypoint is
+`docs/handoffs/provider-binding-successor-executable-atomic-transition-preparation-batch-0-local-ready.md`.
+It grants no executable transition, provider, credential or external-effect authority.
