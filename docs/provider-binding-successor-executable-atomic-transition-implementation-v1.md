@@ -65,3 +65,5 @@ Batch 3: pinned-grant issuer and seven-part atomic consumer implemented. Duplica
 Batch 4: two actual PHP processes, shared start gate and canonical-path alias contention produced exactly one commit and one losing-path refusal. 13 tests, 1733 assertions passed. This proves cooperative process exclusion on this host, not hostile-writer or distributed storage safety.
 
 Batch 5: nine real child-process termination cuts around authority, journal and aggregate publication; expiry and revocation refusal; restart prohibits execution from incomplete commit state. 24 tests, 1808 assertions passed. Short/truncated pending-file refusal is separately synthetic. Checkpoint closure is trusted fault-harness configuration only. No power-loss or arbitrary-kill timing claim.
+
+Batch 6: separate read-only reconstructor checks seven record joins, root, grant, authority, journal and receipt without calling the consumer. Five outcome states preserve no-repair/no-retry. 29 tests, 1830 assertions passed with before/after file hashes unchanged.
