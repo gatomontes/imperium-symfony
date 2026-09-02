@@ -30,7 +30,8 @@ final class ReproofV2Verifier
     {
         if (null === $package) { return 'INDETERMINATE_MISSING_PACKAGE'; }
         if (($package['receipt']['schema'] ?? null) !== 'imperium.atomic-transition-reproof.private-receipt/v2') { return 'REFUSED_NOT_V2'; }
-        if (count($package['receipt']['matrix']['cases'] ?? []) !== 8) { return 'REFUSED_MISSING_CASE_EVIDENCE'; }
+        $cases = $package['receipt']['matrix']['cases'] ?? null;
+        if (!is_array($cases) || !array_is_list($cases) || 8 !== count($cases)) { return 'REFUSED_MISSING_CASE_EVIDENCE'; }
         return 'ELIGIBLE_FOR_VERIFICATION_NOT_AUTHORIZED';
     }
 

@@ -1864,3 +1864,16 @@ inspected. The campaign remains open. V1 is neither repaired nor replaced, and
 `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
 remains controlling. `BOUND_INACTIVE`, `NOT_IMPLEMENTED` and
 `UNKNOWN_REPLAY_PROHIBITED` are unchanged.
+
+### Independently Verifiable Reproof implementation Batches 1–4 complete
+
+`REPROOF_BATCH_4_COMPLETE_AWAITING_EXACT_SOURCE_EXECUTION_APPROVAL` is current.
+The operator's continuation authorized implementation and PHPUnit after each
+batch. V2 contracts, inert evidence-complete runner, independent verifier and
+synthetic counterfeit/interruption checks are complete: 72 tests, 706 assertions
+including related regressions. Four stages remain. Active handoff:
+`docs/handoffs/atomic-transition-reproof-v2-batch-5-execution-approval.md`.
+Exact-source execution, separate verification/signing, admission and a terminal
+audit from merged Batch 7 main remain. No real mission or signing occurred.
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+remains controlling; v1 is unchanged and the campaign remains open.

@@ -415,3 +415,21 @@ no v2 contract or runtime behavior was implemented, no mission/verifier/signing
 was executed and no evidence was admitted. V1 remains refused and unchanged.
 `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
 remains controlling.
+
+### Current Independently Verifiable Reproof implementation ledger
+
+- [x] Batch 1: authority-empty v2 contracts; PHPUnit 2 tests, 62 assertions.
+- [x] Batch 2: inert eight-case runner and immutable package; cumulative 6 tests, 143 assertions.
+- [x] Batch 3: independent case/source/graph/exclusion verification; cumulative 10 tests, 207 assertions.
+- [x] Batch 4: counterfeit/interruption proof and diagnostic fixes; 72 tests, 706 assertions including regressions.
+- [ ] Batch 5: approve exact source/command, then one new v2 disposable event.
+- [ ] Batch 6: separately approve independent intake, verification and signing custody.
+- [ ] Batch 7: admit only passing independently attested public evidence.
+- [ ] Batch 8: separately audit from merged Batch 7 main.
+
+Four stages remain at `REPROOF_BATCH_4_COMPLETE_AWAITING_EXACT_SOURCE_EXECUTION_APPROVAL`.
+Active handoff: `docs/handoffs/atomic-transition-reproof-v2-batch-5-execution-approval.md`.
+No real mission, private intake, signing, evidence admission or closure occurred.
+V1 is unchanged and
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+remains controlling. Earlier preparation countdown entries are historical.

@@ -30,7 +30,8 @@ final class ReproofV2SourceProof
             && $source['commit'] === $trust['source_commit']);
         $keys = array_keys($source); sort($keys);
         $fields = ['schema', 'object_format', 'commit', 'commit_bytes', 'trees', 'files', 'manifest_root', 'record_digest']; sort($fields);
-        $this->require($keys === $fields && array_keys($source['files']) === self::PATHS);
+        $this->require($keys === $fields && is_array($source['trees']) && is_array($source['files'])
+            && array_keys($source['files']) === self::PATHS);
         $commit = $this->decode($source['commit_bytes']);
         $this->require($this->oid('commit', $commit) === $source['commit']);
         $this->require(1 === preg_match('/^tree ([a-f0-9]{40})\n/', $commit, $match));

@@ -11,7 +11,7 @@ final class LocalSourceCapture
     {
         if (!preg_match('/^[a-f0-9]{40}$/D', $approvedCommit)
             || trim($this->git($repository, ['rev-parse', 'HEAD'])) !== $approvedCommit
-            || '' !== trim($this->git($repository, ['status', '--porcelain', '--untracked-files=all']))) {
+            || '' !== trim($this->git($repository, ['status', '--porcelain', '--untracked-files=all', '--ignore-submodules=all']))) {
             throw new \RuntimeException('REPROOF_SOURCE_NOT_CLEAN_PINNED_HEAD');
         }
         if ('sha1' !== trim($this->git($repository, ['rev-parse', '--show-object-format']))) {
@@ -33,7 +33,8 @@ final class LocalSourceCapture
             }
             $oid = trim($this->git($repository, ['rev-parse', $approvedCommit.':'.$path]));
             $bytes = $this->git($repository, ['cat-file', 'blob', $oid]);
-            $local = file_get_contents($repository.'/'.$path);
+            if (is_link($repository.'/'.$path)) { throw new \RuntimeException('REPROOF_SOURCE_LINK_REFUSED'); }
+            $local = @file_get_contents($repository.'/'.$path);
             if (false === $local || $bytes !== $local) { throw new \RuntimeException('REPROOF_LOADED_BYTES_DIFFER'); }
             $files[$path] = ['blob' => $oid, 'bytes' => base64_encode($bytes)];
         }
@@ -47,7 +48,7 @@ final class LocalSourceCapture
     private function git(string $repository, array $arguments): string
     {
         $pipes = [];
-        $process = proc_open(['git', '--no-pager', '-C', $repository, ...$arguments],
+        $process = proc_open(['git', '--no-pager', '-c', 'core.fsmonitor=false', '-C', $repository, ...$arguments],
             [0 => ['pipe', 'r'], 1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes, null, null, ['bypass_shell' => true]);
         if (!is_resource($process)) { throw new \RuntimeException('REPROOF_GIT_REFUSED'); }
         fclose($pipes[0]);

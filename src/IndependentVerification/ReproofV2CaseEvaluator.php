@@ -21,6 +21,11 @@ final class ReproofV2CaseEvaluator
             'imperium.atomic-transition-reproof.ordered-matrix/v2');
         $this->require('eight-retained-disposable-cases/v2' === $matrix['profile'] && is_array($matrix['cases'])
             && array_is_list($matrix['cases']) && 8 === count($matrix['cases']));
+        $base = $matrix['cases'][3]['input']['primary'] ?? null;
+        $aux = $matrix['cases'][3]['input']['auxiliary'] ?? null;
+        $this->require(is_array($base) && is_array($aux));
+        $this->auxiliary($aux);
+        $this->require('COMMITTED' === $this->classify($base, $root, $aux));
         $expectedCuts = ['BEFORE_JOURNAL', 'AFTER_JOURNAL', 'AFTER_WINNER', 'AFTER_RECEIPT', 'NONE', 'NONE', 'NONE', 'MISSING_WINNER'];
         $expectedClasses = ['ABSENT', 'PREPARED', 'COMMITTING', 'COMMITTED', 'COMMITTED', 'COMMITTED', 'COMMITTED', 'INCOMPLETE'];
         $expectedComparisons = ['NOT_APPLICABLE', 'NOT_APPLICABLE', 'NOT_APPLICABLE', 'NOT_APPLICABLE',
@@ -44,7 +49,7 @@ final class ReproofV2CaseEvaluator
                         ? 'CHANGED_EVIDENCE_REFUSED' : 'SAME_ROOT_CONTENTION_REFUSED');
             }
             $this->require($classification === $expectedClasses[$index] && $comparison === $expectedComparisons[$index]);
-            $this->relations($index, $input, $matrix['cases'][3]['input']['primary'] ?? []);
+            $this->relations($index, $input, $base);
             $values = ['classification' => $classification, 'directive' => self::DIRECTIVES[$classification],
                 'comparison' => $comparison, 'validator_error' => null,
                 'findings' => ['NOT_APPLICABLE' === $comparison ? $classification.'_READ_ONLY' : $comparison]];

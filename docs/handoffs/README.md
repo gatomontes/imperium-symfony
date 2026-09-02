@@ -245,3 +245,12 @@ under a new instruction; execution, verification/signing, admission and terminal
 audit are not authorized here. The campaign remains open. V1 remains refused and
 `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
 remains controlling.
+
+The current Atomic Transition Reproof continuation is
+`docs/handoffs/atomic-transition-reproof-v2-batch-5-execution-approval.md` at
+`REPROOF_BATCH_4_COMPLETE_AWAITING_EXACT_SOURCE_EXECUTION_APPROVAL`.
+Batches 1–4 are complete; per-batch tests and progress are in
+`docs/handoffs/atomic-transition-reproof-v2-implementation-progress.md`.
+Four stages remain. No real mission, signing or admission occurred. The campaign
+remains open with
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT` intact.

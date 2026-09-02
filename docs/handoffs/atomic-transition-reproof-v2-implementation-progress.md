@@ -8,7 +8,7 @@ campaign and run PHPUnit after every batch. Preparation history remains intact.
 | 1 | Complete: authority-empty v2 contracts | PHPUnit 2 tests, 62 assertions |
 | 2 | Complete: inert runner and exclusive package publication | PHPUnit cumulative 6 tests, 143 assertions |
 | 3 | Complete: independent case/source/exclusion derivation | PHPUnit cumulative 10 tests, 207 assertions |
-| 4 | Pending: counterfeit/interruption tests | Not run |
+| 4 | Complete: 32 counterfeits, five malformed inputs, seven publication cuts | PHPUnit 72 tests, 706 assertions including regressions |
 | 5 | Exact-source/command execution approval required | No mission executed |
 | 6 | Separate verification/signing approval required | No private intake or signing |
 | 7 | Pending passing public evidence admission | No evidence admitted |
@@ -18,3 +18,7 @@ Implementation references: `docs/atomic-transition-reproof-v2-contracts.md` and
 the versioned Preparation Batch 0 inventory. No v1 evidence is repaired or replaced.
 `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
 remains controlling. The campaign remains open.
+
+Four stages remain. Active handoff:
+`docs/handoffs/atomic-transition-reproof-v2-batch-5-execution-approval.md`.
+Validation and fixes: `docs/atomic-transition-reproof-v2-counterfeit-proof.md`.

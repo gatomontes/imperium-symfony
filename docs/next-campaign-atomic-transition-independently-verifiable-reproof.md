@@ -32,10 +32,10 @@ eight implementation/evidence stages remain after preparation, subject to
 refusal or corrective evidence.
 
 1. **Preparation Batch 0 — reproof boundary inventory (complete).** Missing v1 case evidence, runner/verifier coupling, artifact custody, counterfeit surfaces, closure consumers and the smallest v2 sequence are classified in `docs/atomic-transition-independently-verifiable-reproof-preparation-inventory-v1.md`. No implementation or execution was performed.
-2. **Batch 1 — v2 evidence contracts.** Define authority-empty case-input, expectation, observation, matrix, receipt, sanitized-evidence, verification-report and attestation contracts.
-3. **Batch 2 — evidence-complete disposable runner.** Build an inert v2 runner that derives results inside the trusted corridor and retains or binds every independently required artifact.
-4. **Batch 3 — separate v2 verifier and preflight.** Recompute every case, source/build binding, dependency graph, exclusion and non-authority result without importing runner conclusions.
-5. **Batch 4 — counterfeit and interruption proof.** Refuse missing/reordered cases, altered results, self-hashed summaries, substitutions, secret-bearing artifacts, stale receipts, partial writes and injected conclusions. No real mission.
+2. **Batch 1 — v2 evidence contracts (complete).** Authority-empty case-input, expectation, observation, matrix, receipt, sanitized-evidence, verification-report and attestation contracts are defined.
+3. **Batch 2 — evidence-complete disposable runner (complete).** An inert runner derives and retains every case input, expectation and observation with immutable package publication.
+4. **Batch 3 — separate v2 verifier and preflight (complete).** Independent case/source/graph/exclusion derivation and public report binding are implemented without producer evaluator imports.
+5. **Batch 4 — counterfeit and interruption proof (complete).** Synthetic substitution, malformed-input and publication-cut tests pass. No real mission executed.
 6. **Batch 5 — operator-authorized local execution.** Run one new disposable internal mission only after exact source and commands are separately authorized. Emit one local private v2 receipt and sanitized candidate.
 7. **Batch 6 — operator-authorized independent verification and signing.** Separately verify the v2 package and sign only its sanitized report. Receipt and signing material remain local.
 8. **Batch 7 — repository admission.** Admit only the passing detached report, public identity and sanitized evidence; keep unsigned, v1, producer-authored and indeterminate routes disabled.
@@ -56,7 +56,7 @@ Preparation must classify:
 - every closure consumer and historical bypass; and
 - the smallest Batch 1 contract boundary.
 
-## Binding exclusions
+## Historical preparation exclusions
 
 Only Preparation Batch 0 may next be considered. It must not inspect a private
 receipt, implement v2, execute a mission or verifier, create or use signing
@@ -68,7 +68,7 @@ close the campaign.
 Provider binding remains `BOUND_INACTIVE`. Required v3 execution admission
 remains `NOT_IMPLEMENTED`. `UNKNOWN_REPLAY_PROHIBITED` remains binding.
 
-## Active local continuation
+## Historical preparation continuation
 
 The canonical local entrypoint is
 `docs/handoffs/atomic-transition-independently-verifiable-reproof-preparation-batch-0-local-ready.md`.
@@ -91,3 +91,15 @@ The campaign remains open; v1 remains refused and is not replaced or repaired.
 `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
 remains controlling. Active continuation handoff:
 `docs/handoffs/atomic-transition-independently-verifiable-reproof-preparation-batch-0-complete.md`.
+
+## Current implementation continuation
+
+The operator subsequently authorized campaign implementation and PHPUnit checks
+after each batch. Batches 1–4 are complete. Four stages remain. The current gate
+is `REPROOF_BATCH_4_COMPLETE_AWAITING_EXACT_SOURCE_EXECUTION_APPROVAL` and the
+active handoff is `docs/handoffs/atomic-transition-reproof-v2-batch-5-execution-approval.md`.
+Progress and per-batch validation are recorded in
+`docs/handoffs/atomic-transition-reproof-v2-implementation-progress.md`.
+No real mission, signing, evidence admission or closure occurred. Batch 5 exact
+source/command approval and Batch 6 independent verification/signing approval
+remain separate. The campaign remains open with the qualification intact.
