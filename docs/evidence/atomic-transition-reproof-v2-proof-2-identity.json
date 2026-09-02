@@ -1,0 +1,10 @@
+{
+    "schema": "imperium.atomic-transition-reproof.public-identity/v2",
+    "identity_id": "reproof-v2-operator-proof-2",
+    "purpose": "imperium.atomic-transition-reproof.independent-report/v2",
+    "public_key": "573cd8a54e90b463f7429e8e4d2264dfec74b338c10b3b1365a8af6a8bde6e40",
+    "not_before": "2026-09-02T18:52:54Z",
+    "expires_at": "2026-09-03T18:52:54Z",
+    "verifier_root": "ea2925e14c23c2bfe9346375597f446c7c28b3c1ff4ae9d492a999f1340d883d",
+    "record_digest": "20aa9c1971635894a685586026ffe0a4b4139939d3abc90dc8b93abc8f485efa"
+}

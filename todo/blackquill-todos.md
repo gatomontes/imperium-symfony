@@ -423,7 +423,7 @@ remains controlling.
 - [x] Batch 3: independent case/source/graph/exclusion verification; cumulative 10 tests, 207 assertions.
 - [x] Batch 4: counterfeit/interruption proof and diagnostic fixes; 73 tests, 720 assertions including regressions and the request boundary.
 - [x] Batch 5: separately approved exact-source command ran once; finalized candidate; cumulative PHPUnit 75 tests, 749 assertions.
-- [ ] Batch 6: separately approve independent intake, verification and signing custody.
+- [x] Batch 6: separate approval received; independent all-PASS report and detached attestation; PHPUnit 80 tests, 827 assertions.
 - [ ] Batch 7: admit only passing independently attested public evidence.
 - [ ] Batch 8: separately audit from merged Batch 7 main.
 
@@ -444,3 +444,11 @@ Its controller and new custody request are prepared, not executed. No private
 receipt decoding, key generation, signing, evidence admission or closure occurred.
 The new candidate remains unverified, v1 remains unchanged and the independent
 verification qualification remains controlling.
+
+Batch 6 is complete under its separate operator approval:
+`docs/handoffs/atomic-transition-reproof-v2-batch-6-complete.md`.
+Two stages remain. The public all-PASS report, identity, attestation and
+operator-provisioned trust pins are ready for Batch 7 admission. No private
+key or receipt content is retained in Git and no closure decision occurred.
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+remains controlling.

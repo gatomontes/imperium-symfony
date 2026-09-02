@@ -1,0 +1,20 @@
+{
+    "schema": "imperium.atomic-transition-reproof.operator-provisioned-trust-anchor/v2",
+    "proof_id": "reproof-v2-20260902-proof-2",
+    "source_commit": "2b5cb56c8ae60d80b628311377f929830401ca3e",
+    "source_manifest_root": "7867dede38bca0f4aace144868338c22d486d1e05467877407b9fa95bc9674d7",
+    "execution_request_digest": "b3595f520434d4db6ce035910795fd20c96dded4456cb3a719bf166a624de4de",
+    "verification_request_digest": "11731fa32c45d2731f1a961d4be5d492d3b34b6573fd072dbb444dea80393f9b",
+    "controller_digest": "dd15523c8515ae8ec3842dd7b470205310d98310ee9b893d801992b9a67a02b4",
+    "verifier_root": "ea2925e14c23c2bfe9346375597f446c7c28b3c1ff4ae9d492a999f1340d883d",
+    "identity_id": "reproof-v2-operator-proof-2",
+    "identity_digest": "20aa9c1971635894a685586026ffe0a4b4139939d3abc90dc8b93abc8f485efa",
+    "public_key_digest": "b7d3b1ffeee65cbf527bad8030478c22f1035937ca4b8424f0c66ca10ce57b7a",
+    "candidate_digest": "cc86f24082e3d254e6802e8d81f675e334f4577790f92997d088b4c0c64fb3ab",
+    "receipt_digest": "36f84646ed977eaaa7bf45803ce4ae326f174f2d43405d7dbfba7b02f339cbfb",
+    "report_digest": "c44946f3627cb0728b9208e19f961c0ec08930a4a79daa080d320e979f7f39b0",
+    "attestation_digest": "8f9a934b3d74db8d9b7b826fbe1110684b03277aa1d187a3cf1c5491ef5161db",
+    "key_purpose": "imperium.atomic-transition-reproof.independent-report/v2",
+    "provisioning_authorization_type": "SEPARATE_OPERATOR_APPROVAL_BEFORE_PRIVATE_INTAKE",
+    "record_digest": "25248ea1624c3ba315e59ead45d1a88fb6ca80f3f4a2ef03995e52e7674addb0"
+}

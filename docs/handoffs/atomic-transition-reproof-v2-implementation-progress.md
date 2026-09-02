@@ -10,7 +10,7 @@ campaign and run PHPUnit after every batch. Preparation history remains intact.
 | 3 | Complete: independent case/source/exclusion derivation | PHPUnit cumulative 10 tests, 207 assertions |
 | 4 | Complete: 32 counterfeits, five malformed inputs, seven publication cuts | PHPUnit 73 tests, 720 assertions including regressions and request boundary |
 | 5 | Complete: operator-approved exact-source event ran once; candidate not verified | PHPUnit cumulative 75 tests, 749 assertions |
-| 6 | Controller and custody request prepared; separate verification/signing approval required | Readiness checks only; no private intake, key generation or signing |
+| 6 | Complete: separately approved fresh custody, all eight domains PASS, detached attestation | PHPUnit cumulative 80 tests, 827 assertions |
 | 7 | Pending passing public evidence admission | No evidence admitted |
 | 8 | Separate terminal audit from merged Batch 7 main | No closure decision |
 
@@ -19,7 +19,7 @@ the versioned Preparation Batch 0 inventory. No v1 evidence is repaired or repla
 `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
 remains controlling. The campaign remains open.
 
-Three stages remain. Active handoff:
-`docs/handoffs/atomic-transition-reproof-v2-batch-6-verification-signing-approval.md`.
+Two stages remain. Active handoff:
+`docs/handoffs/atomic-transition-reproof-v2-batch-6-complete.md`.
 Validation and fixes: `docs/atomic-transition-reproof-v2-counterfeit-proof.md`.
 Execution completion: `docs/handoffs/atomic-transition-reproof-v2-batch-5-complete.md`.

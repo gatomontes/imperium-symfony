@@ -1890,3 +1890,15 @@ The next controller and new operator-only custody request are prepared but
 unexecuted. No signing material, independent report, attestation or admission
 exists. `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
 remains controlling; the campaign remains open.
+
+### Independently Verifiable Reproof Batch 6 complete
+
+`REPROOF_BATCH_6_INDEPENDENTLY_VERIFIED_AND_ATTESTED_PENDING_ADMISSION` records
+the separately approved all-PASS independent report and purpose-bound detached
+attestation. Fresh operator-only signing custody was established before intake;
+private key and receipt bytes remain outside Git. PHPUnit passes 80 tests,
+827 assertions. Two stages remain. Active handoff:
+`docs/handoffs/atomic-transition-reproof-v2-batch-6-complete.md`.
+Batch 7 admission cannot remove the qualification. The terminal audit must
+start separately from merged Batch 7 main. The campaign remains open with
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT` intact.

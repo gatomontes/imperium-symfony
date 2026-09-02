@@ -37,7 +37,7 @@ refusal or corrective evidence.
 4. **Batch 3 — separate v2 verifier and preflight (complete).** Independent case/source/graph/exclusion derivation and public report binding are implemented without producer evaluator imports.
 5. **Batch 4 — counterfeit and interruption proof (complete).** Synthetic substitution, malformed-input and publication-cut tests pass. No real mission executed.
 6. **Batch 5 — operator-authorized local execution (complete).** The separately approved exact-source command ran once and finalized one new local v2 package. The public candidate remains unverified.
-7. **Batch 6 — operator-authorized independent verification and signing.** Separately verify the v2 package and sign only its sanitized report. Receipt and signing material remain local.
+7. **Batch 6 — operator-authorized independent verification and signing (complete).** The separately approved attempt passed all eight domains and produced a purpose-bound detached attestation. Receipt and signing material remain local.
 8. **Batch 7 — repository admission.** Admit only the passing detached report, public identity and sanitized evidence; keep unsigned, v1, producer-authored and indeterminate routes disabled.
 9. **Batch 8 — separately sequenced terminal Blackquill audit.** Start from merged Batch 7 `main`. Restore closure only at `CAMPAIGN_CLOSURE_ACCEPTED_AFTER_INDEPENDENTLY_ATTESTED_REPROOF`.
 
@@ -115,3 +115,14 @@ Three stages remain. Current gate:
 Active handoff: `docs/handoffs/atomic-transition-reproof-v2-batch-6-verification-signing-approval.md`.
 The controller and separate custody request are prepared, with no key generated
 and no private receipt decoded. The qualification remains controlling.
+
+## Current Batch 6 completion
+
+Separate operator approval was received. The exact controller ran once, verified
+all eight domains, and signed the passing sanitized report using fresh
+operator-only custody established before intake. Public evidence and trust pins
+are retained; no private key or receipt payload entered Git. PHPUnit passes
+80 tests, 827 assertions. Two stages remain. Current handoff:
+`docs/handoffs/atomic-transition-reproof-v2-batch-6-complete.md`.
+Batch 7 admits public evidence only; the terminal audit still starts separately
+from merged Batch 7 main. The qualification remains controlling.

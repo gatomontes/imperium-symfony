@@ -246,6 +246,13 @@ audit are not authorized here. The campaign remains open. V1 remains refused and
 `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
 remains controlling.
 
+The current Reproof handoff is
+`docs/handoffs/atomic-transition-reproof-v2-batch-6-complete.md` at
+`REPROOF_BATCH_6_INDEPENDENTLY_VERIFIED_AND_ATTESTED_PENDING_ADMISSION`.
+The separately authorized report and attestation are complete; two stages
+remain. Admission and the terminal audit remain distinct, and the qualification
+has not been removed.
+
 The current Atomic Transition Reproof continuation is
 `docs/handoffs/atomic-transition-reproof-v2-batch-5-execution-approval.md` at
 `REPROOF_BATCH_4_COMPLETE_AWAITING_EXACT_SOURCE_EXECUTION_APPROVAL`.
