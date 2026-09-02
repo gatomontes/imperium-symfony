@@ -25,6 +25,7 @@ services:
     App\:
         resource: '../src/'
         exclude:
+            - '../src/ReproofV2/'
             - '../src/Command/SortieRunCommand.php'
             - '../src/Imperium/Runtime/Sortie/SymfonyAiSortieCognitionGateway.php'
             - '../src/Imperium/Runtime/Sortie/HttpGetSortieToolExecutor.php'
