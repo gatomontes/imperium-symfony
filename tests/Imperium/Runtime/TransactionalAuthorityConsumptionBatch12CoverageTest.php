@@ -10,7 +10,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
 {
     public function testMechanicalRuntimeCoverageMatchesTheFrozenBatch12Snapshot(): void
     {
-        $root = dirname(__DIR__, 3);
+        $root = $this->projectRoot();
         $runtime = $root.'/src/Imperium/Runtime';
         $files = [];
         $authorityFiles = [];
@@ -37,10 +37,15 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
         sort($authorityFiles, SORT_STRING);
         sort($candidates, SORT_STRING);
 
-        $approvedSuccessors = $this->approvedPostBatch12RuntimeFiles();
-        $frozenCandidates = array_values(array_diff($candidates, $approvedSuccessors));
         $snapshot = $this->snapshot($root.'/docs/transactional-authority-consumption-runtime-coverage-snapshot.tsv');
+        $inventory = $this->versionedInventory($root.'/docs/frozen-runtime-coverage-tripwire-restoration-inventory-v1.tsv');
+        $approvedSuccessors = array_keys($inventory['RUNTIME_CANDIDATE'] ?? []);
+        $expectedCandidates = array_values(array_unique(array_merge(array_keys($snapshot), $approvedSuccessors)));
+        sort($expectedCandidates, SORT_STRING);
+
+        self::assertSame($expectedCandidates, $candidates);
         self::assertSame([], array_values(array_diff(array_keys($snapshot), $files)));
+        self::assertSame([], array_values(array_diff($approvedSuccessors, $files)));
         self::assertCount(26, array_filter($snapshot, static fn (string $value): bool => 'TRANSACTIONAL_CANONICAL' === $value));
         self::assertCount(3, array_filter($snapshot, static fn (string $value): bool => 'LOCKED_FRAGMENTED' === $value));
         self::assertCount(202, array_filter($snapshot, static fn (string $value): bool => 'INVENTORIED_NONCANONICAL_OR_ISSUER' === $value));
@@ -48,7 +53,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
 
     public function testCanonicalAndLockedConsumerSetsAreExact(): void
     {
-        $root = dirname(__DIR__, 3);
+        $root = $this->projectRoot();
         $snapshot = $this->snapshot($root.'/docs/transactional-authority-consumption-runtime-coverage-snapshot.tsv');
         $canonical = array_keys(array_filter($snapshot, static fn (string $value): bool => 'TRANSACTIONAL_CANONICAL' === $value));
         $locked = array_keys(array_filter($snapshot, static fn (string $value): bool => 'LOCKED_FRAGMENTED' === $value));
@@ -63,7 +68,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
 
     public function testEnvelopeStoreAndPerimeterBoundariesAreExact(): void
     {
-        $root = dirname(__DIR__, 3);
+        $root = $this->projectRoot();
         $runtime = $root.'/src/Imperium/Runtime';
         $envelopeBuilders = $this->filesContaining($root, $runtime, 'TransactionalAuthorityConsumptionEnvelope::complete');
         self::assertSame([
@@ -82,24 +87,19 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
             $this->filesContaining($root, $runtime, 'AuthorityConsumptionStore'),
             static fn (string $path): bool => !str_ends_with($path, '/Persistence/AuthorityConsumptionStore.php'),
         ));
-        $expectedStoreUsers = [
-            'src/Imperium/Runtime/Citadel/DelegateMissionTurnRecoveryService.php',
-            'src/Imperium/Runtime/Evidence/ImperatorPrincipalProvenanceInterruptionDemonstration.php',
-            'src/Imperium/Runtime/Imperator/ExistingInstanceImperatorPrincipalRemediationService.php',
-            'src/Imperium/Runtime/Imperator/FutureInstanceImperatorPrincipalConstitutionService.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicTransitionCallerAuthorityConsumer.php',
-            'src/Imperium/Runtime/LaCortine/ProviderImplementationBindingService.php',
-        ];
-        self::assertSame([], array_values(array_diff($expectedStoreUsers, $storeUsers)));
+        $inventory = $this->versionedInventory(
+            $root.'/docs/frozen-runtime-coverage-tripwire-restoration-inventory-v1.tsv',
+        );
+        $expectedStoreUsers = array_keys($inventory['AUTHORITY_CONSUMPTION_STORE_CONSUMER'] ?? []);
+        self::assertSame($expectedStoreUsers, $storeUsers);
 
         $perimeter = array_merge(
             $this->phpFiles($root, $runtime.'/LaCortine'),
             $this->phpFiles($root, $runtime.'/Sortie'),
         );
         sort($perimeter, SORT_STRING);
-        $approvedSuccessors = $this->approvedPostBatch12PerimeterFiles();
-        self::assertSame($approvedSuccessors, array_values(array_intersect($perimeter, $approvedSuccessors)));
-        self::assertNotEmpty($perimeter);
+        $expectedPerimeter = array_keys($inventory['LACORTINE_SORTIE_PERIMETER'] ?? []);
+        self::assertSame($expectedPerimeter, $perimeter);
         $forbidden = [
             'TransactionalAuthorityConsumptionEnvelope',
             'AuthorityConsumptionStore',
@@ -110,16 +110,25 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
             'DelegateMissionModelBindingAuthorityTransition',
             'OracleEligibilityAuthorityTransition',
         ];
-        $snapshotPaths = array_keys($this->snapshot(
-            $root.'/docs/transactional-authority-consumption-runtime-coverage-snapshot.tsv',
-        ));
-        $frozenPerimeter = array_values(array_intersect($perimeter, $snapshotPaths));
-        foreach (array_merge($frozenPerimeter, [
+        $exceptions = $inventory['FORBIDDEN_HELPER_EXCEPTION'] ?? [];
+        foreach ($exceptions as $path => $exception) {
+            self::assertContains($path, $perimeter, $path);
+            self::assertContains($exception['detail'], $forbidden, $path);
+            self::assertStringContainsString(
+                $exception['detail'],
+                (string) file_get_contents($root.'/'.$path),
+                $path,
+            );
+        }
+        foreach (array_merge($perimeter, [
             'src/Imperium/Runtime/Oracle/OracleResearchCommissionService.php',
             'src/Imperium/Runtime/Oracle/OracleResearchEvidenceAdmissionService.php',
         ]) as $path) {
             $source = (string) file_get_contents($root.'/'.$path);
             foreach ($forbidden as $helper) {
+                if (($exceptions[$path]['detail'] ?? null) === $helper) {
+                    continue;
+                }
                 self::assertStringNotContainsString($helper, $source, $path);
             }
         }
@@ -127,7 +136,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
 
     public function testAuditRecordsTheAdversarialLimitsAndClosedBoundary(): void
     {
-        $root = dirname(__DIR__, 3);
+        $root = $this->projectRoot();
         $audit = (string) file_get_contents($root.'/docs/transactional-authority-consumption-coverage-audit.md');
         $handoff = (string) file_get_contents($root.'/docs/handoffs/transactional-authority-consumption-batch-12-complete.md');
         foreach (['26 canonical consumers are not a canonical runtime', 'global deadlock freedom', 'tripwire, not a substitute', 'No perimeter adoption leaked'] as $limit) {
@@ -153,6 +162,48 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
         return $rows;
     }
 
+    private function projectRoot(): string
+    {
+        $override = getenv('IMPERIUM_FROZEN_COVERAGE_ROOT');
+
+        return is_string($override) && '' !== $override
+            ? rtrim($override, '/\\')
+            : dirname(__DIR__, 3);
+    }
+
+    private function versionedInventory(string $path): array
+    {
+        $inventories = [];
+        foreach (file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [] as $line) {
+            if (str_starts_with($line, '#')
+                || "inventory\tclassification\tpath\tdetail\tauthorizing_batch\tfocused_test" === $line) {
+                continue;
+            }
+            [$inventory, $classification, $recordPath, $detail, $authorizingBatch, $focusedTest]
+                = explode("\t", $line, 6);
+            self::assertArrayNotHasKey($recordPath, $inventories[$inventory] ?? [], $line);
+            $inventories[$inventory][$recordPath] = [
+                'classification' => $classification,
+                'detail' => $detail,
+                'authorizing_batch' => $authorizingBatch,
+                'focused_test' => $focusedTest,
+            ];
+        }
+        foreach ($inventories as &$records) {
+            ksort($records, SORT_STRING);
+        }
+        unset($records);
+        ksort($inventories, SORT_STRING);
+        self::assertSame([
+            'AUTHORITY_CONSUMPTION_STORE_CONSUMER',
+            'FORBIDDEN_HELPER_EXCEPTION',
+            'LACORTINE_SORTIE_PERIMETER',
+            'RUNTIME_CANDIDATE',
+        ], array_keys($inventories));
+
+        return $inventories;
+    }
+
     private function filesContaining(string $root, string $directory, string $needle): array
     {
         $matches = [];
@@ -175,134 +226,6 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
                 $paths[] = str_replace('\\', '/', substr($file->getPathname(), strlen($root) + 1));
             }
         }
-
-        return $paths;
-    }
-
-    /** @return list<string> */
-    private function approvedPostBatch12RuntimeFiles(): array
-    {
-        $paths = [
-            'src/Imperium/Runtime/Armory/CanonicalEmailSendToolDefinitionService.php',
-            'src/Imperium/Runtime/Armory/GovernedToolOperationContract.php',
-            'src/Imperium/Runtime/Clavium/DeterministicJournalBoundCredentialBroker.php',
-            'src/Imperium/Runtime/Clavium/AgentMailCredentialFamilyPolicy.php',
-            'src/Imperium/Runtime/Clavium/CredentialReferenceExposureObservationContract.php',
-            'src/Imperium/Runtime/Clavium/CrossProcessCapabilityCustodyFeasibilityContract.php',
-            'src/Imperium/Runtime/Clavium/CrossProcessCapabilityCustodyFeasibilityService.php',
-            'src/Imperium/Runtime/Clavium/ProcessLossCapabilityCustodyEvidenceContract.php',
-            'src/Imperium/Runtime/Clavium/OneTimeCapabilityDeliveryContract.php',
-            'src/Imperium/Runtime/Clavium/OpaqueCapabilityCustodyContract.php',
-            'src/Imperium/Runtime/Clavium/ProviderBoundCredentialEligibilityContract.php',
-            'src/Imperium/Runtime/Clavium/ProviderBoundCredentialEligibilityService.php',
-            'src/Imperium/Runtime/Clavium/ProviderCredentialFamilyPolicy.php',
-            'src/Imperium/Runtime/Curia/OutboundEmailAuthorizationRequestService.php',
-            'src/Imperium/Runtime/Evidence/ActivationTransitionInterruptionDemonstration.php',
-            'src/Imperium/Runtime/Evidence/ProcessLossCapabilityCustodyDemonstration.php',
-            'src/Imperium/Runtime/Evidence/ImperatorPrincipalProvenanceInterruptionDemonstration.php',
-            'src/Imperium/Runtime/Imperator/OutboundEmailAuthorizationIssuanceContract.php',
-            'src/Imperium/Runtime/Imperator/OutboundEmailAuthorizationIssuanceService.php',
-            'src/Imperium/Runtime/Imperator/OutboundEmailDecisionService.php',
-            'src/Imperium/Runtime/Imperator/ActivationPrincipalProvenanceEvidenceContract.php',
-            'src/Imperium/Runtime/Imperator/ActivationTransitionInterruptionEvidenceContract.php',
-            'src/Imperium/Runtime/Imperator/ExistingInstanceImperatorPrincipalRemediationService.php',
-            'src/Imperium/Runtime/Imperator/FutureInstanceImperatorPrincipalConstitutionService.php',
-            'src/Imperium/Runtime/Imperator/ImperatorPrincipalConstitutionAuthorityContract.php',
-            'src/Imperium/Runtime/Imperator/ImperatorPrincipalLifecycleReconstructionService.php',
-            'src/Imperium/Runtime/Imperator/ImperatorPrincipalLifecycleDispositionContract.php',
-            'src/Imperium/Runtime/Imperator/ImperatorPrincipalProvenanceFixtureStore.php',
-            'src/Imperium/Runtime/Imperator/ImperatorRuntimePrincipalVersionContract.php',
-            'src/Imperium/Runtime/Imperator/ProviderBindingAuthorizationContract.php',
-            'src/Imperium/Runtime/Imperator/ProviderBindingActivationAuthorityContract.php',
-            'src/Imperium/Runtime/Imperator/ProviderBindingActivationDecisionService.php',
-            'src/Imperium/Runtime/Imperator/ProviderBindingActivationIssuanceContract.php',
-            'src/Imperium/Runtime/Imperator/ProviderBindingActivationIssuanceService.php',
-            'src/Imperium/Runtime/LaCortine/AgentMailIdempotencyHeaderAdapter.php',
-            'src/Imperium/Runtime/LaCortine/AgentMailProviderEvidenceDecoder.php',
-            'src/Imperium/Runtime/LaCortine/AgentMailProviderProfile.php',
-            'src/Imperium/Runtime/LaCortine/AgentMailProviderRequestEncoder.php',
-            'src/Imperium/Runtime/LaCortine/AgentMailTransientEncodedRequest.php',
-            'src/Imperium/Runtime/LaCortine/AtomicProviderExecutionAdmissionContract.php',
-            'src/Imperium/Runtime/LaCortine/BoundProviderEvidenceDecoder.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicEffectStartJournalContract.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicEffectStartJournalService.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicExecutionClaimContract.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicExecutionClaimService.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicLazarettoReceiptAdmissionService.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicOutboundEmailAuthorizationContract.php',
-            'src/Imperium/Runtime/LaCortine/NormalizedToolResultContract.php',
-            'src/Imperium/Runtime/LaCortine/NormalizedToolResultAdmissionService.php',
-            'src/Imperium/Runtime/LaCortine/ProviderBoundEvidenceNormalizationService.php',
-            'src/Imperium/Runtime/LaCortine/ProviderEvidenceDecoderContract.php',
-            'src/Imperium/Runtime/LaCortine/ProviderImplementationBindingContract.php',
-            'src/Imperium/Runtime/LaCortine/ProviderImplementationBindingService.php',
-            'src/Imperium/Runtime/LaCortine/ProviderRequestEncoderContract.php',
-            'src/Imperium/Runtime/LaCortine/SingleExecutionProviderBindingActivationContract.php',
-            'src/Imperium/Runtime/LaCortine/SingleExecutionProviderBindingActivationService.php',
-            'src/Imperium/Runtime/LaCortine/StrandedActivationArtifactDispositionContract.php',
-            'src/Imperium/Runtime/LaCortine/StrandedActivationArtifactDispositionService.php',
-            'src/Imperium/Runtime/LaCortine/ProviderNeutralRawEvidenceContract.php',
-            'src/Imperium/Runtime/LaCortine/ProviderNeutralRawEvidenceService.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicProviderInvocationAdmissionContract.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicProviderInvocationCheckpointContract.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicProviderResponseEnvelopeContract.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicTransitionCallerAuthorityContract.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicTransitionCallerAuthorityIssuanceService.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicTransitionCallerAuthorityConsumer.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicRawProviderResultContract.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicRawProviderResultService.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicReceiptBindingContract.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicReceiptReconstructionService.php',
-            'src/Imperium/Runtime/LaCortine/GovernedToolResultReconstructionService.php',
-        ];
-        sort($paths, SORT_STRING);
-
-        return $paths;
-    }
-
-    /** @return list<string> */
-    private function approvedPostBatch12PerimeterFiles(): array
-    {
-        $paths = [
-            'src/Imperium/Runtime/LaCortine/AgentMailIdempotencyHeaderAdapter.php',
-            'src/Imperium/Runtime/LaCortine/AgentMailProviderEvidenceDecoder.php',
-            'src/Imperium/Runtime/LaCortine/AgentMailProviderProfile.php',
-            'src/Imperium/Runtime/LaCortine/AgentMailProviderRequestEncoder.php',
-            'src/Imperium/Runtime/LaCortine/AgentMailTransientEncodedRequest.php',
-            'src/Imperium/Runtime/LaCortine/AtomicProviderExecutionAdmissionContract.php',
-            'src/Imperium/Runtime/LaCortine/BoundProviderEvidenceDecoder.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicEffectStartJournalContract.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicEffectStartJournalService.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicExecutionClaimContract.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicExecutionClaimService.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicLazarettoReceiptAdmissionService.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicOutboundEmailAuthorizationContract.php',
-            'src/Imperium/Runtime/LaCortine/NormalizedToolResultContract.php',
-            'src/Imperium/Runtime/LaCortine/NormalizedToolResultAdmissionService.php',
-            'src/Imperium/Runtime/LaCortine/ProviderBoundEvidenceNormalizationService.php',
-            'src/Imperium/Runtime/LaCortine/ProviderEvidenceDecoderContract.php',
-            'src/Imperium/Runtime/LaCortine/ProviderImplementationBindingContract.php',
-            'src/Imperium/Runtime/LaCortine/ProviderImplementationBindingService.php',
-            'src/Imperium/Runtime/LaCortine/ProviderRequestEncoderContract.php',
-            'src/Imperium/Runtime/LaCortine/SingleExecutionProviderBindingActivationContract.php',
-            'src/Imperium/Runtime/LaCortine/SingleExecutionProviderBindingActivationService.php',
-            'src/Imperium/Runtime/LaCortine/StrandedActivationArtifactDispositionContract.php',
-            'src/Imperium/Runtime/LaCortine/StrandedActivationArtifactDispositionService.php',
-            'src/Imperium/Runtime/LaCortine/ProviderNeutralRawEvidenceContract.php',
-            'src/Imperium/Runtime/LaCortine/ProviderNeutralRawEvidenceService.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicProviderInvocationAdmissionContract.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicProviderInvocationCheckpointContract.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicProviderResponseEnvelopeContract.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicTransitionCallerAuthorityContract.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicTransitionCallerAuthorityIssuanceService.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicTransitionCallerAuthorityConsumer.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicRawProviderResultContract.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicRawProviderResultService.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicReceiptBindingContract.php',
-            'src/Imperium/Runtime/LaCortine/DeterministicReceiptReconstructionService.php',
-            'src/Imperium/Runtime/LaCortine/GovernedToolResultReconstructionService.php',
-        ];
-        sort($paths, SORT_STRING);
 
         return $paths;
     }

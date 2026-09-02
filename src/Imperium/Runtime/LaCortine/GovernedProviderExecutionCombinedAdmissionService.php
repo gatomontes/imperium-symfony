@@ -16,9 +16,6 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 final readonly class GovernedProviderExecutionCombinedAdmissionService
 {
     public const string ADMISSIONS = 'var/imperium/offices/la-cortine/governed-provider-execution-combined-admissions';
-    /** @deprecated Compatibility name for the activation-keyed revocation winner store. */
-    public const string REVOCATIONS = ProviderBindingActivationRevocationWinnerService::WINNERS;
-
     private AtomicTransition $atomic;
     private ImmutableRecordStore $records;
     private RecordReferenceValidator $references;
@@ -84,8 +81,6 @@ final readonly class GovernedProviderExecutionCombinedAdmissionService
 
                 $revocationId = ProviderBindingActivationRevocationWinnerContract::ID_PREFIX
                     .substr(hash('sha256', $activationId.'|'.$activationDigest), 0, 20);
-                $legacyRevocationId = ProviderBindingActivationRevocationContract::ID_PREFIX
-                    .substr(hash('sha256', $activationId.'|'.$activationDigest), 0, 20);
                 try {
                     $this->records->read(
                         ProviderBindingActivationRevocationWinnerService::WINNERS,
@@ -97,15 +92,6 @@ final readonly class GovernedProviderExecutionCombinedAdmissionService
                         throw $exception;
                     }
                 }
-                try {
-                    $this->records->read(self::REVOCATIONS, $legacyRevocationId);
-                    throw new \RuntimeException('PEB622_PROVIDER_ACTIVATION_REVOKED');
-                } catch (\RuntimeException $exception) {
-                    if ('PST112_IMMUTABLE_RECORD_ABSENT' !== $exception->getMessage()) {
-                        throw $exception;
-                    }
-                }
-
                 [$boundary, $principal, $activation, $binding] =
                     $this->resolveAndValidateLineage($authority, $authorityId, $at);
                 $authorityReference = [
