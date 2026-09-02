@@ -1,0 +1,152 @@
+[
+  {
+    "id": "mixed_quotes",
+    "source": "$a = '{{V}}'; $b = \"{{V}}\";",
+    "rejects": true
+  },
+  {
+    "id": "mixed_escape",
+    "source": "$x = \"{{FIRST_HEX}}{{REST}}\";",
+    "rejects": true
+  },
+  {
+    "id": "one_digit_hex_larger",
+    "source": "$x = \"{{V}}\\x0\";",
+    "rejects": false
+  },
+  {
+    "id": "mixed_octal",
+    "source": "$x = \"{{FIRST_OCT}}{{REST}}\";",
+    "rejects": true
+  },
+  {
+    "id": "unknown_escape",
+    "source": "$x = \"{{V}}\\q\";",
+    "rejects": false
+  },
+  {
+    "id": "escaped_backslash",
+    "source": "$x = \"\\\\{{V}}\";",
+    "rejects": false
+  },
+  {
+    "id": "escaped_double_quote",
+    "source": "$x = \"\\\"{{V}}\";",
+    "rejects": false
+  },
+  {
+    "id": "escaped_single_quote",
+    "source": "$x = '\\'{{V}}';",
+    "rejects": false
+  },
+  {
+    "id": "escaped_dollar",
+    "source": "$x = \"{{V}}\\$\";",
+    "rejects": false
+  },
+  {
+    "id": "nul_suffix",
+    "source": "$x = \"{{V}}\\0\";",
+    "rejects": false
+  },
+  {
+    "id": "newline_suffix",
+    "source": "$x = \"{{V}}\\n\";",
+    "rejects": false
+  },
+  {
+    "id": "space_suffix",
+    "source": "$x = '{{V}} ';",
+    "rejects": false
+  },
+  {
+    "id": "prefix_single",
+    "source": "$x = 'x{{V}}';",
+    "rejects": false
+  },
+  {
+    "id": "suffix_double",
+    "source": "$x = \"{{V}}x\";",
+    "rejects": false
+  },
+  {
+    "id": "heredoc_indented",
+    "source": "$x = <<<TEXT\n    {{V}}\n    TEXT;",
+    "rejects": true
+  },
+  {
+    "id": "nowdoc_indented",
+    "source": "$x = <<<'TEXT'\n\t{{V}}\n\tTEXT;",
+    "rejects": true
+  },
+  {
+    "id": "heredoc_crlf",
+    "source": "$x = <<<\"TEXT\"\r\n{{V}}\r\nTEXT;",
+    "rejects": true
+  },
+  {
+    "id": "nowdoc_crlf",
+    "source": "$x = <<<'TEXT'\r\n{{V}}\r\nTEXT;",
+    "rejects": true
+  },
+  {
+    "id": "heredoc_encoded",
+    "source": "$x = <<<TEXT\n{{HEX}}\nTEXT;",
+    "rejects": true
+  },
+  {
+    "id": "nowdoc_encoded",
+    "source": "$x = <<<'TEXT'\n{{HEX}}\nTEXT;",
+    "rejects": false
+  },
+  {
+    "id": "heredoc_trailing_newline",
+    "source": "$x = <<<TEXT\n{{V}}\n\nTEXT;",
+    "rejects": false
+  },
+  {
+    "id": "nowdoc_trailing_space",
+    "source": "$x = <<<'TEXT'\n{{V}} \nTEXT;",
+    "rejects": false
+  },
+  {
+    "id": "heredoc_dynamic",
+    "source": "$x = <<<TEXT\n{{V}}{$suffix}\nTEXT;",
+    "rejects": false
+  },
+  {
+    "id": "comments_all",
+    "source": "// \"{{V}}\"\n/* {{HEX}} */\n/** '{{V}}' */\n# {{V}}\n",
+    "rejects": false
+  },
+  {
+    "id": "double_concat",
+    "source": "$x = \"{{LEFT}}\" . \"{{RIGHT}}\";",
+    "rejects": false
+  },
+  {
+    "id": "class_const",
+    "source": "class Example { public const string VALUE = '{{V}}'; }",
+    "rejects": true
+  },
+  {
+    "id": "enum_value",
+    "source": "enum Example: string { case Outcome = '{{V}}'; }",
+    "rejects": true
+  },
+  {
+    "id": "attribute",
+    "source": "#[Example('{{V}}')] class Target {}",
+    "rejects": true
+  },
+  {
+    "id": "constant_alias",
+    "source": "use const External\\OUTCOME as Alias; $x = Alias;",
+    "rejects": false
+  },
+  {
+    "id": "nowdoc_empty",
+    "source": "$x = <<<'TEXT'\nTEXT;",
+    "rejects": false
+  }
+]

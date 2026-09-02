@@ -1797,3 +1797,15 @@ start separately after Batch 1 merge. The active handoff is
 `docs/handoffs/activation-disposition-vocabulary-tripwire-correction-preparation-batch-0-complete.md`.
 The rejected tripwire closure is not superseded; the controlling posture remains
 `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`.
+
+### Vocabulary correction Batch 1 completed
+
+`BATCH_1_COMPLETE_QUOTE_INDEPENDENT_VOCABULARY_TRIPWIRE_PROVED` replaces
+quote-sensitive source matching with decoded PHP literal inspection while
+retaining the exact six-role path inventory. Concatenation, constant indirection
+and dynamically assembled values retain explicit exclusions. Only the separate
+Batch 2 audit may follow merge into main. Active handoff:
+`docs/handoffs/activation-disposition-vocabulary-tripwire-correction-batch-1-complete.md`.
+The rejected closure is not yet superseded and
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+remains controlling.
