@@ -94,3 +94,23 @@ The campaign may close only when alternate valid PHP quoting cannot evade the
 exact producer inventory, documented non-producer forms do not create accidental
 matches, mutation tests exercise the actual detector, and an independently
 sequenced terminal audit accepts the corrected claim.
+
+## Completed campaign disposition
+
+Preparation Batch 0, Batch 1 mechanical correction and the separately sequenced
+Batch 2 audit are complete. Batch 2 started from merged local main at
+`76d0803ae9931c4470b4f49af216a56a14c111c3` and passed at
+`BATCH_2_TERMINAL_BLACKQUILL_AUDIT_PASSED_LITERAL_VOCABULARY_CLAIM`.
+The campaign result is
+`ACTIVATION_DISPOSITION_VOCABULARY_TRIPWIRE_CORRECTION_COMPLETE`.
+
+The accepted corrected closure is
+`FROZEN_RUNTIME_COVERAGE_TRIPWIRE_RESTORATION_CORRECTED_CLOSURE_ACCEPTED_LITERAL_VOCABULARY_ONLY`.
+It replaces the rejected closure only at the explicit literal-value boundary
+in `docs/activation-disposition-vocabulary-tripwire-correction-detector-contract-v1.md`.
+It does not prove arbitrary expression, constant-reference or dynamic producer
+coverage. The rejection above remains historical evidence. No batch remains.
+The active handoff is
+`docs/handoffs/activation-disposition-vocabulary-tripwire-correction-campaign-complete.md`.
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+remains controlling and is not removed.
