@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Imperium\Runtime;
 
+use PhpParser\Error;
+use PhpParser\Node\Scalar\String_;
+use PhpParser\NodeFinder;
+use PhpParser\ParserFactory;
 use PHPUnit\Framework\TestCase;
 
 final class ProviderBindingActivationIntegrityRemediationBatch6Test extends TestCase
@@ -35,13 +39,27 @@ final class ProviderBindingActivationIntegrityRemediationBatch6Test extends Test
 
         $runtime = $root.'/src/Imperium/Runtime';
         $observed = [];
+        $parser = (new ParserFactory())->createForHostVersion();
+        $finder = new NodeFinder();
+        // Cache only syntax analysis by exact source bytes, never paths or inventory admission.
+        // Every mutation still rereads both the current tree and its inventory.
+        static $literalBySource = [];
         foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($runtime)) as $file) {
             if (!$file->isFile() || 'php' !== $file->getExtension()) {
                 continue;
             }
             $source = (string) file_get_contents($file->getPathname());
-            if (str_contains($source, "'QUARANTINED_PENDING_REMEDIATION'")
-                || str_contains($source, "'RETIRE_CORRIDOR'")) {
+            if (!array_key_exists($source, $literalBySource)) {
+                try {
+                    $nodes = $parser->parse($source) ?? [];
+                } catch (Error $error) {
+                    self::fail($file->getPathname().':'.$error->getStartLine().': '.$error->getRawMessage());
+                }
+                // Complete decoded literals only. No interpolation, constant folding or symbol resolution.
+                $literalBySource[$source] = null !== $finder->findFirst($nodes, static fn ($node): bool => $node instanceof String_
+                    && in_array($node->value, ['QUARANTINED_PENDING_REMEDIATION', 'RETIRE_CORRIDOR'], true));
+            }
+            if ($literalBySource[$source]) {
                 $observed[] = str_replace(
                     '\\',
                     '/',

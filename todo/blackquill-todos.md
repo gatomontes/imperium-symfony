@@ -338,7 +338,7 @@ The independent-verification evidence posture remains qualified and unchanged.
 
 - [x] Preparation Batch 0: inventory detector semantics, lexical forms,
   false-positive surfaces, dynamic-construction limits and mutation gaps.
-- [ ] Batch 1: replace quote-sensitive discovery with deterministic
+- [x] Batch 1: replace quote-sensitive discovery with deterministic
   quote-independent exact-value detection and adversarial mutation proof.
 - [ ] Batch 2: perform a separately sequenced terminal Blackquill audit after
   Batch 1 is merged.
@@ -365,3 +365,11 @@ Batch 2 remains separately sequenced after Batch 1 merge. The active handoff is
 `docs/handoffs/activation-disposition-vocabulary-tripwire-correction-preparation-batch-0-complete.md`.
 The prior closure remains rejected and the controlling posture remains
 `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`.
+
+Batch 1 is complete at
+`BATCH_1_COMPLETE_QUOTE_INDEPENDENT_VOCABULARY_TRIPWIRE_PROVED`.
+The detector contract is
+`docs/activation-disposition-vocabulary-tripwire-correction-detector-contract-v1.md`.
+Only the separately sequenced Batch 2 audit may follow its merge into main.
+Active handoff:
+`docs/handoffs/activation-disposition-vocabulary-tripwire-correction-batch-1-complete.md`.
