@@ -72,5 +72,6 @@ remains `NOT_IMPLEMENTED`. `UNKNOWN_REPLAY_PROHIBITED` remains binding.
 
 The canonical local entrypoint is
 `docs/handoffs/atomic-transition-independently-verifiable-reproof-preparation-batch-0-local-ready.md`.
-It starts only after the campaign-selection merge containing `1ac9ede` and
-authorizes Preparation Batch 0 only.
+It starts only from synchronized `main` after PR #736 is merged and the
+canonical campaign-ready marker is present. It authorizes Preparation Batch 0
+only.

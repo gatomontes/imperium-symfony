@@ -2,8 +2,7 @@
 
 ## Pinned start
 
-Start from clean `main` after the campaign-selection merge containing commit
-`1ac9ede` (whose parent is merged main `4746f91`):
+Start from clean `main` after PR #736 is merged:
 
 ```bash
 git switch main
@@ -11,11 +10,12 @@ git pull --ff-only origin main
 git status --short --branch
 ```
 
-Confirm the selected campaign is present:
+Confirm the selected campaign marker is present on synchronized `main`:
 
 ```bash
-git merge-base --is-ancestor 1ac9ede HEAD
 test -f docs/handoffs/atomic-transition-independently-verifiable-reproof-campaign-ready.md
+grep -q 'ATOMIC_TRANSITION_INDEPENDENTLY_VERIFIABLE_REPROOF_CAMPAIGN_READY' \
+  docs/handoffs/atomic-transition-independently-verifiable-reproof-campaign-ready.md
 ```
 
 Read `docs/handoffs/atomic-transition-independently-verifiable-reproof-campaign-ready.md`
@@ -50,9 +50,9 @@ admit v2, remove the closure qualification or close the campaign.
 
 ## New-chat prompt
 
-> Continue Imperium from clean `main` after the campaign-selection merge
-> containing commit `1ac9ede` (parent main `4746f91`). Confirm that
-> `git merge-base --is-ancestor 1ac9ede HEAD` succeeds.
+> Continue Imperium from clean `main` after PR #736 is merged. Confirm that
+> `docs/handoffs/atomic-transition-independently-verifiable-reproof-campaign-ready.md`
+> contains `ATOMIC_TRANSITION_INDEPENDENTLY_VERIFIABLE_REPROOF_CAMPAIGN_READY`.
 >
 > Read `docs/handoffs/atomic-transition-independently-verifiable-reproof-campaign-ready.md`
 > and every required source it names.

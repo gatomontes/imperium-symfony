@@ -28,7 +28,7 @@ final class AtomicTransitionIndependentlyVerifiableReproofCampaignReadyTest exte
     public function testLocalEntrypointPinsScope(): void
     {
         $handoff = (string) file_get_contents(dirname(__DIR__, 3).'/docs/handoffs/atomic-transition-independently-verifiable-reproof-preparation-batch-0-local-ready.md');
-        foreach (['git pull --ff-only origin main', 'git merge-base --is-ancestor 1ac9ede HEAD', 'PREPARATION_BATCH_0_COMPLETE_INDEPENDENTLY_VERIFIABLE_REPROOF_BOUNDARY_CLASSIFIED', 'AtomicTransitionIndependentlyVerifiableReproofPreparationBatch0Test.php', 'Only Preparation Batch 0 may be performed', 'New-chat prompt', 'Do not implement v2', 'remove the closure qualification'] as $boundary) {
+        foreach (['git pull --ff-only origin main', 'after PR #736 is merged', 'ATOMIC_TRANSITION_INDEPENDENTLY_VERIFIABLE_REPROOF_CAMPAIGN_READY', 'PREPARATION_BATCH_0_COMPLETE_INDEPENDENTLY_VERIFIABLE_REPROOF_BOUNDARY_CLASSIFIED', 'AtomicTransitionIndependentlyVerifiableReproofPreparationBatch0Test.php', 'Only Preparation Batch 0 may be performed', 'New-chat prompt', 'Do not implement v2', 'remove the closure qualification'] as $boundary) {
             self::assertStringContainsString($boundary, $handoff, $boundary);
         }
     }
