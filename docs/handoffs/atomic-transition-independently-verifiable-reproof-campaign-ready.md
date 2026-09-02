@@ -46,8 +46,8 @@ and flow and Blackquill-ledger updates. Do not implement the proposed contracts.
 ## Hard boundary
 
 Do not inspect private operator-local material, rerun or execute a mission,
-execute a verifier, create or use signing material, invoke a provider, perform
-external I/O, handle live credentials or capabilities, mutate runtime state,
+execute a verifier, create or use signing material, invoke a provider, perform external I/O,
+handle live credentials or capabilities, mutate runtime state,
 change provider binding, implement v3 execution admission, retain private
 evidence, repair or replace v1, admit v2, remove the qualification or close the
 campaign.
