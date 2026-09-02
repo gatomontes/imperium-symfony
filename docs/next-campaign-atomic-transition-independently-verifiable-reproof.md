@@ -10,8 +10,14 @@ acceptance-case inputs and observations were never retained. The refusal
 correct historical evidence. This campaign does not repair, reinterpret or
 silently rerun that package.
 
-The controlling posture remains
-`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`.
+The current v2 campaign posture is
+`CAMPAIGN_CLOSURE_ACCEPTED_AFTER_INDEPENDENTLY_ATTESTED_REPROOF`.
+The prior `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+and the v1 refusal remain historical evidence. The separately approved Batch 8
+decision is `docs/atomic-transition-reproof-v2-terminal-audit-v1.md`.
+Current completion handoff:
+`docs/handoffs/atomic-transition-reproof-v2-campaign-complete.md`.
+No stages remain; earlier countdowns and gates below are point-in-time history.
 
 ## Objective
 
@@ -39,7 +45,7 @@ refusal or corrective evidence.
 6. **Batch 5 — operator-authorized local execution (complete).** The separately approved exact-source command ran once and finalized one new local v2 package. The public candidate remains unverified.
 7. **Batch 6 — operator-authorized independent verification and signing (complete).** The separately approved attempt passed all eight domains and produced a purpose-bound detached attestation. Receipt and signing material remain local.
 8. **Batch 7 — repository admission (complete).** The exact passing detached report, public identity and sanitized evidence are admitted pending terminal audit; unsigned, v1, producer-authored, substituted and indeterminate routes refuse.
-9. **Batch 8 — separately sequenced terminal Blackquill audit.** Start from merged Batch 7 `main`. Restore closure only at `CAMPAIGN_CLOSURE_ACCEPTED_AFTER_INDEPENDENTLY_ATTESTED_REPROOF`.
+9. **Batch 8 — separately sequenced terminal Blackquill audit (complete).** Started from clean merged Batch 7 main `7318ab2` under separate operator approval. The bounded v2 chain passed; closure is `CAMPAIGN_CLOSURE_ACCEPTED_AFTER_INDEPENDENTLY_ATTESTED_REPROOF`. V1 remains refused; no execution authority follows.
 
 ## Preparation Batch 0 questions
 
@@ -92,7 +98,7 @@ The campaign remains open; v1 remains refused and is not replaced or repaired.
 remains controlling. Active continuation handoff:
 `docs/handoffs/atomic-transition-independently-verifiable-reproof-preparation-batch-0-complete.md`.
 
-## Current implementation continuation
+## Historical implementation continuation
 
 The operator subsequently authorized campaign implementation and PHPUnit checks
 after each batch. Batches 1–4 are complete. Four stages remain. The current gate
@@ -104,7 +110,7 @@ No real mission, signing, evidence admission or closure occurred. Batch 5 exact
 source/command approval and Batch 6 independent verification/signing approval
 remain separate. The campaign remains open with the qualification intact.
 
-## Current Batch 5 completion
+## Historical Batch 5 completion
 
 The operator separately approved Batch 5. The pinned command ran once and the
 new candidate is recorded at `docs/evidence/atomic-transition-reproof-v2-proof-2-candidate.json`.
@@ -116,7 +122,7 @@ Active handoff: `docs/handoffs/atomic-transition-reproof-v2-batch-6-verification
 The controller and separate custody request are prepared, with no key generated
 and no private receipt decoded. The qualification remains controlling.
 
-## Current Batch 6 completion
+## Historical Batch 6 completion
 
 Separate operator approval was received. The exact controller ran once, verified
 all eight domains, and signed the passing sanitized report using fresh
@@ -127,7 +133,7 @@ are retained; no private key or receipt payload entered Git. PHPUnit passes
 Batch 7 admits public evidence only; the terminal audit still starts separately
 from merged Batch 7 main. The qualification remains controlling.
 
-## Current Batch 7 completion and terminal gate
+## Historical Batch 7 completion and terminal gate
 
 `REPROOF_BATCH_7_PUBLIC_EVIDENCE_ADMITTED_PENDING_SEPARATE_TERMINAL_AUDIT`
 records the public admission at `2026-09-02T19:00:04Z`. The admission leaves
