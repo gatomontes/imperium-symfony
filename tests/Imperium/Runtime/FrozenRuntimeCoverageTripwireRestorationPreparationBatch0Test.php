@@ -21,15 +21,19 @@ final class FrozenRuntimeCoverageTripwireRestorationPreparationBatch0Test extend
         }
     }
 
-    public function testCurrentSourceStillExhibitsTheClassifiedBoundary(): void
+    public function testBatch1SourceRestoresTheClassifiedTripwires(): void
     {
         $source = (string) file_get_contents(
             dirname(__DIR__, 3).'/tests/Imperium/Runtime/TransactionalAuthorityConsumptionBatch12CoverageTest.php',
         );
-        self::assertStringContainsString('array_diff(array_keys($snapshot), $files)', $source);
-        self::assertStringContainsString('array_diff($expectedStoreUsers, $storeUsers)', $source);
-        self::assertStringContainsString('assertNotEmpty($perimeter)', $source);
-        self::assertStringContainsString('array_intersect($perimeter, $snapshotPaths)', $source);
+        self::assertStringContainsString('assertSame($expectedCandidates, $candidates)', $source);
+        self::assertStringContainsString('assertSame($expectedStoreUsers, $storeUsers)', $source);
+        self::assertStringContainsString('assertSame($expectedPerimeter, $perimeter)', $source);
+        self::assertStringContainsString('foreach (array_merge($perimeter', $source);
+        self::assertStringContainsString(
+            'frozen-runtime-coverage-tripwire-restoration-inventory-v1.tsv',
+            $source,
+        );
     }
 
     public function testBatchBoundaryAuthorizesOnlyTripwireRestoration(): void
