@@ -1845,3 +1845,22 @@ evidence admission or closure restoration is authorized. Active handoff:
 The local continuation entrypoint is
 `docs/handoffs/atomic-transition-independently-verifiable-reproof-preparation-batch-0-local-ready.md`.
 Campaign countdown at selection is nine stages including Preparation Batch 0.
+
+### Independently Verifiable Reproof Preparation Batch 0 complete
+
+`PREPARATION_BATCH_0_COMPLETE_INDEPENDENTLY_VERIFIABLE_REPROOF_BOUNDARY_CLASSIFIED`
+records the eight missing acceptance-case chains, single-case/matrix split,
+producer/verifier coupling, public/operator-local/forbidden evidence classes,
+provenance and output-persistence gaps, execution/signing custody and closure
+consumers. The inventory is
+`docs/atomic-transition-independently-verifiable-reproof-preparation-inventory-v1.md`.
+Eight stages remain. Only Batch 1 authority-empty contracts may next be considered
+under a new instruction. Batch 5 execution, Batch 6 verification/signing and
+Batch 8 terminal audit remain separate gates; the latter starts from merged
+Batch 7 main. Active handoff:
+`docs/handoffs/atomic-transition-independently-verifiable-reproof-preparation-batch-0-complete.md`.
+No v2 implementation or evidence execution occurred and no private material was
+inspected. The campaign remains open. V1 is neither repaired nor replaced, and
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+remains controlling. `BOUND_INACTIVE`, `NOT_IMPLEMENTED` and
+`UNKNOWN_REPLAY_PROHIBITED` are unchanged.

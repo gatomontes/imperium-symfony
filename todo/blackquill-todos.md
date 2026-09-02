@@ -392,3 +392,26 @@ v2 proof, not a rehabilitation of the v1 package. Only Preparation Batch 0
 inventory is authorized. Later mission execution, independent
 verification/signing, repository admission and terminal Blackquill audit remain
 separate authority boundaries.
+
+### Independently Verifiable Reproof preparation ledger
+
+- [x] Preparation Batch 0: inventory all eight missing case chains, runner/verifier coupling, custody classes, provenance, persistence/replay and closure boundaries.
+- [ ] Batch 1: define authority-empty v2 evidence contracts under a new instruction.
+- [ ] Batch 2: build the inert evidence-complete runner.
+- [ ] Batch 3: implement the separate verifier and preflight.
+- [ ] Batch 4: prove synthetic counterfeit and interruption refusals without a real mission.
+- [ ] Batch 5: obtain separate authorization for one new v2 disposable execution.
+- [ ] Batch 6: obtain separate authorization for independent verification and signing.
+- [ ] Batch 7: admit only passing detached public evidence.
+- [ ] Batch 8: audit from merged Batch 7 main before any closure decision.
+
+`PREPARATION_BATCH_0_COMPLETE_INDEPENDENTLY_VERIFIABLE_REPROOF_BOUNDARY_CLASSIFIED`
+is recorded in
+`docs/atomic-transition-independently-verifiable-reproof-preparation-inventory-v1.md`.
+Active handoff:
+`docs/handoffs/atomic-transition-independently-verifiable-reproof-preparation-batch-0-complete.md`.
+Eight stages remain. The campaign remains open. No private material was inspected,
+no v2 contract or runtime behavior was implemented, no mission/verifier/signing
+was executed and no evidence was admitted. V1 remains refused and unchanged.
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+remains controlling.

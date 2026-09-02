@@ -231,3 +231,17 @@ Preparation Batch 0 only. The active entrypoint is
 `docs/handoffs/atomic-transition-independently-verifiable-reproof-campaign-ready.md`.
 No v2 implementation, mission execution, verification/signing, evidence
 admission or closure restoration is authorized by campaign preparation.
+
+Atomic Transition Independently Verifiable Reproof Preparation Batch 0 is now
+complete at
+`PREPARATION_BATCH_0_COMPLETE_INDEPENDENTLY_VERIFIABLE_REPROOF_BOUNDARY_CLASSIFIED`.
+Its current continuation handoff is
+`docs/handoffs/atomic-transition-independently-verifiable-reproof-preparation-batch-0-complete.md`;
+the versioned inventory is
+`docs/atomic-transition-independently-verifiable-reproof-preparation-inventory-v1.md`.
+The campaign-ready/local-ready handoffs remain historical entry instructions.
+Eight stages remain. Only Batch 1 authority-empty contracts may next be considered
+under a new instruction; execution, verification/signing, admission and terminal
+audit are not authorized here. The campaign remains open. V1 remains refused and
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+remains controlling.

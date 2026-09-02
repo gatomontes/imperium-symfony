@@ -31,7 +31,7 @@ Campaign countdown at selection: nine stages including Preparation Batch 0;
 eight implementation/evidence stages remain after preparation, subject to
 refusal or corrective evidence.
 
-1. **Preparation Batch 0 — reproof boundary inventory.** Inventory missing v1 case evidence, current runner/verifier coupling, artifact custody, counterfeit surfaces, closure consumers and the smallest v2 sequence. No implementation or execution.
+1. **Preparation Batch 0 — reproof boundary inventory (complete).** Missing v1 case evidence, runner/verifier coupling, artifact custody, counterfeit surfaces, closure consumers and the smallest v2 sequence are classified in `docs/atomic-transition-independently-verifiable-reproof-preparation-inventory-v1.md`. No implementation or execution was performed.
 2. **Batch 1 — v2 evidence contracts.** Define authority-empty case-input, expectation, observation, matrix, receipt, sanitized-evidence, verification-report and attestation contracts.
 3. **Batch 2 — evidence-complete disposable runner.** Build an inert v2 runner that derives results inside the trusted corridor and retains or binds every independently required artifact.
 4. **Batch 3 — separate v2 verifier and preflight.** Recompute every case, source/build binding, dependency graph, exclusion and non-authority result without importing runner conclusions.
@@ -74,3 +74,20 @@ The canonical local entrypoint is
 `docs/handoffs/atomic-transition-independently-verifiable-reproof-preparation-batch-0-local-ready.md`.
 It starts only from synchronized `main` after PR #736 is merged and the
 canonical campaign-ready marker is present. It authorizes Preparation Batch 0 only.
+
+## Preparation completion and next boundary
+
+`PREPARATION_BATCH_0_COMPLETE_INDEPENDENTLY_VERIFIABLE_REPROOF_BOUNDARY_CLASSIFIED`
+is recorded from operator-approved main `3c4f8b2328570bdd0467463204301cddca99007a`.
+The inventory and eight-case TSV distinguish source-observed v1 gaps from
+proposed v2 requirements. Documentary tests execute no mission, verifier or
+signing path. No private operator-local material was inspected.
+
+Eight stages remain after Preparation Batch 0. Only Batch 1 authority-empty
+contracts may next be considered under a new instruction; no implementation is
+authorized by this completion. Batch 5 execution, Batch 6 verification/signing
+and Batch 8 terminal audit remain separately authorized and separately sequenced.
+The campaign remains open; v1 remains refused and is not replaced or repaired.
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+remains controlling. Active continuation handoff:
+`docs/handoffs/atomic-transition-independently-verifiable-reproof-preparation-batch-0-complete.md`.
