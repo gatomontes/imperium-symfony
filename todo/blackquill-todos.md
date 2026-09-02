@@ -1,5 +1,10 @@
 # Blackquill Review TODOs
 
+Latest: `NATIVE_INTEGRATION_BATCH_5_PROCESS_AND_INTERRUPTION_PROOF_COMPLETE`; two stages remain.
+Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-5-complete.md`.
+Process proof passed. Independently challenge native provenance, resealing,
+incomplete migration evidence, archival/current distinctions and source leakage.
+
 Latest: `NATIVE_INTEGRATION_BATCH_4_ATOMIC_NATIVE_CONSUMER_IMPLEMENTED`; three stages remain.
 Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-4-complete.md`.
 Challenge source-writer contention, all new interruption cuts, registered legacy

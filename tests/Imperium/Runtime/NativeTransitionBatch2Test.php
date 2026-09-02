@@ -40,7 +40,7 @@ class NativeTransitionBatch2Test extends NativeTransitionBatch1Test
         self::assertSame([], $this->state->ids('successors'));
     }
 
-    protected function nativeInputs(): array
+    protected function nativeInputs(string $suffix = ''): array
     {
         $fixture = new class('testExactOfflineDecisionAndActivationValidateStoreAndReplay') extends ProviderExecutionEffectReadinessBatch7Test {
             public function export(): array { return $this->fixtures(); }
@@ -50,6 +50,16 @@ class NativeTransitionBatch2Test extends NativeTransitionBatch1Test
             public function export(): array { return $this->productionBasis(); }
         };
         $b = $basis->export(); $at = $b['at']->getTimestamp();
+        if ('' !== $suffix) {
+            $f['attestation']['principal_attestation_id'] .= $suffix;
+            $f['attestation']['principal']['principal_id'] .= $suffix;
+            $f['decision']['scope']['principal_id'] .= $suffix;
+            $b['authorization']['issuance_authorization_id'] .= $suffix;
+            $b['authorization']['decision_id'] .= $suffix;
+            $b['authorization']['activation_authority_id'] .= $suffix;
+            $b['envelope']['decision_id'] .= $suffix;
+            $b['envelope']['activation_authority']['authority_id'] .= $suffix;
+        }
         $f['attestation']['validity']['expires_at'] = gmdate(DATE_ATOM, $at + 3600);
         $f['attestation'] = NativeState::seal($f['attestation']);
         $f['assurance']['validity']['review_due_at'] = gmdate(DATE_ATOM, $at + 3600);

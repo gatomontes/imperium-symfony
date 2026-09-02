@@ -42,6 +42,7 @@ final readonly class NativeRootActs
         $seal = $this->state->json('var/imperium/operator-root/operationalization-seal.json');
         $plain = $seal; unset($plain['record_digest']);
         if (($seal['record_digest'] ?? null) !== TransitionContract::digest($plain)
+            || ($seal['schema'] ?? null) !== 'imperium.operator-root-operationalization-seal/v1'
             || $a['operationalization'] !== NativeState::ref($seal, 'seal_id')
             || ($seal['instance_id'] ?? null) !== $a['instance'] || ($seal['status'] ?? null) !== 'IMPERIUM_OPERATIONAL') {
             throw new \RuntimeException('NIR_OPERATIONALIZATION');

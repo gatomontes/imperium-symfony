@@ -71,7 +71,10 @@ final readonly class NativeSuccessor
         foreach (glob($this->state->root.'/'.NativeState::SOURCES['activation'].'/*.json') ?: [] as $path) {
             $other = $this->state->json(NativeState::SOURCES['activation'].'/'.basename($path));
             if (($other['instance_id'] ?? null) === $a['instance_id'] && ($other['principal']['principal_id'] ?? null) === $a['principal']['principal_id']
-                && ($other['principal']['generation'] ?? 0) > $a['principal']['generation']) { throw new \RuntimeException('NIR_EXECUTOR_GENERATION_CHANGED'); }
+                && ($other['principal']['generation'] ?? 0) > $a['principal']['generation']) {
+                $activated = strtotime($other['activated_at'] ?? '');
+                if (false === $activated || $activated <= $at) { throw new \RuntimeException('NIR_EXECUTOR_GENERATION_CHANGED'); }
+            }
         }
         return compact('a', 'b', 'boundary', 'assurance', 'production');
     }

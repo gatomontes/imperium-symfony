@@ -101,7 +101,10 @@ final readonly class NativePrincipal
         foreach (glob($this->state->root.'/'.NativeState::SOURCES['principal'].'/*.json') ?: [] as $path) {
             $other = $this->state->json(NativeState::SOURCES['principal'].'/'.basename($path));
             if (($other['instance_id'] ?? null) === $p['instance_id'] && ($other['principal_id'] ?? null) === $p['principal_id']
-                && ($other['principal_generation'] ?? 0) > $p['principal_generation']) { throw new \RuntimeException('NIR_SOURCE_GENERATION_CHANGED'); }
+                && ($other['principal_generation'] ?? 0) > $p['principal_generation']) {
+                $constituted = strtotime($other['lifecycle']['constituted_at'] ?? '');
+                if (false === $constituted || $constituted <= $at) { throw new \RuntimeException('NIR_SOURCE_GENERATION_CHANGED'); }
+            }
         }
         return $p;
     }

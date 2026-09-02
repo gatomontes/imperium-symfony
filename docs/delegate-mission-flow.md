@@ -1,5 +1,10 @@
 # Delegate mission flow
 
+Latest: `NATIVE_INTEGRATION_BATCH_5_PROCESS_AND_INTERRUPTION_PROOF_COMPLETE`; two stages remain.
+Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-5-complete.md`.
+Full suite: 1899 tests, 44628 assertions. Real process contention and 24 termination
+cuts pass. Independent native-to-receipt verification and terminal audit remain.
+
 Latest: `NATIVE_INTEGRATION_BATCH_4_ATOMIC_NATIVE_CONSUMER_IMPLEMENTED`; three stages remain.
 Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-4-complete.md`.
 The native consumer now publishes and calls the actual binding reader; full

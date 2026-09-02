@@ -1,5 +1,17 @@
 # Native Integration Remediation implementation v1
 
+## Batch 5 real process proof
+
+`NATIVE_INTEGRATION_BATCH_5_PROCESS_AND_INTERRUPTION_PROOF_COMPLETE`. Full suite: 1899 tests, 44628 assertions.
+Exact handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-5-complete.md`.
+The new worker `tests/fixtures/native-transition-worker.php` drives actual native
+APIs in disposable roots. `tests/Imperium/Runtime/NativeTransitionBatch5Test.php`
+proves two-candidate contention, canonical source-lock contention, 24 abrupt
+publication cuts and expiry at the final gate. NativePrincipal and NativeSuccessor
+generation checks now preserve historical queries before a later version's
+constitution/activation time while rejecting current stale generations.
+The new and changed source/test files were followed in full for this proof.
+
 ## Batch 4 native atomic publication and migration
 
 `NATIVE_INTEGRATION_BATCH_4_ATOMIC_NATIVE_CONSUMER_IMPLEMENTED`. Full suite: 1883 tests, 44414 assertions.
