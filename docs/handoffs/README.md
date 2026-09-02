@@ -1,5 +1,14 @@
 # Handoff document status
 
+Current Native Integration Remediation preparation completion:
+`docs/handoffs/executable-atomic-transition-native-integration-remediation-preparation-batch-0-complete.md`
+at `PREPARATION_BATCH_0_COMPLETE_NATIVE_INTEGRATION_GAPS_CLASSIFIED`.
+Only documentary Preparation Batch 0 is complete. Seven planned stages remain;
+Batch 1 requires a new operator instruction and terminal Batch 7 starts separately
+from clean merged Batch 6 main. Runtime behavior, `BOUND_INACTIVE`, native v3
+`NOT_IMPLEMENTED`, `UNKNOWN_REPLAY_PROHIBITED` and the prior terminal refusal
+remain unchanged. The selection entry below is retained as historical provenance.
+
 Current campaign selection:
 `EXECUTABLE_ATOMIC_TRANSITION_NATIVE_INTEGRATION_REMEDIATION_CAMPAIGN_READY`.
 Only Preparation Batch 0 is authorized. The local entrypoint is

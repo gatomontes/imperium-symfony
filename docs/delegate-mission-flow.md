@@ -1,5 +1,28 @@
 # Delegate mission flow
 
+## Current Native Integration Remediation preparation
+
+`PREPARATION_BATCH_0_COMPLETE_NATIVE_INTEGRATION_GAPS_CLASSIFIED`.
+Preparation Batch 0 read all 22 required sources from clean synchronized local
+`main` at `a018ab4`. Thirty findings classify exact Root competence, native
+principal/lifecycle and authority lineage, successor creation, canonical v3,
+eleven existing descriptor readers, missing effective-state consumption, writer
+serialization, migration and proof obligations. Inventory and reading ledger:
+`docs/executable-atomic-transition-native-integration-remediation-preparation-inventory-v1.md`.
+Current handoff:
+`docs/handoffs/executable-atomic-transition-native-integration-remediation-preparation-batch-0-complete.md`.
+
+Seven planned stages remain. Only Batch 1 native principal competence and acyclic
+authority lineage may next be considered under a new operator instruction.
+Batch 7 remains a separate audit from clean merged Batch 6 main. No corrections
+or runtime behavior changed. The isolated pinned-grant protocol is not native
+provenance; constant-only scope widening, schema relabeling, fixture promotion
+and unread binding projections remain refused. `BOUND_INACTIVE`, native v3
+`NOT_IMPLEMENTED` and `UNKNOWN_REPLAY_PROHIBITED` remain binding. Authority,
+credentials/capabilities, provider effects, external I/O, retry, Iron Gate and
+Lazaretto remain closed. The terminal native-integration refusal is not removed.
+Selection and older continuation statements below are historical checkpoints.
+
 ## Current Native Integration Remediation selection
 
 `EXECUTABLE_ATOMIC_TRANSITION_NATIVE_INTEGRATION_REMEDIATION_CAMPAIGN_READY`.

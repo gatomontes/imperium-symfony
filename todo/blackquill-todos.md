@@ -1,12 +1,37 @@
 # Blackquill Review TODOs
 
+## Current Native Integration Remediation preparation
+
+`PREPARATION_BATCH_0_COMPLETE_NATIVE_INTEGRATION_GAPS_CLASSIFIED`.
+Thirty classified findings and all 22 required sources plus followed-source ledger:
+`docs/executable-atomic-transition-native-integration-remediation-preparation-inventory-v1.md`.
+Current handoff:
+`docs/handoffs/executable-atomic-transition-native-integration-remediation-preparation-batch-0-complete.md`.
+
+- [x] Trace exact Operator Root scope route, v2/v3 loader mismatch and native lifecycle ownership.
+- [x] Separate supplied-array production aggregates from authenticated decision/authority lineage.
+- [x] Identify successor native-shape mismatch, absent creation provenance and selected-v3 implementation.
+- [x] Classify eleven descriptor readers and the missing operation-scoped effective-state reader.
+- [x] Inventory native writer serialization, roots, durable additions, migration and every new cut family.
+- [ ] Establish native competence and acyclic lineage in separately authorized Batch 1.
+- [ ] Prove native source ownership and revalidation under a lock shared with lifecycle writers.
+- [ ] Prevent legacy protocol success, orphan state or changed roots from granting native retry/admission.
+- [ ] Independently prove reader use, native receipts and complete-chain exclusion before terminal acceptance.
+
+Seven planned stages remain; no corrections or runtime behavior changed.
+`BOUND_INACTIVE`, native v3 `NOT_IMPLEMENTED` and `UNKNOWN_REPLAY_PROHIBITED` remain.
+No authority, grant, principal, successor, transition state or provider effect was
+created. This is preparation bookkeeping, not a successful terminal audit.
+The prior terminal refusal stands. Older selection/implementation lists below
+are historical; later batches require a new operator instruction.
+
 ## Current Native Integration Remediation selection
 
 `EXECUTABLE_ATOMIC_TRANSITION_NATIVE_INTEGRATION_REMEDIATION_CAMPAIGN_READY`.
 Only Preparation Batch 0 is authorized. Active entrypoint:
 `docs/handoffs/executable-atomic-transition-native-integration-remediation-preparation-batch-0-local-ready.md`.
 
-- [ ] Preparation Batch 0: classify native producers, stores, lifecycle authorities and consumers.
+- [x] Preparation Batch 0: classify native producers, stores, lifecycle authorities and consumers.
 - [ ] Batch 1: establish Operator Root-authorized principal competence and acyclic authority lineage.
 - [ ] Batch 2: implement native eligible-successor and creation provenance.
 - [ ] Batch 3: implement canonical La Cortine v3 admission and binding-state consumption.
