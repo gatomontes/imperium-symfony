@@ -29,6 +29,8 @@ The controlling independent-verification posture remains:
 
 `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`.
 
+Every active handoff in this correction campaign must state that posture explicitly.
+
 ## Batches
 
 ### Preparation Batch 0 — detector-semantics inventory
