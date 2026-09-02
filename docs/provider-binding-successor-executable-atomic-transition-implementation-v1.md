@@ -114,3 +114,10 @@ as a stable-tree result. A fresh full-suite run was started after the correction
 Stable-tree full-suite result after Batch 7: **1836 tests, 43877 assertions passed**
 on PHP 8.4.14 / PHPUnit 13.3.0. All new PHP files pass lint. No test gate was
 weakened. This validates the bounded implementation, not native source eligibility.
+
+Batch 8 separately audited clean merged Batch 7 main `39641cd` and refused
+canonical closure at
+`EXECUTABLE_ATOMIC_TRANSITION_TERMINAL_AUDIT_REFUSED_NATIVE_INTEGRATION_ABSENT`.
+Final full suite: **1838 tests, 43898 assertions passed**. The campaign remains
+open for the native correction sequence in
+`docs/handoffs/provider-binding-successor-executable-atomic-transition-terminal-audit-refused.md`.

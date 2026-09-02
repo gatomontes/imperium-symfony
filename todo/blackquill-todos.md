@@ -1,5 +1,17 @@
 # Blackquill Review TODOs
 
+## Current Executable Atomic Transition terminal refusal
+
+`EXECUTABLE_ATOMIC_TRANSITION_TERMINAL_AUDIT_REFUSED_NATIVE_INTEGRATION_ABSENT`.
+The separate audit of clean merged Batch 7 main `39641cd` refuses unqualified
+canonical closure. The tested pinned-grant protocol is not a native provenance,
+successor-production, selected-v3-admission or binding-consumer implementation.
+Campaign remains open; native integration and repeat terminal review remain.
+Current handoff:
+`docs/handoffs/provider-binding-successor-executable-atomic-transition-terminal-audit-refused.md`.
+Decision: `docs/provider-binding-successor-executable-atomic-transition-batch-8-terminal-audit-v1.md`.
+`BOUND_INACTIVE`, native v3 `NOT_IMPLEMENTED` and `UNKNOWN_REPLAY_PROHIBITED` remain.
+
 ## Executable Atomic Transition Batch 7 review
 
 `EXECUTABLE_ATOMIC_TRANSITION_BATCH_7_REVIEW_COMPLETE_NATIVE_INTEGRATION_UNPROVED`.

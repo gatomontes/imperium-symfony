@@ -1,5 +1,16 @@
 # Delegate mission flow
 
+## Current Executable Atomic Transition terminal finding
+
+`EXECUTABLE_ATOMIC_TRANSITION_TERMINAL_AUDIT_REFUSED_NATIVE_INTEGRATION_ABSENT`.
+Batch 8 reviewed clean locally merged Batch 7 main `39641cd`. The isolated
+protocol's tested mechanics do not implement native principal/successor provenance,
+the selected v3 admission or native binding consumption. The campaign remains
+open pending the corrective native integration sequence; no successful closure
+is claimed. Current handoff:
+`docs/handoffs/provider-binding-successor-executable-atomic-transition-terminal-audit-refused.md`.
+Native `BOUND_INACTIVE`, `NOT_IMPLEMENTED` and `UNKNOWN_REPLAY_PROHIBITED` remain.
+
 ## Executable Atomic Transition implementation review
 
 `EXECUTABLE_ATOMIC_TRANSITION_BATCH_7_REVIEW_COMPLETE_NATIVE_INTEGRATION_UNPROVED`.
