@@ -223,3 +223,11 @@ credential-owning execution boundary but grants no runtime or external-action au
 
 
 Frozen Runtime Coverage Tripwire Restoration Preparation Batch 0 is complete. The active continuation instruction is `docs/handoffs/frozen-runtime-coverage-tripwire-restoration-batch-1-ready.md`. Only Batch 1 coverage-test and versioned-inventory restoration is authorized; runtime adjudication remains Batch 2.
+
+Activation Disposition Vocabulary Tripwire Correction is complete at the narrow
+decoded-literal boundary. The controlling independent-verification defect
+remains. Atomic Transition Independently Verifiable Reproof is selected for
+Preparation Batch 0 only. The active entrypoint is
+`docs/handoffs/atomic-transition-independently-verifiable-reproof-campaign-ready.md`.
+No v2 implementation, mission execution, verification/signing, evidence
+admission or closure restoration is authorized by campaign preparation.

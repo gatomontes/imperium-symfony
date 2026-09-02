@@ -1823,3 +1823,25 @@ coverage remain excluded. No correction campaign batch remains. Active handoff:
 Runtime source and historical audit evidence remain unchanged. The controlling
 posture remains
 `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`.
+
+
+## Atomic Transition Independently Verifiable Reproof selected
+
+The post-correction Blackquill review accepts the literal-vocabulary correction
+but leaves the controlling independent-verification defect untouched. The v1
+package cannot be rehabilitated because its eight acceptance-case inputs and
+observations were never retained.
+
+Atomic Transition Independently Verifiable Reproof is selected at
+`ATOMIC_TRANSITION_INDEPENDENTLY_VERIFIABLE_REPROOF_CAMPAIGN_READY`. It will
+design a distinct v2 disposable evidence event with retained case evidence,
+separate recomputation, detached local attestation and strict repository
+admission. Only Preparation Batch 0 may next be considered. No mission or
+verifier execution, private receipt inspection, signing capability, provider
+invocation, external I/O, live credential or capability, runtime mutation,
+evidence admission or closure restoration is authorized. Active handoff:
+`docs/handoffs/atomic-transition-independently-verifiable-reproof-campaign-ready.md`.
+
+The local continuation entrypoint is
+`docs/handoffs/atomic-transition-independently-verifiable-reproof-preparation-batch-0-local-ready.md`.
+Campaign countdown at selection is nine stages including Preparation Batch 0.
