@@ -74,7 +74,7 @@ final class ProviderActivationConsumptionRemediationBatch2Test extends ProviderE
         $service->admit($second['authority_id'], $at);
     }
 
-    public function testExistingRevocationFactRefusesFirstCombinedWinner(): void
+    public function testHistoricalSeparateRevocationFactDoesNotReplaceAuthorizedWinner(): void
     {
         $at = new \DateTimeImmutable('2026-08-30T22:00:00+00:00');
         $authority = $this->seedLineage($at, $at->modify('+10 minutes'));
@@ -82,7 +82,7 @@ final class ProviderActivationConsumptionRemediationBatch2Test extends ProviderE
         $revocationId = ProviderBindingActivationRevocationContract::ID_PREFIX
             .substr(hash('sha256', $activation['id'].'|'.$activation['digest']), 0, 20);
         $this->records->put(
-            GovernedProviderExecutionCombinedAdmissionService::REVOCATIONS,
+            'var/imperium/offices/la-cortine/provider-binding-activation-revocations',
             $revocationId,
             [
                 'schema' => ProviderBindingActivationRevocationContract::SCHEMA,
@@ -98,9 +98,13 @@ final class ProviderActivationConsumptionRemediationBatch2Test extends ProviderE
             ],
         );
 
-        $this->expectExceptionMessage('PEB622_PROVIDER_ACTIVATION_REVOKED');
-        (new GovernedProviderExecutionCombinedAdmissionService($this->root))
+        $admission = (new GovernedProviderExecutionCombinedAdmissionService($this->root))
             ->admit($authority['authority_id'], $at);
+
+        self::assertSame(
+            GovernedProviderExecutionCombinedAdmissionContract::STATUS,
+            $admission['status'],
+        );
     }
 
     public function testDocumentationRefusesSelfAuthorizingRevocationWriter(): void
