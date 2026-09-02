@@ -1,5 +1,12 @@
 # Handoff document status
 
+Current campaign selection:
+`EXECUTABLE_ATOMIC_TRANSITION_NATIVE_INTEGRATION_REMEDIATION_CAMPAIGN_READY`.
+Only Preparation Batch 0 is authorized. The local entrypoint is
+`docs/handoffs/executable-atomic-transition-native-integration-remediation-preparation-batch-0-local-ready.md`.
+It retains the executable transition substrate while inventorying the four
+missing native joins; it grants no runtime or provider-effect authority.
+
 Current Atomic Transition Reproof completion:
 `docs/handoffs/atomic-transition-reproof-v2-campaign-complete.md` at
 `CAMPAIGN_CLOSURE_ACCEPTED_AFTER_INDEPENDENTLY_ATTESTED_REPROOF`.

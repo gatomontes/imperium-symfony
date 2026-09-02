@@ -1,5 +1,25 @@
 # Blackquill Review TODOs
 
+## Current Native Integration Remediation selection
+
+`EXECUTABLE_ATOMIC_TRANSITION_NATIVE_INTEGRATION_REMEDIATION_CAMPAIGN_READY`.
+Only Preparation Batch 0 is authorized. Active entrypoint:
+`docs/handoffs/executable-atomic-transition-native-integration-remediation-preparation-batch-0-local-ready.md`.
+
+- [ ] Preparation Batch 0: classify native producers, stores, lifecycle authorities and consumers.
+- [ ] Batch 1: establish Operator Root-authorized principal competence and acyclic authority lineage.
+- [ ] Batch 2: implement native eligible-successor and creation provenance.
+- [ ] Batch 3: implement canonical La Cortine v3 admission and binding-state consumption.
+- [ ] Batch 4: join native sources to the retained atomic transition substrate.
+- [ ] Batch 5: repeat contention, interruption, expiry and revocation proof through the native chain.
+- [ ] Batch 6: independently reconstruct and adversarially audit the native-to-receipt chain.
+- [ ] Batch 7: separately audit clean merged Batch 6 main.
+
+Constant-only scope widening, schema relabeling, configured digest provenance,
+fixture promotion and unread binding projections are explicit refusal paths.
+`BOUND_INACTIVE`, native v3 `NOT_IMPLEMENTED` and
+`UNKNOWN_REPLAY_PROHIBITED` remain binding.
+
 ## Current Executable Atomic Transition terminal refusal
 
 `EXECUTABLE_ATOMIC_TRANSITION_TERMINAL_AUDIT_REFUSED_NATIVE_INTEGRATION_ABSENT`.
