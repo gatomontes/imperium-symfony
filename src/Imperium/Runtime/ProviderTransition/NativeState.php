@@ -18,6 +18,8 @@ final class NativeState
         'activation' => 'var/imperium/runtime/provider-executor-principal-activations',
         'boundary' => 'var/imperium/offices/la-cortine/provider-execution-boundaries',
         'attestation' => 'var/imperium/offices/la-cortine/provider-executor-principal-attestations',
+        'production' => 'var/imperium/runtime/principal-activation-decision-authority-provenance-productions',
+        'assurance' => 'var/imperium/evidence/provider-execution-effect-readiness/assurance-admissions',
     ];
     private bool $locked = false;
     public readonly string $root;
@@ -63,6 +65,11 @@ final class NativeState
     {
         if (!$this->locked) { throw new \RuntimeException('NIR_WRITE_WITHOUT_LOCK'); }
         $path = $this->eventPath($kind, $id);
+        if (file_exists($path)) {
+            $existing = $this->get($kind, $id);
+            if ($existing !== $record) { throw new \RuntimeException('NIR_IMMUTABLE_CONFLICT'); }
+            return $existing;
+        }
         if (!is_dir($path) && !mkdir($path, 0770, true) && !is_dir($path)) { throw new \RuntimeException('NIR_STORAGE_FAILED'); }
         $callback = null === $this->checkpoint ? null : fn (string $cut) => ($this->checkpoint)($kind.'.'.$cut);
         $store = new TransitionStore($path, $callback);

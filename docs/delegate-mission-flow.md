@@ -1,5 +1,10 @@
 # Delegate mission flow
 
+Latest native remediation: `NATIVE_INTEGRATION_BATCH_2_NATIVE_SUCCESSOR_IMPLEMENTED`.
+Five stages remain. Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-2-complete.md`.
+Native production/activation/successor tests pass; admission, atomic integration
+and independent proof remain. No live provisioning or provider effect occurred.
+
 ## Native Integration Remediation Batch 1 implemented
 
 The operator approved the Root trust route. Current handoff:

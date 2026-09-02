@@ -1,5 +1,8 @@
 # Handoff document status
 
+Latest: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-2-complete.md` at `NATIVE_INTEGRATION_BATCH_2_NATIVE_SUCCESSOR_IMPLEMENTED`.
+Five stages remain under the operator's continuous-campaign approval.
+
 Latest Native Integration Remediation handoff:
 `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-1-complete.md`.
 The Root trust route was explicitly approved. Batch 1 implementation/tests passed;

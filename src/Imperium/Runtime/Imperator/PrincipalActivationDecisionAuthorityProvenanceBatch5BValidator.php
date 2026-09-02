@@ -53,6 +53,7 @@ final class PrincipalActivationDecisionAuthorityProvenanceBatch5BValidator
         array $envelope,
         array $authorization,
         array $principal,
+        ?array $executorAttestation = null,
     ): void {
         $this->common($envelope, ProviderExecutorPrincipalActivationDecisionProductionEnvelopeContract::REQUIRED_FIELDS, ProviderExecutorPrincipalActivationDecisionProductionEnvelopeContract::SCHEMA, 'PAD5B10_PRODUCTION_ENVELOPE_INVALID');
         $this->common($authorization, ProviderExecutorPrincipalActivationDecisionIssuanceAuthorizationContract::REQUIRED_FIELDS, ProviderExecutorPrincipalActivationDecisionIssuanceAuthorizationContract::SCHEMA, 'PAD5B11_ISSUANCE_AUTHORIZATION_INVALID');
@@ -63,6 +64,18 @@ final class PrincipalActivationDecisionAuthorityProvenanceBatch5BValidator
         $authority = $envelope['activation_authority'] ?? null;
         $validity = $envelope['validity'] ?? null;
         $limitations = $envelope['limitations'] ?? null;
+        $targetPrincipal = $principal['principal_id'];
+        $targetGeneration = $principal['principal_generation'];
+        if (null !== $executorAttestation) {
+            $plainAttestation = $executorAttestation; unset($plainAttestation['record_digest']);
+            if (($executorAttestation['record_digest'] ?? null) !== hash('sha256', CanonicalJson::encode($plainAttestation))
+                || !$this->matches($authorization['principal_attestation'], $executorAttestation, 'principal_attestation_id')
+                || ($executorAttestation['instance_id'] ?? null) !== $principal['instance_id']) {
+                throw new \RuntimeException('PAD5B13_NATIVE_EXECUTOR_ATTESTATION_INVALID');
+            }
+            $targetPrincipal = $executorAttestation['principal']['principal_id'];
+            $targetGeneration = $executorAttestation['principal']['generation'];
+        }
 
         if (!$this->identifier($envelope['production_envelope_id'] ?? null)
             || ($envelope['instance_id'] ?? null) !== ($authorization['instance_id'] ?? null)
@@ -85,8 +98,8 @@ final class PrincipalActivationDecisionAuthorityProvenanceBatch5BValidator
             || !$this->identifier($scope['provider_id'] ?? null)
             || !$this->identifier($scope['operation'] ?? null)
             || ($scope['execution_boundary_id'] ?? null) !== $authorization['execution_boundary']['id']
-            || ($scope['principal_id'] ?? null) !== $principal['principal_id']
-            || ($scope['principal_generation'] ?? null) !== $principal['principal_generation']
+            || ($scope['principal_id'] ?? null) !== $targetPrincipal
+            || ($scope['principal_generation'] ?? null) !== $targetGeneration
             || !$this->identifier($scope['process_boundary_id'] ?? null)
             || true !== ($scope['same_process_execution_required'] ?? null)
             || !in_array($envelope['disposition'] ?? null, ProviderExecutorPrincipalActivationDecisionContract::DISPOSITIONS, true)

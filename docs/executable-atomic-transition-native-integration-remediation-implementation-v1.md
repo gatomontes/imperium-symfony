@@ -1,5 +1,20 @@
 # Native Integration Remediation implementation v1
 
+## Batch 2 native successor
+
+`NATIVE_INTEGRATION_BATCH_2_NATIVE_SUCCESSOR_IMPLEMENTED`. Full suite: 1864 tests, 44326 assertions passed.
+Native successor creation now resolves original activation, attestation, assurance, boundary, descriptor and activation-decision production records. It publishes the target, attributed creation decision, consumed creation authority, selected lifecycle successor and creation winner together. Exact successor and creation references are sealed into native transition issuance. No offline successor is imported. Assurance remains EVIDENCE_ADMITTED_NO_EXECUTION_AUTHORITY evidence; it is not promoted to execution authority.
+Exact handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-2-complete.md`.
+Additionally read: `src/Imperium/Runtime/Imperator/PrincipalActivationDecisionAuthorityProvenanceBatch5BValidator.php`,
+`src/Imperium/Runtime/Imperator/PrincipalActivationDecisionAuthorityProvenanceProductionContract.php`,
+`src/Imperium/Runtime/LaCortine/ProviderBindingSuccessorAtomicCreationWinnerBoundaryContract.php`,
+`src/Imperium/Runtime/LaCortine/ProviderBindingActivationReconciledTargetContract.php`,
+`src/Imperium/Runtime/Imperator/ProviderBindingActivationReconciledDecisionInputContract.php`,
+`src/Imperium/Runtime/LaCortine/ProviderImplementationBindingContract.php`,
+`src/Imperium/Runtime/LaCortine/ProviderImplementationBindingService.php` (binding writer),
+`tests/Imperium/Runtime/PrincipalActivationDecisionAuthorityProvenanceRemediationBatch5CProductionTest.php` (production basis),
+`tests/Imperium/Runtime/ProviderExecutionEffectReadinessBatch2Test.php` (fixture base header).
+
 ## Approved continuation and Batch 1
 
 The operator explicitly approved the proposed signed Root-act trust route.

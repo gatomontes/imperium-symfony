@@ -1,5 +1,10 @@
 # Blackquill Review TODOs
 
+Latest: `NATIVE_INTEGRATION_BATCH_2_NATIVE_SUCCESSOR_IMPLEMENTED`. Five stages remain.
+Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-2-complete.md`.
+Require actual canonical v3/binding consumption and native atomic/process proof.
+Batch 2 tests pass; no terminal acceptance is implied.
+
 ## Native Integration Remediation Batch 1 implemented
 
 `NATIVE_INTEGRATION_BATCH_1_COMPETENCE_CHAIN_IMPLEMENTED`.
