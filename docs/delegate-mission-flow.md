@@ -1784,3 +1784,16 @@ It pins the required sources, clean-checkout commands, inventory deliverables,
 prohibited actions and copy-ready new-chat prompt. Only Preparation Batch 0 is
 authorized; detector repair remains Batch 1 and terminal review remains a
 separately sequenced Batch 2.
+
+### Vocabulary correction Preparation Batch 0 completed
+
+Preparation is complete at
+`PREPARATION_BATCH_0_COMPLETE_VOCABULARY_DETECTOR_SEMANTICS_CLASSIFIED`.
+The inventory distinguishes 16 current literals across six classified paths
+from semantic producers and constant-reference consumers, and characterizes
+the unchanged detector through disposable lexical mutations. Only Batch 1
+mechanical correction and adversarial proof are next authorized. Batch 2 must
+start separately after Batch 1 merge. The active handoff is
+`docs/handoffs/activation-disposition-vocabulary-tripwire-correction-preparation-batch-0-complete.md`.
+The rejected tripwire closure is not superseded; the controlling posture remains
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`.

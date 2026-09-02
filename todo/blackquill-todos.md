@@ -336,7 +336,7 @@ The independent-verification evidence posture remains qualified and unchanged.
 
 ## Activation Disposition Vocabulary Tripwire Correction — selected
 
-- [ ] Preparation Batch 0: inventory detector semantics, lexical forms,
+- [x] Preparation Batch 0: inventory detector semantics, lexical forms,
   false-positive surfaces, dynamic-construction limits and mutation gaps.
 - [ ] Batch 1: replace quote-sensitive discovery with deterministic
   quote-independent exact-value detection and adversarial mutation proof.
@@ -355,3 +355,13 @@ Local campaign entrypoint:
 `docs/handoffs/activation-disposition-vocabulary-tripwire-correction-preparation-batch-0-local-ready.md`.
 The operator begins from clean synchronized `main` and performs Preparation
 Batch 0 inventory only.
+
+Preparation Batch 0 is now complete at
+`PREPARATION_BATCH_0_COMPLETE_VOCABULARY_DETECTOR_SEMANTICS_CLASSIFIED`.
+The completed inventory and actual-detector characterization are recorded in
+`docs/activation-disposition-vocabulary-tripwire-correction-preparation-inventory.md`.
+Only Batch 1 mechanical correction and adversarial proof are next authorized;
+Batch 2 remains separately sequenced after Batch 1 merge. The active handoff is
+`docs/handoffs/activation-disposition-vocabulary-tripwire-correction-preparation-batch-0-complete.md`.
+The prior closure remains rejected and the controlling posture remains
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`.
