@@ -1,0 +1,191 @@
+[
+  {
+    "id": "single",
+    "source": "$x = '{{V}}';",
+    "current_rejects": true,
+    "token": "T_CONSTANT_ENCAPSED_STRING",
+    "batch1_classification": "EXACT_LITERAL"
+  },
+  {
+    "id": "double",
+    "source": "$x = \"{{V}}\";",
+    "current_rejects": false,
+    "token": "T_CONSTANT_ENCAPSED_STRING",
+    "batch1_classification": "EXACT_LITERAL"
+  },
+  {
+    "id": "binary_single",
+    "source": "$x = b'{{V}}';",
+    "current_rejects": true,
+    "token": "T_CONSTANT_ENCAPSED_STRING",
+    "batch1_classification": "EXACT_LITERAL"
+  },
+  {
+    "id": "binary_double",
+    "source": "$x = B\"{{V}}\";",
+    "current_rejects": false,
+    "token": "T_CONSTANT_ENCAPSED_STRING",
+    "batch1_classification": "EXACT_LITERAL"
+  },
+  {
+    "id": "hex",
+    "source": "$x = \"{{HEX}}\";",
+    "current_rejects": false,
+    "token": "T_CONSTANT_ENCAPSED_STRING",
+    "batch1_classification": "EXACT_LITERAL"
+  },
+  {
+    "id": "octal",
+    "source": "$x = \"{{OCT}}\";",
+    "current_rejects": false,
+    "token": "T_CONSTANT_ENCAPSED_STRING",
+    "batch1_classification": "EXACT_LITERAL"
+  },
+  {
+    "id": "unicode",
+    "source": "$x = \"{{UNICODE}}\";",
+    "current_rejects": false,
+    "token": "T_CONSTANT_ENCAPSED_STRING",
+    "batch1_classification": "EXACT_LITERAL"
+  },
+  {
+    "id": "nowdoc",
+    "source": "$x = <<<'TEXT'\n{{V}}\nTEXT;",
+    "current_rejects": false,
+    "token": "T_START_HEREDOC",
+    "batch1_classification": "STATIC_MULTILINE"
+  },
+  {
+    "id": "heredoc",
+    "source": "$x = <<<TEXT\n{{V}}\nTEXT;",
+    "current_rejects": false,
+    "token": "T_START_HEREDOC",
+    "batch1_classification": "STATIC_MULTILINE"
+  },
+  {
+    "id": "interpolated",
+    "source": "$x = \"{{V}}{$suffix}\";",
+    "current_rejects": false,
+    "token": "T_VARIABLE",
+    "batch1_classification": "OUT_OF_CONTRACT_DYNAMIC"
+  },
+  {
+    "id": "split_concat",
+    "source": "$x = '{{LEFT}}'.'{{RIGHT}}';",
+    "current_rejects": false,
+    "token": "T_CONSTANT_ENCAPSED_STRING",
+    "batch1_classification": "OUT_OF_CONTRACT_CONCAT"
+  },
+  {
+    "id": "whole_concat",
+    "source": "$x = '{{V}}'.'_SUFFIX';",
+    "current_rejects": true,
+    "token": "T_CONSTANT_ENCAPSED_STRING",
+    "batch1_classification": "EXACT_LITERAL_COMPONENT"
+  },
+  {
+    "id": "constant_definition",
+    "source": "const OUTCOME = '{{V}}'; $x = OUTCOME;",
+    "current_rejects": true,
+    "token": "T_CONST",
+    "batch1_classification": "EXACT_LITERAL_DEFINITION"
+  },
+  {
+    "id": "constant_reference",
+    "source": "$x = \\App\\Imperium\\Runtime\\Imperator\\ActivationCorridorDispositionContract::DISPOSITIONS[{{INDEX}}];",
+    "current_rejects": false,
+    "token": "T_DOUBLE_COLON",
+    "batch1_classification": "OUT_OF_CONTRACT_REFERENCE"
+  },
+  {
+    "id": "dynamic",
+    "source": "$x = implode('', ['{{LEFT}}', '{{RIGHT}}']);",
+    "current_rejects": false,
+    "token": "T_STRING",
+    "batch1_classification": "OUT_OF_CONTRACT_DYNAMIC"
+  },
+  {
+    "id": "comment_line",
+    "source": "// '{{V}}'\n",
+    "current_rejects": true,
+    "token": "T_COMMENT",
+    "batch1_classification": "NON_PRODUCER"
+  },
+  {
+    "id": "comment_block",
+    "source": "/* '{{V}}' */",
+    "current_rejects": true,
+    "token": "T_COMMENT",
+    "batch1_classification": "NON_PRODUCER"
+  },
+  {
+    "id": "docblock",
+    "source": "/** '{{V}}' */",
+    "current_rejects": true,
+    "token": "T_DOC_COMMENT",
+    "batch1_classification": "NON_PRODUCER"
+  },
+  {
+    "id": "comment_bare",
+    "source": "// {{V}}\n",
+    "current_rejects": false,
+    "token": "T_COMMENT",
+    "batch1_classification": "NON_PRODUCER"
+  },
+  {
+    "id": "larger_single",
+    "source": "$x = 'PREFIX_{{V}}_SUFFIX';",
+    "current_rejects": false,
+    "token": "T_CONSTANT_ENCAPSED_STRING",
+    "batch1_classification": "LARGER_STRING"
+  },
+  {
+    "id": "quoted_documentation",
+    "source": "$x = \"Use '{{V}}' in examples\";",
+    "current_rejects": true,
+    "token": "T_CONSTANT_ENCAPSED_STRING",
+    "batch1_classification": "LARGER_STRING"
+  },
+  {
+    "id": "inline_html",
+    "source": "?>'{{V}}'<?php ",
+    "current_rejects": true,
+    "token": "T_INLINE_HTML",
+    "batch1_classification": "NON_PRODUCER"
+  },
+  {
+    "id": "identifier",
+    "source": "const {{V}} = 1;",
+    "current_rejects": false,
+    "token": "T_STRING",
+    "batch1_classification": "NON_PRODUCER"
+  },
+  {
+    "id": "exact_message",
+    "source": "throw new \\RuntimeException('{{V}}');",
+    "current_rejects": true,
+    "token": "T_CONSTANT_ENCAPSED_STRING",
+    "batch1_classification": "EXACT_LITERAL_NON_DECISION"
+  },
+  {
+    "id": "dead_code",
+    "source": "if (false) { $x = '{{V}}'; }",
+    "current_rejects": true,
+    "token": "T_CONSTANT_ENCAPSED_STRING",
+    "batch1_classification": "EXACT_LITERAL_NON_DECISION"
+  },
+  {
+    "id": "case_variant",
+    "source": "$x = '{{LOWER}}';",
+    "current_rejects": false,
+    "token": "T_CONSTANT_ENCAPSED_STRING",
+    "batch1_classification": "DIFFERENT_VALUE"
+  },
+  {
+    "id": "single_escape_text",
+    "source": "$x = '{{HEX}}';",
+    "current_rejects": false,
+    "token": "T_CONSTANT_ENCAPSED_STRING",
+    "batch1_classification": "DIFFERENT_VALUE"
+  }
+]
