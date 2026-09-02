@@ -10,7 +10,7 @@ final class TransitionStore
     private string $directory;
     private bool $locked = false;
 
-    public function __construct(string $directory)
+    public function __construct(string $directory, private readonly ?\Closure $checkpoint = null)
     {
         $resolved = realpath($directory);
         if (false === $resolved || !is_dir($resolved)) {
@@ -80,6 +80,7 @@ final class TransitionStore
             return $existing;
         }
         $pending = $this->path($name.'.pending');
+        $this->observe($name.'.before_open');
         $handle = @fopen($pending, 'x+b');
         if (false === $handle) { throw new \RuntimeException('UNKNOWN_REPLAY_PROHIBITED'); }
         try {
@@ -91,10 +92,18 @@ final class TransitionStore
         } finally {
             fclose($handle);
         }
+        $this->observe($name.'.before_publish');
         if (!@rename($pending, $this->path($name.'.json'))) {
             throw new \RuntimeException('UNKNOWN_REPLAY_PROHIBITED');
         }
+        $this->observe($name.'.after_publish');
         return $body;
+    }
+
+    /** Trusted fault harness only; never bound from request or persisted data. */
+    private function observe(string $cut): void
+    {
+        if (null !== $this->checkpoint) { ($this->checkpoint)($cut); }
     }
 
     private function path(string $name): string

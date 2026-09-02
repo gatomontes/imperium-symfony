@@ -63,3 +63,5 @@ Batch 2: canonical existing-directory store, domain lock, exact immutable replay
 Batch 3: pinned-grant issuer and seven-part atomic consumer implemented. Duplicate execution refuses with EAT_ALREADY_COMMITTED_READ_ONLY_REPLAY; receipt reconstruction owns replay. Original binding remains immutable. 12 tests, 1723 assertions passed. The new protocol is opt-in and no native lifecycle migration or live grant is claimed.
 
 Batch 4: two actual PHP processes, shared start gate and canonical-path alias contention produced exactly one commit and one losing-path refusal. 13 tests, 1733 assertions passed. This proves cooperative process exclusion on this host, not hostile-writer or distributed storage safety.
+
+Batch 5: nine real child-process termination cuts around authority, journal and aggregate publication; expiry and revocation refusal; restart prohibits execution from incomplete commit state. 24 tests, 1808 assertions passed. Short/truncated pending-file refusal is separately synthetic. Checkpoint closure is trusted fault-harness configuration only. No power-loss or arbitrary-kill timing claim.
