@@ -59,3 +59,5 @@ New campaign source, tests and batch documents are read as they are implemented.
 Batch 1 validation: 8 tests, 1701 assertions passed including exact runtime coverage. An initial inventory mismatch was corrected by declaring the explicit authority field contract; no coverage assertion was relaxed.
 
 Batch 2: canonical existing-directory store, domain lock, exact immutable replay, full write/flush/fsync and fail-stopped pending files. Single aggregate publication avoids nested lock cycles. 10 tests, 1708 assertions passed; no physical power-loss claim.
+
+Batch 3: pinned-grant issuer and seven-part atomic consumer implemented. Duplicate execution refuses with EAT_ALREADY_COMMITTED_READ_ONLY_REPLAY; receipt reconstruction owns replay. Original binding remains immutable. 12 tests, 1723 assertions passed. The new protocol is opt-in and no native lifecycle migration or live grant is claimed.
