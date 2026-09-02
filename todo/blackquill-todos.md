@@ -386,3 +386,9 @@ Active handoff:
 `docs/handoffs/activation-disposition-vocabulary-tripwire-correction-campaign-complete.md`.
 `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
 remains controlling.
+
+Atomic Transition Independently Verifiable Reproof is selected as a distinct
+v2 proof, not a rehabilitation of the v1 package. Only Preparation Batch 0
+inventory is authorized. Later mission execution, independent
+verification/signing, repository admission and terminal Blackquill audit remain
+separate authority boundaries.
