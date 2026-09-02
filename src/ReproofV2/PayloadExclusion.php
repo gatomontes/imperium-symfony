@@ -14,8 +14,22 @@ final class PayloadExclusion
             $digests[$name] = Records::hash($value);
         }
         return ['policy' => 'strict-profile-and-bounded-decoding/v2', 'sections' => $digests,
-            'decode_depth' => 3, 'synthetic_negative_vectors' => ['plain', 'base64', 'hex', 'percent', 'split'],
+            'decode_depth' => 3, 'synthetic_negative_vectors' => $this->negativeObservations(),
             'retained_forbidden_value' => false];
+    }
+
+    private function negativeObservations(): array
+    {
+        $marker = 'REPROOF_SYNTHETIC_FORBIDDEN';
+        $vectors = ['plain' => $marker, 'base64' => base64_encode($marker), 'hex' => bin2hex($marker),
+            'percent' => '%52'.substr($marker, 1), 'split' => ['REPROOF_SYNTHETIC_', 'FORBIDDEN']];
+        $observations = [];
+        foreach ($vectors as $id => $value) {
+            try { $this->check($value); }
+            catch (\RuntimeException) { $observations[$id] = 'REFUSED'; continue; }
+            throw new \RuntimeException('REPROOF_EXCLUSION_SELF_CHECK_FAILED');
+        }
+        return $observations;
     }
 
     public function check(mixed $value, int $depth = 0): void

@@ -7,7 +7,7 @@ campaign and run PHPUnit after every batch. Preparation history remains intact.
 | --- | --- | --- |
 | 1 | Complete: authority-empty v2 contracts | PHPUnit 2 tests, 62 assertions |
 | 2 | Complete: inert runner and exclusive package publication | PHPUnit cumulative 6 tests, 143 assertions |
-| 3 | Pending: independent verifier | Not run |
+| 3 | Complete: independent case/source/exclusion derivation | PHPUnit cumulative 10 tests, 207 assertions |
 | 4 | Pending: counterfeit/interruption tests | Not run |
 | 5 | Exact-source/command execution approval required | No mission executed |
 | 6 | Separate verification/signing approval required | No private intake or signing |
