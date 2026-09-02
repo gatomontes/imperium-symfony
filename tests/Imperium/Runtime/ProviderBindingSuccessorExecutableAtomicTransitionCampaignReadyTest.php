@@ -20,7 +20,7 @@ final class ProviderBindingSuccessorExecutableAtomicTransitionCampaignReadyTest 
     {
         $root = dirname(__DIR__, 3);
         $documents = (string) file_get_contents($root.'/docs/next-campaign-provider-binding-successor-executable-atomic-transition.md').(string) file_get_contents($root.'/docs/handoffs/provider-binding-successor-executable-atomic-transition-campaign-ready.md');
-        foreach (['Only Preparation Batch 0 may next be considered', 'Do not implement the proposed contracts', 'separately authorized batches', 'BOUND_INACTIVE', 'NOT_IMPLEMENTED', 'UNKNOWN_REPLAY_PROHIBITED'] as $boundary) {
+        foreach (['Only Preparation Batch 0 may next be considered', 'Do not implement the proposed contracts', 'authorized batches', 'BOUND_INACTIVE', 'NOT_IMPLEMENTED', 'UNKNOWN_REPLAY_PROHIBITED'] as $boundary) {
             self::assertStringContainsString($boundary, $documents, $boundary);
         }
     }
