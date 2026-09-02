@@ -61,7 +61,7 @@ final class NativeState
         return $store->read('commit') ?? throw new \RuntimeException('UNKNOWN_REPLAY_PROHIBITED');
     }
 
-    public function put(string $kind, string $id, array $record): array
+    public function put(string $kind, string $id, array $record, ?callable $beforePublish = null): array
     {
         if (!$this->locked) { throw new \RuntimeException('NIR_WRITE_WITHOUT_LOCK'); }
         $path = $this->eventPath($kind, $id);
@@ -71,7 +71,10 @@ final class NativeState
             return $existing;
         }
         if (!is_dir($path) && !mkdir($path, 0770, true) && !is_dir($path)) { throw new \RuntimeException('NIR_STORAGE_FAILED'); }
-        $callback = null === $this->checkpoint ? null : fn (string $cut) => ($this->checkpoint)($kind.'.'.$cut);
+        $callback = function (string $cut) use ($kind, $beforePublish): void {
+            if (null !== $this->checkpoint) { ($this->checkpoint)($kind.'.'.$cut); }
+            if ('commit.before_publish' === $cut && null !== $beforePublish) { $beforePublish(); }
+        };
         $store = new TransitionStore($path, $callback);
         return $store->locked(fn () => $store->put('commit', $record));
     }

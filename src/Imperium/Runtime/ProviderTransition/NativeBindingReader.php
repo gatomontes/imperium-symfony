@@ -28,8 +28,11 @@ final readonly class NativeBindingReader
             }
             return ['root' => $root, 'effective_status' => 'BOUND_INACTIVE', 'descriptor' => NativeState::ref($descriptor, 'binding_id'), 'receipt' => null];
         }
-        TransitionContract::keys($commit, ['schema', 'root', 'authority_id', 'records', 'committed_at', 'record_digest']);
+        TransitionContract::keys($commit, ['schema', 'root', 'authority_id', 'journal', 'records', 'committed_at', 'record_digest']);
         $plain = $commit; unset($plain['record_digest']);
+        $journal = $this->state->get('journals', $root) ?? throw new \RuntimeException('NIR_JOURNAL_ABSENT');
+        if ($commit['journal'] !== NativeState::ref($journal, 'journal_id') || $journal['root'] !== $root
+            || $journal['storage'] !== $this->state->identity() || $journal['prepared_at'] > $commit['committed_at']) { throw new \RuntimeException('NIR_JOURNAL_JOIN'); }
         if ($commit['schema'] !== 'imperium.la-cortine.native-transition-commit/v1' || $commit['root'] !== $root
             || !is_int($commit['committed_at']) || $commit['committed_at'] > $at
             || $commit['record_digest'] !== TransitionContract::digest($plain)) { throw new \RuntimeException('NIR_COMMIT_INVALID'); }

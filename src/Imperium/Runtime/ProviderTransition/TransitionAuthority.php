@@ -13,6 +13,7 @@ final readonly class TransitionAuthority
 
     public function grant(): array
     {
+        $this->store->assertNotRetired();
         $grant = $this->store->read('grant');
         if (null === $grant) { throw new \RuntimeException('EAT_GRANT_ABSENT'); }
         TransitionContract::grant($grant, $this->grantPin);

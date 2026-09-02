@@ -1,5 +1,11 @@
 # Delegate mission flow
 
+Latest: `NATIVE_INTEGRATION_BATCH_4_ATOMIC_NATIVE_CONSUMER_IMPLEMENTED`; three stages remain.
+Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-4-complete.md`.
+The native consumer now publishes and calls the actual binding reader; full
+PHPUnit passed 1883 tests, 44414 assertions. Separate-process and independent
+reconstruction proofs remain before terminal acceptance.
+
 Latest native remediation: `NATIVE_INTEGRATION_BATCH_3_CANONICAL_ADMISSION_READER_IMPLEMENTED`.
 Four stages remain. Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-3-complete.md`.
 Full suite passed 1872 tests, 44367 assertions. Atomic publication and independent

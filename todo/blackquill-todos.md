@@ -1,5 +1,10 @@
 # Blackquill Review TODOs
 
+Latest: `NATIVE_INTEGRATION_BATCH_4_ATOMIC_NATIVE_CONSUMER_IMPLEMENTED`; three stages remain.
+Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-4-complete.md`.
+Challenge source-writer contention, all new interruption cuts, registered legacy
+retirement and final-flush expiry. Require independent reconstruction next.
+
 Latest: `NATIVE_INTEGRATION_BATCH_3_CANONICAL_ADMISSION_READER_IMPLEMENTED`. Four stages remain.
 Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-3-complete.md`.
 Require actual reader use after atomic publication and an independent verifier;

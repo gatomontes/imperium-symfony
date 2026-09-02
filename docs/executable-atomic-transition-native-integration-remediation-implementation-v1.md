@@ -1,5 +1,31 @@
 # Native Integration Remediation implementation v1
 
+## Batch 4 native atomic publication and migration
+
+`NATIVE_INTEGRATION_BATCH_4_ATOMIC_NATIVE_CONSUMER_IMPLEMENTED`. Full suite: 1883 tests, 44414 assertions.
+Exact handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-4-complete.md`.
+The executable entry is NativeConsumer::execute(authorityId). It holds the native
+and immutable-source locks, plus sorted registered legacy store locks. Native
+revalidation runs before intent and after pending flush immediately before rename.
+The durable journal binds storage, authority, operator migration inventory and
+legacy store identities; the complete commit binds that journal. Reader output
+is returned by the actual consumer, not left as an unread projection.
+
+New cut families: journal directory/open/flush/rename, each legacy retirement
+open/flush/rename, final combined commit open/flush/rename, and post-publication
+response loss. Empty event directories now classify unknown rather than being
+silently repaired. No rollback or automatic retry exists. A pre-publication
+expiry leaves pending state and cannot become a committed outcome.
+
+The migration inventory is deployment configuration, not native authority
+provenance. It must explicitly declare completeness for this authoritative root.
+Unregistered stores and unsupported legacy locations are outside the proof.
+Operator maintenance must use the documented locks and must not reset outcomes.
+Legacy grants/outcomes are never converted into native authority or receipts.
+Additional source inspection: OperatorRootOperationalizationService schema line;
+all new NativeMigration/NativeConsumer and changed TransitionStore/Authority/
+Reconstructor paths, NativeBindingReader and NativeTransitionBatch4Test.
+
 ## Batch 3 selected v3 result and binding interpretation
 
 `NATIVE_INTEGRATION_BATCH_3_CANONICAL_ADMISSION_READER_IMPLEMENTED`. Full suite: 1872 tests, 44367 assertions.
