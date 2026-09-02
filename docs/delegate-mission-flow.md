@@ -1774,3 +1774,13 @@ Preparation Batch 0 may next be considered. Batch 1 will own the mechanical
 detector correction; Batch 2 must be a separately sequenced terminal audit
 starting from merged Batch 1 `main`. The controlling independent-verification
 qualification remains unchanged.
+
+
+### Local start for vocabulary correction Preparation Batch 0
+
+The local continuation point is
+`docs/handoffs/activation-disposition-vocabulary-tripwire-correction-preparation-batch-0-local-ready.md`.
+It pins the required sources, clean-checkout commands, inventory deliverables,
+prohibited actions and copy-ready new-chat prompt. Only Preparation Batch 0 is
+authorized; detector repair remains Batch 1 and terminal review remains a
+separately sequenced Batch 2.

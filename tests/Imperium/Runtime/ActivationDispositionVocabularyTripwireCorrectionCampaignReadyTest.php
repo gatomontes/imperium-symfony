@@ -46,6 +46,26 @@ final class ActivationDispositionVocabularyTripwireCorrectionCampaignReadyTest e
         }
     }
 
+    public function testLocalPreparationHandoffPinsScopeAndCommands(): void
+    {
+        $handoff = (string) file_get_contents(
+            dirname(__DIR__, 3)
+            .'/docs/handoffs/'
+            .'activation-disposition-vocabulary-tripwire-correction-preparation-batch-0-local-ready.md',
+        );
+
+        foreach ([
+            'git pull --ff-only origin main',
+            'PREPARATION_BATCH_0_COMPLETE_VOCABULARY_DETECTOR_SEMANTICS_CLASSIFIED',
+            'Only Preparation Batch 0 may be performed',
+            'Do not repair the detector',
+            'New-chat prompt',
+            'CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT',
+        ] as $boundary) {
+            self::assertStringContainsString($boundary, $handoff, $boundary);
+        }
+    }
+
     public function testCampaignRequalifiesRatherThanSilentlyErasesTheRejectedClosure(): void
     {
         $root = dirname(__DIR__, 3);

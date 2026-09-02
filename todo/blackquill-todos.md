@@ -349,3 +349,9 @@ value without inventory admission. The prior tripwire-restoration closure is
 therefore requalified as
 `FROZEN_RUNTIME_COVERAGE_TRIPWIRE_RESTORATION_CLOSURE_REJECTED_WITH_MATERIAL_VOCABULARY_TRIPWIRE_GAP`.
 The broader independent-verification evidence qualification remains in force.
+
+
+Local campaign entrypoint:
+`docs/handoffs/activation-disposition-vocabulary-tripwire-correction-preparation-batch-0-local-ready.md`.
+The operator begins from clean synchronized `main` and performs Preparation
+Batch 0 inventory only.

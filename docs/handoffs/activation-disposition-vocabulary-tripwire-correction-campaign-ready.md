@@ -50,3 +50,11 @@ Do not execute a mission, invoke a provider, perform external I/O, handle a live
 credential or capability, mutate live runtime state, change runtime production
 source, repair the legacy audit, remove the closure qualification, or create a
 terminal audit. Batch 2 must remain separately sequenced after Batch 1 merge.
+
+
+## Local campaign entrypoint
+
+Use
+`docs/handoffs/activation-disposition-vocabulary-tripwire-correction-preparation-batch-0-local-ready.md`
+for synchronization commands, the exact Preparation Batch 0 deliverables and
+the copy-ready new-chat prompt.
