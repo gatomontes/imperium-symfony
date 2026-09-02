@@ -1,5 +1,21 @@
 # Blackquill Review TODOs
 
+Current Atomic Transition Reproof result:
+`CAMPAIGN_CLOSURE_ACCEPTED_AFTER_INDEPENDENTLY_ATTESTED_REPROOF`.
+The separately approved Batch 8 review started from clean merged Batch 7 main
+`7318ab2`. Findings B8-01 through B8-07 pass within their documented limits:
+`docs/atomic-transition-reproof-v2-terminal-audit-v1.md`.
+No stages remain. Completion handoff:
+`docs/handoffs/atomic-transition-reproof-v2-campaign-complete.md`.
+V1 remains refused at
+`CAMPAIGN_TERMINATED_INDEPENDENT_VERIFICATION_EVIDENCE_INSUFFICIENT`.
+The prior `CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+is preserved as historical evidence. Live concurrency, power-loss durability,
+hostile-host isolation and universal secret/capability detection are outside
+this accepted proof, not newly proved properties. No runtime authority follows.
+Older unchecked preparation lists and intermediate countdowns below are history;
+the implementation ledger records all eight completed batches.
+
 This backlog records the findings from the post-implementation Blackquill review of the 69-step Delegate mission lifecycle. Items are ordered by risk and recommended execution sequence.
 
 ## Critical integrity work
@@ -425,7 +441,7 @@ remains controlling.
 - [x] Batch 5: separately approved exact-source command ran once; finalized candidate; cumulative PHPUnit 75 tests, 749 assertions.
 - [x] Batch 6: separate approval received; independent all-PASS report and detached attestation; PHPUnit 80 tests, 827 assertions.
 - [x] Batch 7: exact independently attested public evidence admitted pending terminal audit; PHPUnit 104 tests, 878 assertions.
-- [ ] Batch 8: separately audit from merged Batch 7 main.
+- [x] Batch 8: separate terminal audit from clean merged Batch 7 main; bounded v2 acceptance, v1 refusal preserved; cumulative PHPUnit 111 tests, 1090 assertions.
 
 Four stages remain at `REPROOF_BATCH_4_COMPLETE_AWAITING_EXACT_SOURCE_EXECUTION_APPROVAL`.
 Active handoff: `docs/handoffs/atomic-transition-reproof-v2-batch-5-execution-approval.md`.

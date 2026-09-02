@@ -1,5 +1,20 @@
 # Delegate mission flow
 
+## Current Atomic Transition Reproof disposition
+
+`CAMPAIGN_CLOSURE_ACCEPTED_AFTER_INDEPENDENTLY_ATTESTED_REPROOF`.
+The separately approved Batch 8 audit from clean merged Batch 7 main `7318ab2`
+accepts the finite eight-case v2 chain. No stages remain. Current handoff:
+`docs/handoffs/atomic-transition-reproof-v2-campaign-complete.md`.
+Decision and limits: `docs/atomic-transition-reproof-v2-terminal-audit-v1.md`.
+V1 remains refused at
+`CAMPAIGN_TERMINATED_INDEPENDENT_VERIFICATION_EVIDENCE_INSUFFICIENT`;
+`CAMPAIGN_CLOSURE_REQUALIFIED_WITH_MATERIAL_INDEPENDENT_VERIFICATION_DEFECT`
+is preserved as the historical posture superseded only for this new v2 closure.
+`BOUND_INACTIVE`, `NOT_IMPLEMENTED` and `UNKNOWN_REPLAY_PROHIBITED` remain.
+The accepted decision grants no execution authority or runtime transition.
+Earlier reproof countdowns and active handoffs below are historical stage records.
+
 ## Governing taxonomy
 
 - `Officer` is the umbrella.

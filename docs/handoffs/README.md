@@ -1,5 +1,15 @@
 # Handoff document status
 
+Current Atomic Transition Reproof completion:
+`docs/handoffs/atomic-transition-reproof-v2-campaign-complete.md` at
+`CAMPAIGN_CLOSURE_ACCEPTED_AFTER_INDEPENDENTLY_ATTESTED_REPROOF`.
+The separate Batch 8 audit from clean merged Batch 7 main is complete; no stages
+remain. Its versioned findings and limits are in
+`docs/atomic-transition-reproof-v2-terminal-audit-v1.md`.
+V1 remains refused, all runtime restrictions remain, and earlier reproof
+countdowns/readiness gates below are historical. This handoff grants no new
+execution, signing, private intake or continuing authority.
+
 Files in this directory are historical point-in-time handoffs. They explain how a completed step or leg was reached, but they do not compete with current runtime contracts or canonical documentation.
 
 For the current Delegate Mission state, read in this order:
