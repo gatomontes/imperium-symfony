@@ -1,3 +1,21 @@
+# Current continuation: native effect continuation and exclusivity remediation
+
+`CANONICAL_NATIVE_EFFECT_CONTINUATION_EXCLUSIVITY_REMEDIATION_CAMPAIGN_READY`
+`PREPARATION_BATCH_0_AUTHORIZED_ONLY`
+`BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
+
+The post-Batch 6 review retains the non-network corridor machinery only as
+candidate substrate. It refuses progression to the live trial because a fresh
+process can attempt first continuation from durable inputs, distinct authorities
+for the same semantic effect acquire distinct locks, and receipt binding accepts
+caller-supplied authority semantics without recomputing the seal. Preparation
+Batch 0 now inventories those exact gaps and evidence provenance only.
+
+See `docs/next-campaign-canonical-native-effect-continuation-exclusivity-remediation.md`,
+`docs/canonical-native-effect-corridor-post-batch-6-blackquill-review-v1.md` and
+`docs/handoffs/canonical-native-effect-continuation-exclusivity-remediation-preparation-batch-0-local-ready.md`.
+No live marker can override the suspension before corrective proof and a separate
+terminal Blackquill audit.
 # Current continuation: canonical native effect corridor
 
 `CANONICAL_NATIVE_EFFECT_CORRIDOR_ACTIVATION_CAMPAIGN_READY`
