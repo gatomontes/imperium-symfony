@@ -1,5 +1,20 @@
 # Delegate mission flow
 
+Current: `NATIVE_INTEGRATION_TERMINAL_AUDIT_ACCEPTED_BOUNDED_PRE_EFFECT`.
+All eight native remediation stages are complete. Terminal audit began from clean
+locally merged Batch 6 main `88ed24bed037101903356e519f34eb89475844a3`.
+It resumed after reader correction 6A from clean `9f335e3b00513f842539d82ea0d7955350612115`.
+All eight planned stages plus one correction are complete; the correction's full
+suite passed 1939 tests / 44961 assertions. The failing orphan-reader case and fix
+are recorded in `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-6a-correction-complete.md`.
+Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-terminal-complete.md`.
+Versioned reassessment: `docs/executable-atomic-transition-native-integration-remediation-inventory-v2.md`.
+BOUND_INACTIVE, historical NOT_IMPLEMENTED and UNKNOWN_REPLAY_PROHIBITED remain;
+no live rollout, provider effect, retry, Iron Gate or Lazaretto opening is granted.
+All prior stage counts and refusal entries below describe their historical trees.
+Final full PHPUnit: 1954 tests, 45049 assertions passed. Local completion only;
+no remote push or live rollout occurred.
+
 Latest: `NATIVE_INTEGRATION_BATCH_6_INDEPENDENT_RECONSTRUCTION_COMPLETE`; one stage remains.
 Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-6-complete.md`.
 Independent stored-edge verification gates the actual binding reader. Executable
