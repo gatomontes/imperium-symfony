@@ -2109,3 +2109,27 @@ retry authority, Iron Gate or Lazaretto action is authorized.
 
 Active local entrypoint:
 `docs/handoffs/provider-binding-successor-executable-atomic-transition-preparation-batch-0-local-ready.md`.
+
+## Canonical Consumer Integration Correction selected
+
+The post-terminal Blackquill review refuses the native-integration closure at
+`NATIVE_INTEGRATION_TERMINAL_AUDIT_REFUSED_CANONICAL_CONSUMER_NOT_INTEGRATED`.
+The route merged at `7d61409` is a coherent bounded pre-effect transition island,
+but its new command is the only production caller of `NativeConsumer`, and the
+consumer returns its own `NativeBindingReader`. The eleven established descriptor
+readers retain separate meanings. Self-consumption is not downstream canonical
+integration.
+
+Executable Atomic Transition Canonical Consumer Integration Correction is
+selected at
+`EXECUTABLE_ATOMIC_TRANSITION_CANONICAL_CONSUMER_INTEGRATION_CORRECTION_CAMPAIGN_READY`.
+Campaign countdown is five stages including Preparation Batch 0. Only Preparation
+Batch 0 may next be considered; it inventories the actual downstream binding and
+effect-corridor call graph, bypasses, container wiring and smallest integration
+sequence without runtime modification.
+
+Active local entrypoint:
+`docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-preparation-batch-0-local-ready.md`.
+`BOUND_INACTIVE`, historical v3 `NOT_IMPLEMENTED` and
+`UNKNOWN_REPLAY_PROHIBITED` remain binding. Provider invocation, external I/O,
+credential/capability handling, retry, Iron Gate and Lazaretto remain closed.

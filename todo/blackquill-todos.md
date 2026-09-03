@@ -672,3 +672,28 @@ remains controlling.
 Preparation Batch 0 is complete; later stages require separate authorization. Do not translate the bounded
 snapshot reproof into claims of live contention or physical power-loss durability.
 Provider effects remain outside this campaign.
+
+## Canonical Consumer Integration Correction — selected
+
+- [x] Preserve the merged native pre-effect transition machinery as candidate
+  substrate.
+- [x] Record the post-terminal refusal:
+  `NATIVE_INTEGRATION_TERMINAL_AUDIT_REFUSED_CANONICAL_CONSUMER_NOT_INTEGRATED`.
+- [ ] Preparation Batch 0: inventory established downstream provider-execution
+  and effect-corridor consumers, descriptor readers, call sites, dependency
+  wiring, native reachability and bypasses. No runtime change.
+- [ ] Batch 1: establish one canonical operation-scoped interpretation boundary.
+- [ ] Batch 2: integrate the selected established consumer and close the exact
+  raw-descriptor bypass without rewriting unrelated legacy semantics.
+- [ ] Batch 3: prove container/CLI/application wiring and adversarial state
+  behavior without provider effects.
+- [ ] Batch 4: perform a separate terminal Blackquill audit from merged Batch 3
+  `main`.
+
+The previous closure called a self-contained command/consumer/reader chain
+canonical while inventory N17 remained fragmented and eleven historical readers
+retained separate meanings. A wrapper that consumes itself is not downstream
+integration. Five stages remain. Only Preparation Batch 0 is authorized.
+
+Active local entrypoint:
+`docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-preparation-batch-0-local-ready.md`.
