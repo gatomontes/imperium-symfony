@@ -1,3 +1,8 @@
+> Historical status: `HISTORICAL_TERMINAL_ACCEPTANCE_INVALID_UNAUTHORIZED_SCOPE_EXPANSION`.
+> This audit remains technical evidence, but it cannot supply the missing authority
+> for Batches 1–5. Current disposition is in
+> `docs/native-inspection-snapshot-consistency-corrective-admission-audit-v1.md`.
+
 # Native Inspection Snapshot Consistency terminal Blackquill audit v1
 
 `NATIVE_INSPECTION_SNAPSHOT_CONSISTENCY_TERMINAL_AUDIT_ACCEPTED`

@@ -1,3 +1,15 @@
+# Current native-inspection corrective disposition
+
+`NATIVE_INSPECTION_SNAPSHOT_CONSISTENCY_CORRECTED_CLOSURE_ACCEPTED`
+
+The optimistic non-authorizing inspection candidate is admitted prospectively
+after corrective Operator authorization and an external review of the exact
+candidate commit. Its original unauthorized execution and invalid closure remain
+preserved in the breach record; they are not rewritten as authorized history.
+No mission-flow authority, credential access, provider effect, retry, Iron Gate
+or Lazaretto permission follows from this correction. See
+`docs/handoffs/native-inspection-snapshot-consistency-corrective-admission-complete.md`.
+
 # Current continuation: native inspection snapshot consistency
 
 `NATIVE_INSPECTION_SNAPSHOT_CONSISTENCY_CAMPAIGN_READY`
