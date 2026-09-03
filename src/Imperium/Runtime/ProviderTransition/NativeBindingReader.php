@@ -21,6 +21,8 @@ final readonly class NativeBindingReader
         $commit = $this->state->get('transitions', $root);
         if (null === $commit) {
             if (null !== $this->state->get('journals', $root)) { throw new \RuntimeException('UNKNOWN_REPLAY_PROHIBITED'); }
+            $proof = (new NativeReconstructor($this->state))->reconstruct($instance, $binding, $operation, $at);
+            if ('ABSENT' !== $proof['classification']) { throw new \RuntimeException('UNKNOWN_REPLAY_PROHIBITED'); }
             $descriptor = $this->state->json(NativeState::SOURCES['binding'].'/'.$binding.'.json');
             $this->state->source('binding', NativeState::ref($descriptor, 'binding_id'));
             if ($descriptor['binding_id'] !== $binding || $descriptor['instance_id'] !== $instance || 'BOUND_INACTIVE' !== $descriptor['status']) {
