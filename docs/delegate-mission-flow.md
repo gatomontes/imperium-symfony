@@ -1,19 +1,20 @@
 # Delegate mission flow
 
-Current: `NATIVE_INTEGRATION_TERMINAL_AUDIT_ACCEPTED_BOUNDED_PRE_EFFECT`.
-All eight native remediation stages are complete. Terminal audit began from clean
-locally merged Batch 6 main `88ed24bed037101903356e519f34eb89475844a3`.
-It resumed after reader correction 6A from clean `9f335e3b00513f842539d82ea0d7955350612115`.
-All eight planned stages plus one correction are complete; the correction's full
-suite passed 1939 tests / 44961 assertions. The failing orphan-reader case and fix
-are recorded in `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-6a-correction-complete.md`.
-Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-terminal-complete.md`.
-Versioned reassessment: `docs/executable-atomic-transition-native-integration-remediation-inventory-v2.md`.
-BOUND_INACTIVE, historical NOT_IMPLEMENTED and UNKNOWN_REPLAY_PROHIBITED remain;
-no live rollout, provider effect, retry, Iron Gate or Lazaretto opening is granted.
-All prior stage counts and refusal entries below describe their historical trees.
-Final full PHPUnit: 1954 tests, 45049 assertions passed. Local completion only;
-no remote push or live rollout occurred.
+Current: `NATIVE_INTEGRATION_TERMINAL_AUDIT_REFUSED_CANONICAL_CONSUMER_NOT_INTEGRATED`.
+The post-terminal Blackquill review retains the bounded native transition
+substrate but rejects canonical integration: the new command consumes its own
+consumer/reader island while the established descriptor/effect corridors remain
+separate. The corrective campaign is selected at
+`EXECUTABLE_ATOMIC_TRANSITION_CANONICAL_CONSUMER_INTEGRATION_CORRECTION_CAMPAIGN_READY`.
+Only Preparation Batch 0 is authorized. Current handoff:
+`docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-preparation-batch-0-local-ready.md`.
+`BOUND_INACTIVE`, historical `NOT_IMPLEMENTED` and
+`UNKNOWN_REPLAY_PROHIBITED` remain binding; no live rollout, provider effect,
+retry, Iron Gate or Lazaretto opening is granted. The prior terminal acceptance,
+test counts and stage entries below remain evidence for their historical tree,
+not the current closure verdict.
+Historical superseded marker:
+`NATIVE_INTEGRATION_TERMINAL_AUDIT_ACCEPTED_BOUNDED_PRE_EFFECT`.
 
 Latest: `NATIVE_INTEGRATION_BATCH_6_INDEPENDENT_RECONSTRUCTION_COMPLETE`; one stage remains.
 Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-6-complete.md`.
@@ -2109,3 +2110,27 @@ retry authority, Iron Gate or Lazaretto action is authorized.
 
 Active local entrypoint:
 `docs/handoffs/provider-binding-successor-executable-atomic-transition-preparation-batch-0-local-ready.md`.
+
+## Canonical Consumer Integration Correction selected
+
+The post-terminal Blackquill review refuses the native-integration closure at
+`NATIVE_INTEGRATION_TERMINAL_AUDIT_REFUSED_CANONICAL_CONSUMER_NOT_INTEGRATED`.
+The route merged at `7d61409` is a coherent bounded pre-effect transition island,
+but its new command is the only production caller of `NativeConsumer`, and the
+consumer returns its own `NativeBindingReader`. The eleven established descriptor
+readers retain separate meanings. Self-consumption is not downstream canonical
+integration.
+
+Executable Atomic Transition Canonical Consumer Integration Correction is
+selected at
+`EXECUTABLE_ATOMIC_TRANSITION_CANONICAL_CONSUMER_INTEGRATION_CORRECTION_CAMPAIGN_READY`.
+Campaign countdown is five stages including Preparation Batch 0. Only Preparation
+Batch 0 may next be considered; it inventories the actual downstream binding and
+effect-corridor call graph, bypasses, container wiring and smallest integration
+sequence without runtime modification.
+
+Active local entrypoint:
+`docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-preparation-batch-0-local-ready.md`.
+`BOUND_INACTIVE`, historical v3 `NOT_IMPLEMENTED` and
+`UNKNOWN_REPLAY_PROHIBITED` remain binding. Provider invocation, external I/O,
+credential/capability handling, retry, Iron Gate and Lazaretto remain closed.

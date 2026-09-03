@@ -1,22 +1,19 @@
 # Blackquill Review TODOs
 
-Current verdict: `NATIVE_INTEGRATION_TERMINAL_AUDIT_ACCEPTED_BOUNDED_PRE_EFFECT`.
-Native remediation Batches 0–7 complete; no unresolved blocker to the exact
-bounded pre-effect claim. Full rationale and limits:
-`docs/executable-atomic-transition-native-integration-remediation-terminal-audit-v1.md`.
-Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-terminal-complete.md`.
-Retain deployment/legacy-inventory, shared-validator, cooperative-host and
-power-loss limits; do not promote this verdict to live rollout or provider effects.
-BOUND_INACTIVE, historical NOT_IMPLEMENTED and UNKNOWN_REPLAY_PROHIBITED remain.
-Iron Gate and Lazaretto stay closed. Historical refusals and counts below remain
-evidence for the earlier trees; they are not erased or silently reclassified.
-One extra correction batch was necessary: independent reconstruction reported
-orphaned retirement as unknown while the reader returned inactive. A failing
-regression demonstrated it; Batch 6A corrected the reader and passed full PHPUnit
-1939 tests / 44961 assertions. Terminal review resumed from clean corrected main
-`9f335e3b00513f842539d82ea0d7955350612115`. See the Batch 6A correction handoff.
-Final resumed terminal PHPUnit: 1954 tests, 45049 assertions passed. No unresolved
-blocker to the bounded claim remains; no live rollout or next campaign is selected.
+Current verdict:
+`NATIVE_INTEGRATION_TERMINAL_AUDIT_REFUSED_CANONICAL_CONSUMER_NOT_INTEGRATED`.
+The prior bounded transition machinery remains useful, but its command consumes
+its own new reader and does not establish downstream canonical integration.
+Current campaign:
+`EXECUTABLE_ATOMIC_TRANSITION_CANONICAL_CONSUMER_INTEGRATION_CORRECTION_CAMPAIGN_READY`.
+Only Preparation Batch 0 is authorized. Current handoff:
+`docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-preparation-batch-0-local-ready.md`.
+The earlier acceptance, correction, test counts and limits below remain historical
+evidence, not the controlling verdict. `BOUND_INACTIVE`, historical
+`NOT_IMPLEMENTED`, `UNKNOWN_REPLAY_PROHIBITED`, Iron Gate and Lazaretto remain
+closed.
+Historical superseded marker:
+`NATIVE_INTEGRATION_TERMINAL_AUDIT_ACCEPTED_BOUNDED_PRE_EFFECT`.
 
 Latest: `NATIVE_INTEGRATION_BATCH_6_INDEPENDENT_RECONSTRUCTION_COMPLETE`; one stage remains.
 Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-6-complete.md`.
@@ -672,3 +669,28 @@ remains controlling.
 Preparation Batch 0 is complete; later stages require separate authorization. Do not translate the bounded
 snapshot reproof into claims of live contention or physical power-loss durability.
 Provider effects remain outside this campaign.
+
+## Canonical Consumer Integration Correction — selected
+
+- [x] Preserve the merged native pre-effect transition machinery as candidate
+  substrate.
+- [x] Record the post-terminal refusal:
+  `NATIVE_INTEGRATION_TERMINAL_AUDIT_REFUSED_CANONICAL_CONSUMER_NOT_INTEGRATED`.
+- [ ] Preparation Batch 0: inventory established downstream provider-execution
+  and effect-corridor consumers, descriptor readers, call sites, dependency
+  wiring, native reachability and bypasses. No runtime change.
+- [ ] Batch 1: establish one canonical operation-scoped interpretation boundary.
+- [ ] Batch 2: integrate the selected established consumer and close the exact
+  raw-descriptor bypass without rewriting unrelated legacy semantics.
+- [ ] Batch 3: prove container/CLI/application wiring and adversarial state
+  behavior without provider effects.
+- [ ] Batch 4: perform a separate terminal Blackquill audit from merged Batch 3
+  `main`.
+
+The previous closure called a self-contained command/consumer/reader chain
+canonical while inventory N17 remained fragmented and eleven historical readers
+retained separate meanings. A wrapper that consumes itself is not downstream
+integration. Five stages remain. Only Preparation Batch 0 is authorized.
+
+Active local entrypoint:
+`docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-preparation-batch-0-local-ready.md`.
