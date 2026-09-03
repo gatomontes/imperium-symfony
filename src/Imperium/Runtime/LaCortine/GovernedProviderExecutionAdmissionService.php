@@ -68,6 +68,7 @@ final readonly class GovernedProviderExecutionAdmissionService
             function () use ($authority, $authorityId, $admissionId, $at): array {
                 try {
                     $existing = $this->records->read(self::ADMISSIONS, $admissionId);
+                    (new NativeBindingReader(new NativeState($this->root)))->assertLegacyRecord($existing);
                     $this->assertExisting($existing, $authority, $authorityId, $admissionId);
 
                     return $existing;

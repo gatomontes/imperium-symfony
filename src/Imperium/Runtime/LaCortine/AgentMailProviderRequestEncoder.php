@@ -14,7 +14,9 @@ final readonly class AgentMailProviderRequestEncoder
     public function encode(array $binding, string $destination, string $payload, mixed $opaqueAuthentication, string $idempotencyKey): AgentMailTransientEncodedRequest
     {
         return $this->bindingReader->legacy(function () use ($binding, $destination, $payload, $opaqueAuthentication, $idempotencyKey): AgentMailTransientEncodedRequest {
-            $this->bindingReader->assertLegacyRecord($binding);
+            if ($this->bindingReader->hasNativeState()) {
+                $this->bindingReader->assertLegacy($binding);
+            }
             return $this->encodeLegacy($binding, $destination, $payload, $opaqueAuthentication, $idempotencyKey);
         });
     }

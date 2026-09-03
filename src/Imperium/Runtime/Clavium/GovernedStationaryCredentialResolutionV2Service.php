@@ -80,6 +80,7 @@ final readonly class GovernedStationaryCredentialResolutionV2Service
             function () use ($admission, $admissionId, $proofId, $at): array {
                 try {
                     $existing = $this->records->read(self::PROOFS, $proofId);
+                    (new NativeBindingReader(new NativeState($this->root)))->assertLegacyRecord($existing);
                     $this->assertExisting($existing, $admission, $admissionId, $proofId);
 
                     return $existing;

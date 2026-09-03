@@ -235,11 +235,31 @@ class CanonicalConsumerCorrectionBatch3Test extends CanonicalConsumerCorrectionB
         }
         $this->fails('CCI_NATIVE_STATE_PRECLUDES_LEGACY', fn () => $container->get(\App\Imperium\Runtime\Clavium\ProviderBoundCredentialEligibilityService::class)->assess($descriptor, $capability, $date));
         $this->fails('CCI_NATIVE_STATE_PRECLUDES_LEGACY', fn () => $container->get(\App\Imperium\Runtime\LaCortine\AgentMailProviderRequestEncoder::class)->encode($descriptor, $claim['request']['destination'], 'payload', null, 'unused-key'));
+        $substituted = $descriptor; $substituted['schema'] = 'imperium.substituted-binding/v1';
+        $this->fails('NIR_SOURCE_CHANGED', fn () => $container->get(\App\Imperium\Runtime\LaCortine\AgentMailProviderRequestEncoder::class)->encode($substituted, $claim['request']['destination'], '{"to":["synthetic@example.test"]}', 'disposable-opaque', 'unused-key'));
         $other = $descriptor; $other['binding_id'] = 'unrelated-binding'; $other['scope']['operation'] = 'http.post.json';
         $other = NativeState::seal($other); $this->write(NativeState::SOURCES['binding'].'/unrelated-binding.json', $other);
         $reader = $container->get(NativeBindingReader::class);
         $reader->assertLegacy($other);
         self::assertSame('UNRELATED_OPERATION', $reader->interpret('imperium-test', 'unrelated-binding', 'email.send', $at)['classification']);
         self::assertSame('BOUND_INACTIVE', $reader->interpret('imperium-test', 'unrelated-binding', 'http.post.json', $at)['classification']);
+        // A corrupt upstream record must not hide a native binding carried by a cached result.
+        $cacheAuthority = 'durable-provider-execution-authority-cached';
+        $input = ['record_digest' => str_repeat('c', 64)];
+        $this->write(\App\Imperium\Runtime\Imperator\DurableProviderExecutionAuthorityIssuanceService::AUTHORITIES.'/'.$cacheAuthority.'.json', $input);
+        $cachedId = 'governed-provider-execution-admission-'.substr(hash('sha256', $cacheAuthority.'|'.$input['record_digest']), 0, 20);
+        $contract = \App\Imperium\Runtime\LaCortine\GovernedProviderExecutionAdmissionContract::class;
+        $cached = array_fill_keys($contract::REQUIRED_FIELDS, null);
+        $cached['schema'] = $contract::SCHEMA; $cached['admission_id'] = $cachedId;
+        $cached['provider_binding'] = NativeState::ref($descriptor, 'binding_id');
+        $cached['execution_authority'] = ['id' => $cacheAuthority, 'digest' => $input['record_digest']];
+        $cached['authority_consumption'] = ['consumed' => true];
+        $cached['effect_start'] = ['checkpoint' => $contract::CHECKPOINT]; $cached['sealed'] = true;
+        $this->write(\App\Imperium\Runtime\LaCortine\GovernedProviderExecutionAdmissionService::ADMISSIONS.'/'.$cachedId.'.json', NativeState::seal($cached));
+        // Prime this existing protocol mutex; the snapshot must detect record publication.
+        (new \App\Imperium\Runtime\Persistence\AtomicTransition($this->root))->run('governed-provider-execution-admission:'.$cacheAuthority, static fn () => null);
+        $before = $this->files();
+        $this->fails('CCI_NATIVE_STATE_PRECLUDES_LEGACY', fn () => $container->get(\App\Imperium\Runtime\LaCortine\GovernedProviderExecutionAdmissionService::class)->admit($cacheAuthority, $date));
+        self::assertSame($before, $this->files());
     }
 }

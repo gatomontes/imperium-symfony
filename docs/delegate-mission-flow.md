@@ -1,3 +1,6 @@
+Batch 3A audit corrections: `CANONICAL_CONSUMER_CORRECTION_BATCH_3A_COMPLETE`.
+Schema-substitution and cached-result bypasses corrected; terminal review will restart from clean merged main. Handoff: `docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-batch-3a-complete.md`.
+
 Batch 3 application/adversarial proof complete: `CANONICAL_CONSUMER_CORRECTION_BATCH_3_COMPLETE`.
 Current handoff: `docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-batch-3-complete.md`. One stage remains: the separate terminal audit from clean merged Batch 3 main. Earlier stage entries below describe historical checkpoints and authorization; the operator has authorized campaign completion.
 

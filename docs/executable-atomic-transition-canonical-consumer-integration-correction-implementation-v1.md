@@ -199,3 +199,26 @@ refuses CCI_BINDING_IDENTITY_MISMATCH without a write. General archival validato
 remain unchanged. Final focused Batch 3: **21 tests / 165 assertions**, passed.
 
 Final full Batch 3 PHPUnit passed **2015 tests / 46134 assertions**.
+
+## Batch 3A - corrections required by the first terminal review
+
+The first separate review began from clean merged main at
+120925af3812b750e701c605c2c5a594849ff499 and withheld acceptance. It found that
+A02's schema-dispatched guard could be skipped by substituting the schema on a
+caller array. A02 now checks native-state presence and validates the exact stored
+descriptor directly, so schema substitution cannot select the guard.
+
+A container regression also reproduced a cached D06 admission being returned when
+a corrupt upstream authority omitted its binding. The cached result itself still
+named the native binding. D06-D09 now guard each cached admission/proof before
+its existing consistency checks and return, while retaining the outer native lock.
+The regression confirms refusal and no record mutation; its existing legacy mutex
+is primed before the snapshot because opening that mutex may create an empty lock
+file. Inspection itself still creates no lock or record. The generic transport
+remained closed throughout; this correction does not grant provider execution.
+
+The audit must restart from clean merged Batch 3A main. No principal, successor,
+authority, production state, credential, provider call or retry was created live.
+BOUND_INACTIVE, historical v3 NOT_IMPLEMENTED and UNKNOWN_REPLAY_PROHIBITED remain.
+
+Batch 3A focused: **27 tests / 194 assertions**; full: **2015 tests / 46137 assertions**, passed.
