@@ -84,7 +84,11 @@ final class ExecutableAtomicTransitionCanonicalConsumerIntegrationCorrectionPrep
                 $actual[] = $file->getBasename('.php');
                 $relative = str_replace('\\', '/', substr($file->getPathname(), strlen($root) + 1));
                 self::assertContains($relative, $paths);
-                self::assertStringNotContainsString('NativeBindingReader', $source);
+                // The v1 inventory is historical; correction now guards ten effect-side readers.
+                if ('GovernedToolResultReconstructionService' !== $file->getBasename('.php')) {
+                    self::assertStringContainsString('NativeBindingReader', $source);
+                    self::assertStringContainsString('->legacy(', $source);
+                }
             }
         }
         preg_match_all('/^\| D\d{2} \| `([A-Za-z][A-Za-z0-9]*)::[A-Za-z]+\(\)` \|/m', $this->inventory(), $expected);
@@ -106,20 +110,19 @@ final class ExecutableAtomicTransitionCanonicalConsumerIntegrationCorrectionPrep
             '$this->credentials->consume(', '$this->adapter->invoke(', '$providerCallback($request)', 'UNKNOWN_REPLAY_PROHIBITED'] as $edge) {
             self::assertStringContainsString($edge, $broker);
         }
-        foreach ([$executor, $broker] as $source) {
-            self::assertStringNotContainsString('NativeBindingReader', $source);
-            self::assertStringNotContainsString('ProviderImplementationBindingService', $source);
-        }
+        self::assertStringContainsString('CCI_EMAIL_REQUEST_HAS_NO_BINDING_ROOT', $executor);
+        self::assertStringContainsString('NativeBindingReader', $broker);
+        self::assertStringContainsString('$this->inspectClaim(', $broker);
         $request = $this->read('src/Imperium/Runtime/LaCortine/OutboundRequest.php');
         self::assertStringNotContainsString('bindingId', $request);
         self::assertStringNotContainsString('instanceId', $request);
         $command = $this->read('src/Command/AgentMailEmailSendCommand.php');
         self::assertStringContainsString('GOVERNED_EMAIL_SEND_EXECUTOR_UNAVAILABLE', $command);
         self::assertStringContainsString('return Command::FAILURE;', $command);
-        self::assertStringNotContainsString('Command::SUCCESS', $command);
+        self::assertStringContainsString('inspect-claim', $command);
         $transport = $this->read('src/Imperium/Runtime/LaCortine/AgentMailEmailTransport.php');
         self::assertStringContainsString("'email.send' === \$operation", $transport);
-        self::assertStringContainsString('@file_get_contents($destination, false, $context)', $transport);
+        self::assertStringContainsString('CCI_EMAIL_TRANSPORT_HAS_NO_BINDING_ROOT', $transport);
         self::assertStringNotContainsString('AgentMailProviderRequestEncoder', $transport);
         foreach (['E03', 'E04', 'E05', 'A02', 'C17'] as $id) {
             self::assertStringContainsString('| '.$id.' |', $this->inventory());
@@ -131,7 +134,7 @@ final class ExecutableAtomicTransitionCanonicalConsumerIntegrationCorrectionPrep
         $services = $this->read('config/services.yaml');
         self::assertStringContainsString("resource: '../src/'", $services);
         self::assertStringContainsString("- '../src/Imperium/Runtime/ProviderTransition/'", $services);
-        self::assertStringNotContainsString('NativeBindingReader', $services);
+        self::assertStringContainsString('NativeBindingReader', $services);
         $native = $this->read('src/Command/ImperiumNativeProviderTransitionCommand.php');
         self::assertStringContainsString('new NativeConsumer', $native);
         self::assertStringContainsString('new NativeState', $native);

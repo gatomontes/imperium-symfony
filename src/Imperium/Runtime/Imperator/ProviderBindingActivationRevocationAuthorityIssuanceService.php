@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Imperator;
 
 use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\ProviderTransition\{NativeBindingReader, NativeState};
 use App\Imperium\Runtime\LaCortine\ProviderBindingActivationRevocationContract;
 use App\Imperium\Runtime\LaCortine\ProviderExecutorPrincipalContract;
 use App\Imperium\Runtime\LaCortine\ProviderImplementationBindingContract;
@@ -37,11 +38,20 @@ final readonly class ProviderBindingActivationRevocationAuthorityIssuanceService
         $this->atomic = new AtomicTransition($root);
         $this->records = new ImmutableRecordStore($root, $this->atomic);
         $this->consumptions = new AuthorityConsumptionStore($this->records, $this->atomic);
-        $this->references = new RecordReferenceValidator($root);
+        $this->references = new RecordReferenceValidator($root, new NativeBindingReader(new NativeState($root)));
         $this->contracts = new ProviderExecutionBoundaryRedesignIssuanceContractValidator();
     }
 
     public function issue(string $decisionId, array $candidate, \DateTimeImmutable $at): array
+    {
+        $reader = new NativeBindingReader(new NativeState($this->root));
+        return $reader->legacy(function () use ($reader, $decisionId, $candidate, $at): array {
+            $reader->assertLegacyRecord($candidate);
+            return $this->legacyIssue($decisionId, $candidate, $at);
+        });
+    }
+
+    private function legacyIssue(string $decisionId, array $candidate, \DateTimeImmutable $at): array
     {
         $contract = ProviderBindingActivationRevocationAuthorityIssuanceContract::class;
         $decision = $this->references->read(

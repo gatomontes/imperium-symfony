@@ -20,6 +20,9 @@ final class DeterministicBoundaryExecutor
         DeterministicTransport $transport,
         \DateTimeImmutable $now,
     ): AdmittedExternalArtifact {
+        if ('email.send' === $request->operation) {
+            throw new \RuntimeException('CCI_EMAIL_REQUEST_HAS_NO_BINDING_ROOT');
+        }
         if (OutboundExecutionMode::Deterministic !== $request->mode) {
             throw new \RuntimeException('DETERMINISTIC_EXECUTOR_MODE_MISMATCH: sorties cannot use deterministic boundary execution.');
         }

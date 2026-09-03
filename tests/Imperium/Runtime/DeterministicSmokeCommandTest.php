@@ -10,17 +10,16 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 final class DeterministicSmokeCommandTest extends TestCase
 {
-    public function testSmokeProvesMechanicalLaneWithoutSortie(): void
+    public function testOldEmailSmokeRefusesWithoutCanonicalBindingRoot(): void
     {
         $tester = new CommandTester(new DeterministicHttpPostSmokeCommand());
 
-        self::assertSame(0, $tester->execute([]));
+        self::assertSame(1, $tester->execute([]));
         $display = $tester->getDisplay();
 
-        self::assertStringContainsString('DETERMINISTIC_ROUND_TRIP_OK', $display);
-        self::assertStringContainsString('operation=email.send', $display);
-        self::assertStringContainsString('sortie=NONE', $display);
-        self::assertMatchesRegularExpression('/receipt\.sha256=[a-f0-9]{64}/', $display);
+        self::assertStringContainsString('REFUSED CCI_EMAIL_REQUEST_HAS_NO_BINDING_ROOT', $display);
+        self::assertStringNotContainsString('DETERMINISTIC_ROUND_TRIP_OK', $display);
+        self::assertStringNotContainsString('receipt.sha256=', $display);
         self::assertStringNotContainsString('smoke-secret-', $display);
     }
 }

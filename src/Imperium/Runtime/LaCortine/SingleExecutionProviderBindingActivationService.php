@@ -21,12 +21,20 @@ final readonly class SingleExecutionProviderBindingActivationService
 
     public function __construct(#[Autowire('%kernel.project_dir%')] private string $root)
     {
-        $this->validator = new RecordReferenceValidator($root);
+        $this->validator = new RecordReferenceValidator($root, new NativeBindingReader(new NativeState($root)));
         $this->atomic = new AtomicTransition($root);
         $this->records = new ImmutableRecordStore($root, $this->atomic);
     }
 
     public function activate(string $authorityId, \DateTimeImmutable $activatedAt): array
+    {
+        $reader = new NativeBindingReader(new NativeState($this->root));
+        return $reader->legacy(function () use ($reader, $authorityId, $activatedAt): array {
+            return $this->legacyActivate($authorityId, $activatedAt);
+        });
+    }
+
+    private function legacyActivate(string $authorityId, \DateTimeImmutable $activatedAt): array
     {
         if (!preg_match('/^provider-binding-activation-authority-[a-f0-9]{20}$/', $authorityId)) throw new \InvalidArgumentException('PBA400_ACTIVATION_AUTHORITY_ID_INVALID');
 

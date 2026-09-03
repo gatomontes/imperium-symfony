@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\ProviderTransition;
 
 use App\Imperium\Runtime\LaCortine\{DeterministicExecutionClaimContract, ProviderImplementationBindingContract};
+use App\Imperium\Runtime\Persistence\AtomicTransition;
+use App\Imperium\Runtime\Imperator\OutboundEmailAuthorizationIssuanceContract as Issuance;
+use App\Imperium\Runtime\LaCortine\DeterministicOutboundEmailAuthorizationContract as EmailAuthority;
 
 /** Authoritative operation interpretation. An admission-shaped array alone changes nothing. */
-final readonly class NativeBindingReader
+final class NativeBindingReader
 {
-    public function __construct(private NativeState $state) {}
+    private static array $legacyScopes = [];
+    public function __construct(private readonly NativeState $state) {}
 
     /** Read-only classification, never an execution or retry capability. */
     public function interpret(string $instance, string $binding, string $operation, int $at): array
@@ -20,13 +24,13 @@ final readonly class NativeBindingReader
             'retry_authorized' => false, 'recovery' => 'UNKNOWN_REPLAY_PROHIBITED'];
         try {
             $descriptor = $this->state->json(NativeState::SOURCES['binding'].'/'.$binding.'.json');
-            $this->state->source('binding', NativeState::ref($descriptor, 'binding_id'));
             if (ProviderImplementationBindingContract::REQUIRED_FIELDS !== array_keys($descriptor)
                 || ProviderImplementationBindingContract::SCHEMA !== $descriptor['schema']
                 || $descriptor['binding_id'] !== $binding || $descriptor['instance_id'] !== $instance
                 || true !== $descriptor['sealed'] || 'BOUND_INACTIVE' !== $descriptor['status']) {
                 return $result;
             }
+            $this->state->source('binding', NativeState::ref($descriptor, 'binding_id'));
             $result['descriptor'] = NativeState::ref($descriptor, 'binding_id');
             if (($descriptor['scope']['operation'] ?? null) !== $operation) {
                 $result['classification'] = 'UNRELATED_OPERATION';
@@ -72,6 +76,7 @@ final readonly class NativeBindingReader
             throw new \RuntimeException('CCI_CLAIM_INVALID');
         }
         $before = $this->bindingSnapshot();
+        $nativeBefore = $this->hasNativeState();
         $matches = [];
         foreach (array_keys($before) as $id) {
             $descriptor = $this->state->json(NativeState::SOURCES['binding'].'/'.$id.'.json');
@@ -82,9 +87,18 @@ final readonly class NativeBindingReader
                 $matches[] = $id;
             }
         }
-        if (1 !== count($matches)) { throw new \RuntimeException('CCI_BINDING_ABSENT_OR_AMBIGUOUS'); }
-        $result = $this->interpret($claim['instance_id'], $matches[0], $claim['request']['operation'], $at);
-        if ($before !== $this->bindingSnapshot() || $claim !== $this->state->json($path)) {
+        if ([] === $matches && !$this->hasNativeState() && [] === $before) {
+            // The old unbound claim protocol has no descriptor/root interpretation to upgrade.
+            // It is unavailable as soon as binding or native state exists in this storage.
+            $result = ['root' => null, 'classification' => 'LEGACY_UNBOUND', 'descriptor' => null,
+                'receipt' => null, 'read_only' => true, 'provider_effect_permitted' => false,
+                'retry_authorized' => false, 'recovery' => 'UNKNOWN_REPLAY_PROHIBITED'];
+        } else {
+            if (1 !== count($matches)) { throw new \RuntimeException('CCI_BINDING_ABSENT_OR_AMBIGUOUS'); }
+            $this->assertBoundClaim($claim);
+            $result = $this->interpret($claim['instance_id'], $matches[0], $claim['request']['operation'], $at);
+        }
+        if ($nativeBefore !== $this->hasNativeState() || $before !== $this->bindingSnapshot() || $claim !== $this->state->json($path)) {
             throw new \RuntimeException('UNKNOWN_REPLAY_PROHIBITED');
         }
         // Transition root and one-message replay root remain separate, joined by this stored claim.
@@ -92,6 +106,58 @@ final readonly class NativeBindingReader
         $result['execution_id'] = $claim['execution_identity']['execution_id'];
         $result['replay_fingerprint'] = $claim['replay_fingerprint'];
         return $result;
+    }
+
+    /** Same outer scope as NativeState::locked; legacy scopes are acquired only inside it. */
+    public function legacy(callable $action): mixed
+    {
+        $scope = $this->state->identity();
+        if (isset(self::$legacyScopes[$scope])) { return $action(); }
+        return (new AtomicTransition($this->state->root))->run('native-provider-transition', function () use ($scope, $action): mixed {
+            self::$legacyScopes[$scope] = true;
+            try { return $action(); } finally { unset(self::$legacyScopes[$scope]); }
+        });
+    }
+
+    public function forJournal(array $journal, int $at): array
+    {
+        $id = $journal['journal_id'] ?? null;
+        if (!is_string($id) || !preg_match('/^deterministic-effect-start-journal-[a-f0-9]{20}$/D', $id)
+            || NativeState::seal($journal) !== $journal
+            || $journal !== $this->state->json('var/imperium/la-cortine/deterministic-effect-start-journals/'.$id.'.json')) {
+            throw new \RuntimeException('CCI_JOURNAL_INVALID');
+        }
+        $result = $this->forClaim($journal['execution_claim']['id'], $at);
+        if ($result['execution_claim']['digest'] !== $journal['execution_claim']['digest']) {
+            throw new \RuntimeException('CCI_JOURNAL_CLAIM_MISMATCH');
+        }
+        return $result;
+    }
+
+    public function hasNativeState(): bool
+    {
+        return file_exists($this->state->root.'/'.NativeState::DIRECTORY)
+            || is_link($this->state->root.'/'.NativeState::DIRECTORY)
+            || file_exists($this->state->root.'/var/imperium/runtime/legacy-provider-transitions');
+    }
+
+    /** Check input/cached records before any legacy consumption, including nested authorities. */
+    public function assertLegacyRecord(array $record): void
+    {
+        if (!$this->hasNativeState()) { return; }
+        if (ProviderImplementationBindingContract::SCHEMA === ($record['schema'] ?? null)) {
+            $this->assertLegacy($record);
+            return;
+        }
+        foreach ($record as $key => $value) {
+            if (!is_array($value)) { continue; }
+            if ('provider_binding' === $key) {
+                $descriptor = $this->state->source('binding', $value);
+                $this->assertLegacy($descriptor);
+            } else {
+                $this->assertLegacyRecord($value);
+            }
+        }
     }
 
     /** Old descriptor semantics are usable only before any native attempt for this exact root. */
@@ -116,6 +182,10 @@ final readonly class NativeBindingReader
     private function bindingSnapshot(): array
     {
         $snapshot = [];
+        $directory = $this->state->root.'/'.NativeState::SOURCES['binding'];
+        if (is_link($directory) || (file_exists($directory) && !is_dir($directory))) {
+            throw new \RuntimeException('UNKNOWN_REPLAY_PROHIBITED');
+        }
         foreach (glob($this->state->root.'/'.NativeState::SOURCES['binding'].'/*') ?: [] as $file) {
             if (!is_file($file) || is_link($file) || !str_ends_with($file, '.json')) {
                 throw new \RuntimeException('UNKNOWN_REPLAY_PROHIBITED');
@@ -127,6 +197,45 @@ final readonly class NativeBindingReader
         }
         ksort($snapshot);
         return $snapshot;
+    }
+
+    /** Backward source joins and producer-derived replay identity, never configured provenance. */
+    private function assertBoundClaim(array $claim): void
+    {
+        $matches = [];
+        $directory = 'var/imperium/imperator/outbound-email-authorization-issuances';
+        foreach (glob($this->state->root.'/'.$directory.'/*.json') ?: [] as $path) {
+            $record = $this->state->json($directory.'/'.basename($path));
+            $a = $record['issued_authorization'] ?? [];
+            if (($a['authorization_id'] ?? null) === ($claim['source_authorization']['id'] ?? null)) { $matches[] = $record; }
+        }
+        if (1 !== count($matches)) { throw new \RuntimeException('CCI_CLAIM_ISSUANCE_ABSENT_OR_AMBIGUOUS'); }
+        $r = $matches[0]; $a = $r['issued_authorization'];
+        if (Issuance::REQUIRED_ISSUANCE_FIELDS !== array_keys($r) || Issuance::ISSUANCE_SCHEMA !== $r['schema']
+            || NativeState::seal($r) !== $r || EmailAuthority::REQUIRED_FIELDS !== array_keys($a)
+            || EmailAuthority::SCHEMA !== $a['schema'] || NativeState::seal($a) !== $a
+            || $a['record_digest'] !== $claim['source_authorization']['digest']
+            || $a['instance_id'] !== $claim['instance_id'] || $r['instance_id'] !== $claim['instance_id']
+            || true !== $r['authority_issued'] || false !== $r['external_action_performed']
+            || true !== $a['single_use'] || false !== $a['continuing_authority']
+            || EmailAuthority::REQUIRED_SCOPE_FIELDS !== array_keys($a['scope'])
+            || EmailAuthority::REQUIRED_PROVIDER_SAFETY_FIELDS !== array_keys($a['provider_safety'])) {
+            throw new \RuntimeException('CCI_CLAIM_ISSUANCE_INVALID');
+        }
+        $scope = $a['scope']; $provider = $a['provider_safety'];
+        $request = ['id' => $r['source_request']['id'], 'commission_id' => $scope['commission_id'],
+            'authorization_id' => $a['authorization_id'], 'authorization_digest' => $a['record_digest'],
+            'mode' => 'DETERMINISTIC', 'operation' => $scope['operation'], 'destination' => $scope['destination'],
+            'payload_digest' => $scope['payload_digest'], 'expected_return_contract' => $scope['expected_return_contract']];
+        $fingerprint = TransitionContract::digest([$a['record_digest'], $request, $claim['credential_capability'], $provider['request_fingerprint'], $provider['idempotency_key_digest']]);
+        $id = 'deterministic-execution-claim-'.substr(TransitionContract::digest([$a['authorization_id'], $fingerprint]), 0, 20);
+        if ($request !== $claim['request'] || $fingerprint !== $claim['replay_fingerprint'] || $id !== $claim['claim_id']
+            || 'deterministic-execution-'.substr(hash('sha256', $id), 0, 20) !== $claim['execution_identity']['execution_id']
+            || 'authorization:'.$a['authorization_id'] !== $claim['execution_identity']['winner_scope']
+            || $scope['credential_reference_digest'] !== $claim['credential_capability']['credential_reference_digest']
+            || $provider['idempotency_key'] !== $claim['provider_safety']['provider_idempotency_key']) {
+            throw new \RuntimeException('CCI_CLAIM_REPLAY_JOIN_INVALID');
+        }
     }
 
     public static function root(string $instance, string $binding, string $operation): string

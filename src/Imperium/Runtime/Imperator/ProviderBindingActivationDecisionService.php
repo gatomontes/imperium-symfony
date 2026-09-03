@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Imperator;
 
 use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\ProviderTransition\{NativeBindingReader, NativeState};
 use App\Imperium\Runtime\LaCortine\DeterministicExecutionClaimContract;
 use App\Imperium\Runtime\LaCortine\DeterministicExecutionClaimService;
 use App\Imperium\Runtime\LaCortine\DeterministicTransitionCallerAuthorityConsumer;
@@ -24,12 +25,20 @@ final readonly class ProviderBindingActivationDecisionService
 
     public function __construct(#[Autowire('%kernel.project_dir%')] private string $root)
     {
-        $this->validator = new RecordReferenceValidator($root);
+        $this->validator = new RecordReferenceValidator($root, new NativeBindingReader(new NativeState($root)));
         $this->atomic = new AtomicTransition($root);
         $this->records = new ImmutableRecordStore($root, $this->atomic);
     }
 
     public function decide(string $callerAuthorityId, string $claimId, string $bindingId, string $disposition, string $rationale, string $limitations, \DateTimeImmutable $expiresAt, \DateTimeImmutable $decidedAt): array
+    {
+        $reader = new NativeBindingReader(new NativeState($this->root));
+        return $reader->legacy(function () use ($reader, $callerAuthorityId, $claimId, $bindingId, $disposition, $rationale, $limitations, $expiresAt, $decidedAt): array {
+            return $this->legacyDecide($callerAuthorityId, $claimId, $bindingId, $disposition, $rationale, $limitations, $expiresAt, $decidedAt);
+        });
+    }
+
+    private function legacyDecide(string $callerAuthorityId, string $claimId, string $bindingId, string $disposition, string $rationale, string $limitations, \DateTimeImmutable $expiresAt, \DateTimeImmutable $decidedAt): array
     {
         $disposition = strtoupper(trim($disposition)); $rationale = trim($rationale); $limitations = trim($limitations);
         if (!preg_match('/^deterministic-execution-claim-[a-f0-9]{20}$/', $claimId) || !preg_match('/^provider-implementation-binding-[a-f0-9]{20}$/', $bindingId) || !in_array($disposition, ProviderBindingActivationIssuanceContract::DISPOSITIONS, true) || '' === $rationale || '' === $limitations || $expiresAt <= $decidedAt) throw new \InvalidArgumentException('PBA200_ACTIVATION_DECISION_INVALID');

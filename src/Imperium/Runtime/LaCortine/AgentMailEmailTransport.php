@@ -47,67 +47,8 @@ final class AgentMailEmailTransport implements DeterministicTransport
             throw new \RuntimeException('AGENTMAIL_PAYLOAD_INVALID: exact email payload must declare at least one recipient.');
         }
 
-        $context = stream_context_create([
-            'http' => [
-                'method' => 'POST',
-                'header' => [
-                    'Authorization: Bearer '.$authentication,
-                    'Content-Type: application/json',
-                    'Accept: application/json',
-                    'Connection: close',
-                ],
-                'content' => $payload,
-                'ignore_errors' => true,
-                'timeout' => 30,
-                'follow_location' => 0,
-                'max_redirects' => 0,
-            ],
-        ]);
+        // This legacy signature has no stored claim, binding root or native admission.
+        throw new \RuntimeException('CCI_EMAIL_TRANSPORT_HAS_NO_BINDING_ROOT');
 
-        $response = @file_get_contents($destination, false, $context);
-        if (false === $response) {
-            throw new \RuntimeException('AGENTMAIL_REQUEST_FAILED: deterministic email request failed before a response body was returned.');
-        }
-
-        $status = $this->statusCode($http_response_header ?? []);
-        if ($status < 200 || $status >= 300) {
-            throw new \RuntimeException(sprintf('AGENTMAIL_REJECTED: AgentMail returned HTTP %d.', $status));
-        }
-
-        try {
-            $receipt = json_decode($response, true, 512, JSON_THROW_ON_ERROR);
-        } catch (\JsonException $e) {
-            throw new \RuntimeException('AGENTMAIL_RECEIPT_INVALID: provider response was not valid JSON.', 0, $e);
-        }
-        if (!is_array($receipt)
-            || !is_string($receipt['message_id'] ?? null)
-            || '' === $receipt['message_id']
-            || !is_string($receipt['thread_id'] ?? null)
-            || '' === $receipt['thread_id']
-        ) {
-            throw new \RuntimeException('AGENTMAIL_RECEIPT_INVALID: provider receipt omitted message_id or thread_id.');
-        }
-
-        return new TransportResult(
-            $response,
-            [
-                'provider:agentmail',
-                'provider-message:'.$receipt['message_id'],
-                'provider-thread:'.$receipt['thread_id'],
-                $destination,
-                'http-status:'.$status,
-            ],
-            new \DateTimeImmutable(),
-        );
-    }
-
-    /** @param list<string> $headers */
-    private function statusCode(array $headers): int
-    {
-        if ([] === $headers || 1 !== preg_match('/^HTTP\/\S+\s+(\d{3})\b/', $headers[0], $matches)) {
-            throw new \RuntimeException('AGENTMAIL_RECEIPT_INVALID: response status line is missing.');
-        }
-
-        return (int) $matches[1];
     }
 }

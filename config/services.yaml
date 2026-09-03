@@ -37,6 +37,16 @@ services:
             - '../src/Imperium/Runtime/Imperator/AtomicTransitionEvidenceTerminalAdversarialAuditor.php'
             - '../src/IndependentVerification/AtomicTransitionIndependentVerificationAdmissionConsumer.php'
 
+    App\Imperium\Runtime\ProviderTransition\NativeState:
+        arguments:
+            $root: '%kernel.project_dir%'
+
+    App\Imperium\Runtime\ProviderTransition\NativeBindingReader: ~
+
+    App\Imperium\Runtime\Persistence\RecordReferenceValidator:
+        arguments:
+            $legacyBinding: null
+
     App\Bootstrap\ManifestValidator:
         arguments:
             $projectDir: '%kernel.project_dir%'

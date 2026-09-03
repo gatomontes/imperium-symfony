@@ -4,9 +4,24 @@ declare(strict_types=1);
 
 namespace App\Imperium\Runtime\LaCortine;
 
+use App\Imperium\Runtime\ProviderTransition\NativeBindingReader;
+
 final readonly class AgentMailIdempotencyHeaderAdapter
 {
+    public function __construct(private NativeBindingReader $bindingReader) {}
+
     public function invoke(array $journal, string $destination, string $payload, mixed $authentication, callable $providerCallback): mixed
+    {
+        return $this->bindingReader->legacy(function () use ($journal, $destination, $payload, $authentication, $providerCallback): mixed {
+            $interpretation = $this->bindingReader->forJournal($journal, time());
+            if ('LEGACY_UNBOUND' !== $interpretation['classification']) {
+                throw new \RuntimeException('CCI_PRE_EFFECT_ONLY_'.$interpretation['classification']);
+            }
+            return $this->invokeLegacy($journal, $destination, $payload, $authentication, $providerCallback);
+        });
+    }
+
+    private function invokeLegacy(array $journal, string $destination, string $payload, mixed $authentication, callable $providerCallback): mixed
     {
         $key = $journal['provider_safety']['provider_idempotency_key'] ?? null;
         if (!is_string($authentication) || '' === $authentication || !is_string($key) || '' === trim($key)) {

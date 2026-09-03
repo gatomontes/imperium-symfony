@@ -13,6 +13,7 @@ require_once __DIR__.'/NativeTransitionBatch1Test.php';
 
 class NativeTransitionBatch2Test extends NativeTransitionBatch1Test
 {
+    protected ?array $bindingAuthorizationTarget = null;
     public function testNativeProductionActivationAndSuccessorFeedExactAuthority(): void
     {
         [$p, $activation, $at] = $this->nativeInputs();
@@ -88,7 +89,7 @@ class NativeTransitionBatch2Test extends NativeTransitionBatch1Test
             'assurance_profile' => $ref, 'credential_family' => ['family_id' => 'agentmail-api-key', 'provider_id' => 'agentmail', 'secret_persistence_permitted' => false],
             'request_encoder' => $ref, 'evidence_decoder' => $ref,
             'destination_policy' => ['policy_id' => 'exact', 'policy_digest' => str_repeat('f', 64), 'exact_destination_required' => true],
-            'scope' => ['operation' => 'email.send', 'authorization_target_id' => 'target-test', 'authorization_target_digest' => str_repeat('e', 64), 'provider_substitution_permitted' => false],
+            'scope' => ['operation' => 'email.send', 'authorization_target_id' => $this->bindingAuthorizationTarget['id'] ?? 'target-test', 'authorization_target_digest' => $this->bindingAuthorizationTarget['digest'] ?? str_repeat('e', 64), 'provider_substitution_permitted' => false],
             'validity' => ['effective_at' => gmdate(DATE_ATOM, $at - 10), 'expires_at' => gmdate(DATE_ATOM, $at + 600)],
             'status' => 'BOUND_INACTIVE', 'bound_at' => gmdate(DATE_ATOM, $at - 10), 'sealed' => true]);
         $this->write(NativeState::SOURCES['binding'].'/provider-binding.json', $descriptor);

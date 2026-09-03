@@ -19,10 +19,16 @@ final class IronGateExecutionReceiptBindingBatch6Test extends TestCase
 
     private string $root;
     private string $bindingId = 'curia-seneschal-binding-abcdef0123456789abcd';
+    private ?\DateTimeImmutable $fixtureTime = null;
 
     protected function setUp(): void
     {
-        $this->root = sys_get_temp_dir().'/imperium-iron-gate-batch-6-'.bin2hex(random_bytes(5));
+        $this->prepareFixture(sys_get_temp_dir().'/imperium-iron-gate-batch-6-'.bin2hex(random_bytes(5)));
+    }
+
+    private function prepareFixture(string $root): void
+    {
+        $this->root = $root;
         $record = ['schema' => 'imperium.curia-seneschal-occupancy/v1', 'binding_id' => $this->bindingId, 'instance_id' => 'imperium-test', 'office' => 'curia', 'seat' => 'curia.seneschal', 'manifestation_id' => 'manifestation-seneschal-test', 'occupancy_generation' => 1, 'status' => 'ACTIVE', 'outbound_email_request_authority' => true, 'execution_authority' => false, 'sealed' => true];
         $record['record_digest'] = hash('sha256', CanonicalJson::encode($record));
         $directory = $this->root.'/var/imperium/offices/curia/occupancy';
@@ -94,6 +100,18 @@ final class IronGateExecutionReceiptBindingBatch6Test extends TestCase
         (new DeterministicExecutionClaimService($this->root))->claim($issuance['issuance_id'], $this->credential('credential-capability.test'), $this->time('+3 minutes'));
     }
 
+    /** Actual legacy producers in disposable storage; no credential resolution or callback. */
+    public function exportPreEffectFixture(string $root, \DateTimeImmutable $at): array
+    {
+        $this->fixtureTime = $at->modify('-4 minutes');
+        $this->prepareFixture($root);
+        $issuance = $this->issuance();
+        $credential = $this->credential('credential-capability.test');
+        $claim = (new DeterministicExecutionClaimService($root))->claim($issuance['issuance_id'], $credential, $this->time('+3 minutes'));
+        $journal = (new \App\Imperium\Runtime\LaCortine\DeterministicEffectStartJournalService($root))->start($claim['claim_id'], $at);
+        return [$claim, $journal, $credential, 'payload'];
+    }
+
     private function issuance(): array
     {
         $request = $this->authorizedRequest($this->bindingId, $this->holder(), 'Send the sealed operational notice', $this->scope(), $this->providerSafety(), $this->time('+10 minutes'), $this->time());
@@ -123,7 +141,7 @@ final class IronGateExecutionReceiptBindingBatch6Test extends TestCase
 
     private function time(string $modifier = ''): \DateTimeImmutable
     {
-        $time = new \DateTimeImmutable('2035-01-01T00:00:00+00:00');
+        $time = $this->fixtureTime ?? new \DateTimeImmutable('2035-01-01T00:00:00+00:00');
         return '' === $modifier ? $time : $time->modify($modifier);
     }
 

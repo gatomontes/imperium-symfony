@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\LaCortine;
 
 use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\ProviderTransition\{NativeBindingReader, NativeState};
 use App\Imperium\Runtime\Imperator\ProviderExecutionBoundaryRedesignInertIssuanceService;
 use App\Imperium\Runtime\Imperator\ProviderExecutionBoundaryRedesignIssuanceContractValidator;
 use App\Imperium\Runtime\Imperator\SingleOperationProviderBindingActivationIssuanceContract;
@@ -31,7 +32,7 @@ final readonly class SingleOperationProviderBindingActivationIssuanceService
         $this->atomic = new AtomicTransition($root);
         $this->records = new ImmutableRecordStore($root, $this->atomic);
         $this->consumptions = new AuthorityConsumptionStore($this->records, $this->atomic);
-        $this->references = new RecordReferenceValidator($root);
+        $this->references = new RecordReferenceValidator($root, new NativeBindingReader(new NativeState($root)));
         $this->contracts = new ProviderExecutionBoundaryRedesignIssuanceContractValidator();
     }
 
@@ -39,7 +40,21 @@ final readonly class SingleOperationProviderBindingActivationIssuanceService
         string $decisionId,
         array $candidate,
         \DateTimeImmutable $at,
-    ): array {
+    ): array
+    {
+        $reader = new NativeBindingReader(new NativeState($this->root));
+        return $reader->legacy(function () use ($reader, $decisionId, $candidate, $at): array {
+            $reader->assertLegacyRecord($candidate);
+            return $this->legacyActivate($decisionId, $candidate, $at);
+        });
+    }
+
+    private function legacyActivate(
+        string $decisionId,
+        array $candidate,
+        \DateTimeImmutable $at,
+    ): array
+    {
         $contract = SingleOperationProviderBindingActivationIssuanceContract::class;
         $decision = $this->references->read(
             $this->root.'/'.self::DECISIONS.'/'.$decisionId.'.json',

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Clavium;
 
 use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\ProviderTransition\{NativeBindingReader, NativeState};
 use App\Imperium\Runtime\LaCortine\CredentialCapability;
 use App\Imperium\Runtime\LaCortine\ProviderImplementationBindingContract;
 use App\Imperium\Runtime\Persistence\AtomicTransition;
@@ -24,6 +25,15 @@ final readonly class ProviderBoundCredentialEligibilityService
     }
 
     public function assess(array $binding, CredentialCapability $capability, \DateTimeImmutable $at): array
+    {
+        $reader = new NativeBindingReader(new NativeState($this->root));
+        return $reader->legacy(function () use ($reader, $binding, $capability, $at): array {
+            $reader->assertLegacyRecord($binding);
+            return $this->legacyAssess($binding, $capability, $at);
+        });
+    }
+
+    private function legacyAssess(array $binding, CredentialCapability $capability, \DateTimeImmutable $at): array
     {
         $digest = $binding['record_digest'] ?? null;
         $unsealed = $binding;

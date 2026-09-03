@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\LaCortine;
 
 use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\ProviderTransition\{NativeBindingReader, NativeState};
 use App\Imperium\Runtime\Imperator\DurableProviderExecutionAuthorityContract;
 use App\Imperium\Runtime\Imperator\DurableProviderExecutionAuthorityIssuanceService;
 use App\Imperium\Runtime\Imperator\ProviderExecutionBoundaryRedesignInertIssuanceService;
@@ -24,13 +25,25 @@ final readonly class GovernedProviderExecutionCombinedAdmissionService
     {
         $this->atomic = new AtomicTransition($root);
         $this->records = new ImmutableRecordStore($root, $this->atomic);
-        $this->references = new RecordReferenceValidator($root);
+        $this->references = new RecordReferenceValidator($root, new NativeBindingReader(new NativeState($root)));
     }
 
     public function admit(
         string $authorityId,
         \DateTimeImmutable $at,
-    ): array {
+    ): array
+    {
+        $reader = new NativeBindingReader(new NativeState($this->root));
+        return $reader->legacy(function () use ($reader, $authorityId, $at): array {
+            return $this->legacyAdmit($authorityId, $at);
+        });
+    }
+
+    private function legacyAdmit(
+        string $authorityId,
+        \DateTimeImmutable $at,
+    ): array
+    {
         if (!preg_match(
             '/^durable-provider-execution-authority-[a-z0-9]{1,80}$/',
             $authorityId,

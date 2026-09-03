@@ -1,3 +1,6 @@
+Batch 2 established-consumer integration complete: `CANONICAL_CONSUMER_CORRECTION_BATCH_2_COMPLETE`.
+See `docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-batch-2-complete.md`. Full PHPUnit passed 1994 tests / 45969 assertions. Application/adversarial proof and terminal audit remain pending.
+
 Batch 1 interpretation complete: `CANONICAL_CONSUMER_CORRECTION_BATCH_1_COMPLETE`.
 See `docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-batch-1-complete.md`. Full PHPUnit: 1979 tests / 45874 assertions. Batch 2 integration and Batch 3 application proof remain pending; terminal refusal is not lifted.
 

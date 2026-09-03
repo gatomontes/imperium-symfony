@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\LaCortine;
 
 use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\ProviderTransition\{NativeBindingReader, NativeState};
 use App\Imperium\Runtime\Persistence\AtomicTransition;
 use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
 use App\Imperium\Runtime\Persistence\RecordReferenceValidator;
@@ -25,6 +26,12 @@ final readonly class DeterministicEffectStartJournalService
     }
 
     public function start(string $claimId, \DateTimeImmutable $startedAt): array
+    {
+        $reader = new NativeBindingReader(new NativeState($this->root));
+        return $reader->legacy(fn () => $this->startLegacy($claimId, $startedAt));
+    }
+
+    private function startLegacy(string $claimId, \DateTimeImmutable $startedAt): array
     {
         if (!preg_match('/^deterministic-execution-claim-[a-f0-9]{20}$/', $claimId)) {
             throw new \InvalidArgumentException('IGJ500_EXECUTION_CLAIM_ID_INVALID');
@@ -53,6 +60,10 @@ final readonly class DeterministicEffectStartJournalService
             throw new \RuntimeException('IGJ503_PROVIDER_SAFETY_INVALID');
         }
 
+        $interpretation = (new NativeBindingReader(new NativeState($this->root)))->forClaim($claimId, $startedAt->getTimestamp());
+        if ('LEGACY_UNBOUND' !== $interpretation['classification']) {
+            throw new \RuntimeException('CCI_PRE_EFFECT_ONLY_'.$interpretation['classification']);
+        }
         $requestFingerprint = hash('sha256', CanonicalJson::encode([$claim['request'], $claim['credential_capability'], $claim['replay_fingerprint']]));
         $journalId = 'deterministic-effect-start-journal-'.substr(hash('sha256', CanonicalJson::encode([$claimId, $claim['record_digest'], $requestFingerprint, $provider['provider_idempotency_key']])), 0, 20);
         $record = [

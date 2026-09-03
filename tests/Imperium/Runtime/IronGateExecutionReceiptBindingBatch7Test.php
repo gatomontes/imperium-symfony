@@ -80,7 +80,7 @@ final class IronGateExecutionReceiptBindingBatch7Test extends TestCase
         $credentials = $this->credentials($capability);
         $providerCalls = 0;
         $providerRequest = null;
-        $result = (new DeterministicJournalBoundCredentialBroker($this->root, $credentials, new AgentMailIdempotencyHeaderAdapter()))->invoke(
+        $result = (new DeterministicJournalBoundCredentialBroker($this->root, $credentials, new AgentMailIdempotencyHeaderAdapter(new \App\Imperium\Runtime\ProviderTransition\NativeBindingReader(new \App\Imperium\Runtime\ProviderTransition\NativeState($this->root))), new \App\Imperium\Runtime\ProviderTransition\NativeBindingReader(new \App\Imperium\Runtime\ProviderTransition\NativeState($this->root))))->invoke(
             $journal['journal_id'],
             $capability,
             $this->payload(),
@@ -102,7 +102,7 @@ final class IronGateExecutionReceiptBindingBatch7Test extends TestCase
         self::assertStringNotContainsString('test-secret-material', (string) file_get_contents($admissions[0]));
 
         try {
-            (new DeterministicJournalBoundCredentialBroker($this->root, $credentials, new AgentMailIdempotencyHeaderAdapter()))->invoke($journal['journal_id'], $capability, $this->payload(), $this->time('+3 minutes'), static fn (): array => []);
+            (new DeterministicJournalBoundCredentialBroker($this->root, $credentials, new AgentMailIdempotencyHeaderAdapter(new \App\Imperium\Runtime\ProviderTransition\NativeBindingReader(new \App\Imperium\Runtime\ProviderTransition\NativeState($this->root))), new \App\Imperium\Runtime\ProviderTransition\NativeBindingReader(new \App\Imperium\Runtime\ProviderTransition\NativeState($this->root))))->invoke($journal['journal_id'], $capability, $this->payload(), $this->time('+3 minutes'), static fn (): array => []);
             self::fail('A durable provider admission must prohibit a second callback.');
         } catch (\RuntimeException $exception) {
             self::assertSame('IGB615_PROVIDER_INVOCATION_REPLAY_PROHIBITED', $exception->getMessage());
@@ -117,7 +117,7 @@ final class IronGateExecutionReceiptBindingBatch7Test extends TestCase
         $called = false;
 
         try {
-            (new DeterministicJournalBoundCredentialBroker($this->root, $credentials, new AgentMailIdempotencyHeaderAdapter()))->invoke('deterministic-effect-start-journal-0123456789abcdef0123', $capability, $this->payload(), $this->time('+2 minutes'), function () use (&$called): void { $called = true; });
+            (new DeterministicJournalBoundCredentialBroker($this->root, $credentials, new AgentMailIdempotencyHeaderAdapter(new \App\Imperium\Runtime\ProviderTransition\NativeBindingReader(new \App\Imperium\Runtime\ProviderTransition\NativeState($this->root))), new \App\Imperium\Runtime\ProviderTransition\NativeBindingReader(new \App\Imperium\Runtime\ProviderTransition\NativeState($this->root))))->invoke('deterministic-effect-start-journal-0123456789abcdef0123', $capability, $this->payload(), $this->time('+2 minutes'), function () use (&$called): void { $called = true; });
             self::fail('A provider callback must not be reachable without its journal.');
         } catch (\RuntimeException $exception) {
             self::assertSame('IGB611_EFFECT_START_JOURNAL_ABSENT', $exception->getMessage());
@@ -132,7 +132,7 @@ final class IronGateExecutionReceiptBindingBatch7Test extends TestCase
         $body = '{"message_id":"message-observed","thread_id":"thread-observed"}';
         $response = ['http_status' => 200, 'headers' => ['Content-Type' => 'application/json'], 'body' => $body, 'observed_at' => $this->time('+2 minutes')->format(DATE_ATOM), 'received_at' => $this->time('+2 minutes')->format(DATE_ATOM)];
 
-        self::assertSame($response, (new DeterministicJournalBoundCredentialBroker($this->root, $this->credentials($capability), new AgentMailIdempotencyHeaderAdapter()))->invoke($journal['journal_id'], $capability, $this->payload(), $this->time('+2 minutes'), static fn (): array => $response));
+        self::assertSame($response, (new DeterministicJournalBoundCredentialBroker($this->root, $this->credentials($capability), new AgentMailIdempotencyHeaderAdapter(new \App\Imperium\Runtime\ProviderTransition\NativeBindingReader(new \App\Imperium\Runtime\ProviderTransition\NativeState($this->root))), new \App\Imperium\Runtime\ProviderTransition\NativeBindingReader(new \App\Imperium\Runtime\ProviderTransition\NativeState($this->root))))->invoke($journal['journal_id'], $capability, $this->payload(), $this->time('+2 minutes'), static fn (): array => $response));
         $envelopes = glob($this->root.'/'.DeterministicJournalBoundCredentialBroker::RESPONSE_ENVELOPES.'/*.json') ?: [];
         $contents = glob($this->root.'/'.DeterministicJournalBoundCredentialBroker::RESPONSE_CONTENT.'/*.json') ?: [];
         self::assertCount(1, $envelopes);
@@ -152,7 +152,7 @@ final class IronGateExecutionReceiptBindingBatch7Test extends TestCase
         $journal = (new DeterministicEffectStartJournalService($this->root))->start($this->claimId, $this->time('+1 minute'));
         $capability = new CredentialCapability('credential-capability.test', 'credential-reference-only', 'commission-test', 'email.send', $this->time('+5 minutes'));
         try {
-            (new DeterministicJournalBoundCredentialBroker($this->root, $this->credentials($capability), new AgentMailIdempotencyHeaderAdapter()))->invoke($journal['journal_id'], $capability, $this->payload(), $this->time('+2 minutes'), static fn (): never => throw new \RuntimeException('provider-timeout'));
+            (new DeterministicJournalBoundCredentialBroker($this->root, $this->credentials($capability), new AgentMailIdempotencyHeaderAdapter(new \App\Imperium\Runtime\ProviderTransition\NativeBindingReader(new \App\Imperium\Runtime\ProviderTransition\NativeState($this->root))), new \App\Imperium\Runtime\ProviderTransition\NativeBindingReader(new \App\Imperium\Runtime\ProviderTransition\NativeState($this->root))))->invoke($journal['journal_id'], $capability, $this->payload(), $this->time('+2 minutes'), static fn (): never => throw new \RuntimeException('provider-timeout'));
             self::fail('The provider exception must escape without manufacturing response evidence.');
         } catch (\RuntimeException $exception) {
             self::assertSame('provider-timeout', $exception->getMessage());
@@ -171,7 +171,7 @@ final class IronGateExecutionReceiptBindingBatch7Test extends TestCase
             public function consume(CredentialCapability $capability, callable $providerOperation): mixed { throw new \RuntimeException('credential-resolution-failed'); }
         };
         try {
-            (new DeterministicJournalBoundCredentialBroker($this->root, $credentials, new AgentMailIdempotencyHeaderAdapter()))->invoke($journal['journal_id'], $capability, $this->payload(), $this->time('+2 minutes'), static fn (): array => []);
+            (new DeterministicJournalBoundCredentialBroker($this->root, $credentials, new AgentMailIdempotencyHeaderAdapter(new \App\Imperium\Runtime\ProviderTransition\NativeBindingReader(new \App\Imperium\Runtime\ProviderTransition\NativeState($this->root))), new \App\Imperium\Runtime\ProviderTransition\NativeBindingReader(new \App\Imperium\Runtime\ProviderTransition\NativeState($this->root))))->invoke($journal['journal_id'], $capability, $this->payload(), $this->time('+2 minutes'), static fn (): array => []);
             self::fail('Credential failure must escape.');
         } catch (\RuntimeException $exception) {
             self::assertSame('credential-resolution-failed', $exception->getMessage());
@@ -258,7 +258,7 @@ final class IronGateExecutionReceiptBindingBatch7Test extends TestCase
     {
         $journal = (new DeterministicEffectStartJournalService($this->root))->start($this->claimId, $this->time('+1 minute'));
         $capability = new CredentialCapability('credential-capability.test', 'credential-reference-only', 'commission-test', 'email.send', $this->time('+5 minutes'));
-        (new DeterministicJournalBoundCredentialBroker($this->root, $this->credentials($capability), new AgentMailIdempotencyHeaderAdapter()))->invoke($journal['journal_id'], $capability, $this->payload(), $this->time('+2 minutes'), fn (): array => ['http_status' => $httpStatus, 'headers' => ['Content-Type' => 'application/json'], 'body' => $body, 'observed_at' => $this->time('+3 minutes')->format(DATE_ATOM), 'received_at' => $this->time('+3 minutes')->format(DATE_ATOM)]);
+        (new DeterministicJournalBoundCredentialBroker($this->root, $this->credentials($capability), new AgentMailIdempotencyHeaderAdapter(new \App\Imperium\Runtime\ProviderTransition\NativeBindingReader(new \App\Imperium\Runtime\ProviderTransition\NativeState($this->root))), new \App\Imperium\Runtime\ProviderTransition\NativeBindingReader(new \App\Imperium\Runtime\ProviderTransition\NativeState($this->root))))->invoke($journal['journal_id'], $capability, $this->payload(), $this->time('+2 minutes'), fn (): array => ['http_status' => $httpStatus, 'headers' => ['Content-Type' => 'application/json'], 'body' => $body, 'observed_at' => $this->time('+3 minutes')->format(DATE_ATOM), 'received_at' => $this->time('+3 minutes')->format(DATE_ATOM)]);
         $paths = glob($this->root.'/'.DeterministicJournalBoundCredentialBroker::RESPONSE_ENVELOPES.'/*.json') ?: [];
         self::assertCount(1, $paths);
         return json_decode((string) file_get_contents($paths[0]), true, 512, JSON_THROW_ON_ERROR);

@@ -102,7 +102,7 @@ final class IronGateExecutionReceiptBindingBatch11Test extends TestCase
 
         $capability = $this->capability();
         $this->expectExceptionMessage('IGB615_PROVIDER_INVOCATION_REPLAY_PROHIBITED');
-        (new DeterministicJournalBoundCredentialBroker($this->root, $this->credentials($capability), new AgentMailIdempotencyHeaderAdapter()))->invoke($journal['journal_id'], $capability, $this->payload(), $this->time('+6 minutes'), static fn (): array => []);
+        (new DeterministicJournalBoundCredentialBroker($this->root, $this->credentials($capability), new AgentMailIdempotencyHeaderAdapter(new \App\Imperium\Runtime\ProviderTransition\NativeBindingReader(new \App\Imperium\Runtime\ProviderTransition\NativeState($this->root))), new \App\Imperium\Runtime\ProviderTransition\NativeBindingReader(new \App\Imperium\Runtime\ProviderTransition\NativeState($this->root))))->invoke($journal['journal_id'], $capability, $this->payload(), $this->time('+6 minutes'), static fn (): array => []);
     }
 
     public function testTamperedFinalBindingCannotBeReconstructed(): void
@@ -136,7 +136,7 @@ final class IronGateExecutionReceiptBindingBatch11Test extends TestCase
     {
         [$issuance, $claim, $journal] = $this->throughJournal();
         $capability = $this->capability();
-        (new DeterministicJournalBoundCredentialBroker($this->root, $this->credentials($capability), new AgentMailIdempotencyHeaderAdapter()))->invoke($journal['journal_id'], $capability, $this->payload(), $this->time('+5 minutes'), static fn (): array => ['observed_in_memory' => true]);
+        (new DeterministicJournalBoundCredentialBroker($this->root, $this->credentials($capability), new AgentMailIdempotencyHeaderAdapter(new \App\Imperium\Runtime\ProviderTransition\NativeBindingReader(new \App\Imperium\Runtime\ProviderTransition\NativeState($this->root))), new \App\Imperium\Runtime\ProviderTransition\NativeBindingReader(new \App\Imperium\Runtime\ProviderTransition\NativeState($this->root))))->invoke($journal['journal_id'], $capability, $this->payload(), $this->time('+5 minutes'), static fn (): array => ['observed_in_memory' => true]);
         $paths = glob($this->root.'/'.DeterministicJournalBoundCredentialBroker::ADMISSIONS.'/*.json') ?: [];
         self::assertCount(1, $paths);
         $admission = json_decode((string) file_get_contents($paths[0]), true, 512, JSON_THROW_ON_ERROR);
@@ -147,7 +147,7 @@ final class IronGateExecutionReceiptBindingBatch11Test extends TestCase
     {
         [$issuance, $claim, $journal] = $this->throughJournal();
         $capability = $this->capability();
-        (new DeterministicJournalBoundCredentialBroker($this->root, $this->credentials($capability), new AgentMailIdempotencyHeaderAdapter()))->invoke($journal['journal_id'], $capability, $this->payload(), $this->time('+5 minutes'), fn (): array => ['http_status' => 200, 'headers' => ['Content-Type' => 'application/json'], 'body' => $body, 'observed_at' => $this->time('+6 minutes')->format(DATE_ATOM), 'received_at' => $this->time('+6 minutes')->format(DATE_ATOM)]);
+        (new DeterministicJournalBoundCredentialBroker($this->root, $this->credentials($capability), new AgentMailIdempotencyHeaderAdapter(new \App\Imperium\Runtime\ProviderTransition\NativeBindingReader(new \App\Imperium\Runtime\ProviderTransition\NativeState($this->root))), new \App\Imperium\Runtime\ProviderTransition\NativeBindingReader(new \App\Imperium\Runtime\ProviderTransition\NativeState($this->root))))->invoke($journal['journal_id'], $capability, $this->payload(), $this->time('+5 minutes'), fn (): array => ['http_status' => 200, 'headers' => ['Content-Type' => 'application/json'], 'body' => $body, 'observed_at' => $this->time('+6 minutes')->format(DATE_ATOM), 'received_at' => $this->time('+6 minutes')->format(DATE_ATOM)]);
         $admissionPaths = glob($this->root.'/'.DeterministicJournalBoundCredentialBroker::ADMISSIONS.'/*.json') ?: [];
         $envelopePaths = glob($this->root.'/'.DeterministicJournalBoundCredentialBroker::RESPONSE_ENVELOPES.'/*.json') ?: [];
         self::assertCount(1, $admissionPaths);

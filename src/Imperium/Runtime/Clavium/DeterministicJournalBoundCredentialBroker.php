@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Clavium;
 
 use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\ProviderTransition\NativeBindingReader;
 use App\Imperium\Runtime\LaCortine\AgentMailIdempotencyHeaderAdapter;
 use App\Imperium\Runtime\LaCortine\CredentialBroker;
 use App\Imperium\Runtime\LaCortine\CredentialCapability;
@@ -35,6 +36,7 @@ final readonly class DeterministicJournalBoundCredentialBroker
         #[Autowire('%kernel.project_dir%')] private string $root,
         private CredentialBroker $credentials,
         private AgentMailIdempotencyHeaderAdapter $adapter,
+        private NativeBindingReader $bindingReader,
     ) {
         $this->validator = new RecordReferenceValidator($root);
         $this->atomic = new AtomicTransition($root);
@@ -42,6 +44,17 @@ final readonly class DeterministicJournalBoundCredentialBroker
     }
 
     public function invoke(string $journalId, CredentialCapability $capability, string $payload, \DateTimeImmutable $at, callable $providerCallback): mixed
+    {
+        return $this->bindingReader->legacy(fn () => $this->invokeLegacy($journalId, $capability, $payload, $at, $providerCallback));
+    }
+
+    /** The same interpretation is mandatory in invoke(), before admission or credential use. */
+    public function inspectClaim(string $claimId, \DateTimeImmutable $at): array
+    {
+        return $this->bindingReader->forClaim($claimId, $at->getTimestamp());
+    }
+
+    private function invokeLegacy(string $journalId, CredentialCapability $capability, string $payload, \DateTimeImmutable $at, callable $providerCallback): mixed
     {
         if (!preg_match('/^deterministic-effect-start-journal-[a-f0-9]{20}$/', $journalId)) {
             throw new \InvalidArgumentException('IGB610_EFFECT_START_JOURNAL_ID_INVALID');
@@ -81,6 +94,11 @@ final readonly class DeterministicJournalBoundCredentialBroker
             || $capability->expiresAt <= $at
             || !hash_equals((string) ($claim['request']['payload_digest'] ?? ''), hash('sha256', $payload))) {
             throw new \RuntimeException('IGB614_PROVIDER_INVOCATION_SCOPE_INVALID');
+        }
+
+        $interpretation = $this->inspectClaim($claimId, $at);
+        if ('LEGACY_UNBOUND' !== $interpretation['classification']) {
+            throw new \RuntimeException('CCI_PRE_EFFECT_ONLY_'.$interpretation['classification']);
         }
 
         $admissionId = 'deterministic-provider-invocation-admission-'.substr(hash('sha256', CanonicalJson::encode([$journalId, $journal['record_digest'], $claim['record_digest']])), 0, 20);

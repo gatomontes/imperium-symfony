@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Clavium;
 
 use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\ProviderTransition\{NativeBindingReader, NativeState};
 use App\Imperium\Runtime\Imperator\DurableProviderExecutionAuthorityContract;
 use App\Imperium\Runtime\Imperator\DurableProviderExecutionAuthorityIssuanceService;
 use App\Imperium\Runtime\Imperator\ProviderExecutionBoundaryRedesignInertIssuanceService;
@@ -37,13 +38,25 @@ final readonly class GovernedStationaryCredentialResolutionV2Service
     {
         $this->atomic = new AtomicTransition($root);
         $this->records = new ImmutableRecordStore($root, $this->atomic);
-        $this->references = new RecordReferenceValidator($root);
+        $this->references = new RecordReferenceValidator($root, new NativeBindingReader(new NativeState($root)));
     }
 
     public function prove(
         string $admissionId,
         \DateTimeImmutable $at,
-    ): array {
+    ): array
+    {
+        $reader = new NativeBindingReader(new NativeState($this->root));
+        return $reader->legacy(function () use ($reader, $admissionId, $at): array {
+            return $this->legacyProve($admissionId, $at);
+        });
+    }
+
+    private function legacyProve(
+        string $admissionId,
+        \DateTimeImmutable $at,
+    ): array
+    {
         if (!preg_match(
             '/^governed-provider-execution-combined-admission-[a-f0-9]{20}$/',
             $admissionId,

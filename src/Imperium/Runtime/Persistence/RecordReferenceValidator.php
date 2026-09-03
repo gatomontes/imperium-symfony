@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Persistence;
 
 use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\ProviderTransition\NativeBindingReader;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class RecordReferenceValidator
 {
-    public function __construct(#[Autowire('%kernel.project_dir%')] private string $root)
+    public function __construct(#[Autowire('%kernel.project_dir%')] private string $root, private ?NativeBindingReader $legacyBinding = null)
     {
     }
 
@@ -25,6 +26,7 @@ final readonly class RecordReferenceValidator
             throw new \RuntimeException('PST130_RECORD_INVALID');
         }
 
+        $this->legacyBinding?->assertLegacyRecord($record);
         return $record;
     }
 

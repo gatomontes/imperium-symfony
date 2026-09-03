@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Imperator;
 
 use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\ProviderTransition\{NativeBindingReader, NativeState};
 use App\Imperium\Runtime\LaCortine\DeterministicExecutionClaimContract;
 use App\Imperium\Runtime\LaCortine\DeterministicExecutionClaimService;
 use App\Imperium\Runtime\LaCortine\DeterministicTransitionCallerAuthorityConsumer;
@@ -24,12 +25,20 @@ final readonly class ProviderBindingActivationIssuanceService
 
     public function __construct(#[Autowire('%kernel.project_dir%')] private string $root)
     {
-        $this->validator = new RecordReferenceValidator($root);
+        $this->validator = new RecordReferenceValidator($root, new NativeBindingReader(new NativeState($root)));
         $this->atomic = new AtomicTransition($root);
         $this->records = new ImmutableRecordStore($root, $this->atomic);
     }
 
     public function issue(string $callerAuthorityId, string $decisionId, \DateTimeImmutable $issuedAt): array
+    {
+        $reader = new NativeBindingReader(new NativeState($this->root));
+        return $reader->legacy(function () use ($reader, $callerAuthorityId, $decisionId, $issuedAt): array {
+            return $this->legacyIssue($callerAuthorityId, $decisionId, $issuedAt);
+        });
+    }
+
+    private function legacyIssue(string $callerAuthorityId, string $decisionId, \DateTimeImmutable $issuedAt): array
     {
         if (!preg_match('/^provider-binding-activation-decision-[a-f0-9]{20}$/', $decisionId)) throw new \InvalidArgumentException('PBA300_ACTIVATION_DECISION_ID_INVALID');
         $decision = $this->validator->read($this->root.'/'.ProviderBindingActivationDecisionService::DECISIONS.'/'.$decisionId.'.json', 'PBA301_ACTIVATION_DECISION_ABSENT');
