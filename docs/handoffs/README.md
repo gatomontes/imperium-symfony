@@ -422,3 +422,10 @@ The current handoff is
 It selects an optimistic whole-read-set snapshot with bounded conservative
 refusal for later implementation. Five stages remain; no runtime change, new
 production lock, provider/effect action, retry or recovery is authorized.
+
+Native Inspection Snapshot Consistency Batch 1 is complete at
+`NATIVE_INSPECTION_SNAPSHOT_CONSISTENCY_BATCH_1_COMPLETE`. The canonical
+two-attempt optimistic contract is
+`docs/native-inspection-snapshot-consistency-contract-v1.md`; continuation is
+`docs/handoffs/native-inspection-snapshot-consistency-batch-1-complete.md`.
+Four stages remain.

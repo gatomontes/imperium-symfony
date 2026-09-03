@@ -122,4 +122,9 @@ The inventory selected optimistic whole-read-set snapshot consistency with a
 bounded conservative refusal; no runtime implementation is authorized by that
 selection. The continuation handoff is
 `docs/handoffs/native-inspection-snapshot-consistency-preparation-batch-0-complete.md`.
-Five stages remain.
+Preparation Batch 0 and Batch 1 are complete. The canonical contract is
+`docs/native-inspection-snapshot-consistency-contract-v1.md`; it selects equal
+before/after whole-read-set manifests with at most two attempts and preserves all
+existing public result projections. The continuation handoff is
+`docs/handoffs/native-inspection-snapshot-consistency-batch-1-complete.md`.
+Four stages remain.
