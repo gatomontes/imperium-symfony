@@ -1,0 +1,30 @@
+{
+  "schema": "imperium.canonical-native-effect-continuation-exclusivity-remediation-evidence-ledger/v1",
+  "source_baseline": "77d26f4c7f5655dcce67b5c3765714b5c0ede85e",
+  "workspace_state": "UNCOMMITTED_BATCH_0_THROUGH_BATCH_5_WORKSPACE",
+  "ci_result": null,
+  "historical_batch_6_evidence": {
+    "local": {"tests": 2189, "assertions": 48255},
+    "github_actions_run_33813014897": {"tests": 2189, "assertions": 48253}
+  },
+  "local_runs": [
+    {"stage":"Preparation Batch 0","command":"php vendor/bin/phpunit tests/Imperium/Runtime/CanonicalNativeEffectContinuationExclusivityRemediationPreparationBatch0Test.php","tests":5,"assertions":181,"result":"OK"},
+    {"stage":"Batch 1 initial","command":"php vendor/bin/phpunit tests/Imperium/Runtime/CanonicalNativeEffectContinuationExclusivityRemediationBatch1Test.php","tests":7,"assertions":66,"result":"OK"},
+    {"stage":"Batch 2","command":"php vendor/bin/phpunit tests/Imperium/Runtime/CanonicalNativeEffectContinuationExclusivityRemediationBatch2Test.php","tests":19,"assertions":107,"result":"OK"},
+    {"stage":"Batch 3 first attempt","command":"php vendor/bin/phpunit tests/Imperium/Runtime/CanonicalNativeEffectContinuationExclusivityRemediationBatch3Test.php","tests":27,"assertions":142,"result":"FAIL","failures":1,"correction":"Same-service alternate credential capability now conflicts; fresh-service exact replay remains reconciliation-only."},
+    {"stage":"Batch 3 corrected","command":"php vendor/bin/phpunit tests/Imperium/Runtime/CanonicalNativeEffectContinuationExclusivityRemediationBatch3Test.php","tests":27,"assertions":141,"result":"OK"},
+    {"stage":"Batch 4 initial","command":"php vendor/bin/phpunit tests/Imperium/Runtime/CanonicalNativeEffectContinuationExclusivityRemediationBatch4Test.php","tests":34,"assertions":372,"result":"OK"},
+    {"stage":"Full repository first attempt","command":"php vendor/bin/phpunit tests","tests":2285,"assertions":49134,"result":"FAIL","failures":3,"correction":"Updated later-stage call-site expectation and explicitly inventoried the new tuple disposition runtime candidate."},
+    {"stage":"Structural correction gates","commands":["php vendor/bin/phpunit tests/Imperium/Runtime/CanonicalNativeEffectContinuationExclusivityRemediationBatch1Test.php","php vendor/bin/phpunit tests/Imperium/Runtime/TransactionalAuthorityConsumptionBatch12CoverageTest.php","php vendor/bin/phpunit tests/Imperium/Runtime/FrozenRuntimeCoverageTripwireRestorationBatch3TerminalAuditTest.php"],"results":[{"tests":7,"assertions":65,"result":"OK"},{"tests":4,"assertions":1713,"result":"OK"},{"tests":6,"assertions":2159,"result":"OK"}]},
+    {"stage":"Full repository corrected","command":"php vendor/bin/phpunit tests","tests":2285,"assertions":49163,"result":"OK"},
+    {"stage":"Batch 4 no-lock-across-callback correction","command":"php vendor/bin/phpunit tests/Imperium/Runtime/CanonicalNativeEffectContinuationExclusivityRemediationBatch4Test.php","tests":35,"assertions":374,"result":"OK"},
+    {"stage":"Batch 5 focused","command":"php vendor/bin/phpunit tests/Imperium/Runtime/CanonicalNativeEffectContinuationExclusivityRemediationBatch5Test.php","tests":5,"assertions":235,"result":"OK"},
+    {"stage":"Final full repository","command":"php vendor/bin/phpunit tests","tests":2291,"assertions":49398,"result":"OK"}
+  ],
+  "provenance_limits": [
+    "No CI run was executed or observed for this remediation workspace.",
+    "The terminal audit was not run from a clean merged Batch 4 main commit.",
+    "The same agent authored and reviewed the uninterrupted workspace; this is not organizational independence.",
+    "Provider doubles prove local mechanics only; no live provider, credential or network behavior was tested."
+  ]
+}

@@ -7,8 +7,10 @@ namespace App\Tests\Imperium\Runtime;
 use App\Imperium\Runtime\ProviderTransition\NativeConsumer;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectAdmissionValidator;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectAtomicAdmissionService;
+use App\Imperium\Runtime\ProviderTransition\NativeEffectContinuationCapabilityIssuer;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectCredentialCapabilityIssuer;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectDoubleExecutionService;
+use App\Imperium\Runtime\ProviderTransition\NativeEffectSemanticIdentity;
 use App\Imperium\Runtime\ProviderTransition\NativeState;
 use App\Imperium\Runtime\NativeEffect\CanonicalNativeEffectCorridor;
 use App\Tests\Imperium\Runtime\Support\CanonicalNativeEffectCorridorKernel;
@@ -16,7 +18,7 @@ use App\Tests\Imperium\Runtime\Support\CanonicalNativeEffectCorridorKernel;
 require_once __DIR__.'/CanonicalNativeEffectCorridorActivationBatch4Test.php';
 require_once __DIR__.'/Support/CanonicalNativeEffectCorridorKernel.php';
 
-final class CanonicalNativeEffectCorridorActivationBatch5Test extends CanonicalNativeEffectCorridorActivationBatch4Test
+class CanonicalNativeEffectCorridorActivationBatch5Test extends CanonicalNativeEffectCorridorActivationBatch4Test
 {
     public function testSeparateProcessesConvergeOnOneAtomicAdmissionWinner(): void
     {
@@ -25,10 +27,10 @@ final class CanonicalNativeEffectCorridorActivationBatch5Test extends CanonicalN
 
         $results = $this->workers(['admit', 'admit'], $fixture);
 
-        $codes = array_values(array_unique(array_column($results, 'code'))); sort($codes);
-        self::assertSame([0, 3], $codes);
+        self::assertSame([0, 0], array_column($results, 'code'));
         self::assertCount(1, glob($this->root.'/'.NativeEffectAtomicAdmissionService::ADMISSIONS.'/*.json') ?: []);
-        self::assertStringContainsString('CNE302_EFFECT_AUTHORITY_ALREADY_USED', implode('', array_column($results, 'stdout')));
+        $published = array_map(static fn (array $result): bool => json_decode($result['stdout'], true, 8, JSON_THROW_ON_ERROR)['newly_published'], $results);
+        self::assertSame(1, count(array_filter($published)));
     }
 
     public function testSeparateProcessInterruptionBeforeAndAfterAtomicCutIsFailClosed(): void
@@ -41,27 +43,37 @@ final class CanonicalNativeEffectCorridorActivationBatch5Test extends CanonicalN
         self::assertSame(72, $this->worker('admit-and-exit', $fixture)['code']);
         self::assertCount(1, glob($this->root.'/'.NativeEffectAtomicAdmissionService::ADMISSIONS.'/*.json') ?: []);
         $retry = $this->worker('admit', $fixture);
-        self::assertSame(3, $retry['code']);
-        self::assertStringContainsString('CNE302_EFFECT_AUTHORITY_ALREADY_USED', $retry['stdout']);
+        self::assertSame(0, $retry['code']);
+        self::assertSame('reconciled', json_decode($retry['stdout'], true, 8, JSON_THROW_ON_ERROR)['status']);
     }
 
     public function testSeparateProcessLossDuringCallbackLeavesUnknownAndProhibitsReinvocation(): void
     {
         [$authority, $at] = $this->authorityFixture();
-        $issuer = new NativeEffectCredentialCapabilityIssuer();
-        $capability = $issuer->issue($authority, $authority['execution_boundary']['id'], $at);
-        $admission = (new NativeEffectAtomicAdmissionService($this->state, $issuer))->admit($authority, $capability, $at);
         $marker = $this->root.'/unexpected-provider-double-callback.txt';
         $fixture = $this->fixtureFile([
             'authority' => $authority,
             'at' => $at,
-            'admission_id' => $admission['admission_id'],
             'payload' => '{"to":["disposable@example.test"]}',
             'idempotency_key' => 'disposable-idempotency-key',
             'unexpected_callback_marker' => $marker,
         ]);
 
-        self::assertSame(73, $this->worker('callback-exit', $fixture)['code']);
+        self::assertSame(73, $this->worker('admit-callback-exit', $fixture)['code']);
+        $admissionId = NativeEffectSemanticIdentity::admissionId(NativeEffectSemanticIdentity::tupleId($authority));
+        $admission = json_decode((string) file_get_contents($this->root.'/'.NativeEffectAtomicAdmissionService::ADMISSIONS.'/'.$admissionId.'.json'), true, 64, JSON_THROW_ON_ERROR);
+        $fixtureData = json_decode((string) file_get_contents($fixture), true, 64, JSON_THROW_ON_ERROR);
+        $fixtureData['admission_id'] = $admissionId;
+        $fixtureData['continuation_metadata'] = [
+            'capability_id' => 'native-effect-continuation-lookalike',
+            'admission_id' => $admissionId,
+            'admission_digest' => $admission['record_digest'],
+            'semantic_effect_tuple_id' => $admission['semantic_effect_tuple_id'],
+            'authority_consumption_id' => $admission['authority_consumption_id'],
+            'process_boundary_id' => $authority['execution_boundary']['id'],
+            'expires_at' => $admission['expires_at'],
+        ];
+        file_put_contents($fixture, json_encode($fixtureData, JSON_THROW_ON_ERROR));
         $retry = $this->worker('callback-retry', $fixture);
         self::assertSame(3, $retry['code']);
         self::assertStringContainsString('UNKNOWN_REPLAY_PROHIBITED', $retry['stdout']);
@@ -95,9 +107,11 @@ final class CanonicalNativeEffectCorridorActivationBatch5Test extends CanonicalN
             $corridor = $container->get(CanonicalNativeEffectCorridor::class);
             self::assertInstanceOf(NativeEffectAdmissionValidator::class, $corridor->admissionValidator());
             $issuer = $corridor->capabilityIssuer();
+            $continuations = $corridor->continuationIssuer();
             self::assertInstanceOf(NativeEffectCredentialCapabilityIssuer::class, $issuer);
-            self::assertInstanceOf(NativeEffectAtomicAdmissionService::class, $corridor->atomicAdmission($issuer));
-            self::assertInstanceOf(NativeEffectDoubleExecutionService::class, $corridor->providerDouble());
+            self::assertInstanceOf(NativeEffectContinuationCapabilityIssuer::class, $continuations);
+            self::assertInstanceOf(NativeEffectAtomicAdmissionService::class, $corridor->atomicAdmission($issuer, $continuations));
+            self::assertInstanceOf(NativeEffectDoubleExecutionService::class, $corridor->providerDouble($continuations));
         } finally {
             $kernel->shutdown();
         }
