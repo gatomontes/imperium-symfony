@@ -131,3 +131,71 @@ no receipt; unrelated http.post.json round-trip tests remain. Application proof
 and terminal acceptance still belong to Batches 3 and 4.
 
 Full Batch 2 rerun passed: **1994 tests, 45969 assertions**.
+
+## Batch 3 — application and adversarial proof
+
+`CanonicalConsumerKernel` extends the real App Kernel and imports its production
+configuration/discovery. Only disposable storage, a MockClock, a credential
+sentinel, and visibility of existing services change. No alternate reader, broker,
+command, adapter or service factory is installed. The real FrameworkBundle Console
+Application resolves `imperium:email:send-agentmail` through its production tag.
+The test invokes both the CLI inspection and the container-created broker's actual
+invoke method. This is application proof beyond direct construction.
+
+The application matrix covers untouched inactive, committed-current, expired and
+revoked/noncurrent, corrupt descriptor, pending publication, substituted request,
+and ambiguous binding joins. Every inspection is checked against a complete file
+snapshot to prove no write or repair. The current result is secret-free: no
+credential metadata, idempotency key, destination or payload is returned. Actual
+invoke refuses before credential/callback checkpoints; the sentinel remains at
+zero calls. The same application container tests generic executor and direct
+AgentMail transport refusal before effects.
+
+D01–D10 are all instantiated and exercised through the container, including an
+alternate historical descriptor filename, nested activation authority, old
+admission roots and candidate-based paths. A01 and A02 also refuse the same native
+binding. A separate intact binding for http.post.json retains inactive legacy
+interpretation and is classified unrelated for email.send. The archival A03/A04/
+A05/D11 chain still reconstructs through the real D11 service with no new files,
+credentials, external I/O, provider reinvocation or continuing authority.
+
+Adversarial tests found and fixed two concrete defects: a file occupying the native
+journals directory was being mistaken for absence, and the single-execution
+activation service lacked its NativeBindingReader/NativeState import. Layout
+validation now rejects malformed native/migration directory structure in all
+reader entrypoints. Nested claim field sets are validated before use. The request
+encoder A02 was additionally guarded under the same native lock: it no longer
+accepts a native binding even as a transient request. Its Batch 2 deferred posture
+is superseded by EXISTS_CANONICALLY for exact native-root exclusion. Historical
+codec tests now supply the required reader and retain their byte-shape checks.
+
+A real PHP child process pauses native publication after its journal commits while
+holding the transition lock. A second PHP process reaches legacy admission and
+waits. After release, native publication completes and the legacy process refuses;
+there is one native transition and no legacy admission. A separate child exits
+immediately after journal publication; inspection remains INCOMPLETE and re-entry
+is UNKNOWN_REPLAY_PROHIBITED with no repair or commit. Workers are restricted to
+named disposable temporary roots and start without a shell. No dependency was
+installed: the attempted Symfony Process helper was unavailable, so the test uses
+proc_open directly. This proves cooperative local process contention, not physical
+power-loss durability or distributed consensus.
+
+The claim fixture uses the actual legacy request, decision, issuance, claim and
+journal producers. The native fixture uses actual native principal, successor,
+authority and atomic publication services over synthetic Root signatures and
+historical fixture inputs. Those fixtures are test evidence only, never production
+principal or provider-assurance provenance. No live Root act, grant, credential,
+provider call, effect or retry was created or authorized.
+
+Focused Batch 3 and encoder regressions passed **26 tests / 188 assertions**.
+Terminal acceptance is still withheld until the separate Batch 4 audit starts from
+clean merged Batch 3 main.
+
+A final alias regression also proved that intact bytes alone cannot select the
+root being guarded. Guarded direct descriptor reads now require filename identity;
+nested provider_binding references require the loaded binding_id to equal the
+reference id. An intact descriptor for a different root, copied under an alias,
+refuses CCI_BINDING_IDENTITY_MISMATCH without a write. General archival validators
+remain unchanged. Final focused Batch 3: **21 tests / 165 assertions**, passed.
+
+Final full Batch 3 PHPUnit passed **2015 tests / 46134 assertions**.

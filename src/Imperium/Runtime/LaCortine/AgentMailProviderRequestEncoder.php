@@ -5,10 +5,21 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\LaCortine;
 
 use App\Bootstrap\CanonicalJson;
+use App\Imperium\Runtime\ProviderTransition\NativeBindingReader;
 
 final readonly class AgentMailProviderRequestEncoder
 {
+    public function __construct(private NativeBindingReader $bindingReader) {}
+
     public function encode(array $binding, string $destination, string $payload, mixed $opaqueAuthentication, string $idempotencyKey): AgentMailTransientEncodedRequest
+    {
+        return $this->bindingReader->legacy(function () use ($binding, $destination, $payload, $opaqueAuthentication, $idempotencyKey): AgentMailTransientEncodedRequest {
+            $this->bindingReader->assertLegacyRecord($binding);
+            return $this->encodeLegacy($binding, $destination, $payload, $opaqueAuthentication, $idempotencyKey);
+        });
+    }
+
+    private function encodeLegacy(array $binding, string $destination, string $payload, mixed $opaqueAuthentication, string $idempotencyKey): AgentMailTransientEncodedRequest
     {
         if (AgentMailProviderProfile::PROVIDER_ID !== ($binding['provider_implementation']['provider_id'] ?? null)
             || AgentMailProviderProfile::ADAPTER_ID !== ($binding['provider_implementation']['adapter_id'] ?? null)

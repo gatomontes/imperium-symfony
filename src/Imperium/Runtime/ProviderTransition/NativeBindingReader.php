@@ -23,6 +23,7 @@ final class NativeBindingReader
             'receipt' => null, 'read_only' => true, 'provider_effect_permitted' => false,
             'retry_authorized' => false, 'recovery' => 'UNKNOWN_REPLAY_PROHIBITED'];
         try {
+            $this->assertLayout();
             $descriptor = $this->state->json(NativeState::SOURCES['binding'].'/'.$binding.'.json');
             if (ProviderImplementationBindingContract::REQUIRED_FIELDS !== array_keys($descriptor)
                 || ProviderImplementationBindingContract::SCHEMA !== $descriptor['schema']
@@ -74,6 +75,20 @@ final class NativeBindingReader
             || 'CLAIMED_PRE_IO' !== ($claim['effect']['checkpoint'] ?? null)
             || false !== ($claim['effect']['external_io_started'] ?? null)) {
             throw new \RuntimeException('CCI_CLAIM_INVALID');
+        }
+        foreach ([
+            'source_authorization' => DeterministicExecutionClaimContract::REQUIRED_SOURCE_AUTHORIZATION_FIELDS,
+            'authorization_consumption' => DeterministicExecutionClaimContract::REQUIRED_AUTHORIZATION_CONSUMPTION_FIELDS,
+            'request' => DeterministicExecutionClaimContract::REQUIRED_REQUEST_FIELDS,
+            'holder' => DeterministicExecutionClaimContract::REQUIRED_HOLDER_FIELDS,
+            'execution_identity' => DeterministicExecutionClaimContract::REQUIRED_EXECUTION_IDENTITY_FIELDS,
+            'credential_capability' => DeterministicExecutionClaimContract::REQUIRED_CREDENTIAL_CAPABILITY_FIELDS,
+            'provider_safety' => DeterministicExecutionClaimContract::REQUIRED_PROVIDER_SAFETY_FIELDS,
+            'effect' => DeterministicExecutionClaimContract::REQUIRED_EFFECT_FIELDS,
+        ] as $field => $keys) {
+            if (!is_array($claim[$field]) || $keys !== array_keys($claim[$field])) {
+                throw new \RuntimeException('CCI_CLAIM_INVALID');
+            }
         }
         $before = $this->bindingSnapshot();
         $nativeBefore = $this->hasNativeState();
@@ -136,6 +151,7 @@ final class NativeBindingReader
 
     public function hasNativeState(): bool
     {
+        $this->assertLayout();
         return file_exists($this->state->root.'/'.NativeState::DIRECTORY)
             || is_link($this->state->root.'/'.NativeState::DIRECTORY)
             || file_exists($this->state->root.'/var/imperium/runtime/legacy-provider-transitions');
@@ -153,6 +169,9 @@ final class NativeBindingReader
             if (!is_array($value)) { continue; }
             if ('provider_binding' === $key) {
                 $descriptor = $this->state->source('binding', $value);
+                if (($descriptor['binding_id'] ?? null) !== ($value['id'] ?? null)) {
+                    throw new \RuntimeException('CCI_BINDING_IDENTITY_MISMATCH');
+                }
                 $this->assertLegacy($descriptor);
             } else {
                 $this->assertLegacyRecord($value);
@@ -163,6 +182,7 @@ final class NativeBindingReader
     /** Old descriptor semantics are usable only before any native attempt for this exact root. */
     public function assertLegacy(array $descriptor): void
     {
+        $this->assertLayout();
         $instance = $descriptor['instance_id'] ?? null;
         $binding = $descriptor['binding_id'] ?? null;
         $operation = $descriptor['scope']['operation'] ?? null;
@@ -197,6 +217,23 @@ final class NativeBindingReader
         }
         ksort($snapshot);
         return $snapshot;
+    }
+
+    private function assertLayout(): void
+    {
+        $kinds = ['principals', 'activations', 'revocations', 'decisions', 'authorities', 'successors', 'journals', 'transitions'];
+        foreach ([NativeState::DIRECTORY, 'var/imperium/runtime/legacy-provider-transitions'] as $relative) {
+            $base = $this->state->root.'/'.$relative;
+            if (is_link($base) || (file_exists($base) && !is_dir($base))) {
+                throw new \RuntimeException('CCI_NATIVE_LAYOUT_CORRUPT');
+            }
+            foreach (glob($base.'/*') ?: [] as $path) {
+                if (is_link($path) || !is_dir($path)
+                    || (NativeState::DIRECTORY === $relative && !in_array(basename($path), $kinds, true))) {
+                    throw new \RuntimeException('CCI_NATIVE_LAYOUT_CORRUPT');
+                }
+            }
+        }
     }
 
     /** Backward source joins and producer-derived replay identity, never configured provenance. */
@@ -246,6 +283,7 @@ final class NativeBindingReader
 
     public function read(string $instance, string $binding, string $operation, int $at): array
     {
+        $this->assertLayout();
         $root = self::root($instance, $binding, $operation);
         $commit = $this->state->get('transitions', $root);
         if (null === $commit) {

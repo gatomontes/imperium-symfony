@@ -27,7 +27,7 @@ final class GovernedToolProviderSeparationBatch4Test extends TestCase
     public function testEncoderBuildsTransientRequestAndSecretFreeEvidence(): void
     {
         $payload = '{"to":["recipient@example.test"],"subject":"Test","text":"Body"}';
-        $encoded = (new AgentMailProviderRequestEncoder())->encode($this->binding(), 'https://api.agentmail.to/v0/inboxes/inbox-test/messages/send', $payload, 'opaque-secret', 'exact-key');
+        $encoded = ($this->encoder())->encode($this->binding(), 'https://api.agentmail.to/v0/inboxes/inbox-test/messages/send', $payload, 'opaque-secret', 'exact-key');
 
         self::assertSame('Bearer opaque-secret', $encoded->request()['headers']['Authorization']);
         self::assertSame($payload, $encoded->request()['body']);
@@ -41,14 +41,14 @@ final class GovernedToolProviderSeparationBatch4Test extends TestCase
         $binding = $this->binding();
         $binding['provider_implementation']['provider_id'] = 'substitute';
         try {
-            (new AgentMailProviderRequestEncoder())->encode($binding, 'https://api.agentmail.to/v0/inboxes/inbox-test/messages/send', '{"to":["a@example.test"]}', 'opaque', 'key');
+            ($this->encoder())->encode($binding, 'https://api.agentmail.to/v0/inboxes/inbox-test/messages/send', '{"to":["a@example.test"]}', 'opaque', 'key');
             self::fail('Provider substitution was accepted.');
         } catch (\RuntimeException $exception) {
             self::assertSame('GTP400_AGENTMAIL_ENCODER_BINDING_INVALID', $exception->getMessage());
         }
 
         $this->expectExceptionMessage('GTP401_AGENTMAIL_ENCODER_DESTINATION_REJECTED');
-        (new AgentMailProviderRequestEncoder())->encode($this->binding(), 'https://example.test/send', '{"to":["a@example.test"]}', 'opaque', 'key');
+        ($this->encoder())->encode($this->binding(), 'https://example.test/send', '{"to":["a@example.test"]}', 'opaque', 'key');
     }
 
     public function testDecoderProducesSealedProviderSpecificAttributesWithoutAdmission(): void
@@ -93,6 +93,26 @@ final class GovernedToolProviderSeparationBatch4Test extends TestCase
         foreach (['Only Batch 5 may next be considered', 'Runtime behavior is unchanged', 'No credential was resolved', 'Batch 5 is not authorized'] as $proof) {
             self::assertStringContainsString($proof, $handoff);
         }
+    }
+
+    private string $storage;
+
+    protected function setUp(): void
+    {
+        $this->storage = sys_get_temp_dir().'/encoder-correction-'.bin2hex(random_bytes(6));
+        mkdir($this->storage, 0770, true);
+    }
+
+    protected function tearDown(): void
+    {
+        $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($this->storage, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST);
+        foreach ($files as $file) { $file->isDir() ? rmdir($file->getPathname()) : unlink($file->getPathname()); }
+        rmdir($this->storage);
+    }
+
+    private function encoder(): AgentMailProviderRequestEncoder
+    {
+        return new AgentMailProviderRequestEncoder(new \App\Imperium\Runtime\ProviderTransition\NativeBindingReader(new \App\Imperium\Runtime\ProviderTransition\NativeState($this->storage)));
     }
 
     private function binding(): array

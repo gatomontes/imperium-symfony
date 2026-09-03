@@ -86,6 +86,13 @@ final class GovernedToolProviderSeparationBatch7Test extends TestCase
         return [$admission, $eligibility];
     }
 
+    /** Reusable archival fixture only; it supplies no native transition provenance. */
+    public function exportArchive(string $root): array
+    {
+        $this->root = $root;
+        return $this->chain();
+    }
+
     private function binding(string $id, string $target, string $digit, ?array $tool = null): array
     {
         $tool ??= (new CanonicalEmailSendToolDefinitionService($this->root))->read();

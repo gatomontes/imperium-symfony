@@ -1,0 +1,296 @@
+{
+  "version": 2,
+  "baseline_reading_ledger": "docs/executable-atomic-transition-canonical-consumer-integration-correction-reading-ledger-v1.json",
+  "baseline_sources": 110,
+  "scope": "Batches 1-3 continuation; includes authored proof sources reviewed during implementation",
+  "note": "SHA256 values are reading snapshots, never runtime provenance or authority. Baseline sources remain individually recorded in v1. Changed baseline source bodies were read and reviewed with their patches; v1 hashes remain historical.",
+  "additional_sources": [
+    {
+      "path": "C:/Users/gatom/.codex/skills/senior-symfony-backend-engineer/SKILL.md",
+      "role": "LOCAL_SKILL",
+      "read_status": "FULLY_READ",
+      "sha256": "16f20715a647f0e32d01ec47c8c8abe1b04ae8fd4bfa4f8cbf385e886d0ce898",
+      "lines": 77
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/DeterministicExecutionClaimContract.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "614201edf92decfdbb6e7959f9ff868865754850b56b1531ee3998ae4685f7bf",
+      "lines": 144
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/DeterministicOutboundEmailAuthorizationContract.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "7bbb8180008d38654ede25b9a257969bdb5c759a00d39cb83d27815f7742b919",
+      "lines": 109
+    },
+    {
+      "path": "src/Imperium/Runtime/Imperator/OutboundEmailAuthorizationIssuanceContract.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "a4d23929c2ad0b6823d0773763370adf13a527a8d69d5e340bc486b40603bc73",
+      "lines": 121
+    },
+    {
+      "path": "config/bundles.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "ff7c08f03deaca508f238260370fb16a22f878114e13a13e35fc320103e67d75",
+      "lines": 6
+    },
+    {
+      "path": "vendor/symfony/framework-bundle/Kernel/MicroKernelTrait.php",
+      "role": "VENDOR_KERNEL_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "e8f7527ef3f5b87904f292974a3c33132c8cc87787c1e82230b61dd6556e977c",
+      "lines": 168
+    },
+    {
+      "path": "vendor/symfony/dependency-injection/Kernel/KernelTrait.php",
+      "role": "VENDOR_KERNEL_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "e948f7daa8f01577238e5b5aac1ed078dc3523964360cc2d6291be977715a075",
+      "lines": 679
+    },
+    {
+      "path": "tests/Imperium/Runtime/NativeTransitionBatch1Test.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "84419a1649e96291174d203dafb8ecd302a923298573f751cf3b49658bcf11e7",
+      "lines": 143
+    },
+    {
+      "path": "tests/Imperium/Runtime/NativeTransitionBatch2Test.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "2a48646e4e0e368d88d759f2646877cc179c3cd5e300db44e3f6bf7ac5b5db26",
+      "lines": 115
+    },
+    {
+      "path": "tests/Imperium/Runtime/NativeTransitionBatch3Test.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "499759152444f5aaca1fdaa5d14d6da9373cc44256b93806c14a4c94aa2e32f2",
+      "lines": 37
+    },
+    {
+      "path": "tests/Imperium/Runtime/NativeTransitionBatch4Test.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "a5f4ed51cc560c78b04fcb3fa883ea5bd6305472e57941ec597a925bc9c3c26b",
+      "lines": 63
+    },
+    {
+      "path": "tests/Imperium/Runtime/IronGateCallerAuthorityTestTrait.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "02686cbfd2050062aac53d9b3413828b8909e7ff7e53a4a30be782e60aa9cd36",
+      "lines": 50
+    },
+    {
+      "path": "tests/Imperium/Runtime/IronGateExecutionReceiptBindingBatch6Test.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "704644ca93b765c14ff1225df7e54d714124d305712a860224bcd5026ad041a5",
+      "lines": 157
+    },
+    {
+      "path": "tests/Imperium/Runtime/IronGateExecutionReceiptBindingBatch7Test.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "f6f5e065511f0ccc5d0b9175fcde19a84e05030589b6bc4502d3b270e679494b",
+      "lines": 299
+    },
+    {
+      "path": "tests/Imperium/Runtime/IronGateExecutionReceiptBindingBatch11Test.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "1c6e679ba0403d02d0fb1d80159c089ca00ea701ff6eb6aa7e581a4d62846ec1",
+      "lines": 237
+    },
+    {
+      "path": "tests/Imperium/Runtime/GovernedToolProviderSeparationBatch4Test.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "ac1f3e125eb1c8b82a579bb8385877af5fb23ee8d0db6a266b521757bc37dd8b",
+      "lines": 130
+    },
+    {
+      "path": "tests/Imperium/Runtime/GovernedToolProviderSeparationBatch7Test.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "7ba86d387fee84c697fb5b9564b922c090e27acc5292cd0e0788f33f2bf1fef9",
+      "lines": 107
+    },
+    {
+      "path": "tests/Imperium/Runtime/GovernedToolProviderSeparationBatch8Test.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "7bc6bc02651fb8c3ddc072aea32eeeea06089b97621a4bc5a13a6447d7fd42f5",
+      "lines": 47
+    },
+    {
+      "path": "tests/Imperium/Runtime/DeterministicBoundaryExecutorTest.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "60a39660c03511d9b6b00339978c6abcfdf8032227a94d79d2a63a3c71b4fdee",
+      "lines": 196
+    },
+    {
+      "path": "tests/Imperium/Runtime/DeterministicSmokeCommandTest.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "6182a862c5f79587a7a8aa9d1d1029a42de89355bf596db143bece53f1b8a873",
+      "lines": 25
+    },
+    {
+      "path": "tests/Imperium/Runtime/ProviderExecutionEffectReadinessBatch2Test.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "efeef0dcec73a2b2c5daf7105dc89fdf94d5c00dff7d43d7d44ab348944fdd13",
+      "lines": 240
+    },
+    {
+      "path": "tests/Imperium/Runtime/ProviderExecutionEffectReadinessBatch7Test.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "15e3c1cbf14e90d7659cc2ee99a0c56f68cbdd3def9d37114a24a326edf777c5",
+      "lines": 399
+    },
+    {
+      "path": "tests/Imperium/Runtime/PrincipalActivationDecisionAuthorityProvenanceRemediationBatch5BTest.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "105734281b35bc2eae14e752946f8a9e37f968d49ad5e9ddddf319eff0e64667",
+      "lines": 373
+    },
+    {
+      "path": "tests/Imperium/Runtime/PrincipalActivationDecisionAuthorityProvenanceRemediationBatch5CProductionTest.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "c03db2e2454574cbbb463c6998663eac8380118f4ffbc0508e2ff310e4f02055",
+      "lines": 263
+    },
+    {
+      "path": "tests/Imperium/Runtime/CanonicalConsumerCorrectionBatch1Test.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "2884a9c5f8bd64b8e80182038c84d77ea0016af4cc35e4c55177dba2a91abd6e",
+      "lines": 58
+    },
+    {
+      "path": "tests/Imperium/Runtime/CanonicalConsumerCorrectionBatch2Test.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "d9c8ec62f1cf4466d2be12bb342d55f7409d5a0098b12a90af96df14ccbbaa8a",
+      "lines": 91
+    },
+    {
+      "path": "tests/Imperium/Runtime/CanonicalConsumerCorrectionBatch3Test.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "d23161a0415bab472449f71fbbabeabfda448b6868bcf4fa38d2cdc1a1d98126",
+      "lines": 245
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/CanonicalConsumerKernel.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "da698d84ef4cd625e5d0681270a18573e2f0352b7dc19327e8a99d4d4c22a81f",
+      "lines": 58
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/NoEffectCredentials.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "6a34952f7246ec3bc55e208be9d366e15b3ca702e0c6afcfda3943bbb3bb9576",
+      "lines": 16
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/ConsumerProcess.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "ef4ae35b821cd15df5daa1315067287054ef8a511c6967e3a13620eedf6b24ca",
+      "lines": 56
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/canonical_consumer_worker.php",
+      "role": "IMPLEMENTATION_AND_PROOF_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "82c60be628524058854108bfa50be0d4c0f0bb97c165c342e84df2f46987b3e4",
+      "lines": 39
+    },
+    {
+      "path": "tests/Imperium/Runtime/AgentMailEmailTransportTest.php",
+      "role": "CONTINUATION_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "7c7e92b98c29e4d2fd1b78350412da0ec020b579b997069be3df954d4dd415ca",
+      "lines": 64
+    },
+    {
+      "path": "tests/Imperium/Runtime/ExecutableAtomicTransitionCanonicalConsumerIntegrationCorrectionPreparationBatch0Test.php",
+      "role": "CONTINUATION_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "1792573f483b50e6d5bae5694cc2f193e04a8d0b8a3f3a10f782ee12102d7982",
+      "lines": 201
+    },
+    {
+      "path": "docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-preparation-batch-0-complete.md",
+      "role": "CONTINUATION_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "ca0bbeb9065670fc41a3d33df9688f11b6b491fbea56be6baa8adc3431960e3e",
+      "lines": 71
+    },
+    {
+      "path": "docs/executable-atomic-transition-canonical-consumer-integration-correction-preparation-inventory-v1.md",
+      "role": "CONTINUATION_SOURCE",
+      "read_status": "FULLY_READ",
+      "sha256": "dd64be0624841ef1771212d239c5805ff160844ef6fce69225999aa34e5a5a90",
+      "lines": 262
+    },
+    {
+      "path": "docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-batch-1-complete.md",
+      "role": "CONTINUATION_ARTIFACT",
+      "read_status": "FULLY_READ",
+      "sha256": "ef338e08e2b8936cf5bb204f6cf8e7cde06a80c3d31018d95412e9e2fdf128d4",
+      "lines": 17
+    },
+    {
+      "path": "docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-batch-2-complete.md",
+      "role": "CONTINUATION_ARTIFACT",
+      "read_status": "FULLY_READ",
+      "sha256": "e2a7d7c1038236a4f6e2c821237d0a2b90eb88d3854bf8ef54a37fcbf4b0f414",
+      "lines": 24
+    },
+    {
+      "path": "docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-batch-3-complete.md",
+      "role": "CONTINUATION_ARTIFACT",
+      "read_status": "FULLY_READ",
+      "sha256": "87aa9e14105781ae0e2b20bb4c31130a96ddcb3595a323cf5d09244147ae611d",
+      "lines": 31
+    },
+    {
+      "path": "docs/executable-atomic-transition-canonical-consumer-integration-correction-implementation-v1.md",
+      "role": "CONTINUATION_ARTIFACT",
+      "read_status": "FULLY_READ",
+      "sha256": "9d56ac4c1b0c25390032363186b397e8297e7e60801c5618fe9625ff64a7d7f5",
+      "lines": 201
+    },
+    {
+      "path": "docs/handoffs/README.md",
+      "role": "CONTINUATION_ARTIFACT",
+      "read_status": "FULLY_READ",
+      "sha256": "a2ea70a46fb7068e33b81f4cfea79ff9da1f9ac18907d3777f4ad20a297ab97e",
+      "lines": 376
+    }
+  ],
+  "discovery_only": [
+    {
+      "path": "composer.lock",
+      "read_status": "SEARCH_ONLY",
+      "purpose": "Checked installed package names; not used as integration or provenance proof"
+    }
+  ]
+}

@@ -27,6 +27,11 @@ final readonly class RecordReferenceValidator
         }
 
         $this->legacyBinding?->assertLegacyRecord($record);
+        if (null !== $this->legacyBinding
+            && \App\Imperium\Runtime\LaCortine\ProviderImplementationBindingContract::SCHEMA === ($record['schema'] ?? null)
+            && basename($absolutePath) !== ($record['binding_id'] ?? '').'.json') {
+            throw new \RuntimeException('CCI_BINDING_IDENTITY_MISMATCH');
+        }
         return $record;
     }
 

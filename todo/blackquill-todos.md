@@ -1,3 +1,6 @@
+Batch 3 application/adversarial proof complete: `CANONICAL_CONSUMER_CORRECTION_BATCH_3_COMPLETE`.
+Current handoff: `docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-batch-3-complete.md`. One stage remains: the separate terminal audit from clean merged Batch 3 main. Earlier stage entries below describe historical checkpoints and authorization; the operator has authorized campaign completion.
+
 Batch 2 established-consumer integration complete: `CANONICAL_CONSUMER_CORRECTION_BATCH_2_COMPLETE`.
 See `docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-batch-2-complete.md`. Full PHPUnit passed 1994 tests / 45969 assertions. Application/adversarial proof and terminal audit remain pending.
 
