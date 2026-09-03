@@ -1,5 +1,11 @@
 # Handoff document status
 
+Current native remediation: `docs/handoffs/executable-atomic-transition-native-integration-remediation-terminal-complete.md`.
+All eight stages complete at `NATIVE_INTEGRATION_TERMINAL_AUDIT_ACCEPTED_BOUNDED_PRE_EFFECT`.
+No live deployment or subsequent campaign is authorized by this completion.
+The eight planned stages required one additional correction:
+`docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-6a-correction-complete.md`.
+
 Latest native remediation: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-6-complete.md`. One stage remains.
 Older "Latest" entries below are historical checkpoints.
 

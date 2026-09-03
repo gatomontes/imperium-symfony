@@ -1,5 +1,23 @@
 # Blackquill Review TODOs
 
+Current verdict: `NATIVE_INTEGRATION_TERMINAL_AUDIT_ACCEPTED_BOUNDED_PRE_EFFECT`.
+Native remediation Batches 0–7 complete; no unresolved blocker to the exact
+bounded pre-effect claim. Full rationale and limits:
+`docs/executable-atomic-transition-native-integration-remediation-terminal-audit-v1.md`.
+Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-terminal-complete.md`.
+Retain deployment/legacy-inventory, shared-validator, cooperative-host and
+power-loss limits; do not promote this verdict to live rollout or provider effects.
+BOUND_INACTIVE, historical NOT_IMPLEMENTED and UNKNOWN_REPLAY_PROHIBITED remain.
+Iron Gate and Lazaretto stay closed. Historical refusals and counts below remain
+evidence for the earlier trees; they are not erased or silently reclassified.
+One extra correction batch was necessary: independent reconstruction reported
+orphaned retirement as unknown while the reader returned inactive. A failing
+regression demonstrated it; Batch 6A corrected the reader and passed full PHPUnit
+1939 tests / 44961 assertions. Terminal review resumed from clean corrected main
+`9f335e3b00513f842539d82ea0d7955350612115`. See the Batch 6A correction handoff.
+Final resumed terminal PHPUnit: 1954 tests, 45049 assertions passed. No unresolved
+blocker to the bounded claim remains; no live rollout or next campaign is selected.
+
 Latest: `NATIVE_INTEGRATION_BATCH_6_INDEPENDENT_RECONSTRUCTION_COMPLETE`; one stage remains.
 Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-6-complete.md`.
 Resealed substitutions, secret fields, incomplete migration and lifecycle changes

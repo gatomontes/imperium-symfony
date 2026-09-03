@@ -1,5 +1,31 @@
 # Native Integration Remediation implementation v1
 
+## Terminal Batch 7
+
+`NATIVE_INTEGRATION_TERMINAL_AUDIT_ACCEPTED_BOUNDED_PRE_EFFECT`.
+All eight planned stages complete. Separately sequenced audit base: clean locally
+merged Batch 6 main `88ed24bed037101903356e519f34eb89475844a3`, tree equal to
+tested `0a3bc30`. Verdict, evidence, reading ledger and platform/deployment limits:
+`docs/executable-atomic-transition-native-integration-remediation-terminal-audit-v1.md`.
+Current inventory: `docs/executable-atomic-transition-native-integration-remediation-inventory-v2.md`.
+Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-terminal-complete.md`.
+Batch 7 changes documentation and tests only. The historical refusal and stage
+counts below describe their original trees. BOUND_INACTIVE, historical
+NOT_IMPLEMENTED and UNKNOWN_REPLAY_PROHIBITED remain; live effects stay closed.
+
+Terminal acceptance was held for one further reader discrepancy. Batch 6A first
+proved a failing orphan-retirement regression, then required independent ABSENT
+reconstruction before the reader returns untouched BOUND_INACTIVE. Full 6A suite:
+1939 tests / 44961 assertions. The terminal audit resumed from clean corrected
+main `9f335e3b00513f842539d82ea0d7955350612115`, tree equal to tested `760590b`.
+Correction and additional reading ledger:
+`docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-6a-correction-complete.md`.
+All eight planned stages plus this additional correction are accounted for.
+Final terminal full PHPUnit: **1954 tests, 45049 assertions passed**. Focused
+terminal set: 15 tests, 88 assertions. Preparation used focused documentary tests;
+every implementation/correction batch used the full suite, with counts in the
+terminal audit. No live action or remote push occurred.
+
 ## Batch 6 independent reconstruction and adversarial corrections
 
 `NATIVE_INTEGRATION_BATCH_6_INDEPENDENT_RECONSTRUCTION_COMPLETE`.
