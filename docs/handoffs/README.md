@@ -1,3 +1,21 @@
+# Current campaign selection: native effect continuation and exclusivity remediation
+
+`CANONICAL_NATIVE_EFFECT_CONTINUATION_EXCLUSIVITY_REMEDIATION_CAMPAIGN_READY`
+`PREPARATION_BATCH_0_AUTHORIZED_ONLY`
+`BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
+
+The next local campaign corrects the post-Batch 6 continuation/exclusivity
+defects before any live effect can be reconsidered. Six stages remain including
+Preparation Batch 0. The initial run is documentary inventory only; it cannot
+modify runtime behavior, issue/consume authority or capability, access a
+credential, invoke a provider or restore Batch 7.
+
+Active entrypoint:
+`docs/handoffs/canonical-native-effect-continuation-exclusivity-remediation-preparation-batch-0-local-ready.md`.
+Campaign definition:
+`docs/next-campaign-canonical-native-effect-continuation-exclusivity-remediation.md`.
+Controlling review:
+`docs/canonical-native-effect-corridor-post-batch-6-blackquill-review-v1.md`.
 # Current campaign selection: canonical native effect corridor
 
 `CANONICAL_NATIVE_EFFECT_CORRIDOR_ACTIVATION_CAMPAIGN_READY`
