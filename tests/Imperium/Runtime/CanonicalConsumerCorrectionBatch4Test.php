@@ -24,9 +24,15 @@ final class CanonicalConsumerCorrectionBatch4Test extends TestCase
         self::assertGreaterThanOrEqual(20, count($ledger['sources']));
         $paths = array_column($ledger['sources'], 'path');
         self::assertSame($paths, array_values(array_unique($paths)));
+        $successor = json_decode($this->read('docs/native-inspection-snapshot-consistency-terminal-reading-ledger-v1.json'), true, 512, JSON_THROW_ON_ERROR);
+        $reviewedSuccessors = array_column($successor['sources'], null, 'path');
         foreach ($ledger['sources'] as $source) {
             self::assertSame('FULLY_READ', $source['read_status']);
-            self::assertSame($source['normalized_sha256'], hash('sha256', $this->read($source['path'])), $source['path'].' changed after the terminal review; re-review its evidence.');
+            $actual = hash('sha256', $this->read($source['path']));
+            if ($source['normalized_sha256'] === $actual) { continue; }
+            self::assertArrayHasKey($source['path'], $reviewedSuccessors, $source['path'].' changed without a successor review.');
+            self::assertSame($source['normalized_sha256'], $reviewedSuccessors[$source['path']]['predecessor_sha256']);
+            self::assertSame($actual, $reviewedSuccessors[$source['path']]['normalized_sha256']);
         }
     }
 

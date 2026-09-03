@@ -1,0 +1,21 @@
+{
+  "schema": "imperium.documentary.native-inspection-snapshot-consistency-terminal-reading-ledger/v1",
+  "audited_main": "f44a4cf5375bf592fa6da6a51ce95a34b2fb645a",
+  "audit": "docs/native-inspection-snapshot-consistency-terminal-audit-v1.md",
+  "hash_note": "UTF-8 bytes with CRLF and CR normalized to LF. A predecessor hash records the reviewed earlier artifact superseded by this campaign; future unlisted changes still fail closed.",
+  "sources": [
+    {"path": "docs/next-campaign-native-inspection-snapshot-consistency.md", "predecessor_sha256": "5637603ff04357bca76133f0033328516ce0fbc45c568e1d7987694eff3dd105", "normalized_sha256": "39f06df0715643da79bb56614bf2d42e8b3280793482f67cf1aad0236a65da6c"},
+    {"path": "src/Imperium/Runtime/ProviderTransition/NativeBindingReader.php", "predecessor_sha256": "241eec57f8696fe88a428cb265d0601b2fefa81b484dadfa0b7966d0581d70e5", "normalized_sha256": "6a1fe920752b145166a20aebf206a3da613167d6c1e0f3333274e212ecc4dae9"},
+    {"path": "src/Imperium/Runtime/ProviderTransition/NativeReconstructor.php", "predecessor_sha256": "06da05963ecfef1d25631ef59ff2a0e1010cc6e43a61fffb7601139ad2dfe640", "normalized_sha256": "93c73e7f7f9ac29a1a19c94b971d0f6fd456a3737bdd525b8047e994e3373f0a"},
+    {"path": "src/Imperium/Runtime/ProviderTransition/NativeInspectionSnapshot.php", "predecessor_sha256": null, "normalized_sha256": "520fb11d462d022f2d2e9e2c6394718c963bfeb1b06a3fa144fb42617db1a01d"},
+    {"path": "config/services.yaml", "predecessor_sha256": null, "normalized_sha256": "ce13733ba4f5581517bcb42b0c752837616eb270981f3c95d4a89674660fe824"},
+    {"path": "tests/Imperium/Runtime/NativeInspectionSnapshotConsistencyBatch2Test.php", "predecessor_sha256": null, "normalized_sha256": "b47074f3afe0c90154ea1e7a79a2dba171d4cc3cde93a7b5312f996ae00cfca6"},
+    {"path": "tests/Imperium/Runtime/NativeInspectionSnapshotConsistencyBatch3Test.php", "predecessor_sha256": null, "normalized_sha256": "372887197f6cf347b7fb37153626e065bd0e12aa1b4af0399d8dd4c582f154ba"},
+    {"path": "tests/Imperium/Runtime/NativeInspectionSnapshotConsistencyBatch4Test.php", "predecessor_sha256": null, "normalized_sha256": "05b566390f7a05203d6891c4ad3ab0f400049d846fa3740cb22289067a50790a"},
+    {"path": "tests/Imperium/Runtime/CanonicalConsumerCorrectionBatch4Test.php", "predecessor_sha256": "7500e1cae51acc5efc6751f8f669ad3939d39df5657483df0dbc16f6912b6b2d", "normalized_sha256": "001a3dbc0233c85e05033ab21f1cba60d6fbb0c08aa01bb05db0a0d3c4f89409"},
+    {"path": "docs/native-inspection-snapshot-consistency-contract-v1.md", "predecessor_sha256": null, "normalized_sha256": "9d18f3530bfd1ea3686572f3a776a461ea6d6383ca2d69e6253398aa96711c09"},
+    {"path": "docs/native-inspection-snapshot-consistency-implementation-v1.md", "predecessor_sha256": null, "normalized_sha256": "539676889d0fd14449732fc2cb7377e9b3d45bb84f72120773ed3fdd97285e3e"},
+    {"path": "docs/native-inspection-snapshot-consistency-separate-process-proof-v1.md", "predecessor_sha256": null, "normalized_sha256": "4e07e4685d37a5af29479f2c2848d1caa2ee5fbeb7f7815ffe0a142d8a855c68"},
+    {"path": "docs/native-inspection-snapshot-consistency-integration-proof-v1.md", "predecessor_sha256": null, "normalized_sha256": "42017be90e75c9fdc9742fd334d77f2139de52d650fa8edacb4a8f4a3091747d"}
+  ]
+}

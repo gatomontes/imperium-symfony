@@ -140,4 +140,9 @@ zero-credential, zero-provider-effect boundary are proved in
 `docs/native-inspection-snapshot-consistency-integration-proof-v1.md`. The
 terminal handoff is
 `docs/handoffs/native-inspection-snapshot-consistency-batch-4-complete.md`.
-One separately sequenced terminal Blackquill audit remains.
+Batch 5 terminal Blackquill audit is accepted. The campaign is complete at
+`NATIVE_INSPECTION_SNAPSHOT_CONSISTENCY_CAMPAIGN_COMPLETE`. The terminal audit is
+`docs/native-inspection-snapshot-consistency-terminal-audit-v1.md` and the final
+handoff is
+`docs/handoffs/native-inspection-snapshot-consistency-campaign-complete.md`.
+No stage remains.

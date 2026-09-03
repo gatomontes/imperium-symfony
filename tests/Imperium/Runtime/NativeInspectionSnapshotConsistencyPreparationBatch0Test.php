@@ -17,6 +17,8 @@ final class NativeInspectionSnapshotConsistencyPreparationBatch0Test extends Tes
         $ledger = json_decode($this->read('docs/'.self::PREFIX.'-reading-ledger-v1.json'), true, 512, JSON_THROW_ON_ERROR);
         self::assertSame('aff1017f456b35110d0e64b07cf6e89990d71cc0', $ledger['baseline']);
         self::assertGreaterThanOrEqual(55, count($ledger['sources']));
+        $successor = json_decode($this->read('docs/'.self::PREFIX.'-terminal-reading-ledger-v1.json'), true, 512, JSON_THROW_ON_ERROR);
+        $reviewedSuccessors = array_column($successor['sources'], null, 'path');
         $paths = [];
         foreach ($ledger['sources'] as [$path, $role, $status, $hash, $lines]) {
             self::assertNotContains($path, $paths);
@@ -25,7 +27,12 @@ final class NativeInspectionSnapshotConsistencyPreparationBatch0Test extends Tes
             self::assertMatchesRegularExpression('/^[a-f0-9]{64}$/', $hash, $path);
             self::assertGreaterThan(0, $lines, $path);
             self::assertNotSame('', $role);
-            self::assertSame($hash, hash('sha256', $this->read($path)), $path.' changed after preparation review');
+            $actual = hash('sha256', $this->read($path));
+            if ($hash !== $actual) {
+                self::assertArrayHasKey($path, $reviewedSuccessors, $path.' changed without terminal successor review');
+                self::assertSame($hash, $reviewedSuccessors[$path]['predecessor_sha256']);
+                self::assertSame($actual, $reviewedSuccessors[$path]['normalized_sha256']);
+            }
         }
         foreach ([
             'docs/next-campaign-native-inspection-snapshot-consistency.md',

@@ -452,3 +452,9 @@ zero-effect integration proof is recorded in
 terminal handoff is
 `docs/handoffs/native-inspection-snapshot-consistency-batch-4-complete.md`.
 One separately sequenced terminal Blackquill audit remains.
+
+Native Inspection Snapshot Consistency is complete at
+`NATIVE_INSPECTION_SNAPSHOT_CONSISTENCY_CAMPAIGN_COMPLETE`. The separately
+sequenced terminal Blackquill audit accepted the bounded cooperative single-host,
+non-authorizing contract. Completion is
+`docs/handoffs/native-inspection-snapshot-consistency-campaign-complete.md`.
