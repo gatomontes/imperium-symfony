@@ -1,3 +1,30 @@
+## Canonical Native Effect Corridor Activation — selected 2026-09-03
+
+- [ ] Preparation Batch 0: inventory native-root-to-effect callers, refusal cuts,
+  authority, custody, atomicity, interruption, receipt provenance, bypasses and
+  live-trial evidence requirements. Documentation only.
+- [ ] Batch 1: define effect-admission authority, consumption, journal and result
+  contracts. No provider I/O.
+- [ ] Batch 2: implement the inert exact-native-root admission consumer.
+- [ ] Batch 3: bind one-time credential capability custody and atomic pre-I/O
+  consumption without provider access.
+- [ ] Batch 4: implement unknown-outcome, reconciliation and receipt-provenance
+  boundaries using provider doubles only.
+- [ ] Batch 5: prove contention, interruption, replay, bypass refusal and real
+  container wiring without external I/O.
+- [ ] Batch 6: prepare the disposable live-trial package and stop.
+- [ ] Batch 7: execute one controlled provider effect only after the exact
+  Operator marker `AUTHORIZE_CANONICAL_NATIVE_EFFECT_LIVE_TRIAL_ONCE` and an
+  approved operation/destination.
+- [ ] Batch 8: independently verify sanitized evidence and conduct a terminal
+  Blackquill audit from clean merged Batch 7 main.
+
+Active local entrypoint:
+`docs/handoffs/canonical-native-effect-corridor-activation-preparation-batch-0-local-ready.md`.
+Preparation Batch 0 alone is authorized. Neither prior patterns, shorthand
+continuation language, green tests nor push/merge instructions authorize a later
+batch or provider effect.
+
 ## Native inspection authority-chain remediation — complete 2026-09-03
 
 - [x] Preserve the Preparation-Batch-0-only scope breach and invalidate its

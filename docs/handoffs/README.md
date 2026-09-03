@@ -1,3 +1,22 @@
+# Current campaign selection: canonical native effect corridor
+
+`CANONICAL_NATIVE_EFFECT_CORRIDOR_ACTIVATION_CAMPAIGN_READY`
+`PREPARATION_BATCH_0_AUTHORIZED_ONLY`
+`LIVE_EFFECT_AUTHORITY_ABSENT`
+
+The next campaign inventories the exact route from an accepted current native
+root to one controlled provider effect, one-time capability consumption,
+interruption-safe effect evidence and independently verified receipt provenance.
+Preparation Batch 0 is documentation-only. No runtime change, credential access,
+provider call, mission, live trial, Iron Gate or Lazaretto opening is authorized.
+Active entrypoint:
+`docs/handoffs/canonical-native-effect-corridor-activation-preparation-batch-0-local-ready.md`.
+Campaign definition:
+`docs/next-campaign-canonical-native-effect-corridor-activation.md`.
+Eight later stages require new explicit Operator instructions. Batch 7 additionally
+requires `AUTHORIZE_CANONICAL_NATIVE_EFFECT_LIVE_TRIAL_ONCE` and an approved
+operation/destination. No shorthand continuation language supplies that authority.
+
 # Current corrected native-inspection disposition
 
 `NATIVE_INSPECTION_SNAPSHOT_CONSISTENCY_CORRECTED_CLOSURE_ACCEPTED`
