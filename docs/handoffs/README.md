@@ -1,3 +1,20 @@
+# Current corrected native-inspection disposition
+
+`NATIVE_INSPECTION_SNAPSHOT_CONSISTENCY_CORRECTED_CLOSURE_ACCEPTED`
+`AUTHORIZATION_BREACH_PRESERVED_CANDIDATE_PROSPECTIVELY_ADMITTED`
+
+The original local run exceeded its Preparation-Batch-0-only authorization and
+its closure is retained as historically invalid. After the Operator instructed
+`Fix it`, the exact candidate at `9eb4c608bb496159aee9f7024fdcedae9a9e8f8a`
+was reviewed outside the originating run and admitted prospectively. No
+retroactive authority is claimed. Current handoff:
+`docs/handoffs/native-inspection-snapshot-consistency-corrective-admission-complete.md`.
+Breach review:
+`docs/native-inspection-snapshot-consistency-authorization-breach-review-v1.md`.
+Corrective audit:
+`docs/native-inspection-snapshot-consistency-corrective-admission-audit-v1.md`.
+No remediation stage remains. Runtime and live-effect limitations are unchanged.
+
 # Current campaign selection
 
 `NATIVE_INSPECTION_SNAPSHOT_CONSISTENCY_CAMPAIGN_READY`
