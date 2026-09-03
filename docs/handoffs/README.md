@@ -414,3 +414,11 @@ Only Preparation Batch 0 is authorized. The active local entrypoint is
 `docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-preparation-batch-0-local-ready.md`.
 It inventories the real downstream call graph and bypasses; it grants no runtime,
 provider, credential, external-effect or retry authority.
+
+Native Inspection Snapshot Consistency Preparation Batch 0 is complete at
+`NATIVE_INSPECTION_SNAPSHOT_CONSISTENCY_PREPARATION_BATCH_0_COMPLETE`.
+The current handoff is
+`docs/handoffs/native-inspection-snapshot-consistency-preparation-batch-0-complete.md`.
+It selects an optimistic whole-read-set snapshot with bounded conservative
+refusal for later implementation. Five stages remain; no runtime change, new
+production lock, provider/effect action, retry or recovery is authorized.

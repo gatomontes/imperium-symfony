@@ -113,3 +113,13 @@ Not authorized now:
 The campaign may close only when the chosen inspection contract is enforced at
 every applicable caller and adversarial separate-process evidence proves the
 claimed consistency level without enabling an effect or transferring authority.
+
+## Current status
+
+Preparation Batch 0 is complete at
+`NATIVE_INSPECTION_SNAPSHOT_CONSISTENCY_PREPARATION_BATCH_0_COMPLETE`.
+The inventory selected optimistic whole-read-set snapshot consistency with a
+bounded conservative refusal; no runtime implementation is authorized by that
+selection. The continuation handoff is
+`docs/handoffs/native-inspection-snapshot-consistency-preparation-batch-0-complete.md`.
+Five stages remain.
