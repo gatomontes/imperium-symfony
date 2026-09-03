@@ -29,6 +29,7 @@ final readonly class NativeAuthority
         $p = (new NativePrincipal($this->state))->load($r['principal']['id'] ?? '', $at);
         (new NativePrincipal($this->state))->load($r['principal']['id'] ?? '', $r['at']);
         $successor = null === ($r['decision']['successor'] ?? null) ? null : (new NativeSuccessor($this->state))->load($r['decision']['successor']['id'], $at);
+        if (null !== $successor && $r['at'] < $successor['at']) { throw new \RuntimeException('NIR_AUTHORITY_TIME'); }
         if ($r !== $this->chain($p, $r['at'], $successor) || $id !== $r['authority']['authority_id']) { throw new \RuntimeException('NIR_AUTHORITY_LINEAGE'); }
         return $r;
     }

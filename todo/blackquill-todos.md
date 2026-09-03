@@ -1,5 +1,12 @@
 # Blackquill Review TODOs
 
+Latest: `NATIVE_INTEGRATION_BATCH_6_INDEPENDENT_RECONSTRUCTION_COMPLETE`; one stage remains.
+Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-6-complete.md`.
+Resealed substitutions, secret fields, incomplete migration and lifecycle changes
+have executable negatives. Separately audit the actual native claim after clean
+Batch 6 merge; keep shared-validator and trusted-host assumptions explicit.
+Earlier "Latest" entries below are historical batch checkpoints.
+
 Latest: `NATIVE_INTEGRATION_BATCH_5_PROCESS_AND_INTERRUPTION_PROOF_COMPLETE`; two stages remain.
 Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-5-complete.md`.
 Process proof passed. Independently challenge native provenance, resealing,

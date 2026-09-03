@@ -55,7 +55,7 @@ class NativeTransitionBatch1Test extends TestCase
             'preserved_scope' => $scope, 'source_generation' => 1, 'target_generation' => 2, 'scope' => TransitionContract::SCOPE,
             'binding' => ['id' => 'provider-binding', 'digest' => str_repeat('d', 64), 'schema' => 'imperium.provider-binding/v1'],
             'operation' => 'mail.send', 'target_id' => 'native-principal-'.TransitionContract::digest(['imperium-test', 'imperator-test', 2]),
-            'operationalization' => NativeState::ref($seal, 'seal_id'), 'effective_at' => 50, 'expires_at' => 800];
+            'operationalization' => NativeState::ref($seal, 'seal_id'), 'execution_basis' => null, 'effective_at' => 50, 'expires_at' => 800];
     }
 
     protected function tearDown(): void

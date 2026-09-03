@@ -93,15 +93,21 @@ class NativeTransitionBatch2Test extends NativeTransitionBatch1Test
             'status' => 'BOUND_INACTIVE', 'bound_at' => gmdate(DATE_ATOM, $at - 10), 'sealed' => true]);
         $this->write(NativeState::SOURCES['binding'].'/provider-binding.json', $descriptor);
         $this->source['lifecycle']['expires_at'] = gmdate(DATE_ATOM, $at + 3600);
+        if ('' !== $suffix) {
+            $this->source['principal_version_id'] .= $suffix; $this->source['principal_id'] .= $suffix;
+            $this->act['act_id'] .= $suffix;
+            $this->act['target_id'] = 'native-principal-'.\App\Imperium\Runtime\ProviderTransition\TransitionContract::digest(['imperium-test', $this->source['principal_id'], 2]);
+        }
         $this->source = NativeState::seal($this->source);
-        $this->write(NativeState::SOURCES['principal'].'/principal-v2.json', $this->source);
+        $this->write(NativeState::SOURCES['principal'].'/'.$this->source['principal_version_id'].'.json', $this->source);
         $this->anchor['expires_at'] = $at + 3600; $this->write(NativeState::TRUST.'/identity.json', $this->anchor);
         $this->act['source_principal'] = NativeState::ref($this->source, 'principal_version_id');
         $this->act['binding'] = NativeState::ref($descriptor, 'binding_id');
+        $this->act['execution_basis'] = ['activation' => NativeState::ref($activation, 'principal_activation_id'), 'production' => NativeState::ref($production, 'production_id')];
         $this->act['operation'] = 'email.send'; $this->act['effective_at'] = $at - 10; $this->act['expires_at'] = $at + 600;
         $service = new NativePrincipal($this->state, static fn () => $at);
         $p = $service->constitute($this->sign($this->act));
-        $act = $this->act; $act['action'] = 'ACTIVATE'; $act['act_id'] = 'activate-native';
+        $act = $this->act; $act['action'] = 'ACTIVATE'; $act['act_id'] = 'activate-native'.$suffix;
         $service->lifecycle($p['principal_version_id'], $this->sign($act));
         return [$p, $activation, $at, $production];
     }

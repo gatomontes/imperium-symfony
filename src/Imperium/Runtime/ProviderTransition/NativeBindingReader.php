@@ -40,6 +40,8 @@ final readonly class NativeBindingReader
         $authority = (new NativeAuthority($this->state))->load($commit['authority_id'], $at);
         $expected = (new NativeAdmission($this->state))->records($commit['authority_id'], $commit['committed_at']);
         if ($commit['records'] !== $expected || $authority['decision']['issuance_target']['root'] !== $root) { throw new \RuntimeException('NIR_BINDING_JOIN'); }
+        $proof = (new NativeReconstructor($this->state))->reconstruct($instance, $binding, $operation, $at);
+        if ('COMMITTED' !== $proof['classification'] || $proof['receipt'] !== $expected['receipt_target']) { throw new \RuntimeException('NIR_INDEPENDENT_RECONSTRUCTION_REQUIRED'); }
         return ['root' => $root, 'effective_status' => 'BOUND_ACTIVE_FOR_EXACT_OPERATION',
             'descriptor' => $expected['source_binding_transition']['binding'], 'receipt' => $expected['receipt_target']];
     }

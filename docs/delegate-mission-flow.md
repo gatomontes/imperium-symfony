@@ -1,5 +1,12 @@
 # Delegate mission flow
 
+Latest: `NATIVE_INTEGRATION_BATCH_6_INDEPENDENT_RECONSTRUCTION_COMPLETE`; one stage remains.
+Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-6-complete.md`.
+Independent stored-edge verification gates the actual binding reader. Executable
+Root grants bind the exact native production basis. The Symfony authority-id
+command calls this chain. Terminal judgment follows clean local Batch 6 merge.
+Earlier "Latest" entries below are historical batch checkpoints.
+
 Latest: `NATIVE_INTEGRATION_BATCH_5_PROCESS_AND_INTERRUPTION_PROOF_COMPLETE`; two stages remain.
 Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-5-complete.md`.
 Full suite: 1899 tests, 44628 assertions. Real process contention and 24 termination

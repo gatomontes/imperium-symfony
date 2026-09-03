@@ -31,6 +31,7 @@ final readonly class NativeSuccessor
         if (!is_int($r['at'] ?? null) || $r['at'] > $at) { throw new \RuntimeException('NIR_SUCCESSOR_TIME'); }
         $p = (new NativePrincipal($this->state))->load($r['principal']['id'] ?? '', $at);
         (new NativePrincipal($this->state))->load($r['principal']['id'] ?? '', $r['at']);
+        $this->sources($p, $r['successor']['active_principal_activation'] ?? [], $r['at']);
         $sources = $this->sources($p, $r['successor']['active_principal_activation'] ?? [], $at);
         if ($r !== $this->build($p, $sources, $r['at']) || $id !== $r['successor']['successor_id']) { throw new \RuntimeException('NIR_SUCCESSOR_PROVENANCE'); }
         return $r;
@@ -38,6 +39,8 @@ final readonly class NativeSuccessor
 
     private function sources(array $p, array $activation, int $at): array
     {
+        $basis = $p['root_act']['act']['execution_basis'];
+        if (null === $basis || $basis['activation'] !== $activation) { throw new \RuntimeException('NIR_ROOT_EXECUTION_BASIS'); }
         $a = $this->state->source('activation', $activation);
         if (array_keys($a) !== Activation::REQUIRED_FIELDS || $a['schema'] !== Activation::SCHEMA
             || $a['principal_activation_id'] !== $activation['id'] || 'ACTIVE' !== $a['status']
@@ -67,6 +70,7 @@ final readonly class NativeSuccessor
         }
         if (1 !== count($productions)) { throw new \RuntimeException('NIR_ACTIVATION_PRODUCTION_ABSENT_OR_AMBIGUOUS'); }
         $production = $productions[0];
+        if ($basis['production'] !== NativeState::ref($production, 'production_id')) { throw new \RuntimeException('NIR_ROOT_EXECUTION_BASIS'); }
         (new ProviderExecutorPrincipalActivationContractValidator())->assertActivation($a, $production['activation_decision'], $attestation, $assurance, $boundary, new \DateTimeImmutable('@'.$at));
         foreach (glob($this->state->root.'/'.NativeState::SOURCES['activation'].'/*.json') ?: [] as $path) {
             $other = $this->state->json(NativeState::SOURCES['activation'].'/'.basename($path));

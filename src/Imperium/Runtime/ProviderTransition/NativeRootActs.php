@@ -12,7 +12,7 @@ final readonly class NativeRootActs
     public const string SCHEMA = 'imperium.operator-root.transition-act/v1';
     public const array FIELDS = ['schema', 'act_id', 'anchor_id', 'purpose', 'action', 'operator', 'instance',
         'storage', 'source_principal', 'preserved_scope', 'source_generation', 'target_generation',
-        'scope', 'binding', 'operation', 'target_id', 'operationalization', 'effective_at', 'expires_at'];
+        'scope', 'binding', 'operation', 'target_id', 'operationalization', 'execution_basis', 'effective_at', 'expires_at'];
 
     public function __construct(private NativeState $state) {}
 
@@ -38,6 +38,15 @@ final readonly class NativeRootActs
             || $at < $a['effective_at'] || $at >= $a['expires_at'] || $a['effective_at'] < $anchor['effective_at']
             || $a['expires_at'] > $anchor['expires_at'] || $anchor['effective_at'] < 0) { throw new \RuntimeException('NIR_ROOT_INELIGIBLE'); }
         NativeState::reference($a['source_principal']); NativeState::reference($a['binding']);
+        if (null !== $a['execution_basis']) {
+            if (!is_array($a['execution_basis'])) { throw new \RuntimeException('NIR_ROOT_EXECUTION_BASIS'); }
+            TransitionContract::keys($a['execution_basis'], ['activation', 'production']);
+            NativeState::reference($a['execution_basis']['activation']); NativeState::reference($a['execution_basis']['production']);
+            if ($a['execution_basis']['activation']['schema'] !== \App\Imperium\Runtime\LaCortine\ProviderExecutorPrincipalActivationContract::SCHEMA
+                || $a['execution_basis']['production']['schema'] !== \App\Imperium\Runtime\Imperator\PrincipalActivationDecisionAuthorityProvenanceProductionContract::SCHEMA) {
+                throw new \RuntimeException('NIR_ROOT_EXECUTION_BASIS');
+            }
+        }
         NativeState::reference($a['operationalization']);
         $seal = $this->state->json('var/imperium/operator-root/operationalization-seal.json');
         $plain = $seal; unset($plain['record_digest']);

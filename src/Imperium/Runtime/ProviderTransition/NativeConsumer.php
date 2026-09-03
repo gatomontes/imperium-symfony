@@ -12,6 +12,12 @@ final readonly class NativeConsumer
     public function execute(string $authorityId): array
     {
         return $this->state->locked(function () use ($authorityId): array {
+            // Durable attempts dominate later expiry/revocation; this lookup grants no eligibility.
+            $stored = $this->state->get('authorities', $authorityId) ?? throw new \RuntimeException('NIR_AUTHORITY_ABSENT');
+            $attemptRoot = $stored['authority']['issuance_target']['root'] ?? '';
+            NativeState::id($attemptRoot);
+            if (null !== $this->state->get('transitions', $attemptRoot)) { throw new \RuntimeException('NIR_ALREADY_COMMITTED_READ_ONLY_REPLAY'); }
+            if (null !== $this->state->get('journals', $attemptRoot)) { throw new \RuntimeException('UNKNOWN_REPLAY_PROHIBITED'); }
             $at = $this->now();
             $authority = (new NativeAuthority($this->state))->load($authorityId, $at);
             if (null === $authority['decision']['successor']) { throw new \RuntimeException('NIR_EXACT_SUCCESSOR_REQUIRED'); }

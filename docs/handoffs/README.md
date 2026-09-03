@@ -1,5 +1,8 @@
 # Handoff document status
 
+Latest native remediation: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-6-complete.md`. One stage remains.
+Older "Latest" entries below are historical checkpoints.
+
 Latest native remediation: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-5-complete.md`. Two stages remain.
 
 Latest native remediation: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-4-complete.md`. Three stages remain.

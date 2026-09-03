@@ -19,6 +19,7 @@ final readonly class NativePrincipal
         return $this->state->locked(function () use ($envelope): array {
             $at = $this->now();
             $a = (new NativeRootActs($this->state))->verify($envelope, $at);
+            $this->uniqueAct($envelope);
             $source = $this->source($a, $at);
             $expected = $this->build($envelope, $source, $at);
             if ('CONSTITUTE' !== $a['action'] || $a['target_id'] !== $expected['principal_version_id']) { throw new \RuntimeException('NIR_CONSTITUTION_TARGET'); }
@@ -32,6 +33,7 @@ final readonly class NativePrincipal
             $at = $this->now();
             $p = $this->load($id, $at, false);
             $a = (new NativeRootActs($this->state))->verify($envelope, $at);
+            $this->uniqueAct($envelope);
             $this->lifecycleAct($p, $a);
             $kind = 'ACTIVATE' === $a['action'] ? 'activations' : 'revocations';
             if ('activations' === $kind && null !== $this->state->get('revocations', $id)) { throw new \RuntimeException('NIR_PRINCIPAL_REVOKED'); }
@@ -46,6 +48,8 @@ final readonly class NativePrincipal
     {
         $p = $this->state->get('principals', $id) ?? throw new \RuntimeException('NIR_PRINCIPAL_ABSENT');
         $a = (new NativeRootActs($this->state))->verify($p['root_act'] ?? [], $at);
+        if (!is_int($p['constituted_at'] ?? null)) { throw new \RuntimeException('NIR_PRINCIPAL_INVALID'); }
+        (new NativeRootActs($this->state))->verify($p['root_act'], $p['constituted_at']);
         $source = $this->source($a, $at);
         if ('CONSTITUTE' !== $a['action'] || !is_int($p['constituted_at'] ?? null)
             || $p['constituted_at'] > $at || $id !== $a['target_id']
@@ -130,4 +134,16 @@ final readonly class NativePrincipal
     }
 
     private function now(): int { return null === $this->clock ? time() : ($this->clock)(); }
+
+    private function uniqueAct(array $envelope): void
+    {
+        foreach (['principals', 'activations', 'revocations'] as $kind) {
+            foreach ($this->state->ids($kind) as $id) {
+                $r = $this->state->get($kind, $id);
+                if (($r['root_act']['act']['act_id'] ?? null) === $envelope['act']['act_id'] && $r['root_act'] !== $envelope) {
+                    throw new \RuntimeException('NIR_ROOT_ACT_ID_REUSED');
+                }
+            }
+        }
+    }
 }

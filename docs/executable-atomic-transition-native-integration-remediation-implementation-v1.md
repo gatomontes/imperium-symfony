@@ -1,5 +1,56 @@
 # Native Integration Remediation implementation v1
 
+## Batch 6 independent reconstruction and adversarial corrections
+
+`NATIVE_INTEGRATION_BATCH_6_INDEPENDENT_RECONSTRUCTION_COMPLETE`.
+Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-6-complete.md`.
+NativeReconstructor checks the persisted edges separately from NativeAdmission,
+NativeAuthority and NativeSuccessor builders. The shared principal loader and
+pure activation/v3 validators remain explicitly shared dependencies. The reader
+requires the independent result; a schema-shaped projection cannot bypass it.
+It performs no writes or locks, returns public receipt fields only, and checks
+source snapshots for changes. It does not authorize execution or retry.
+
+Audit corrections: executable signed Root acts bind exact original activation
+and production references through execution_basis; act ids cannot be reused;
+constitution is checked against grant validity at constitution as well as query
+time; the authority's stored identity must match the commit; durable attempts
+dominate subsequent expiry. Missing or revoked trust conservatively invalidates
+historical verification. Native lifecycle expiry/revocation instead separates
+historical COMMITTED_NOT_CURRENT from current COMMITTED eligibility.
+Final temporal review also requires native sources to have been eligible at
+successor creation time, not only query time; authority cannot predate its
+successor. A resealed earlier creation has an executable regression. The first
+full run passed 1926 tests / 44909 assertions before this final correction;
+the final unchanged-source validation follows below.
+
+Final Batch 6 PHPUnit: **1927 tests, 44912 assertions passed** on PHP 8.4.14 /
+PHPUnit 13.3.0. Changed PHP lint and diff whitespace checks pass. One terminal
+stage remains. No live runtime data or transition command was exercised.
+
+The discovered application entrypoint gap is corrected by
+`src/Command/ImperiumNativeProviderTransitionCommand.php`. Default Symfony command
+discovery instantiates only this thin adapter using the fixed kernel project
+directory. It calls NativeConsumer, which returns NativeBindingReader output.
+The ProviderTransition implementation classes remain excluded from automatic DI;
+the Batch 1 statement about no container ingress is historical. No command was
+run against the live repository state. The command does not provision trust or
+accept caller clocks, roots, keys, receipts or result records.
+
+Additional reading ledger for Batch 6: every Native*.php file in
+`src/Imperium/Runtime/ProviderTransition/`; NativeTransitionBatch1Test.php through
+NativeTransitionBatch6Test.php in `tests/Imperium/Runtime/`; the source worker
+`tests/fixtures/native-transition-worker.php`; the new command in full;
+`src/Command/ConscriptionFulfillGuildhallCommand.php` (first 65 lines, conventions);
+`config/services.yaml` (first 45 lines, discovery); the campaign selection and
+ready handoff; Batch 5 handoff; this ledger; Delegate flow, Blackquill ledger and
+handoff README (current entries); `tests/Imperium/Runtime/ExecutableTransitionBatch8Test.php`;
+`docs/provider-binding-successor-executable-atomic-transition-batch-8-terminal-audit-v1.md`;
+the Blackquill skill was rechecked for audit discipline. New tests cover all
+seven resealed secret-field injections, reader verification, source replacement,
+schema substitution, act reuse, grant time, archival revocation, missing migration
+joins, renamed authority and the command's fixed-argument/redaction boundary.
+
 ## Batch 5 real process proof
 
 `NATIVE_INTEGRATION_BATCH_5_PROCESS_AND_INTERRUPTION_PROOF_COMPLETE`. Full suite: 1899 tests, 44628 assertions.
