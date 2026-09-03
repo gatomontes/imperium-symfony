@@ -10,7 +10,7 @@ final class NativeInspectionSnapshotConsistencyCorrectiveAdmissionTest extends T
 {
     public function testBreachIsPreservedAndRetroactiveAuthorizationIsRejected(): void
     {
-        $review = $this->read('docs/native-inspection-snapshot-consistency-authorization-breach-review-v1.md');
+        $review = $this->compact($this->read('docs/native-inspection-snapshot-consistency-authorization-breach-review-v1.md'));
         foreach ([
             'NATIVE_INSPECTION_SNAPSHOT_CLOSURE_REFUSED_UNAUTHORIZED_SCOPE_EXPANSION',
             'UNADMITTED_CANDIDATE_IMPLEMENTATION_AT_9EB4C60',
@@ -24,7 +24,7 @@ final class NativeInspectionSnapshotConsistencyCorrectiveAdmissionTest extends T
 
     public function testCorrectiveAdmissionPinsAuthorityCandidateAndEvidenceQualification(): void
     {
-        $audit = $this->read('docs/native-inspection-snapshot-consistency-corrective-admission-audit-v1.md');
+        $audit = $this->compact($this->read('docs/native-inspection-snapshot-consistency-corrective-admission-audit-v1.md'));
         foreach ([
             'Fix it',
             '9eb4c608bb496159aee9f7024fdcedae9a9e8f8a',
@@ -45,6 +45,11 @@ final class NativeInspectionSnapshotConsistencyCorrectiveAdmissionTest extends T
         $current = $this->read('docs/handoffs/native-inspection-snapshot-consistency-corrective-admission-complete.md');
         self::assertStringContainsString('AUTHORIZATION_BREACH_PRESERVED_CANDIDATE_PROSPECTIVELY_ADMITTED', $current);
         self::assertStringContainsString('No remediation stage remains', $current);
+    }
+
+    private function compact(string $document): string
+    {
+        return preg_replace('/\\s+/', ' ', trim($document)) ?? $document;
     }
 
     private function read(string $relative): string
