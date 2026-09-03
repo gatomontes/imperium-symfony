@@ -1,0 +1,48 @@
+{
+  "schema": "imperium.canonical-native-effect-live-trial-package/v1",
+  "status": "BLOCKED_AWAITING_EXACT_BATCH_7_AUTHORIZATION",
+  "source_baseline": "3f5d53ce8dfff0a74702b32500696373823b5e41",
+  "authorization": {
+    "required_operator_message_marker": "AUTHORIZE_CANONICAL_NATIVE_EFFECT_LIVE_TRIAL_ONCE",
+    "required_marker_sha256": "372ae47a7aa92ea4ba631a8bb58c13b81c9d27d672adad7220822e4c833104d5",
+    "marker_received": false,
+    "operation_approved": false,
+    "destination_approved": false,
+    "single_effect_only": true
+  },
+  "approved_effect": {
+    "operation": null,
+    "destination": null,
+    "payload_class": "NON_SENSITIVE_SYNTHETIC_MESSAGE",
+    "disposable_provider_resource": true
+  },
+  "input_custody": {
+    "authorization_file": "OPERATOR_PRIVATE_OUTSIDE_GIT_REQUIRED",
+    "destination_file": "OPERATOR_PRIVATE_OUTSIDE_GIT_REQUIRED",
+    "payload_file": "OPERATOR_PRIVATE_OUTSIDE_GIT_REQUIRED",
+    "provider_credential_source": "STATIONARY_PROCESS_CUSTODY_ONLY",
+    "shell_history_may_contain_private_values": false
+  },
+  "retention": {
+    "private_evidence": "OPERATOR_PRIVATE_OUTSIDE_GIT_ONLY",
+    "sanitized_evidence_schema": "imperium.sanitized-canonical-native-effect-live-trial-evidence/v1",
+    "repository_may_retain_only_sanitized_allowlist": true,
+    "raw_response_bytes_in_git": false,
+    "private_payload_in_git": false,
+    "credential_adjacent_material_in_git": false
+  },
+  "provider_assumptions": {
+    "network_available": "MUST_BE_CONFIRMED_AT_BATCH_7",
+    "provider_status": "MUST_BE_CONFIRMED_AT_BATCH_7",
+    "clock_utc_and_monotonic_enough_for_ORDERING": true,
+    "provider_side_idempotency_guarantee": "UNVERIFIED",
+    "remote_cryptographic_authorship": "UNPROVED"
+  },
+  "execution": {
+    "command_implemented": false,
+    "command_execution_authorized": false,
+    "external_io_performed": false,
+    "authority_issued_or_consumed": false,
+    "credential_accessed": false
+  }
+}
