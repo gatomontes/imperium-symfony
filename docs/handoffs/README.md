@@ -1,10 +1,13 @@
 # Handoff document status
 
-Current native remediation: `docs/handoffs/executable-atomic-transition-native-integration-remediation-terminal-complete.md`.
-All eight stages complete at `NATIVE_INTEGRATION_TERMINAL_AUDIT_ACCEPTED_BOUNDED_PRE_EFFECT`.
-No live deployment or subsequent campaign is authorized by this completion.
-The eight planned stages required one additional correction:
-`docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-6a-correction-complete.md`.
+Current campaign:
+`EXECUTABLE_ATOMIC_TRANSITION_CANONICAL_CONSUMER_INTEGRATION_CORRECTION_CAMPAIGN_READY`.
+The controlling review is
+`NATIVE_INTEGRATION_TERMINAL_AUDIT_REFUSED_CANONICAL_CONSUMER_NOT_INTEGRATED`.
+Only Preparation Batch 0 is authorized. Current handoff:
+`docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-preparation-batch-0-local-ready.md`.
+The earlier native terminal completion and Batch 6A correction below remain
+historical evidence; they do not restore canonical-consumer closure.
 
 Latest native remediation: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-6-complete.md`. One stage remains.
 Older "Latest" entries below are historical checkpoints.
