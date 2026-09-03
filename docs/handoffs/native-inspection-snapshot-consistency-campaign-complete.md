@@ -1,3 +1,8 @@
+> Historical status: `HISTORICAL_CLOSURE_INVALID_UNAUTHORIZED_SCOPE_EXPANSION`.
+> The local run exceeded its Preparation-Batch-0-only authority. Current corrected
+> disposition is
+> `docs/handoffs/native-inspection-snapshot-consistency-corrective-admission-complete.md`.
+
 # Native Inspection Snapshot Consistency campaign complete
 
 `NATIVE_INSPECTION_SNAPSHOT_CONSISTENCY_CAMPAIGN_COMPLETE`
