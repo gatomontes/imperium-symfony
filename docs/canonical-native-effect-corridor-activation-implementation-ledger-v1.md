@@ -13,7 +13,13 @@ Baseline requested by the Operator:
 | Batch 3 | Complete, atomic pre-I/O cut | secret-free capability/issuer and `NativeEffectAtomicAdmissionService` | full: 2,134 tests, 47,749 assertions |
 | Batch 4 | Complete, provider doubles only | callback-start, raw response provenance, receipt and read-only reconstruction | full: 2,156 tests, 47,862 assertions |
 | Batch 5 | Complete, adversarial/application proof | separate-process worker, contention/interruption/race proof, auto-discovered corridor facade | corrected full: 2,184 tests, 48,013 assertions |
-| Batch 6 | Complete, package preparation only | blocked package template, pure evidence sanitizer, runbook and stop handoff | full: 2,189 tests, 48,255 assertions |
+| Batch 6 | Complete, package preparation only | blocked package template, pure evidence sanitizer, runbook and stop handoff | local report: 2,189 tests, 48,255 assertions; GitHub PR #744 run 33813014897: 2,189 tests, 48,253 assertions |
+
+## Test-evidence provenance correction
+
+The local Batch 6 report and the GitHub Actions result differ by two assertions.
+Both are retained with their source labels. The successful GitHub job is not
+rewritten as the local count, and the local report is not represented as CI.
 
 ## Executable authority versus historical evidence
 

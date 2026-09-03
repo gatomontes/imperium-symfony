@@ -1,3 +1,26 @@
+## Canonical Native Effect Continuation and Exclusivity Remediation — selected 2026-09-03
+
+- [ ] Preparation Batch 0: inventory admission-to-callback process continuity,
+  semantic effect-tuple identity/locks, caller-substitution surfaces, receipt
+  provenance, adversarial test gaps and source-attributed test evidence.
+- [ ] Batch 1: define corrected effect-tuple, authority-consumption, ephemeral
+  continuation and immutable receipt-input contracts.
+- [ ] Batch 2: implement the atomic tuple winner and same-process continuation
+  custody without credential or provider access.
+- [ ] Batch 3: derive callback and receipt semantics exclusively from sealed
+  admission/source records using provider doubles only.
+- [ ] Batch 4: prove fresh-process continuation refusal, distinct-authority/same-
+  tuple single-winner behavior, tamper refusal, interruption and bypass closure.
+- [ ] Batch 5: reconcile evidence and perform a separately sequenced terminal
+  Blackquill audit from clean merged Batch 4 main.
+
+Controlling refusal:
+`CANONICAL_NATIVE_EFFECT_CORRIDOR_BATCH_6_CLOSURE_REQUALIFIED_CONTINUATION_AND_EXCLUSIVITY_UNPROVED`.
+Batch 7 is suspended. Six stages remain including Preparation Batch 0; only
+Preparation Batch 0 is authorized.
+
+Active local entrypoint:
+`docs/handoffs/canonical-native-effect-continuation-exclusivity-remediation-preparation-batch-0-local-ready.md`.
 ## Canonical Native Effect Corridor Activation — selected 2026-09-03
 
 - [ ] Preparation Batch 0: inventory native-root-to-effect callers, refusal cuts,

@@ -6,8 +6,10 @@ The non-executing package template, private-input custody rules, sanitized
 evidence projection, provider assumptions, command shape, retention plan and
 pre/post-run checks are frozen. No live command exists or ran. No credential,
 authority, capability, provider, network, Iron Gate or Lazaretto action occurred.
-Focused sanitation/frozen-coverage gates pass 15 tests with 4,107 assertions;
-the full repository suite passes 2,189 tests with 48,255 assertions.
+Focused sanitation/frozen-coverage gates were locally reported as 15 tests with
+4,107 assertions. The local full-suite report was 2,189 tests with 48,255
+assertions; GitHub Actions run 33813014897 passed 2,189 tests with 48,253
+assertions. These results are retained by source and are not interchangeable.
 
 `BATCH_7_BLOCKED_EXACT_OPERATOR_AUTHORIZATION_AND_APPROVED_EFFECT_ABSENT`
 
