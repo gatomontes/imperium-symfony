@@ -8,6 +8,8 @@ Only Preparation Batch 0 is authorized. Current handoff:
 `docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-preparation-batch-0-local-ready.md`.
 The earlier native terminal completion and Batch 6A correction below remain
 historical evidence; they do not restore canonical-consumer closure.
+Historical superseded marker:
+`NATIVE_INTEGRATION_TERMINAL_AUDIT_ACCEPTED_BOUNDED_PRE_EFFECT`.
 
 Latest native remediation: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-6-complete.md`. One stage remains.
 Older "Latest" entries below are historical checkpoints.

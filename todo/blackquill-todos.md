@@ -12,6 +12,8 @@ The earlier acceptance, correction, test counts and limits below remain historic
 evidence, not the controlling verdict. `BOUND_INACTIVE`, historical
 `NOT_IMPLEMENTED`, `UNKNOWN_REPLAY_PROHIBITED`, Iron Gate and Lazaretto remain
 closed.
+Historical superseded marker:
+`NATIVE_INTEGRATION_TERMINAL_AUDIT_ACCEPTED_BOUNDED_PRE_EFFECT`.
 
 Latest: `NATIVE_INTEGRATION_BATCH_6_INDEPENDENT_RECONSTRUCTION_COMPLETE`; one stage remains.
 Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-6-complete.md`.

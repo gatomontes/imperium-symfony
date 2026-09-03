@@ -13,6 +13,8 @@ Only Preparation Batch 0 is authorized. Current handoff:
 retry, Iron Gate or Lazaretto opening is granted. The prior terminal acceptance,
 test counts and stage entries below remain evidence for their historical tree,
 not the current closure verdict.
+Historical superseded marker:
+`NATIVE_INTEGRATION_TERMINAL_AUDIT_ACCEPTED_BOUNDED_PRE_EFFECT`.
 
 Latest: `NATIVE_INTEGRATION_BATCH_6_INDEPENDENT_RECONSTRUCTION_COMPLETE`; one stage remains.
 Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-6-complete.md`.
