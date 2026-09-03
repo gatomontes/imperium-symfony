@@ -13,7 +13,8 @@ final class ExecutableAtomicTransitionCanonicalConsumerIntegrationCorrectionCamp
         $campaign = $this->read('docs/next-campaign-executable-atomic-transition-canonical-consumer-integration-correction.md');
         foreach (['EXECUTABLE_ATOMIC_TRANSITION_CANONICAL_CONSUMER_INTEGRATION_CORRECTION_SELECTED',
             'NATIVE_INTEGRATION_TERMINAL_AUDIT_REFUSED_CANONICAL_CONSUMER_NOT_INTEGRATED',
-            'eleven historical descriptor readers', 'A new route cannot prove canonical integration merely by consuming itself'] as $boundary) {
+            'Eleven historical', 'descriptor readers retain separate meanings',
+            'A new route cannot prove canonical integration merely by consuming itself'] as $boundary) {
             self::assertStringContainsStringIgnoringCase($boundary, $campaign, $boundary);
         }
     }
