@@ -65,7 +65,7 @@ final class CanonicalNativeEffectContinuationExclusivityRemediationCampaignReady
             'CanonicalNativeEffectContinuationExclusivityRemediationCampaignReadyTest.php',
             'PREPARATION_BATCH_0_COMPLETE_CONTINUATION_EXCLUSIVITY_GAPS_CLASSIFIED',
             'New-chat prompt',
-            'distinct authorities targeting the same tuple',
+            'authorities targeting the same tuple',
             'fresh-process first-continuation',
         ] as $boundary) {
             self::assertStringContainsString($boundary, $handoff, $boundary);
