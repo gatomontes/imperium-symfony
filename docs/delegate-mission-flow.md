@@ -1,3 +1,19 @@
+# Current continuation: canonical native effect corridor
+
+`CANONICAL_NATIVE_EFFECT_CORRIDOR_ACTIVATION_CAMPAIGN_READY`
+`PREPARATION_BATCH_0_AUTHORIZED_ONLY`
+`LIVE_EFFECT_AUTHORITY_ABSENT`
+
+Accepted native transition, canonical consumption and coherent inspection still
+terminate before provider execution. Preparation Batch 0 now inventories the
+missing effect-admission authority, capability-custody cut, effect-start journal,
+unknown-outcome behavior, provider-response provenance, Lazaretto/receipt joins
+and every competing bypass. It does not open the route or change mission flow.
+See `docs/next-campaign-canonical-native-effect-corridor-activation.md` and
+`docs/handoffs/canonical-native-effect-corridor-activation-preparation-batch-0-local-ready.md`.
+A live effect requires a separately authorized Batch 7 and the exact marker
+`AUTHORIZE_CANONICAL_NATIVE_EFFECT_LIVE_TRIAL_ONCE`.
+
 # Current native-inspection corrective disposition
 
 `NATIVE_INSPECTION_SNAPSHOT_CONSISTENCY_CORRECTED_CLOSURE_ACCEPTED`
