@@ -34,6 +34,7 @@ final readonly class PrincipalActivationDecisionAuthorityProvenanceProductionSer
         array $envelope,
         array $issuanceAuthorization,
         \DateTimeImmutable $at,
+        bool $nativeExecutor = false,
     ): array {
         $this->assertEligible($aggregate, $issuanceAuthorization, $activationDisposition, $at);
         $this->validator->assertSuccessorPrincipal(
@@ -41,10 +42,15 @@ final readonly class PrincipalActivationDecisionAuthorityProvenanceProductionSer
             $sourcePrincipal,
             $scopeSuccessor,
         );
+        $executorAttestation = $nativeExecutor ? $this->records->read(
+            'var/imperium/offices/la-cortine/provider-executor-principal-attestations',
+            $issuanceAuthorization['principal_attestation']['id'],
+        ) : null;
         $this->validator->assertProductionEnvelope(
             $envelope,
             $issuanceAuthorization,
             $successorPrincipal,
+            $executorAttestation,
         );
         if ('AUTHORIZED' !== $envelope['disposition']
             || true !== $issuanceAuthorization['authority_single_use']
@@ -70,6 +76,7 @@ final readonly class PrincipalActivationDecisionAuthorityProvenanceProductionSer
                 $issuanceAuthorization,
                 $at,
                 $target,
+                $nativeExecutor,
             ): array {
                 $decision = $this->seal([
                     'schema' => ProviderExecutorPrincipalActivationDecisionContract::SCHEMA,
@@ -82,7 +89,7 @@ final readonly class PrincipalActivationDecisionAuthorityProvenanceProductionSer
                     'scope' => $envelope['scope'],
                     'disposition' => $envelope['disposition'],
                     'rationale' => $envelope['rationale'],
-                    'limitations' => $envelope['limitations'],
+                    'limitations' => $nativeExecutor ? implode(' ', $envelope['limitations']) : $envelope['limitations'],
                     'activation_authority' => $envelope['activation_authority'],
                     'validity' => $envelope['validity'],
                     'decided_at' => $at->format(DATE_ATOM),

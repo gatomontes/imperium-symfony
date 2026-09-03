@@ -14,8 +14,15 @@ final readonly class TransitionReconstructor
     public function reconstruct(): array
     {
         try {
+            if ($this->store->pending('retirement')) { return $this->result('UNKNOWN_REPLAY_PROHIBITED'); }
+            if (null !== $this->store->read('retirement')) { return $this->result('REFUSED'); }
             $grant = $this->store->read('grant');
-            if (null === $grant) { return $this->result('ABSENT'); }
+            if (null === $grant) {
+                foreach (['grant', 'authority', 'journal', 'commit', 'refusal', 'revocation'] as $name) {
+                    if ($this->store->pending($name) || null !== $this->store->read($name)) { return $this->result('UNKNOWN_REPLAY_PROHIBITED'); }
+                }
+                return $this->result('ABSENT');
+            }
             TransitionContract::grant($grant, $this->grantPin);
             if ($grant['storage'] !== $this->store->identity()) { throw new \RuntimeException(); }
             $authority = $this->store->read('authority');

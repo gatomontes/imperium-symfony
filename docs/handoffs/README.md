@@ -1,5 +1,41 @@
 # Handoff document status
 
+Latest native remediation: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-6-complete.md`. One stage remains.
+Older "Latest" entries below are historical checkpoints.
+
+Latest native remediation: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-5-complete.md`. Two stages remain.
+
+Latest native remediation: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-4-complete.md`. Three stages remain.
+
+Latest native remediation: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-3-complete.md`. Four stages remain.
+
+Latest: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-2-complete.md` at `NATIVE_INTEGRATION_BATCH_2_NATIVE_SUCCESSOR_IMPLEMENTED`.
+Five stages remain under the operator's continuous-campaign approval.
+
+Latest Native Integration Remediation handoff:
+`docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-1-complete.md`.
+The Root trust route was explicitly approved. Batch 1 implementation/tests passed;
+six stages remain under continuous-campaign authorization. Dependency handoffs
+below are historical. Canonical transition acceptance remains unproved.
+
+Current Native Integration Remediation dependency handoff:
+`docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-1-blocked.md`
+at `NATIVE_INTEGRATION_BATCH_1_BLOCKED_ROOT_TRUST_POLICY_REQUIRED`.
+The operator authorized completing the campaign. Batch 1 began but remains
+incomplete pending the explicit Root trust-route policy described in the
+implementation ledger. Seven planned stages remain; no runtime change or native
+completion is claimed. The preparation-only authorization statements below are
+historical. All live-effect boundaries and the prior terminal refusal remain.
+
+Current Native Integration Remediation preparation completion:
+`docs/handoffs/executable-atomic-transition-native-integration-remediation-preparation-batch-0-complete.md`
+at `PREPARATION_BATCH_0_COMPLETE_NATIVE_INTEGRATION_GAPS_CLASSIFIED`.
+Only documentary Preparation Batch 0 is complete. Seven planned stages remain;
+Batch 1 requires a new operator instruction and terminal Batch 7 starts separately
+from clean merged Batch 6 main. Runtime behavior, `BOUND_INACTIVE`, native v3
+`NOT_IMPLEMENTED`, `UNKNOWN_REPLAY_PROHIBITED` and the prior terminal refusal
+remain unchanged. The selection entry below is retained as historical provenance.
+
 Current campaign selection:
 `EXECUTABLE_ATOMIC_TRANSITION_NATIVE_INTEGRATION_REMEDIATION_CAMPAIGN_READY`.
 Only Preparation Batch 0 is authorized. The local entrypoint is

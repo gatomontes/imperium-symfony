@@ -1,5 +1,84 @@
 # Delegate mission flow
 
+Latest: `NATIVE_INTEGRATION_BATCH_6_INDEPENDENT_RECONSTRUCTION_COMPLETE`; one stage remains.
+Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-6-complete.md`.
+Independent stored-edge verification gates the actual binding reader. Executable
+Root grants bind the exact native production basis. The Symfony authority-id
+command calls this chain. Terminal judgment follows clean local Batch 6 merge.
+Earlier "Latest" entries below are historical batch checkpoints.
+
+Latest: `NATIVE_INTEGRATION_BATCH_5_PROCESS_AND_INTERRUPTION_PROOF_COMPLETE`; two stages remain.
+Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-5-complete.md`.
+Full suite: 1899 tests, 44628 assertions. Real process contention and 24 termination
+cuts pass. Independent native-to-receipt verification and terminal audit remain.
+
+Latest: `NATIVE_INTEGRATION_BATCH_4_ATOMIC_NATIVE_CONSUMER_IMPLEMENTED`; three stages remain.
+Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-4-complete.md`.
+The native consumer now publishes and calls the actual binding reader; full
+PHPUnit passed 1883 tests, 44414 assertions. Separate-process and independent
+reconstruction proofs remain before terminal acceptance.
+
+Latest native remediation: `NATIVE_INTEGRATION_BATCH_3_CANONICAL_ADMISSION_READER_IMPLEMENTED`.
+Four stages remain. Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-3-complete.md`.
+Full suite passed 1872 tests, 44367 assertions. Atomic publication and independent
+proof remain; candidates alone leave the descriptor interpretation inactive.
+
+Latest native remediation: `NATIVE_INTEGRATION_BATCH_2_NATIVE_SUCCESSOR_IMPLEMENTED`.
+Five stages remain. Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-2-complete.md`.
+Native production/activation/successor tests pass; admission, atomic integration
+and independent proof remain. No live provisioning or provider effect occurred.
+
+## Native Integration Remediation Batch 1 implemented
+
+The operator approved the Root trust route. Current handoff:
+`docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-1-complete.md`.
+`NATIVE_INTEGRATION_BATCH_1_COMPETENCE_CHAIN_IMPLEMENTED` records public Root-act
+verification, native principal/lifecycle loading and decision/custody issuance.
+Full PHPUnit: 1858 tests, 44285 assertions passed. Six planned batches remain;
+exact successor targeting and canonical admission are not yet established.
+No live provisioning or provider effects occurred. Historical blocked entries
+below are superseded by the approval; the terminal native-integration refusal is not.
+
+## Current Native Integration Remediation Batch 1 dependency
+
+`NATIVE_INTEGRATION_BATCH_1_BLOCKED_ROOT_TRUST_POLICY_REQUIRED`.
+The operator authorized completing all remaining batches and testing each.
+Batch 1 began but is incomplete: an authenticated post-operationalization Root
+scope-grant ingress needs an explicit trust policy. The proposed route, exact
+source evidence and reading ledger are in
+`docs/executable-atomic-transition-native-integration-remediation-implementation-v1.md`.
+Current handoff:
+`docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-1-blocked.md`.
+Seven planned stages remain unfinished. Speculative runtime drafts were removed;
+runtime behavior and the prior terminal refusal remain unchanged. `BOUND_INACTIVE`,
+native v3 `NOT_IMPLEMENTED` and `UNKNOWN_REPLAY_PROHIBITED` remain. The pause is a
+Root trust-policy decision, not the historical preparation-only authorization
+wording. No live provisioning or provider effects occurred. Earlier entries below
+record historical checkpoints.
+
+## Current Native Integration Remediation preparation
+
+`PREPARATION_BATCH_0_COMPLETE_NATIVE_INTEGRATION_GAPS_CLASSIFIED`.
+Preparation Batch 0 read all 22 required sources from clean synchronized local
+`main` at `a018ab4`. Thirty findings classify exact Root competence, native
+principal/lifecycle and authority lineage, successor creation, canonical v3,
+eleven existing descriptor readers, missing effective-state consumption, writer
+serialization, migration and proof obligations. Inventory and reading ledger:
+`docs/executable-atomic-transition-native-integration-remediation-preparation-inventory-v1.md`.
+Current handoff:
+`docs/handoffs/executable-atomic-transition-native-integration-remediation-preparation-batch-0-complete.md`.
+
+Seven planned stages remain. Only Batch 1 native principal competence and acyclic
+authority lineage may next be considered under a new operator instruction.
+Batch 7 remains a separate audit from clean merged Batch 6 main. No corrections
+or runtime behavior changed. The isolated pinned-grant protocol is not native
+provenance; constant-only scope widening, schema relabeling, fixture promotion
+and unread binding projections remain refused. `BOUND_INACTIVE`, native v3
+`NOT_IMPLEMENTED` and `UNKNOWN_REPLAY_PROHIBITED` remain binding. Authority,
+credentials/capabilities, provider effects, external I/O, retry, Iron Gate and
+Lazaretto remain closed. The terminal native-integration refusal is not removed.
+Selection and older continuation statements below are historical checkpoints.
+
 ## Current Native Integration Remediation selection
 
 `EXECUTABLE_ATOMIC_TRANSITION_NATIVE_INTEGRATION_REMEDIATION_CAMPAIGN_READY`.

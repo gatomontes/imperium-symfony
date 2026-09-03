@@ -74,6 +74,13 @@ final class TransitionStore
         return file_exists($this->path($name.'.pending'));
     }
 
+    public function assertNotRetired(): void
+    {
+        if ($this->pending('retirement') || null !== $this->read('retirement')) {
+            throw new \RuntimeException('EAT_NATIVE_PROTOCOL_RETIRED_NO_RETRY');
+        }
+    }
+
     /** Exact replay only; interrupted publication is never silently replaced. */
     public function put(string $name, array $body): array
     {
@@ -114,7 +121,7 @@ final class TransitionStore
 
     private function path(string $name): string
     {
-        if (!preg_match('/^(?:grant|authority|journal|commit|revocation|refusal)\.(?:json|pending)$|^domain\.lock$/D', $name)) {
+        if (!preg_match('/^(?:grant|authority|journal|commit|revocation|refusal|retirement)\.(?:json|pending)$|^domain\.lock$/D', $name)) {
             throw new \RuntimeException('EAT_STORAGE_NAME_INVALID');
         }
         $path = $this->directory.DIRECTORY_SEPARATOR.$name;

@@ -10,6 +10,8 @@ final class GovernedProviderExecutionSuccessorAdmissionV3Contract
         'imperium.la-cortine.governed-provider-execution-admission/v3';
     public const int VERSION = 3;
     public const string STATUS = 'NOT_IMPLEMENTED';
+    /** Executed result; the historical inert boundary above retains its meaning. */
+    public const string RESULT_STATUS = 'ADMITTED_PRE_EFFECT';
     public const string PRODUCER_POSTURE =
         'future-explicit-successor-adoption-pre-effect-admission';
     public const array REQUIRED_FIELDS = [

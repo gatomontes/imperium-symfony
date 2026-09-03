@@ -1,12 +1,94 @@
 # Blackquill Review TODOs
 
+Latest: `NATIVE_INTEGRATION_BATCH_6_INDEPENDENT_RECONSTRUCTION_COMPLETE`; one stage remains.
+Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-6-complete.md`.
+Resealed substitutions, secret fields, incomplete migration and lifecycle changes
+have executable negatives. Separately audit the actual native claim after clean
+Batch 6 merge; keep shared-validator and trusted-host assumptions explicit.
+Earlier "Latest" entries below are historical batch checkpoints.
+
+Latest: `NATIVE_INTEGRATION_BATCH_5_PROCESS_AND_INTERRUPTION_PROOF_COMPLETE`; two stages remain.
+Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-5-complete.md`.
+Process proof passed. Independently challenge native provenance, resealing,
+incomplete migration evidence, archival/current distinctions and source leakage.
+
+Latest: `NATIVE_INTEGRATION_BATCH_4_ATOMIC_NATIVE_CONSUMER_IMPLEMENTED`; three stages remain.
+Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-4-complete.md`.
+Challenge source-writer contention, all new interruption cuts, registered legacy
+retirement and final-flush expiry. Require independent reconstruction next.
+
+Latest: `NATIVE_INTEGRATION_BATCH_3_CANONICAL_ADMISSION_READER_IMPLEMENTED`. Four stages remain.
+Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-3-complete.md`.
+Require actual reader use after atomic publication and an independent verifier;
+producer-assisted reader validation alone is not independent proof.
+
+Latest: `NATIVE_INTEGRATION_BATCH_2_NATIVE_SUCCESSOR_IMPLEMENTED`. Five stages remain.
+Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-2-complete.md`.
+Require actual canonical v3/binding consumption and native atomic/process proof.
+Batch 2 tests pass; no terminal acceptance is implied.
+
+## Native Integration Remediation Batch 1 implemented
+
+`NATIVE_INTEGRATION_BATCH_1_COMPETENCE_CHAIN_IMPLEMENTED`.
+Root trust-route policy approved; signature, native principal and separate
+lifecycle/issuance tests pass. Full suite: 1858 tests, 44285 assertions.
+Current handoff: `docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-1-complete.md`.
+Six stages remain. Require exact successor provenance/targeting before treating
+the scoped issuance chain as executable transition authority. All earlier native
+terminal findings stay open. No live provisioning or provider effect is permitted.
+
+## Current Native Integration Remediation Batch 1 dependency
+
+`NATIVE_INTEGRATION_BATCH_1_BLOCKED_ROOT_TRUST_POLICY_REQUIRED`.
+Implementation of the full campaign is operator-authorized, but the exact Root
+trust route remains unresolved. Current handoff:
+`docs/handoffs/executable-atomic-transition-native-integration-remediation-batch-1-blocked.md`.
+Evidence, concrete proposal and additional reading ledger:
+`docs/executable-atomic-transition-native-integration-remediation-implementation-v1.md`.
+
+- [x] Reject initial/missing-principal constitution and ordinary lifecycle as implicit scope-widening authority.
+- [x] Remove the speculative new trust-anchor runtime draft before delivery.
+- [ ] Resolve the post-operationalization Root identity, authenticated ingress and revocation policy.
+- [ ] Complete native principal competence and acyclic authority lineage in Batch 1.
+- [ ] Finish Batches 2 through 6 with PHPUnit after each, then the separately sequenced Batch 7 audit.
+
+Seven planned stages remain unfinished. No successful Batch 1 or terminal audit
+is claimed. `BOUND_INACTIVE`, native v3 `NOT_IMPLEMENTED`,
+`UNKNOWN_REPLAY_PROHIBITED` and the existing native-integration terminal refusal
+remain. Earlier preparation-only authorization statements below are historical.
+
+## Current Native Integration Remediation preparation
+
+`PREPARATION_BATCH_0_COMPLETE_NATIVE_INTEGRATION_GAPS_CLASSIFIED`.
+Thirty classified findings and all 22 required sources plus followed-source ledger:
+`docs/executable-atomic-transition-native-integration-remediation-preparation-inventory-v1.md`.
+Current handoff:
+`docs/handoffs/executable-atomic-transition-native-integration-remediation-preparation-batch-0-complete.md`.
+
+- [x] Trace exact Operator Root scope route, v2/v3 loader mismatch and native lifecycle ownership.
+- [x] Separate supplied-array production aggregates from authenticated decision/authority lineage.
+- [x] Identify successor native-shape mismatch, absent creation provenance and selected-v3 implementation.
+- [x] Classify eleven descriptor readers and the missing operation-scoped effective-state reader.
+- [x] Inventory native writer serialization, roots, durable additions, migration and every new cut family.
+- [ ] Establish native competence and acyclic lineage in separately authorized Batch 1.
+- [ ] Prove native source ownership and revalidation under a lock shared with lifecycle writers.
+- [ ] Prevent legacy protocol success, orphan state or changed roots from granting native retry/admission.
+- [ ] Independently prove reader use, native receipts and complete-chain exclusion before terminal acceptance.
+
+Seven planned stages remain; no corrections or runtime behavior changed.
+`BOUND_INACTIVE`, native v3 `NOT_IMPLEMENTED` and `UNKNOWN_REPLAY_PROHIBITED` remain.
+No authority, grant, principal, successor, transition state or provider effect was
+created. This is preparation bookkeeping, not a successful terminal audit.
+The prior terminal refusal stands. Older selection/implementation lists below
+are historical; later batches require a new operator instruction.
+
 ## Current Native Integration Remediation selection
 
 `EXECUTABLE_ATOMIC_TRANSITION_NATIVE_INTEGRATION_REMEDIATION_CAMPAIGN_READY`.
 Only Preparation Batch 0 is authorized. Active entrypoint:
 `docs/handoffs/executable-atomic-transition-native-integration-remediation-preparation-batch-0-local-ready.md`.
 
-- [ ] Preparation Batch 0: classify native producers, stores, lifecycle authorities and consumers.
+- [x] Preparation Batch 0: classify native producers, stores, lifecycle authorities and consumers.
 - [ ] Batch 1: establish Operator Root-authorized principal competence and acyclic authority lineage.
 - [ ] Batch 2: implement native eligible-successor and creation provenance.
 - [ ] Batch 3: implement canonical La Cortine v3 admission and binding-state consumption.
