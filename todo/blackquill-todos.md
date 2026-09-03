@@ -1,3 +1,25 @@
+## Native inspection consistency residual — selected 2026-09-03
+
+- [ ] Preparation Batch 0: inventory inspection callers, complete read sets,
+  native publication order, lock graph, race matrix, TOCTOU consumers and the
+  exact consistency promise currently supported. Documentation only.
+- [ ] Batch 1: define the canonical non-authorizing inspection result and
+  consistency contract.
+- [ ] Batch 2: implement the smallest safe coherence boundary selected by the
+  inventory.
+- [ ] Batch 3: prove publication, revocation, expiry, interruption and repeated
+  reads under separate-process contention.
+- [ ] Batch 4: prove real container/CLI wiring with zero authority transfer,
+  credential access or provider effect.
+- [ ] Batch 5: perform a separate terminal Blackquill audit from merged Batch 4
+  main.
+
+The completed canonical-consumer campaign remains accepted bounded pre-effect;
+this residual does not establish an execution bypass. It prevents any stronger
+claim that unlocked inspection is already linearizable or coherently snapshotted.
+Active local entrypoint:
+`docs/handoffs/native-inspection-snapshot-consistency-preparation-batch-0-local-ready.md`.
+
 # Current canonical-consumer campaign status
 
 `EXECUTABLE_ATOMIC_TRANSITION_CANONICAL_CONSUMER_INTEGRATION_CORRECTION_CAMPAIGN_COMPLETE`

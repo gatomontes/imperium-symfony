@@ -1,3 +1,22 @@
+# Current campaign selection
+
+`NATIVE_INSPECTION_SNAPSHOT_CONSISTENCY_CAMPAIGN_READY`
+`PREPARATION_BATCH_0_AUTHORIZED_ONLY`
+`NONAUTHORIZING_INSPECTION_CONSISTENCY_RESIDUAL_OPEN`
+
+The canonical-consumer correction remains accepted bounded pre-effect. Its
+post-campaign review identified a non-authorizing consistency residual in
+unlocked read-only native inspection; no execution bypass was found. The next
+local campaign inventories the full inspection read set, publication order,
+lock graph, race semantics and smallest proofable coherence contract without
+runtime mutation. Active entrypoint:
+`docs/handoffs/native-inspection-snapshot-consistency-preparation-batch-0-local-ready.md`.
+Campaign definition:
+`docs/next-campaign-native-inspection-snapshot-consistency.md`.
+Five later implementation/audit stages are planned after Preparation Batch 0;
+none is authorized by this selection. BOUND_INACTIVE, historical v3
+NOT_IMPLEMENTED, UNKNOWN_REPLAY_PROHIBITED and every live-effect exclusion remain.
+
 # Current canonical-consumer campaign status
 
 `EXECUTABLE_ATOMIC_TRANSITION_CANONICAL_CONSUMER_INTEGRATION_CORRECTION_CAMPAIGN_COMPLETE`
