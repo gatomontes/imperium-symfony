@@ -1,3 +1,18 @@
+# Current continuation: native inspection snapshot consistency
+
+`NATIVE_INSPECTION_SNAPSHOT_CONSISTENCY_CAMPAIGN_READY`
+`PREPARATION_BATCH_0_AUTHORIZED_ONLY`
+
+The next campaign is a bounded observability correction, not a mission-flow or
+provider-effect expansion. The accepted journal-bound authorizing path already
+holds native exclusion before its pre-effect decision. Preparation Batch 0 will
+inventory unlocked read-only inspection callers and decide what consistency
+claim can be proved under concurrent native publication, revocation, expiry,
+migration and interruption. No runtime change, mission, credential, provider
+operation, retry authority, Iron Gate opening or Lazaretto opening is authorized.
+See `docs/next-campaign-native-inspection-snapshot-consistency.md` and
+`docs/handoffs/native-inspection-snapshot-consistency-preparation-batch-0-local-ready.md`.
+
 # Current canonical-consumer campaign status
 
 `EXECUTABLE_ATOMIC_TRANSITION_CANONICAL_CONSUMER_INTEGRATION_CORRECTION_CAMPAIGN_COMPLETE`
