@@ -6,6 +6,7 @@ namespace App\Tests\Imperium\Runtime;
 
 use App\Imperium\Runtime\ProviderTransition\NativeConsumer;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectAtomicAdmissionService;
+use App\Imperium\Runtime\ProviderTransition\NativeEffectContinuationCapabilityIssuer;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectCredentialCapabilityIssuer;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectDoubleExecutionService;
 
@@ -15,10 +16,10 @@ class CanonicalNativeEffectCorridorActivationBatch4Test extends CanonicalNativeE
 {
     public function testAcceptedDoubleBindsRawResponseReceiptAndReplaysWithoutCallback(): void
     {
-        [$authority, $admission, $at, $payload, $key] = $this->admitted();
+        [$admission, $continuations, $at, $payload, $key] = $this->admitted();
         $calls = 0;
-        $service = new NativeEffectDoubleExecutionService($this->state);
-        $receipt = $service->execute($admission['admission_id'], $authority, $payload, $key, $at, function (array $request) use (&$calls, $at): array {
+        $service = new NativeEffectDoubleExecutionService($this->state, $continuations);
+        $receipt = $service->execute($admission['admission_id'], $admission->continuation, $payload, $key, $at, function (array $request) use (&$calls, $at): array {
             ++$calls;
             self::assertTrue($request['provider_double_only']);
             self::assertFalse($request['authentication_present']);
@@ -27,7 +28,7 @@ class CanonicalNativeEffectCorridorActivationBatch4Test extends CanonicalNativeE
         self::assertSame('ACCEPTED', $receipt['provider_outcome']['status']);
         self::assertTrue($receipt['lazaretto_admission']['admitted']);
         self::assertFalse($receipt['continuing_authority']);
-        self::assertSame($receipt, $service->execute($admission['admission_id'], $authority, $payload, $key, $at + 2, function () use (&$calls): void { ++$calls; }));
+        self::assertSame($receipt, $service->execute($admission['admission_id'], $admission->continuation, $payload, $key, $at + 2, function () use (&$calls): void { ++$calls; }));
         self::assertSame(1, $calls);
         $proof = $service->reconstruct($receipt['receipt_id']);
         self::assertTrue($proof['read_only']);
@@ -37,25 +38,25 @@ class CanonicalNativeEffectCorridorActivationBatch4Test extends CanonicalNativeE
 
     public function testCallbackFailureIsUnknownAndCannotInvokeTwice(): void
     {
-        [$authority, $admission, $at, $payload, $key] = $this->admitted();
+        [$admission, $continuations, $at, $payload, $key] = $this->admitted();
         $calls = 0;
-        $service = new NativeEffectDoubleExecutionService($this->state);
-        $this->fails('UNKNOWN_REPLAY_PROHIBITED', function () use ($service, $admission, $authority, $payload, $key, $at, &$calls): void {
-            $service->execute($admission['admission_id'], $authority, $payload, $key, $at, function () use (&$calls): never {
+        $service = new NativeEffectDoubleExecutionService($this->state, $continuations);
+        $this->fails('UNKNOWN_REPLAY_PROHIBITED', function () use ($service, $admission, $payload, $key, $at, &$calls): void {
+            $service->execute($admission['admission_id'], $admission->continuation, $payload, $key, $at, function () use (&$calls): never {
                 ++$calls; throw new \RuntimeException('synthetic interruption');
             });
         });
-        $this->fails('UNKNOWN_REPLAY_PROHIBITED', function () use ($service, $admission, $authority, $payload, $key, $at, &$calls): void {
-            $service->execute($admission['admission_id'], $authority, $payload, $key, $at + 1, function () use (&$calls): void { ++$calls; });
+        $this->fails('UNKNOWN_REPLAY_PROHIBITED', function () use ($service, $admission, $payload, $key, $at, &$calls): void {
+            $service->execute($admission['admission_id'], $admission->continuation, $payload, $key, $at + 1, function () use (&$calls): void { ++$calls; });
         });
         self::assertSame(1, $calls);
     }
 
     public function testRejectedResponseIsTruthfulAndNotAdmitted(): void
     {
-        [$authority, $admission, $at, $payload, $key] = $this->admitted();
-        $receipt = (new NativeEffectDoubleExecutionService($this->state))->execute(
-            $admission['admission_id'], $authority, $payload, $key, $at,
+        [$admission, $continuations, $at, $payload, $key] = $this->admitted();
+        $receipt = (new NativeEffectDoubleExecutionService($this->state, $continuations))->execute(
+            $admission['admission_id'], $admission->continuation, $payload, $key, $at,
             static fn (): array => ['http_status' => 422, 'headers' => [], 'body' => 'rejected', 'observed_at' => $at, 'received_at' => $at],
         );
         self::assertSame('REJECTED', $receipt['provider_outcome']['status']);
@@ -77,8 +78,9 @@ class CanonicalNativeEffectCorridorActivationBatch4Test extends CanonicalNativeE
         $native = (new NativeConsumer($this->state, static fn () => $at))->execute($transitionAuthority);
         $authority = $this->effectAuthority($native['root'], $at);
         $issuer = new NativeEffectCredentialCapabilityIssuer();
+        $continuations = new NativeEffectContinuationCapabilityIssuer();
         $capability = $issuer->issue($authority, $authority['execution_boundary']['id'], $at);
-        $admission = (new NativeEffectAtomicAdmissionService($this->state, $issuer))->admit($authority, $capability, $at);
-        return [$authority, $admission, $at, '{"to":["disposable@example.test"]}', 'disposable-idempotency-key'];
+        $admission = (new NativeEffectAtomicAdmissionService($this->state, $issuer, $continuations))->admit($authority, $capability, $at);
+        return [$admission, $continuations, $at, '{"to":["disposable@example.test"]}', 'disposable-idempotency-key'];
     }
 }

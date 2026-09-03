@@ -17,7 +17,11 @@ final readonly class NativeEffectDoubleExecutionService
     private AtomicTransition $atomic;
     private ImmutableRecordStore $records;
 
-    public function __construct(private NativeState $state)
+    public function __construct(
+        private NativeState $state,
+        private NativeEffectContinuationCapabilityIssuer $continuations,
+        private ?\Closure $checkpoint = null,
+    )
     {
         $this->atomic = new AtomicTransition($state->root);
         $this->records = new ImmutableRecordStore($state->root, $this->atomic);
@@ -25,29 +29,29 @@ final readonly class NativeEffectDoubleExecutionService
 
     public function execute(
         string $admissionId,
-        array $authority,
+        NativeEffectContinuationCapability $continuation,
         string $payload,
         string $idempotencyKey,
         int $at,
         callable $providerDouble,
     ): array {
-        return $this->atomic->run('canonical-native-effect-continuation:'.hash('sha256', $admissionId), function () use ($admissionId, $authority, $payload, $idempotencyKey, $at, $providerDouble): array {
+        $scope = 'canonical-native-effect-continuation:'.hash('sha256', $admissionId);
+        $phase = $this->atomic->run($scope, function () use ($admissionId, $continuation, $payload, $idempotencyKey, $at): array {
             $admission = $this->records->read(NativeEffectAtomicAdmissionService::ADMISSIONS, $admissionId);
             $receiptId = 'canonical-native-effect-receipt-'.substr(hash('sha256', $admissionId), 0, 20);
             try {
-                return $this->records->read(self::RECEIPTS, $receiptId);
+                return ['completed' => true, 'receipt' => $this->records->read(self::RECEIPTS, $receiptId)];
             } catch (\RuntimeException $error) {
                 if ('PST112_IMMUTABLE_RECORD_ABSENT' !== $error->getMessage()) { throw $error; }
             }
 
-            $this->assertContinuation($admission, $authority, $payload, $idempotencyKey, $at);
             $callbackId = 'canonical-native-effect-callback-'.substr(hash('sha256', $admissionId), 0, 20);
             try {
                 $priorStart = $this->records->read(self::CALLBACK_STARTS, $callbackId);
                 $responseId = 'canonical-native-effect-response-'.substr(hash('sha256', $callbackId), 0, 20);
                 try {
                     $response = $this->records->read(self::RESPONSES, $responseId);
-                    return $this->bindReceipt($admission, $authority, $response, $receiptId, $at);
+                    return ['completed' => true, 'receipt' => $this->bindReceipt($admission, $response, $receiptId, $at)];
                 } catch (\RuntimeException $responseError) {
                     if ('PST112_IMMUTABLE_RECORD_ABSENT' !== $responseError->getMessage()) { throw $responseError; }
                     if (($priorStart['effect_admission']['digest'] ?? null) === $admission['record_digest']) {
@@ -58,6 +62,8 @@ final readonly class NativeEffectDoubleExecutionService
             } catch (\RuntimeException $error) {
                 if ('PST112_IMMUTABLE_RECORD_ABSENT' !== $error->getMessage()) { throw $error; }
             }
+
+            $this->assertAndConsumeContinuation($admission, $continuation, $payload, $idempotencyKey, $at);
 
             $callback = $this->records->put(self::CALLBACK_STARTS, $callbackId, [
                 'schema' => 'imperium.la-cortine.canonical-native-effect-callback-start/v1',
@@ -71,22 +77,41 @@ final readonly class NativeEffectDoubleExecutionService
                 'sealed' => true,
             ]);
 
-            try {
-                $observed = $providerDouble([
-                    'operation' => $admission['provider_request']['operation'],
-                    'destination' => $admission['provider_request']['destination'],
-                    'payload' => $payload,
-                    'idempotency_key' => $idempotencyKey,
-                    'authentication_present' => false,
-                    'provider_double_only' => true,
-                ]);
-                $response = $this->response($admission, $callback, $observed, $at);
-                $response = $this->records->put(self::RESPONSES, $response['response_id'], $response);
-            } catch (\Throwable $error) {
-                throw new \RuntimeException('UNKNOWN_REPLAY_PROHIBITED', 0, $error);
-            }
+            return ['completed' => false, 'admission' => $admission, 'callback' => $callback, 'receipt_id' => $receiptId];
+        });
 
-            return $this->bindReceipt($admission, $authority, $response, $receiptId, $at);
+        if ($phase['completed']) {
+            return $phase['receipt'];
+        }
+
+        $admission = $phase['admission'];
+        $callback = $phase['callback'];
+
+        try {
+            $observed = $providerDouble([
+                'operation' => $admission['receipt_input']['provider_request']['operation'],
+                'destination' => $admission['receipt_input']['provider_request']['destination'],
+                'payload' => $payload,
+                'idempotency_key' => $idempotencyKey,
+                'provider_id' => $admission['receipt_input']['provider']['provider_id'],
+                'adapter_id' => $admission['receipt_input']['provider']['adapter_id'],
+                'adapter_version' => $admission['receipt_input']['provider']['adapter_version'],
+                'authentication_present' => false,
+                'provider_double_only' => true,
+            ]);
+            $response = $this->response($admission, $callback, $observed, $at);
+            $response = $this->records->put(self::RESPONSES, $response['response_id'], $response);
+            if (null !== $this->checkpoint) { ($this->checkpoint)('response.sealed'); }
+        } catch (\Throwable $error) {
+            throw new \RuntimeException('UNKNOWN_REPLAY_PROHIBITED', 0, $error);
+        }
+
+        return $this->atomic->run($scope, function () use ($admissionId, $response, $phase, $at): array {
+            $storedAdmission = $this->records->read(NativeEffectAtomicAdmissionService::ADMISSIONS, $admissionId);
+            if ($storedAdmission['record_digest'] !== $response['effect_admission']['digest']) {
+                throw new \RuntimeException('CNE403_CALLBACK_START_CONFLICT');
+            }
+            return $this->bindReceipt($storedAdmission, $response, $phase['receipt_id'], $at);
         });
     }
 
@@ -97,18 +122,25 @@ final readonly class NativeEffectDoubleExecutionService
             'credential_resolved' => false, 'retry_authorized' => false, 'continuing_authority' => false];
     }
 
-    private function assertContinuation(array $admission, array $authority, string $payload, string $key, int $at): void
+    private function assertAndConsumeContinuation(array $admission, NativeEffectContinuationCapability $continuation, string $payload, string $key, int $at): void
     {
+        $input = $this->receiptInput($admission);
         if (NativeEffectAdmissionContract::SCHEMA !== ($admission['schema'] ?? null)
             || NativeEffectAdmissionContract::CHECKPOINT !== ($admission['effect_start']['checkpoint'] ?? null)
             || true !== ($admission['authority_consumption']['consumed'] ?? null)
             || true !== ($admission['effect_start']['capability_consumed'] ?? null)
             || false !== ($admission['effect_start']['credential_resolved'] ?? null)
             || false !== ($admission['effect_start']['callback_started'] ?? null)
-            || $admission['effect_authority'] !== NativeState::ref($authority, 'authority_id')
-            || $admission['provider_request']['payload_digest'] !== hash('sha256', $payload)
-            || $admission['provider_request']['provider_idempotency_key_digest'] !== hash('sha256', $key)
-            || $at < $admission['admitted_at'] || $at >= $admission['expires_at']) {
+            || $continuation->admissionId !== $admission['admission_id']
+            || $continuation->admissionDigest !== $admission['record_digest']
+            || $continuation->semanticEffectTupleId !== $admission['semantic_effect_tuple_id']
+            || $continuation->authorityConsumptionId !== $admission['authority_consumption_id']
+            || $continuation->processBoundaryId !== $input['execution_boundary']['id']
+            || $input['provider_request']['payload_digest'] !== hash('sha256', $payload)
+            || $input['provider_request']['provider_idempotency_key_digest'] !== hash('sha256', $key)
+            || $at < $admission['admitted_at'] || $at >= $admission['expires_at']
+            || $at >= $continuation->expiresAt
+            || !$this->continuations->consume($continuation)) {
             throw new \RuntimeException('CNE400_EFFECT_CONTINUATION_INVALID');
         }
     }
@@ -144,8 +176,9 @@ final readonly class NativeEffectDoubleExecutionService
         ];
     }
 
-    private function bindReceipt(array $admission, array $authority, array $response, string $receiptId, int $at): array
+    private function bindReceipt(array $admission, array $response, string $receiptId, int $at): array
     {
+        $input = $this->receiptInput($admission);
         $bytes = base64_decode($response['raw_content']['content_base64'] ?? '', true);
         if (!is_string($bytes) || hash('sha256', $bytes) !== ($response['provider_observation']['content_digest'] ?? null)) {
             throw new \RuntimeException('CNE404_RAW_RESPONSE_INVALID');
@@ -153,6 +186,9 @@ final readonly class NativeEffectDoubleExecutionService
         $accepted = $response['provider_observation']['http_status'] >= 200 && $response['provider_observation']['http_status'] < 300;
         $normalized = null;
         if ($accepted) {
+            if ('agentmail.message/v1' !== $input['expected_return_contract']) {
+                throw new \RuntimeException('CNE405_EXPECTED_RETURN_INVALID');
+            }
             try { $decoded = json_decode($bytes, true, 32, JSON_THROW_ON_ERROR); }
             catch (\Throwable $error) { throw new \RuntimeException('CNE405_EXPECTED_RETURN_INVALID', 0, $error); }
             if (!is_array($decoded) || !is_string($decoded['message_id'] ?? null) || '' === $decoded['message_id']
@@ -165,8 +201,8 @@ final readonly class NativeEffectDoubleExecutionService
             'schema' => NativeEffectResultContract::RECEIPT_SCHEMA,
             'receipt_id' => $receiptId,
             'effect_admission' => $this->ref($admission, 'admission_id'),
-            'effect_authority' => NativeState::ref($authority, 'authority_id'),
-            'native_receipt' => $admission['native_receipt'],
+            'effect_authority' => $input['effect_authority'],
+            'native_receipt' => $input['native_receipt'],
             'provider_outcome' => [
                 'status' => $accepted ? 'ACCEPTED' : 'REJECTED',
                 'http_status' => $response['provider_observation']['http_status'],
@@ -174,7 +210,7 @@ final readonly class NativeEffectDoubleExecutionService
             ],
             'raw_response' => $this->ref($response, 'response_id'),
             'lazaretto_admission' => [
-                'expected_return_contract' => $authority['expected_return_contract'],
+                'expected_return_contract' => $input['expected_return_contract'],
                 'expected_return_contract_validated' => $accepted,
                 'admitted' => $accepted,
                 'authority' => 'none',
@@ -184,6 +220,26 @@ final readonly class NativeEffectDoubleExecutionService
             'continuing_authority' => false,
             'sealed' => true,
         ]);
+    }
+
+    private function receiptInput(array $admission): array
+    {
+        $input = $admission['receipt_input'] ?? null;
+        if (!is_array($input)
+            || NativeEffectReceiptInputContract::REQUIRED_FIELDS !== array_keys($input)
+            || NativeEffectReceiptInputContract::SCHEMA !== ($input['schema'] ?? null)
+            || NativeState::seal($input) !== $input
+            || ($input['semantic_effect_tuple_id'] ?? null) !== ($admission['semantic_effect_tuple_id'] ?? null)
+            || ($input['authority_consumption_id'] ?? null) !== ($admission['authority_consumption_id'] ?? null)
+            || ($input['effect_authority'] ?? null) !== ($admission['effect_authority'] ?? null)
+            || ($input['native_root'] ?? null) !== ($admission['native_root'] ?? null)
+            || ($input['native_receipt'] ?? null) !== ($admission['native_receipt'] ?? null)
+            || NativeEffectReceiptInputContract::REQUIRED_PROVIDER_REQUEST_FIELDS !== array_keys($input['provider_request'] ?? [])
+            || NativeEffectReceiptInputContract::REQUIRED_PROVIDER_FIELDS !== array_keys($input['provider'] ?? [])
+            || NativeEffectReceiptInputContract::REQUIRED_CREDENTIAL_SCOPE_FIELDS !== array_keys($input['credential_scope'] ?? [])) {
+            throw new \RuntimeException('CNE406_RECEIPT_INPUT_INVALID');
+        }
+        return $input;
     }
 
     private function ref(array $record, string $idField): array

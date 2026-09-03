@@ -7,6 +7,7 @@ namespace App\Imperium\Runtime\NativeEffect;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectAdmissionValidator;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectAtomicAdmissionService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectCredentialCapabilityIssuer;
+use App\Imperium\Runtime\ProviderTransition\NativeEffectContinuationCapabilityIssuer;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectDoubleExecutionService;
 use App\Imperium\Runtime\ProviderTransition\NativeState;
 
@@ -25,13 +26,21 @@ final readonly class CanonicalNativeEffectCorridor
         return new NativeEffectCredentialCapabilityIssuer();
     }
 
-    public function atomicAdmission(NativeEffectCredentialCapabilityIssuer $issuer): NativeEffectAtomicAdmissionService
+    public function continuationIssuer(): NativeEffectContinuationCapabilityIssuer
     {
-        return new NativeEffectAtomicAdmissionService($this->state, $issuer);
+        return new NativeEffectContinuationCapabilityIssuer();
     }
 
-    public function providerDouble(): NativeEffectDoubleExecutionService
+    public function atomicAdmission(
+        NativeEffectCredentialCapabilityIssuer $issuer,
+        ?NativeEffectContinuationCapabilityIssuer $continuations = null,
+    ): NativeEffectAtomicAdmissionService
     {
-        return new NativeEffectDoubleExecutionService($this->state);
+        return new NativeEffectAtomicAdmissionService($this->state, $issuer, $continuations ?? $this->continuationIssuer());
+    }
+
+    public function providerDouble(NativeEffectContinuationCapabilityIssuer $continuations): NativeEffectDoubleExecutionService
+    {
+        return new NativeEffectDoubleExecutionService($this->state, $continuations);
     }
 }

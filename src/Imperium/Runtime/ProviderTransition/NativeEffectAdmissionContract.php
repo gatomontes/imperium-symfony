@@ -7,13 +7,14 @@ namespace App\Imperium\Runtime\ProviderTransition;
 /** One future atomic consumption/effect-start winner; no implementation here. */
 final class NativeEffectAdmissionContract
 {
-    public const string SCHEMA = 'imperium.la-cortine.canonical-native-effect-admission/v1';
+    public const string SCHEMA = 'imperium.la-cortine.canonical-native-effect-admission/v2';
     public const string CHECKPOINT = 'EFFECT_STARTED_UNKNOWN_REPLAY_PROHIBITED';
     public const array REQUIRED_FIELDS = [
-        'schema', 'admission_id', 'effect_replay_identity', 'native_root',
+        'schema', 'admission_id', 'semantic_effect_tuple_id',
+        'authority_consumption_id', 'effect_replay_identity', 'native_root',
         'native_receipt', 'effect_authority', 'authority_consumption',
-        'effect_start', 'provider_request', 'credential_scope', 'admitted_at',
-        'expires_at', 'sealed', 'record_digest',
+        'effect_start', 'provider_request', 'provider', 'credential_scope',
+        'receipt_input', 'admitted_at', 'expires_at', 'sealed', 'record_digest',
     ];
     public const array REQUIRED_AUTHORITY_CONSUMPTION_FIELDS = [
         'consumed', 'single_use', 'continuing_authority',

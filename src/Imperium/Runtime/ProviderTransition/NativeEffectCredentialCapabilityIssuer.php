@@ -36,4 +36,13 @@ final class NativeEffectCredentialCapabilityIssuer
     {
         return ($this->issued[$capability->capabilityId] ?? null) === $capability;
     }
+
+    public function consume(NativeEffectCredentialCapability $capability): bool
+    {
+        if (!$this->recognizes($capability)) {
+            return false;
+        }
+        unset($this->issued[$capability->capabilityId]);
+        return true;
+    }
 }
