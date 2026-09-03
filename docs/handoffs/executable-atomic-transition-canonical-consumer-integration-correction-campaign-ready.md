@@ -1,3 +1,7 @@
+Campaign completed under the operator's later continuous-campaign instruction.
+Current handoff: `docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-campaign-complete.md`.
+The selection and Preparation Batch 0 restrictions below are historical.
+
 # Executable Atomic Transition Canonical Consumer Integration Correction ready
 
 `EXECUTABLE_ATOMIC_TRANSITION_CANONICAL_CONSUMER_INTEGRATION_CORRECTION_CAMPAIGN_READY`

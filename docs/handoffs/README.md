@@ -1,3 +1,21 @@
+# Current canonical-consumer campaign status
+
+`EXECUTABLE_ATOMIC_TRANSITION_CANONICAL_CONSUMER_INTEGRATION_CORRECTION_CAMPAIGN_COMPLETE`
+`CANONICAL_CONSUMER_INTEGRATION_TERMINAL_AUDIT_ACCEPTED_BOUNDED_PRE_EFFECT`
+
+Final full PHPUnit: **2019 tests / 46348 assertions**, passed.
+Zero stages remain. Current handoff: `docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-campaign-complete.md`.
+Final inventory: `docs/executable-atomic-transition-canonical-consumer-integration-correction-inventory-v2.md`.
+Terminal audit: `docs/executable-atomic-transition-canonical-consumer-integration-correction-terminal-audit-v1.md`.
+Reading ledgers v1/v2/v3 record required, additional and final reviewed sources.
+The established journal consumer and competing readers enforce native interpretation
+or exact-root refusal; real container/application and process proof passed.
+BOUND_INACTIVE, historical v3 NOT_IMPLEMENTED and UNKNOWN_REPLAY_PROHIBITED remain.
+No live rollout, credential/provider operation, retry, Iron Gate or Lazaretto opening
+is granted. Earlier statuses and authorization statements below are historical.
+
+## Historical campaign ledger
+
 Batch 3A audit corrections: `CANONICAL_CONSUMER_CORRECTION_BATCH_3A_COMPLETE`.
 Schema-substitution and cached-result bypasses corrected; terminal review will restart from clean merged main. Handoff: `docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-batch-3a-complete.md`.
 

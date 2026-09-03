@@ -1,3 +1,8 @@
+Historical refusal, addressed by the separately sequenced correction audit:
+`docs/executable-atomic-transition-canonical-consumer-integration-correction-terminal-audit-v1.md`.
+Current bounded verdict: `CANONICAL_CONSUMER_INTEGRATION_TERMINAL_AUDIT_ACCEPTED_BOUNDED_PRE_EFFECT`.
+The review below remains evidence about its original tree; it is not rewritten.
+
 # Native Integration post-terminal Blackquill review v1
 
 `NATIVE_INTEGRATION_TERMINAL_AUDIT_REFUSED_CANONICAL_CONSUMER_NOT_INTEGRATED`

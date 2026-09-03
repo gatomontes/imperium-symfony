@@ -1,3 +1,42 @@
+# Current canonical-consumer campaign status
+
+`EXECUTABLE_ATOMIC_TRANSITION_CANONICAL_CONSUMER_INTEGRATION_CORRECTION_CAMPAIGN_COMPLETE`
+`CANONICAL_CONSUMER_INTEGRATION_TERMINAL_AUDIT_ACCEPTED_BOUNDED_PRE_EFFECT`
+
+Final full PHPUnit: **2019 tests / 46348 assertions**, passed.
+Zero stages remain. Current handoff: `docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-campaign-complete.md`.
+Final inventory: `docs/executable-atomic-transition-canonical-consumer-integration-correction-inventory-v2.md`.
+Terminal audit: `docs/executable-atomic-transition-canonical-consumer-integration-correction-terminal-audit-v1.md`.
+Reading ledgers v1/v2/v3 record required, additional and final reviewed sources.
+The established journal consumer and competing readers enforce native interpretation
+or exact-root refusal; real container/application and process proof passed.
+BOUND_INACTIVE, historical v3 NOT_IMPLEMENTED and UNKNOWN_REPLAY_PROHIBITED remain.
+No live rollout, credential/provider operation, retry, Iron Gate or Lazaretto opening
+is granted. Earlier statuses and authorization statements below are historical.
+
+## Current bounded email consumer flow
+
+```mermaid
+flowchart TD
+    CLI[Existing email command: inspect claim] --> Broker[Existing journal broker]
+    Invoke[Existing broker invoke method] --> Lock[Native outer lock]
+    Lock --> Broker
+    Broker --> Claim[Stored claim and authorization join]
+    Claim --> Reader[NativeBindingReader: exact operation root]
+    Reader --> Proof[Independent stored transition reconstruction]
+    Proof --> State[Inactive / current / noncurrent / incomplete / corrupt]
+    State --> Inspect[Read-only inspection result]
+    State --> Refuse[Bound invocation refuses before admission and credentials]
+    Legacy[Competing descriptor and array readers] --> Guard[Same native lock and exact-root exclusion]
+```
+
+The command only inspects. No edge proceeds from native currentness to provider
+execution. Generic email requests without a binding root and the direct AgentMail
+transport refuse. Distinct archival and cognition/Sortie flows are classified in
+the terminal inventory rather than assigned this email meaning.
+
+## Historical campaign ledger
+
 Batch 3A audit corrections: `CANONICAL_CONSUMER_CORRECTION_BATCH_3A_COMPLETE`.
 Schema-substitution and cached-result bypasses corrected; terminal review will restart from clean merged main. Handoff: `docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-batch-3a-complete.md`.
 

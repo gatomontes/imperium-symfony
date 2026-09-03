@@ -1,0 +1,223 @@
+{
+  "version": 3,
+  "audited_main": "7f1b634a37eb8f9d70058f4b18bcefc34e4ff22e",
+  "prior_ledgers": [
+    "docs/executable-atomic-transition-canonical-consumer-integration-correction-reading-ledger-v1.json",
+    "docs/executable-atomic-transition-canonical-consumer-integration-correction-reading-ledger-v2.json"
+  ],
+  "method": "Full selected bodies from prior readings plus current complete bodies/correction diffs reviewed at the final baseline. Search results only locate call sites. Normalized UTF-8 LF hashes pin reviewed evidence, never authority or runtime provenance.",
+  "sources": [
+    {
+      "path": "config/services.yaml",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "ce13733ba4f5581517bcb42b0c752837616eb270981f3c95d4a89674660fe824",
+      "lines": 316
+    },
+    {
+      "path": "src/Command/AgentMailEmailSendCommand.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "fd3c952e7570851c24630e0787b7f2d226d07aed125f13297a916feda667e870",
+      "lines": 46
+    },
+    {
+      "path": "src/Imperium/Runtime/ProviderTransition/NativeState.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "745a8a7366084b52f7d39991a08393e2a15069d73ded5427d3930af4d7eeeefc",
+      "lines": 167
+    },
+    {
+      "path": "src/Imperium/Runtime/ProviderTransition/NativeBindingReader.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "241eec57f8696fe88a428cb265d0601b2fefa81b484dadfa0b7966d0581d70e5",
+      "lines": 317
+    },
+    {
+      "path": "src/Imperium/Runtime/ProviderTransition/NativeReconstructor.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "06da05963ecfef1d25631ef59ff2a0e1010cc6e43a61fffb7601139ad2dfe640",
+      "lines": 241
+    },
+    {
+      "path": "src/Imperium/Runtime/Persistence/RecordReferenceValidator.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "a0d56ee3b43a861cbc0530c773ec887a70edbb29da419153dd75c8655232e412",
+      "lines": 82
+    },
+    {
+      "path": "src/Imperium/Runtime/Clavium/DeterministicJournalBoundCredentialBroker.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "682d5650062d25258a5fda0fb9d1686f5a7532cf8a3b5c333d7938aa67ca5c92",
+      "lines": 213
+    },
+    {
+      "path": "src/Imperium/Runtime/Clavium/ProviderBoundCredentialEligibilityService.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "c95c3ddc8056764243dae1dd43cfd0de7228f8296ef775a88e64b0dcda966a41",
+      "lines": 89
+    },
+    {
+      "path": "src/Imperium/Runtime/Clavium/GovernedStationaryCredentialResolutionService.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "7447d5c05c0d487612ffaee995ea35ad04cea74dfaeb45192792d24ed4a46a07",
+      "lines": 375
+    },
+    {
+      "path": "src/Imperium/Runtime/Clavium/GovernedStationaryCredentialResolutionV2Service.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "780779667550e403bf8e16d8ce6a6aaaf8fbe47051024fcbf3b1f70e1ad627b0",
+      "lines": 403
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/AgentMailIdempotencyHeaderAdapter.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "3fdb2c4bfc2e58ee845bc8b738da76a91b1ce72326515ce930c5d296e2035a7b",
+      "lines": 60
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/AgentMailProviderRequestEncoder.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "61c47e29b0958b2de5e247b326c19343042f23389eb3a80fb56bf624e02fe11f",
+      "lines": 77
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/AgentMailEmailTransport.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "9ace00b5436ba9f21cc8463662c86ab00fee941e6446b2f34b1a5e02e9ac435a",
+      "lines": 54
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/DeterministicBoundaryExecutor.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "6e60388e6925f714258691b20fdc1b119f48030cd98da34964e12943c3ed3982",
+      "lines": 83
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/DeterministicEffectStartJournalService.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "ab6ffc894477a4d280d47bc57a93c030a3174a198791a95e4ea57bb9daeea46d",
+      "lines": 95
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/GovernedProviderExecutionAdmissionService.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "b57be5701bb3eef3f9e196a7c1328b7afd638a963432905e96cfb93d99f6a581",
+      "lines": 376
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/GovernedProviderExecutionCombinedAdmissionService.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "5ee750fce6c849b11949f76845be61b2401ab65ab4af2a0f4812b51dc6d24500",
+      "lines": 433
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/SingleExecutionProviderBindingActivationService.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "553140c97e08dd6628ebf6e41ed672378aae631707f8fa76897240ff60bdb668",
+      "lines": 67
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/SingleOperationProviderBindingActivationIssuanceService.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "2ea2bffeca18f29903fa3b5ebf093553ddeaa11d7c12b204be804a2665746184",
+      "lines": 391
+    },
+    {
+      "path": "src/Imperium/Runtime/Imperator/ProviderBindingActivationDecisionService.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "3e211a7a06cb32233da7ce63d4ecdb33bec5bb1740a0cf1343a6efe0c30d5c85",
+      "lines": 55
+    },
+    {
+      "path": "src/Imperium/Runtime/Imperator/ProviderBindingActivationIssuanceService.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "668c513755cfe61c87a640565e2e74adc6a6616d62fec2dfe6549afc6fc25980",
+      "lines": 70
+    },
+    {
+      "path": "src/Imperium/Runtime/Imperator/DurableProviderExecutionAuthorityIssuanceService.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "73b514b8b3f9180e668fccc42fa544e7d998ad3b7d42456a2a99d4afb12f65a6",
+      "lines": 396
+    },
+    {
+      "path": "src/Imperium/Runtime/Imperator/ProviderBindingActivationRevocationAuthorityIssuanceService.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "da8b4e4179c990ce3a15df429df6317e619eaa2d3860659d8ccfcc730f9b8119",
+      "lines": 297
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/GovernedToolResultReconstructionService.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "1d5c83ce7ab7c36b32dc2a82031781d1e1024b5e0e10aa56bc5d811bd5993de8",
+      "lines": 69
+    },
+    {
+      "path": "tests/Imperium/Runtime/CanonicalConsumerCorrectionBatch1Test.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "2884a9c5f8bd64b8e80182038c84d77ea0016af4cc35e4c55177dba2a91abd6e",
+      "lines": 58
+    },
+    {
+      "path": "tests/Imperium/Runtime/CanonicalConsumerCorrectionBatch2Test.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "d9c8ec62f1cf4466d2be12bb342d55f7409d5a0098b12a90af96df14ccbbaa8a",
+      "lines": 91
+    },
+    {
+      "path": "tests/Imperium/Runtime/CanonicalConsumerCorrectionBatch3Test.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "a101569587fcb94e827cdb4d6290ea6c47dbaa1eed43c33137be877d99ddff80",
+      "lines": 265
+    },
+    {
+      "path": "tests/Imperium/Runtime/CanonicalConsumerCorrectionBatch4Test.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "7500e1cae51acc5efc6751f8f669ad3939d39df5657483df0dbc16f6912b6b2d",
+      "lines": 111
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/CanonicalConsumerKernel.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "da698d84ef4cd625e5d0681270a18573e2f0352b7dc19327e8a99d4d4c22a81f",
+      "lines": 58
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/NoEffectCredentials.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "6a34952f7246ec3bc55e208be9d366e15b3ca702e0c6afcfda3943bbb3bb9576",
+      "lines": 16
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/ConsumerProcess.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "ef4ae35b821cd15df5daa1315067287054ef8a511c6967e3a13620eedf6b24ca",
+      "lines": 56
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/canonical_consumer_worker.php",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "82c60be628524058854108bfa50be0d4c0f0bb97c165c342e84df2f46987b3e4",
+      "lines": 39
+    }
+  ],
+  "additional_documents": [
+    {
+      "path": "docs/executable-atomic-transition-canonical-consumer-integration-correction-inventory-v2.md",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "0557c33733ad0f4072b1d1d6c069c840ef30ce829f3bb50307c32fbb88d2c9c3",
+      "lines": 75
+    },
+    {
+      "path": "docs/executable-atomic-transition-canonical-consumer-integration-correction-terminal-audit-v1.md",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "31a10e69666776042a05bddf71e6428c0e5e338fc2ae5425921f5b60d4707cdb",
+      "lines": 175
+    },
+    {
+      "path": "docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-campaign-complete.md",
+      "read_status": "FULLY_READ",
+      "normalized_sha256": "971366bfcf024bcbba1a73b1321bf19c05386bbedf6d09a7f7d5c1bc8eca53ce",
+      "lines": 36
+    }
+  ]
+}
