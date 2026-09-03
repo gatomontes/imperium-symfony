@@ -77,6 +77,6 @@ final class CanonicalNativeEffectContinuationExclusivityRemediationCampaignReady
 
     private function read(string $path): string
     {
-        return (string) file_get_contents(dirname(__DIR__, 3).'/'.$path);
+        return preg_replace('/\\s+/', ' ', (string) file_get_contents(dirname(__DIR__, 3).'/'.$path)) ?? '';
     }
 }
