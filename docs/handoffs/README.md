@@ -444,3 +444,11 @@ adversarial proof is recorded in
 The continuation is
 `docs/handoffs/native-inspection-snapshot-consistency-batch-3-complete.md`.
 Two stages remain.
+
+Native Inspection Snapshot Consistency Batch 4 is complete at
+`NATIVE_INSPECTION_SNAPSHOT_CONSISTENCY_BATCH_4_COMPLETE`. Container/CLI and
+zero-effect integration proof is recorded in
+`docs/native-inspection-snapshot-consistency-integration-proof-v1.md`. The
+terminal handoff is
+`docs/handoffs/native-inspection-snapshot-consistency-batch-4-complete.md`.
+One separately sequenced terminal Blackquill audit remains.

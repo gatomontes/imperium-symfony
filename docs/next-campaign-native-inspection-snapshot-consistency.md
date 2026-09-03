@@ -135,4 +135,9 @@ Batch 3 is complete. Separate-process adversarial evidence covers publication,
 migration, revocation, expiry, interruption, stable repetition, bounded churn
 and inspector termination. The continuation handoff is
 `docs/handoffs/native-inspection-snapshot-consistency-batch-3-complete.md`.
-Two stages remain.
+Batch 4 is complete. Real container/CLI wiring and the zero-mutation,
+zero-credential, zero-provider-effect boundary are proved in
+`docs/native-inspection-snapshot-consistency-integration-proof-v1.md`. The
+terminal handoff is
+`docs/handoffs/native-inspection-snapshot-consistency-batch-4-complete.md`.
+One separately sequenced terminal Blackquill audit remains.
