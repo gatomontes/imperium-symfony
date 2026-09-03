@@ -131,4 +131,8 @@ Batch 2 is complete. `NativeInspectionSnapshot` implements the shared bounded
 read-only observation boundary without a production lock or public result
 change. The continuation handoff is
 `docs/handoffs/native-inspection-snapshot-consistency-batch-2-complete.md`.
-Three stages remain.
+Batch 3 is complete. Separate-process adversarial evidence covers publication,
+migration, revocation, expiry, interruption, stable repetition, bounded churn
+and inspector termination. The continuation handoff is
+`docs/handoffs/native-inspection-snapshot-consistency-batch-3-complete.md`.
+Two stages remain.

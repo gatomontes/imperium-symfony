@@ -436,3 +436,11 @@ two-attempt manifest boundary is implemented without a production lock. The
 continuation is
 `docs/handoffs/native-inspection-snapshot-consistency-batch-2-complete.md`.
 Three stages remain.
+
+Native Inspection Snapshot Consistency Batch 3 is complete at
+`NATIVE_INSPECTION_SNAPSHOT_CONSISTENCY_BATCH_3_COMPLETE`. Separate-process
+adversarial proof is recorded in
+`docs/native-inspection-snapshot-consistency-separate-process-proof-v1.md`.
+The continuation is
+`docs/handoffs/native-inspection-snapshot-consistency-batch-3-complete.md`.
+Two stages remain.
