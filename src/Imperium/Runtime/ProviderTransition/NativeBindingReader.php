@@ -13,10 +13,23 @@ use App\Imperium\Runtime\LaCortine\DeterministicOutboundEmailAuthorizationContra
 final class NativeBindingReader
 {
     private static array $legacyScopes = [];
-    public function __construct(private readonly NativeState $state) {}
+    public function __construct(private readonly NativeState $state, private readonly ?\Closure $inspectionCheckpoint = null) {}
 
     /** Read-only classification, never an execution or retry capability. */
     public function interpret(string $instance, string $binding, string $operation, int $at): array
+    {
+        $root = self::root($instance, $binding, $operation);
+        try {
+            return $this->inspection()->observe(fn (): array => $this->interpretObserved($instance, $binding, $operation, $at));
+        } catch (\Throwable $error) {
+            if ('UNKNOWN_REPLAY_PROHIBITED' !== $error->getMessage()) { throw $error; }
+            return ['root' => $root, 'classification' => 'INCOMPLETE', 'descriptor' => null,
+                'receipt' => null, 'read_only' => true, 'provider_effect_permitted' => false,
+                'retry_authorized' => false, 'recovery' => 'UNKNOWN_REPLAY_PROHIBITED'];
+        }
+    }
+
+    private function interpretObserved(string $instance, string $binding, string $operation, int $at): array
     {
         $root = self::root($instance, $binding, $operation);
         $result = ['root' => $root, 'classification' => 'CORRUPT', 'descriptor' => null,
@@ -39,7 +52,7 @@ final class NativeBindingReader
             }
             $commit = $this->state->get('transitions', $root);
             $journal = $this->state->get('journals', $root);
-            $proof = (new NativeReconstructor($this->state))->reconstruct($instance, $binding, $operation, $at);
+            $proof = (new NativeReconstructor($this->state, $this->inspectionCheckpoint))->reconstruct($instance, $binding, $operation, $at);
             if (null === $commit) {
                 $result['classification'] = null !== $journal || 'ABSENT' !== $proof['classification']
                     ? 'INCOMPLETE' : 'BOUND_INACTIVE';
@@ -62,6 +75,11 @@ final class NativeBindingReader
 
     /** Resolve from the stored claim, never a caller-selected binding or projection. */
     public function forClaim(string $claimId, int $at): array
+    {
+        return $this->inspection()->observe(fn (): array => $this->forClaimObserved($claimId, $at));
+    }
+
+    private function forClaimObserved(string $claimId, int $at): array
     {
         if (!preg_match('/^deterministic-execution-claim-[a-f0-9]{20}$/D', $claimId)) {
             throw new \RuntimeException('CCI_CLAIM_INVALID');
@@ -136,6 +154,11 @@ final class NativeBindingReader
 
     public function forJournal(array $journal, int $at): array
     {
+        return $this->inspection()->observe(fn (): array => $this->forJournalObserved($journal, $at));
+    }
+
+    private function forJournalObserved(array $journal, int $at): array
+    {
         $id = $journal['journal_id'] ?? null;
         if (!is_string($id) || !preg_match('/^deterministic-effect-start-journal-[a-f0-9]{20}$/D', $id)
             || NativeState::seal($journal) !== $journal
@@ -193,7 +216,7 @@ final class NativeBindingReader
         $stored = $this->state->source('binding', NativeState::ref($descriptor, 'binding_id'));
         if ($stored !== $descriptor) { throw new \RuntimeException('CCI_BINDING_INVALID'); }
         // Native absence does not upgrade legacy validation; its caller still owns all old checks.
-        $proof = (new NativeReconstructor($this->state))->reconstruct($instance, $binding, $operation, time());
+        $proof = (new NativeReconstructor($this->state, $this->inspectionCheckpoint))->reconstruct($instance, $binding, $operation, time());
         if ('ABSENT' !== $proof['classification']) {
             throw new \RuntimeException('CCI_NATIVE_STATE_PRECLUDES_LEGACY');
         }
@@ -283,12 +306,17 @@ final class NativeBindingReader
 
     public function read(string $instance, string $binding, string $operation, int $at): array
     {
+        return $this->inspection()->observe(fn (): array => $this->readObserved($instance, $binding, $operation, $at));
+    }
+
+    private function readObserved(string $instance, string $binding, string $operation, int $at): array
+    {
         $this->assertLayout();
         $root = self::root($instance, $binding, $operation);
         $commit = $this->state->get('transitions', $root);
         if (null === $commit) {
             if (null !== $this->state->get('journals', $root)) { throw new \RuntimeException('UNKNOWN_REPLAY_PROHIBITED'); }
-            $proof = (new NativeReconstructor($this->state))->reconstruct($instance, $binding, $operation, $at);
+            $proof = (new NativeReconstructor($this->state, $this->inspectionCheckpoint))->reconstruct($instance, $binding, $operation, $at);
             if ('ABSENT' !== $proof['classification']) { throw new \RuntimeException('UNKNOWN_REPLAY_PROHIBITED'); }
             $descriptor = $this->state->json(NativeState::SOURCES['binding'].'/'.$binding.'.json');
             $this->state->source('binding', NativeState::ref($descriptor, 'binding_id'));
@@ -309,9 +337,14 @@ final class NativeBindingReader
         $authority = (new NativeAuthority($this->state))->load($commit['authority_id'], $at);
         $expected = (new NativeAdmission($this->state))->records($commit['authority_id'], $commit['committed_at']);
         if ($commit['records'] !== $expected || $authority['decision']['issuance_target']['root'] !== $root) { throw new \RuntimeException('NIR_BINDING_JOIN'); }
-        $proof = (new NativeReconstructor($this->state))->reconstruct($instance, $binding, $operation, $at);
+        $proof = (new NativeReconstructor($this->state, $this->inspectionCheckpoint))->reconstruct($instance, $binding, $operation, $at);
         if ('COMMITTED' !== $proof['classification'] || $proof['receipt'] !== $expected['receipt_target']) { throw new \RuntimeException('NIR_INDEPENDENT_RECONSTRUCTION_REQUIRED'); }
         return ['root' => $root, 'effective_status' => 'BOUND_ACTIVE_FOR_EXACT_OPERATION',
             'descriptor' => $expected['source_binding_transition']['binding'], 'receipt' => $expected['receipt_target']];
+    }
+
+    private function inspection(): NativeInspectionSnapshot
+    {
+        return new NativeInspectionSnapshot($this->state, $this->inspectionCheckpoint);
     }
 }

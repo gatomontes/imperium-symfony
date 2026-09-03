@@ -429,3 +429,10 @@ two-attempt optimistic contract is
 `docs/native-inspection-snapshot-consistency-contract-v1.md`; continuation is
 `docs/handoffs/native-inspection-snapshot-consistency-batch-1-complete.md`.
 Four stages remain.
+
+Native Inspection Snapshot Consistency Batch 2 is complete at
+`NATIVE_INSPECTION_SNAPSHOT_CONSISTENCY_BATCH_2_COMPLETE`. The shared read-only
+two-attempt manifest boundary is implemented without a production lock. The
+continuation is
+`docs/handoffs/native-inspection-snapshot-consistency-batch-2-complete.md`.
+Three stages remain.

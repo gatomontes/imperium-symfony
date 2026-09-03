@@ -12,9 +12,19 @@ use App\Imperium\Runtime\LaCortine\ProviderExecutorPrincipalActivationContractVa
 /** Independent stored-edge verification. No issuance, admission builder, publication or lock. */
 final readonly class NativeReconstructor
 {
-    public function __construct(private NativeState $state) {}
+    public function __construct(private NativeState $state, private ?\Closure $inspectionCheckpoint = null) {}
 
     public function reconstruct(string $instance, string $binding, string $operation, int $at): array
+    {
+        try {
+            return (new NativeInspectionSnapshot($this->state, $this->inspectionCheckpoint))
+                ->observe(fn (): array => $this->reconstructObserved($instance, $binding, $operation, $at));
+        } catch (\Throwable) {
+            return $this->result('UNKNOWN_REPLAY_PROHIBITED');
+        }
+    }
+
+    private function reconstructObserved(string $instance, string $binding, string $operation, int $at): array
     {
         try {
             foreach ([$instance, $binding, $operation] as $id) { NativeState::id($id); }

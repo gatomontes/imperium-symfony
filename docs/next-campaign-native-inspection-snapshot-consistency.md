@@ -127,4 +127,8 @@ Preparation Batch 0 and Batch 1 are complete. The canonical contract is
 before/after whole-read-set manifests with at most two attempts and preserves all
 existing public result projections. The continuation handoff is
 `docs/handoffs/native-inspection-snapshot-consistency-batch-1-complete.md`.
-Four stages remain.
+Batch 2 is complete. `NativeInspectionSnapshot` implements the shared bounded
+read-only observation boundary without a production lock or public result
+change. The continuation handoff is
+`docs/handoffs/native-inspection-snapshot-consistency-batch-2-complete.md`.
+Three stages remain.
