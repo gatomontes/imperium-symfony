@@ -1,3 +1,18 @@
+## Native inspection authority-chain remediation — complete 2026-09-03
+
+- [x] Preserve the Preparation-Batch-0-only scope breach and invalidate its
+  original closure as an authority source.
+- [x] Inventory the exact six-commit, 28-file candidate change set.
+- [x] Record the absence of GitHub CI without relabeling local test evidence.
+- [x] Obtain the later Operator instruction `Fix it` for corrective work.
+- [x] Review the exact candidate outside its originating local run.
+- [x] Admit the candidate prospectively without retroactive authorization.
+- [x] Restore a bounded corrected closure and current handoff.
+
+Current disposition:
+`NATIVE_INSPECTION_SNAPSHOT_CONSISTENCY_CORRECTED_CLOSURE_ACCEPTED`.
+The breach remains historical evidence. No remediation stage remains.
+
 ## Native inspection consistency residual — selected 2026-09-03
 
 - [ ] Preparation Batch 0: inventory inspection callers, complete read sets,
