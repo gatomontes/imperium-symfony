@@ -1,0 +1,801 @@
+{
+  "schema": "imperium.documentary.canonical-consumer-reading-ledger/v1",
+  "baseline": "acfd92c0734cdb01bf429d76583bfafa094e6962",
+  "date": "2026-09-03",
+  "scope": "Preparation Batch 0 only; source reads, no runtime invocation",
+  "hash_note": "SHA-256 and line count record the fully read input before preparation edits; no live records were read. Hashes are reading evidence, not authority or runtime provenance.",
+  "required_sources": [
+    "docs/next-campaign-executable-atomic-transition-canonical-consumer-integration-correction.md",
+    "docs/executable-atomic-transition-native-integration-post-terminal-blackquill-review-v1.md",
+    "docs/executable-atomic-transition-native-integration-remediation-terminal-audit-v1.md",
+    "docs/executable-atomic-transition-native-integration-remediation-inventory-v2.md",
+    "docs/executable-atomic-transition-native-integration-remediation-preparation-inventory-v1.md",
+    "docs/executable-atomic-transition-native-integration-remediation-implementation-v1.md",
+    "src/Command/ImperiumNativeProviderTransitionCommand.php",
+    "src/Imperium/Runtime/ProviderTransition/NativeConsumer.php",
+    "src/Imperium/Runtime/ProviderTransition/NativeBindingReader.php",
+    "src/Imperium/Runtime/ProviderTransition/NativeReconstructor.php",
+    "src/Imperium/Runtime/ProviderTransition/NativeAdmission.php",
+    "src/Imperium/Runtime/LaCortine/ProviderImplementationBindingService.php",
+    "src/Imperium/Runtime/LaCortine/ProviderImplementationBindingContract.php",
+    "src/Imperium/Runtime/LaCortine/GovernedProviderExecutionSuccessorAdmissionV3Contract.php",
+    "src/Imperium/Runtime/LaCortine/GovernedProviderExecutionSuccessorAdmissionV3ContractValidator.php",
+    "config/services.yaml",
+    "tests/Imperium/Runtime/NativeTransitionBatch7Test.php",
+    "tests/Imperium/Runtime/NativeTransitionBatch6ACorrectionTest.php",
+    "docs/delegate-mission-flow.md",
+    "todo/blackquill-todos.md"
+  ],
+  "sources": [
+    {
+      "path": "docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-campaign-ready.md",
+      "sha256": "f25d6f043980cd0abf20ee5695c11dc2048215eecdf05e8c552c29897755dc57",
+      "lines": 65,
+      "role": "ENTRY_HANDOFF",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "docs/next-campaign-executable-atomic-transition-canonical-consumer-integration-correction.md",
+      "sha256": "134610cb5471af4ea968e8af6db5601b22af3d89912fc9e21b6b03667157a41e",
+      "lines": 85,
+      "role": "REQUIRED",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "docs/executable-atomic-transition-native-integration-post-terminal-blackquill-review-v1.md",
+      "sha256": "0a792a6ceba4641a6de3bf226c1821784d4f33a18d70b7f83f8f00e1429b52d4",
+      "lines": 48,
+      "role": "REQUIRED",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-preparation-batch-0-local-ready.md",
+      "sha256": "0bac77aa705674374dcab25146651f581bf9a3a2584e983c23c60e8683ad4c11",
+      "lines": 92,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "config/services.yaml",
+      "sha256": "363c5e708a3b05b54687349e3efccd3c60e93acb893eb093332590937c758e6c",
+      "lines": 306,
+      "role": "REQUIRED",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "C:/Users/gatom/.codex/skills/blackquill/SKILL.md",
+      "sha256": "d205be71290dd832b4f27825ee2acd7e9480fe1d96dcdb34c3218e66c1f02a38",
+      "lines": 83,
+      "role": "LOCAL_SKILL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "docs/executable-atomic-transition-native-integration-remediation-terminal-audit-v1.md",
+      "sha256": "9d0270595c8d078f64f35f2a1a285cdcf4fdcef9857ae1fe1a4342e1bc71beb3",
+      "lines": 121,
+      "role": "REQUIRED",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "docs/executable-atomic-transition-native-integration-remediation-inventory-v2.md",
+      "sha256": "2ae3cde7de375cc8f224f2ef639536d3384f3a615262faeeb0f3b2241a6b6888",
+      "lines": 50,
+      "role": "REQUIRED",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "docs/executable-atomic-transition-native-integration-remediation-preparation-inventory-v1.md",
+      "sha256": "8a07ea0a99bc557c32e36ccdbc0e43113305fa02f37f5065124e0f75636b7219",
+      "lines": 326,
+      "role": "REQUIRED",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "docs/executable-atomic-transition-native-integration-remediation-implementation-v1.md",
+      "sha256": "2b052afbd5294c343becbc570700681165c6c1a990b17da484f76b1f92e10e01",
+      "lines": 332,
+      "role": "REQUIRED",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "docs/delegate-mission-flow.md",
+      "sha256": "222c34533ba23398e9624ffd88eb5a9d28d36a410a961d0c9eeed6b8d6f2a99c",
+      "lines": 2136,
+      "role": "REQUIRED",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "todo/blackquill-todos.md",
+      "sha256": "cc1ddc7b217c4f359df745884148f66eeae5a4329d188c43cd550c0f0f7ae25d",
+      "lines": 696,
+      "role": "REQUIRED",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Command/ImperiumNativeProviderTransitionCommand.php",
+      "sha256": "8669a31a8c0b83454768118d40b51b312c3d05d0456c31852dc27eb933be5a16",
+      "lines": 40,
+      "role": "REQUIRED",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/ProviderTransition/NativeConsumer.php",
+      "sha256": "70eba48c9f54a2e4ab8c646ebdf7818ec384fdca0959a66a258163ee4ceb9868",
+      "lines": 56,
+      "role": "REQUIRED",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/ProviderTransition/NativeBindingReader.php",
+      "sha256": "cce6fbe8fae8a05455f2166d40f5c01265ef44cd71ec5c8ecbda9e20acf2e0cd",
+      "lines": 50,
+      "role": "REQUIRED",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/ProviderTransition/NativeAdmission.php",
+      "sha256": "952cd2b046354b91aae86a6314d85a809765593c2e18baebe02acb1908754826",
+      "lines": 57,
+      "role": "REQUIRED",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/ProviderImplementationBindingService.php",
+      "sha256": "ceffc1c791a5fc1a23b99056a8c66238dd7170ec1fc79f6c48bb6004b2ff4e17",
+      "lines": 135,
+      "role": "REQUIRED",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/ProviderImplementationBindingContract.php",
+      "sha256": "34d321f2e9b31c2d2912ae333ebe18b6d9405c7dd52a057dac2e7a546cad5a1b",
+      "lines": 76,
+      "role": "REQUIRED",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/ProviderTransition/NativeReconstructor.php",
+      "sha256": "06da05963ecfef1d25631ef59ff2a0e1010cc6e43a61fffb7601139ad2dfe640",
+      "lines": 241,
+      "role": "REQUIRED",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/GovernedProviderExecutionSuccessorAdmissionV3Contract.php",
+      "sha256": "7eecf36f0851594875b096c90d550860c752e9986aa577e2f5511793ac10a3eb",
+      "lines": 63,
+      "role": "REQUIRED",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/GovernedProviderExecutionSuccessorAdmissionV3ContractValidator.php",
+      "sha256": "2633d0f23291ca70d2be0486898f1ee911715cd4fea52b03e84b36154e8a773a",
+      "lines": 145,
+      "role": "REQUIRED",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "tests/Imperium/Runtime/NativeTransitionBatch7Test.php",
+      "sha256": "6b923e71c5d831880affbaccfb569e4b25d30c0d677cac9700bbb6cdb001d9ff",
+      "lines": 85,
+      "role": "REQUIRED",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "tests/Imperium/Runtime/NativeTransitionBatch6ACorrectionTest.php",
+      "sha256": "321acf117ee2b3435a5e1becb669d07b03c8a37fff940454a9953b66aa335f71",
+      "lines": 22,
+      "role": "REQUIRED",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Clavium/GovernedStationaryCredentialResolutionService.php",
+      "sha256": "3cdb72b8e91bd855f3eba4ffbebc45eade67379f2abd9849432105893daa44cb",
+      "lines": 361,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Clavium/GovernedStationaryCredentialResolutionV2Service.php",
+      "sha256": "f5eb79c3d69b5bba99ae19d782dd1d7b4674bd63c926839c08a7c622a5649826",
+      "lines": 389,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/GovernedProviderExecutionAdmissionService.php",
+      "sha256": "4fa00b43eaeb1c69c563c4490a369ed3c5b82c804f41e490a2ebaa0d718355db",
+      "lines": 362,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/GovernedProviderExecutionCombinedAdmissionService.php",
+      "sha256": "4d2d93a4929a48626e52ec1e56734e8122c0a09a0d574d846d431e29217096a9",
+      "lines": 419,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Imperator/ProviderBindingActivationDecisionService.php",
+      "sha256": "016a6dc2074779f9ae99326d59dd1de12ab878cf13daec622afebacc1f2d1b8d",
+      "lines": 46,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Imperator/ProviderBindingActivationIssuanceService.php",
+      "sha256": "96c9e1784ba685795693ac223b4bf13537bb54ab5b7070858ca0022524781350",
+      "lines": 61,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/SingleExecutionProviderBindingActivationService.php",
+      "sha256": "c22e74ec25d529ff9324e0a8b1b733d95429a54bc97325e8a4646572494c28dc",
+      "lines": 58,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/GovernedToolResultReconstructionService.php",
+      "sha256": "1d5c83ce7ab7c36b32dc2a82031781d1e1024b5e0e10aa56bc5d811bd5993de8",
+      "lines": 69,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Imperator/DurableProviderExecutionAuthorityIssuanceService.php",
+      "sha256": "9df1b519604b3f530e9377b8c68a54ccf4cd225ef1684faed396399109122962",
+      "lines": 381,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/SingleOperationProviderBindingActivationIssuanceService.php",
+      "sha256": "892e2a749de4c80958322a57cf3289d57fded378c492460ccb1221a92213b7df",
+      "lines": 376,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Imperator/ProviderBindingActivationRevocationAuthorityIssuanceService.php",
+      "sha256": "85e9aaaaf964e195d96a007038b725ab183d39479efbd940b7717e67a27a407f",
+      "lines": 287,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Command/AgentMailEmailSendCommand.php",
+      "sha256": "567ea921b619243976983c6a97b541455019e76dfa757549b42d85535cfda465",
+      "lines": 22,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/AgentMailEmailTransport.php",
+      "sha256": "386dc100bc40bd6936f99c60579f6e6122b427b39116a065487ca4ffd91f490b",
+      "lines": 113,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/DeterministicBoundaryExecutor.php",
+      "sha256": "26a25f521cff55df74cd6d766fddcd3feaf336dd1bd2f8fecef36dbbf4369f39",
+      "lines": 80,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/IronGate.php",
+      "sha256": "c6db64a8a18ed5da4553f4e384b1837f51a4f3346bf49b496bce2416286689de",
+      "lines": 57,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/EnvironmentCredentialBroker.php",
+      "sha256": "ed1d222fdc913fc36a4605d58e1b45bf34eda87a24b656b0eddc6e43fad925cf",
+      "lines": 88,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/OutboundRequest.php",
+      "sha256": "339a2813dc971450ec05ec111b6b1eaa5e1fe468eae4d59b4def2b9b31e2a495",
+      "lines": 45,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Command/DeterministicHttpPostSmokeCommand.php",
+      "sha256": "ac6c8ffeb4264763013380e4a5a9dc3770e4c53d36933b6c8cd6e49d150548fd",
+      "lines": 97,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Clavium/ProviderBoundCredentialEligibilityService.php",
+      "sha256": "6a8870df9431987dd2f067d562b86af29d1d69a1660e2019f36eb1bded77e14a",
+      "lines": 79,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/AgentMailProviderRequestEncoder.php",
+      "sha256": "63467fadf88903ee65d5426357795374fbf3e6dd746e24ba5691a0a7a55d6b8a",
+      "lines": 64,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/ProviderNeutralRawEvidenceService.php",
+      "sha256": "0fd8f69c8a005d0e405f2df2c5aaa11e0d593ea80906a8fe40e1dac06987127d",
+      "lines": 48,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/ProviderBoundEvidenceNormalizationService.php",
+      "sha256": "3cdd2e380433ba5ccd175f4949b6ba0e7eefae5fd7d70b09cdbc9f013548b161",
+      "lines": 53,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/BoundProviderEvidenceDecoder.php",
+      "sha256": "f06186a161f2063b961130d350584978dcf301f32a41923bffc75a74beead800",
+      "lines": 12,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/AgentMailProviderEvidenceDecoder.php",
+      "sha256": "88a60cb4f1018802be9621180b6ffcbd41968aeb586777e039e5bedafc8c959b",
+      "lines": 52,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/SortieBoundaryExecutor.php",
+      "sha256": "64199d431223e080a1ad60cdb6e108ee45a2e2b7d4f7347d2184d700313d4719",
+      "lines": 27,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Command/SortieSmokeCommand.php",
+      "sha256": "8a31af852182af2aa282e3d4967ed630398b7de73ab51d80bd32b7f5782a2a9d",
+      "lines": 69,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Command/SortieHttpGetSmokeCommand.php",
+      "sha256": "b2822a7e440f77571db50cfe045476b6db67c8f45fbad63abbf58193a8ae6e2a",
+      "lines": 82,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/BearerJsonPostTransport.php",
+      "sha256": "55bd1120df03932838cbf07259cce8397ea626232225d1ce735fe67cfebd445f",
+      "lines": 73,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Clavium/AgentMailCredentialFamilyPolicy.php",
+      "sha256": "20e92125442856fad1c5048d2d23580570a480e0769d91440b6dd2b161ca245f",
+      "lines": 21,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Mission/SymfonyAiOperationalExecutionCognitionGateway.php",
+      "sha256": "ef68340fc4a3219d15f69e61c037063ec95b34a4fcfb5b7f5389626b0db09cff",
+      "lines": 136,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/SymfonyAiDelegateMissionCognitionGateway.php",
+      "sha256": "dc295d06b16de85e5f05b5efbfbec469c6c9080e613bebd8410bcfb95d206dc3",
+      "lines": 65,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/SymfonyAiBrokeredDelegateProviderInvoker.php",
+      "sha256": "010fcd6f6098aa22ebdffbd8829d04bb9cb909429940f4e3af11209488f48e9a",
+      "lines": 90,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/SymfonyAiLegateCognitionGateway.php",
+      "sha256": "604adac20f792c7b98c64cc12bf7ac4d09cf1079b572daf05327d75b551cd6e7",
+      "lines": 85,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/SortieProcessLauncher.php",
+      "sha256": "9ff37c9fdd956acd82d4d34a22ebaae059db9d2c8340b3e060b827641d403746",
+      "lines": 140,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Kernel.php",
+      "sha256": "7846fa79f844a1d057253c59599eff1911ad9b62f19ce8622cb35f7773aafe93",
+      "lines": 19,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "bin/console",
+      "sha256": "b5d0e964cebafa793f24c6d8a616f3fd73430bf4761ad5253eab858ca01e5d4e",
+      "lines": 21,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Mission/BoundedOperationalExecutionService.php",
+      "sha256": "9cc0a61de75e88e79ba98e1719b930534ac438c14bcd26fb3a343354391fbe98",
+      "lines": 17,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Command/MissionExecuteBoundedIterationCommand.php",
+      "sha256": "8b7e7bf946212df03982fccb77a3acfd4e255cdf71b7aacbb1a34dd007a3ada2",
+      "lines": 4,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/DelegateMissionBoundedCognitionTurnService.php",
+      "sha256": "3029ec73876028a438e09dc14592adde1c572fe8c3357e4814dba01c632b4206",
+      "lines": 209,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/LegateBoundedCognitionTurnService.php",
+      "sha256": "51ce347c1f9dfbba1b14d7d81ccdc0e1505f1e40cf82bfb78e05bd815599a4cd",
+      "lines": 43,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/ProviderTransition/NativeState.php",
+      "sha256": "745a8a7366084b52f7d39991a08393e2a15069d73ded5427d3930af4d7eeeefc",
+      "lines": 167,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "config/services_sortie.yaml",
+      "sha256": "4a6b668908b723abdaa1ec2f9c42cbb1ec361306e0857888c7539ae5f8ba5ce6",
+      "lines": 37,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Command/SortieRunCommand.php",
+      "sha256": "b1b7a11696e386f9fe14f2b4f83507f1260f85d177f1fdd785d3b21605d4699d",
+      "lines": 69,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Persistence/RecordReferenceValidator.php",
+      "sha256": "4e42133430497e47453f73220154dc2e961c3e800c00306d062edd91d74acde8",
+      "lines": 75,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Persistence/AtomicTransition.php",
+      "sha256": "8ab78031ea4fa7c5552bf8a1e7fca50167d8fd2f265081326750c6b81fc9c0bb",
+      "lines": 42,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/DeterministicExecutionClaimService.php",
+      "sha256": "9d1860f0a2357dfe792774829700199aa771270de65e9797ab3806b89a10c090",
+      "lines": 134,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "tests/Imperium/Runtime/ExecutableAtomicTransitionCanonicalConsumerIntegrationCorrectionCampaignReadyTest.php",
+      "sha256": "0f630c60864b927fb7298e62a3d27cf06ebf87fd168e47eed8aa81c14f35384d",
+      "lines": 65,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "composer.json",
+      "sha256": "2271918b861837e954b59277de63529ef0c82c78e3c4c8ef2c0aea35f78d5ab3",
+      "lines": 76,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Clavium/OperationalClaimBoundCredentialBroker.php",
+      "sha256": "44cd9e7de149080d8f169968c436fd3499fd2ed957c0546ef0c398d5e78f2631",
+      "lines": 122,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Clavium/ClaimBoundCredentialBroker.php",
+      "sha256": "8cac4530a9e0efbb4c25cc2ba411d0bb3cfd046596250f4ca49d5503f962be6d",
+      "lines": 83,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Clavium/LegateClaimBoundCredentialBroker.php",
+      "sha256": "f91a1ef22502723e370667b73a2faaf6959f49f8241c47bf798c719a48fb0c3e",
+      "lines": 89,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/DeepSeekSymfonyPlatformAdapter.php",
+      "sha256": "f15526abc03f03da1ddafac4195104a8492b3f46cf08d64ac7b389d858ffb254",
+      "lines": 48,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Command/LegatePerformBoundedCognitionTurnCommand.php",
+      "sha256": "114777eeadf9cca73c431fc6318ca3bfccb1ca8770da2c9cfd540edfe719ece6",
+      "lines": 5,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Sortie/OneShotSortieRunner.php",
+      "sha256": "131a566be393a4ceb8c23ffbd0b92f462f6e685a3e8a59e79e7603d7fc94fea0",
+      "lines": 63,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Sortie/SymfonyAiSortieCognitionGateway.php",
+      "sha256": "74418d700bef4917e18a212c90551a79e7e86d16538da73ca3c053b390d88287",
+      "lines": 133,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Sortie/BrokeredSortieCognitionProviderInvoker.php",
+      "sha256": "f152e8ee624d219abc4b38e00ad84687040b02c2c1ec28c6f6987d68a4d6cfce",
+      "lines": 121,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Sortie/HttpGetSortieToolExecutor.php",
+      "sha256": "36572a43ad2698d4350bebe2c293f78e5ead0d669c0c51b1add3c3c949f53916",
+      "lines": 83,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/DeepSeekDelegatePlatformAdapter.php",
+      "sha256": "5446375f05e34cd92316b83abc97622f6864300a48a62aa3620185d0e2d60309",
+      "lines": 24,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Laboratorium/ProfileElaborationSmokeService.php",
+      "sha256": "e9e70908efb992b8f97aa336149f4f822e3f000af7b25d575b4577200a7a1dc2",
+      "lines": 288,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Command/DevelopmentProfileElaborationSmokeCommand.php",
+      "sha256": "4e538f0af815b4869764c82a30ef458d04a866713e62fd99deae4774bdc80ace",
+      "lines": 57,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Clavium/CrossProcessCapabilityCustodyFeasibilityService.php",
+      "sha256": "f451ebb9b66e729a56fd642111a81ef5ac324ccc616991a5bb5a4d148efbeb82",
+      "lines": 45,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/StrandedActivationArtifactDispositionService.php",
+      "sha256": "58a6cdbc2a26cc8911adde921d7cddffb0d4789d96b4b16b9fdab61d786960e7",
+      "lines": 74,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/ProviderBindingActivationRevocationWinnerService.php",
+      "sha256": "8bcb4bc778647af1ca1dce66b311a0a92dbae5cc776c31358cb2aaf975972233",
+      "lines": 240,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/ProviderTransition/NativeMigration.php",
+      "sha256": "9b697fe84228cf7372e09b0c5e0b8c2ad5f694319a3971b37429c1d6cc156228",
+      "lines": 48,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/ProviderTransition/TransitionStore.php",
+      "sha256": "e023129fb6030e885b9e4bdf8504690a7e6e159851e1eaa77ee2fca92de9e210",
+      "lines": 133,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/ProviderTransition/TransitionConsumer.php",
+      "sha256": "64602a666a30a7ee998f86dab51f63a3a24957de91fcaf30193427f108c1d85e",
+      "lines": 92,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/ProviderTransition/TransitionAuthority.php",
+      "sha256": "e721e80c15475d9da0ef0fa576a4e44596664ccc34d3c87b49f48f7284f3c239",
+      "lines": 71,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/NormalizedToolResultAdmissionService.php",
+      "sha256": "e073b85216fa222ac50bafcce1f207602feeccaafbac3588515a1c28ba8148f9",
+      "lines": 32,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/Lazaretto.php",
+      "sha256": "a781233cf40c73a0d74578c0aaf6e6ef402c4dac2fee9c7fd735fca561d25e46",
+      "lines": 69,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Oracle/OracleResearchCommissionService.php",
+      "sha256": "06b49786edd98e109a88a1c42c80db717d83d4182537223adaa70f7ba76524c7",
+      "lines": 45,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Controller/AgentMailWebhookController.php",
+      "sha256": "a215e33df214b13b7ea70acfae592edb05268c8b28f819955e3648d16291701b",
+      "lines": 60,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "config/packages/framework.yaml",
+      "sha256": "d322b095a73c9c1b737ad196f6553b8a58637724ead3c6599ad217da1ea5892b",
+      "lines": 22,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "config/routes.yaml",
+      "sha256": "542faedcdca86c6c087450a992ac0bbebef06ba96f321105f89ed2668db0a7f6",
+      "lines": 11,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "tests/Imperium/Runtime/ExecutableAtomicTransitionNativeIntegrationRemediationPreparationBatch0Test.php",
+      "sha256": "e6e98c669cd112c0eb5cf710655778d9c921aba374fb9ace79856f87edf7029d",
+      "lines": 156,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "tests/Imperium/Runtime/ProviderActivationConsumptionRemediationBatch6Test.php",
+      "sha256": "d75b99948565d6e75ab741ee472dda4a06a5683d47c06aee56e626a8ece686ef",
+      "lines": 179,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "docs/handoffs/README.md",
+      "sha256": "4cf42e520059ec9b997650b99bd976dd3a53ecabdb34e9e0657127b4336048d7",
+      "lines": 358,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Clavium/DeterministicJournalBoundCredentialBroker.php",
+      "sha256": "ca974a73e610c9d8b55394f40e9d510e3733f122afae344638eb00f4eeec4f37",
+      "lines": 195,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/DeterministicEffectStartJournalService.php",
+      "sha256": "2ac745c56b5a5e61b53da023a92b5af1daa511c8404d053763e3df93aac2a887",
+      "lines": 84,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/AgentMailIdempotencyHeaderAdapter.php",
+      "sha256": "11cd2dc9b21fda36e237cdd91b863e050c81aeefa625438b2d38c445fc8aef1c",
+      "lines": 45,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/DeterministicRawProviderResultService.php",
+      "sha256": "140dac79f0bc962596c30fbabc2f2ab8adb306bba1e04911fb4141b229feb24c",
+      "lines": 120,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/DeterministicReceiptReconstructionService.php",
+      "sha256": "380abdd56eca4bff879eb41f433746595017fc4e6becc07f8bbe12a7873217d3",
+      "lines": 63,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/DeterministicLazarettoReceiptAdmissionService.php",
+      "sha256": "8813efddc9246e706a173a07b626b03924fb841b43ef2c65d14c5ad46853268d",
+      "lines": 95,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Armory/CanonicalEmailSendToolDefinitionService.php",
+      "sha256": "661b1347a11c07665e06314239ba11053b0bbda5ddfe3527b052573e4e9e6342",
+      "lines": 109,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/AgentMailProviderProfile.php",
+      "sha256": "b78f23df41af860a96ef90408d1794c64eec4b1a39dfdc01fc9f7fc9413015d2",
+      "lines": 32,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/LaCortine/AgentMailTransientEncodedRequest.php",
+      "sha256": "e57c9225d75ab89d5be5aa86761b58612d94ff6b34431cb89d0c9bb48c6881c7",
+      "lines": 22,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Sortie/GovernedSortieToolRegistry.php",
+      "sha256": "3719382a7ce8d60a0de4d394fa3276e686ca2e6465a21befe89938465316fd27",
+      "lines": 32,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    },
+    {
+      "path": "src/Imperium/Runtime/Clavium/ProviderCredentialFamilyPolicy.php",
+      "sha256": "3d49e4a92b132f078044c3c5723d7e24152a6884d8b03a4c33a6223749d33e0b",
+      "lines": 12,
+      "role": "ADDITIONAL",
+      "read_status": "FULLY_READ"
+    }
+  ]
+}

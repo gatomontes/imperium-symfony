@@ -4,7 +4,16 @@ Current campaign:
 `EXECUTABLE_ATOMIC_TRANSITION_CANONICAL_CONSUMER_INTEGRATION_CORRECTION_CAMPAIGN_READY`.
 The controlling review is
 `NATIVE_INTEGRATION_TERMINAL_AUDIT_REFUSED_CANONICAL_CONSUMER_NOT_INTEGRATED`.
-Only Preparation Batch 0 is authorized. Current handoff:
+Preparation Batch 0 is complete at
+`PREPARATION_BATCH_0_COMPLETE_CANONICAL_CONSUMER_BYPASS_CLASSIFIED`.
+Current handoff:
+`docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-preparation-batch-0-complete.md`.
+Inventory: `docs/executable-atomic-transition-canonical-consumer-integration-correction-preparation-inventory-v1.md`.
+Reading ledger: `docs/executable-atomic-transition-canonical-consumer-integration-correction-reading-ledger-v1.json`.
+Four planned stages remain; no Batch 1 implementation is authorized here.
+`BOUND_INACTIVE`, historical v3 `NOT_IMPLEMENTED` and
+`UNKNOWN_REPLAY_PROHIBITED` remain unchanged; runtime, credentials and effects
+were not exercised. Historical selection entry:
 `docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-preparation-batch-0-local-ready.md`.
 The earlier native terminal completion and Batch 6A correction below remain
 historical evidence; they do not restore canonical-consumer closure.

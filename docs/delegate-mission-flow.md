@@ -6,7 +6,18 @@ substrate but rejects canonical integration: the new command consumes its own
 consumer/reader island while the established descriptor/effect corridors remain
 separate. The corrective campaign is selected at
 `EXECUTABLE_ATOMIC_TRANSITION_CANONICAL_CONSUMER_INTEGRATION_CORRECTION_CAMPAIGN_READY`.
-Only Preparation Batch 0 is authorized. Current handoff:
+Preparation Batch 0 is complete at
+`PREPARATION_BATCH_0_COMPLETE_CANONICAL_CONSUMER_BYPASS_CLASSIFIED`.
+Current handoff:
+`docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-preparation-batch-0-complete.md`.
+Inventory: `docs/executable-atomic-transition-canonical-consumer-integration-correction-preparation-inventory-v1.md`.
+Reading ledger: `docs/executable-atomic-transition-canonical-consumer-integration-correction-reading-ledger-v1.json`.
+The eleven direct descriptor readers, array readers, generic executor and older
+journal-bound email callback remain disconnected from native interpretation.
+The retired AgentMail command remains closed. Distinct mission/DeepSeek/Sortie
+meanings are classified from their call graphs. Four planned stages remain;
+no Batch 1 implementation is authorized by preparation completion.
+Historical selection entry:
 `docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-preparation-batch-0-local-ready.md`.
 `BOUND_INACTIVE`, historical `NOT_IMPLEMENTED` and
 `UNKNOWN_REPLAY_PROHIBITED` remain binding; no live rollout, provider effect,

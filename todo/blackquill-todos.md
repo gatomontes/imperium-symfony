@@ -6,7 +6,28 @@ The prior bounded transition machinery remains useful, but its command consumes
 its own new reader and does not establish downstream canonical integration.
 Current campaign:
 `EXECUTABLE_ATOMIC_TRANSITION_CANONICAL_CONSUMER_INTEGRATION_CORRECTION_CAMPAIGN_READY`.
-Only Preparation Batch 0 is authorized. Current handoff:
+Preparation Batch 0 is complete at
+`PREPARATION_BATCH_0_COMPLETE_CANONICAL_CONSUMER_BYPASS_CLASSIFIED`.
+Current handoff:
+`docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-preparation-batch-0-complete.md`.
+Inventory: `docs/executable-atomic-transition-canonical-consumer-integration-correction-preparation-inventory-v1.md`.
+Reading ledger: `docs/executable-atomic-transition-canonical-consumer-integration-correction-reading-ledger-v1.json`.
+Four planned stages remain; no Batch 1 implementation is authorized here.
+Claim: native command self-consumption establishes downstream integration.
+Evidence: eleven original-descriptor readers, five array-reader entries and the
+generic/journal-bound email corridors have no native-reader dependency.
+Weak point: no authoritative request-to-binding/native-root join or mandatory
+check before their own admission, credential and callback cuts. Retired CLI
+refusal and absence of a production orchestrator do not close public service
+bypasses. Verdict: integration remains refused; preparation classification only.
+
+- [ ] Require exact operation/root mapping without caller-selected escape paths.
+- [ ] Reconcile same-email legacy admissions and family/status mismatches without relabeling them.
+- [ ] Require container/Application evidence at established consumers, including raw-array and generic-executor bypass negatives.
+- [ ] Keep noncurrent receipt reconstruction historical and pending/corrupt state replay-prohibited.
+- [ ] Audit separately from clean merged Batch 3 main; do not promote fixture or command-island proof.
+
+Historical selection entry:
 `docs/handoffs/executable-atomic-transition-canonical-consumer-integration-correction-preparation-batch-0-local-ready.md`.
 The earlier acceptance, correction, test counts and limits below remain historical
 evidence, not the controlling verdict. `BOUND_INACTIVE`, historical
