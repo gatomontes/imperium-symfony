@@ -29,6 +29,11 @@ final readonly class NativeEffectReconciliationIssuanceDecisionService
 
     public function authorize(string $admissionId, int $at, int $expiresAt): array
     {
+        return $this->state->locked(fn (): array => $this->authorizeInsideNativeExclusion($admissionId, $at, $expiresAt));
+    }
+
+    private function authorizeInsideNativeExclusion(string $admissionId, int $at, int $expiresAt): array
+    {
         $source = $this->sources->resolve($admissionId, $at);
         $sourceExpiry = min(
             $source['nativeAuthority']['decision']['expires_at'] ?? 0,
