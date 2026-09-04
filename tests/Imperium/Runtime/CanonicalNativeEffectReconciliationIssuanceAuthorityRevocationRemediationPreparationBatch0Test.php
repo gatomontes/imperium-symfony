@@ -60,17 +60,20 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
         }
     }
 
-    public function testCurrentIssuerSignatureHasNoDerivationAuthorityAndNoConsumption(): void
+    public function testPreparationInventoryPreservesTheOriginalGapWhileCurrentIssuerIsTyped(): void
     {
+        $inventory = $this->read(self::ARTIFACTS[0]);
+        self::assertStringContainsString('NativeEffectReconciliationAuthorityIssuanceService::issue(string', $inventory);
+        self::assertStringContainsString('$admissionId, int $at, int $expiresAt)', $inventory);
+
         $source = $this->read('src/Imperium/Runtime/ProviderTransition/NativeEffectReconciliationAuthorityIssuanceService.php');
-        self::assertStringContainsString('public function issue(string $admissionId, int $at, int $expiresAt): array', $source);
-        self::assertStringContainsString('$this->sources->resolve($admissionId, $at)', $source);
-        self::assertStringContainsString('$this->records->put(self::AUTHORITIES', $source);
-        self::assertStringContainsString('$this->records->put(self::ISSUANCES', $source);
-        self::assertStringNotContainsString('AuthorityConsumptionStore', $source);
-        self::assertStringNotContainsString('IssuanceAuthority', $source);
-        self::assertStringNotContainsString('IssuanceDecision', $source);
-        self::assertStringNotContainsString('Capability $', $source);
+        self::assertStringContainsString(
+            'public function issue(NativeEffectReconciliationIssuanceCapability $capability, int $at): array',
+            $source,
+        );
+        self::assertStringContainsString('NativeEffectReconciliationIssuanceAuthorityResolver $issuanceResolver', $source);
+        self::assertStringContainsString('NativeEffectReconciliationIssuancePublicationService', $source);
+        self::assertStringNotContainsString('public function issue(string $admissionId', $source);
     }
 
     public function testSourceDecisionIsExactSingleUseAndConsumedOnlyInNativeCommit(): void

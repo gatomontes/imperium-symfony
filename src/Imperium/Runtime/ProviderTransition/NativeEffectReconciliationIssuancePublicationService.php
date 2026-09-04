@@ -14,7 +14,6 @@ final readonly class NativeEffectReconciliationIssuancePublicationService
     private AtomicTransition $atomic;
     private ImmutableRecordStore $records;
     private AuthorityConsumptionStore $consumptions;
-    private NativeEffectReconciliationAuthorityIssuanceService $issuer;
 
     public function __construct(
         private NativeState $state,
@@ -24,7 +23,6 @@ final readonly class NativeEffectReconciliationIssuancePublicationService
         $this->atomic = new AtomicTransition($state->root);
         $this->records = new ImmutableRecordStore($state->root, $this->atomic);
         $this->consumptions = new AuthorityConsumptionStore($this->records, $this->atomic);
-        $this->issuer = new NativeEffectReconciliationAuthorityIssuanceService($state);
     }
 
     public function publish(NativeEffectReconciliationIssuanceCapability $capability, int $at): array
@@ -53,11 +51,42 @@ final readonly class NativeEffectReconciliationIssuancePublicationService
                 }
                 if (null !== $this->checkpoint) { ($this->checkpoint)('issuance-authority.consumed'); }
 
-                $issued = $this->issuer->issue(
+                $plan = (new NativeEffectReconciliationIssuanceAuthorizationService($this->state))->preview(
                     $decision['effect_admission']['id'],
                     $decision['effective_at'],
                     $decision['expires_at'],
                 );
+                $source = $plan['source'];
+                $authority = $plan['authority'];
+                $storedAuthority = $this->records->put(
+                    NativeEffectReconciliationAuthorityIssuanceService::AUTHORITIES,
+                    $authority['authority_id'],
+                    $authority,
+                );
+                if (null !== $this->checkpoint) { ($this->checkpoint)('authority.published'); }
+                $storedIssuance = $this->records->put(
+                    NativeEffectReconciliationAuthorityIssuanceService::ISSUANCES,
+                    $authority['issuance_id'],
+                    [
+                        'schema' => NativeEffectReconciliationAuthorityIssuanceContract::SCHEMA,
+                        'issuance_id' => $authority['issuance_id'],
+                        'issued_authority' => NativeState::ref($storedAuthority, 'authority_id'),
+                        'source_native_authority' => NativeState::ref($source['nativeAuthority']['authority'], 'authority_id'),
+                        'source_native_principal' => NativeState::ref($source['nativePrincipal'], 'principal_version_id'),
+                        'source_native_transition' => NativeState::ref($source['commit'], 'root'),
+                        'effect_admission' => NativeState::ref($source['admission'], 'admission_id'),
+                        'issuer_service' => NativeEffectReconciliationAuthorityV2Contract::ISSUER_SERVICE,
+                        'issued_at' => $decision['effective_at'],
+                        'authority_issued' => true,
+                        'provider_invocation_performed' => false,
+                        'credential_resolution_performed' => false,
+                        'callback_invocation_performed' => false,
+                        'external_io_performed' => false,
+                        'continuing_authority' => false,
+                        'sealed' => true,
+                    ],
+                );
+                $issued = ['authority' => $storedAuthority, 'issuance' => $storedIssuance];
                 if ($issued['authority']['authority_id'] !== $decision['target']['authority_id']
                     || $issued['authority']['schema'] !== $decision['target']['authority_schema']
                     || $issued['authority']['record_digest'] !== $decision['target']['authority_digest']

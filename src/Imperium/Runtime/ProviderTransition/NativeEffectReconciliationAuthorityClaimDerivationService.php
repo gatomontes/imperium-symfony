@@ -37,6 +37,11 @@ final readonly class NativeEffectReconciliationAuthorityClaimDerivationService
             } catch (\RuntimeException $error) {
                 if ('PST112_IMMUTABLE_RECORD_ABSENT' !== $error->getMessage()) { throw $error; }
             }
+            $current = $this->resolver->inspect($capability->authorityId, $at, false, true);
+            if ($current['authority']['record_digest'] !== $capability->authorityDigest
+                || $current['issuance']['record_digest'] !== $capability->issuanceDigest) {
+                throw new \RuntimeException('CNE624_RECONCILIATION_CAPABILITY_INVALID');
+            }
             $resolved = $this->resolver->consume($capability, $at);
             $authority = $resolved['authority'];
             $issuance = $resolved['issuance'];

@@ -13,6 +13,8 @@ use App\Imperium\Runtime\ProviderTransition\NativeEffectForwardRecoveryClaimAdmi
 use App\Imperium\Runtime\ProviderTransition\NativeEffectForwardRecoveryService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationAuthorityIssuanceService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationAuthorityResolver;
+use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationIssuanceAuthorityResolver;
+use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationIssuanceAuthorizationService;
 use App\Imperium\Runtime\ProviderTransition\NativeState;
 
 /** Auto-discovered construction boundary. It exposes no command, credential resolver or provider transport. */
@@ -48,9 +50,20 @@ final readonly class CanonicalNativeEffectCorridor
         return new NativeEffectDoubleExecutionService($this->state, $continuations);
     }
 
-    public function reconciliationAuthorityIssuer(): NativeEffectReconciliationAuthorityIssuanceService
+    public function reconciliationIssuanceAuthorization(): NativeEffectReconciliationIssuanceAuthorizationService
     {
-        return new NativeEffectReconciliationAuthorityIssuanceService($this->state);
+        return new NativeEffectReconciliationIssuanceAuthorizationService($this->state);
+    }
+
+    public function reconciliationIssuanceAuthorityResolver(): NativeEffectReconciliationIssuanceAuthorityResolver
+    {
+        return new NativeEffectReconciliationIssuanceAuthorityResolver($this->state);
+    }
+
+    public function reconciliationAuthorityIssuer(
+        NativeEffectReconciliationIssuanceAuthorityResolver $resolver,
+    ): NativeEffectReconciliationAuthorityIssuanceService {
+        return new NativeEffectReconciliationAuthorityIssuanceService($this->state, $resolver);
     }
 
     public function reconciliationAuthorityResolver(): NativeEffectReconciliationAuthorityResolver

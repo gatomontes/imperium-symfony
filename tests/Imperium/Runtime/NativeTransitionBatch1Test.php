@@ -65,6 +65,17 @@ class NativeTransitionBatch1Test extends TestCase
         rmdir($this->root); sodium_memzero($this->secret);
     }
 
+    /** Canonical typed reconciliation-issuance path used by downstream fixtures. */
+    protected function issueReconciliationAuthority(array $admission, int $at, int $expiresAt, ?\Closure $checkpoint = null): array
+    {
+        $authorization = (new \App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationIssuanceAuthorizationService($this->state))
+            ->authorize($admission['admission_id'], $at, $expiresAt);
+        $resolver = new \App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationIssuanceAuthorityResolver($this->state);
+        $capability = $resolver->resolve($authorization['issuance_authority']['issuance_authority_id'], $at);
+        return (new \App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationAuthorityIssuanceService($this->state, $resolver, $checkpoint))
+            ->issue($capability, $at);
+    }
+
     public function testRootConstitutionRequiresSeparateActivationAndNativeAuthorityUsesBackwardSeals(): void
     {
         $service = new NativePrincipal($this->state, static fn () => 100);

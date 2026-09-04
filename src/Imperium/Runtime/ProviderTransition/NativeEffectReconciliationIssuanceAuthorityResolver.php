@@ -50,7 +50,7 @@ final class NativeEffectReconciliationIssuanceAuthorityResolver
     }
 
     /** Durable evidence is returned read-only and is never itself custody. */
-    public function inspect(string $issuanceAuthorityId, int $at): array
+    public function inspect(string $issuanceAuthorityId, int $at, bool $atUse = false): array
     {
         NativeState::id($issuanceAuthorityId);
         $authority = $this->records->read(NativeEffectReconciliationIssuanceAuthorizationService::AUTHORITIES, $issuanceAuthorityId);
@@ -59,12 +59,14 @@ final class NativeEffectReconciliationIssuanceAuthorityResolver
         $decision = $this->records->read(NativeEffectReconciliationIssuanceAuthorizationService::DECISIONS, $decisionId);
         $this->validate($authority, $decision, $at);
 
-        $plan = (new NativeEffectReconciliationAuthorityIssuanceService($this->state))->preview(
+        $source = (new NativeEffectReconciliationAuthoritySourceResolver($this->state))->resolve(
             $decision['effect_admission']['id'],
-            $decision['effective_at'],
-            $decision['expires_at'],
+            $atUse ? $at : $decision['effective_at'],
+            $atUse,
         );
-        $source = $plan['source'];
+        $plan = (new NativeEffectReconciliationIssuanceAuthorizationService($this->state))->preview(
+            $decision['effect_admission']['id'], $decision['effective_at'], $decision['expires_at'],
+        );
         if ($authority['issuance_decision'] !== NativeState::ref($decision, 'decision_id')
             || $decision['target']['authority_id'] !== $plan['authority']['authority_id']
             || $decision['target']['authority_schema'] !== $plan['authority']['schema']
@@ -99,7 +101,7 @@ final class NativeEffectReconciliationIssuanceAuthorityResolver
             throw new \RuntimeException('CNE644_RECONCILIATION_ISSUANCE_CAPABILITY_INVALID');
         }
         unset($this->issued[$capability->capabilityId]);
-        $evidence = $this->inspect($capability->issuanceAuthorityId, $at);
+        $evidence = $this->inspect($capability->issuanceAuthorityId, $at, true);
         if ($evidence['decision']['record_digest'] !== $capability->decisionDigest
             || $evidence['issuance_authority']['record_digest'] !== $capability->issuanceAuthorityDigest
             || $evidence['decision']['effect_admission']['id'] !== $capability->admissionId

@@ -9,6 +9,13 @@
     "corrected_tripwire_focus": {"tests": 36, "assertions": 4046, "result": "PASS"},
     "corrected_complete": {"command": "php vendor/bin/phpunit tests", "tests": 2542, "assertions": 51695, "duration": "00:06:02.247", "result": "PASS"}
   },
+  "batch_3": {
+    "marker": "BATCH_3_COMPLETE_TYPED_ISSUER_AND_AT_USE_CURRENTNESS",
+    "focused": {"command": "php vendor/bin/phpunit tests/Imperium/Runtime/CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemediationBatch3Test.php", "tests": 35, "assertions": 147, "result": "PASS"},
+    "migrated_caller_currentness_focus": {"tests": 260, "assertions": 1557, "duration": "00:01:48.161", "result": "PASS"},
+    "preparation_compatibility_and_batch_3": {"tests": 45, "assertions": 361, "duration": "00:00:16.249", "result": "PASS"},
+    "complete": {"command": "php vendor/bin/phpunit tests", "tests": 2577, "assertions": 51843, "duration": "00:06:26.398", "result": "PASS"}
+  },
   "provider_effect_performed": false,
   "credential_accessed": false,
   "external_io_performed": false,

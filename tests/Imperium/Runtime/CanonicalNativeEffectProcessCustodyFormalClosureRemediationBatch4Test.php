@@ -13,6 +13,7 @@ use App\Imperium\Runtime\ProviderTransition\NativeEffectDoubleExecutionService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectForwardRecoveryClaimAdmissionService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectForwardRecoveryService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationAuthorityIssuanceService;
+use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationIssuanceAuthorizationService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationAuthorityResolver;
 use App\Imperium\Runtime\ProviderTransition\NativeState;
 use App\Tests\Imperium\Runtime\Support\CanonicalNativeEffectCorridorKernel;
@@ -28,10 +29,10 @@ final class CanonicalNativeEffectProcessCustodyFormalClosureRemediationBatch4Tes
         $recovery = new NativeEffectForwardRecoveryService($this->state);
         $this->fails('PST112_IMMUTABLE_RECORD_ABSENT', fn () => $recovery->forwardComplete('missing-forward-recovery-claim', $at + 1));
 
-        $issuer = new NativeEffectReconciliationAuthorityIssuanceService($this->state);
-        $this->fails('CNE610_RECONCILIATION_ISSUANCE_TIME_INVALID', fn () => $issuer->issue($admission['admission_id'], $at + 1, $at + 1));
+        $authorization = new NativeEffectReconciliationIssuanceAuthorizationService($this->state);
+        $this->fails('CNE610_RECONCILIATION_ISSUANCE_TIME_INVALID', fn () => $authorization->authorize($admission['admission_id'], $at + 1, $at + 1));
 
-        $issued = $issuer->issue($admission['admission_id'], $at + 1, $at + 101);
+        $issued = $this->issueReconciliationAuthority($admission, $at + 1, $at + 101);
         $path = $this->root.'/'.NativeEffectReconciliationAuthorityIssuanceService::AUTHORITIES.'/'.$issued['authority']['authority_id'].'.json';
         $substituted = $issued['authority'];
         $substituted['sealed_response']['digest'] = str_repeat('0', 64);
@@ -70,7 +71,8 @@ final class CanonicalNativeEffectProcessCustodyFormalClosureRemediationBatch4Tes
             self::assertNotSame($first, $second);
             $resolver = $corridor->reconciliationAuthorityResolver();
             self::assertInstanceOf(NativeEffectReconciliationAuthorityResolver::class, $resolver);
-            self::assertInstanceOf(NativeEffectReconciliationAuthorityIssuanceService::class, $corridor->reconciliationAuthorityIssuer());
+            $issuanceResolver = $corridor->reconciliationIssuanceAuthorityResolver();
+            self::assertInstanceOf(NativeEffectReconciliationAuthorityIssuanceService::class, $corridor->reconciliationAuthorityIssuer($issuanceResolver));
             self::assertInstanceOf(NativeEffectForwardRecoveryClaimAdmissionService::class, $corridor->recoveryClaimAdmission($resolver));
             self::assertInstanceOf(NativeEffectForwardRecoveryService::class, $corridor->forwardRecovery());
         } finally {
@@ -124,11 +126,7 @@ final class CanonicalNativeEffectProcessCustodyFormalClosureRemediationBatch4Tes
 
     private function admitRecovery(array $admission, int $recoveryAt): array
     {
-        $issued = (new NativeEffectReconciliationAuthorityIssuanceService($this->state))->issue(
-            $admission['admission_id'],
-            $recoveryAt,
-            $recoveryAt + 100,
-        );
+        $issued = $this->issueReconciliationAuthority($admission, $recoveryAt, $recoveryAt + 100);
         $resolver = new NativeEffectReconciliationAuthorityResolver($this->state);
         return (new NativeEffectForwardRecoveryClaimAdmissionService($this->state, $resolver))->admit(
             $resolver->resolve($issued['authority']['authority_id'], $recoveryAt),

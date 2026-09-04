@@ -23,16 +23,16 @@ final class CanonicalNativeEffectReconciliationAuthorityProvenanceRemediationBat
     public function testIssuerInterruptionLeavesAnUnresolvableOrphanAndExactRetryCompletesEvidence(): void
     {
         [$admission, $at] = $this->sealedResponse();
-        $issuer = new NativeEffectReconciliationAuthorityIssuanceService($this->state, static function (string $cut): void {
+        $checkpoint = static function (string $cut): void {
             if ('authority.published' === $cut) { throw new \RuntimeException('synthetic issuance cut'); }
-        });
-        $this->fails('synthetic issuance cut', fn () => $issuer->issue($admission['admission_id'], $at + 1, $at + 100));
+        };
+        $this->fails('synthetic issuance cut', fn () => $this->issueReconciliationAuthority($admission, $at + 1, $at + 100, $checkpoint));
         self::assertCount(1, glob($this->root.'/'.NativeEffectReconciliationAuthorityIssuanceService::AUTHORITIES.'/*.json') ?: []);
         self::assertSame([], glob($this->root.'/'.NativeEffectReconciliationAuthorityIssuanceService::ISSUANCES.'/*.json') ?: []);
 
         $authority = json_decode((string) file_get_contents((glob($this->root.'/'.NativeEffectReconciliationAuthorityIssuanceService::AUTHORITIES.'/*.json') ?: [])[0]), true, 64, JSON_THROW_ON_ERROR);
         $this->fails('PST112_IMMUTABLE_RECORD_ABSENT', fn () => (new NativeEffectReconciliationAuthorityResolver($this->state))->resolve($authority['authority_id'], $at + 1));
-        $retried = (new NativeEffectReconciliationAuthorityIssuanceService($this->state))->issue($admission['admission_id'], $at + 1, $at + 100);
+        $retried = $this->issueReconciliationAuthority($admission, $at + 1, $at + 100);
         self::assertSame($authority, $retried['authority']);
         self::assertNotNull((new NativeEffectReconciliationAuthorityResolver($this->state))->resolve($authority['authority_id'], $at + 2));
     }
@@ -40,7 +40,7 @@ final class CanonicalNativeEffectReconciliationAuthorityProvenanceRemediationBat
     public function testCapabilityInterruptionBeforeClaimPublicationLeavesNoDurableConsumption(): void
     {
         [$admission, $at] = $this->sealedResponse();
-        $issued = (new NativeEffectReconciliationAuthorityIssuanceService($this->state))->issue($admission['admission_id'], $at + 1, $at + 100);
+        $issued = $this->issueReconciliationAuthority($admission, $at + 1, $at + 100);
         $resolver = new NativeEffectReconciliationAuthorityResolver($this->state);
         $capability = $resolver->resolve($issued['authority']['authority_id'], $at + 2);
         $derivation = new NativeEffectReconciliationAuthorityClaimDerivationService($this->state, $resolver, static function (string $cut): void {
@@ -122,7 +122,7 @@ final class CanonicalNativeEffectReconciliationAuthorityProvenanceRemediationBat
 
     private function claim(array $admission, int $at, int $expiresAt): array
     {
-        $issued = (new NativeEffectReconciliationAuthorityIssuanceService($this->state))->issue($admission['admission_id'], $at, $expiresAt);
+        $issued = $this->issueReconciliationAuthority($admission, $at, $expiresAt);
         $resolver = new NativeEffectReconciliationAuthorityResolver($this->state);
         return (new NativeEffectForwardRecoveryClaimAdmissionService($this->state, $resolver))->admit(
             $resolver->resolve($issued['authority']['authority_id'], $at),

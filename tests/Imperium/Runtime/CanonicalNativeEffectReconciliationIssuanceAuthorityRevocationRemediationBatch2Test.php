@@ -98,10 +98,11 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
         self::assertCount(1, glob($this->root.'/'.NativeEffectReconciliationAuthorityIssuanceService::AUTHORITIES.'/*.json') ?: []);
     }
 
-    public function testLegacyPublicIssuerSignatureRemainsUnchangedUntilBatchThree(): void
+    public function testBatchThreeHasReplacedTheLegacyPublicIssuerSignature(): void
     {
         $method = new \ReflectionMethod(NativeEffectReconciliationAuthorityIssuanceService::class, 'issue');
-        self::assertSame(['admissionId', 'at', 'expiresAt'], array_map(static fn (\ReflectionParameter $parameter): string => $parameter->getName(), $method->getParameters()));
+        self::assertSame(['capability', 'at'], array_map(static fn (\ReflectionParameter $parameter): string => $parameter->getName(), $method->getParameters()));
+        self::assertSame(\App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationIssuanceCapability::class, (string) $method->getParameters()[0]->getType());
     }
 
     public function testBatchDocumentationPinsTheBoundaryAndNextGate(): void
