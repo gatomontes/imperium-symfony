@@ -1,3 +1,27 @@
+# Current campaign: reconciliation issuance authority and revocation-at-use remediation
+
+`CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_SELECTED`
+`PREPARATION_BATCH_0_ONLY_HARD_STOP`
+`ROOT_PROVENANCE_JOIN_ACCEPTED`
+`FORMAL_CLOSURE_REFUSED_RECONCILIATION_DERIVATION_AUTHORITY_ABSENT`
+`REVOCATION_AT_CONSUMPTION_UNPROVED`
+`BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
+
+The merged typed provenance and recovery substrate remains valid. Its formal
+closure is requalified because provenance of the consumed transition authority
+does not authorize a new derivation act, and source currentness can become stale
+between capability resolution and consumption.
+
+Current campaign handoff:
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-campaign-ready.md`.
+
+Only authorized local entrypoint:
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-preparation-batch-0-local-ready.md`.
+
+Preparation Batch 0 inventories derivation authority, present-tense currentness,
+consumption, races and proof only. Runtime mutation, authority action, provider
+effects, Iron Gate/Lazaretto and Batch 7 remain unauthorized.
+
 # Current campaign: reconciliation authority provenance remediation
 
 `CANONICAL_NATIVE_EFFECT_RECONCILIATION_AUTHORITY_PROVENANCE_REMEDIATION_COMPLETE`
