@@ -15,6 +15,8 @@ final readonly class NativeEffectContinuationCapability
         public string $authorityConsumptionId,
         public string $processBoundaryId,
         public int $expiresAt,
+        public ?int $runtimeProcessId = null,
+        public ?string $processIncarnationBinding = null,
     ) {}
 
     public function metadata(): array
@@ -27,11 +29,28 @@ final readonly class NativeEffectContinuationCapability
             'semantic_effect_tuple_id' => $this->semanticEffectTupleId,
             'authority_consumption_id' => $this->authorityConsumptionId,
             'process_boundary_id' => $this->processBoundaryId,
+            'runtime_process_id' => $this->runtimeProcessId,
+            'process_incarnation_binding' => $this->processIncarnationBinding,
             'expires_at' => $this->expiresAt,
             'max_uses' => NativeEffectContinuationCapabilityContract::MAX_USES,
             'cross_process_transfer_permitted' => false,
             'durable_persistence_permitted' => false,
             'reconstruction_permitted' => false,
         ];
+    }
+
+    public function __serialize(): never
+    {
+        throw new \LogicException('CNE503_CONTINUATION_SERIALIZATION_PROHIBITED');
+    }
+
+    public function __unserialize(array $data): never
+    {
+        throw new \LogicException('CNE503_CONTINUATION_UNSERIALIZATION_PROHIBITED');
+    }
+
+    public function __clone(): void
+    {
+        throw new \LogicException('CNE503_CONTINUATION_CLONE_PROHIBITED');
     }
 }
