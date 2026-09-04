@@ -21,7 +21,7 @@ Campaign countdown: six stages including Preparation Batch 0.
 The controlling review is `docs/canonical-native-effect-reconciliation-shared-exclusion-post-publication-blackquill-review-v1.md`.
 
 The quarantined range
-`0ad41ba9a6904ab375c2c6cbc514f01ac9e79958..7d3b8818717fe74fb822a195689d8b3c51030862`
+`afcaf025d097db0b9adddac25a9083a8be2322a0..7d3b8818717fe74fb822a195689d8b3c51030862`
 was locally authorized but remotely published without authority. It also leaves
 decision publication and both at-use cuts on lock domains that do not exclude
 native-state mutation. It is evidence of failure only, not accepted
