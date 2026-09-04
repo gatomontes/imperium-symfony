@@ -1,0 +1,18 @@
+{
+  "schema": "imperium.audit.canonical-native-effect-reconciliation-shared-exclusion-terminal/v1",
+  "merged_batch_4_base_sha": "d1be6d0ada4eb75cc41ed8008f5d3df8060b9b10",
+  "focused_command": "php vendor/bin/phpunit tests/Imperium/Runtime/CanonicalNativeEffectReconciliationSharedExclusionRemediationBatch4Test.php tests/Imperium/Runtime/CanonicalNativeEffectReconciliationSharedExclusionRemediationBatch5TerminalAuditTest.php",
+  "focused_result": "OK (53 tests, 309 assertions) in 00:00:19.637",
+  "full_command": "php vendor/bin/phpunit tests",
+  "full_result": "OK (2649 tests, 52294 assertions) in 00:07:12.141",
+  "corrected_failure": {
+    "initial_full_result": "2 documentary compatibility failures; no behavioral failure",
+    "cause": "historical readiness tests required retention of the original six-stage countdown, Preparation entrypoint and preparation-only production-correction marker",
+    "correction": "restored those facts with explicit historical labeling",
+    "focused_recheck": "OK (33 tests, 231 assertions) in 00:00:08.525"
+  },
+  "github_ci_claimed": false,
+  "remote_publication_performed": false,
+  "provider_or_credential_io": false,
+  "remaining_boundaries": ["distributed filesystem", "multiple hosts", "hostile writers", "untimestamped Operator Root history", "Batch 7 live trial"]
+}

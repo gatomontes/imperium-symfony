@@ -2,8 +2,8 @@
 
 `CANONICAL_NATIVE_EFFECT_RECONCILIATION_SHARED_EXCLUSION_REMEDIATION_SELECTED`
 `QUARANTINED_CANDIDATE_NOT_ACCEPTED`
-`PREPARATION_BATCH_0_ONLY_AUTHORIZED`
-`PRODUCTION_CORRECTION_NOT_AUTHORIZED`
+`CANONICAL_NATIVE_EFFECT_RECONCILIATION_SHARED_EXCLUSION_REMEDIATION_COMPLETE_LOCAL`
+`SHARED_EXCLUSION_ACCEPTED_BOUNDED_SINGLE_HOST_NO_LIVE_EFFECT`
 `REMOTE_PUBLICATION_NOT_AUTHORIZED`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
@@ -15,10 +15,14 @@ Review: `docs/canonical-native-effect-reconciliation-shared-exclusion-post-publi
 
 Campaign: `docs/next-campaign-canonical-native-effect-reconciliation-shared-exclusion-remediation.md`.
 
-Current local entrypoint: `docs/handoffs/canonical-native-effect-reconciliation-shared-exclusion-remediation-preparation-batch-0-local-ready.md`.
+Historical Preparation entrypoint: `docs/handoffs/canonical-native-effect-reconciliation-shared-exclusion-remediation-preparation-batch-0-local-ready.md`.
 
-Only Preparation Batch 0 inventory, matrices and isolated deterministic race
-harnesses are authorized.
+Terminal audit: `docs/canonical-native-effect-reconciliation-shared-exclusion-remediation-terminal-audit-v1.md`.
+
+Completion handoff: `docs/handoffs/canonical-native-effect-reconciliation-shared-exclusion-remediation-campaign-complete.md`.
+
+All six local stages are complete. Remote CI is not claimed; distributed and
+hostile writers remain deferred, and Batch 7 remains suspended.
 
 # Current campaign: reconciliation authority provenance remediation
 
