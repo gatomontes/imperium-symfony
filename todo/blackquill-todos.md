@@ -1,3 +1,24 @@
+## Canonical Native Effect Process Custody and Formal Closure Remediation — selected 2026-09-04
+
+- [ ] Preparation Batch 0: inventory process identity, serialization, clone/fork,
+  execution/recovery cuts, provenance and stale canonical consumers.
+- [ ] Batch 1: define process-incarnation custody and governed recovery contracts.
+- [ ] Batch 2: implement process-bound custody and serialization/clone/fork refusal.
+- [ ] Batch 3: separate first execution from governed forward reconciliation.
+- [ ] Batch 4: prove adversarial, process and application behavior.
+- [ ] Batch 5: run a separately sequenced terminal audit from clean merged Batch 4
+  with retained GitHub CI evidence.
+
+Only Preparation Batch 0 is authorized. Its hard-stop entrypoint is
+`docs/handoffs/canonical-native-effect-process-custody-formal-closure-remediation-preparation-batch-0-local-ready.md`.
+
+The prior continuation/exclusivity candidate merged at
+`dc62d4e564bfde3230117d740ec157e0928abf35`, with a reported local result of
+2,291 tests and 49,398 assertions. That is not retained GitHub CI evidence, the
+required batch sequencing and independent audit were absent, and the canonical
+steps/flow were stale. Formal closure is therefore refused while the candidate
+remains bounded substrate. Batch 7 remains suspended.
+
 ## Canonical Native Effect Continuation and Exclusivity Remediation — selected 2026-09-03
 
 - [ ] Preparation Batch 0: inventory admission-to-callback process continuity,
