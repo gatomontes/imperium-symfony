@@ -1,17 +1,19 @@
 # Current campaign: native effect process custody and formal closure remediation
 
-`CANONICAL_NATIVE_EFFECT_PROCESS_CUSTODY_FORMAL_CLOSURE_REMEDIATION_BATCH_5_CI_CANDIDATE`
-`LOCAL_FOCUSED_AND_FULL_PROOF_GREEN`
+`CANONICAL_NATIVE_EFFECT_PROCESS_CUSTODY_FORMAL_CLOSURE_REMEDIATION_COMPLETE`
+`PROCESS_CUSTODY_AND_FORMAL_CLOSURE_ACCEPTED_BOUNDED_NO_LIVE_EFFECT`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
-Preparation Batch 0 and Batches 1–4 are separately committed and merged. Batch 5
-started from clean merged Batch 4 `main` at `83fc4d6`; focused PHPUnit passed
-`73 tests / 637 assertions` and the full suite passed `2368 tests / 50072
-assertions`. The pushed merge SHA and GitHub Actions run must be recorded before
-terminal acceptance.
+Preparation Batch 0 and Batches 1–4 were separately committed and merged. Batch
+5 started from clean merged Batch 4 `main` at `83fc4d6`; the exact candidate
+passed focused `80 / 692` and full `2371 / 50100` locally. GitHub Actions run
+`33826904446` independently passed `2371 / 50101` on Ubuntu/PHP 8.4.25 for exact
+merge `c47adc531d1d6191b3e00f20f056ed69975289d2`. Zero campaign stages remain.
 
-Current candidate audit:
-`docs/canonical-native-effect-process-custody-formal-closure-remediation-batch-5-terminal-audit-candidate-v1.md`.
+Terminal audit:
+`docs/canonical-native-effect-process-custody-formal-closure-remediation-terminal-audit-v1.md`.
+Completion handoff:
+`docs/handoffs/canonical-native-effect-process-custody-formal-closure-remediation-campaign-complete.md`.
 No live authority, credential access, provider operation, mission, Iron Gate,
 Lazaretto or Batch 7 restoration follows.
 

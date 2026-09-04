@@ -8,27 +8,33 @@ use PHPUnit\Framework\TestCase;
 
 final class CanonicalNativeEffectProcessCustodyFormalClosureRemediationBatch5Test extends TestCase
 {
-    public function testCanonicalConsumersPointToTheSeparatelySequencedAuditCandidate(): void
+    public function testCanonicalConsumersPointToTheAcceptedSeparatelySequencedAudit(): void
     {
         $canonical = $this->read('docs/delegate-mission-flow.md')
             .$this->read('docs/handoffs/README.md')
             .$this->read('todo/blackquill-todos.md');
-        self::assertStringContainsString('CANONICAL_NATIVE_EFFECT_PROCESS_CUSTODY_FORMAL_CLOSURE_REMEDIATION_BATCH_5_CI_CANDIDATE', $canonical);
-        self::assertStringContainsString('2368', $canonical);
-        self::assertStringContainsString('50072', $canonical);
+        self::assertStringContainsString('CANONICAL_NATIVE_EFFECT_PROCESS_CUSTODY_FORMAL_CLOSURE_REMEDIATION_COMPLETE', $canonical);
+        self::assertStringContainsString('2371', $canonical);
+        self::assertStringContainsString('50101', $canonical);
         self::assertStringContainsString('BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED', $canonical);
     }
 
-    public function testAuditAndLedgerWithholdClosureUntilExactCiEvidenceExists(): void
+    public function testAuditAndLedgerRetainExactSuccessfulCiEvidence(): void
     {
-        $audit = $this->read('docs/canonical-native-effect-process-custody-formal-closure-remediation-batch-5-terminal-audit-candidate-v1.md');
-        self::assertStringContainsString('TERMINAL_ACCEPTANCE_PENDING_SHA_BOUND_GITHUB_CI', $audit);
+        $audit = $this->read('docs/canonical-native-effect-process-custody-formal-closure-remediation-terminal-audit-v1.md')
+            .$this->read('docs/canonical-native-effect-process-custody-formal-closure-remediation-batch-5-terminal-audit-candidate-v1.md');
+        self::assertStringContainsString('PROCESS_CUSTODY_AND_FORMAL_CLOSURE_ACCEPTED_BOUNDED_NO_LIVE_EFFECT', $audit);
+        self::assertStringContainsString('33826904446', $audit);
         foreach (['7eec2a3', '642b29e', 'f07b7d7', 'eda148d', 'e73d100', 'ce8fd9e', '96b3079', 'b66edd9', 'c00e02c', '83fc4d6'] as $commit) {
             self::assertStringContainsString($commit, $audit);
         }
         $ledger = json_decode($this->read('docs/canonical-native-effect-process-custody-formal-closure-remediation-evidence-ledger-v2.json'), true, 32, JSON_THROW_ON_ERROR);
-        self::assertNull($ledger['github_ci']);
-        self::assertSame('PENDING_SHA_BOUND_GITHUB_CI', $ledger['terminal_verdict']);
+        self::assertSame(33826904446, $ledger['github_ci']['run_id']);
+        self::assertSame('c47adc531d1d6191b3e00f20f056ed69975289d2', $ledger['github_ci']['head_sha']);
+        self::assertSame('success', $ledger['github_ci']['conclusion']);
+        self::assertSame(2371, $ledger['github_ci']['tests']);
+        self::assertSame(50101, $ledger['github_ci']['assertions']);
+        self::assertSame('PROCESS_CUSTODY_AND_FORMAL_CLOSURE_ACCEPTED_BOUNDED_NO_LIVE_EFFECT', $ledger['terminal_verdict']);
         self::assertFalse($ledger['live_effect']);
         self::assertSame('SUSPENDED', $ledger['batch_7']);
     }

@@ -6,13 +6,14 @@
 - [x] Batch 2: implement process-bound custody and serialization/clone/fork refusal.
 - [x] Batch 3: separate first execution from governed forward reconciliation.
 - [x] Batch 4: prove adversarial, process and application behavior.
-- [ ] Batch 5: run a separately sequenced terminal audit from clean merged Batch 4
+- [x] Batch 5: run a separately sequenced terminal audit from clean merged Batch 4
   with retained GitHub CI evidence.
 
-Batch 5 began from clean merged Batch 4 `main` at `83fc4d6`. Focused local proof
-passed `73 / 637`; full local proof passed `2368 / 50072`. The final checkbox
-remains open until the pushed candidate SHA and green GitHub Actions run are
-recorded. Batch 7 remains suspended.
+Batch 5 began from clean merged Batch 4 `main` at `83fc4d6`. The exact candidate
+passed focused `80 / 692` and full `2371 / 50100` locally. GitHub Actions run
+`33826904446` passed `2371 / 50101` for exact merge
+`c47adc531d1d6191b3e00f20f056ed69975289d2`. The bounded remediation is complete;
+zero campaign stages remain. Batch 7 remains suspended.
 
 ## Canonical Native Effect Continuation and Exclusivity Remediation — selected 2026-09-03
 

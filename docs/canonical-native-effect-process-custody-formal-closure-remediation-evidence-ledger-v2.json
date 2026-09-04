@@ -19,8 +19,25 @@
     "exact_candidate_focused": {"result": "OK", "tests": 80, "assertions": 692},
     "exact_candidate_full": {"result": "OK", "tests": 2371, "assertions": 50100, "elapsed": "00:06:01.249"}
   },
-  "github_ci": null,
-  "terminal_verdict": "PENDING_SHA_BOUND_GITHUB_CI",
+  "github_ci": {
+    "workflow": "PHPUnit",
+    "event": "push",
+    "run_id": 33826904446,
+    "run_url": "https://github.com/gatomontes/imperium-symfony/actions/runs/33826904446",
+    "head_sha": "c47adc531d1d6191b3e00f20f056ed69975289d2",
+    "status": "completed",
+    "conclusion": "success",
+    "job": "test",
+    "job_id": 100881403332,
+    "job_url": "https://github.com/gatomontes/imperium-symfony/actions/runs/33826904446/job/100881403332",
+    "runtime": "PHP 8.4.25",
+    "os": "ubuntu-latest",
+    "tests": 2371,
+    "assertions": 50101,
+    "started_at": "2026-09-04T01:44:35Z",
+    "completed_at": "2026-09-04T01:45:34Z"
+  },
+  "terminal_verdict": "PROCESS_CUSTODY_AND_FORMAL_CLOSURE_ACCEPTED_BOUNDED_NO_LIVE_EFFECT",
   "live_effect": false,
   "batch_7": "SUSPENDED"
 }
