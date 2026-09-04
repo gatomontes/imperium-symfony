@@ -34,7 +34,11 @@ final readonly class NativeEffectReconciliationAuthoritySourceResolver
         if (!is_string($authorityId)) {
             throw new \RuntimeException('CNE602_RECONCILIATION_SOURCE_AUTHORITY_INVALID');
         }
-        $nativeAuthority = (new NativeAuthority($this->state))->load($authorityId, $at);
+        try {
+            $nativeAuthority = (new NativeAuthority($this->state))->load($authorityId, $at);
+        } catch (\RuntimeException $error) {
+            throw $this->currentnessFailure($error, $commit, $at);
+        }
         $principalId = $nativeAuthority['principal']['id'] ?? null;
         if (!is_string($principalId)) {
             throw new \RuntimeException('CNE602_RECONCILIATION_SOURCE_AUTHORITY_INVALID');
@@ -57,5 +61,43 @@ final readonly class NativeEffectReconciliationAuthoritySourceResolver
         }
 
         return compact('admission', 'commit', 'nativeAuthority', 'nativePrincipal', 'callback', 'response');
+    }
+
+    private function currentnessFailure(\RuntimeException $error, array $commit, int $at): \RuntimeException
+    {
+        if ('NIR_V3_LIFECYCLE_REQUIRES_NATIVE_MIGRATION' === $error->getMessage()) {
+            return new \RuntimeException('REFUSED_SOURCE_MIGRATION_REQUIRED', previous: $error);
+        }
+        if ('NIR_SOURCE_GENERATION_CHANGED' === $error->getMessage()) {
+            return new \RuntimeException('REFUSED_SOURCE_SUPERSEDED', previous: $error);
+        }
+        if ('NIR_SOURCE_PRINCIPAL_NOT_ACTIVE' !== $error->getMessage()) {
+            return $error;
+        }
+
+        $nativeAuthority = $this->state->get('authorities', (string) ($commit['authority_id'] ?? ''));
+        $nativePrincipal = is_array($nativeAuthority)
+            ? $this->state->get('principals', (string) ($nativeAuthority['principal']['id'] ?? ''))
+            : null;
+        $source = is_array($nativePrincipal) ? ($nativePrincipal['root_act']['act']['source_principal'] ?? null) : null;
+        if (!is_array($source)) {
+            return $error;
+        }
+
+        foreach (glob($this->state->root.'/'.NativeState::SOURCES['lifecycle'].'/*.json') ?: [] as $path) {
+            $event = $this->state->json(NativeState::SOURCES['lifecycle'].'/'.basename($path));
+            if (($event['source_principal_version']['id'] ?? null) !== ($source['id'] ?? null)
+                || ($event['source_principal_version']['digest'] ?? null) !== ($source['digest'] ?? null)
+                || false === ($effectiveAt = strtotime((string) ($event['effective_at'] ?? '')))
+                || $effectiveAt > $at) {
+                continue;
+            }
+            $refusal = NativeEffectReconciliationAtUseCurrentnessContract::LIFECYCLE_EVENT_TO_REFUSAL[$event['disposition'] ?? ''] ?? null;
+            if (is_string($refusal)) {
+                return new \RuntimeException($refusal, previous: $error);
+            }
+        }
+
+        return $error;
     }
 }

@@ -6,23 +6,22 @@
   currentness and reconstruction contracts. Constants-only and authority-empty.
 - [x] Batch 2: implement Root-provenanced issuance decision/capability and atomic
   consumption with reconciliation-authority publication.
-- [ ] Batch 3: enforce typed issuance at the issuer and revalidate currentness at
+- [x] Batch 3: enforce typed issuance at the issuer and revalidate currentness at
   the governed use cut.
-- [ ] Batch 4: prove missing/counterfeit/replayed authority, consumed-source
+- [x] Batch 4: prove missing/counterfeit/replayed authority, consumed-source
   refusal, resolve-revoke-consume, contention, interruption and application wiring.
 - [ ] Batch 5: conduct a separately sequenced terminal audit from clean merged
   Batch 4 with retained exact-SHA GitHub CI evidence.
 
-Preparation Batch 0 and Batches 1–2 are complete. Three stages remain. Current
+Preparation Batch 0 and Batches 1–4 are complete. One stage remains. Current
 handoff:
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-2-complete.md`.
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-4-complete.md`.
 
-Batch 2 is not authorized. The provenance campaign substrate remains accepted,
-but formal closure is refused because `issue()` requires no separate derivation
-authority and `consume()` does not revalidate independently mutable
-currentness. RR02/RR05/RR11 are bounded preservation cases. Current Operator
-Root revocation still blocks historical reconstruction; timestamped lifecycle
-history remains a distinct case. Batch 7 remains suspended.
+Batch 5 is separately sequenced from clean committed Batch 4. Typed issuance,
+separate derivation authority and at-use Root/native/source currentness are now
+implemented and adversarially proved within the bounded single-host model.
+Current Operator Root revocation still blocks historical reconstruction;
+timestamped lifecycle history remains distinct. Batch 7 remains suspended.
 
 ## Canonical Native Effect Reconciliation Authority Provenance Remediation — selected 2026-09-04
 

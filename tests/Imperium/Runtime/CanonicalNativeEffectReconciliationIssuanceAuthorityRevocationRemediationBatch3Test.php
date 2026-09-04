@@ -21,7 +21,7 @@ use App\Imperium\Runtime\ProviderTransition\NativeState;
 
 require_once __DIR__.'/CanonicalNativeEffectCorridorActivationBatch4Test.php';
 
-final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemediationBatch3Test extends CanonicalNativeEffectCorridorActivationBatch4Test
+class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemediationBatch3Test extends CanonicalNativeEffectCorridorActivationBatch4Test
 {
     public function testPublicIssuerAcceptsOnlyTypedIssuanceCapability(): void
     {
@@ -76,7 +76,7 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
         $successor = NativeState::seal($successor);
         $this->write(NativeState::SOURCES['principal'].'/'.$successor['principal_version_id'].'.json', $successor);
 
-        $this->fails('NIR_SOURCE_GENERATION_CHANGED', fn () => (new NativeEffectForwardRecoveryClaimAdmissionService($this->state, $resolver))->admit($capability, $at + 3));
+        $this->fails('REFUSED_SOURCE_SUPERSEDED', fn () => (new NativeEffectForwardRecoveryClaimAdmissionService($this->state, $resolver))->admit($capability, $at + 3));
     }
 
     public function testIssuerCutRevalidatesRootInsideNativeExclusion(): void
@@ -92,7 +92,7 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
     }
 
     /** @return array{0: NativeEffectReconciliationAuthorityResolver, 1: object} */
-    private function reconciliationCapability(string $admissionId, int $at, int $expiresAt): array
+    protected function reconciliationCapability(string $admissionId, int $at, int $expiresAt): array
     {
         $issued = Support\ReconciliationAuthorityFixture::issue($this->state, $admissionId, $at, $expiresAt);
         $resolver = new NativeEffectReconciliationAuthorityResolver($this->state);
@@ -100,7 +100,7 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
         return [$resolver, $resolver->resolve($issued['authority']['authority_id'], $at)];
     }
 
-    private function sealedResponseWithPrincipal(): array
+    protected function sealedResponseWithPrincipal(): array
     {
         [$transitionAuthority, $at, $principal] = $this->readyTransition();
         $native = (new NativeConsumer($this->state, static fn () => $at))->execute($transitionAuthority);
