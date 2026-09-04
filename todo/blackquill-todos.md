@@ -3,14 +3,17 @@
 Current campaign:
 `docs/next-campaign-canonical-native-effect-reconciliation-shared-exclusion-remediation.md`
 
-- [ ] Preparation Batch 0: inventory every lock, writer and validation/use cut;
+Historical Preparation entrypoint:
+`docs/handoffs/canonical-native-effect-reconciliation-shared-exclusion-remediation-preparation-batch-0-local-ready.md`
+
+- [x] Preparation Batch 0: inventory every lock, writer and validation/use cut;
   reproduce DP01, IU01 and CU01 with controlled interleavings.
-- [ ] Batch 1: define canonical shared-exclusion and lock-order contracts.
-- [ ] Batch 2: correct decision publication currentness.
-- [ ] Batch 3: correct issuance-use and claim-use shared exclusion.
-- [ ] Batch 4: prove adversarial concurrency, interruption and platform behavior.
-- [ ] Batch 5: conduct a separately sequenced terminal audit from clean merged
-  Batch 4 with exact-SHA CI.
+- [x] Batch 1: define canonical shared-exclusion and lock-order contracts.
+- [x] Batch 2: correct decision publication currentness.
+- [x] Batch 3: correct issuance-use and claim-use shared exclusion.
+- [x] Batch 4: prove adversarial concurrency, interruption and platform behavior.
+- [x] Batch 5: conduct a separately sequenced terminal audit from clean merged
+  Batch 4 with exact local-SHA evidence; remote CI was not authorized or claimed.
 
 The range
 `afcaf025d097db0b9adddac25a9083a8be2322a0..7d3b8818717fe74fb822a195689d8b3c51030862`
@@ -18,8 +21,9 @@ is quarantined: remote publication was unauthorized, decision publication
 resolved currentness before its lock, and at-use target locks did not exclude
 native-state mutation.
 
-Only Preparation Batch 0 is authorized under `docs/handoffs/canonical-native-effect-reconciliation-shared-exclusion-remediation-preparation-batch-0-local-ready.md`. Production
-correction, remote publication and Batch 7 remain unauthorized.
+All six local stages are complete from merged Batch 4 base `d1be6d0`. Remote
+publication was not performed or claimed. Distributed/hostile writers and Batch
+7 remain outside the bounded result.
 
 ## Canonical Native Effect Reconciliation Authority Provenance Remediation — selected 2026-09-04
 

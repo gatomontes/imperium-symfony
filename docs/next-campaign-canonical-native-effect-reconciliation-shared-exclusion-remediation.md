@@ -2,8 +2,9 @@
 
 `CANONICAL_NATIVE_EFFECT_RECONCILIATION_SHARED_EXCLUSION_REMEDIATION_SELECTED`
 `QUARANTINED_CANDIDATE_NOT_ACCEPTED`
-`PREPARATION_BATCH_0_ONLY_AUTHORIZED`
-`PRODUCTION_CORRECTION_NOT_AUTHORIZED`
+`CANONICAL_NATIVE_EFFECT_RECONCILIATION_SHARED_EXCLUSION_REMEDIATION_COMPLETE_LOCAL`
+`SHARED_EXCLUSION_ACCEPTED_BOUNDED_SINGLE_HOST_NO_LIVE_EFFECT`
+`HISTORICAL_PREPARATION_GATE_PRODUCTION_CORRECTION_NOT_AUTHORIZED`
 `REMOTE_PUBLICATION_NOT_AUTHORIZED`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
@@ -14,7 +15,8 @@ proving that currentness validation, exact capability consumption and durable
 publication share the same exclusion as every independently mutable
 Operator-Root, native-principal, source-generation and lifecycle writer.
 
-Campaign countdown: six stages including Preparation Batch 0.
+Original campaign countdown: six stages including Preparation Batch 0.
+Current campaign countdown: zero local stages remain.
 
 ## Governing finding
 
@@ -84,14 +86,8 @@ suspended.
 
 ## Current authorization
 
-Only Preparation Batch 0 is authorized. It must stop at
-`PREPARATION_BATCH_0_COMPLETE_RECONCILIATION_SHARED_EXCLUSION_RACES_CLASSIFIED`.
-
-No production issuer, resolver, capability, state, consumption, corridor,
-container or provider behavior may change. No real authority or runtime record
-may be created or consumed. No provider, credential, network/external I/O,
-mission, email, Iron Gate, Lazaretto, live trial, remote publication or Batch 7
-action is authorized.
-
-A green test, prior commit, quarantined implementation, “continue,” “clear,”
-“forward,” campaign momentum or a Latin motto does not authorize Batch 1.
+The Operator subsequently authorized uninterrupted local campaign completion.
+All six local stages are complete from the separately merged Batch 4 base.
+No provider, credential, network/external I/O, mission, email, Iron Gate,
+Lazaretto, live trial, remote publication or Batch 7 action followed. GitHub CI
+is not claimed. The distributed and hostile-writer boundaries remain deferred.
