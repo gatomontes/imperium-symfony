@@ -1,5 +1,8 @@
 ## Canonical Native Effect Reconciliation Shared-Exclusion Remediation — selected 2026-09-04
 
+Current campaign:
+`docs/next-campaign-canonical-native-effect-reconciliation-shared-exclusion-remediation.md`
+
 - [ ] Preparation Batch 0: inventory every lock, writer and validation/use cut;
   reproduce DP01, IU01 and CU01 with controlled interleavings.
 - [ ] Batch 1: define canonical shared-exclusion and lock-order contracts.
