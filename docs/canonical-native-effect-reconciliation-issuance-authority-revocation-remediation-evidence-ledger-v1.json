@@ -16,6 +16,16 @@
     "preparation_compatibility_and_batch_3": {"tests": 45, "assertions": 361, "duration": "00:00:16.249", "result": "PASS"},
     "complete": {"command": "php vendor/bin/phpunit tests", "tests": 2577, "assertions": 51843, "duration": "00:06:26.398", "result": "PASS"}
   },
+  "batch_4": {
+    "marker": "BATCH_4_COMPLETE_ADVERSARIAL_RECONSTRUCTION_PROOF",
+    "reconstruction_focus": {"tests": 56, "assertions": 331, "duration": "00:00:24.911", "result": "PASS"},
+    "issuance_and_claim_adversarial_focus": {"tests": 118, "assertions": 622, "duration": "00:00:55.329", "result": "PASS"},
+    "complete": {"command": "php vendor/bin/phpunit tests", "tests": 2605, "assertions": 51998, "duration": "00:06:48.181", "result": "PASS"},
+    "scope_limit": "SINGLE_HOST_COOPERATIVE_LOCAL_FILESYSTEM_LOCKING_ONLY",
+    "multi_host_exclusion_proved": false,
+    "hostile_writer_exclusion_proved": false,
+    "linux_ci_claimed": false
+  },
   "provider_effect_performed": false,
   "credential_accessed": false,
   "external_io_performed": false,
