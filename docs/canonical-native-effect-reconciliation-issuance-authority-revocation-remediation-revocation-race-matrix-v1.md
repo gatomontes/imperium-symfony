@@ -2,8 +2,10 @@
 
 `PREPARATION_BATCH_0_RACE_MATRIX_ONLY`
 `RESOLVE_REVOKE_CONSUME_COUNTEREXAMPLE_PRESENT`
+`POST_RECEIPT_RECONSTRUCTION_REVOCATION_SOURCE_SPLIT_REQUIRED`
 
-Common sequence for every row:
+Where the listed condition can change independently before capability expiry,
+the common sequence is:
 
 1. at `t0`, issue existing reconciliation evidence and call
    `resolver->resolve(authorityId, t0)`;
@@ -14,13 +16,20 @@ Common sequence for every row:
 5. one deterministic claim can be published. Later forward completion may
    refuse, which does not retroactively authorize the claim.
 
+RR02, RR05 and RR11 are time-bound preservation cases. They cannot use the
+common sequence to publish a stale claim. A native principal's Root act cannot
+outlive its anchor; the native decision expires with the principal;
+reconciliation expiry is bounded to that decision/principal expiry; activation
+cannot become invalid after being valid at `t0`; and capability consumption
+rejects at `t1 >= expiresAt`.
+
 | ID | Change after resolution | Resolution-time check | Consume-time check | Current result | Required Batch 4 proof |
 | --- | --- | --- | --- | --- | --- |
 | RR01 | Operator Root trust anchor `revoked=true` | `NativeRootActs::verify()` requires false | none | stale capability remains consumable | claim publication refuses inside governed use cut |
-| RR02 | Root anchor expires before `t1` while capability expiry is later/equal | Root/act time checked at `t0` | capability expiry only | no independent Root recheck | boundary-time refusal; no derived record |
+| RR02 | Operator Root anchor reaches ordinary time-based expiry after resolution | native Root act cannot outlive its anchor; native decision/principal and reconciliation expiry are transitively bounded | `t1 >= capability->expiresAt` refuses before a stale use | no `t1` exists where the Root anchor is expired while the capability remains usable | preserve the transitive expiry proof; no additional at-use remediation |
 | RR03 | Root anchor identity/key substituted | signature/anchor equality at `t0` | none | stored authority/issuance digests unchanged | substitution refuses before consumption |
 | RR04 | Native principal effective `REVOKE` event | `NativePrincipal::load()` scans revocations | none | stale capability remains consumable | post-resolution native revocation refuses |
-| RR05 | Native principal becomes not current through activation timing/expiry | activation/revocation/time at `t0` | capability expiry only | source state not re-read | exact boundary refusal |
+| RR05 | Native principal reaches ordinary time-based expiry after resolution | native-principal expiry bounds the decision and reconciliation expiry | `t1 >= capability->expiresAt` refuses | stale claim cannot publish through expiry; activation cannot reverse after valid `t0` | preserve existing boundary proof; no additional at-use remediation |
 | RR06 | Higher source Imperator principal generation becomes effective | `NativePrincipal::source()` scans higher generations | none | stale generation can derive claim | supersession refuses |
 | RR07 | Source principal lifecycle disposition becomes `SUSPEND` | v2 lifecycle reconstruction must be ACTIVE | none | stale capability can derive claim | suspended source refuses |
 | RR08 | Lifecycle becomes `SUPERSEDE` or `REVOKE` | same | none | stale capability can derive claim | both refuse distinctly |
@@ -30,7 +39,8 @@ Common sequence for every row:
 | RR12 | Authority/issuance record bytes substituted | digests captured at resolution | exact digest equality | refuses `CNE624` | preserve |
 | RR13 | Claim already published by competitor | resolve checks claim absent; derive checks again under lock | claim absence under authority lock | one local winner | preserve contention proof |
 | RR14 | Source revoked after claim publication but before receipt use | not applicable | `forwardComplete()` performs full `inspect()` | receipt mutation refuses | preserve; distinguish from missing claim-publication check |
-| RR15 | Source revoked after receipt publication | reconstruction inspects at historical admitted time | no new authority action | read-only history reconstructs | preserve historical evidence; no continuing power |
+| RR15A | Operator Root trust anchor becomes `revoked=true` after receipt publication | reconstruction passes historical admitted time to `inspect()` | `NativeRootActs::verify()` still reads the current untimestamped `revoked` flag | reconstruction refuses `NIR_ROOT_INELIGIBLE`; no new power is created | prove and retain this reconstruction limitation; do not claim historical success |
+| RR15B | Timestamped native/source lifecycle revocation becomes effective after receipt publication | reconstruction inspects at historical admitted time | historical lifecycle reconstruction is time-indexed | read-only history may reconstruct when the Root anchor remains currently eligible | prove each timestamped revocation source separately; preserve no continuing power |
 
 ## Exact prior-test gap
 
@@ -59,3 +69,11 @@ existing test proves resolve -> revoke -> consume refusal.
 The target is not to serialize currentness into the capability. That would make
 the stale snapshot look official. The target is present-tense re-resolution in
 the same governed cut that consumes authority and publishes the derived record.
+
+## Post-receipt reconstruction distinction
+
+Historical `at` does not make every dependency historical. Native and source
+lifecycle records are time-indexed, but Operator Root trust revocation is stored
+as a current untimestamped boolean. Therefore read-only reconstruction is
+conditional on current Root eligibility. This is an audit reachability
+limitation, not continuing authority and not a reason to authorize Batch 1.

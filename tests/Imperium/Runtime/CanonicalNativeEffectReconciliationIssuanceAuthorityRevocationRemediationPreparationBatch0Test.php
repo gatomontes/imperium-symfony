@@ -31,6 +31,7 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
             'FORMAL_CLOSURE_REFUSED_RECONCILIATION_DERIVATION_AUTHORITY_ABSENT',
             'REVOCATION_AT_CONSUMPTION_UNPROVED',
             'BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED',
+            'POST_RECEIPT_RECONSTRUCTION_REVOCATION_SOURCE_SPLIT_REQUIRED',
             'Batch 1 is not authorized',
         ] as $marker) {
             self::assertStringContainsStringIgnoringCase($marker, $all, $marker);
@@ -125,9 +126,67 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
             'Prior-test gap',
             'testRevokedRootAfterIssuanceRefusesFreshResolution',
             'present-tense re-resolution',
+            'RR15A',
+            'current untimestamped `revoked` flag',
+            'RR15B',
+            'timestamped native/source lifecycle',
+            'RR02, RR05 and RR11 are time-bound preservation cases',
+            'native Root act cannot outlive its anchor',
+            'cannot become invalid after being valid at `t0`',
+            'stale claim cannot publish through expiry',
         ] as $race) {
             self::assertStringContainsStringIgnoringCase($race, $matrix, $race);
         }
+        self::assertStringNotContainsString(
+            'Native principal becomes not current through activation timing/expiry',
+            $matrix,
+        );
+        self::assertStringNotContainsString(
+            '| RR15 | Source revoked after receipt publication',
+            $matrix,
+        );
+        self::assertStringNotContainsString(
+            'Root anchor expires before `t1` while capability expiry is later/equal',
+            $matrix,
+        );
+    }
+
+    public function testPostReceiptReconstructionIsSplitByRevocationSource(): void
+    {
+        $adversarial = $this->read(self::ARTIFACTS[4]);
+        foreach ([
+            'current untimestamped Root `revoked`',
+            'NIR_ROOT_INELIGIBLE',
+            'Timestamped native/source lifecycle',
+        ] as $distinction) {
+            self::assertStringContainsStringIgnoringCase($distinction, $adversarial, $distinction);
+        }
+
+        $rows = [];
+        foreach (explode("\n", $adversarial) as $line) {
+            if (str_starts_with($line, '| CUR08A |') || str_starts_with($line, '| CUR08B |')) {
+                $rows[substr($line, 2, 6)] = $line;
+            }
+        }
+        self::assertSame(['CUR08A', 'CUR08B'], array_keys($rows));
+        self::assertStringEndsWith('| `EXISTS_FRAGMENTED` |', $rows['CUR08A']);
+        self::assertStringEndsWith('| `EXISTS_CANONICALLY` |', $rows['CUR08B']);
+
+        $inventory = $this->read(self::ARTIFACTS[0]);
+        self::assertStringContainsString(
+            '| C08 | Read-only receipt-to-Root reconstruction | `EXISTS_FRAGMENTED` |',
+            $inventory,
+        );
+
+        $handoff = $this->read(self::ARTIFACTS[6]);
+        self::assertStringContainsStringIgnoringCase(
+            'Ordinary Root-anchor and native-principal expiry require preservation proof',
+            $handoff,
+        );
+        self::assertStringContainsStringIgnoringCase(
+            'Batch 1 is not authorized by this handoff',
+            $handoff,
+        );
     }
 
     public function testMatricesPreserveTypedRecoveryAtomicRetryAndNoProviderBoundaries(): void

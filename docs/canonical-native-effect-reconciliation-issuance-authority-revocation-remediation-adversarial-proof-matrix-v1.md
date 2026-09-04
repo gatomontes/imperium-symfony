@@ -23,7 +23,8 @@
 | CUR05 | Resolve -> authority expiry -> consume | refuses capability | preserve | `EXISTS_CANONICALLY` |
 | CUR06 | Resolve -> authority/issuance byte substitution -> consume | digest mismatch refuses | preserve | `EXISTS_CANONICALLY` |
 | CUR07 | Revoke after claim before receipt | forward inspection refuses | preserve and distinguish cut | `EXISTS_CANONICALLY` |
-| CUR08 | Revoke after receipt then reconstruct | historical read-only reconstruction | preserve; no new power | `EXISTS_CANONICALLY` |
+| CUR08A | Operator Root revoke after receipt then reconstruct | historical `at` is passed, but current untimestamped Root `revoked` is read | refuse `NIR_ROOT_INELIGIBLE`; record audit reachability limitation; no new power | `EXISTS_FRAGMENTED` |
+| CUR08B | Timestamped native/source lifecycle revoke after receipt then reconstruct | historical lifecycle state is time-indexed while Root remains currently eligible | reconstruct read-only history; preserve no new power | `EXISTS_CANONICALLY` |
 | CUST01 | Serialize/clone reconciliation capability | refused | preserve | `EXISTS_CANONICALLY` |
 | CUST02 | Recreate capability from copied fields | exact object registry refuses | preserve | `EXISTS_CANONICALLY` |
 | CUST03 | Fresh process reuses old capability metadata | PID/incarnation refuses | preserve | `EXISTS_CANONICALLY` |

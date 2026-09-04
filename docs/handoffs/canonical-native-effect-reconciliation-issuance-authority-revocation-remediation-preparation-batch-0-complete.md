@@ -5,6 +5,7 @@
 `FORMAL_CLOSURE_REFUSED_RECONCILIATION_DERIVATION_AUTHORITY_ABSENT`
 `REVOCATION_AT_CONSUMPTION_UNPROVED`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
+`POST_RECEIPT_RECONSTRUCTION_REVOCATION_SOURCE_SPLIT_REQUIRED`
 
 Preparation Batch 0 is complete against clean synchronized cached `main` at
 `3dceba3057497c6c80f019bd78835335cf69c774`. `HEAD`, `main`,
@@ -42,7 +43,7 @@ and single-use typed issuance authority, atomically consumes it with authority
 and issuance-evidence publication, and revalidates Root/native/source
 currentness in the governed issuer and claim-use cuts. It preserves existing
 typed recovery custody, deterministic local retry, no-provider claim/receipt
-consumption, process-loss recovery and read-only reconstruction.
+consumption, process-loss recovery and read-only reconstruction conditional on current Operator Root eligibility.
 
 Artifacts:
 
@@ -62,14 +63,19 @@ Artifacts:
    revalidation at the governed issuer and claim-use cuts.
 4. Batch 4 — missing/counterfeit/replayed/substituted issuance authority,
    consumed-source refusal, resolve-revoke-consume, expiry, competing issuers and
-   claimants, interruption, fresh-process, container/worker and Windows/Linux
-   proof without provider or credential access.
+   claimants, interruption, fresh-process, container/worker, Windows/Linux and
+   source-specific post-receipt reconstruction proof without provider or
+   credential access.
 5. Batch 5 — separately authorized terminal audit from clean synchronized
    merged Batch 4 `main`, with independent reconstruction, focused/full local
    proof and retained exact-SHA GitHub CI evidence.
 
 The original corridor Batch 7 is not one of these five stages and remains
-suspended. Batch 1 is not authorized by this handoff.
+suspended. Ordinary Root-anchor and native-principal expiry require preservation proof,
+not duplicate at-use remediation. Post-receipt reconstruction must distinguish
+current untimestamped Operator Root revocation, which presently refuses
+historical reconstruction, from timestamped native/source lifecycle changes.
+Batch 1 is not authorized by this handoff.
 
 ## Focused local PHPUnit command
 
@@ -77,8 +83,10 @@ suspended. Batch 1 is not authorized by this handoff.
 php vendor/bin/phpunit tests/Imperium/Runtime/CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemediationPreparationBatch0Test.php
 ```
 
-Focused documentary guard result: PHPUnit 13.3.0 / PHP 8.4.14,
-`OK (9 tests, 192 assertions)`. Two earlier source-read-only runs found only
+Original pre-amendment focused documentary guard result: PHPUnit 13.3.0 / PHP 8.4.14,
+`OK (9 tests, 192 assertions)`. The review amendment adds source-specific guards;
+its exact-SHA GitHub CI result is retained on the amendment PR. Two earlier
+source-read-only runs found only
 documentary expectation/case and test-string interpolation defects
 (`9 / 177 / 3 failures / 1 warning`, then `9 / 186 / 1 failure`); both are
 retained in the reading/evidence ledger. No authority-producing prior campaign
