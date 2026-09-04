@@ -1,24 +1,22 @@
 # Current campaign: reconciliation authority provenance remediation
 
-`CANONICAL_NATIVE_EFFECT_RECONCILIATION_AUTHORITY_PROVENANCE_REMEDIATION_SELECTED`
-`PREPARATION_BATCH_0_ONLY_HARD_STOP`
-`PROCESS_CUSTODY_CORRECTION_ACCEPTED`
-`FORMAL_CLOSURE_REFUSED_RECONCILIATION_AUTHORITY_PROVENANCE_ABSENT`
+`CANONICAL_NATIVE_EFFECT_RECONCILIATION_AUTHORITY_PROVENANCE_REMEDIATION_COMPLETE`
+`RECONCILIATION_AUTHORITY_PROVENANCE_ACCEPTED_BOUNDED_NO_LIVE_EFFECT`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
-The merged process-custody substrate remains valid, but its formal recovery
-closure is requalified: public constants plus `NativeState::seal()` can create
-the authority accepted by the exposed recovery-claim admission service.
+All six stages are complete. The exact terminal candidate merge
+`98f9777959efa279aa6f93e0e240fe861409cef1` passed GitHub Actions run
+`33874716024`, job `101028835208`, with `2480 / 51049` on Ubuntu/PHP 8.4.25.
+Canonical Root-resolved issuance, immutable evidence, process-bound custody,
+single-purpose authority/claim consumption, no-provider recovery and read-only
+receipt-to-Root reconstruction replace the former self-sealed array ingress.
 
-Current campaign handoff:
-`docs/handoffs/canonical-native-effect-reconciliation-authority-provenance-remediation-campaign-ready.md`.
-
-Only authorized local entrypoint:
-`docs/handoffs/canonical-native-effect-reconciliation-authority-provenance-remediation-preparation-batch-0-local-ready.md`.
-
-Preparation Batch 0 inventories provenance, issuer competence, custody,
-consumption and bypasses only. Runtime mutation, authority creation/consumption,
-provider effects, Iron Gate/Lazaretto and Batch 7 remain unauthorized.
+Terminal audit:
+`docs/canonical-native-effect-reconciliation-authority-provenance-remediation-terminal-audit-v1.md`.
+Completion handoff:
+`docs/handoffs/canonical-native-effect-reconciliation-authority-provenance-remediation-campaign-complete.md`.
+No live authority, credential access, provider operation, mission, Iron Gate,
+Lazaretto or Batch 7 restoration follows.
 
 # Current campaign: native effect process custody and formal closure remediation
 

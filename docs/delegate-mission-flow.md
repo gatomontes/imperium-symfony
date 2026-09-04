@@ -1,24 +1,22 @@
-# Current continuation: reconciliation authority provenance remediation
+# Current disposition: reconciliation authority provenance remediation
 
-`CANONICAL_NATIVE_EFFECT_RECONCILIATION_AUTHORITY_PROVENANCE_REMEDIATION_READY`
-`PREPARATION_BATCH_0_ONLY_HARD_STOP`
-`PROCESS_CUSTODY_CORRECTION_ACCEPTED`
-`FORMAL_CLOSURE_REFUSED_RECONCILIATION_AUTHORITY_PROVENANCE_ABSENT`
+`CANONICAL_NATIVE_EFFECT_RECONCILIATION_AUTHORITY_PROVENANCE_REMEDIATION_COMPLETE`
+`RECONCILIATION_AUTHORITY_PROVENANCE_ACCEPTED_BOUNDED_NO_LIVE_EFFECT`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
-The process-incarnation custody and execution/recovery API separation merged at
-`b188a0b849f27ebec4d3e14f98c471eead15b484` remain accepted substrate. Formal
-recovery closure is refused because the recovery admission boundary accepts a
-caller-created array whose issuer identity is prose and whose seal is a public
-digest. The tests themselves manufacture and admit that record without a
-canonical Root-provenanced issuer.
+Preparation Batch 0 and Batches 1–4 were separately committed and merged.
+Batch 5 began from clean merged Batch 4 `main` at
+`98ba984c7cb808bd2195b5637f61c079bd47a22f`. Caller-created authority arrays are
+no longer admissible: the corridor resolves signed Operator Root/native
+Imperator competence, immutable issuance evidence and exact process-local typed
+custody before one atomic claim derivation. Claim-to-receipt consumption is
+durable and receipt-to-Root reconstruction is read-only.
 
-The next six-stage campaign begins with documentary Preparation Batch 0 only:
-`docs/next-campaign-canonical-native-effect-reconciliation-authority-provenance-remediation.md`.
-The sole local entrypoint is
-`docs/handoffs/canonical-native-effect-reconciliation-authority-provenance-remediation-preparation-batch-0-local-ready.md`.
-No prior closure marker, green test, continuation request or motto authorizes
-Batch 1 or restores Batch 7.
+The corrected local full suite passed `2474 / 51016`. GitHub Actions run
+`33874716024`, job `101028835208`, passed `2480 / 51049` on Ubuntu/PHP 8.4.25 for
+exact terminal candidate merge `98f9777959efa279aa6f93e0e240fe861409cef1`.
+Zero campaign stages remain. No provider edge was added and Batch 7 remains
+suspended.
 
 # Current disposition: native effect process custody and formal closure remediation
 

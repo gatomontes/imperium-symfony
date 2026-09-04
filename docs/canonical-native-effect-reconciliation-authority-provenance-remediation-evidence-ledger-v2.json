@@ -1,0 +1,38 @@
+{
+  "schema": "imperium.canonical-native-effect-reconciliation-authority-provenance-remediation-evidence-ledger/v2",
+  "terminal_audit_start_sha": "98ba984c7cb808bd2195b5637f61c079bd47a22f",
+  "terminal_candidate_merge_sha": "98f9777959efa279aa6f93e0e240fe861409cef1",
+  "stage_merges": {
+    "preparation_batch_0": "249f711",
+    "batch_1": "7ae4c9a",
+    "batch_2": "a1e5955",
+    "batch_3": "c1a93b4",
+    "batch_4": "98ba984c7cb808bd2195b5637f61c079bd47a22f",
+    "batch_5_candidate": "98f9777959efa279aa6f93e0e240fe861409cef1"
+  },
+  "local_tests": {
+    "campaign_focused": {"result":"PASS","tests":99,"assertions":856},
+    "tripwire_corrected": {"result":"PASS","tests":10,"assertions":3884},
+    "full_corrected": {"result":"PASS","tests":2474,"assertions":51016,"duration":"00:05:50.805"},
+    "batch_5_candidate_and_tripwire": {"result":"PASS","tests":16,"assertions":3916}
+  },
+  "external_ci": {
+    "provider": "GitHub Actions",
+    "workflow": "PHPUnit",
+    "run_id": 33874716024,
+    "job_id": 101028835208,
+    "head_sha": "98f9777959efa279aa6f93e0e240fe861409cef1",
+    "runner": "ubuntu-latest",
+    "php": "8.4.25",
+    "tests": 2480,
+    "assertions": 51049,
+    "conclusion": "success",
+    "url": "https://github.com/gatomontes/imperium-symfony/actions/runs/33874716024"
+  },
+  "closure": "RECONCILIATION_AUTHORITY_PROVENANCE_ACCEPTED_BOUNDED_NO_LIVE_EFFECT",
+  "remaining_campaign_stages": 0,
+  "provider_effect_performed": false,
+  "credential_accessed": false,
+  "runtime_network_effect_performed": false,
+  "batch_7_authorized": false
+}
