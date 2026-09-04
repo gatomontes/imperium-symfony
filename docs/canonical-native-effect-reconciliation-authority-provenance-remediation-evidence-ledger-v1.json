@@ -1,0 +1,23 @@
+{
+  "schema": "imperium.canonical-native-effect-reconciliation-authority-provenance-remediation-evidence-ledger/v1",
+  "terminal_audit_start_sha": "98ba984c7cb808bd2195b5637f61c079bd47a22f",
+  "stage_merges": {
+    "preparation_batch_0": "249f711",
+    "batch_1": "7ae4c9a",
+    "batch_2": "a1e5955",
+    "batch_3": "c1a93b4",
+    "batch_4": "98ba984c7cb808bd2195b5637f61c079bd47a22f"
+  },
+  "local_tests": [
+    {"scope":"campaign-focused","result":"PASS","tests":99,"assertions":856},
+    {"scope":"full-initial","result":"FAIL","tests":2474,"assertions":48834,"failures":3,"classification":"FROZEN_INVENTORY_OMISSIONS_ONLY"},
+    {"scope":"tripwire-correction-focused","result":"PASS","tests":10,"assertions":3884},
+    {"scope":"full-corrected","result":"PASS","tests":2474,"assertions":51016,"duration":"00:05:50.805"}
+  ],
+  "external_ci": null,
+  "closure": "WITHHELD_PENDING_EXACT_MERGED_SHA_CI",
+  "provider_effect_performed": false,
+  "credential_accessed": false,
+  "network_effect_performed_by_runtime": false,
+  "batch_7_authorized": false
+}
