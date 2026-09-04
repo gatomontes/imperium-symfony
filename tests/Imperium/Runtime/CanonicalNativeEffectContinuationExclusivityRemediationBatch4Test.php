@@ -9,6 +9,8 @@ use App\Imperium\Runtime\ProviderTransition\NativeEffectAtomicAdmissionService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectContinuationCapabilityIssuer;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectCredentialCapabilityIssuer;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectDoubleExecutionService;
+use App\Imperium\Runtime\ProviderTransition\NativeEffectForwardRecoveryClaimAdmissionService;
+use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationAuthorityContract;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectSemanticIdentity;
 use App\Imperium\Runtime\ProviderTransition\NativeState;
 
@@ -68,6 +70,7 @@ final class CanonicalNativeEffectContinuationExclusivityRemediationBatch4Test ex
         ], 'response-exit-forward');
         self::assertSame(74, $this->runWorkers([['response-exit', $fixture]])[0]['code']);
         $this->addDurableContinuationMetadata($fixture, $authority, true);
+        $this->addForwardRecoveryClaim($fixture, $authority);
 
         $forward = $this->runWorkers([['forward-recover', $fixture]])[0];
         self::assertSame(0, $forward['code']);
@@ -202,6 +205,40 @@ final class CanonicalNativeEffectContinuationExclusivityRemediationBatch4Test ex
             'expires_at' => $admission['expires_at'],
         ];
         if ($afterExpiry) { $data['at'] = $admission['expires_at'] + 100; }
+        file_put_contents($fixture, json_encode($data, JSON_THROW_ON_ERROR));
+    }
+
+    private function addForwardRecoveryClaim(string $fixture, array $authority): void
+    {
+        $data = json_decode((string) file_get_contents($fixture), true, 64, JSON_THROW_ON_ERROR);
+        $admissionId = NativeEffectSemanticIdentity::admissionId(NativeEffectSemanticIdentity::tupleId($authority));
+        $admission = json_decode((string) file_get_contents($this->root.'/'.NativeEffectAtomicAdmissionService::ADMISSIONS.'/'.$admissionId.'.json'), true, 64, JSON_THROW_ON_ERROR);
+        $callbackId = 'canonical-native-effect-callback-'.substr(hash('sha256', $admissionId), 0, 20);
+        $responseId = 'canonical-native-effect-response-'.substr(hash('sha256', $callbackId), 0, 20);
+        $callback = json_decode((string) file_get_contents($this->root.'/'.NativeEffectDoubleExecutionService::CALLBACK_STARTS.'/'.$callbackId.'.json'), true, 64, JSON_THROW_ON_ERROR);
+        $response = json_decode((string) file_get_contents($this->root.'/'.NativeEffectDoubleExecutionService::RESPONSES.'/'.$responseId.'.json'), true, 64, JSON_THROW_ON_ERROR);
+        $at = $data['at'];
+        $reconciliation = NativeState::seal([
+            'schema' => NativeEffectReconciliationAuthorityContract::SCHEMA,
+            'authority_id' => 'native-effect-reconciliation-authority-'.$admission['semantic_effect_tuple_id'],
+            'effect_admission' => NativeState::ref($admission, 'admission_id'),
+            'callback_start' => NativeState::ref($callback, 'callback_start_id'),
+            'sealed_response' => NativeState::ref($response, 'response_id'),
+            'deterministic_receipt_id' => NativeEffectForwardRecoveryClaimAdmissionService::receiptId($admissionId),
+            'act' => NativeEffectReconciliationAuthorityContract::ACT,
+            'holder' => NativeEffectReconciliationAuthorityContract::HOLDER,
+            'issuer' => NativeEffectReconciliationAuthorityContract::ISSUER,
+            'effective_at' => $response['sealed_at'],
+            'expires_at' => $at + 100,
+            'provider_invocation_permitted' => false,
+            'credential_resolution_permitted' => false,
+            'callback_reinvocation_permitted' => false,
+            'automatic_retry_permitted' => false,
+            'single_purpose' => true,
+            'sealed' => true,
+        ]);
+        $claim = (new NativeEffectForwardRecoveryClaimAdmissionService($this->state))->admit($reconciliation, $at);
+        $data['forward_recovery_claim_id'] = $claim['claim_id'];
         file_put_contents($fixture, json_encode($data, JSON_THROW_ON_ERROR));
     }
 

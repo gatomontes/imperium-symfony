@@ -28,9 +28,9 @@ class CanonicalNativeEffectCorridorActivationBatch4Test extends CanonicalNativeE
         self::assertSame('ACCEPTED', $receipt['provider_outcome']['status']);
         self::assertTrue($receipt['lazaretto_admission']['admitted']);
         self::assertFalse($receipt['continuing_authority']);
-        self::assertSame($receipt, $service->execute($admission['admission_id'], $admission->continuation, $payload, $key, $at + 2, function () use (&$calls): void { ++$calls; }));
-        self::assertSame(1, $calls);
         $proof = $service->reconstruct($receipt['receipt_id']);
+        self::assertSame($receipt, $proof['receipt']);
+        self::assertSame(1, $calls);
         self::assertTrue($proof['read_only']);
         self::assertFalse($proof['provider_reinvoked']);
         self::assertFalse($proof['credential_resolved']);

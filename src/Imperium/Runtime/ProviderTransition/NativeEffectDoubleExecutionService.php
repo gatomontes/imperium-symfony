@@ -16,6 +16,7 @@ final readonly class NativeEffectDoubleExecutionService
     public const string RECEIPTS = 'var/imperium/runtime/canonical-native-effect-receipts';
     private AtomicTransition $atomic;
     private ImmutableRecordStore $records;
+    private NativeEffectReceiptBindingService $binder;
 
     public function __construct(
         private NativeState $state,
@@ -25,6 +26,7 @@ final readonly class NativeEffectDoubleExecutionService
     {
         $this->atomic = new AtomicTransition($state->root);
         $this->records = new ImmutableRecordStore($state->root, $this->atomic);
+        $this->binder = new NativeEffectReceiptBindingService($state);
     }
 
     public function execute(
@@ -38,9 +40,10 @@ final readonly class NativeEffectDoubleExecutionService
         $scope = 'canonical-native-effect-continuation:'.hash('sha256', $admissionId);
         $phase = $this->atomic->run($scope, function () use ($admissionId, $continuation, $payload, $idempotencyKey, $at): array {
             $admission = $this->records->read(NativeEffectAtomicAdmissionService::ADMISSIONS, $admissionId);
-            $receiptId = 'canonical-native-effect-receipt-'.substr(hash('sha256', $admissionId), 0, 20);
+            $receiptId = NativeEffectForwardRecoveryClaimAdmissionService::receiptId($admissionId);
             try {
-                return ['completed' => true, 'receipt' => $this->records->read(self::RECEIPTS, $receiptId)];
+                $this->records->read(self::RECEIPTS, $receiptId);
+                throw new \RuntimeException('CNE507_FIRST_EXECUTION_ALREADY_COMPLETED');
             } catch (\RuntimeException $error) {
                 if ('PST112_IMMUTABLE_RECORD_ABSENT' !== $error->getMessage()) { throw $error; }
             }
@@ -50,8 +53,8 @@ final readonly class NativeEffectDoubleExecutionService
                 $priorStart = $this->records->read(self::CALLBACK_STARTS, $callbackId);
                 $responseId = 'canonical-native-effect-response-'.substr(hash('sha256', $callbackId), 0, 20);
                 try {
-                    $response = $this->records->read(self::RESPONSES, $responseId);
-                    return ['completed' => true, 'receipt' => $this->bindReceipt($admission, $response, $receiptId, $at)];
+                    $this->records->read(self::RESPONSES, $responseId);
+                    throw new \RuntimeException('CNE508_FORWARD_RECOVERY_REQUIRED');
                 } catch (\RuntimeException $responseError) {
                     if ('PST112_IMMUTABLE_RECORD_ABSENT' !== $responseError->getMessage()) { throw $responseError; }
                     if (($priorStart['effect_admission']['digest'] ?? null) === $admission['record_digest']) {
@@ -80,10 +83,6 @@ final readonly class NativeEffectDoubleExecutionService
             return ['completed' => false, 'admission' => $admission, 'callback' => $callback, 'receipt_id' => $receiptId];
         });
 
-        if ($phase['completed']) {
-            return $phase['receipt'];
-        }
-
         $admission = $phase['admission'];
         $callback = $phase['callback'];
 
@@ -111,7 +110,7 @@ final readonly class NativeEffectDoubleExecutionService
             if ($storedAdmission['record_digest'] !== $response['effect_admission']['digest']) {
                 throw new \RuntimeException('CNE403_CALLBACK_START_CONFLICT');
             }
-            return $this->bindReceipt($storedAdmission, $response, $phase['receipt_id'], $at);
+            return $this->binder->bind($storedAdmission, $response, $phase['receipt_id'], $at);
         });
     }
 
@@ -174,52 +173,6 @@ final readonly class NativeEffectDoubleExecutionService
             'sealed_at' => $observed['received_at'],
             'sealed' => true,
         ];
-    }
-
-    private function bindReceipt(array $admission, array $response, string $receiptId, int $at): array
-    {
-        $input = $this->receiptInput($admission);
-        $bytes = base64_decode($response['raw_content']['content_base64'] ?? '', true);
-        if (!is_string($bytes) || hash('sha256', $bytes) !== ($response['provider_observation']['content_digest'] ?? null)) {
-            throw new \RuntimeException('CNE404_RAW_RESPONSE_INVALID');
-        }
-        $accepted = $response['provider_observation']['http_status'] >= 200 && $response['provider_observation']['http_status'] < 300;
-        $normalized = null;
-        if ($accepted) {
-            if ('agentmail.message/v1' !== $input['expected_return_contract']) {
-                throw new \RuntimeException('CNE405_EXPECTED_RETURN_INVALID');
-            }
-            try { $decoded = json_decode($bytes, true, 32, JSON_THROW_ON_ERROR); }
-            catch (\Throwable $error) { throw new \RuntimeException('CNE405_EXPECTED_RETURN_INVALID', 0, $error); }
-            if (!is_array($decoded) || !is_string($decoded['message_id'] ?? null) || '' === $decoded['message_id']
-                || !is_string($decoded['thread_id'] ?? null) || '' === $decoded['thread_id']) {
-                throw new \RuntimeException('CNE405_EXPECTED_RETURN_INVALID');
-            }
-            $normalized = ['provider_message_id' => $decoded['message_id'], 'provider_thread_id' => $decoded['thread_id']];
-        }
-        return $this->records->put(self::RECEIPTS, $receiptId, [
-            'schema' => NativeEffectResultContract::RECEIPT_SCHEMA,
-            'receipt_id' => $receiptId,
-            'effect_admission' => $this->ref($admission, 'admission_id'),
-            'effect_authority' => $input['effect_authority'],
-            'native_receipt' => $input['native_receipt'],
-            'provider_outcome' => [
-                'status' => $accepted ? 'ACCEPTED' : 'REJECTED',
-                'http_status' => $response['provider_observation']['http_status'],
-                'normalized_attributes' => $normalized,
-            ],
-            'raw_response' => $this->ref($response, 'response_id'),
-            'lazaretto_admission' => [
-                'expected_return_contract' => $input['expected_return_contract'],
-                'expected_return_contract_validated' => $accepted,
-                'admitted' => $accepted,
-                'authority' => 'none',
-            ],
-            'recovery' => ['checkpoint' => 'RECEIPT_BOUND', 'automatic_replay_permitted' => false, 'provider_reinvoked' => false],
-            'bound_at' => $at,
-            'continuing_authority' => false,
-            'sealed' => true,
-        ]);
     }
 
     private function receiptInput(array $admission): array

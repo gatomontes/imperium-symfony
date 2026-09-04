@@ -9,6 +9,8 @@ use App\Imperium\Runtime\ProviderTransition\NativeEffectAtomicAdmissionService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectCredentialCapabilityIssuer;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectContinuationCapabilityIssuer;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectDoubleExecutionService;
+use App\Imperium\Runtime\ProviderTransition\NativeEffectForwardRecoveryClaimAdmissionService;
+use App\Imperium\Runtime\ProviderTransition\NativeEffectForwardRecoveryService;
 use App\Imperium\Runtime\ProviderTransition\NativeState;
 
 /** Auto-discovered construction boundary. It exposes no command, credential resolver or provider transport. */
@@ -42,5 +44,15 @@ final readonly class CanonicalNativeEffectCorridor
     public function providerDouble(NativeEffectContinuationCapabilityIssuer $continuations): NativeEffectDoubleExecutionService
     {
         return new NativeEffectDoubleExecutionService($this->state, $continuations);
+    }
+
+    public function recoveryClaimAdmission(): NativeEffectForwardRecoveryClaimAdmissionService
+    {
+        return new NativeEffectForwardRecoveryClaimAdmissionService($this->state);
+    }
+
+    public function forwardRecovery(): NativeEffectForwardRecoveryService
+    {
+        return new NativeEffectForwardRecoveryService($this->state);
     }
 }

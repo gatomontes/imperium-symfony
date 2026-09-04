@@ -133,9 +133,14 @@ class CanonicalNativeEffectCorridorActivationBatch5Test extends CanonicalNativeE
         }
         sort($consumers);
         self::assertSame(
-            ['CanonicalNativeEffectCorridor.php', 'NativeEffectDoubleExecutionService.php'],
+            [
+                'CanonicalNativeEffectCorridor.php',
+                'NativeEffectDoubleExecutionService.php',
+                'NativeEffectForwardRecoveryClaimAdmissionService.php',
+                'NativeEffectForwardRecoveryService.php',
+            ],
             $consumers,
-            'Only the canonical provider-double continuation may consume the effect cut; no command, transport, executor or legacy reader may do so.',
+            'Only the canonical corridor, provider-double first execution and governed no-provider recovery services may consume the effect cut; no command, transport, executor or legacy reader may do so.',
         );
         $worker = file_get_contents(__DIR__.'/Support/canonical_native_effect_worker.php');
         foreach (['AgentMail', 'CredentialBroker', 'HttpClient', 'getenv(', '$_ENV', '$_SERVER', 'curl_'] as $forbidden) {

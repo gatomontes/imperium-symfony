@@ -7,6 +7,7 @@ use App\Imperium\Runtime\ProviderTransition\NativeEffectContinuationCapability;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectContinuationCapabilityIssuer;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectCredentialCapabilityIssuer;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectDoubleExecutionService;
+use App\Imperium\Runtime\ProviderTransition\NativeEffectForwardRecoveryService;
 use App\Imperium\Runtime\ProviderTransition\NativeState;
 
 require dirname(__DIR__, 4).'/vendor/autoload.php';
@@ -66,7 +67,13 @@ try {
         exit(0);
     }
 
-    if ('first-callback-attempt' === $mode || 'callback-retry' === $mode || 'forward-recover' === $mode) {
+    if ('forward-recover' === $mode) {
+        $receipt = (new NativeEffectForwardRecoveryService($state))->forwardComplete($fixture['forward_recovery_claim_id'], $at);
+        echo json_encode(['status' => 'completed', 'receipt_id' => $receipt['receipt_id']], JSON_THROW_ON_ERROR);
+        exit(0);
+    }
+
+    if ('first-callback-attempt' === $mode || 'callback-retry' === $mode) {
         $metadata = $fixture['continuation_metadata'];
         $lookalike = new NativeEffectContinuationCapability(
             $metadata['capability_id'], $metadata['admission_id'], $metadata['admission_digest'],
