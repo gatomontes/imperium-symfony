@@ -227,9 +227,9 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
         self::assertNull($ledger['git_provenance']['current_preparation_external_ci']);
         self::assertFalse($ledger['network_or_external_io']);
         self::assertFalse($ledger['authority_or_claim_operation_performed']);
-        self::assertSame('CURRENT_READING_INDEX_WITH_HISTORICAL_PREPARATION_EVIDENCE', $ledger['ledger_status']);
+        self::assertSame('HISTORICAL_ISSUANCE_CAMPAIGN_INDEX_QUARANTINED', $ledger['ledger_status']);
         self::assertTrue($ledger['batch_1_complete']);
-        self::assertTrue($ledger['batches_2_through_5_local_execution_authorized']);
+        self::assertFalse($ledger['batches_2_through_5_local_execution_authorized']);
         self::assertFalse($ledger['remote_publication_authorized']);
         self::assertFalse($ledger['batch_7_authorized']);
 
