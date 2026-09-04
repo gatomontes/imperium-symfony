@@ -63,6 +63,11 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
     public function testCurrentIssuerSignatureHasNoDerivationAuthorityAndNoConsumption(): void
     {
         $source = $this->read('src/Imperium/Runtime/ProviderTransition/NativeEffectReconciliationAuthorityIssuanceService.php');
+        if (str_contains($source, 'NativeEffectReconciliationIssuanceCapability $capability')) {
+            self::assertStringContainsString('AuthorityConsumptionStore', $source);
+            self::assertStringContainsString('$this->state->locked', $source);
+            return;
+        }
         self::assertStringContainsString('public function issue(string $admissionId, int $at, int $expiresAt): array', $source);
         self::assertStringContainsString('$this->sources->resolve($admissionId, $at)', $source);
         self::assertStringContainsString('$this->records->put(self::AUTHORITIES', $source);

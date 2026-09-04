@@ -28,10 +28,9 @@ final class CanonicalNativeEffectProcessCustodyFormalClosureRemediationBatch4Tes
         $recovery = new NativeEffectForwardRecoveryService($this->state);
         $this->fails('PST112_IMMUTABLE_RECORD_ABSENT', fn () => $recovery->forwardComplete('missing-forward-recovery-claim', $at + 1));
 
-        $issuer = new NativeEffectReconciliationAuthorityIssuanceService($this->state);
-        $this->fails('CNE610_RECONCILIATION_ISSUANCE_TIME_INVALID', fn () => $issuer->issue($admission['admission_id'], $at + 1, $at + 1));
+        $this->fails('CNE610_RECONCILIATION_ISSUANCE_TIME_INVALID', fn () => $this->issueReconciliation($admission['admission_id'], $at + 1, $at + 1));
 
-        $issued = $issuer->issue($admission['admission_id'], $at + 1, $at + 101);
+        $issued = $this->issueReconciliation($admission['admission_id'], $at + 1, $at + 101);
         $path = $this->root.'/'.NativeEffectReconciliationAuthorityIssuanceService::AUTHORITIES.'/'.$issued['authority']['authority_id'].'.json';
         $substituted = $issued['authority'];
         $substituted['sealed_response']['digest'] = str_repeat('0', 64);
@@ -124,7 +123,7 @@ final class CanonicalNativeEffectProcessCustodyFormalClosureRemediationBatch4Tes
 
     private function admitRecovery(array $admission, int $recoveryAt): array
     {
-        $issued = (new NativeEffectReconciliationAuthorityIssuanceService($this->state))->issue(
+        $issued = $this->issueReconciliation(
             $admission['admission_id'],
             $recoveryAt,
             $recoveryAt + 100,

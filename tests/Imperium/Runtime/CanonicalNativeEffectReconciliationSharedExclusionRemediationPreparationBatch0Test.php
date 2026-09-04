@@ -38,8 +38,13 @@ final class CanonicalNativeEffectReconciliationSharedExclusionRemediationPrepara
     public function testIU01IsDeferredBecauseAcceptedBaseHasNoOperationalIssuanceCapability(): void
     {
         $root = dirname(__DIR__, 3);
-        self::assertFileDoesNotExist($root.'/src/Imperium/Runtime/ProviderTransition/NativeEffectReconciliationIssuanceCapability.php');
-        self::assertFileDoesNotExist($root.'/src/Imperium/Runtime/ProviderTransition/NativeEffectReconciliationIssuanceAuthorityResolver.php');
+        $capability = $root.'/src/Imperium/Runtime/ProviderTransition/NativeEffectReconciliationIssuanceCapability.php';
+        if (is_file($capability)) {
+            self::assertFileExists($root.'/src/Imperium/Runtime/ProviderTransition/NativeEffectReconciliationIssuanceAuthorityResolver.php');
+            self::assertStringContainsString('BATCH_3_COMPLETE_RECONCILIATION_ISSUANCE_AND_CLAIM_AT_USE_SHARED_EXCLUSION_PROVED', (string) file_get_contents($root.'/docs/canonical-native-effect-reconciliation-shared-exclusion-remediation-batch-3-at-use-v1.md'));
+        } else {
+            self::assertFileDoesNotExist($capability);
+        }
         self::assertStringContainsString('CONTRACT_ONLY_NOT_DELIVERED', (string) file_get_contents($root.'/src/Imperium/Runtime/ProviderTransition/NativeEffectReconciliationIssuanceCapabilityCustodyContract.php'));
         self::assertSame([], glob($this->root.'/var/imperium/runtime/canonical-native-effect-reconciliation-issuance-authorities/*.json') ?: []);
     }
@@ -60,6 +65,12 @@ final class CanonicalNativeEffectReconciliationSharedExclusionRemediationPrepara
             self::assertNotNull($this->state->get('revocations', $chain['principal']['id']));
         });
 
+        if (is_file(dirname(__DIR__, 3).'/docs/canonical-native-effect-reconciliation-shared-exclusion-remediation-batch-3-at-use-v1.md')) {
+            self::assertSame(3, $result['code'], $result['stderr'].' '.$result['stdout']);
+            self::assertSame('REFUSED', $result['payload']['result']);
+            self::assertSame('NIR_PRINCIPAL_NOT_CURRENT', $result['payload']['error']);
+            return;
+        }
         self::assertSame(0, $result['code'], $result['stderr'].' '.$result['stdout']);
         self::assertSame('CU01_CURRENTNESS_RESOLUTION_PASSED', $result['lines'][0]);
         self::assertSame('STALE_CLAIM_PUBLISHED', $result['payload']['result']);
@@ -91,6 +102,12 @@ final class CanonicalNativeEffectReconciliationSharedExclusionRemediationPrepara
             self::assertSame('SUSPEND', $stored['disposition']);
         });
 
+        if (is_file(dirname(__DIR__, 3).'/docs/canonical-native-effect-reconciliation-shared-exclusion-remediation-batch-3-at-use-v1.md')) {
+            self::assertSame(3, $result['code'], $result['stderr'].' '.$result['stdout']);
+            self::assertSame('REFUSED', $result['payload']['result']);
+            self::assertSame('NIR_SOURCE_PRINCIPAL_NOT_ACTIVE', $result['payload']['error']);
+            return;
+        }
         self::assertSame(0, $result['code'], $result['stderr'].' '.$result['stdout']);
         self::assertSame('CU01_CURRENTNESS_RESOLUTION_PASSED', $result['lines'][0]);
         self::assertSame('STALE_CLAIM_PUBLISHED', $result['payload']['result']);

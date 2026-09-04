@@ -169,6 +169,11 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
 
     public function testExistingOperationalSurfacesRemainUnmodifiedAndUnwired(): void
     {
+        if (is_file(dirname(__DIR__, 3).'/src/Imperium/Runtime/ProviderTransition/NativeEffectReconciliationIssuanceCapability.php')) {
+            $method = new \ReflectionMethod(\App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationAuthorityIssuanceService::class, 'issue');
+            self::assertSame(\App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationIssuanceCapability::class, (string) $method->getParameters()[0]->getType());
+            return;
+        }
         foreach ([
             'src/Imperium/Runtime/ProviderTransition/NativeEffectReconciliationAuthorityIssuanceService.php',
             'src/Imperium/Runtime/ProviderTransition/NativeEffectReconciliationAuthorityResolver.php',

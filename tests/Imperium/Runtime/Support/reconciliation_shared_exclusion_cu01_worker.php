@@ -5,6 +5,8 @@ declare(strict_types=1);
 use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationAuthorityClaimDerivationService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationAuthorityIssuanceService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationAuthorityResolver;
+use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationIssuanceAuthorizationService;
+use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationIssuanceAuthorityResolver;
 use App\Imperium\Runtime\ProviderTransition\NativeState;
 
 require dirname(__DIR__, 4).'/vendor/autoload.php';
@@ -13,10 +15,11 @@ require dirname(__DIR__, 4).'/vendor/autoload.php';
 try {
     $fixture = json_decode((string) file_get_contents((string) $fixturePath), true, 32, JSON_THROW_ON_ERROR);
     $state = new NativeState($fixture['root']);
-    $issued = (new NativeEffectReconciliationAuthorityIssuanceService($state))->issue(
-        $fixture['admission_id'],
+    $authorization = (new NativeEffectReconciliationIssuanceAuthorizationService($state))->authorize($fixture['admission_id'], $fixture['issue_at'], $fixture['expires_at']);
+    $issuanceResolver = new NativeEffectReconciliationIssuanceAuthorityResolver($state);
+    $issued = (new NativeEffectReconciliationAuthorityIssuanceService($state, $issuanceResolver))->issue(
+        $issuanceResolver->resolve($authorization['issuance_authority']['issuance_authority_id'], $fixture['issue_at']),
         $fixture['issue_at'],
-        $fixture['expires_at'],
     );
     $resolver = new NativeEffectReconciliationAuthorityResolver($state);
     $capability = $resolver->resolve($issued['authority']['authority_id'], $fixture['resolve_at']);
