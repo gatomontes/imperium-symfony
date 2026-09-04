@@ -17,7 +17,7 @@ final readonly class NativeEffectReconciliationAuthoritySourceResolver
         $this->records = new ImmutableRecordStore($state->root, new AtomicTransition($state->root));
     }
 
-    public function resolve(string $admissionId, int $at, bool $atUse = false): array
+    public function resolve(string $admissionId, int $at): array
     {
         NativeState::id($admissionId);
         $admission = $this->records->read(NativeEffectAtomicAdmissionService::ADMISSIONS, $admissionId);
@@ -34,12 +34,7 @@ final readonly class NativeEffectReconciliationAuthoritySourceResolver
         if (!is_string($authorityId)) {
             throw new \RuntimeException('CNE602_RECONCILIATION_SOURCE_AUTHORITY_INVALID');
         }
-        try {
-            $nativeAuthority = (new NativeAuthority($this->state))->load($authorityId, $at);
-        } catch (\RuntimeException $error) {
-            if (!$atUse) { throw $error; }
-            throw new \RuntimeException($this->atUseRefusal($error, $authorityId, $at), 0, $error);
-        }
+        $nativeAuthority = (new NativeAuthority($this->state))->load($authorityId, $at);
         $principalId = $nativeAuthority['principal']['id'] ?? null;
         if (!is_string($principalId)) {
             throw new \RuntimeException('CNE602_RECONCILIATION_SOURCE_AUTHORITY_INVALID');
@@ -62,35 +57,5 @@ final readonly class NativeEffectReconciliationAuthoritySourceResolver
         }
 
         return compact('admission', 'commit', 'nativeAuthority', 'nativePrincipal', 'callback', 'response');
-    }
-
-    private function atUseRefusal(\RuntimeException $error, string $authorityId, int $at): string
-    {
-        return match ($error->getMessage()) {
-            'NIR_ROOT_INELIGIBLE' => 'REFUSED_OPERATOR_ROOT_REVOKED',
-            'NIR_PRINCIPAL_NOT_CURRENT', 'NIR_PRINCIPAL_REVOKED' => 'REFUSED_NATIVE_PRINCIPAL_REVOKED',
-            'NIR_SOURCE_GENERATION_CHANGED' => 'REFUSED_SOURCE_SUPERSEDED',
-            'NIR_V3_LIFECYCLE_REQUIRES_NATIVE_MIGRATION' => 'REFUSED_SOURCE_MIGRATION_REQUIRED',
-            'NIR_SOURCE_PRINCIPAL_NOT_ACTIVE' => $this->sourceLifecycleRefusal($authorityId, $at),
-            default => $error->getMessage(),
-        };
-    }
-
-    private function sourceLifecycleRefusal(string $authorityId, int $at): string
-    {
-        $chain = $this->state->get('authorities', $authorityId) ?? [];
-        $native = $this->state->get('principals', (string) ($chain['principal']['id'] ?? '')) ?? [];
-        $sourceReference = $native['source_principal'] ?? [];
-        $source = $this->state->source('principal', $sourceReference);
-        $status = (new \App\Imperium\Runtime\Imperator\ImperatorPrincipalLifecycleReconstructionService($this->state->root))
-            ->reconstruct($source['principal_version_id'], new \DateTimeImmutable('@'.$at))['effective_status'];
-        return match ($status) {
-            'SUSPENDED' => 'REFUSED_SOURCE_SUSPENDED',
-            'SUPERSEDED' => 'REFUSED_SOURCE_SUPERSEDED',
-            'REVOKED' => 'REFUSED_SOURCE_REVOKED',
-            'EXPIRED' => 'REFUSED_SOURCE_EXPIRED',
-            'RETIRED' => 'REFUSED_SOURCE_RETIRED',
-            default => 'REFUSED_STALE',
-        };
     }
 }

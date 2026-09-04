@@ -4,39 +4,26 @@ declare(strict_types=1);
 
 namespace App\Imperium\Runtime\ProviderTransition;
 
+use App\Imperium\Runtime\Persistence\AtomicTransition;
+use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
+
 /** Issues durable reconciliation authority only from resolved native competence. */
 final readonly class NativeEffectReconciliationAuthorityIssuanceService
 {
     public const string AUTHORITIES = 'var/imperium/runtime/canonical-native-effect-reconciliation-authorities-v2';
     public const string ISSUANCES = 'var/imperium/runtime/canonical-native-effect-reconciliation-authority-issuances';
+    private AtomicTransition $atomic;
+    private ImmutableRecordStore $records;
     private NativeEffectReconciliationAuthoritySourceResolver $sources;
 
-    public function __construct(
-        private NativeState $state,
-        private NativeEffectReconciliationIssuanceAuthorityResolver $issuanceResolver,
-        private ?\Closure $checkpoint = null,
-    )
+    public function __construct(private NativeState $state, private ?\Closure $checkpoint = null)
     {
+        $this->atomic = new AtomicTransition($state->root);
+        $this->records = new ImmutableRecordStore($state->root, $this->atomic);
         $this->sources = new NativeEffectReconciliationAuthoritySourceResolver($state);
     }
 
-    public function issue(NativeEffectReconciliationIssuanceCapability $capability, int $at): array
-    {
-        $outcome = (new NativeEffectReconciliationIssuancePublicationService(
-            $this->state,
-            $this->issuanceResolver,
-            $this->checkpoint,
-        ))->publish($capability, $at);
-        return [
-            'authority' => $outcome['established_result']['reconciliation_authority'],
-            'issuance' => $outcome['established_result']['reconciliation_issuance_evidence'],
-            'issuance_authority_consumption' => $outcome['established_result']['issuance_authority_consumption'],
-            'result' => $outcome['result'],
-        ];
-    }
-
-    /** Read-only deterministic target derivation; it grants no issuance authority. */
-    public function preview(string $admissionId, int $at, int $expiresAt): array
+    public function issue(string $admissionId, int $at, int $expiresAt): array
     {
         $source = $this->sources->resolve($admissionId, $at);
         $admission = $source['admission'];
@@ -78,6 +65,28 @@ final readonly class NativeEffectReconciliationAuthorityIssuanceService
             'sealed' => true,
         ];
 
-        return ['source' => $source, 'authority' => NativeState::seal($authority)];
+        return $this->atomic->run('canonical-native-effect-reconciliation-issuance:'.hash('sha256', $authorityId), function () use ($authority, $authorityId, $issuanceId, $nativeAuthority, $nativePrincipal, $source, $admission, $at): array {
+            $storedAuthority = $this->records->put(self::AUTHORITIES, $authorityId, $authority);
+            if (null !== $this->checkpoint) { ($this->checkpoint)('authority.published'); }
+            $issuance = $this->records->put(self::ISSUANCES, $issuanceId, [
+                'schema' => NativeEffectReconciliationAuthorityIssuanceContract::SCHEMA,
+                'issuance_id' => $issuanceId,
+                'issued_authority' => NativeState::ref($storedAuthority, 'authority_id'),
+                'source_native_authority' => NativeState::ref($nativeAuthority['authority'], 'authority_id'),
+                'source_native_principal' => NativeState::ref($nativePrincipal, 'principal_version_id'),
+                'source_native_transition' => NativeState::ref($source['commit'], 'root'),
+                'effect_admission' => NativeState::ref($admission, 'admission_id'),
+                'issuer_service' => NativeEffectReconciliationAuthorityV2Contract::ISSUER_SERVICE,
+                'issued_at' => $at,
+                'authority_issued' => true,
+                'provider_invocation_performed' => false,
+                'credential_resolution_performed' => false,
+                'callback_invocation_performed' => false,
+                'external_io_performed' => false,
+                'continuing_authority' => false,
+                'sealed' => true,
+            ]);
+            return ['authority' => $storedAuthority, 'issuance' => $issuance];
+        });
     }
 }

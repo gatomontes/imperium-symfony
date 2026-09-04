@@ -1,21 +1,23 @@
-# Current continuation: reconciliation issuance authority and revocation-at-use remediation
+# Current continuation: reconciliation shared-exclusion remediation
 
-`CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_READY`
-`BATCH_1_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_CURRENTNESS_CONTRACTS_DEFINED`
-`BATCHES_2_THROUGH_5_EXPLICITLY_AUTHORIZED_FOR_SEQUENTIAL_LOCAL_EXECUTION`
-`REMOTE_PUBLICATION_REQUIRES_SEPARATE_REVIEW`
+`CANONICAL_NATIVE_EFFECT_RECONCILIATION_SHARED_EXCLUSION_REMEDIATION_SELECTED`
+`QUARANTINED_CANDIDATE_NOT_ACCEPTED`
+`PREPARATION_BATCH_0_ONLY_AUTHORIZED`
+`PRODUCTION_CORRECTION_NOT_AUTHORIZED`
+`REMOTE_PUBLICATION_NOT_AUTHORIZED`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
-Preparation Batch 0 and Batch 1 are complete. Batches 2–5 are explicitly
-authorized for sequential local execution under:
+The unauthorized remote candidate has been removed from the current tree and
+retained only in quarantined history. The post-publication review found
+decision-publication and at-use checks on lock domains that do not exclude
+native-state mutation.
 
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batches-2-through-5-local-ready.md`
+Current campaign: `docs/next-campaign-canonical-native-effect-reconciliation-shared-exclusion-remediation.md`.
 
-Each batch requires its own local commit and focused/full PHPUnit gate. The
-reverted unauthorized range is historical only and may not be reused. A
-successful run ends with a local candidate pending independent remote review;
-it does not authorize push, merge, provider/credential access, external I/O,
-Root-history repair or Batch 7.
+Current local entrypoint: `docs/handoffs/canonical-native-effect-reconciliation-shared-exclusion-remediation-preparation-batch-0-local-ready.md`.
+
+Only Preparation Batch 0 lock/interleaving inventory and isolated race harnesses
+are authorized. Five implementation/audit stages remain.
 
 # Current disposition: reconciliation authority provenance remediation
 

@@ -8,110 +8,43 @@ use PHPUnit\Framework\TestCase;
 
 final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemediationCampaignReadyTest extends TestCase
 {
-    private const string CAMPAIGN = 'docs/next-campaign-canonical-native-effect-reconciliation-issuance-authority-revocation-remediation.md';
-    private const string CURRENT = 'docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batches-2-through-5-local-ready.md';
-    private const string BATCH_ONE = 'docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-complete.md';
-    private const string OLD_LOCAL = 'docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-local-ready.md';
-    private const string PREPARATION_LOCAL = 'docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-preparation-batch-0-local-ready.md';
-    private const string BATCH_ONE_READY = 'docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-campaign-ready.md';
-    private const string READING_LEDGER = 'docs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-reading-evidence-ledger-v1.json';
+    private const string HISTORICAL_CAMPAIGN = 'docs/next-campaign-canonical-native-effect-reconciliation-issuance-authority-revocation-remediation.md';
+    private const string HISTORICAL_ENTRYPOINT = 'docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batches-2-through-5-local-ready.md';
+    private const string CURRENT_CAMPAIGN = 'docs/next-campaign-canonical-native-effect-reconciliation-shared-exclusion-remediation.md';
+    private const string CURRENT_ENTRYPOINT = 'docs/handoffs/canonical-native-effect-reconciliation-shared-exclusion-remediation-preparation-batch-0-local-ready.md';
+    private const string LEDGER = 'docs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-reading-evidence-ledger-v1.json';
 
-    public function testCurrentEntrypointExplicitlyAuthorizesOnlyRemainingBoundedCampaign(): void
+    public function testSupersededCampaignAndEntrypointAreNonExecutable(): void
     {
-        $documents = $this->read(self::CAMPAIGN).$this->read(self::CURRENT);
-        foreach ([
-            'BATCHES_2_THROUGH_5_EXPLICITLY_AUTHORIZED_FOR_SEQUENTIAL_LOCAL_EXECUTION',
-            'SEPARATE_COMMIT_AND_TEST_GATE_PER_BATCH_REQUIRED',
-            'REMOTE_PUBLICATION_REQUIRES_SEPARATE_REVIEW',
-            'BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED',
-            'LOCAL_RECONCILIATION_ISSUANCE_CAMPAIGN_CANDIDATE_COMPLETE_PENDING_REMOTE_REVIEW',
-        ] as $boundary) {
-            self::assertStringContainsStringIgnoringCase($boundary, $documents, $boundary);
+        foreach ([self::HISTORICAL_CAMPAIGN, self::HISTORICAL_ENTRYPOINT] as $path) {
+            $document = $this->read($path);
+            self::assertStringContainsStringIgnoringCase('HISTORICAL', $document, $path);
+            self::assertStringContainsString('CANDIDATE_RANGE_QUARANTINED_NOT_ACCEPTED', $document, $path);
+            self::assertStringContainsStringIgnoringCase('DO NOT EXECUTE', $document, $path);
+            self::assertStringContainsString(self::CURRENT_ENTRYPOINT, $document, $path);
         }
     }
 
-    public function testPromptDefinesAllFourSequentialStages(): void
+    public function testReadingLedgerPublishesOnlyCorrectiveAuthority(): void
     {
-        $prompt = $this->read(self::CURRENT);
-        self::assertStringNotContainsString('BATCH_2_NOT_AUTHORIZED', $this->read(self::CAMPAIGN));
-        self::assertStringContainsStringIgnoringCase('clean committed Batch 4 local candidate', $this->read(self::CAMPAIGN));
-
-        foreach ([
-            'Batch 2 — rooted issuance decision, custody and atomic publication',
-            'BATCH_2_COMPLETE_ROOTED_DECISION_CUSTODY_AND_ATOMIC_PUBLICATION',
-            'Batch 3 — issuer enforcement and revocation at use',
-            'BATCH_3_COMPLETE_TYPED_ISSUER_AND_AT_USE_CURRENTNESS',
-            'Batch 4 — adversarial, application, concurrency and interruption proof',
-            'BATCH_4_COMPLETE_ADVERSARIAL_APPLICATION_AND_INTERRUPTION_PROOF',
-            'Batch 5 — separately sequenced terminal Blackquill audit',
-            'one ordered commit SHA per batch',
-        ] as $stage) {
-            self::assertStringContainsStringIgnoringCase($stage, $prompt, $stage);
-        }
+        $ledger = json_decode((string) file_get_contents(dirname(__DIR__, 3).'/'.self::LEDGER), true, 512, JSON_THROW_ON_ERROR);
+        self::assertSame('HISTORICAL_ISSUANCE_CAMPAIGN_INDEX_QUARANTINED', $ledger['ledger_status']);
+        self::assertSame(self::CURRENT_ENTRYPOINT, $ledger['current_authority_document']);
+        self::assertFalse($ledger['quarantined_candidate']['publication_authorized']);
+        self::assertFalse($ledger['quarantined_candidate']['implementation_accepted']);
+        self::assertFalse($ledger['quarantined_candidate']['closure_accepted']);
+        self::assertFalse($ledger['production_correction_authorized']);
+        self::assertFalse($ledger['remote_publication_authorized']);
+        self::assertFalse($ledger['batch_7_authorized']);
     }
 
-    public function testPromptRejectsHistoricalReuseRemotePublicationAndLiveEffects(): void
+    public function testCurrentConsumersPointToCorrectiveCampaign(): void
     {
-        $prompt = $this->read(self::CURRENT);
-        foreach ([
-            'Do not cherry-pick, restore or copy',
-            'do not push any branch',
-            'do not represent local tests as GitHub CI',
-            'do not access credentials or providers',
-            'do not perform network/external I/O',
-            'do not open Iron Gate or Lazaretto',
-            'do not repair the untimestamped Operator Root history limitation',
-            'do not restore or authorize Batch 7',
-            'do not invent authority',
-        ] as $stop) {
-            self::assertStringContainsStringIgnoringCase($stop, $prompt, $stop);
-        }
-    }
-
-    public function testCurrentConsumersPublishRemainingCampaignEntrypoint(): void
-    {
-        foreach ([
-            'docs/delegate-mission-flow.md',
-            'docs/handoffs/README.md',
-            'todo/blackquill-todos.md',
-            self::CAMPAIGN,
-        ] as $consumer) {
-            $document = $this->read($consumer);
-            self::assertStringContainsString(self::CURRENT, $document, $consumer);
-            self::assertStringNotContainsString(self::OLD_LOCAL, $document, $consumer);
-        }
-
-        self::assertStringContainsString('BATCH_2_NOT_AUTHORIZED', $this->read(self::BATCH_ONE));
-        self::assertStringContainsString(self::OLD_LOCAL, $this->read(self::PREPARATION_LOCAL));
-    }
-
-    public function testHistoricalAuthorityDocumentsCannotContradictCurrentEntrypoint(): void
-    {
-        $historical = $this->read(self::BATCH_ONE_READY);
-        self::assertStringContainsString('HISTORICAL_ENTRYPOINT_SUPERSEDED', $historical);
-        self::assertStringNotContainsString('`BATCH_2_NOT_AUTHORIZED`', $historical);
-        self::assertStringContainsString(self::CURRENT, $historical);
-
-        $ledger = $this->read(self::READING_LEDGER);
-        self::assertStringContainsString('CURRENT_READING_INDEX_WITH_HISTORICAL_PREPARATION_EVIDENCE', $ledger);
-        self::assertStringContainsString(self::CURRENT, $ledger);
-        self::assertStringContainsString('"remote_publication_authorized": false', $ledger);
-    }
-
-    public function testPromptProvidesPowerShellGuardsAndLocalOnlyCompletionMarker(): void
-    {
-        $prompt = $this->read(self::CURRENT);
-        foreach ([
-            'git checkout main',
-            'git pull --ff-only origin main',
-            'git status --short',
-            'git rev-parse HEAD',
-            'git switch -c codex/reconciliation-issuance-batches-2-through-5-local',
-            'php vendor/bin/phpunit',
-            'If a gate fails, authority does not advance',
-            'Do not push',
-        ] as $instruction) {
-            self::assertStringContainsStringIgnoringCase($instruction, $prompt, $instruction);
+        foreach (['docs/delegate-mission-flow.md', 'docs/handoffs/README.md', 'todo/blackquill-todos.md'] as $path) {
+            $document = $this->read($path);
+            self::assertStringContainsString(self::CURRENT_CAMPAIGN, $document, $path);
+            self::assertStringContainsString(self::CURRENT_ENTRYPOINT, $document, $path);
+            self::assertStringNotContainsString(self::HISTORICAL_ENTRYPOINT, $document, $path);
         }
     }
 

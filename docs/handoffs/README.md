@@ -1,22 +1,24 @@
-# Current campaign: reconciliation issuance authority and revocation-at-use remediation
+# Current campaign: reconciliation shared-exclusion remediation
 
-`CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_SELECTED`
-`BATCH_1_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_CURRENTNESS_CONTRACTS_DEFINED`
-`BATCHES_2_THROUGH_5_EXPLICITLY_AUTHORIZED_FOR_SEQUENTIAL_LOCAL_EXECUTION`
-`SEPARATE_COMMIT_AND_TEST_GATE_PER_BATCH_REQUIRED`
-`REMOTE_PUBLICATION_REQUIRES_SEPARATE_REVIEW`
+`CANONICAL_NATIVE_EFFECT_RECONCILIATION_SHARED_EXCLUSION_REMEDIATION_SELECTED`
+`QUARANTINED_CANDIDATE_NOT_ACCEPTED`
+`PREPARATION_BATCH_0_ONLY_AUTHORIZED`
+`PRODUCTION_CORRECTION_NOT_AUTHORIZED`
+`REMOTE_PUBLICATION_NOT_AUTHORIZED`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
-Preparation Batch 0 and Batch 1 are complete. The current local entrypoint
-explicitly authorizes Batches 2–5 in sequence:
+The directly pushed reconciliation candidate is quarantined and removed from
+the current tree. Green local and push CI did not prove shared exclusion between
+currentness validation/use and native-state mutation.
 
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batches-2-through-5-local-ready.md`
+Review: `docs/canonical-native-effect-reconciliation-shared-exclusion-post-publication-blackquill-review-v1.md`.
 
-The restored Batch 1 completion handoff remains the accepted base. The reverted
-unauthorized range remains historical and cannot supply implementation or
-evidence. Local success produces a candidate pending independent review; no
-remote publication, provider effect, credential access, external I/O,
-Root-history repair or Batch 7 follows.
+Campaign: `docs/next-campaign-canonical-native-effect-reconciliation-shared-exclusion-remediation.md`.
+
+Current local entrypoint: `docs/handoffs/canonical-native-effect-reconciliation-shared-exclusion-remediation-preparation-batch-0-local-ready.md`.
+
+Only Preparation Batch 0 inventory, matrices and isolated deterministic race
+harnesses are authorized.
 
 # Current campaign: reconciliation authority provenance remediation
 

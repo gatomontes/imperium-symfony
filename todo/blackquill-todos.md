@@ -1,23 +1,22 @@
-## Canonical Native Effect Reconciliation Issuance Authority and Revocation-at-Use Remediation — selected 2026-09-04
+## Canonical Native Effect Reconciliation Shared-Exclusion Remediation — selected 2026-09-04
 
-- [x] Preparation Batch 0: inventory derivation decisions/authorities, issuer
-  competence, present-tense lifecycle checks, revocation races and bypasses.
-- [x] Batch 1: define exact issuance authority, typed custody, consumption,
-  currentness and reconstruction contracts. Constants-only and authority-empty.
-- [ ] Batch 2: implement Root-provenanced issuance decision/capability and atomic
-  consumption with reconciliation-authority publication.
-- [ ] Batch 3: enforce typed issuance at the issuer and revalidate currentness at
-  the governed use cut.
-- [ ] Batch 4: prove missing/counterfeit/replayed authority, consumed-source
-  refusal, resolve-revoke-consume, contention, interruption and application wiring.
-- [ ] Batch 5: conduct a separately sequenced terminal audit from clean committed
-  Batch 4 with exact local-SHA evidence.
+- [ ] Preparation Batch 0: inventory every lock, writer and validation/use cut;
+  reproduce DP01, IU01 and CU01 with controlled interleavings.
+- [ ] Batch 1: define canonical shared-exclusion and lock-order contracts.
+- [ ] Batch 2: correct decision publication currentness.
+- [ ] Batch 3: correct issuance-use and claim-use shared exclusion.
+- [ ] Batch 4: prove adversarial concurrency, interruption and platform behavior.
+- [ ] Batch 5: conduct a separately sequenced terminal audit from clean merged
+  Batch 4 with exact-SHA CI.
 
-Batches 2–5 are explicitly authorized for one sequential local run under
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batches-2-through-5-local-ready.md`. Each batch requires its own commit and focused/full PHPUnit
-gate. The reverted unauthorized range is not accepted implementation or
-evidence. Local success remains pending independent remote review. Batch 7 stays
-suspended.
+The range
+`0ad41ba9a6904ab375c2c6cbc514f01ac9e79958..7d3b8818717fe74fb822a195689d8b3c51030862`
+is quarantined: remote publication was unauthorized, decision publication
+resolved currentness before its lock, and at-use target locks did not exclude
+native-state mutation.
+
+Only Preparation Batch 0 is authorized under `docs/handoffs/canonical-native-effect-reconciliation-shared-exclusion-remediation-preparation-batch-0-local-ready.md`. Production
+correction, remote publication and Batch 7 remain unauthorized.
 
 ## Canonical Native Effect Reconciliation Authority Provenance Remediation — selected 2026-09-04
 

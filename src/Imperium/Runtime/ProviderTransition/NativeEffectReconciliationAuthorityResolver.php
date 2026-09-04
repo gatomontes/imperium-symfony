@@ -47,14 +47,14 @@ final class NativeEffectReconciliationAuthorityResolver
     }
 
     /** Read-only canonical evidence resolution; returned records are not custody. */
-    public function inspect(string $authorityId, int $at, bool $allowConsumed = false, bool $atUse = false): array
+    public function inspect(string $authorityId, int $at, bool $allowConsumed = false): array
     {
         NativeState::id($authorityId);
         $authority = $this->records->read(NativeEffectReconciliationAuthorityIssuanceService::AUTHORITIES, $authorityId);
         $this->validateAuthority($authority, $at);
         $issuance = $this->records->read(NativeEffectReconciliationAuthorityIssuanceService::ISSUANCES, $authority['issuance_id']);
         $this->validateIssuance($issuance, $authority);
-        $source = (new NativeEffectReconciliationAuthoritySourceResolver($this->state))->resolve($authority['effect_admission']['id'], $at, $atUse);
+        $source = (new NativeEffectReconciliationAuthoritySourceResolver($this->state))->resolve($authority['effect_admission']['id'], $at);
         if ($authority['source_native_authority'] !== NativeState::ref($source['nativeAuthority']['authority'], 'authority_id')
             || $authority['source_native_principal'] !== NativeState::ref($source['nativePrincipal'], 'principal_version_id')
             || $authority['source_native_transition'] !== NativeState::ref($source['commit'], 'root')
