@@ -12,7 +12,8 @@ use App\Imperium\Runtime\ProviderTransition\NativeEffectCredentialCapabilityIssu
 use App\Imperium\Runtime\ProviderTransition\NativeEffectDoubleExecutionService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectForwardRecoveryClaimAdmissionService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectForwardRecoveryService;
-use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationAuthorityContract;
+use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationAuthorityIssuanceService;
+use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationAuthorityResolver;
 use App\Imperium\Runtime\ProviderTransition\NativeState;
 use App\Tests\Imperium\Runtime\Support\CanonicalNativeEffectCorridorKernel;
 
@@ -27,15 +28,16 @@ final class CanonicalNativeEffectProcessCustodyFormalClosureRemediationBatch4Tes
         $recovery = new NativeEffectForwardRecoveryService($this->state);
         $this->fails('PST112_IMMUTABLE_RECORD_ABSENT', fn () => $recovery->forwardComplete('missing-forward-recovery-claim', $at + 1));
 
-        $expired = $this->reconciliationAuthority($admission, $at, $at + 1);
-        $expired['expires_at'] = $at + 1;
-        $expired = NativeState::seal($expired);
-        $this->fails('CNE509_RECONCILIATION_AUTHORITY_INVALID', fn () => (new NativeEffectForwardRecoveryClaimAdmissionService($this->state))->admit($expired, $at + 1));
+        $issuer = new NativeEffectReconciliationAuthorityIssuanceService($this->state);
+        $this->fails('CNE610_RECONCILIATION_ISSUANCE_TIME_INVALID', fn () => $issuer->issue($admission['admission_id'], $at + 1, $at + 1));
 
-        $substituted = $this->reconciliationAuthority($admission, $at, $at + 1);
+        $issued = $issuer->issue($admission['admission_id'], $at + 1, $at + 101);
+        $path = $this->root.'/'.NativeEffectReconciliationAuthorityIssuanceService::AUTHORITIES.'/'.$issued['authority']['authority_id'].'.json';
+        $substituted = $issued['authority'];
         $substituted['sealed_response']['digest'] = str_repeat('0', 64);
         $substituted = NativeState::seal($substituted);
-        $this->fails('CNE510_RECONCILIATION_LINEAGE_INVALID', fn () => (new NativeEffectForwardRecoveryClaimAdmissionService($this->state))->admit($substituted, $at + 1));
+        file_put_contents($path, json_encode($substituted, JSON_THROW_ON_ERROR));
+        $this->fails('CNE625_RECONCILIATION_ISSUANCE_INVALID', fn () => (new NativeEffectReconciliationAuthorityResolver($this->state))->resolve($issued['authority']['authority_id'], $at + 1));
 
         self::assertSame([], glob($this->root.'/'.NativeEffectDoubleExecutionService::RECEIPTS.'/*.json') ?: []);
     }
@@ -43,8 +45,7 @@ final class CanonicalNativeEffectProcessCustodyFormalClosureRemediationBatch4Tes
     public function testExactRecoveryClaimIsSinglePurposeAndReplayReturnsOneReceipt(): void
     {
         [$admission, $at, $calls] = $this->sealedResponseFixture();
-        $claims = new NativeEffectForwardRecoveryClaimAdmissionService($this->state);
-        $claim = $claims->admit($this->reconciliationAuthority($admission, $at, $at + 1), $at + 1);
+        $claim = $this->admitRecovery($admission, $at + 1);
         $recovery = new NativeEffectForwardRecoveryService($this->state);
         $first = $recovery->forwardComplete($claim['claim_id'], $at + 1);
         $second = $recovery->forwardComplete($claim['claim_id'], $at + 2);
@@ -67,7 +68,10 @@ final class CanonicalNativeEffectProcessCustodyFormalClosureRemediationBatch4Tes
             $second = $corridor->continuationIssuer();
             self::assertInstanceOf(NativeEffectContinuationCapabilityIssuer::class, $first);
             self::assertNotSame($first, $second);
-            self::assertInstanceOf(NativeEffectForwardRecoveryClaimAdmissionService::class, $corridor->recoveryClaimAdmission());
+            $resolver = $corridor->reconciliationAuthorityResolver();
+            self::assertInstanceOf(NativeEffectReconciliationAuthorityResolver::class, $resolver);
+            self::assertInstanceOf(NativeEffectReconciliationAuthorityIssuanceService::class, $corridor->reconciliationAuthorityIssuer());
+            self::assertInstanceOf(NativeEffectForwardRecoveryClaimAdmissionService::class, $corridor->recoveryClaimAdmission($resolver));
             self::assertInstanceOf(NativeEffectForwardRecoveryService::class, $corridor->forwardRecovery());
         } finally {
             $kernel->shutdown();
@@ -118,37 +122,18 @@ final class CanonicalNativeEffectProcessCustodyFormalClosureRemediationBatch4Tes
         return [$outcome->admission, $at, static fn (): int => $calls];
     }
 
-    private function reconciliationAuthority(array $admission, int $responseAt, int $recoveryAt): array
+    private function admitRecovery(array $admission, int $recoveryAt): array
     {
-        $callbackId = 'canonical-native-effect-callback-'.substr(hash('sha256', $admission['admission_id']), 0, 20);
-        $responseId = 'canonical-native-effect-response-'.substr(hash('sha256', $callbackId), 0, 20);
-        $callback = $this->jsonBatch4(NativeEffectDoubleExecutionService::CALLBACK_STARTS.'/'.$callbackId.'.json');
-        $response = $this->jsonBatch4(NativeEffectDoubleExecutionService::RESPONSES.'/'.$responseId.'.json');
-
-        return NativeState::seal([
-            'schema' => NativeEffectReconciliationAuthorityContract::SCHEMA,
-            'authority_id' => 'native-effect-reconciliation-authority-'.$admission['semantic_effect_tuple_id'],
-            'effect_admission' => NativeState::ref($admission, 'admission_id'),
-            'callback_start' => NativeState::ref($callback, 'callback_start_id'),
-            'sealed_response' => NativeState::ref($response, 'response_id'),
-            'deterministic_receipt_id' => NativeEffectForwardRecoveryClaimAdmissionService::receiptId($admission['admission_id']),
-            'act' => NativeEffectReconciliationAuthorityContract::ACT,
-            'holder' => NativeEffectReconciliationAuthorityContract::HOLDER,
-            'issuer' => NativeEffectReconciliationAuthorityContract::ISSUER,
-            'effective_at' => $responseAt,
-            'expires_at' => $recoveryAt + 100,
-            'provider_invocation_permitted' => false,
-            'credential_resolution_permitted' => false,
-            'callback_reinvocation_permitted' => false,
-            'automatic_retry_permitted' => false,
-            'single_purpose' => true,
-            'sealed' => true,
-        ]);
-    }
-
-    private function jsonBatch4(string $relative): array
-    {
-        return json_decode((string) file_get_contents($this->root.'/'.$relative), true, 64, JSON_THROW_ON_ERROR);
+        $issued = (new NativeEffectReconciliationAuthorityIssuanceService($this->state))->issue(
+            $admission['admission_id'],
+            $recoveryAt,
+            $recoveryAt + 100,
+        );
+        $resolver = new NativeEffectReconciliationAuthorityResolver($this->state);
+        return (new NativeEffectForwardRecoveryClaimAdmissionService($this->state, $resolver))->admit(
+            $resolver->resolve($issued['authority']['authority_id'], $recoveryAt),
+            $recoveryAt,
+        );
     }
 
     private function readBatch4(string $relative): string

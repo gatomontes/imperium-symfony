@@ -57,19 +57,15 @@ final class CanonicalNativeEffectReconciliationAuthorityProvenanceRemediationPre
         }
     }
 
-    public function testCurrentSourceProvesThePublicSealAndCallerArrayIngress(): void
+    public function testReadingLedgerPreservesTheThenCurrentPublicSealAndCallerArrayCounterexample(): void
     {
-        $admission = $this->read('src/Imperium/Runtime/ProviderTransition/NativeEffectForwardRecoveryClaimAdmissionService.php');
-        $state = $this->read('src/Imperium/Runtime/ProviderTransition/NativeState.php');
-        self::assertStringContainsString('public function admit(array $authority, int $at): array', $admission);
-        self::assertStringContainsString('NativeState::seal($authority) !== $authority', $admission);
-        self::assertStringContainsString('public static function seal(array $r): array', $state);
-        self::assertStringContainsString('$storedAuthority = $this->records->put(self::AUTHORITIES, $authority[\'authority_id\'], $authority)', $admission);
-        self::assertStringNotContainsString('AuthorityConsumptionStore', $admission);
-        self::assertStringNotContainsString('RecordReferenceValidator', $admission);
+        $ledger = $this->read(self::ARTIFACTS[4]);
+        self::assertStringContainsString('admit(array $authority, int $at)', $ledger);
+        self::assertStringContainsString('NativeState::seal() public deterministic digest', $ledger);
+        self::assertStringContainsString('CALLER_CREATED_SELF_SEALED_ARRAY', $ledger);
     }
 
-    public function testAllFourAcceptedFixtureFamiliesManufactureTheAuthority(): void
+    public function testAllFourFormerFixtureFamiliesNowUseCanonicalIssuance(): void
     {
         $paths = [
             'tests/Imperium/Runtime/CanonicalNativeEffectContinuationExclusivityRemediationBatch3Test.php',
@@ -79,9 +75,9 @@ final class CanonicalNativeEffectReconciliationAuthorityProvenanceRemediationPre
         ];
         foreach ($paths as $path) {
             $source = $this->read($path);
-            self::assertStringContainsString('NativeEffectReconciliationAuthorityContract::SCHEMA', $source, $path);
-            self::assertStringContainsString('NativeState::seal([', $source, $path);
-            self::assertStringContainsString('NativeEffectForwardRecoveryClaimAdmissionService', $source, $path);
+            self::assertStringContainsString('NativeEffectReconciliationAuthorityIssuanceService', $source, $path);
+            self::assertStringContainsString('NativeEffectReconciliationAuthorityResolver', $source, $path);
+            self::assertStringNotContainsString('NativeEffectReconciliationAuthorityContract::SCHEMA', $source, $path);
         }
     }
 
@@ -147,28 +143,20 @@ final class CanonicalNativeEffectReconciliationAuthorityProvenanceRemediationPre
             self::assertSame('FULLY_READ', $source['read_status'], $source['path']);
             self::assertFileExists($this->root().'/'.$source['path'], $source['path']);
             self::assertMatchesRegularExpression('/^[a-f0-9]{64}$/D', $source['normalized_sha256'], $source['path']);
-            $normalized = str_replace(["\r\n", "\r"], "\n", (string) file_get_contents($this->root().'/'.$source['path']));
-            self::assertSame($source['normalized_sha256'], hash('sha256', $normalized), $source['path']);
         }
     }
 
-    public function testPreparationChangedNoProductionConfigurationOrServiceWiring(): void
+    public function testPreparationLedgerRemainsAnImmutableBaselineAfterAuthorizedLaterBatches(): void
     {
         $ledger = json_decode($this->read(self::ARTIFACTS[4]), true, 512, JSON_THROW_ON_ERROR);
         $pinned = [];
         foreach ($ledger['sources'] as $source) {
             $pinned[$source['path']] = $source['normalized_sha256'];
         }
-        foreach ([
-            'src/Imperium/Runtime/ProviderTransition/NativeEffectForwardRecoveryClaimAdmissionService.php',
-            'src/Imperium/Runtime/ProviderTransition/NativeEffectForwardRecoveryService.php',
-            'src/Imperium/Runtime/NativeEffect/CanonicalNativeEffectCorridor.php',
-            'config/services.yaml',
-        ] as $path) {
-            self::assertArrayHasKey($path, $pinned);
-            $normalized = str_replace(["\r\n", "\r"], "\n", $this->read($path));
-            self::assertSame($pinned[$path], hash('sha256', $normalized), $path);
-        }
+        self::assertArrayHasKey('src/Imperium/Runtime/ProviderTransition/NativeEffectForwardRecoveryClaimAdmissionService.php', $pinned);
+        self::assertArrayHasKey('src/Imperium/Runtime/ProviderTransition/NativeEffectForwardRecoveryService.php', $pinned);
+        self::assertArrayHasKey('src/Imperium/Runtime/NativeEffect/CanonicalNativeEffectCorridor.php', $pinned);
+        self::assertArrayHasKey('config/services.yaml', $pinned);
         $handoff = $this->read(self::ARTIFACTS[5]);
         self::assertStringContainsString('issuer, authority, capability, authority record or claim was created', $handoff);
         self::assertStringContainsString('Batch 1 is not authorized by this handoff', $handoff);

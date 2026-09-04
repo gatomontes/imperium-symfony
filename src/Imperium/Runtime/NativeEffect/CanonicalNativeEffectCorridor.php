@@ -11,6 +11,8 @@ use App\Imperium\Runtime\ProviderTransition\NativeEffectContinuationCapabilityIs
 use App\Imperium\Runtime\ProviderTransition\NativeEffectDoubleExecutionService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectForwardRecoveryClaimAdmissionService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectForwardRecoveryService;
+use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationAuthorityIssuanceService;
+use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationAuthorityResolver;
 use App\Imperium\Runtime\ProviderTransition\NativeState;
 
 /** Auto-discovered construction boundary. It exposes no command, credential resolver or provider transport. */
@@ -46,9 +48,19 @@ final readonly class CanonicalNativeEffectCorridor
         return new NativeEffectDoubleExecutionService($this->state, $continuations);
     }
 
-    public function recoveryClaimAdmission(): NativeEffectForwardRecoveryClaimAdmissionService
+    public function reconciliationAuthorityIssuer(): NativeEffectReconciliationAuthorityIssuanceService
     {
-        return new NativeEffectForwardRecoveryClaimAdmissionService($this->state);
+        return new NativeEffectReconciliationAuthorityIssuanceService($this->state);
+    }
+
+    public function reconciliationAuthorityResolver(): NativeEffectReconciliationAuthorityResolver
+    {
+        return new NativeEffectReconciliationAuthorityResolver($this->state);
+    }
+
+    public function recoveryClaimAdmission(NativeEffectReconciliationAuthorityResolver $resolver): NativeEffectForwardRecoveryClaimAdmissionService
+    {
+        return new NativeEffectForwardRecoveryClaimAdmissionService($this->state, $resolver);
     }
 
     public function forwardRecovery(): NativeEffectForwardRecoveryService
