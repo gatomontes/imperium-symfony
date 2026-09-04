@@ -31,6 +31,9 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
     public function testPromptDefinesAllFourSequentialStages(): void
     {
         $prompt = $this->read(self::CURRENT);
+        self::assertStringNotContainsString('BATCH_2_NOT_AUTHORIZED', $this->read(self::CAMPAIGN));
+        self::assertStringContainsStringIgnoringCase('clean committed Batch 4 local candidate', $this->read(self::CAMPAIGN));
+
         foreach ([
             'Batch 2 — rooted issuance decision, custody and atomic publication',
             'BATCH_2_COMPLETE_ROOTED_DECISION_CUSTODY_AND_ATOMIC_PUBLICATION',

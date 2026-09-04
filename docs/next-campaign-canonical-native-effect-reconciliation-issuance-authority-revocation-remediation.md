@@ -3,7 +3,8 @@
 `CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_SELECTED`
 `PREPARATION_BATCH_0_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_AND_REVOCATION_GAPS_CLASSIFIED`
 `BATCH_1_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_CURRENTNESS_CONTRACTS_DEFINED`
-`BATCH_2_NOT_AUTHORIZED`
+`BATCHES_2_THROUGH_5_EXPLICITLY_AUTHORIZED_FOR_SEQUENTIAL_LOCAL_EXECUTION`
+`REMOTE_PUBLICATION_REQUIRES_SEPARATE_REVIEW`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
 ## Purpose
@@ -54,10 +55,12 @@ wiring; reconstruction; and absence of provider/credential/network edges.
 
 ### Batch 5 — separately sequenced terminal audit
 
-Begin only from clean merged Batch 4 `main`. Independently reconstruct the
-decision-to-issuance-to-consumption-to-recovery chain, run focused and full
-tests, retain exact-SHA GitHub CI evidence and decide bounded closure without
-restoring Batch 7.
+Begin only from the clean committed Batch 4 local candidate on the campaign
+branch. Independently reconstruct the decision-to-issuance-to-consumption-to-
+recovery chain, run focused and full tests, retain exact local-SHA evidence and
+issue a bounded local verdict pending remote review. GitHub CI and formal
+closure belong to a later, separately authorized publication step. Do not
+restore Batch 7.
 
 ## Current status — remaining Batches 2–5 authorized for local execution
 
