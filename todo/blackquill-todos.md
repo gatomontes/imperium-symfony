@@ -1,26 +1,26 @@
 ## Canonical Native Effect Reconciliation Authority Provenance Remediation — selected 2026-09-04
 
-- [ ] Preparation Batch 0: inventory authority construction, canonical issuer
+`CANONICAL_NATIVE_EFFECT_RECONCILIATION_AUTHORITY_PROVENANCE_REMEDIATION_COMPLETE`
+`RECONCILIATION_AUTHORITY_PROVENANCE_ACCEPTED_BOUNDED_NO_LIVE_EFFECT`
+
+- [x] Preparation Batch 0: inventory authority construction, canonical issuer
   competence, source provenance, custody, consumption, bypasses and proof cuts.
-- [ ] Batch 1: define canonical issuance, source, custody, revocation and
+- [x] Batch 1: define canonical issuance, source, custody, revocation and
   single-purpose consumption contracts.
-- [ ] Batch 2: implement Root-provenanced issuance and atomic custody.
-- [ ] Batch 3: replace arbitrary-array admission and integrate the canonical
+- [x] Batch 2: implement Root-provenanced issuance and atomic custody.
+- [x] Batch 3: replace arbitrary-array admission and integrate the canonical
   recovery corridor without competing bypasses.
-- [ ] Batch 4: prove counterfeit refusal, application wiring, contention,
+- [x] Batch 4: prove counterfeit refusal, application wiring, contention,
   interruption, process loss, expiry, revocation and replay.
-- [ ] Batch 5: conduct a separately sequenced terminal audit from clean merged
+- [x] Batch 5: conduct a separately sequenced terminal audit from clean merged
   Batch 4 with retained SHA-bound GitHub CI evidence.
 
-Only Preparation Batch 0 is authorized. Active entrypoint:
-`docs/handoffs/canonical-native-effect-reconciliation-authority-provenance-remediation-preparation-batch-0-local-ready.md`.
-
-The process-custody correction merged at
-`b188a0b849f27ebec4d3e14f98c471eead15b484` remains accepted. Formal closure is
-refused because caller-created self-sealed arrays are accepted as reconciliation
-authority without canonical issuer provenance or custody. The historical
-completion record remains evidence of that tree; it is not the current verdict.
-Batch 7 remains suspended.
+Batch 5 began from clean merged Batch 4 `main` at
+`98ba984c7cb808bd2195b5637f61c079bd47a22f`. Corrected local PHPUnit passed
+`2474 / 51016`; GitHub Actions run `33874716024`, job `101028835208`, passed
+`2480 / 51049` for exact merge
+`98f9777959efa279aa6f93e0e240fe861409cef1`. The bounded remediation is complete;
+zero campaign stages remain. Batch 7 remains suspended.
 
 ## Canonical Native Effect Process Custody and Formal Closure Remediation — selected 2026-09-04
 
