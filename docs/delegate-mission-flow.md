@@ -1,7 +1,7 @@
 # Current disposition: native effect process custody and formal closure remediation
 
-`CANONICAL_NATIVE_EFFECT_PROCESS_CUSTODY_FORMAL_CLOSURE_REMEDIATION_BATCH_5_CI_CANDIDATE`
-`LOCAL_FOCUSED_AND_FULL_PROOF_GREEN`
+`CANONICAL_NATIVE_EFFECT_PROCESS_CUSTODY_FORMAL_CLOSURE_REMEDIATION_COMPLETE`
+`PROCESS_CUSTODY_AND_FORMAL_CLOSURE_ACCEPTED_BOUNDED_NO_LIVE_EFFECT`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
 Preparation Batch 0 and Batches 1–4 are separately committed and merged through
@@ -10,10 +10,13 @@ exact object custody now refuse serialization, clone, fork/fresh-process and PID
 label substitution. First callback execution, read-only reconstruction and
 claimed no-provider forward recovery are disjoint.
 
-The separately sequenced Batch 5 audit recorded focused `73 / 637` and full
-`2368 / 50072` local PHPUnit proof. Terminal acceptance remains withheld in this
-candidate text until the pushed merge SHA has a source-attributed green GitHub
-Actions run. No provider edge is present and Batch 7 remains suspended.
+The separately sequenced Batch 5 audit recorded exact-candidate focused `80 /
+692` and full `2371 / 50100` local PHPUnit proof. GitHub Actions run
+`33826904446`, job `100881403332`, independently ran the full suite on Ubuntu /
+PHP 8.4.25 for exact merge `c47adc531d1d6191b3e00f20f056ed69975289d2`
+and passed `2371 / 50101`, including the supported Linux fork assertion. Zero
+campaign stages remain. No provider edge is present and Batch 7 remains
+suspended.
 
 # Current continuation: native effect continuation and exclusivity remediation
 
