@@ -18,4 +18,19 @@ final readonly class NativeEffectAdmissionOutcome implements \ArrayAccess, \Json
     public function offsetSet(mixed $offset, mixed $value): never { throw new \LogicException('CNE308_ADMISSION_OUTCOME_IMMUTABLE'); }
     public function offsetUnset(mixed $offset): never { throw new \LogicException('CNE308_ADMISSION_OUTCOME_IMMUTABLE'); }
     public function jsonSerialize(): array { return $this->admission; }
+
+    public function __serialize(): never
+    {
+        throw new \LogicException('CNE504_ADMISSION_OUTCOME_SERIALIZATION_PROHIBITED');
+    }
+
+    public function __unserialize(array $data): never
+    {
+        throw new \LogicException('CNE504_ADMISSION_OUTCOME_UNSERIALIZATION_PROHIBITED');
+    }
+
+    public function __clone(): void
+    {
+        throw new \LogicException('CNE504_ADMISSION_OUTCOME_CLONE_PROHIBITED');
+    }
 }
