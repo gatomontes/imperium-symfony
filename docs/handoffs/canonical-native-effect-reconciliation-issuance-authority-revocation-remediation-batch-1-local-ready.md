@@ -72,7 +72,8 @@ Define canonical, versioned and authority-empty contracts for:
    historical approval, deterministic output or the already-consumed native
    transition authority carrying `continuing_authority: false`;
 7. exact refusal/result vocabulary for missing, counterfeit, expired, replayed,
-   substituted, consumed, stale, revoked, superseded and conflicted inputs; and
+   substituted, consumed, stale, revoked, suspended, superseded, retired,
+   migration-required and conflicted inputs; and
 8. read-only reconstruction with no continuing power, separating current
    untimestamped Operator Root revocation from timestamped native/source
    lifecycle history.
@@ -83,6 +84,8 @@ Preserve the corrected Preparation Batch 0 distinctions:
   at-use stale-capability races;
 - independently mutable Root revocation, native-principal revocation, source
   generation and lifecycle changes require present-tense revalidation;
+- RR07-RR10 require distinct `SUSPEND`, `SUPERSEDE`, `REVOKE`, `EXPIRE`,
+  `RETIRE` and v3 migration/currentness refusal outcomes;
 - CUR08A is fragmented because current untimestamped Root revocation blocks
   historical reconstruction;
 - CUR08B may preserve timestamped lifecycle history only while current Root
