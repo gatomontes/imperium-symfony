@@ -25,7 +25,9 @@ final readonly class NativeEffectReconciliationAuthorityClaimDerivationService
 
     public function derive(NativeEffectReconciliationAuthorityCapability $capability, int $at): array
     {
-        return $this->atomic->run('canonical-native-effect-reconciliation-authority:'.hash('sha256', $capability->authorityId), function () use ($capability, $at): array {
+        return $this->state->locked(fn (): array => $this->atomic->run('canonical-native-effect-reconciliation-authority:'.hash('sha256', $capability->authorityId), function () use ($capability, $at): array {
+            $this->resolver->inspect($capability->authorityId, $at);
+            if (null !== $this->checkpoint) { ($this->checkpoint)('currentness.passed'); }
             $preview = $this->records->read(NativeEffectReconciliationAuthorityIssuanceService::AUTHORITIES, $capability->authorityId);
             if (($preview['record_digest'] ?? null) !== $capability->authorityDigest) {
                 throw new \RuntimeException('CNE624_RECONCILIATION_CAPABILITY_INVALID');
@@ -72,7 +74,7 @@ final readonly class NativeEffectReconciliationAuthorityClaimDerivationService
                 'expires_at' => $authority['expires_at'],
                 'sealed' => true,
             ]);
-        });
+        }));
     }
 
     public static function claimId(array $authority): string

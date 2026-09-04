@@ -9,11 +9,43 @@ use App\Imperium\Runtime\ProviderTransition\NativeEffectAtomicAdmissionService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectContinuationCapabilityIssuer;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectCredentialCapabilityIssuer;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectDoubleExecutionService;
+use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationAuthorityIssuanceService;
+use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationIssuanceAuthorizationService;
+use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationIssuanceAuthorityResolver;
 
 require_once __DIR__.'/CanonicalNativeEffectCorridorActivationBatch3Test.php';
 
 class CanonicalNativeEffectCorridorActivationBatch4Test extends CanonicalNativeEffectCorridorActivationBatch3Test
 {
+    protected function issueReconciliation(string $admissionId, int $at, int $expiresAt, ?\Closure $checkpoint = null): array
+    {
+        $authorization = (new NativeEffectReconciliationIssuanceAuthorizationService($this->state))->authorize($admissionId, $at, $expiresAt);
+        $resolver = new NativeEffectReconciliationIssuanceAuthorityResolver($this->state);
+        $capability = $resolver->resolve($authorization['issuance_authority']['issuance_authority_id'], $at);
+        return (new NativeEffectReconciliationAuthorityIssuanceService($this->state, $resolver, $checkpoint))->issue($capability, $at);
+    }
+
+    protected function sealedResponseForSharedCampaign(string $message = 'shared-campaign'): array
+    {
+        [$transitionAuthority, $at] = $this->readyTransition();
+        $native = (new NativeConsumer($this->state, static fn () => $at))->execute($transitionAuthority);
+        $effectAuthority = $this->effectAuthority($native['root'], $at);
+        $credentials = new NativeEffectCredentialCapabilityIssuer();
+        $continuations = new NativeEffectContinuationCapabilityIssuer();
+        $outcome = (new NativeEffectAtomicAdmissionService($this->state, $credentials, $continuations))->admit(
+            $effectAuthority, $credentials->issue($effectAuthority, $effectAuthority['execution_boundary']['id'], $at), $at,
+        );
+        $execution = new NativeEffectDoubleExecutionService($this->state, $continuations, static function (string $cut): void {
+            if ('response.sealed' === $cut) { throw new \RuntimeException('synthetic process loss'); }
+        });
+        $this->fails('UNKNOWN_REPLAY_PROHIBITED', fn () => $execution->execute(
+            $outcome['admission_id'], $outcome->continuation, '{"to":["disposable@example.test"]}',
+            'disposable-idempotency-key', $at,
+            static fn (): array => ['http_status' => 202, 'headers' => [], 'body' => json_encode(['message_id' => $message, 'thread_id' => $message], JSON_THROW_ON_ERROR), 'observed_at' => $at, 'received_at' => $at],
+        ));
+        return [$outcome->admission, $at];
+    }
+
     public function testAcceptedDoubleBindsRawResponseReceiptAndReplaysWithoutCallback(): void
     {
         [$admission, $continuations, $at, $payload, $key] = $this->admitted();
