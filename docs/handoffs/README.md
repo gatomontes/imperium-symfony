@@ -1,3 +1,25 @@
+# Current campaign: native effect process custody and formal closure remediation
+
+`CANONICAL_NATIVE_EFFECT_PROCESS_CUSTODY_FORMAL_CLOSURE_REMEDIATION_SELECTED`
+`PREPARATION_BATCH_0_ONLY_HARD_STOP`
+`BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
+
+The merged continuation/exclusivity implementation at
+`dc62d4e564bfde3230117d740ec157e0928abf35` is retained only as candidate
+substrate. Formal closure is refused until process-incarnation custody,
+serialization/clone/fork refusal, governed forward recovery, independently
+sequenced proof and GitHub CI provenance are established.
+
+Current campaign handoff:
+`docs/handoffs/canonical-native-effect-process-custody-formal-closure-remediation-campaign-ready.md`.
+
+Only authorized local entrypoint:
+`docs/handoffs/canonical-native-effect-process-custody-formal-closure-remediation-preparation-batch-0-local-ready.md`.
+
+Preparation Batch 0 is documentary inventory only. Batch 1 contracts, runtime
+changes, authority/capability use, provider effects, Iron Gate/Lazaretto and
+Batch 7 remain unauthorized.
+
 # Current campaign selection: native effect continuation and exclusivity remediation
 
 `CANONICAL_NATIVE_EFFECT_CONTINUATION_EXCLUSIVITY_REMEDIATION_CAMPAIGN_READY`
