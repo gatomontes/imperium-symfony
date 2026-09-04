@@ -1,0 +1,48 @@
+{
+  "schema": "imperium.canonical-native-effect-reconciliation-shared-exclusion-preparation-evidence-ledger/v1",
+  "base_sha": "01e3ded3f4828862cee30f07d66db145ed3be6bc",
+  "branch": "codex/reconciliation-shared-exclusion-preparation-batch-0",
+  "entry_worktree": "CLEAN",
+  "preflight": {
+    "command": "php vendor/bin/phpunit tests/Imperium/Runtime/CanonicalNativeEffectReconciliationSharedExclusionRemediationCampaignReadyTest.php tests/Imperium/Runtime/CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemediationBatch1Test.php",
+    "tests": 20,
+    "assertions": 204,
+    "result": "PASS"
+  },
+  "race_cases": {
+    "DP01": {"classification": "ORDERING_HAZARD", "operational_decision_publisher": false, "deterministic_checkpoint": false},
+    "IU01": {"classification": "DEFERRED_BOUNDARY", "operational_issuance_capability": false},
+    "CU01_NATIVE_REVOKE": {"classification": "DISJOINT_LOCK_RACE_REPRODUCED", "trace": ["CU01_CURRENTNESS_RESOLUTION_PASSED", "REAL_NATIVE_REVOCATION_COMMITTED", "STALE_CLAIM_PUBLISHED"]},
+    "CU01_SOURCE_SUSPEND": {"classification": "DISJOINT_LOCK_RACE_REPRODUCED", "trace": ["CU01_CURRENTNESS_RESOLUTION_PASSED", "REAL_SOURCE_SUSPEND_COMMITTED", "STALE_CLAIM_PUBLISHED"]}
+  },
+  "focused_attempts": [
+    {"result": "FAIL", "tests": 27, "assertions": 138, "failures": 2, "duration": "00:00:08.018", "failure_cause": "FIXTURE_PAYLOAD_AND_IDEMPOTENCY_MISMATCH_BEFORE_RACE_BARRIER"},
+    {"result": "PASS", "tests": 27, "assertions": 151, "duration": "00:00:08.436"}
+  ],
+  "focused": {"command": "php vendor/bin/phpunit tests/Imperium/Runtime/CanonicalNativeEffectReconciliationSharedExclusionRemediationPreparationBatch0Test.php", "tests": 27, "assertions": 151, "duration": "00:00:08.438", "result": "PASS"},
+  "complete": {"command": "php vendor/bin/phpunit tests", "tests": 2544, "assertions": 51719, "duration": "00:05:37.846", "result": "PASS"},
+  "changed_files": [
+    "docs/canonical-native-effect-reconciliation-shared-exclusion-lock-identity-inventory-v1.md",
+    "docs/canonical-native-effect-reconciliation-shared-exclusion-call-graph-v1.md",
+    "docs/canonical-native-effect-reconciliation-shared-exclusion-mutation-matrix-v1.md",
+    "docs/canonical-native-effect-reconciliation-shared-exclusion-lock-order-deadlock-matrix-v1.md",
+    "docs/canonical-native-effect-reconciliation-shared-exclusion-preparation-evidence-ledger-v1.json",
+    "docs/handoffs/canonical-native-effect-reconciliation-shared-exclusion-remediation-preparation-batch-0-complete.md",
+    "tests/Imperium/Runtime/CanonicalNativeEffectReconciliationSharedExclusionRemediationPreparationBatch0Test.php",
+    "tests/Imperium/Runtime/Support/reconciliation_shared_exclusion_cu01_worker.php"
+  ],
+  "limitations": [
+    "DP01_STALE_DECISION_SURFACE_NOT_OPERATIONAL_ON_ACCEPTED_BASE",
+    "IU01_ISSUANCE_USE_SURFACE_NOT_OPERATIONAL_ON_ACCEPTED_BASE",
+    "OPERATOR_ROOT_HAS_NO_ACCEPTED_RUNTIME_WRITER",
+    "MULTI_HOST_AND_DISTRIBUTED_FILESYSTEM_UNPROVED",
+    "HOSTILE_DIRECT_WRITER_UNPROVED",
+    "WINDOWS_LOCAL_RUN_IS_NOT_LINUX_CI"
+  ],
+  "production_behavior_changed": false,
+  "provider_or_credential_accessed": false,
+  "external_io_performed": false,
+  "remote_publication_authorized": false,
+  "batch_1_authorized": false,
+  "remaining_stages": 5
+}
