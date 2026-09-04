@@ -26,28 +26,9 @@ final class NativeEffectReconciliationAuthorityResolver
 
     public function resolve(string $authorityId, int $at): NativeEffectReconciliationAuthorityCapability
     {
-        NativeState::id($authorityId);
-        $authority = $this->records->read(NativeEffectReconciliationAuthorityIssuanceService::AUTHORITIES, $authorityId);
-        $this->validateAuthority($authority, $at);
-        $issuance = $this->records->read(NativeEffectReconciliationAuthorityIssuanceService::ISSUANCES, $authority['issuance_id']);
-        $this->validateIssuance($issuance, $authority);
-        $source = (new NativeEffectReconciliationAuthoritySourceResolver($this->state))->resolve($authority['effect_admission']['id'], $at);
-        if ($authority['source_native_authority'] !== NativeState::ref($source['nativeAuthority']['authority'], 'authority_id')
-            || $authority['source_native_principal'] !== NativeState::ref($source['nativePrincipal'], 'principal_version_id')
-            || $authority['source_native_transition'] !== NativeState::ref($source['commit'], 'root')
-            || $authority['callback_start'] !== NativeState::ref($source['callback'], 'callback_start_id')
-            || $authority['sealed_response'] !== NativeState::ref($source['response'], 'response_id')) {
-            throw new \RuntimeException('CNE622_RECONCILIATION_AUTHORITY_LINEAGE_INVALID');
-        }
-        $claimId = NativeEffectReconciliationAuthorityClaimDerivationService::claimId($authority);
-        try {
-            $this->records->read(NativeEffectForwardRecoveryClaimAdmissionService::CLAIMS, $claimId);
-            throw new \RuntimeException('CNE623_RECONCILIATION_AUTHORITY_CONSUMED');
-        } catch (\RuntimeException $error) {
-            if ('PST112_IMMUTABLE_RECORD_ABSENT' !== $error->getMessage()) {
-                throw $error;
-            }
-        }
+        $evidence = $this->inspect($authorityId, $at);
+        $authority = $evidence['authority'];
+        $issuance = $evidence['issuance'];
 
         $capabilityId = 'native-effect-reconciliation-capability-'.bin2hex(random_bytes(16));
         $material = $this->material($capabilityId, $authorityId, $authority['record_digest'], $issuance['record_digest']);
@@ -63,6 +44,36 @@ final class NativeEffectReconciliationAuthorityResolver
         );
         $this->issued[$capabilityId] = $capability;
         return $capability;
+    }
+
+    /** Read-only canonical evidence resolution; returned records are not custody. */
+    public function inspect(string $authorityId, int $at, bool $allowConsumed = false): array
+    {
+        NativeState::id($authorityId);
+        $authority = $this->records->read(NativeEffectReconciliationAuthorityIssuanceService::AUTHORITIES, $authorityId);
+        $this->validateAuthority($authority, $at);
+        $issuance = $this->records->read(NativeEffectReconciliationAuthorityIssuanceService::ISSUANCES, $authority['issuance_id']);
+        $this->validateIssuance($issuance, $authority);
+        $source = (new NativeEffectReconciliationAuthoritySourceResolver($this->state))->resolve($authority['effect_admission']['id'], $at);
+        if ($authority['source_native_authority'] !== NativeState::ref($source['nativeAuthority']['authority'], 'authority_id')
+            || $authority['source_native_principal'] !== NativeState::ref($source['nativePrincipal'], 'principal_version_id')
+            || $authority['source_native_transition'] !== NativeState::ref($source['commit'], 'root')
+            || $authority['callback_start'] !== NativeState::ref($source['callback'], 'callback_start_id')
+            || $authority['sealed_response'] !== NativeState::ref($source['response'], 'response_id')) {
+            throw new \RuntimeException('CNE622_RECONCILIATION_AUTHORITY_LINEAGE_INVALID');
+        }
+        if (!$allowConsumed) {
+            $claimId = NativeEffectReconciliationAuthorityClaimDerivationService::claimId($authority);
+            try {
+                $this->records->read(NativeEffectForwardRecoveryClaimAdmissionService::CLAIMS, $claimId);
+                throw new \RuntimeException('CNE623_RECONCILIATION_AUTHORITY_CONSUMED');
+            } catch (\RuntimeException $error) {
+                if ('PST112_IMMUTABLE_RECORD_ABSENT' !== $error->getMessage()) {
+                    throw $error;
+                }
+            }
+        }
+        return ['authority' => $authority, 'issuance' => $issuance, 'source' => $source];
     }
 
     public function consume(NativeEffectReconciliationAuthorityCapability $capability, int $at): array

@@ -10,7 +10,7 @@ final class NativeEffectExecutionRecoverySeparationContract
     public const array ACTS = [
         'FIRST_CALLBACK_EXECUTION',
         'READ_ONLY_RECEIPT_RECONSTRUCTION',
-        NativeEffectForwardRecoveryClaimContract::ACT,
+        NativeEffectForwardRecoveryClaimV2Contract::ACT,
     ];
     public const array FIRST_CALLBACK_INPUTS = [
         'admission_id', 'continuation_capability', 'payload',

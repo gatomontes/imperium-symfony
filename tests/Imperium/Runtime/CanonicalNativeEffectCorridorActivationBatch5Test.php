@@ -136,8 +136,8 @@ class CanonicalNativeEffectCorridorActivationBatch5Test extends CanonicalNativeE
             [
                 'CanonicalNativeEffectCorridor.php',
                 'NativeEffectDoubleExecutionService.php',
-                'NativeEffectForwardRecoveryClaimAdmissionService.php',
                 'NativeEffectForwardRecoveryService.php',
+                'NativeEffectReconciliationAuthoritySourceResolver.php',
             ],
             $consumers,
             'Only the canonical corridor, provider-double first execution and governed no-provider recovery services may consume the effect cut; no command, transport, executor or legacy reader may do so.',

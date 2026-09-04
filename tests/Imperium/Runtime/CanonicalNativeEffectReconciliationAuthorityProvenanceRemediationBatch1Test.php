@@ -102,7 +102,7 @@ final class CanonicalNativeEffectReconciliationAuthorityProvenanceRemediationBat
         self::assertContains('operator_root_act', NativeEffectReconciliationAuthorityReconstructionContract::JOIN_ORDER);
     }
 
-    public function testBatchIsDeclarativeAndDoesNotChangeTheExistingAdmissionBoundary(): void
+    public function testBatchContractsRemainDeclarativeAfterTheLaterAdmissionReplacement(): void
     {
         $classes = [
             NativeEffectReconciliationAuthorityV2Contract::class,
@@ -121,8 +121,6 @@ final class CanonicalNativeEffectReconciliationAuthorityProvenanceRemediationBat
             self::assertStringNotContainsString('NativeAuthority::load', $source, $class);
             self::assertStringNotContainsString('random_bytes', $source, $class);
         }
-        $admission = $this->read('src/Imperium/Runtime/ProviderTransition/NativeEffectForwardRecoveryClaimAdmissionService.php');
-        self::assertStringContainsString('public function admit(array $authority, int $at): array', $admission);
     }
 
     public function testDocumentAndHandoffPinTheNextBoundary(): void
