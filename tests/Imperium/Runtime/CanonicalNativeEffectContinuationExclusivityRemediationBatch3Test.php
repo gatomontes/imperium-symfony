@@ -136,8 +136,7 @@ final class CanonicalNativeEffectContinuationExclusivityRemediationBatch3Test ex
 
     private function admitRecoveryClaim(array $admission, int $responseAt, int $recoveryAt): array
     {
-        $issued = Support\ReconciliationAuthorityFixture::issue(
-            $this->state,
+        $issued = (new NativeEffectReconciliationAuthorityIssuanceService($this->state))->issue(
             $admission['admission_id'],
             $recoveryAt,
             $recoveryAt + 100,

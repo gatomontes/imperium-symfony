@@ -78,7 +78,7 @@ final class CanonicalNativeEffectProcessCustodyFormalClosureRemediationBatch3Tes
             $outcome['admission_id'], $outcome->continuation, $payload, $key, $at,
             static fn (): array => ['http_status' => 202, 'headers' => [], 'body' => '{"message_id":"m3","thread_id":"t3"}', 'observed_at' => $at, 'received_at' => $at],
         ));
-        $issued = Support\ReconciliationAuthorityFixture::issue($this->state, $outcome['admission_id'], $at + 1, $at + 101);
+        $issued = (new NativeEffectReconciliationAuthorityIssuanceService($this->state))->issue($outcome['admission_id'], $at + 1, $at + 101);
         foreach (NativeEffectReconciliationAuthorityV2Contract::REQUIRED_FALSE_FLAGS as $flag) {
             self::assertFalse($issued['authority'][$flag]);
         }
@@ -140,8 +140,7 @@ final class CanonicalNativeEffectProcessCustodyFormalClosureRemediationBatch3Tes
 
     private function admitRecoveryAuthority(array $admission, int $responseAt, int $recoveryAt): array
     {
-        $issued = Support\ReconciliationAuthorityFixture::issue(
-            $this->state,
+        $issued = (new NativeEffectReconciliationAuthorityIssuanceService($this->state))->issue(
             $admission['admission_id'],
             $recoveryAt,
             $recoveryAt + 100,

@@ -2,24 +2,23 @@
 
 `CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_READY`
 `PREPARATION_BATCH_0_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_AND_REVOCATION_GAPS_CLASSIFIED`
-`BATCH_2_COMPLETE_ROOTED_DECISION_CUSTODY_AND_ATOMIC_PUBLICATION`
-`BATCH_3_COMPLETE_TYPED_ISSUER_AND_AT_USE_CURRENTNESS`
-`BATCH_4_COMPLETE_ADVERSARIAL_APPLICATION_AND_INTERRUPTION_PROOF`
-`BATCH_5_TERMINAL_AUDIT_COMPLETE_EXACT_SHA_CI_PASSED`
-`CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_COMPLETE`
-`RECONCILIATION_DERIVATION_AUTHORITY_AND_AT_USE_CURRENTNESS_PROVED_LOCALLY`
+`BATCH_1_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_CURRENTNESS_CONTRACTS_DEFINED`
+`BATCH_2_NOT_AUTHORIZED`
+`FORMAL_CLOSURE_REFUSED_RECONCILIATION_DERIVATION_AUTHORITY_ABSENT`
+`REVOCATION_AT_CONSUMPTION_UNPROVED`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
-All six stages are complete. Exact local candidate `fa963fc` passed focused
-`124 / 855` and full `2608 / 51982`; exact pushed terminal tree `80d335f` passed
-GitHub Actions run `33893111949`, job `101089298657`, with `2609 / 51993`.
+Preparation Batch 0 and Batch 1 are complete. Four stages remain. Batch 1 defines
+versioned issuance-authority and at-use-currentness law through constants-only,
+authority-empty contracts. It implemented, wired, created, consumed and
+published no authority or operational evidence.
 
 The campaign is
 `docs/next-campaign-canonical-native-effect-reconciliation-issuance-authority-revocation-remediation.md`.
 The current handoff is
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-campaign-complete.md`.
-The Operator authorized uninterrupted campaign completion with PHPUnit after
-each batch. The local Batch 5 audit is complete; the suspended Batch 7 live trial remains unauthorized.
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-complete.md`.
+Both local-ready files are historical. Batch 2 and the suspended Batch 7 live
+trial remain unauthorized.
 
 # Current disposition: reconciliation authority provenance remediation
 
