@@ -1,3 +1,25 @@
+# Current campaign: reconciliation authority provenance remediation
+
+`CANONICAL_NATIVE_EFFECT_RECONCILIATION_AUTHORITY_PROVENANCE_REMEDIATION_SELECTED`
+`PREPARATION_BATCH_0_ONLY_HARD_STOP`
+`PROCESS_CUSTODY_CORRECTION_ACCEPTED`
+`FORMAL_CLOSURE_REFUSED_RECONCILIATION_AUTHORITY_PROVENANCE_ABSENT`
+`BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
+
+The merged process-custody substrate remains valid, but its formal recovery
+closure is requalified: public constants plus `NativeState::seal()` can create
+the authority accepted by the exposed recovery-claim admission service.
+
+Current campaign handoff:
+`docs/handoffs/canonical-native-effect-reconciliation-authority-provenance-remediation-campaign-ready.md`.
+
+Only authorized local entrypoint:
+`docs/handoffs/canonical-native-effect-reconciliation-authority-provenance-remediation-preparation-batch-0-local-ready.md`.
+
+Preparation Batch 0 inventories provenance, issuer competence, custody,
+consumption and bypasses only. Runtime mutation, authority creation/consumption,
+provider effects, Iron Gate/Lazaretto and Batch 7 remain unauthorized.
+
 # Current campaign: native effect process custody and formal closure remediation
 
 `CANONICAL_NATIVE_EFFECT_PROCESS_CUSTODY_FORMAL_CLOSURE_REMEDIATION_COMPLETE`
