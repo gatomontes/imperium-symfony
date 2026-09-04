@@ -16,7 +16,7 @@ final readonly class NativeEffectForwardRecoveryService
     private AuthorityConsumptionStore $consumptions;
     private NativeEffectReceiptBindingService $binder;
 
-    public function __construct(private NativeState $state)
+    public function __construct(private NativeState $state, private ?\Closure $checkpoint = null)
     {
         $this->atomic = new AtomicTransition($state->root);
         $this->records = new ImmutableRecordStore($state->root, $this->atomic);
@@ -67,6 +67,7 @@ final readonly class NativeEffectForwardRecoveryService
                 $claim['deterministic_receipt_id'],
                 new \DateTimeImmutable('@'.$at),
             );
+            if (null !== $this->checkpoint) { ($this->checkpoint)('claim.consumed'); }
 
             try {
                 return $this->records->read(NativeEffectDoubleExecutionService::RECEIPTS, $claim['deterministic_receipt_id']);

@@ -16,7 +16,7 @@ final readonly class NativeEffectReconciliationAuthorityIssuanceService
     private ImmutableRecordStore $records;
     private NativeEffectReconciliationAuthoritySourceResolver $sources;
 
-    public function __construct(private NativeState $state)
+    public function __construct(private NativeState $state, private ?\Closure $checkpoint = null)
     {
         $this->atomic = new AtomicTransition($state->root);
         $this->records = new ImmutableRecordStore($state->root, $this->atomic);
@@ -67,6 +67,7 @@ final readonly class NativeEffectReconciliationAuthorityIssuanceService
 
         return $this->atomic->run('canonical-native-effect-reconciliation-issuance:'.hash('sha256', $authorityId), function () use ($authority, $authorityId, $issuanceId, $nativeAuthority, $nativePrincipal, $source, $admission, $at): array {
             $storedAuthority = $this->records->put(self::AUTHORITIES, $authorityId, $authority);
+            if (null !== $this->checkpoint) { ($this->checkpoint)('authority.published'); }
             $issuance = $this->records->put(self::ISSUANCES, $issuanceId, [
                 'schema' => NativeEffectReconciliationAuthorityIssuanceContract::SCHEMA,
                 'issuance_id' => $issuanceId,

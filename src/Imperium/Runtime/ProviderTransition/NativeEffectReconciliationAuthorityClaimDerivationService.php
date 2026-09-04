@@ -13,7 +13,11 @@ final readonly class NativeEffectReconciliationAuthorityClaimDerivationService
     private AtomicTransition $atomic;
     private ImmutableRecordStore $records;
 
-    public function __construct(private NativeState $state, private NativeEffectReconciliationAuthorityResolver $resolver)
+    public function __construct(
+        private NativeState $state,
+        private NativeEffectReconciliationAuthorityResolver $resolver,
+        private ?\Closure $checkpoint = null,
+    )
     {
         $this->atomic = new AtomicTransition($state->root);
         $this->records = new ImmutableRecordStore($state->root, $this->atomic);
@@ -22,6 +26,17 @@ final readonly class NativeEffectReconciliationAuthorityClaimDerivationService
     public function derive(NativeEffectReconciliationAuthorityCapability $capability, int $at): array
     {
         return $this->atomic->run('canonical-native-effect-reconciliation-authority:'.hash('sha256', $capability->authorityId), function () use ($capability, $at): array {
+            $preview = $this->records->read(NativeEffectReconciliationAuthorityIssuanceService::AUTHORITIES, $capability->authorityId);
+            if (($preview['record_digest'] ?? null) !== $capability->authorityDigest) {
+                throw new \RuntimeException('CNE624_RECONCILIATION_CAPABILITY_INVALID');
+            }
+            $previewClaimId = self::claimId($preview);
+            try {
+                $this->records->read(NativeEffectForwardRecoveryClaimAdmissionService::CLAIMS, $previewClaimId);
+                throw new \RuntimeException('CNE623_RECONCILIATION_AUTHORITY_CONSUMED');
+            } catch (\RuntimeException $error) {
+                if ('PST112_IMMUTABLE_RECORD_ABSENT' !== $error->getMessage()) { throw $error; }
+            }
             $resolved = $this->resolver->consume($capability, $at);
             $authority = $resolved['authority'];
             $issuance = $resolved['issuance'];
@@ -31,10 +46,12 @@ final readonly class NativeEffectReconciliationAuthorityClaimDerivationService
                 'consumption_id' => 'reconciliation-authority-consumption-'.hash('sha256', $authority['authority_id']),
                 'authority_id' => $authority['authority_id'],
                 'claim_id' => $claimId,
+                'custody_capability_id' => $capability->capabilityId,
                 'act' => NativeEffectReconciliationAuthorityConsumptionContract::ACT,
                 'consumed_at' => $at,
                 'sealed' => true,
             ]);
+            if (null !== $this->checkpoint) { ($this->checkpoint)('capability.consumed'); }
             return $this->records->put(NativeEffectForwardRecoveryClaimAdmissionService::CLAIMS, $claimId, [
                 'schema' => NativeEffectForwardRecoveryClaimV2Contract::SCHEMA,
                 'claim_id' => $claimId,
