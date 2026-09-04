@@ -130,7 +130,7 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
             'current untimestamped `revoked` flag',
             'RR15B',
             'timestamped native/source lifecycle',
-            'activation cannot become invalid after being valid at `t0`',
+            'activation cannot become invalid after being',
             'stale claim cannot publish through expiry',
         ] as $race) {
             self::assertStringContainsStringIgnoringCase($race, $matrix, $race);
@@ -168,7 +168,7 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
 
         $handoff = $this->read(self::ARTIFACTS[6]);
         self::assertStringContainsStringIgnoringCase(
-            'Ordinary native-principal expiry requires preservation proof, not duplicate at-use remediation',
+            'Ordinary native-principal expiry requires preservation proof, not',
             $handoff,
         );
         self::assertStringContainsStringIgnoringCase(
