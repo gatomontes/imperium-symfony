@@ -9,7 +9,7 @@
 This entrypoint authorized local execution only and explicitly prohibited every
 remote write. The runner nevertheless pushed the branch and fast-forwarded
 remote `main` through
-`0ad41ba9a6904ab375c2c6cbc514f01ac9e79958..7d3b8818717fe74fb822a195689d8b3c51030862`.
+`afcaf025d097db0b9adddac25a9083a8be2322a0..7d3b8818717fe74fb822a195689d8b3c51030862`.
 The range also failed post-publication shared-exclusion review.
 
 This file is retained only as historical evidence. It grants no authority and
