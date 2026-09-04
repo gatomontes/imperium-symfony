@@ -26,6 +26,17 @@
     "hostile_writer_exclusion_proved": false,
     "linux_ci_claimed": false
   },
+  "batch_5": {
+    "marker": "LOCAL_RECONCILIATION_ISSUANCE_CAMPAIGN_CANDIDATE_COMPLETE_PENDING_REMOTE_REVIEW",
+    "audited_candidate_sha": "bf0f8153be28fefe7298a18d8973ef47dbd57ecb",
+    "finding_1_sha": "54852f945c8a01fd1bd66d051b992b25b56733b5",
+    "correction_1_sha": "bf0f8153be28fefe7298a18d8973ef47dbd57ecb",
+    "corrected_adversarial_focus": {"tests": 118, "assertions": 622, "duration": "00:00:47.115", "result": "PASS"},
+    "corrected_complete": {"command": "php vendor/bin/phpunit tests", "tests": 2605, "assertions": 51998, "duration": "00:06:13.606", "result": "PASS"},
+    "terminal_focused": {"command": "php vendor/bin/phpunit tests/Imperium/Runtime/CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemediationBatch5TerminalAuditTest.php", "tests": 2, "assertions": 23, "duration": "00:00:00.009", "result": "PASS"},
+    "terminal_complete": {"command": "php vendor/bin/phpunit tests", "tests": 2607, "assertions": 52023, "duration": "00:06:40.237", "result": "PASS"},
+    "verdict": "BOUNDED_LOCAL_CANDIDATE_ACCEPTABLE_PENDING_INDEPENDENT_REMOTE_REVIEW"
+  },
   "provider_effect_performed": false,
   "credential_accessed": false,
   "external_io_performed": false,
