@@ -52,7 +52,7 @@ Begin Preparation Batch 0 only — shared-exclusion lock and interleaving
 inventory.
 
 The range
-`0ad41ba9a6904ab375c2c6cbc514f01ac9e79958..7d3b8818717fe74fb822a195689d8b3c51030862`
+`afcaf025d097db0b9adddac25a9083a8be2322a0..7d3b8818717fe74fb822a195689d8b3c51030862`
 is quarantined history. You may inspect its diff and review findings to
 understand the failure, but do not cherry-pick, restore, copy or treat its
 implementation, tests, audit or evidence as accepted proof.
