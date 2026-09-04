@@ -24,7 +24,7 @@ final class CanonicalNativeEffectReconciliationAuthorityProvenanceRemediationBat
     public function testIssuerResolvesSignedRootedCompetenceAndPersistsSeparateEvidence(): void
     {
         [$admission, $at] = $this->sealedResponse();
-        $issued = $this->issueReconciliationAuthority($admission, $at + 1, $at + 100);
+        $issued = (new NativeEffectReconciliationAuthorityIssuanceService($this->state))->issue($admission['admission_id'], $at + 1, $at + 100);
 
         self::assertSame(NativeEffectReconciliationAuthorityV2Contract::SCHEMA, $issued['authority']['schema']);
         self::assertSame($admission['native_root'], $issued['authority']['source_native_transition']['id']);
@@ -41,7 +41,7 @@ final class CanonicalNativeEffectReconciliationAuthorityProvenanceRemediationBat
     public function testResolverDeliversOnlyExactNonTransferableProcessCustody(): void
     {
         [$admission, $at] = $this->sealedResponse();
-        $issued = $this->issueReconciliationAuthority($admission, $at + 1, $at + 100);
+        $issued = (new NativeEffectReconciliationAuthorityIssuanceService($this->state))->issue($admission['admission_id'], $at + 1, $at + 100);
         $resolver = new NativeEffectReconciliationAuthorityResolver($this->state);
         $capability = $resolver->resolve($issued['authority']['authority_id'], $at + 2);
         self::assertSame($issued['authority']['record_digest'], $capability->authorityDigest);
@@ -62,7 +62,7 @@ final class CanonicalNativeEffectReconciliationAuthorityProvenanceRemediationBat
     public function testClaimPublicationIsTheAtomicSinglePurposeConsumption(): void
     {
         [$admission, $at] = $this->sealedResponse();
-        $issued = $this->issueReconciliationAuthority($admission, $at + 1, $at + 100);
+        $issued = (new NativeEffectReconciliationAuthorityIssuanceService($this->state))->issue($admission['admission_id'], $at + 1, $at + 100);
         $resolver = new NativeEffectReconciliationAuthorityResolver($this->state);
         $capability = $resolver->resolve($issued['authority']['authority_id'], $at + 2);
         $claim = (new NativeEffectReconciliationAuthorityClaimDerivationService($this->state, $resolver))->derive($capability, $at + 2);
@@ -79,7 +79,7 @@ final class CanonicalNativeEffectReconciliationAuthorityProvenanceRemediationBat
     public function testFreshDigestWithChangedIssuerLabelCannotSubstituteForIssuance(): void
     {
         [$admission, $at] = $this->sealedResponse();
-        $issued = $this->issueReconciliationAuthority($admission, $at + 1, $at + 100);
+        $issued = (new NativeEffectReconciliationAuthorityIssuanceService($this->state))->issue($admission['admission_id'], $at + 1, $at + 100);
         $path = $this->root.'/'.NativeEffectReconciliationAuthorityIssuanceService::AUTHORITIES.'/'.$issued['authority']['authority_id'].'.json';
         $counterfeit = $issued['authority'];
         $counterfeit['issuer_service'] = 'imperium.imperator.native-effect-reconciliation-authority-issuer/counterfeit';
@@ -93,7 +93,7 @@ final class CanonicalNativeEffectReconciliationAuthorityProvenanceRemediationBat
     public function testRevokedRootAfterIssuanceRefusesFreshResolution(): void
     {
         [$admission, $at] = $this->sealedResponse();
-        $issued = $this->issueReconciliationAuthority($admission, $at + 1, $at + 100);
+        $issued = (new NativeEffectReconciliationAuthorityIssuanceService($this->state))->issue($admission['admission_id'], $at + 1, $at + 100);
         $path = $this->root.'/'.NativeState::TRUST.'/identity.json';
         $anchor = json_decode((string) file_get_contents($path), true, 32, JSON_THROW_ON_ERROR);
         $anchor['revoked'] = true;

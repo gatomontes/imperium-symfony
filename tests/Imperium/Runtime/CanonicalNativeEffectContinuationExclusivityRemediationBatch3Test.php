@@ -136,7 +136,11 @@ final class CanonicalNativeEffectContinuationExclusivityRemediationBatch3Test ex
 
     private function admitRecoveryClaim(array $admission, int $responseAt, int $recoveryAt): array
     {
-        $issued = $this->issueReconciliationAuthority($admission, $recoveryAt, $recoveryAt + 100);
+        $issued = (new NativeEffectReconciliationAuthorityIssuanceService($this->state))->issue(
+            $admission['admission_id'],
+            $recoveryAt,
+            $recoveryAt + 100,
+        );
         $resolver = new NativeEffectReconciliationAuthorityResolver($this->state);
         return (new NativeEffectForwardRecoveryClaimAdmissionService($this->state, $resolver))->admit(
             $resolver->resolve($issued['authority']['authority_id'], $recoveryAt),

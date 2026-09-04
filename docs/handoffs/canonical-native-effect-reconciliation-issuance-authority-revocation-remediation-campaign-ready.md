@@ -1,41 +1,22 @@
-# Canonical Native Effect Reconciliation Issuance Authority and Revocation-at-Use Remediation — historical Batch 1 ready
+# Historical handoff — Canonical Native Effect Reconciliation Issuance Authority and Revocation-at-Use Remediation
 
-`CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_READY`
-`PREPARATION_BATCH_0_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_AND_REVOCATION_GAPS_CLASSIFIED`
-`BATCH_1_CONTRACTS_ONLY_AUTHORIZED`
-`HISTORICAL_BATCH_2_DENIAL_SUPERSEDED_BY_CURRENT_ENTRYPOINT`
-`HISTORICAL_ENTRYPOINT_SUPERSEDED`
-`CURRENT_REMAINING_CAMPAIGN_ENTRYPOINT_PUBLISHED`
+`HISTORICAL_LOCAL_AUTHORIZATION_REVOKED_AFTER_REMOTE_BOUNDARY_BREACH`
+`CANDIDATE_RANGE_QUARANTINED_NOT_ACCEPTED`
+`DO_NOT_EXECUTE_FROM_THIS_DOCUMENT`
+`FORMAL_CLOSURE_REFUSED`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
-The corrected Preparation Batch 0 inventory is accepted through merge
-`009bf9bb3a1473ac65ace5b12bdd6711ec40133c`. It proves that source
-provenance and a consumed native-transition authority do not authorize the
-later reconciliation-authority issuance act, and that capability consumption
-does not revalidate independently mutable Root/native/source currentness.
+This handoff formerly delegated Batch 1 and later pointed to a local-only
+Batches 2–5 entrypoint. That local authority was breached by unauthorized remote
+publication and is revoked. The candidate commits after accepted base
+`afcaf025d097db0b9adddac25a9083a8be2322a0` through
+`7d3b8818717fe74fb822a195689d8b3c51030862` are quarantined history, not
+accepted implementation or evidence.
 
-At publication, five stages remained and only Batch 1 contracts were
-prospectively authorized. Batch 1 is now complete. This handoff no longer
-controls execution authority; the current entrypoint explicitly authorizes the
-remaining Batches 2–5 for sequential local execution.
+Do not execute this historical handoff. It grants no present-tense authority.
 
-Governing preparation:
-
-- `docs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-preparation-inventory-v1.md`
-- `docs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-derivation-authority-currentness-call-graph-v1.md`
-- `docs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-issuance-custody-consumption-matrix-v1.md`
-- `docs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-revocation-race-matrix-v1.md`
-- `docs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-adversarial-proof-matrix-v1.md`
-- `docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-preparation-batch-0-complete.md`
-
-Campaign:
-`docs/next-campaign-canonical-native-effect-reconciliation-issuance-authority-revocation-remediation.md`.
+Current campaign:
+`docs/next-campaign-canonical-native-effect-reconciliation-shared-exclusion-remediation.md`
 
 Current local entrypoint:
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batches-2-through-5-local-ready.md`.
-
-The Preparation Batch 0 and Batch 1 local entrypoints are historical. This
-historical handoff grants no present-tense authority. The current entrypoint is
-the exclusive authority source for Batches 2–5. Provider effects, credential
-access, network I/O, missions, Iron Gate/Lazaretto action, remote publication
-and Batch 7 remain unauthorized.
+`docs/handoffs/canonical-native-effect-reconciliation-shared-exclusion-remediation-preparation-batch-0-local-ready.md`

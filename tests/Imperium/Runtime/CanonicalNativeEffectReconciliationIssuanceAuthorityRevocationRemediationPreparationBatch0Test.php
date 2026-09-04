@@ -60,20 +60,17 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
         }
     }
 
-    public function testPreparationInventoryPreservesTheOriginalGapWhileCurrentIssuerIsTyped(): void
+    public function testCurrentIssuerSignatureHasNoDerivationAuthorityAndNoConsumption(): void
     {
-        $inventory = $this->read(self::ARTIFACTS[0]);
-        self::assertStringContainsString('NativeEffectReconciliationAuthorityIssuanceService::issue(string', $inventory);
-        self::assertStringContainsString('$admissionId, int $at, int $expiresAt)', $inventory);
-
         $source = $this->read('src/Imperium/Runtime/ProviderTransition/NativeEffectReconciliationAuthorityIssuanceService.php');
-        self::assertStringContainsString(
-            'public function issue(NativeEffectReconciliationIssuanceCapability $capability, int $at): array',
-            $source,
-        );
-        self::assertStringContainsString('NativeEffectReconciliationIssuanceAuthorityResolver $issuanceResolver', $source);
-        self::assertStringContainsString('NativeEffectReconciliationIssuancePublicationService', $source);
-        self::assertStringNotContainsString('public function issue(string $admissionId', $source);
+        self::assertStringContainsString('public function issue(string $admissionId, int $at, int $expiresAt): array', $source);
+        self::assertStringContainsString('$this->sources->resolve($admissionId, $at)', $source);
+        self::assertStringContainsString('$this->records->put(self::AUTHORITIES', $source);
+        self::assertStringContainsString('$this->records->put(self::ISSUANCES', $source);
+        self::assertStringNotContainsString('AuthorityConsumptionStore', $source);
+        self::assertStringNotContainsString('IssuanceAuthority', $source);
+        self::assertStringNotContainsString('IssuanceDecision', $source);
+        self::assertStringNotContainsString('Capability $', $source);
     }
 
     public function testSourceDecisionIsExactSingleUseAndConsumedOnlyInNativeCommit(): void
@@ -217,6 +214,18 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
         self::assertSame('imperium.canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-reading-evidence-ledger/v1', $ledger['schema']);
         self::assertSame('3dceba3057497c6c80f019bd78835335cf69c774', $ledger['audited_main']);
         self::assertSame('CLEAN', $ledger['entry_worktree']);
+        self::assertSame('HISTORICAL_INDEX_PUBLISHED_AT_ACCEPTED_BASE', $ledger['read_status']);
+        self::assertSame('afcaf025d097db0b9adddac25a9083a8be2322a0', $ledger['governing_documents_snapshot']);
+        self::assertSame($ledger['audited_main'], $ledger['source_audit_base']);
+        self::assertSame(
+            'TO_BE_FULLY_READ_DURING_LOCAL_PREPARATION_BATCH_0',
+            $ledger['current_campaign_reading_requirements']['status'],
+        );
+        self::assertSame([
+            'docs/canonical-native-effect-reconciliation-shared-exclusion-post-publication-blackquill-review-v1.md',
+            'docs/next-campaign-canonical-native-effect-reconciliation-shared-exclusion-remediation.md',
+            'docs/handoffs/canonical-native-effect-reconciliation-shared-exclusion-remediation-preparation-batch-0-local-ready.md',
+        ], $ledger['current_campaign_reading_requirements']['documents']);
         self::assertCount(14, $ledger['prior_campaign_documents']);
         self::assertCount(8, $ledger['prior_campaign_handoffs']);
         self::assertCount(8, $ledger['prior_campaign_tests']);
@@ -230,9 +239,9 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
         self::assertNull($ledger['git_provenance']['current_preparation_external_ci']);
         self::assertFalse($ledger['network_or_external_io']);
         self::assertFalse($ledger['authority_or_claim_operation_performed']);
-        self::assertSame('CURRENT_READING_INDEX_WITH_HISTORICAL_PREPARATION_EVIDENCE', $ledger['ledger_status']);
+        self::assertSame('HISTORICAL_ISSUANCE_CAMPAIGN_INDEX_QUARANTINED', $ledger['ledger_status']);
         self::assertTrue($ledger['batch_1_complete']);
-        self::assertTrue($ledger['batches_2_through_5_local_execution_authorized']);
+        self::assertFalse($ledger['batches_2_through_5_local_execution_authorized']);
         self::assertFalse($ledger['remote_publication_authorized']);
         self::assertFalse($ledger['batch_7_authorized']);
 
@@ -248,6 +257,10 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
             foreach ($ledger[$set] as $path) {
                 self::assertFileExists($this->root().'/'.$path, $path);
             }
+        }
+
+        foreach ($ledger['current_campaign_reading_requirements']['documents'] as $path) {
+            self::assertFileExists($this->root().'/'.$path, $path);
         }
     }
 

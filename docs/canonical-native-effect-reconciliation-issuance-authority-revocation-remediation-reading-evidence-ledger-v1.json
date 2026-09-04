@@ -12,7 +12,7 @@
   "provider_effect_performed": false,
   "credential_accessed": false,
   "authority_or_claim_operation_performed": false,
-  "read_status": "FULLY_READ",
+  "read_status": "HISTORICAL_INDEX_PUBLISHED_AT_ACCEPTED_BASE",
   "governing_documents": [
     "docs/canonical-native-effect-reconciliation-authority-provenance-post-merge-blackquill-review-v1.md",
     "docs/next-campaign-canonical-native-effect-reconciliation-issuance-authority-revocation-remediation.md",
@@ -200,6 +200,8 @@
     "DEFERRED_BOUNDARY"
   ],
   "remaining_stages": [
+    "Preparation Batch 0",
+    "Batch 1",
     "Batch 2",
     "Batch 3",
     "Batch 4",
@@ -207,14 +209,46 @@
   ],
   "batch_7_authorized": false,
   "closure_claimed": false,
-  "ledger_status": "CURRENT_READING_INDEX_WITH_HISTORICAL_PREPARATION_EVIDENCE",
-  "current_authority_document": "docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batches-2-through-5-local-ready.md",
+  "ledger_status": "HISTORICAL_ISSUANCE_CAMPAIGN_INDEX_QUARANTINED",
+  "current_authority_document": "docs/handoffs/canonical-native-effect-reconciliation-shared-exclusion-remediation-preparation-batch-0-local-ready.md",
   "historical_authority_documents": [
     "docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-campaign-ready.md",
     "docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-preparation-batch-0-local-ready.md",
-    "docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-local-ready.md"
+    "docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-local-ready.md",
+    "docs/next-campaign-canonical-native-effect-reconciliation-issuance-authority-revocation-remediation.md",
+    "docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batches-2-through-5-local-ready.md"
   ],
   "batch_1_complete": true,
-  "batches_2_through_5_local_execution_authorized": true,
-  "remote_publication_authorized": false
+  "batches_2_through_5_local_execution_authorized": false,
+  "remote_publication_authorized": false,
+  "quarantined_candidate": {
+    "first_sha": "0ad41ba9a6904ab375c2c6cbc514f01ac9e79958",
+    "tip_sha": "7d3b8818717fe74fb822a195689d8b3c51030862",
+    "publication_authorized": false,
+    "implementation_accepted": false,
+    "evidence_accepted": false,
+    "closure_accepted": false,
+    "push_ci": {
+      "run_id": 33911762126,
+      "job_id": 101149568624,
+      "tests": 2607,
+      "assertions": 52024,
+      "conclusion": "success"
+    },
+    "findings": [
+      "DECISION_PUBLICATION_CURRENTNESS_RACE_UNRESOLVED",
+      "AT_USE_SHARED_EXCLUSION_UNPROVED"
+    ]
+  },
+  "production_correction_authorized": false,
+  "current_campaign_reading_requirements": {
+    "status": "TO_BE_FULLY_READ_DURING_LOCAL_PREPARATION_BATCH_0",
+    "documents": [
+      "docs/canonical-native-effect-reconciliation-shared-exclusion-post-publication-blackquill-review-v1.md",
+      "docs/next-campaign-canonical-native-effect-reconciliation-shared-exclusion-remediation.md",
+      "docs/handoffs/canonical-native-effect-reconciliation-shared-exclusion-remediation-preparation-batch-0-local-ready.md"
+    ]
+  },
+  "governing_documents_snapshot": "afcaf025d097db0b9adddac25a9083a8be2322a0",
+  "source_audit_base": "3dceba3057497c6c80f019bd78835335cf69c774"
 }
