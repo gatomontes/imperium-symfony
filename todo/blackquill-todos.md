@@ -1,3 +1,27 @@
+## Canonical Native Effect Reconciliation Authority Provenance Remediation — selected 2026-09-04
+
+- [ ] Preparation Batch 0: inventory authority construction, canonical issuer
+  competence, source provenance, custody, consumption, bypasses and proof cuts.
+- [ ] Batch 1: define canonical issuance, source, custody, revocation and
+  single-purpose consumption contracts.
+- [ ] Batch 2: implement Root-provenanced issuance and atomic custody.
+- [ ] Batch 3: replace arbitrary-array admission and integrate the canonical
+  recovery corridor without competing bypasses.
+- [ ] Batch 4: prove counterfeit refusal, application wiring, contention,
+  interruption, process loss, expiry, revocation and replay.
+- [ ] Batch 5: conduct a separately sequenced terminal audit from clean merged
+  Batch 4 with retained SHA-bound GitHub CI evidence.
+
+Only Preparation Batch 0 is authorized. Active entrypoint:
+`docs/handoffs/canonical-native-effect-reconciliation-authority-provenance-remediation-preparation-batch-0-local-ready.md`.
+
+The process-custody correction merged at
+`b188a0b849f27ebec4d3e14f98c471eead15b484` remains accepted. Formal closure is
+refused because caller-created self-sealed arrays are accepted as reconciliation
+authority without canonical issuer provenance or custody. The historical
+completion record remains evidence of that tree; it is not the current verdict.
+Batch 7 remains suspended.
+
 ## Canonical Native Effect Process Custody and Formal Closure Remediation — selected 2026-09-04
 
 - [x] Preparation Batch 0: inventory process identity, serialization, clone/fork,
