@@ -14,7 +14,8 @@ without a pull request.
 
 The post-publication review also found unresolved decision-publication and
 at-use shared-exclusion races. The range is quarantined history, not accepted
-implementation or evidence. This document grants no present-tense authority.
+implementation or evidence. Do not execute this historical campaign. This document
+grants no present-tense authority.
 
 Current campaign:
 `docs/next-campaign-canonical-native-effect-reconciliation-shared-exclusion-remediation.md`
