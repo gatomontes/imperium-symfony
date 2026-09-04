@@ -1,3 +1,27 @@
+# Current continuation: reconciliation issuance authority and revocation-at-use remediation
+
+`CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_READY`
+`PREPARATION_BATCH_0_ONLY_HARD_STOP`
+`ROOT_PROVENANCE_JOIN_ACCEPTED`
+`FORMAL_CLOSURE_REFUSED_RECONCILIATION_DERIVATION_AUTHORITY_ABSENT`
+`REVOCATION_AT_CONSUMPTION_UNPROVED`
+`BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
+
+The typed reconciliation provenance/custody substrate merged at
+`23034731492cb8661a5580470dbc0c34139e17fc` remains accepted. Formal closure is
+refused because the exposed issuer requires no separately sourced and consumed
+authority to derive reconciliation authority from a single-use native transition
+authority carrying `continuing_authority: false`. Resolver currentness is also
+not revalidated at capability consumption, leaving resolve -> revoke -> consume
+unproved.
+
+The next six-stage campaign begins with documentary Preparation Batch 0 only:
+`docs/next-campaign-canonical-native-effect-reconciliation-issuance-authority-revocation-remediation.md`.
+The sole local entrypoint is
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-preparation-batch-0-local-ready.md`.
+No historical closure, green test, service possession, continuation request or
+motto authorizes Batch 1 or restores Batch 7.
+
 # Current disposition: reconciliation authority provenance remediation
 
 `CANONICAL_NATIVE_EFFECT_RECONCILIATION_AUTHORITY_PROVENANCE_REMEDIATION_COMPLETE`
