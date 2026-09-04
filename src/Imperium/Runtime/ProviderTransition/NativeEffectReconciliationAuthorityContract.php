@@ -9,6 +9,7 @@ final class NativeEffectReconciliationAuthorityContract
 {
     public const string SCHEMA = 'imperium.imperator.native-effect-reconciliation-authority/v1';
     public const string HOLDER = 'imperium.la-cortine.canonical-native-effect-forward-recovery/v1';
+    public const string ISSUER = 'imperium.imperator.native-effect-reconciliation-authority-issuer/v1';
     public const string ACT = 'FORWARD_COMPLETE_ONLY';
     public const array REQUIRED_FIELDS = [
         'schema', 'authority_id', 'effect_admission', 'callback_start',
