@@ -1,3 +1,9 @@
+> Historical entrypoint: Preparation Batch 0 completed and its review amendment
+> merged at `009bf9bb3a1473ac65ace5b12bdd6711ec40133c`. The current authorized
+> entrypoint is
+> `docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-local-ready.md`.
+> This file grants no current execution authority.
+
 # Canonical Native Effect Reconciliation Issuance Authority and Revocation-at-Use Remediation — Preparation Batch 0 local ready
 
 `PREPARATION_BATCH_0_LOCAL_ENTRYPOINT_READY`
