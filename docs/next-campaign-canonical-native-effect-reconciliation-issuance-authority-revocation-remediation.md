@@ -3,7 +3,7 @@
 `CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_SELECTED`
 `PREPARATION_BATCH_0_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_AND_REVOCATION_GAPS_CLASSIFIED`
 `BATCH_1_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_CURRENTNESS_CONTRACTS_DEFINED`
-`BATCH_2_NOT_AUTHORIZED`
+`BATCH_2_COMPLETE_ROOTED_DECISION_CUSTODY_AND_ATOMIC_PUBLICATION`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
 ## Purpose
@@ -59,12 +59,11 @@ decision-to-issuance-to-consumption-to-recovery chain, run focused and full
 tests, retain exact-SHA GitHub CI evidence and decide bounded closure without
 restoring Batch 7.
 
-## Current status — Batch 1 complete; Batch 2 not authorized
+## Current status — Batch 2 complete; Batch 3 in progress under Operator continuation
 
-Preparation Batch 0 and Batch 1 are complete. Four stages remain. The current
+Preparation Batch 0 and Batches 1–2 are complete. Three stages remain. The current
 handoff is
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-complete.md`.
-It grants no Batch 2 authority.
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-2-complete.md`.
 
 Batch 1 defines exact issuance-decision, typed issuance-authority, process-local
 custody, single-use consumption, currentness, deterministic publication/retry
@@ -86,6 +85,6 @@ reconciliation authority, claim or receipt was created or consumed. Credentials,
 providers, external I/O, missions/live trials, Iron Gate/Lazaretto, closure and
 Batch 7 remain outside the completed batch.
 
-Batch 2 is not authorized. Prior merges, green tests, “continue,” “forward,”
-“clear,” or a Latin motto do not extend authority. Stop at
-`BATCH_1_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_CURRENTNESS_CONTRACTS_DEFINED`.
+The Operator explicitly authorized uninterrupted campaign completion with tests
+after each batch. That instruction authorizes Batch 3 within this campaign; it
+does not authorize provider effects or Batch 7.
