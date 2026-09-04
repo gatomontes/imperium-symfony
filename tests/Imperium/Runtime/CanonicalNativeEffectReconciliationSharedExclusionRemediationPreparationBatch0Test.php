@@ -21,7 +21,15 @@ final class CanonicalNativeEffectReconciliationSharedExclusionRemediationPrepara
     public function testDP01IsAnOrderingHazardButAcceptedBaseHasNoDecisionPublicationSurface(): void
     {
         $root = dirname(__DIR__, 3);
-        self::assertFileDoesNotExist($root.'/src/Imperium/Runtime/ProviderTransition/NativeEffectReconciliationIssuanceAuthorizationService.php');
+        $service = $root.'/src/Imperium/Runtime/ProviderTransition/NativeEffectReconciliationIssuanceAuthorizationService.php';
+        if (is_file($service)) {
+            self::assertStringContainsString(
+                'BATCH_2_COMPLETE_RECONCILIATION_DECISION_PUBLICATION_SHARED_EXCLUSION_PROVED',
+                (string) file_get_contents($root.'/docs/canonical-native-effect-reconciliation-shared-exclusion-remediation-batch-2-decision-publication-v1.md'),
+            );
+        } else {
+            self::assertFileDoesNotExist($service);
+        }
         self::assertFileDoesNotExist($root.'/src/Imperium/Runtime/ProviderTransition/NativeEffectReconciliationIssuancePublicationService.php');
         self::assertStringContainsString('CONTRACT_ONLY_NOT_CONSUMED_OR_PUBLISHED', (string) file_get_contents($root.'/src/Imperium/Runtime/ProviderTransition/NativeEffectReconciliationIssuanceConsumptionPublicationContract.php'));
         self::assertSame([], glob($this->root.'/var/imperium/runtime/canonical-native-effect-reconciliation-issuance-decisions/*.json') ?: []);
