@@ -1,0 +1,12 @@
+{
+  "schema": "imperium.audit.canonical-native-effect-reconciliation-shared-exclusion-batch-4/v1",
+  "base_sha": "b47a432331b6d68e0de42707c7900c16f6dc914a",
+  "focused_command": "php vendor/bin/phpunit tests/Imperium/Runtime/CanonicalNativeEffectReconciliationSharedExclusionRemediationBatch4Test.php",
+  "focused_result": "OK (28 tests, 154 assertions)",
+  "full_command": "php vendor/bin/phpunit tests",
+  "full_result": "OK (2624 tests, 52139 assertions) in 00:06:36.891",
+  "process_traces": ["DP01", "IU01", "CU01"],
+  "external_io": false,
+  "github_ci_claimed": false,
+  "limitations": ["cooperative single-host flock only", "distributed and hostile writers excluded", "no provider or credential edge", "untimestamped Root history unrepaired"]
+}

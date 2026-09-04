@@ -54,6 +54,27 @@ final class NativeEffectReconciliationIssuanceAuthorityResolver
         }
         $source = (new NativeEffectReconciliationAuthoritySourceResolver($this->state))->resolve($authority['effect_admission']['id'], $at);
         $expected = NativeEffectReconciliationAuthorityFactory::build($source, $decision['effective_at'], $decision['expires_at']);
+        $expectedIssuer = [
+            'principal_id' => $source['nativePrincipal']['principal_id'],
+            'principal_version_id' => $source['nativePrincipal']['principal_version_id'],
+            'generation' => $source['nativePrincipal']['principal_generation'],
+            'office' => 'imperator',
+            'seat' => 'native-transition',
+            'competence' => NativeEffectReconciliationIssuanceDecisionContract::ACT,
+        ];
+        $rootAct = NativeState::seal($source['nativePrincipal']['root_act']['act']);
+        if ($decision['competent_issuer'] !== $expectedIssuer || $authority['issuer'] !== $expectedIssuer
+            || $decision['competent_issuer_provenance'] !== NativeState::ref($source['nativePrincipal'], 'principal_version_id')
+            || $decision['operator_root_act'] !== NativeState::ref($rootAct, 'act_id')
+            || $authority['operator_root_act'] !== $decision['operator_root_act']
+            || $authority['holder'] !== $decision['holder']
+            || $authority['replay_identity'] !== $decision['replay_identity']
+            || NativeEffectReconciliationIssuanceDecisionContract::ACT !== $decision['act']
+            || NativeEffectReconciliationIssuanceAuthorityContract::PERMITTED_TRANSITION !== $authority['permitted_transition']
+            || true !== $decision['single_purpose'] || true !== $decision['single_use']
+            || false !== $decision['continuing_authority'] || false !== $authority['continuing_authority']) {
+            throw new \RuntimeException('CNE631_ISSUANCE_AUTHORITY_INVALID');
+        }
         foreach (['effect_admission', 'callback_start', 'sealed_response', 'source_native_authority', 'source_native_principal', 'source_native_transition'] as $field) {
             if ($authority[$field] !== $expected[$field] || $decision[$field] !== $expected[$field]) {
                 throw new \RuntimeException('CNE632_ISSUANCE_CURRENTNESS_INVALID');
