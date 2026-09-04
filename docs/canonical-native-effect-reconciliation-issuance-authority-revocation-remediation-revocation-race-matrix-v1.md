@@ -16,15 +16,17 @@ the common sequence is:
 5. one deterministic claim can be published. Later forward completion may
    refuse, which does not retroactively authorize the claim.
 
-RR05 and RR11 are time-bound preservation cases. They cannot use the common
-sequence to publish a stale claim: activation cannot become invalid after being
-valid at `t0`, reconciliation expiry is bounded to native-principal expiry, and
-capability consumption rejects at `t1 >= expiresAt`.
+RR02, RR05 and RR11 are time-bound preservation cases. They cannot use the
+common sequence to publish a stale claim. A native principal's Root act cannot
+outlive its anchor; the native decision expires with the principal;
+reconciliation expiry is bounded to that decision/principal expiry; activation
+cannot become invalid after being valid at `t0`; and capability consumption
+rejects at `t1 >= expiresAt`.
 
 | ID | Change after resolution | Resolution-time check | Consume-time check | Current result | Required Batch 4 proof |
 | --- | --- | --- | --- | --- | --- |
 | RR01 | Operator Root trust anchor `revoked=true` | `NativeRootActs::verify()` requires false | none | stale capability remains consumable | claim publication refuses inside governed use cut |
-| RR02 | Root anchor expires before `t1` while capability expiry is later/equal | Root/act time checked at `t0` | capability expiry only | no independent Root recheck | boundary-time refusal; no derived record |
+| RR02 | Operator Root anchor reaches ordinary time-based expiry after resolution | native Root act cannot outlive its anchor; native decision/principal and reconciliation expiry are transitively bounded | `t1 >= capability->expiresAt` refuses before a stale use | no `t1` exists where the Root anchor is expired while the capability remains usable | preserve the transitive expiry proof; no additional at-use remediation |
 | RR03 | Root anchor identity/key substituted | signature/anchor equality at `t0` | none | stored authority/issuance digests unchanged | substitution refuses before consumption |
 | RR04 | Native principal effective `REVOKE` event | `NativePrincipal::load()` scans revocations | none | stale capability remains consumable | post-resolution native revocation refuses |
 | RR05 | Native principal reaches ordinary time-based expiry after resolution | native-principal expiry bounds the decision and reconciliation expiry | `t1 >= capability->expiresAt` refuses | stale claim cannot publish through expiry; activation cannot reverse after valid `t0` | preserve existing boundary proof; no additional at-use remediation |

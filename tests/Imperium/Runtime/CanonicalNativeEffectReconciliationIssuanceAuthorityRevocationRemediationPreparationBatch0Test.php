@@ -130,6 +130,8 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
             'current untimestamped `revoked` flag',
             'RR15B',
             'timestamped native/source lifecycle',
+            'RR02, RR05 and RR11 are time-bound preservation cases',
+            'native Root act cannot outlive its anchor',
             'activation cannot become invalid after being',
             'stale claim cannot publish through expiry',
         ] as $race) {
@@ -143,22 +145,32 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
             '| RR15 | Source revoked after receipt publication',
             $matrix,
         );
+        self::assertStringNotContainsString(
+            'Root anchor expires before `t1` while capability expiry is later/equal',
+            $matrix,
+        );
     }
 
     public function testPostReceiptReconstructionIsSplitByRevocationSource(): void
     {
         $adversarial = $this->read(self::ARTIFACTS[4]);
         foreach ([
-            'CUR08A',
             'current untimestamped Root `revoked`',
             'NIR_ROOT_INELIGIBLE',
-            '`EXISTS_FRAGMENTED`',
-            'CUR08B',
             'Timestamped native/source lifecycle',
-            '`EXISTS_CANONICALLY`',
         ] as $distinction) {
             self::assertStringContainsStringIgnoringCase($distinction, $adversarial, $distinction);
         }
+
+        $rows = [];
+        foreach (explode("\n", $adversarial) as $line) {
+            if (str_starts_with($line, '| CUR08A |') || str_starts_with($line, '| CUR08B |')) {
+                $rows[substr($line, 2, 6)] = $line;
+            }
+        }
+        self::assertSame(['CUR08A', 'CUR08B'], array_keys($rows));
+        self::assertStringEndsWith('| `EXISTS_FRAGMENTED` |', $rows['CUR08A']);
+        self::assertStringEndsWith('| `EXISTS_CANONICALLY` |', $rows['CUR08B']);
 
         $inventory = $this->read(self::ARTIFACTS[0]);
         self::assertStringContainsString(
@@ -168,7 +180,7 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
 
         $handoff = $this->read(self::ARTIFACTS[6]);
         self::assertStringContainsStringIgnoringCase(
-            'Ordinary native-principal expiry requires preservation proof, not',
+            'Ordinary Root-anchor and native-principal expiry require preservation proof',
             $handoff,
         );
         self::assertStringContainsStringIgnoringCase(

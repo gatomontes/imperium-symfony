@@ -71,8 +71,8 @@ Artifacts:
    proof and retained exact-SHA GitHub CI evidence.
 
 The original corridor Batch 7 is not one of these five stages and remains
-suspended. Ordinary native-principal expiry requires preservation proof, not
-duplicate at-use remediation. Post-receipt reconstruction must distinguish
+suspended. Ordinary Root-anchor and native-principal expiry require preservation proof,
+not duplicate at-use remediation. Post-receipt reconstruction must distinguish
 current untimestamped Operator Root revocation, which presently refuses
 historical reconstruction, from timestamped native/source lifecycle changes.
 Batch 1 is not authorized by this handoff.
