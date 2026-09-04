@@ -10,19 +10,14 @@
   the governed use cut.
 - [ ] Batch 4: prove missing/counterfeit/replayed authority, consumed-source
   refusal, resolve-revoke-consume, contention, interruption and application wiring.
-- [ ] Batch 5: conduct a separately sequenced terminal audit from clean merged
-  Batch 4 with retained exact-SHA GitHub CI evidence.
+- [ ] Batch 5: conduct a separately sequenced terminal audit from clean committed
+  Batch 4 with exact local-SHA evidence.
 
-Preparation Batch 0 and Batch 1 are complete. Four stages remain. Current
-handoff:
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-complete.md`.
-
-Batch 2 is not authorized. The provenance campaign substrate remains accepted,
-but formal closure is refused because `issue()` requires no separate derivation
-authority and `consume()` does not revalidate independently mutable
-currentness. RR02/RR05/RR11 are bounded preservation cases. Current Operator
-Root revocation still blocks historical reconstruction; timestamped lifecycle
-history remains a distinct case. Batch 7 remains suspended.
+Batches 2–5 are explicitly authorized for one sequential local run under
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batches-2-through-5-local-ready.md`. Each batch requires its own commit and focused/full PHPUnit
+gate. The reverted unauthorized range is not accepted implementation or
+evidence. Local success remains pending independent remote review. Batch 7 stays
+suspended.
 
 ## Canonical Native Effect Reconciliation Authority Provenance Remediation — selected 2026-09-04
 

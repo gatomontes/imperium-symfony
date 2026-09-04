@@ -1,9 +1,11 @@
-# Canonical Native Effect Reconciliation Issuance Authority and Revocation-at-Use Remediation — Batch 1 ready
+# Canonical Native Effect Reconciliation Issuance Authority and Revocation-at-Use Remediation — historical Batch 1 ready
 
 `CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_READY`
 `PREPARATION_BATCH_0_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_AND_REVOCATION_GAPS_CLASSIFIED`
 `BATCH_1_CONTRACTS_ONLY_AUTHORIZED`
-`BATCH_2_NOT_AUTHORIZED`
+`HISTORICAL_BATCH_2_DENIAL_SUPERSEDED_BY_CURRENT_ENTRYPOINT`
+`HISTORICAL_ENTRYPOINT_SUPERSEDED`
+`CURRENT_REMAINING_CAMPAIGN_ENTRYPOINT_PUBLISHED`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
 The corrected Preparation Batch 0 inventory is accepted through merge
@@ -12,10 +14,10 @@ provenance and a consumed native-transition authority do not authorize the
 later reconciliation-authority issuance act, and that capability consumption
 does not revalidate independently mutable Root/native/source currentness.
 
-Five stages remain: Batch 1 contracts, Batch 2 rooted issuance
-authority/custody, Batch 3 issuer and at-use integration, Batch 4
-adversarial/application proof, and Batch 5 separately sequenced terminal audit.
-Only Batch 1 contracts and authority-empty contract tests may run next.
+At publication, five stages remained and only Batch 1 contracts were
+prospectively authorized. Batch 1 is now complete. This handoff no longer
+controls execution authority; the current entrypoint explicitly authorizes the
+remaining Batches 2–5 for sequential local execution.
 
 Governing preparation:
 
@@ -30,9 +32,10 @@ Campaign:
 `docs/next-campaign-canonical-native-effect-reconciliation-issuance-authority-revocation-remediation.md`.
 
 Current local entrypoint:
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-local-ready.md`.
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batches-2-through-5-local-ready.md`.
 
-The former Preparation Batch 0 local entrypoint is historical. No production
-runtime/service wiring, authority creation or consumption, provider effect,
-credential access, network I/O, mission, Iron Gate/Lazaretto action, Batch 2 or
-Batch 7 restoration is authorized.
+The Preparation Batch 0 and Batch 1 local entrypoints are historical. This
+historical handoff grants no present-tense authority. The current entrypoint is
+the exclusive authority source for Batches 2–5. Provider effects, credential
+access, network I/O, missions, Iron Gate/Lazaretto action, remote publication
+and Batch 7 remain unauthorized.
