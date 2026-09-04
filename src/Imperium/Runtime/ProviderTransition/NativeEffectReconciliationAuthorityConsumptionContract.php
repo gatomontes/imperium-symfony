@@ -10,7 +10,8 @@ final class NativeEffectReconciliationAuthorityConsumptionContract
     public const string SCHEMA = 'imperium.imperator.native-effect-reconciliation-authority-consumption/v1';
     public const string ACT = 'DERIVE_EXACT_FORWARD_RECOVERY_CLAIM';
     public const array REQUIRED_FIELDS = [
-        'schema', 'consumption_id', 'authority_id', 'claim_id', 'act',
+        'schema', 'consumption_id', 'authority_id', 'claim_id',
+        'custody_capability_id', 'act',
         'consumed_at', 'sealed', 'record_digest',
     ];
     public const array REQUIRED_INVARIANTS = [
