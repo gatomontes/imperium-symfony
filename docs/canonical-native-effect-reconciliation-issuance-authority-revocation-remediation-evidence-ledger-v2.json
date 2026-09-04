@@ -1,0 +1,24 @@
+{
+  "schema": "imperium.canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-evidence-ledger/v2",
+  "terminal_candidate_sha": "fa963fcea32ddf7d64b6a0ed0b6a9805cc50a783",
+  "entry_branch": "main",
+  "entry_worktree": "CLEAN",
+  "blackquill_review": {
+    "result": "CORRECTION_REQUIRED_AND_APPLIED",
+    "finding": "DECISION_CURRENTNESS_RESOLVED_OUTSIDE_PUBLICATION_EXCLUSION",
+    "correction_sha": "fa963fcea32ddf7d64b6a0ed0b6a9805cc50a783"
+  },
+  "local_phpunit": {
+    "focused": {"result": "PASS", "tests": 124, "assertions": 855},
+    "full": {"result": "PASS", "tests": 2608, "assertions": 51982, "duration": "00:06:18.278", "php": "8.4.14"}
+  },
+  "github_ci": null,
+  "exact_sha_ci_verified": false,
+  "provider_effect_performed": false,
+  "credential_accessed": false,
+  "network_or_external_io_performed": false,
+  "batch_7_authorized": false,
+  "bounded_local_candidate_accepted": true,
+  "campaign_closure_claimed": false,
+  "remaining_gate": "EXACT_SHA_GITHUB_CI"
+}

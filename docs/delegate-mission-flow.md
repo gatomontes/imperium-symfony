@@ -5,21 +5,22 @@
 `BATCH_2_COMPLETE_ROOTED_DECISION_CUSTODY_AND_ATOMIC_PUBLICATION`
 `BATCH_3_COMPLETE_TYPED_ISSUER_AND_AT_USE_CURRENTNESS`
 `BATCH_4_COMPLETE_ADVERSARIAL_APPLICATION_AND_INTERRUPTION_PROOF`
-`BATCH_5_SEPARATE_CLEAN_MAIN_AUDIT_IN_PROGRESS`
-`FORMAL_CLOSURE_REFUSED_RECONCILIATION_DERIVATION_AUTHORITY_ABSENT`
-`REVOCATION_AT_CONSUMPTION_UNPROVED`
+`BATCH_5_LOCAL_TERMINAL_AUDIT_COMPLETE_CI_EVIDENCE_PENDING`
+`CAMPAIGN_CLOSURE_WITHHELD_EXACT_SHA_GITHUB_CI_ABSENT`
+`RECONCILIATION_DERIVATION_AUTHORITY_AND_AT_USE_CURRENTNESS_PROVED_LOCALLY`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
-Preparation Batch 0 and Batches 1–4 are complete. One stage remains. The public
-issuer and at-use currentness path passed the bounded adversarial, process,
-contention, interruption, application and frozen-runtime gate.
+All implementation and local audit work is complete. Exact local candidate
+`fa963fcea32ddf7d64b6a0ed0b6a9805cc50a783` passed focused `124 / 855` and full
+`2608 / 51982` PHPUnit. Exact-SHA GitHub CI evidence remains absent, so campaign
+closure is withheld.
 
 The campaign is
 `docs/next-campaign-canonical-native-effect-reconciliation-issuance-authority-revocation-remediation.md`.
 The current handoff is
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-4-complete.md`.
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-5-local-complete-ci-pending.md`.
 The Operator authorized uninterrupted campaign completion with PHPUnit after
-each batch. The separate Batch 5 audit is in progress; the suspended Batch 7 live trial remains unauthorized.
+each batch. The local Batch 5 audit is complete; the suspended Batch 7 live trial remains unauthorized.
 
 # Current disposition: reconciliation authority provenance remediation
 

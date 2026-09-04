@@ -13,13 +13,15 @@
 - [ ] Batch 5: conduct a separately sequenced terminal audit from clean merged
   Batch 4 with retained exact-SHA GitHub CI evidence.
 
-Preparation Batch 0 and Batches 1–4 are complete. One stage remains. Current
+Preparation Batch 0 and Batches 1–4 plus the local Batch 5 audit are complete.
+Exact-SHA GitHub CI remains pending. Current
 handoff:
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-4-complete.md`.
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-5-local-complete-ci-pending.md`.
 
-Batch 5 is separately sequenced from clean committed Batch 4. Typed issuance,
-separate derivation authority and at-use Root/native/source currentness are now
-implemented and adversarially proved within the bounded single-host model.
+The separately sequenced audit corrected decision-publication currentness.
+Exact local candidate `fa963fcea32ddf7d64b6a0ed0b6a9805cc50a783` passed
+focused `124 / 855` and full `2608 / 51982` PHPUnit. Typed issuance and at-use
+Root/native/source currentness are proved within the bounded single-host model.
 Current Operator Root revocation still blocks historical reconstruction;
 timestamped lifecycle history remains distinct. Batch 7 remains suspended.
 

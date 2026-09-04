@@ -6,6 +6,8 @@
 `BATCH_2_COMPLETE_ROOTED_DECISION_CUSTODY_AND_ATOMIC_PUBLICATION`
 `BATCH_3_COMPLETE_TYPED_ISSUER_AND_AT_USE_CURRENTNESS`
 `BATCH_4_COMPLETE_ADVERSARIAL_APPLICATION_AND_INTERRUPTION_PROOF`
+`BATCH_5_LOCAL_TERMINAL_AUDIT_COMPLETE_CI_EVIDENCE_PENDING`
+`CAMPAIGN_CLOSURE_WITHHELD_EXACT_SHA_GITHUB_CI_ABSENT`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
 ## Purpose
@@ -61,11 +63,12 @@ decision-to-issuance-to-consumption-to-recovery chain, run focused and full
 tests, retain exact-SHA GitHub CI evidence and decide bounded closure without
 restoring Batch 7.
 
-## Current status — Batch 4 complete; Batch 5 separately sequenced
+## Current status — Batch 5 locally complete; exact-SHA CI pending
 
-Preparation Batch 0 and Batches 1–4 are complete. One stage remains. The current
+All implementation and local audit work is complete. One external evidence gate
+remains. The current
 handoff is
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-4-complete.md`.
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-5-local-complete-ci-pending.md`.
 
 Batch 1 defines exact issuance-decision, typed issuance-authority, process-local
 custody, single-use consumption, currentness, deterministic publication/retry
@@ -83,7 +86,9 @@ interruption cases within the cooperative single-host boundary. Credentials,
 providers, external I/O, missions/live trials, Iron Gate/Lazaretto and Batch 7
 remain outside the completed batch.
 
-The Operator explicitly authorized uninterrupted campaign completion with tests
-after each batch. That instruction authorizes the separately sequenced Batch 5
-audit within this campaign; it
-does not authorize provider effects or Batch 7.
+The separately sequenced Blackquill audit corrected decision-publication
+currentness and accepted exact local candidate
+`fa963fcea32ddf7d64b6a0ed0b6a9805cc50a783` after focused `124 / 855` and full
+`2608 / 51982` PHPUnit. Campaign closure remains withheld because no GitHub
+Actions run is bound to that exact SHA. Provider effects and Batch 7 remain
+unauthorized.

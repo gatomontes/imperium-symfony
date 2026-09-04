@@ -11,7 +11,7 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
     private const string CAMPAIGN = 'docs/next-campaign-canonical-native-effect-reconciliation-issuance-authority-revocation-remediation.md';
     private const string READY = 'docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-campaign-ready.md';
     private const string CURRENT = 'docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-local-ready.md';
-    private const string COMPLETE = 'docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-4-complete.md';
+    private const string COMPLETE = 'docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-5-local-complete-ci-pending.md';
     private const string HISTORICAL = 'docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-preparation-batch-0-local-ready.md';
 
     public function testCorrectedPreparationAuthorizesOnlyBatchOneContracts(): void
