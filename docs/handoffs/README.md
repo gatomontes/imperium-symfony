@@ -2,25 +2,24 @@
 
 `CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_SELECTED`
 `PREPARATION_BATCH_0_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_AND_REVOCATION_GAPS_CLASSIFIED`
-`BATCH_2_COMPLETE_ROOTED_DECISION_CUSTODY_AND_ATOMIC_PUBLICATION`
-`BATCH_3_COMPLETE_TYPED_ISSUER_AND_AT_USE_CURRENTNESS`
-`BATCH_4_COMPLETE_ADVERSARIAL_APPLICATION_AND_INTERRUPTION_PROOF`
-`BATCH_5_TERMINAL_AUDIT_COMPLETE_EXACT_SHA_CI_PASSED`
-`CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_COMPLETE`
+`BATCH_1_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_CURRENTNESS_CONTRACTS_DEFINED`
+`BATCH_2_NOT_AUTHORIZED`
 `ROOT_PROVENANCE_JOIN_ACCEPTED`
-`RECONCILIATION_DERIVATION_AUTHORITY_AND_AT_USE_CURRENTNESS_PROVED_LOCALLY`
+`FORMAL_CLOSURE_REFUSED_RECONCILIATION_DERIVATION_AUTHORITY_ABSENT`
+`REVOCATION_AT_CONSUMPTION_UNPROVED`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
-All six stages are complete. Exact local candidate `fa963fc` passed focused
-`124 / 855` and full `2608 / 51982`; exact pushed terminal tree `80d335f` passed
-GitHub Actions run `33893111949`, job `101089298657`, with `2609 / 51993`.
+Preparation Batch 0 and Batch 1 are complete. Four stages remain. The
+constants-only Batch 1 definitions preserve the accepted typed
+provenance/recovery substrate while defining the missing derivation-authority,
+custody, atomic publication, at-use currentness and reconstruction law.
 
 Current campaign handoff:
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-campaign-complete.md`.
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-complete.md`.
 
-The local-ready files are historical. The Operator authorized uninterrupted
-completion with tests after each batch. The local Batch 5 audit is complete. Provider effects,
-Iron Gate/Lazaretto and Batch 7 remain unauthorized.
+The Batch 1 and Preparation Batch 0 local-ready files are historical. Production
+runtime behavior, service wiring, authority creation/consumption, provider
+effects, Iron Gate/Lazaretto, Batch 2 and Batch 7 remain unauthorized.
 
 # Current campaign: reconciliation authority provenance remediation
 

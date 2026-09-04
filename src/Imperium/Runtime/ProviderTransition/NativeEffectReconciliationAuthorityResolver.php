@@ -53,7 +53,7 @@ final class NativeEffectReconciliationAuthorityResolver
         $authority = $this->records->read(NativeEffectReconciliationAuthorityIssuanceService::AUTHORITIES, $authorityId);
         $this->validateAuthority($authority, $at);
         $issuance = $this->records->read(NativeEffectReconciliationAuthorityIssuanceService::ISSUANCES, $authority['issuance_id']);
-        $issuanceSource = $this->validateIssuance($issuance, $authority);
+        $this->validateIssuance($issuance, $authority);
         $source = (new NativeEffectReconciliationAuthoritySourceResolver($this->state))->resolve($authority['effect_admission']['id'], $at);
         if ($authority['source_native_authority'] !== NativeState::ref($source['nativeAuthority']['authority'], 'authority_id')
             || $authority['source_native_principal'] !== NativeState::ref($source['nativePrincipal'], 'principal_version_id')
@@ -73,7 +73,7 @@ final class NativeEffectReconciliationAuthorityResolver
                 }
             }
         }
-        return ['authority' => $authority, 'issuance' => $issuance, 'source' => $source] + $issuanceSource;
+        return ['authority' => $authority, 'issuance' => $issuance, 'source' => $source];
     }
 
     public function consume(NativeEffectReconciliationAuthorityCapability $capability, int $at): array
@@ -114,11 +114,10 @@ final class NativeEffectReconciliationAuthorityResolver
         }
     }
 
-    /** @return array{issuance_decision: array, issuance_authority: array, issuance_authority_consumption: array} */
-    private function validateIssuance(array $issuance, array $authority): array
+    private function validateIssuance(array $issuance, array $authority): void
     {
-        if (NativeEffectReconciliationAuthorityIssuanceV2Contract::REQUIRED_FIELDS !== array_keys($issuance)
-            || NativeEffectReconciliationAuthorityIssuanceV2Contract::SCHEMA !== ($issuance['schema'] ?? null)
+        if (NativeEffectReconciliationAuthorityIssuanceContract::REQUIRED_FIELDS !== array_keys($issuance)
+            || NativeEffectReconciliationAuthorityIssuanceContract::SCHEMA !== ($issuance['schema'] ?? null)
             || NativeState::seal($issuance) !== $issuance
             || ($issuance['issued_authority'] ?? null) !== NativeState::ref($authority, 'authority_id')
             || ($issuance['source_native_authority'] ?? null) !== $authority['source_native_authority']
@@ -128,43 +127,11 @@ final class NativeEffectReconciliationAuthorityResolver
             || true !== ($issuance['authority_issued'] ?? null)) {
             throw new \RuntimeException('CNE625_RECONCILIATION_ISSUANCE_INVALID');
         }
-        foreach (NativeEffectReconciliationAuthorityIssuanceV2Contract::REQUIRED_FALSE_FLAGS as $flag) {
+        foreach (NativeEffectReconciliationAuthorityIssuanceContract::REQUIRED_FALSE_FLAGS as $flag) {
             if (false !== ($issuance[$flag] ?? null)) {
                 throw new \RuntimeException('CNE625_RECONCILIATION_ISSUANCE_INVALID');
             }
         }
-        $decision = $this->records->read(
-            NativeEffectReconciliationIssuanceDecisionService::DECISIONS,
-            $issuance['issuance_decision']['id'] ?? '',
-        );
-        $issuanceAuthority = $this->records->read(
-            NativeEffectReconciliationIssuanceDecisionService::AUTHORITIES,
-            $issuance['issuance_authority']['id'] ?? '',
-        );
-        $consumption = $this->records->read(
-            'var/imperium/runtime/authority-consumptions',
-            $issuance['issuance_authority_consumption']['id'] ?? '',
-        );
-        if ($issuance['issuance_decision'] !== NativeState::ref($decision, 'decision_id')
-            || $issuance['issuance_authority'] !== NativeState::ref($issuanceAuthority, 'issuance_authority_id')
-            || $issuance['issuance_authority_consumption'] !== NativeState::ref($consumption, 'consumption_id')
-            || $issuanceAuthority['issuance_decision'] !== $issuance['issuance_decision']
-            || $decision['target']['authority_id'] !== $authority['authority_id']
-            || $decision['target']['authority_digest'] !== $authority['record_digest']
-            || $issuanceAuthority['target'] !== $decision['target']
-            || ($consumption['authority_id'] ?? null) !== $issuanceAuthority['issuance_authority_id']
-            || ($consumption['source'] ?? null) !== ['id' => $issuanceAuthority['issuance_authority_id'], 'digest' => $issuanceAuthority['record_digest']]
-            || ($consumption['consumer'] ?? null) !== $authority['authority_id']
-            || true !== ($consumption['consumed'] ?? null)
-            || false !== ($consumption['continuing_authority'] ?? null)) {
-            throw new \RuntimeException('CNE625_RECONCILIATION_ISSUANCE_INVALID');
-        }
-
-        return [
-            'issuance_decision' => $decision,
-            'issuance_authority' => $issuanceAuthority,
-            'issuance_authority_consumption' => $consumption,
-        ];
     }
 
     private function material(string $capabilityId, string $authorityId, string $authorityDigest, string $issuanceDigest): string

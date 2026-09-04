@@ -4,27 +4,25 @@
   competence, present-tense lifecycle checks, revocation races and bypasses.
 - [x] Batch 1: define exact issuance authority, typed custody, consumption,
   currentness and reconstruction contracts. Constants-only and authority-empty.
-- [x] Batch 2: implement Root-provenanced issuance decision/capability and atomic
+- [ ] Batch 2: implement Root-provenanced issuance decision/capability and atomic
   consumption with reconciliation-authority publication.
-- [x] Batch 3: enforce typed issuance at the issuer and revalidate currentness at
+- [ ] Batch 3: enforce typed issuance at the issuer and revalidate currentness at
   the governed use cut.
-- [x] Batch 4: prove missing/counterfeit/replayed authority, consumed-source
+- [ ] Batch 4: prove missing/counterfeit/replayed authority, consumed-source
   refusal, resolve-revoke-consume, contention, interruption and application wiring.
-- [x] Batch 5: conduct a separately sequenced terminal audit from clean merged
+- [ ] Batch 5: conduct a separately sequenced terminal audit from clean merged
   Batch 4 with retained exact-SHA GitHub CI evidence.
 
-Preparation Batch 0 and Batches 1–5 are complete. Zero stages remain. Current
+Preparation Batch 0 and Batch 1 are complete. Four stages remain. Current
 handoff:
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-campaign-complete.md`.
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-complete.md`.
 
-The separately sequenced audit corrected decision-publication currentness.
-Exact local candidate `fa963fcea32ddf7d64b6a0ed0b6a9805cc50a783` passed
-focused `124 / 855` and full `2608 / 51982` PHPUnit. Typed issuance and at-use
-Root/native/source currentness are proved within the bounded single-host model.
-Exact pushed tree `80d335f466cacdd78c4f2e40f1859ad42e9c73e8` passed GitHub
-Actions run `33893111949`, job `101089298657`, with `2609 / 51993`.
-Current Operator Root revocation still blocks historical reconstruction;
-timestamped lifecycle history remains distinct. Batch 7 remains suspended.
+Batch 2 is not authorized. The provenance campaign substrate remains accepted,
+but formal closure is refused because `issue()` requires no separate derivation
+authority and `consume()` does not revalidate independently mutable
+currentness. RR02/RR05/RR11 are bounded preservation cases. Current Operator
+Root revocation still blocks historical reconstruction; timestamped lifecycle
+history remains a distinct case. Batch 7 remains suspended.
 
 ## Canonical Native Effect Reconciliation Authority Provenance Remediation — selected 2026-09-04
 

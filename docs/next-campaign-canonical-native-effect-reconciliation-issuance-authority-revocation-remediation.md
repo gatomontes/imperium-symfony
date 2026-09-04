@@ -3,11 +3,7 @@
 `CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_SELECTED`
 `PREPARATION_BATCH_0_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_AND_REVOCATION_GAPS_CLASSIFIED`
 `BATCH_1_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_CURRENTNESS_CONTRACTS_DEFINED`
-`BATCH_2_COMPLETE_ROOTED_DECISION_CUSTODY_AND_ATOMIC_PUBLICATION`
-`BATCH_3_COMPLETE_TYPED_ISSUER_AND_AT_USE_CURRENTNESS`
-`BATCH_4_COMPLETE_ADVERSARIAL_APPLICATION_AND_INTERRUPTION_PROOF`
-`BATCH_5_TERMINAL_AUDIT_COMPLETE_EXACT_SHA_CI_PASSED`
-`CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_COMPLETE`
+`BATCH_2_NOT_AUTHORIZED`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
 ## Purpose
@@ -63,11 +59,12 @@ decision-to-issuance-to-consumption-to-recovery chain, run focused and full
 tests, retain exact-SHA GitHub CI evidence and decide bounded closure without
 restoring Batch 7.
 
-## Current status — campaign complete
+## Current status — Batch 1 complete; Batch 2 not authorized
 
-All six stages are complete. The current
+Preparation Batch 0 and Batch 1 are complete. Four stages remain. The current
 handoff is
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-campaign-complete.md`.
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-complete.md`.
+It grants no Batch 2 authority.
 
 Batch 1 defines exact issuance-decision, typed issuance-authority, process-local
 custody, single-use consumption, currentness, deterministic publication/retry
@@ -77,18 +74,18 @@ references and refusal outcomes. Source provenance, service possession,
 historical approval and the consumed native-transition authority remain
 explicitly non-authorizing.
 
-The capability-only public issuer and corridor wiring enforce the rooted
-decision and shared resolver. Issuance and claim derivation revalidate current
-Root/native/source authority inside their governed use cuts. Batch 4 proves the
-distinct lifecycle, counterfeit/replay, process, concurrency, application and
-interruption cases within the cooperative single-host boundary. Credentials,
-providers, external I/O, missions/live trials, Iron Gate/Lazaretto and Batch 7
-remain outside the completed batch.
+At-use currentness must distinguish independently mutable Root revocation,
+native-principal revocation, source-generation advance and source-lifecycle
+change from the already bounded RR02/RR05/RR11 expiry cases. Post-receipt
+reconstruction must keep current untimestamped Operator Root revocation separate
+from timestamped native/source lifecycle history.
 
-The separately sequenced Blackquill audit corrected decision-publication
-currentness and accepted exact local candidate
-`fa963fcea32ddf7d64b6a0ed0b6a9805cc50a783` after focused `124 / 855` and full
-`2608 / 51982` PHPUnit. Exact pushed terminal tree
-`80d335f466cacdd78c4f2e40f1859ad42e9c73e8` passed GitHub Actions run
-`33893111949`, job `101089298657`, with `2609 / 51993`. Zero stages remain.
-Provider effects and Batch 7 remain unauthorized.
+No issuer, resolver, authority producer, consumption service, atomic publication
+path or service wiring was implemented. No real decision, authority, capability,
+reconciliation authority, claim or receipt was created or consumed. Credentials,
+providers, external I/O, missions/live trials, Iron Gate/Lazaretto, closure and
+Batch 7 remain outside the completed batch.
+
+Batch 2 is not authorized. Prior merges, green tests, “continue,” “forward,”
+“clear,” or a Latin motto do not extend authority. Stop at
+`BATCH_1_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_CURRENTNESS_CONTRACTS_DEFINED`.
