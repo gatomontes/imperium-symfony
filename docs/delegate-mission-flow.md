@@ -1,25 +1,19 @@
-# Current continuation: native effect process custody and formal closure remediation
+# Current disposition: native effect process custody and formal closure remediation
 
-`CANONICAL_NATIVE_EFFECT_PROCESS_CUSTODY_FORMAL_CLOSURE_REMEDIATION_READY`
-`PREPARATION_BATCH_0_ONLY_HARD_STOP`
+`CANONICAL_NATIVE_EFFECT_PROCESS_CUSTODY_FORMAL_CLOSURE_REMEDIATION_BATCH_5_CI_CANDIDATE`
+`LOCAL_FOCUSED_AND_FULL_PROOF_GREEN`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
-The continuation/exclusivity candidate merged at `dc62d4e564bfde3230117d740ec157e0928abf35`
-remains bounded substrate, but formal closure is refused. Object-registry identity
-does not prove actual process-incarnation custody; serialization, clone and fork
-inheritance are unproved; forward completion has no distinct governed recovery
-boundary; and the required clean-merge independent audit and GitHub CI provenance
-are absent. Preparation Batch 0 inventories those gaps, the exact execution cuts
-and the stale canonical consumers only. It does not modify runtime behavior.
+Preparation Batch 0 and Batches 1–4 are separately committed and merged through
+clean-main merge `83fc4d6`. Actual PID plus issuer-private incarnation nonce and
+exact object custody now refuse serialization, clone, fork/fresh-process and PID-
+label substitution. First callback execution, read-only reconstruction and
+claimed no-provider forward recovery are disjoint.
 
-The six-stage sequence is defined in
-`docs/next-campaign-canonical-native-effect-process-custody-formal-closure-remediation.md`.
-The active local entrypoint is
-`docs/handoffs/canonical-native-effect-process-custody-formal-closure-remediation-preparation-batch-0-local-ready.md`.
-The governing review is
-`docs/canonical-native-effect-continuation-exclusivity-post-merge-blackquill-review-v2.md`.
-No continuation request, green test, motto or live marker overrides the hard stop
-or restores Batch 7.
+The separately sequenced Batch 5 audit recorded focused `73 / 637` and full
+`2368 / 50072` local PHPUnit proof. Terminal acceptance remains withheld in this
+candidate text until the pushed merge SHA has a source-attributed green GitHub
+Actions run. No provider edge is present and Batch 7 remains suspended.
 
 # Current continuation: native effect continuation and exclusivity remediation
 

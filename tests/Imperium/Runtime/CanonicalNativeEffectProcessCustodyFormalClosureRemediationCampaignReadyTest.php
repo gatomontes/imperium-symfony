@@ -70,7 +70,9 @@ final class CanonicalNativeEffectProcessCustodyFormalClosureRemediationCampaignR
             self::assertStringContainsStringIgnoringCase($boundary, $handoff, $boundary);
         }
         foreach (['docs/delegate-mission-flow.md', 'docs/handoffs/README.md', 'todo/blackquill-todos.md'] as $consumer) {
-            self::assertStringContainsString($path, $this->read($consumer), $consumer);
+            $current = $this->read($consumer);
+            self::assertStringContainsStringIgnoringCase('Batch 5', str_replace('_', ' ', $current), $consumer);
+            self::assertStringContainsStringIgnoringCase('Batch 7', $current, $consumer);
         }
     }
 

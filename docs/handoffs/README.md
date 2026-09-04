@@ -1,24 +1,19 @@
 # Current campaign: native effect process custody and formal closure remediation
 
-`CANONICAL_NATIVE_EFFECT_PROCESS_CUSTODY_FORMAL_CLOSURE_REMEDIATION_SELECTED`
-`PREPARATION_BATCH_0_ONLY_HARD_STOP`
+`CANONICAL_NATIVE_EFFECT_PROCESS_CUSTODY_FORMAL_CLOSURE_REMEDIATION_BATCH_5_CI_CANDIDATE`
+`LOCAL_FOCUSED_AND_FULL_PROOF_GREEN`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
-The merged continuation/exclusivity implementation at
-`dc62d4e564bfde3230117d740ec157e0928abf35` is retained only as candidate
-substrate. Formal closure is refused until process-incarnation custody,
-serialization/clone/fork refusal, governed forward recovery, independently
-sequenced proof and GitHub CI provenance are established.
+Preparation Batch 0 and Batches 1–4 are separately committed and merged. Batch 5
+started from clean merged Batch 4 `main` at `83fc4d6`; focused PHPUnit passed
+`73 tests / 637 assertions` and the full suite passed `2368 tests / 50072
+assertions`. The pushed merge SHA and GitHub Actions run must be recorded before
+terminal acceptance.
 
-Current campaign handoff:
-`docs/handoffs/canonical-native-effect-process-custody-formal-closure-remediation-campaign-ready.md`.
-
-Only authorized local entrypoint:
-`docs/handoffs/canonical-native-effect-process-custody-formal-closure-remediation-preparation-batch-0-local-ready.md`.
-
-Preparation Batch 0 is documentary inventory only. Batch 1 contracts, runtime
-changes, authority/capability use, provider effects, Iron Gate/Lazaretto and
-Batch 7 remain unauthorized.
+Current candidate audit:
+`docs/canonical-native-effect-process-custody-formal-closure-remediation-batch-5-terminal-audit-candidate-v1.md`.
+No live authority, credential access, provider operation, mission, Iron Gate,
+Lazaretto or Batch 7 restoration follows.
 
 # Current campaign selection: native effect continuation and exclusivity remediation
 

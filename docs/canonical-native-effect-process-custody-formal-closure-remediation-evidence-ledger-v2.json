@@ -1,0 +1,26 @@
+{
+  "schema": "imperium.canonical-native-effect-process-custody-formal-closure-remediation-evidence-ledger/v2",
+  "audit_start_main": "83fc4d6",
+  "audit_start_state": "CLEAN_MERGED_BATCH_4_MAIN",
+  "batch_merge_chain": {
+    "preparation_batch_0": ["7eec2a3", "642b29e"],
+    "batch_1": ["f07b7d7", "eda148d"],
+    "batch_2": ["e73d100", "ce8fd9e"],
+    "batch_3": ["96b3079", "b66edd9"],
+    "batch_4": ["c00e02c", "83fc4d6"]
+  },
+  "local": {
+    "runtime": "PHP 8.4.14",
+    "os_family": "Windows",
+    "focused": {"result": "OK", "tests": 73, "assertions": 637},
+    "full_first": {"result": "FAIL", "tests": 2368, "assertions": 50062, "failures": 1, "cause": "stale governed receipt-binder structural allow-list"},
+    "targeted_correction": {"result": "OK", "tests": 7, "assertions": 65},
+    "full_final": {"result": "OK", "tests": 2368, "assertions": 50072, "elapsed": "00:06:16.849"},
+    "exact_candidate_focused": {"result": "OK", "tests": 80, "assertions": 692},
+    "exact_candidate_full": {"result": "OK", "tests": 2371, "assertions": 50100, "elapsed": "00:06:01.249"}
+  },
+  "github_ci": null,
+  "terminal_verdict": "PENDING_SHA_BOUND_GITHUB_CI",
+  "live_effect": false,
+  "batch_7": "SUSPENDED"
+}

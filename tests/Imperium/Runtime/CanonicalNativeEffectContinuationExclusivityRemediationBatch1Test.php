@@ -110,7 +110,7 @@ final class CanonicalNativeEffectContinuationExclusivityRemediationBatch1Test ex
         $classes = [
             'NativeEffectSemanticIdentity' => ['NativeEffectAtomicAdmissionService.php', 'NativeEffectSemanticIdentity.php'],
             'NativeEffectContinuationCapabilityContract' => ['NativeEffectContinuationCapability.php', 'NativeEffectContinuationCapabilityContract.php'],
-            'NativeEffectReceiptInputContract' => ['NativeEffectAtomicAdmissionService.php', 'NativeEffectDoubleExecutionService.php', 'NativeEffectReceiptInputContract.php'],
+            'NativeEffectReceiptInputContract' => ['NativeEffectAtomicAdmissionService.php', 'NativeEffectDoubleExecutionService.php', 'NativeEffectReceiptBindingService.php', 'NativeEffectReceiptInputContract.php'],
             'NativeEffectTupleDispositionContract' => ['NativeEffectAtomicAdmissionService.php', 'NativeEffectTupleDispositionContract.php'],
         ];
         foreach ($classes as $class => $allowedFiles) {
