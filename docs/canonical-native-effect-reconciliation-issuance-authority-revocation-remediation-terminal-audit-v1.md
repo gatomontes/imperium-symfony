@@ -1,8 +1,8 @@
 # Canonical Native Effect Reconciliation Issuance Authority and Revocation-at-Use Remediation — terminal audit v1
 
-`BATCH_5_LOCAL_TERMINAL_AUDIT_COMPLETE_CI_EVIDENCE_PENDING`
-`LOCAL_RUNTIME_CANDIDATE_ACCEPTED_BOUNDED_NO_LIVE_EFFECT`
-`CAMPAIGN_CLOSURE_WITHHELD_EXACT_SHA_GITHUB_CI_ABSENT`
+`BATCH_5_TERMINAL_AUDIT_COMPLETE_EXACT_SHA_CI_PASSED`
+`CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_COMPLETE`
+`RECONCILIATION_ISSUANCE_AND_AT_USE_CURRENTNESS_ACCEPTED_BOUNDED_NO_LIVE_EFFECT`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
 ## Claim
@@ -31,6 +31,9 @@ The clean corrected candidate was
 - Focused campaign gate: `124 tests / 855 assertions`, passed.
 - Complete local PHPUnit: `2608 tests / 51982 assertions`, passed in
   `00:06:18.278` on PHP `8.4.14`.
+- GitHub Actions run `33893111949`, job `101089298657`, passed `2609 tests / 51993 assertions`
+  in `00:00:51.546` on PHP `8.4.25` for exact pushed SHA
+  `80d335f466cacdd78c4f2e40f1859ad42e9c73e8`.
 - Batch 4 combined adversarial/application/frozen gate: `287 tests / 5682
   assertions`, passed.
 - No provider, credential, callback reinvocation, HTTP/network or external-I/O
@@ -42,7 +45,7 @@ The local runtime candidate is accepted within the cooperative single-host
 filesystem boundary. Multi-host contention and hostile direct filesystem
 writers remain outside the claim. Batch 7 remains suspended.
 
-Campaign closure is not claimed. No GitHub Actions run/job exists for the exact
-candidate SHA. A workflow file or a historical run is not evidence for this
-candidate, and the local full suite cannot be relabeled as CI. Exact-SHA CI is
-the sole retained closure gate.
+The bounded campaign is accepted and complete. Exact-SHA GitHub CI independently
+verified the pushed terminal tree. Zero campaign stages remain. This closure
+does not authorize provider effects, credentials, Batch 7 or expansion beyond
+the cooperative single-host boundary.

@@ -5,20 +5,19 @@
 `BATCH_2_COMPLETE_ROOTED_DECISION_CUSTODY_AND_ATOMIC_PUBLICATION`
 `BATCH_3_COMPLETE_TYPED_ISSUER_AND_AT_USE_CURRENTNESS`
 `BATCH_4_COMPLETE_ADVERSARIAL_APPLICATION_AND_INTERRUPTION_PROOF`
-`BATCH_5_LOCAL_TERMINAL_AUDIT_COMPLETE_CI_EVIDENCE_PENDING`
-`CAMPAIGN_CLOSURE_WITHHELD_EXACT_SHA_GITHUB_CI_ABSENT`
+`BATCH_5_TERMINAL_AUDIT_COMPLETE_EXACT_SHA_CI_PASSED`
+`CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_COMPLETE`
 `RECONCILIATION_DERIVATION_AUTHORITY_AND_AT_USE_CURRENTNESS_PROVED_LOCALLY`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
-All implementation and local audit work is complete. Exact local candidate
-`fa963fcea32ddf7d64b6a0ed0b6a9805cc50a783` passed focused `124 / 855` and full
-`2608 / 51982` PHPUnit. Exact-SHA GitHub CI evidence remains absent, so campaign
-closure is withheld.
+All six stages are complete. Exact local candidate `fa963fc` passed focused
+`124 / 855` and full `2608 / 51982`; exact pushed terminal tree `80d335f` passed
+GitHub Actions run `33893111949`, job `101089298657`, with `2609 / 51993`.
 
 The campaign is
 `docs/next-campaign-canonical-native-effect-reconciliation-issuance-authority-revocation-remediation.md`.
 The current handoff is
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-5-local-complete-ci-pending.md`.
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-campaign-complete.md`.
 The Operator authorized uninterrupted campaign completion with PHPUnit after
 each batch. The local Batch 5 audit is complete; the suspended Batch 7 live trial remains unauthorized.
 

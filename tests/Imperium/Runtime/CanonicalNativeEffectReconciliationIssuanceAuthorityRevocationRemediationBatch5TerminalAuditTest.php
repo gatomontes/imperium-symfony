@@ -47,14 +47,13 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
         }
     }
 
-    public function testTerminalRecordAcceptsLocalCandidateButWithholdsUnprovedCiClosure(): void
+    public function testTerminalRecordAcceptsExactShaCiBoundedClosure(): void
     {
         $audit = (string) file_get_contents(dirname(__DIR__, 3).'/docs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-terminal-audit-v1.md');
-        foreach (['fa963fcea32ddf7d64b6a0ed0b6a9805cc50a783', '124 tests / 855 assertions', '2608 tests / 51982 assertions', 'CAMPAIGN_CLOSURE_WITHHELD_EXACT_SHA_GITHUB_CI_ABSENT'] as $evidence) {
+        foreach (['fa963fcea32ddf7d64b6a0ed0b6a9805cc50a783', '124 tests / 855 assertions', '2608 tests / 51982 assertions', '80d335f466cacdd78c4f2e40f1859ad42e9c73e8', '33893111949', '101089298657', '2609 tests / 51993 assertions', 'CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_COMPLETE'] as $evidence) {
             self::assertStringContainsString($evidence, $audit, $evidence);
         }
-        self::assertStringNotContainsString('CAMPAIGN_COMPLETE', $audit);
-        self::assertStringNotContainsString('zero stages remain', strtolower($audit));
+        self::assertStringContainsString('Zero campaign stages remain', $audit);
     }
 
     private function source(string $class): string

@@ -6,8 +6,8 @@
 `BATCH_2_COMPLETE_ROOTED_DECISION_CUSTODY_AND_ATOMIC_PUBLICATION`
 `BATCH_3_COMPLETE_TYPED_ISSUER_AND_AT_USE_CURRENTNESS`
 `BATCH_4_COMPLETE_ADVERSARIAL_APPLICATION_AND_INTERRUPTION_PROOF`
-`BATCH_5_LOCAL_TERMINAL_AUDIT_COMPLETE_CI_EVIDENCE_PENDING`
-`CAMPAIGN_CLOSURE_WITHHELD_EXACT_SHA_GITHUB_CI_ABSENT`
+`BATCH_5_TERMINAL_AUDIT_COMPLETE_EXACT_SHA_CI_PASSED`
+`CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_COMPLETE`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
 ## Purpose
@@ -63,12 +63,11 @@ decision-to-issuance-to-consumption-to-recovery chain, run focused and full
 tests, retain exact-SHA GitHub CI evidence and decide bounded closure without
 restoring Batch 7.
 
-## Current status — Batch 5 locally complete; exact-SHA CI pending
+## Current status — campaign complete
 
-All implementation and local audit work is complete. One external evidence gate
-remains. The current
+All six stages are complete. The current
 handoff is
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-5-local-complete-ci-pending.md`.
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-campaign-complete.md`.
 
 Batch 1 defines exact issuance-decision, typed issuance-authority, process-local
 custody, single-use consumption, currentness, deterministic publication/retry
@@ -89,6 +88,7 @@ remain outside the completed batch.
 The separately sequenced Blackquill audit corrected decision-publication
 currentness and accepted exact local candidate
 `fa963fcea32ddf7d64b6a0ed0b6a9805cc50a783` after focused `124 / 855` and full
-`2608 / 51982` PHPUnit. Campaign closure remains withheld because no GitHub
-Actions run is bound to that exact SHA. Provider effects and Batch 7 remain
-unauthorized.
+`2608 / 51982` PHPUnit. Exact pushed terminal tree
+`80d335f466cacdd78c4f2e40f1859ad42e9c73e8` passed GitHub Actions run
+`33893111949`, job `101089298657`, with `2609 / 51993`. Zero stages remain.
+Provider effects and Batch 7 remain unauthorized.
