@@ -70,6 +70,10 @@ final class CanonicalNativeEffectReconciliationAuthorityProvenanceRemediationBat
 
         self::assertSame(NativeEffectForwardRecoveryClaimV2Contract::SCHEMA, $claim['schema']);
         self::assertSame($issued['authority']['authority_id'], $claim['authority_consumption']['authority_id']);
+        self::assertSame($issued['authority']['mission_id'], $issued['issuance']['mission_id']);
+        self::assertSame($issued['authority']['mission_id'], $claim['mission_id']);
+        self::assertSame($claim['mission_id'], $claim['authority_consumption']['mission_id']);
+        self::assertSame($issued['authority']['mission_dossier_identity'], $claim['mission_dossier_identity']);
         self::assertSame($claim['claim_id'], $claim['authority_consumption']['claim_id']);
         self::assertSame($issued['issuance']['record_digest'], $claim['authority_issuance']['digest']);
         self::assertFalse($claim['continuing_authority']);
