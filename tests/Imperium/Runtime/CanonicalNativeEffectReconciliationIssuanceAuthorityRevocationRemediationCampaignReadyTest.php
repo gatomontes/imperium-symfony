@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemediationCampaignReadyTest extends TestCase
 {
     private const string HISTORICAL_CAMPAIGN = 'docs/next-campaign-canonical-native-effect-reconciliation-issuance-authority-revocation-remediation.md';
+    private const string HISTORICAL_HANDOFF = 'docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-campaign-ready.md';
     private const string HISTORICAL_ENTRYPOINT = 'docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batches-2-through-5-local-ready.md';
     private const string CURRENT_CAMPAIGN = 'docs/next-campaign-canonical-native-effect-reconciliation-shared-exclusion-remediation.md';
     private const string CURRENT_ENTRYPOINT = 'docs/handoffs/canonical-native-effect-reconciliation-shared-exclusion-remediation-preparation-batch-0-local-ready.md';
@@ -16,7 +17,7 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
 
     public function testSupersededCampaignAndEntrypointAreNonExecutable(): void
     {
-        foreach ([self::HISTORICAL_CAMPAIGN, self::HISTORICAL_ENTRYPOINT] as $path) {
+        foreach ([self::HISTORICAL_CAMPAIGN, self::HISTORICAL_HANDOFF, self::HISTORICAL_ENTRYPOINT] as $path) {
             $document = $this->read($path);
             self::assertStringContainsStringIgnoringCase('HISTORICAL', $document, $path);
             self::assertStringContainsString('CANDIDATE_RANGE_QUARANTINED_NOT_ACCEPTED', $document, $path);
