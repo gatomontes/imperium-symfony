@@ -138,7 +138,7 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
     public function testBatchFourProofClosesEveryNamedCaseAndStatesTrustLimits(): void
     {
         $document = (string) file_get_contents(dirname(__DIR__, 3).'/docs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-4-adversarial-proof-v1.md');
-        foreach (['AUTH01', 'AUTH10', 'CUR08A', 'CUR08B', 'CUT01', 'CUT07', 'APP01', 'OS01', 'OS02', 'BND02', 'BND03', 'BATCH_4_COMPLETE_ADVERSARIAL_RECONSTRUCTION_PROOF'] as $marker) {
+        foreach (['AUTH01', 'AUTH10', 'CUR08A', 'CUR08B', 'CUT01', 'CUT07', 'APP01', 'OS01', 'OS02', 'BND02', 'BND03', 'BATCH_4_COMPLETE_ADVERSARIAL_APPLICATION_AND_INTERRUPTION_PROOF'] as $marker) {
             self::assertStringContainsString($marker, $document, $marker);
         }
     }
