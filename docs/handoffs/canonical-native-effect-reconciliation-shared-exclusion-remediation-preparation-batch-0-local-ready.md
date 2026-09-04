@@ -105,8 +105,8 @@ authority, claim, receipt or runtime record outside isolated test fixtures.
 
 Do not access credentials or providers; perform network/external I/O, email,
 mission or live trial; open Iron Gate or Lazaretto; repair historical Root
-semantics; restore Batch 7; push any branch; open or merge a pull request; or
-modify remote `main`.
+semantics; or restore Batch 7. Do not push any branch. Do not open or merge a
+pull request. Do not modify remote `main`.
 
 Run the focused Preparation Batch 0 tests and complete PHPUnit locally. Report
 exact commands and results. Do not claim GitHub CI.
