@@ -214,6 +214,12 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
         self::assertSame('imperium.canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-reading-evidence-ledger/v1', $ledger['schema']);
         self::assertSame('3dceba3057497c6c80f019bd78835335cf69c774', $ledger['audited_main']);
         self::assertSame('CLEAN', $ledger['entry_worktree']);
+        self::assertSame('HISTORICAL_SNAPSHOT_FULLY_READ_AT_AUDITED_MAIN', $ledger['read_status']);
+        self::assertSame(
+            'TO_BE_FULLY_READ_DURING_LOCAL_PREPARATION_BATCH_0',
+            $ledger['current_campaign_reading_requirements']['status'],
+        );
+        self::assertCount(3, $ledger['current_campaign_reading_requirements']['documents']);
         self::assertCount(14, $ledger['prior_campaign_documents']);
         self::assertCount(8, $ledger['prior_campaign_handoffs']);
         self::assertCount(8, $ledger['prior_campaign_tests']);
