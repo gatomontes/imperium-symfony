@@ -12,7 +12,8 @@ final class NativeEffectContinuationCapabilityContract
     public const array REQUIRED_FIELDS = [
         'schema', 'capability_id', 'admission_id', 'admission_digest',
         'semantic_effect_tuple_id', 'authority_consumption_id',
-        'process_boundary_id', 'expires_at', 'max_uses',
+        'process_boundary_id', 'runtime_process_id',
+        'process_incarnation_binding', 'expires_at', 'max_uses',
         'cross_process_transfer_permitted', 'durable_persistence_permitted',
         'reconstruction_permitted',
     ];
@@ -24,5 +25,12 @@ final class NativeEffectContinuationCapabilityContract
         'durable_persistence_permitted' => false,
         'reconstruction_permitted' => false,
         'single_use' => true,
+        'actual_runtime_pid_required' => true,
+        'issuer_owned_incarnation_nonce_required' => true,
+        'authority_process_boundary_is_identity' => false,
+        'serialization_permitted' => false,
+        'unserialization_permitted' => false,
+        'clone_permitted' => false,
+        'fork_inheritance_permitted' => false,
     ];
 }
