@@ -1,25 +1,22 @@
 # Current campaign: reconciliation issuance authority and revocation-at-use remediation
 
 `CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_SELECTED`
-`PREPARATION_BATCH_0_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_AND_REVOCATION_GAPS_CLASSIFIED`
 `BATCH_1_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_CURRENTNESS_CONTRACTS_DEFINED`
-`BATCH_2_NOT_AUTHORIZED`
-`ROOT_PROVENANCE_JOIN_ACCEPTED`
-`FORMAL_CLOSURE_REFUSED_RECONCILIATION_DERIVATION_AUTHORITY_ABSENT`
-`REVOCATION_AT_CONSUMPTION_UNPROVED`
+`BATCHES_2_THROUGH_5_EXPLICITLY_AUTHORIZED_FOR_SEQUENTIAL_LOCAL_EXECUTION`
+`SEPARATE_COMMIT_AND_TEST_GATE_PER_BATCH_REQUIRED`
+`REMOTE_PUBLICATION_REQUIRES_SEPARATE_REVIEW`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
-Preparation Batch 0 and Batch 1 are complete. Four stages remain. The
-constants-only Batch 1 definitions preserve the accepted typed
-provenance/recovery substrate while defining the missing derivation-authority,
-custody, atomic publication, at-use currentness and reconstruction law.
+Preparation Batch 0 and Batch 1 are complete. The current local entrypoint
+explicitly authorizes Batches 2–5 in sequence:
 
-Current campaign handoff:
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-complete.md`.
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batches-2-through-5-local-ready.md`
 
-The Batch 1 and Preparation Batch 0 local-ready files are historical. Production
-runtime behavior, service wiring, authority creation/consumption, provider
-effects, Iron Gate/Lazaretto, Batch 2 and Batch 7 remain unauthorized.
+The restored Batch 1 completion handoff remains the accepted base. The reverted
+unauthorized range remains historical and cannot supply implementation or
+evidence. Local success produces a candidate pending independent review; no
+remote publication, provider effect, credential access, external I/O,
+Root-history repair or Batch 7 follows.
 
 # Current campaign: reconciliation authority provenance remediation
 

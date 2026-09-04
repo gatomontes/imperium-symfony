@@ -59,33 +59,26 @@ decision-to-issuance-to-consumption-to-recovery chain, run focused and full
 tests, retain exact-SHA GitHub CI evidence and decide bounded closure without
 restoring Batch 7.
 
-## Current status — Batch 1 complete; Batch 2 not authorized
+## Current status — remaining Batches 2–5 authorized for local execution
 
-Preparation Batch 0 and Batch 1 are complete. Four stages remain. The current
-handoff is
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-complete.md`.
-It grants no Batch 2 authority.
+Preparation Batch 0 and Batch 1 are complete. The Operator has explicitly
+authorized Batches 2–5 of this named campaign for one sequential local run under
+the current entrypoint:
 
-Batch 1 defines exact issuance-decision, typed issuance-authority, process-local
-custody, single-use consumption, currentness, deterministic publication/retry
-and read-only reconstruction contracts. The constants-only definitions bind
-issuer competence, holder, admission/lineage target, validity window, source
-references and refusal outcomes. Source provenance, service possession,
-historical approval and the consumed native-transition authority remain
-explicitly non-authorizing.
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batches-2-through-5-local-ready.md`
 
-At-use currentness must distinguish independently mutable Root revocation,
-native-principal revocation, source-generation advance and source-lifecycle
-change from the already bounded RR02/RR05/RR11 expiry cases. Post-receipt
-reconstruction must keep current untimestamped Operator Root revocation separate
-from timestamped native/source lifecycle history.
+The authority is prospective and stage-bound. Each batch requires a separate
+local commit, focused and full PHPUnit gates, a clean handoff and explicit
+evidence. Batch 5 begins only from the clean committed Batch 4 candidate and
+performs an independent terminal Blackquill audit.
 
-No issuer, resolver, authority producer, consumption service, atomic publication
-path or service wiring was implemented. No real decision, authority, capability,
-reconciliation authority, claim or receipt was created or consumed. Credentials,
-providers, external I/O, missions/live trials, Iron Gate/Lazaretto, closure and
-Batch 7 remain outside the completed batch.
+The reverted historical range
+`75b89cf9cf59b55d480cd883be221ff07a11ec44..11c006cfdf454aa6204337e4568c78c09988895f`
+is not accepted evidence or reusable implementation. The local runner may not
+cherry-pick, restore or copy it.
 
-Batch 2 is not authorized. Prior merges, green tests, “continue,” “forward,”
-“clear,” or a Latin motto do not extend authority. Stop at
-`BATCH_1_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_CURRENTNESS_CONTRACTS_DEFINED`.
+Successful local execution ends at
+`LOCAL_RECONCILIATION_ISSUANCE_CAMPAIGN_CANDIDATE_COMPLETE_PENDING_REMOTE_REVIEW`.
+It does not authorize a push, pull request, merge, GitHub-CI claim, provider or
+credential access, external I/O, mission/live trial, Root-history repair or
+Batch 7.

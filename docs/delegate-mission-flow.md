@@ -1,24 +1,21 @@
 # Current continuation: reconciliation issuance authority and revocation-at-use remediation
 
 `CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_READY`
-`PREPARATION_BATCH_0_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_AND_REVOCATION_GAPS_CLASSIFIED`
 `BATCH_1_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_CURRENTNESS_CONTRACTS_DEFINED`
-`BATCH_2_NOT_AUTHORIZED`
-`FORMAL_CLOSURE_REFUSED_RECONCILIATION_DERIVATION_AUTHORITY_ABSENT`
-`REVOCATION_AT_CONSUMPTION_UNPROVED`
+`BATCHES_2_THROUGH_5_EXPLICITLY_AUTHORIZED_FOR_SEQUENTIAL_LOCAL_EXECUTION`
+`REMOTE_PUBLICATION_REQUIRES_SEPARATE_REVIEW`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
-Preparation Batch 0 and Batch 1 are complete. Four stages remain. Batch 1 defines
-versioned issuance-authority and at-use-currentness law through constants-only,
-authority-empty contracts. It implemented, wired, created, consumed and
-published no authority or operational evidence.
+Preparation Batch 0 and Batch 1 are complete. Batches 2–5 are explicitly
+authorized for sequential local execution under:
 
-The campaign is
-`docs/next-campaign-canonical-native-effect-reconciliation-issuance-authority-revocation-remediation.md`.
-The current handoff is
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-complete.md`.
-Both local-ready files are historical. Batch 2 and the suspended Batch 7 live
-trial remain unauthorized.
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batches-2-through-5-local-ready.md`
+
+Each batch requires its own local commit and focused/full PHPUnit gate. The
+reverted unauthorized range is historical only and may not be reused. A
+successful run ends with a local candidate pending independent remote review;
+it does not authorize push, merge, provider/credential access, external I/O,
+Root-history repair or Batch 7.
 
 # Current disposition: reconciliation authority provenance remediation
 
