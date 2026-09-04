@@ -132,7 +132,7 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
             'timestamped native/source lifecycle',
             'RR02, RR05 and RR11 are time-bound preservation cases',
             'native Root act cannot outlive its anchor',
-            'activation cannot become invalid after being',
+            'cannot become invalid after being valid at `t0`',
             'stale claim cannot publish through expiry',
         ] as $race) {
             self::assertStringContainsStringIgnoringCase($race, $matrix, $race);
