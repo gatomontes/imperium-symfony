@@ -55,7 +55,7 @@ final class CanonicalNativeEffectReconciliationAuthorityProvenanceRemediationCam
         }
     }
 
-    public function testPromptAndCanonicalConsumersPublishTheOnlyEntrypoint(): void
+    public function testHistoricalPromptIsPreservedAndCanonicalConsumersPublishCompletion(): void
     {
         $path = 'docs/handoffs/canonical-native-effect-reconciliation-authority-provenance-remediation-preparation-batch-0-local-ready.md';
         $handoff = $this->read($path);
@@ -68,7 +68,10 @@ final class CanonicalNativeEffectReconciliationAuthorityProvenanceRemediationCam
             self::assertStringContainsStringIgnoringCase($boundary, $handoff, $boundary);
         }
         foreach (['docs/delegate-mission-flow.md', 'docs/handoffs/README.md', 'todo/blackquill-todos.md'] as $consumer) {
-            self::assertStringContainsString($path, $this->read($consumer), $consumer);
+            $current = $this->read($consumer);
+            self::assertStringContainsString('CANONICAL_NATIVE_EFFECT_RECONCILIATION_AUTHORITY_PROVENANCE_REMEDIATION_COMPLETE', $current, $consumer);
+            self::assertStringContainsString('RECONCILIATION_AUTHORITY_PROVENANCE_ACCEPTED_BOUNDED_NO_LIVE_EFFECT', $current, $consumer);
+            self::assertStringNotContainsString('FORMAL_CLOSURE_REFUSED_RECONCILIATION_AUTHORITY_PROVENANCE_ABSENT', substr($current, 0, 3000), $consumer);
         }
     }
 
