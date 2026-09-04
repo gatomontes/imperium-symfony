@@ -13,6 +13,8 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
     private const string BATCH_ONE = 'docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-complete.md';
     private const string OLD_LOCAL = 'docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-local-ready.md';
     private const string PREPARATION_LOCAL = 'docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-preparation-batch-0-local-ready.md';
+    private const string BATCH_ONE_READY = 'docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-campaign-ready.md';
+    private const string READING_LEDGER = 'docs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-reading-evidence-ledger-v1.json';
 
     public function testCurrentEntrypointExplicitlyAuthorizesOnlyRemainingBoundedCampaign(): void
     {
@@ -81,6 +83,19 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
 
         self::assertStringContainsString('BATCH_2_NOT_AUTHORIZED', $this->read(self::BATCH_ONE));
         self::assertStringContainsString(self::OLD_LOCAL, $this->read(self::PREPARATION_LOCAL));
+    }
+
+    public function testHistoricalAuthorityDocumentsCannotContradictCurrentEntrypoint(): void
+    {
+        $historical = $this->read(self::BATCH_ONE_READY);
+        self::assertStringContainsString('HISTORICAL_ENTRYPOINT_SUPERSEDED', $historical);
+        self::assertStringNotContainsString('`BATCH_2_NOT_AUTHORIZED`', $historical);
+        self::assertStringContainsString(self::CURRENT, $historical);
+
+        $ledger = $this->read(self::READING_LEDGER);
+        self::assertStringContainsString('CURRENT_READING_INDEX_WITH_HISTORICAL_PREPARATION_EVIDENCE', $ledger);
+        self::assertStringContainsString(self::CURRENT, $ledger);
+        self::assertStringContainsString('"remote_publication_authorized": false', $ledger);
     }
 
     public function testPromptProvidesPowerShellGuardsAndLocalOnlyCompletionMarker(): void

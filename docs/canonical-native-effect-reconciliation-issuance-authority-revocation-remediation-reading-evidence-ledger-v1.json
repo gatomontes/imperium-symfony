@@ -16,8 +16,8 @@
   "governing_documents": [
     "docs/canonical-native-effect-reconciliation-authority-provenance-post-merge-blackquill-review-v1.md",
     "docs/next-campaign-canonical-native-effect-reconciliation-issuance-authority-revocation-remediation.md",
-    "docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-campaign-ready.md",
-    "docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-preparation-batch-0-local-ready.md",
+    "docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batches-2-through-5-local-ready.md",
+    "docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-complete.md",
     "docs/delegate-mission-flow.md",
     "docs/handoffs/README.md",
     "todo/blackquill-todos.md"
@@ -128,9 +128,21 @@
     "source_transition_authorization": "AUTHORIZED_EXACT_TRANSITION",
     "source_transition_continuing_authority": false,
     "source_transition_consumption_location": "native transition commit records.authority_consumption",
-    "resolution_currentness": ["operator_root", "native_principal", "source_lifecycle", "source_generation"],
+    "resolution_currentness": [
+      "operator_root",
+      "native_principal",
+      "source_lifecycle",
+      "source_generation"
+    ],
     "consumption_currentness": [],
-    "consume_checks": ["exact_resolver_object", "capability_expiry", "runtime_pid", "process_incarnation_binding", "authority_digest", "issuance_digest"]
+    "consume_checks": [
+      "exact_resolver_object",
+      "capability_expiry",
+      "runtime_pid",
+      "process_incarnation_binding",
+      "authority_digest",
+      "issuance_digest"
+    ]
   },
   "git_provenance": {
     "prior_preparation_merge": "249f711",
@@ -142,7 +154,14 @@
     "prior_closure_evidence_merge": "0438ba4",
     "prior_closure_guard_merge": "23034731492cb8661a5580470dbc0c34139e17fc",
     "current_campaign_selection_merge": "3dceba3057497c6c80f019bd78835335cf69c774",
-    "historical_ci": {"run_id":33874716024,"job_id":101028835208,"head_sha":"98f9777959efa279aa6f93e0e240fe861409cef1","runner":"ubuntu-latest","php":"8.4.25","conclusion":"success"},
+    "historical_ci": {
+      "run_id": 33874716024,
+      "job_id": 101028835208,
+      "head_sha": "98f9777959efa279aa6f93e0e240fe861409cef1",
+      "runner": "ubuntu-latest",
+      "php": "8.4.25",
+      "conclusion": "success"
+    },
     "current_preparation_external_ci": null
   },
   "platform_boundary": {
@@ -152,13 +171,50 @@
     "distributed_lock_claim": false
   },
   "local_documentary_guard_runs": [
-    {"result":"FAIL","tests":9,"assertions":177,"failures":3,"warnings":1,"classification":"DOCUMENT_EXPECTATION_TEXT_AND_TEST_INTERPOLATION_ONLY"},
-    {"result":"FAIL","tests":9,"assertions":186,"failures":1,"classification":"DOCUMENT_EXPECTATION_CASE_ONLY"},
-    {"result":"PASS","tests":9,"assertions":192,"duration":"00:00:00.025"}
+    {
+      "result": "FAIL",
+      "tests": 9,
+      "assertions": 177,
+      "failures": 3,
+      "warnings": 1,
+      "classification": "DOCUMENT_EXPECTATION_TEXT_AND_TEST_INTERPOLATION_ONLY"
+    },
+    {
+      "result": "FAIL",
+      "tests": 9,
+      "assertions": 186,
+      "failures": 1,
+      "classification": "DOCUMENT_EXPECTATION_CASE_ONLY"
+    },
+    {
+      "result": "PASS",
+      "tests": 9,
+      "assertions": 192,
+      "duration": "00:00:00.025"
+    }
   ],
-  "classification_vocabulary": ["EXISTS_CANONICALLY", "EXISTS_FRAGMENTED", "ABSENT", "DEFERRED_BOUNDARY"],
-  "remaining_stages": ["Batch 1", "Batch 2", "Batch 3", "Batch 4", "Batch 5"],
-  "batch_1_authorized": false,
+  "classification_vocabulary": [
+    "EXISTS_CANONICALLY",
+    "EXISTS_FRAGMENTED",
+    "ABSENT",
+    "DEFERRED_BOUNDARY"
+  ],
+  "remaining_stages": [
+    "Batch 2",
+    "Batch 3",
+    "Batch 4",
+    "Batch 5"
+  ],
   "batch_7_authorized": false,
-  "closure_claimed": false
+  "closure_claimed": false,
+  "ledger_status": "CURRENT_READING_INDEX_WITH_HISTORICAL_PREPARATION_EVIDENCE",
+  "current_authority_document": "docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batches-2-through-5-local-ready.md",
+  "historical_authority_documents": [
+    "docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-campaign-ready.md",
+    "docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-preparation-batch-0-local-ready.md",
+    "docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-local-ready.md"
+  ],
+  "batch_1_complete": true,
+  "batches_2_through_5_local_execution_authorized": true,
+  "remote_publication_authorized": false
 }
