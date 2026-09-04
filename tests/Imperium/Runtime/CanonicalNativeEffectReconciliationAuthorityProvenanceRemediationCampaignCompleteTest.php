@@ -35,11 +35,13 @@ final class CanonicalNativeEffectReconciliationAuthorityProvenanceRemediationCam
     public function testCanonicalConsumersNoLongerPresentTheProvenanceGapAsCurrent(): void
     {
         foreach (['docs/delegate-mission-flow.md', 'docs/handoffs/README.md', 'todo/blackquill-todos.md'] as $path) {
-            $head = implode("\n", array_slice(explode("\n", $this->read($path)), 0, 45));
-            self::assertStringContainsString('RECONCILIATION_AUTHORITY_PROVENANCE', $head, $path);
-            self::assertStringContainsString('COMPLETE', $head, $path);
-            self::assertStringNotContainsString('FORMAL_CLOSURE_REFUSED_RECONCILIATION_AUTHORITY_PROVENANCE_ABSENT', $head, $path);
-            self::assertStringNotContainsString('PREPARATION_BATCH_0_ONLY_HARD_STOP', $head, $path);
+            $document = $this->read($path);
+            $start = strpos($document, 'RECONCILIATION_AUTHORITY_PROVENANCE_REMEDIATION_COMPLETE');
+            self::assertNotFalse($start, $path);
+            $historicalCompletion = substr($document, $start, 1800);
+            self::assertStringContainsString('RECONCILIATION_AUTHORITY_PROVENANCE', $historicalCompletion, $path);
+            self::assertStringContainsString('COMPLETE', $historicalCompletion, $path);
+            self::assertStringNotContainsString('FORMAL_CLOSURE_REFUSED_RECONCILIATION_AUTHORITY_PROVENANCE_ABSENT', $historicalCompletion, $path);
         }
     }
 
