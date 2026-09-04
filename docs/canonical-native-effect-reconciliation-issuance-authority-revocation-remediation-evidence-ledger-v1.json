@@ -1,0 +1,17 @@
+{
+  "schema": "imperium.canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-evidence-ledger/v1",
+  "base_sha": "afcaf025d097db0b9adddac25a9083a8be2322a0",
+  "branch": "codex/canonical-reconciliation-batches-2-5",
+  "batch_2": {
+    "marker": "BATCH_2_COMPLETE_ROOTED_DECISION_CUSTODY_AND_ATOMIC_PUBLICATION",
+    "focused": {"command": "php vendor/bin/phpunit tests/Imperium/Runtime/CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemediationBatch2Test.php", "tests": 27, "assertions": 143, "result": "PASS"},
+    "first_complete": {"command": "php vendor/bin/phpunit tests", "tests": 2541, "assertions": 49504, "result": "FAIL", "failures": 3, "classification": "MECHANICAL_FROZEN_INVENTORY_ONLY"},
+    "corrected_tripwire_focus": {"tests": 36, "assertions": 4046, "result": "PASS"},
+    "corrected_complete": {"command": "php vendor/bin/phpunit tests", "tests": 2542, "assertions": 51695, "duration": "00:06:02.247", "result": "PASS"}
+  },
+  "provider_effect_performed": false,
+  "credential_accessed": false,
+  "external_io_performed": false,
+  "remote_publication_authorized": false,
+  "batch_7_authorized": false
+}
