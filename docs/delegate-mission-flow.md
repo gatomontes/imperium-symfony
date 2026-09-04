@@ -1,3 +1,25 @@
+# Current continuation: reconciliation authority provenance remediation
+
+`CANONICAL_NATIVE_EFFECT_RECONCILIATION_AUTHORITY_PROVENANCE_REMEDIATION_READY`
+`PREPARATION_BATCH_0_ONLY_HARD_STOP`
+`PROCESS_CUSTODY_CORRECTION_ACCEPTED`
+`FORMAL_CLOSURE_REFUSED_RECONCILIATION_AUTHORITY_PROVENANCE_ABSENT`
+`BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
+
+The process-incarnation custody and execution/recovery API separation merged at
+`b188a0b849f27ebec4d3e14f98c471eead15b484` remain accepted substrate. Formal
+recovery closure is refused because the recovery admission boundary accepts a
+caller-created array whose issuer identity is prose and whose seal is a public
+digest. The tests themselves manufacture and admit that record without a
+canonical Root-provenanced issuer.
+
+The next six-stage campaign begins with documentary Preparation Batch 0 only:
+`docs/next-campaign-canonical-native-effect-reconciliation-authority-provenance-remediation.md`.
+The sole local entrypoint is
+`docs/handoffs/canonical-native-effect-reconciliation-authority-provenance-remediation-preparation-batch-0-local-ready.md`.
+No prior closure marker, green test, continuation request or motto authorizes
+Batch 1 or restores Batch 7.
+
 # Current disposition: native effect process custody and formal closure remediation
 
 `CANONICAL_NATIVE_EFFECT_PROCESS_CUSTODY_FORMAL_CLOSURE_REMEDIATION_COMPLETE`
