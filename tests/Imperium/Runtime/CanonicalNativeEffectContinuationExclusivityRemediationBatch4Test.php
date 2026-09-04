@@ -215,7 +215,7 @@ final class CanonicalNativeEffectContinuationExclusivityRemediationBatch4Test ex
         $admissionId = NativeEffectSemanticIdentity::admissionId(NativeEffectSemanticIdentity::tupleId($authority));
         $admission = json_decode((string) file_get_contents($this->root.'/'.NativeEffectAtomicAdmissionService::ADMISSIONS.'/'.$admissionId.'.json'), true, 64, JSON_THROW_ON_ERROR);
         $at = $data['at'];
-        $issued = (new NativeEffectReconciliationAuthorityIssuanceService($this->state))->issue($admissionId, $at, $at + 100);
+        $issued = Support\ReconciliationAuthorityFixture::issue($this->state, $admissionId, $at, $at + 100);
         $resolver = new NativeEffectReconciliationAuthorityResolver($this->state);
         $claim = (new NativeEffectForwardRecoveryClaimAdmissionService($this->state, $resolver))->admit(
             $resolver->resolve($issued['authority']['authority_id'], $at),

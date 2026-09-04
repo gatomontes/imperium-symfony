@@ -29,7 +29,7 @@ final readonly class NativeEffectReconciliationAuthorizedIssuanceService
     {
         $scope = 'reconciliation-issuance-root:'.hash('sha256', $capability->targetAuthorityId);
 
-        return $this->atomic->run($scope, function () use ($capability, $at): array {
+        return $this->state->locked(fn (): array => $this->atomic->run($scope, function () use ($capability, $at): array {
             $evidence = $this->resolver->consume($capability, $at);
             $issuanceAuthority = $evidence['issuance_authority'];
             $decision = $evidence['decision'];
@@ -97,6 +97,6 @@ final readonly class NativeEffectReconciliationAuthorizedIssuanceService
                 'authority' => $storedAuthority,
                 'issuance' => $issuance,
             ];
-        });
+        }));
     }
 }

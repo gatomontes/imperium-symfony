@@ -3,21 +3,22 @@
 `CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_SELECTED`
 `PREPARATION_BATCH_0_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_AND_REVOCATION_GAPS_CLASSIFIED`
 `BATCH_2_COMPLETE_ROOTED_DECISION_CUSTODY_AND_ATOMIC_PUBLICATION`
-`BATCH_3_IN_PROGRESS_OPERATOR_CONTINUATION`
+`BATCH_3_COMPLETE_TYPED_ISSUER_AND_AT_USE_CURRENTNESS`
+`BATCH_4_IN_PROGRESS_OPERATOR_CONTINUATION`
 `ROOT_PROVENANCE_JOIN_ACCEPTED`
 `FORMAL_CLOSURE_REFUSED_RECONCILIATION_DERIVATION_AUTHORITY_ABSENT`
 `REVOCATION_AT_CONSUMPTION_UNPROVED`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
-Preparation Batch 0 and Batches 1–2 are complete. Three stages remain. Rooted
-decision, separate issuance authority, process-local custody, target-wide winner
-and deterministic consumption/publication now exist without provider reachability.
+Preparation Batch 0 and Batches 1–3 are complete. Two stages remain. The public
+issuer is capability-only and issuance plus claim-use currentness are enforced
+inside their governed exclusions without provider reachability.
 
 Current campaign handoff:
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-2-complete.md`.
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-3-complete.md`.
 
 The local-ready files are historical. The Operator authorized uninterrupted
-completion with tests after each batch. Batch 3 is in progress. Provider effects,
+completion with tests after each batch. Batch 4 is in progress. Provider effects,
 Iron Gate/Lazaretto and Batch 7 remain unauthorized.
 
 # Current campaign: reconciliation authority provenance remediation

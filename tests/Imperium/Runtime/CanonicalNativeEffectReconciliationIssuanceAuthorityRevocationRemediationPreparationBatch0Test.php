@@ -60,17 +60,13 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
         }
     }
 
-    public function testCurrentIssuerSignatureHasNoDerivationAuthorityAndNoConsumption(): void
+    public function testHistoricalIssuerGapIsNowClosedByMandatoryTypedIssuanceCustody(): void
     {
         $source = $this->read('src/Imperium/Runtime/ProviderTransition/NativeEffectReconciliationAuthorityIssuanceService.php');
-        self::assertStringContainsString('public function issue(string $admissionId, int $at, int $expiresAt): array', $source);
-        self::assertStringContainsString('$this->sources->resolve($admissionId, $at)', $source);
-        self::assertStringContainsString('$this->records->put(self::AUTHORITIES', $source);
-        self::assertStringContainsString('$this->records->put(self::ISSUANCES', $source);
-        self::assertStringNotContainsString('AuthorityConsumptionStore', $source);
-        self::assertStringNotContainsString('IssuanceAuthority', $source);
-        self::assertStringNotContainsString('IssuanceDecision', $source);
-        self::assertStringNotContainsString('Capability $', $source);
+        self::assertStringNotContainsString('public function issue(string $admissionId', $source);
+        self::assertStringContainsString('NativeEffectReconciliationIssuanceAuthorityCapability $capability', $source);
+        self::assertStringContainsString('NativeEffectReconciliationIssuanceAuthorityResolver $resolver', $source);
+        self::assertStringContainsString('NativeEffectReconciliationAuthorizedIssuanceService', $source);
     }
 
     public function testSourceDecisionIsExactSingleUseAndConsumedOnlyInNativeCommit(): void
@@ -104,15 +100,10 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
             self::assertStringContainsStringIgnoringCase($edge, $graph, $edge);
         }
 
-        $resolver = $this->read('src/Imperium/Runtime/ProviderTransition/NativeEffectReconciliationAuthorityResolver.php');
-        $consume = substr($resolver, strpos($resolver, 'public function consume(') ?: 0);
-        self::assertStringContainsString('$this->issued[$capability->capabilityId]', $consume);
-        self::assertStringContainsString('$at >= $capability->expiresAt', $consume);
-        self::assertStringContainsString('$this->incarnation->recognizes(', $consume);
-        self::assertStringNotContainsString('$this->inspect(', $consume);
-        self::assertStringNotContainsString('NativeEffectReconciliationAuthoritySourceResolver', $consume);
-        self::assertStringNotContainsString('NativePrincipal', $consume);
-        self::assertStringNotContainsString('NativeRootActs', $consume);
+        $derivation = $this->read('src/Imperium/Runtime/ProviderTransition/NativeEffectReconciliationAuthorityClaimDerivationService.php');
+        self::assertStringContainsString('$this->state->locked(', $derivation);
+        self::assertStringContainsString('$this->resolver->inspect($capability->authorityId, $at)', $derivation);
+        self::assertStringContainsString('$this->resolver->consume($capability, $at)', $derivation);
     }
 
     public function testRevocationMatrixCoversEveryRequiredResolveRevokeConsumeRace(): void

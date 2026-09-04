@@ -4,6 +4,7 @@
 `PREPARATION_BATCH_0_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_AND_REVOCATION_GAPS_CLASSIFIED`
 `BATCH_1_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_CURRENTNESS_CONTRACTS_DEFINED`
 `BATCH_2_COMPLETE_ROOTED_DECISION_CUSTODY_AND_ATOMIC_PUBLICATION`
+`BATCH_3_COMPLETE_TYPED_ISSUER_AND_AT_USE_CURRENTNESS`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
 ## Purpose
@@ -59,11 +60,11 @@ decision-to-issuance-to-consumption-to-recovery chain, run focused and full
 tests, retain exact-SHA GitHub CI evidence and decide bounded closure without
 restoring Batch 7.
 
-## Current status — Batch 2 complete; Batch 3 in progress under Operator continuation
+## Current status — Batch 3 complete; Batch 4 in progress under Operator continuation
 
-Preparation Batch 0 and Batches 1–2 are complete. Three stages remain. The current
+Preparation Batch 0 and Batches 1–3 are complete. Two stages remain. The current
 handoff is
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-2-complete.md`.
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-3-complete.md`.
 
 Batch 1 defines exact issuance-decision, typed issuance-authority, process-local
 custody, single-use consumption, currentness, deterministic publication/retry
@@ -73,18 +74,14 @@ references and refusal outcomes. Source provenance, service possession,
 historical approval and the consumed native-transition authority remain
 explicitly non-authorizing.
 
-At-use currentness must distinguish independently mutable Root revocation,
-native-principal revocation, source-generation advance and source-lifecycle
-change from the already bounded RR02/RR05/RR11 expiry cases. Post-receipt
-reconstruction must keep current untimestamped Operator Root revocation separate
-from timestamped native/source lifecycle history.
-
-No issuer, resolver, authority producer, consumption service, atomic publication
-path or service wiring was implemented. No real decision, authority, capability,
-reconciliation authority, claim or receipt was created or consumed. Credentials,
-providers, external I/O, missions/live trials, Iron Gate/Lazaretto, closure and
-Batch 7 remain outside the completed batch.
+The capability-only public issuer and corridor wiring now enforce the rooted
+decision and shared resolver. Issuance and claim derivation revalidate current
+Root/native/source authority inside their governed use cuts. Batch 4 retains
+the lifecycle distinction, counterfeit/replay, process, concurrency and
+interruption proof burden. Credentials, providers, external I/O, missions/live
+trials, Iron Gate/Lazaretto, closure and Batch 7 remain outside the completed
+batch.
 
 The Operator explicitly authorized uninterrupted campaign completion with tests
-after each batch. That instruction authorizes Batch 3 within this campaign; it
+after each batch. That instruction authorizes Batch 4 within this campaign; it
 does not authorize provider effects or Batch 7.
