@@ -1,9 +1,10 @@
 ## Canonical Native Effect Reconciliation Issuance Authority and Revocation-at-Use Remediation — selected 2026-09-04
 
-- [ ] Preparation Batch 0: inventory derivation decisions/authorities, issuer
+- [x] Preparation Batch 0: inventory derivation decisions/authorities, issuer
   competence, present-tense lifecycle checks, revocation races and bypasses.
 - [ ] Batch 1: define exact issuance authority, typed custody, consumption,
-  currentness and reconstruction contracts.
+  currentness and reconstruction contracts. **Authorized now; contracts and
+  authority-empty tests only.**
 - [ ] Batch 2: implement Root-provenanced issuance decision/capability and atomic
   consumption with reconciliation-authority publication.
 - [ ] Batch 3: enforce typed issuance at the issuer and revalidate currentness at
@@ -13,15 +14,16 @@
 - [ ] Batch 5: conduct a separately sequenced terminal audit from clean merged
   Batch 4 with retained exact-SHA GitHub CI evidence.
 
-Only Preparation Batch 0 is authorized. Active entrypoint:
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-preparation-batch-0-local-ready.md`.
+Preparation Batch 0 and its correction amendment are merged. Five stages remain.
+Active entrypoint:
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-local-ready.md`.
 
-The provenance campaign merged at
-`23034731492cb8661a5580470dbc0c34139e17fc` and its typed recovery corrections
-remain accepted. Formal closure is refused because `issue()` requires no
-separate derivation authority and `consume()` does not revalidate revocation
-currentness. Historical completion remains provenance for that tree, not the
-current verdict. Batch 7 remains suspended.
+Batch 2 is not authorized. The provenance campaign substrate remains accepted,
+but formal closure is refused because `issue()` requires no separate derivation
+authority and `consume()` does not revalidate independently mutable
+currentness. RR02/RR05/RR11 are bounded preservation cases. Current Operator
+Root revocation still blocks historical reconstruction; timestamped lifecycle
+history remains a distinct case. Batch 7 remains suspended.
 
 ## Canonical Native Effect Reconciliation Authority Provenance Remediation — selected 2026-09-04
 

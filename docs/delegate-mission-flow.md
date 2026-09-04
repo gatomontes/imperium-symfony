@@ -1,26 +1,24 @@
 # Current continuation: reconciliation issuance authority and revocation-at-use remediation
 
 `CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_READY`
-`PREPARATION_BATCH_0_ONLY_HARD_STOP`
-`ROOT_PROVENANCE_JOIN_ACCEPTED`
+`PREPARATION_BATCH_0_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_AND_REVOCATION_GAPS_CLASSIFIED`
+`BATCH_1_CONTRACTS_ONLY_AUTHORIZED`
+`BATCH_2_NOT_AUTHORIZED`
 `FORMAL_CLOSURE_REFUSED_RECONCILIATION_DERIVATION_AUTHORITY_ABSENT`
 `REVOCATION_AT_CONSUMPTION_UNPROVED`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
-The typed reconciliation provenance/custody substrate merged at
-`23034731492cb8661a5580470dbc0c34139e17fc` remains accepted. Formal closure is
-refused because the exposed issuer requires no separately sourced and consumed
-authority to derive reconciliation authority from a single-use native transition
-authority carrying `continuing_authority: false`. Resolver currentness is also
-not revalidated at capability consumption, leaving resolve -> revoke -> consume
-unproved.
+Preparation Batch 0 and its correction amendment are merged. Five stages remain.
+The current local run may define versioned issuance-authority and at-use
+currentness contracts plus authority-empty contract tests only. It may not
+implement, wire, create, consume or publish authority or operational evidence.
 
-The next six-stage campaign begins with documentary Preparation Batch 0 only:
+The campaign is
 `docs/next-campaign-canonical-native-effect-reconciliation-issuance-authority-revocation-remediation.md`.
-The sole local entrypoint is
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-preparation-batch-0-local-ready.md`.
-No historical closure, green test, service possession, continuation request or
-motto authorizes Batch 1 or restores Batch 7.
+The sole current local entrypoint is
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-local-ready.md`.
+The former Preparation Batch 0 local-ready file is historical. Batch 2 and the
+suspended Batch 7 live trial remain unauthorized.
 
 # Current disposition: reconciliation authority provenance remediation
 

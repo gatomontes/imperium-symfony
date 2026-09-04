@@ -1,7 +1,9 @@
 # Next campaign — Canonical Native Effect Reconciliation Issuance Authority and Revocation-at-Use Remediation
 
 `CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_SELECTED`
-`PREPARATION_BATCH_0_ONLY_HARD_STOP`
+`PREPARATION_BATCH_0_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_AND_REVOCATION_GAPS_CLASSIFIED`
+`BATCH_1_CONTRACTS_ONLY_AUTHORIZED`
+`BATCH_2_NOT_AUTHORIZED`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
 ## Purpose
@@ -57,14 +59,33 @@ decision-to-issuance-to-consumption-to-recovery chain, run focused and full
 tests, retain exact-SHA GitHub CI evidence and decide bounded closure without
 restoring Batch 7.
 
-## Preparation Batch 0 hard stop
+## Current authorization — Batch 1 contracts only
 
-Only Preparation Batch 0 is authorized by the local entrypoint. Do not create
-Batch 1 contracts/tests, modify runtime or wiring, create or consume an issuance
-authority/capability, issue reconciliation authority, derive/consume a claim,
-complete a receipt, access credentials, invoke a provider, perform external I/O,
-open Iron Gate/Lazaretto, claim closure or restore Batch 7.
+Preparation Batch 0 is complete and its review amendment is merged. Five stages
+remain. The sole current local entrypoint is
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-local-ready.md`.
+It authorizes Batch 1 contract definition and authority-empty contract tests only.
 
-Prior merges, green tests, “continue,” “forward,” “clear,” or a Latin motto do
-not authorize Batch 1. Stop at
-`PREPARATION_BATCH_0_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_AND_REVOCATION_GAPS_CLASSIFIED`.
+Batch 1 must define exact issuance-decision, typed issuance-authority,
+process-local capability, single-use consumption, currentness, deterministic
+publication/retry and read-only reconstruction contracts. The contracts must
+bind exact issuer competence, holder, admission/lineage target, validity window,
+source references and refusal outcomes. Source provenance, service possession,
+a historical approval and the consumed native-transition authority remain
+explicitly non-authorizing.
+
+At-use currentness must distinguish independently mutable Root revocation,
+native-principal revocation, source-generation advance and source-lifecycle
+change from the already bounded RR02/RR05/RR11 expiry cases. Post-receipt
+reconstruction must keep current untimestamped Operator Root revocation separate
+from timestamped native/source lifecycle history.
+
+Do not implement an issuer, resolver, authority producer, consumption service,
+atomic publication path or service wiring. Do not create or consume a real
+decision, authority, capability, reconciliation authority, claim or receipt.
+Do not access credentials, invoke a provider, perform external I/O, execute a
+mission/live trial, open Iron Gate/Lazaretto, claim closure or restore Batch 7.
+
+Batch 2 is not authorized. Prior merges, green tests, “continue,” “forward,”
+“clear,” or a Latin motto do not extend Batch 1. Stop at
+`BATCH_1_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_CURRENTNESS_CONTRACTS_DEFINED`.

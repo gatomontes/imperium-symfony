@@ -8,68 +8,94 @@ use PHPUnit\Framework\TestCase;
 
 final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemediationCampaignReadyTest extends TestCase
 {
-    public function testReviewRetainsProvenanceButRefusesDerivationAndAtUseClosure(): void
-    {
-        $review = $this->read('docs/canonical-native-effect-reconciliation-authority-provenance-post-merge-blackquill-review-v1.md');
-        foreach ([
-            'SELF_SEALED_AUTHORITY_INGRESS_CORRECTED',
-            'ROOT_PROVENANCE_JOIN_ACCEPTED',
-            'FORMAL_CLOSURE_REFUSED_RECONCILIATION_DERIVATION_AUTHORITY_ABSENT',
-            'REVOCATION_AT_CONSUMPTION_UNPROVED',
-            'continuing_authority: false',
-            'resolve -> revoke -> consume',
-        ] as $finding) {
-            self::assertStringContainsStringIgnoringCase($finding, $review, $finding);
-        }
-    }
+    private const string CAMPAIGN = 'docs/next-campaign-canonical-native-effect-reconciliation-issuance-authority-revocation-remediation.md';
+    private const string READY = 'docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-campaign-ready.md';
+    private const string CURRENT = 'docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-local-ready.md';
+    private const string HISTORICAL = 'docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-preparation-batch-0-local-ready.md';
 
-    public function testCampaignHasSixSeparatelyBoundedStages(): void
+    public function testCorrectedPreparationAuthorizesOnlyBatchOneContracts(): void
     {
-        $campaign = $this->read('docs/next-campaign-canonical-native-effect-reconciliation-issuance-authority-revocation-remediation.md');
+        $documents = $this->read(self::CAMPAIGN).$this->read(self::READY).$this->read(self::CURRENT);
         foreach ([
-            'Campaign countdown at selection: six stages including Preparation Batch 0',
-            'Preparation Batch 0 — derivation authority and revocation-race inventory',
-            'Batch 1 — issuance authority and at-use currentness contracts',
-            'Batch 2 — rooted issuance decision, custody and atomic consumption',
-            'Batch 3 — issuer enforcement and revocation-at-use integration',
-            'Batch 4 — adversarial, application, concurrency and interruption proof',
-            'Batch 5 — separately sequenced terminal audit',
-        ] as $stage) {
-            self::assertStringContainsStringIgnoringCase($stage, $campaign, $stage);
-        }
-    }
-
-    public function testPreparationHardStopForbidsRuntimeAuthorityAndLiveEffects(): void
-    {
-        $documents = $this->read('docs/next-campaign-canonical-native-effect-reconciliation-issuance-authority-revocation-remediation.md')
-            .$this->read('docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-campaign-ready.md')
-            .$this->read('docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-preparation-batch-0-local-ready.md');
-        foreach ([
-            'PREPARATION_BATCH_0_ONLY_HARD_STOP',
-            'Do not create Batch 1 contracts/tests',
-            'Do not modify production runtime behavior',
-            'No later batch and no provider effect is authorized',
-            'restore Batch 7',
-        ] as $stop) {
-            self::assertStringContainsStringIgnoringCase($stop, $documents, $stop);
-        }
-    }
-
-    public function testPromptAndCanonicalConsumersPublishTheOnlyEntrypoint(): void
-    {
-        $path = 'docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-preparation-batch-0-local-ready.md';
-        $handoff = $this->read($path);
-        foreach ([
-            'git pull --ff-only origin main',
-            'issue(admissionId, at, expiresAt)',
-            'source provenance from derivation authorization',
-            'resolve -> revoke -> consume race',
             'PREPARATION_BATCH_0_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_AND_REVOCATION_GAPS_CLASSIFIED',
+            'BATCH_1_CONTRACTS_ONLY_AUTHORIZED',
+            'BATCH_2_NOT_AUTHORIZED',
+            'Five stages remain',
+            'authority-empty',
+            'BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED',
         ] as $boundary) {
-            self::assertStringContainsStringIgnoringCase($boundary, $handoff, $boundary);
+            self::assertStringContainsStringIgnoringCase($boundary, $documents, $boundary);
         }
-        foreach (['docs/delegate-mission-flow.md', 'docs/handoffs/README.md', 'todo/blackquill-todos.md'] as $consumer) {
-            self::assertStringContainsString($path, $this->read($consumer), $consumer);
+    }
+
+    public function testBatchOnePromptDefinesEveryRequiredContractDistinction(): void
+    {
+        $prompt = $this->read(self::CURRENT);
+        foreach ([
+            'issuance decision',
+            'single-purpose, single-use issuance authority',
+            'non-serializable process-local typed custody',
+            'atomic consumption/publication semantics',
+            'present-tense Root/native/source currentness',
+            'continuing_authority: false',
+            'missing, counterfeit, expired, replayed, substituted, consumed, stale, revoked, suspended, superseded, retired, migration-required and conflicted',
+            'RR07-RR10 require distinct `SUSPEND`, `SUPERSEDE`, `REVOKE`, `EXPIRE`, `RETIRE` and v3 migration/currentness refusal outcomes',
+            'current untimestamped Operator Root revocation',
+            'timestamped native/source lifecycle history',
+            'RR02, RR05 and RR11',
+            'CUR08A',
+            'CUR08B',
+        ] as $contract) {
+            self::assertStringContainsStringIgnoringCase($contract, $prompt, $contract);
+        }
+    }
+
+    public function testBatchOneHardStopRejectsImplementationAndEffects(): void
+    {
+        $prompt = $this->read(self::CURRENT);
+        foreach ([
+            'Do not modify any existing production issuer',
+            'Do not wire a new service',
+            'Do not create or consume a real issuance decision',
+            'Do not mutate runtime state',
+            'Do not claim GitHub CI until the exact SHA has actually passed it',
+            'Batch 2 is not authorized',
+            'No shorthand continuation language',
+        ] as $stop) {
+            self::assertStringContainsStringIgnoringCase($stop, $prompt, $stop);
+        }
+    }
+
+    public function testCurrentConsumersPublishBatchOneAndRetirePreparationEntrypoint(): void
+    {
+        foreach ([
+            'docs/delegate-mission-flow.md',
+            'docs/handoffs/README.md',
+            'todo/blackquill-todos.md',
+            self::READY,
+            self::CAMPAIGN,
+        ] as $consumer) {
+            $document = $this->read($consumer);
+            self::assertStringContainsString(self::CURRENT, $document, $consumer);
+        }
+
+        $historical = $this->read(self::HISTORICAL);
+        self::assertStringContainsStringIgnoringCase('Historical entrypoint', $historical);
+        self::assertStringContainsString(self::CURRENT, $historical);
+    }
+
+    public function testPromptProvidesPowerShellSynchronizationAndCompletionMarker(): void
+    {
+        $prompt = $this->read(self::CURRENT);
+        foreach ([
+            'git checkout main',
+            'git pull --ff-only origin main',
+            'git status --short',
+            'php vendor/bin/phpunit',
+            'BATCH_1_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_CURRENTNESS_CONTRACTS_DEFINED',
+            'four remaining stages',
+        ] as $instruction) {
+            self::assertStringContainsStringIgnoringCase($instruction, $prompt, $instruction);
         }
     }
 

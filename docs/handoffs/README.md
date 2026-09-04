@@ -1,26 +1,28 @@
 # Current campaign: reconciliation issuance authority and revocation-at-use remediation
 
 `CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_SELECTED`
-`PREPARATION_BATCH_0_ONLY_HARD_STOP`
+`PREPARATION_BATCH_0_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_AND_REVOCATION_GAPS_CLASSIFIED`
+`BATCH_1_CONTRACTS_ONLY_AUTHORIZED`
+`BATCH_2_NOT_AUTHORIZED`
 `ROOT_PROVENANCE_JOIN_ACCEPTED`
 `FORMAL_CLOSURE_REFUSED_RECONCILIATION_DERIVATION_AUTHORITY_ABSENT`
 `REVOCATION_AT_CONSUMPTION_UNPROVED`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
-The merged typed provenance and recovery substrate remains valid. Its formal
-closure is requalified because provenance of the consumed transition authority
-does not authorize a new derivation act, and source currentness can become stale
-between capability resolution and consumption.
+Preparation Batch 0 and its review amendment are merged. The controlling
+inventory preserves the accepted typed provenance/recovery substrate while
+classifying the missing derivation authority and at-use currentness boundary.
 
 Current campaign handoff:
 `docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-campaign-ready.md`.
 
 Only authorized local entrypoint:
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-preparation-batch-0-local-ready.md`.
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-local-ready.md`.
 
-Preparation Batch 0 inventories derivation authority, present-tense currentness,
-consumption, races and proof only. Runtime mutation, authority action, provider
-effects, Iron Gate/Lazaretto and Batch 7 remain unauthorized.
+Batch 1 may define contracts and authority-empty tests only. Production runtime
+behavior, service wiring, authority creation/consumption, provider effects,
+Iron Gate/Lazaretto, Batch 2 and Batch 7 remain unauthorized. The former
+Preparation Batch 0 local-ready file is historical.
 
 # Current campaign: reconciliation authority provenance remediation
 
