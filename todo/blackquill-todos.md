@@ -13,7 +13,7 @@ Current campaign:
   Batch 4 with exact-SHA CI.
 
 The range
-`0ad41ba9a6904ab375c2c6cbc514f01ac9e79958..7d3b8818717fe74fb822a195689d8b3c51030862`
+`afcaf025d097db0b9adddac25a9083a8be2322a0..7d3b8818717fe74fb822a195689d8b3c51030862`
 is quarantined: remote publication was unauthorized, decision publication
 resolved currentness before its lock, and at-use target locks did not exclude
 native-state mutation.
