@@ -14,7 +14,7 @@ authority operation was performed.
 ## Decision
 
 The prior campaign fixed trusted ingress, Root/native source provenance,
-process-local typed custody, claim consumption and read-only reconstruction.
+process-local typed custody, claim consumption and read-only reconstruction while the untimestamped Operator Root trust anchor remains currently eligible.
 Those corrections remain accepted. They do not establish authority to perform
 the new act of issuing reconciliation authority, and they do not make source
 currentness stable between custody resolution and use.
@@ -157,7 +157,7 @@ renewed authorization.
 | C05 | Deterministic retry after authority publication cut | `EXISTS_CANONICALLY` | Orphan authority is unresolvable; exact issuer retry publishes issuance. |
 | C06 | Deterministic retry after in-memory capability consumption cut | `EXISTS_CANONICALLY` | No claim means no durable consumption; fresh resolution may retry. |
 | C07 | Process-loss recovery after claim consumption | `EXISTS_CANONICALLY` | Exact source/consumer consumption converges, then receipt binds. |
-| C08 | Read-only receipt-to-Root reconstruction | `EXISTS_CANONICALLY` | Joins evidence without issue/consume/bind/provider calls. |
+| C08 | Read-only receipt-to-Root reconstruction | `EXISTS_FRAGMENTED` | Joins evidence without issue/consume/bind/provider calls while current Root trust remains eligible; an untimestamped Root revocation blocks historical reconstruction. |
 | C09 | Present-tense reconstruction for authority-issuing use | `ABSENT` | Existing reconstruction is historical/read-only, not an issuance-use guard. |
 | L01 | Issuance lock | `EXISTS_CANONICALLY` | Outer issuance scope, then authority immutable directory, then issuance directory. |
 | L02 | Derivation lock | `EXISTS_CANONICALLY` | Reconciliation authority scope encloses preview, capability consume and claim put. |
@@ -206,7 +206,7 @@ active scoped Imperator principal + exact effect lineage
        consume exact capability
        publish one deterministic claim
   -> existing no-provider claim consumption and receipt binding
-  -> existing read-only receipt-to-Root reconstruction
+  -> existing read-only receipt-to-Root reconstruction, conditional on current Root eligibility
 ```
 
 The decision/issuance authority must not depend on the reconciliation authority
@@ -226,7 +226,9 @@ issuer or validity window.
 3. Batch 3 requires that typed authority at the public issuer and repeats
    present-tense Root/native/source validation inside issuer and claim-use cuts.
 4. Batch 4 proves all adversarial, race, substitution, replay, contention,
-   interruption, fresh-process, container/worker and platform cases.
+   interruption, fresh-process, container/worker and platform cases, including
+   the split between current untimestamped Root revocation and timestamped
+   native/source lifecycle history during post-receipt reconstruction.
 5. Batch 5 begins separately from clean merged Batch 4 `main`, reconstructs the
    full chain and retains exact-SHA local/CI evidence before any bounded verdict.
 

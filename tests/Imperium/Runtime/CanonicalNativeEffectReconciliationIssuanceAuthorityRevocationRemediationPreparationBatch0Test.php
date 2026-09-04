@@ -31,6 +31,7 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
             'FORMAL_CLOSURE_REFUSED_RECONCILIATION_DERIVATION_AUTHORITY_ABSENT',
             'REVOCATION_AT_CONSUMPTION_UNPROVED',
             'BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED',
+            'POST_RECEIPT_RECONSTRUCTION_REVOCATION_SOURCE_SPLIT_REQUIRED',
             'Batch 1 is not authorized',
         ] as $marker) {
             self::assertStringContainsStringIgnoringCase($marker, $all, $marker);
@@ -125,9 +126,55 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
             'Prior-test gap',
             'testRevokedRootAfterIssuanceRefusesFreshResolution',
             'present-tense re-resolution',
+            'RR15A',
+            'current untimestamped `revoked` flag',
+            'RR15B',
+            'timestamped native/source lifecycle',
+            'activation cannot become invalid after being valid at `t0`',
+            'stale claim cannot publish through expiry',
         ] as $race) {
             self::assertStringContainsStringIgnoringCase($race, $matrix, $race);
         }
+        self::assertStringNotContainsString(
+            'Native principal becomes not current through activation timing/expiry',
+            $matrix,
+        );
+        self::assertStringNotContainsString(
+            '| RR15 | Source revoked after receipt publication',
+            $matrix,
+        );
+    }
+
+    public function testPostReceiptReconstructionIsSplitByRevocationSource(): void
+    {
+        $adversarial = $this->read(self::ARTIFACTS[4]);
+        foreach ([
+            'CUR08A',
+            'current untimestamped Root `revoked`',
+            'NIR_ROOT_INELIGIBLE',
+            '`EXISTS_FRAGMENTED`',
+            'CUR08B',
+            'Timestamped native/source lifecycle',
+            '`EXISTS_CANONICALLY`',
+        ] as $distinction) {
+            self::assertStringContainsStringIgnoringCase($distinction, $adversarial, $distinction);
+        }
+
+        $inventory = $this->read(self::ARTIFACTS[0]);
+        self::assertStringContainsString(
+            '| C08 | Read-only receipt-to-Root reconstruction | `EXISTS_FRAGMENTED` |',
+            $inventory,
+        );
+
+        $handoff = $this->read(self::ARTIFACTS[6]);
+        self::assertStringContainsStringIgnoringCase(
+            'Ordinary native-principal expiry requires preservation proof, not duplicate at-use remediation',
+            $handoff,
+        );
+        self::assertStringContainsStringIgnoringCase(
+            'Batch 1 is not authorized by this handoff',
+            $handoff,
+        );
     }
 
     public function testMatricesPreserveTypedRecoveryAtomicRetryAndNoProviderBoundaries(): void
