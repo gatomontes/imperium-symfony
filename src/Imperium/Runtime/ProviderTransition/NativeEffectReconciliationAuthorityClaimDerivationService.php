@@ -46,6 +46,8 @@ final readonly class NativeEffectReconciliationAuthorityClaimDerivationService
             $consumption = NativeState::seal([
                 'schema' => NativeEffectReconciliationAuthorityConsumptionContract::SCHEMA,
                 'consumption_id' => 'reconciliation-authority-consumption-'.hash('sha256', $authority['authority_id']),
+                'mission_id' => $authority['mission_id'],
+                'mission_dossier_identity' => $authority['mission_dossier_identity'],
                 'authority_id' => $authority['authority_id'],
                 'claim_id' => $claimId,
                 'custody_capability_id' => $capability->capabilityId,
@@ -57,6 +59,8 @@ final readonly class NativeEffectReconciliationAuthorityClaimDerivationService
             return $this->records->put(NativeEffectForwardRecoveryClaimAdmissionService::CLAIMS, $claimId, [
                 'schema' => NativeEffectForwardRecoveryClaimV2Contract::SCHEMA,
                 'claim_id' => $claimId,
+                'mission_id' => $authority['mission_id'],
+                'mission_dossier_identity' => $authority['mission_dossier_identity'],
                 'reconciliation_authority' => NativeState::ref($authority, 'authority_id'),
                 'authority_issuance' => NativeState::ref($issuance, 'issuance_id'),
                 'authority_consumption' => $consumption,

@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace App\Imperium\Runtime\ProviderTransition;
 
+use App\Imperium\Runtime\Mission\MissionCapability;
+use App\Imperium\Runtime\Mission\MissionCapabilityConsumer;
 use App\Imperium\Runtime\Persistence\AtomicTransition;
 use App\Imperium\Runtime\Persistence\ImmutableRecordStore;
 
 /** Publishes an authority-empty decision and exact issuance grant under native exclusion. */
 final readonly class NativeEffectReconciliationIssuanceAuthorizationService
 {
+    public const string MISSION_ACTION = 'reconciliation-authorize-issuance';
+    public const string MISSION_ACTOR = 'native-effect-reconciliation-issuance-authorizer';
     public const string DECISIONS = 'var/imperium/runtime/canonical-native-effect-reconciliation-issuance-decisions';
     public const string AUTHORITIES = 'var/imperium/runtime/canonical-native-effect-reconciliation-issuance-authorities';
     private AtomicTransition $atomic;
@@ -23,11 +27,23 @@ final readonly class NativeEffectReconciliationIssuanceAuthorizationService
         $this->sources = new NativeEffectReconciliationAuthoritySourceResolver($state);
     }
 
-    public function authorize(string $admissionId, int $at, int $expiresAt): array
+    public function authorize(
+        MissionCapability $missionCapability,
+        MissionCapabilityConsumer $missionAuthority,
+        string $missionId,
+        string $dossierIdentity,
+        string $admissionId,
+        int $at,
+        int $expiresAt,
+    ): array
     {
-        return $this->state->locked(function () use ($admissionId, $at, $expiresAt): array {
+        return $this->state->locked(function () use ($missionCapability, $missionAuthority, $missionId, $dossierIdentity, $admissionId, $at, $expiresAt): array {
+            $missionConsumption = $missionAuthority->consume(
+                $missionCapability, $missionId, $dossierIdentity, self::MISSION_ACTION,
+                self::MISSION_ACTOR, $admissionId, $at,
+            );
             $source = $this->sources->resolve($admissionId, $at);
-            $targetAuthority = NativeEffectReconciliationAuthorityFactory::build($source, $at, $expiresAt);
+            $targetAuthority = NativeEffectReconciliationAuthorityFactory::build($source, $missionId, $dossierIdentity, $at, $expiresAt);
             $issuer = [
                 'principal_id' => $source['nativePrincipal']['principal_id'],
                 'principal_version_id' => $source['nativePrincipal']['principal_version_id'],
@@ -50,6 +66,9 @@ final readonly class NativeEffectReconciliationIssuanceAuthorizationService
             $decision = NativeState::seal([
                 'schema' => NativeEffectReconciliationIssuanceDecisionContract::SCHEMA,
                 'decision_id' => $decisionId,
+                'mission_id' => $missionId,
+                'mission_dossier_identity' => $dossierIdentity,
+                'mission_authorization_consumption' => $missionConsumption,
                 'instance_id' => $source['nativePrincipal']['instance_id'],
                 'competent_issuer' => $issuer,
                 'competent_issuer_provenance' => NativeState::ref($source['nativePrincipal'], 'principal_version_id'),
@@ -76,6 +95,9 @@ final readonly class NativeEffectReconciliationIssuanceAuthorizationService
             $issuanceAuthority = NativeState::seal([
                 'schema' => NativeEffectReconciliationIssuanceAuthorityContract::SCHEMA,
                 'issuance_authority_id' => $issuanceAuthorityId,
+                'mission_id' => $missionId,
+                'mission_dossier_identity' => $dossierIdentity,
+                'mission_authorization_consumption' => $missionConsumption,
                 'instance_id' => $source['nativePrincipal']['instance_id'],
                 'issuance_decision' => NativeState::ref($decision, 'decision_id'),
                 'issuer' => $issuer,

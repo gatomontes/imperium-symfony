@@ -13,7 +13,6 @@ use App\Imperium\Runtime\ProviderTransition\NativeEffectForwardRecoveryClaimAdmi
 use App\Imperium\Runtime\ProviderTransition\NativeEffectForwardRecoveryService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationAuthorityIssuanceService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationAuthorityResolver;
-use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationIssuanceAuthorizationService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationIssuanceAuthorityResolver;
 use App\Imperium\Runtime\ProviderTransition\NativeState;
 
@@ -48,11 +47,6 @@ final readonly class CanonicalNativeEffectCorridor
     public function providerDouble(NativeEffectContinuationCapabilityIssuer $continuations): NativeEffectDoubleExecutionService
     {
         return new NativeEffectDoubleExecutionService($this->state, $continuations);
-    }
-
-    public function reconciliationIssuanceAuthorization(): NativeEffectReconciliationIssuanceAuthorizationService
-    {
-        return new NativeEffectReconciliationIssuanceAuthorizationService($this->state);
     }
 
     public function reconciliationIssuanceAuthorityResolver(): NativeEffectReconciliationIssuanceAuthorityResolver

@@ -13,6 +13,8 @@ final readonly class NativeEffectReconciliationAuthorityCapability
         public string $authorityDigest,
         public string $issuanceId,
         public string $issuanceDigest,
+        public string $missionId,
+        public string $dossierIdentity,
         public int $expiresAt,
         public int $runtimeProcessId,
         public string $processIncarnationBinding,

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Imperium\Runtime;
 
+use App\Tests\Imperium\Runtime\Support\ReconciliationMissionFixture;
+
 use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationAuthorityClaimDerivationService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationAuthorityIssuanceService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationAuthorityResolver;
@@ -26,7 +28,7 @@ final class CanonicalNativeEffectReconciliationSharedExclusionRemediationBatch3T
     public function testIU01NativeRevocationAfterCapabilityResolutionRefusesBeforeConsumptionOrPublication(): void
     {
         [$admission, $at] = $this->sealedResponseForSharedCampaign('iu01');
-        $authorization = (new NativeEffectReconciliationIssuanceAuthorizationService($this->state))->authorize($admission['admission_id'], $at + 1, $at + 100);
+        $authorization = (new NativeEffectReconciliationIssuanceAuthorizationService($this->state))->authorize(...ReconciliationMissionFixture::arguments($admission['admission_id'], $at + 1, $at + 100));
         $resolver = new NativeEffectReconciliationIssuanceAuthorityResolver($this->state);
         $capability = $resolver->resolve($authorization['issuance_authority']['issuance_authority_id'], $at + 2);
         $this->revokeSourceNativePrincipal($admission, $at + 3, 'iu01-native-revoke');

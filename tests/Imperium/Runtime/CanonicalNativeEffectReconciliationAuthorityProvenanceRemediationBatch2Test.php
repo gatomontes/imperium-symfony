@@ -53,7 +53,8 @@ final class CanonicalNativeEffectReconciliationAuthorityProvenanceRemediationBat
         $lookalike = new \ReflectionClass($capability);
         $copy = $lookalike->newInstance(...array_values([
             $capability->capabilityId, $capability->authorityId, $capability->authorityDigest,
-            $capability->issuanceId, $capability->issuanceDigest, $capability->expiresAt,
+            $capability->issuanceId, $capability->issuanceDigest, $capability->missionId,
+            $capability->dossierIdentity, $capability->expiresAt,
             $capability->runtimeProcessId, $capability->processIncarnationBinding,
         ]));
         $this->fails('CNE624_RECONCILIATION_CAPABILITY_INVALID', fn () => $resolver->consume($copy, $at + 2));

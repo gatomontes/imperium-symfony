@@ -20,7 +20,7 @@ require_once __DIR__.'/CanonicalNativeEffectCorridorActivationBatch4Test.php';
 
 final class CanonicalNativeEffectReconciliationAuthorityProvenanceRemediationBatch4Test extends CanonicalNativeEffectCorridorActivationBatch4Test
 {
-    public function testIssuerInterruptionLeavesAnUnresolvableOrphanAndExactRetryCompletesEvidence(): void
+    public function testIssuerInterruptionLeavesAnUnresolvableOrphanAndFreshMissionCannotRewriteIt(): void
     {
         [$admission, $at] = $this->sealedResponse();
         $checkpoint = static function (string $cut): void {
@@ -32,9 +32,8 @@ final class CanonicalNativeEffectReconciliationAuthorityProvenanceRemediationBat
 
         $authority = json_decode((string) file_get_contents((glob($this->root.'/'.NativeEffectReconciliationAuthorityIssuanceService::AUTHORITIES.'/*.json') ?: [])[0]), true, 64, JSON_THROW_ON_ERROR);
         $this->fails('PST112_IMMUTABLE_RECORD_ABSENT', fn () => (new NativeEffectReconciliationAuthorityResolver($this->state))->resolve($authority['authority_id'], $at + 1));
-        $retried = $this->issueReconciliation($admission['admission_id'], $at + 1, $at + 100);
-        self::assertSame($authority, $retried['authority']);
-        self::assertNotNull((new NativeEffectReconciliationAuthorityResolver($this->state))->resolve($authority['authority_id'], $at + 2));
+        $this->fails('PST111_IMMUTABLE_RECORD_CONFLICT', fn () => $this->issueReconciliation($admission['admission_id'], $at + 1, $at + 100));
+        $this->fails('PST112_IMMUTABLE_RECORD_ABSENT', fn () => (new NativeEffectReconciliationAuthorityResolver($this->state))->resolve($authority['authority_id'], $at + 2));
     }
 
     public function testCapabilityInterruptionBeforeClaimPublicationLeavesNoDurableConsumption(): void
@@ -83,9 +82,11 @@ final class CanonicalNativeEffectReconciliationAuthorityProvenanceRemediationBat
     {
         [$admission, $at] = $this->sealedResponse();
         $fixture = $this->root.'/reconciliation-worker.json';
+        $issued = $this->issueReconciliation($admission['admission_id'], $at + 1, $at + 100);
         file_put_contents($fixture, json_encode([
             'root' => $this->root,
             'admission_id' => $admission['admission_id'],
+            'authority_id' => $issued['authority']['authority_id'],
             'at' => $at + 1,
             'expires_at' => $at + 100,
         ], JSON_THROW_ON_ERROR));

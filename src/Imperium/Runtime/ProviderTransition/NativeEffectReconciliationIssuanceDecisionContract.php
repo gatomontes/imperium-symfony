@@ -12,7 +12,8 @@ final class NativeEffectReconciliationIssuanceDecisionContract
     public const string ACT = 'DECIDE_EXACT_RECONCILIATION_AUTHORITY_ISSUANCE';
     public const array DISPOSITIONS = ['AUTHORIZED', 'REFUSED'];
     public const array REQUIRED_FIELDS = [
-        'schema', 'decision_id', 'instance_id', 'competent_issuer',
+        'schema', 'decision_id', 'mission_id', 'mission_dossier_identity',
+        'mission_authorization_consumption', 'instance_id', 'competent_issuer',
         'competent_issuer_provenance', 'target', 'holder', 'effect_admission',
         'callback_start', 'sealed_response', 'source_native_authority',
         'source_native_principal', 'source_native_transition', 'operator_root_act',

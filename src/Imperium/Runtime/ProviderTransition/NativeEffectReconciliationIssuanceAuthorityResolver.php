@@ -33,6 +33,7 @@ final class NativeEffectReconciliationIssuanceAuthorityResolver
         $capability = new NativeEffectReconciliationIssuanceCapability(
             $capabilityId, $authority['issuance_authority_id'], $authority['record_digest'],
             $decision['decision_id'], $decision['record_digest'], $authority['target']['authority_id'],
+            $authority['mission_id'], $authority['mission_dossier_identity'],
             $authority['expires_at'], $this->incarnation->runtimeProcessId(), $this->incarnation->binding($material),
         );
         $this->issued[$capabilityId] = $capability;
@@ -53,7 +54,10 @@ final class NativeEffectReconciliationIssuanceAuthorityResolver
             throw new \RuntimeException('CNE631_ISSUANCE_AUTHORITY_INVALID');
         }
         $source = (new NativeEffectReconciliationAuthoritySourceResolver($this->state))->resolve($authority['effect_admission']['id'], $at);
-        $expected = NativeEffectReconciliationAuthorityFactory::build($source, $decision['effective_at'], $decision['expires_at']);
+        $expected = NativeEffectReconciliationAuthorityFactory::build(
+            $source, $decision['mission_id'], $decision['mission_dossier_identity'],
+            $decision['effective_at'], $decision['expires_at'],
+        );
         $expectedIssuer = [
             'principal_id' => $source['nativePrincipal']['principal_id'],
             'principal_version_id' => $source['nativePrincipal']['principal_version_id'],
@@ -64,6 +68,12 @@ final class NativeEffectReconciliationIssuanceAuthorityResolver
         ];
         $rootAct = NativeState::seal($source['nativePrincipal']['root_act']['act']);
         if ($decision['competent_issuer'] !== $expectedIssuer || $authority['issuer'] !== $expectedIssuer
+            || $authority['mission_id'] !== $decision['mission_id']
+            || $authority['mission_dossier_identity'] !== $decision['mission_dossier_identity']
+            || $authority['mission_authorization_consumption'] !== $decision['mission_authorization_consumption']
+            || ($decision['mission_authorization_consumption']['mission_id'] ?? null) !== $decision['mission_id']
+            || ($decision['mission_authorization_consumption']['dossier_identity'] ?? null) !== $decision['mission_dossier_identity']
+            || ($decision['mission_authorization_consumption']['action'] ?? null) !== NativeEffectReconciliationIssuanceAuthorizationService::MISSION_ACTION
             || $decision['competent_issuer_provenance'] !== NativeState::ref($source['nativePrincipal'], 'principal_version_id')
             || $decision['operator_root_act'] !== NativeState::ref($rootAct, 'act_id')
             || $authority['operator_root_act'] !== $decision['operator_root_act']
@@ -96,7 +106,9 @@ final class NativeEffectReconciliationIssuanceAuthorityResolver
         $evidence = $this->inspect($capability->issuanceAuthorityId, $at);
         if ($evidence['issuance_authority']['record_digest'] !== $capability->issuanceAuthorityDigest
             || $evidence['decision']['record_digest'] !== $capability->decisionDigest
-            || $evidence['target_authority']['authority_id'] !== $capability->targetAuthorityId) {
+            || $evidence['target_authority']['authority_id'] !== $capability->targetAuthorityId
+            || $evidence['issuance_authority']['mission_id'] !== $capability->missionId
+            || $evidence['issuance_authority']['mission_dossier_identity'] !== $capability->dossierIdentity) {
             throw new \RuntimeException('CNE633_ISSUANCE_CAPABILITY_INVALID');
         }
         unset($this->issued[$capability->capabilityId]);

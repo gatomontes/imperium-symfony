@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Imperium\Runtime;
 
+use App\Tests\Imperium\Runtime\Support\ReconciliationMissionFixture;
+
 use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationAuthorityIssuanceService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationIssuanceAuthorizationService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationIssuanceAuthorityResolver;
@@ -35,7 +37,7 @@ final class CanonicalNativeEffectReconciliationSharedExclusionRemediationBatch4T
     public function testIssuanceInterruptionAfterConsumptionConvergesOnlyExactPublication(): void
     {
         [$admission, $at] = $this->sealedResponseForSharedCampaign('batch4-interruption');
-        $authorization = (new NativeEffectReconciliationIssuanceAuthorizationService($this->state))->authorize($admission['admission_id'], $at + 1, $at + 100);
+        $authorization = (new NativeEffectReconciliationIssuanceAuthorizationService($this->state))->authorize(...ReconciliationMissionFixture::arguments($admission['admission_id'], $at + 1, $at + 100));
         $resolver = new NativeEffectReconciliationIssuanceAuthorityResolver($this->state);
         $capability = $resolver->resolve($authorization['issuance_authority']['issuance_authority_id'], $at + 2);
         $service = new NativeEffectReconciliationAuthorityIssuanceService($this->state, $resolver, static function (string $cut): void {
@@ -50,15 +52,17 @@ final class CanonicalNativeEffectReconciliationSharedExclusionRemediationBatch4T
         self::assertSame($authorization['decision']['target']['authority_id'], $retried['authority']['authority_id']);
     }
 
-    public function testChangedValidityWindowConflictsWithEstablishedDeterministicTarget(): void
+    public function testSeparatelyGrantedValidityWindowProducesDistinctMissionBoundTarget(): void
     {
         [$admission, $at] = $this->sealedResponseForSharedCampaign('batch4-conflict');
         $first = $this->issueReconciliation($admission['admission_id'], $at + 1, $at + 100);
-        $authorization = (new NativeEffectReconciliationIssuanceAuthorizationService($this->state))->authorize($admission['admission_id'], $at + 1, $at + 90);
+        $authorization = (new NativeEffectReconciliationIssuanceAuthorizationService($this->state))->authorize(...ReconciliationMissionFixture::arguments($admission['admission_id'], $at + 1, $at + 90));
         $resolver = new NativeEffectReconciliationIssuanceAuthorityResolver($this->state);
         $capability = $resolver->resolve($authorization['issuance_authority']['issuance_authority_id'], $at + 2);
-        $this->fails('PST111_IMMUTABLE_RECORD_CONFLICT', fn () => (new NativeEffectReconciliationAuthorityIssuanceService($this->state, $resolver))->issue($capability, $at + 2));
+        $second = (new NativeEffectReconciliationAuthorityIssuanceService($this->state, $resolver))->issue($capability, $at + 2);
         self::assertSame($at + 100, $first['authority']['expires_at']);
+        self::assertSame($at + 90, $second['authority']['expires_at']);
+        self::assertNotSame($first['authority']['authority_id'], $second['authority']['authority_id']);
     }
 
     public function testWindowsAndLinuxStorageIdentityLawIsExplicitlyPlatformBounded(): void

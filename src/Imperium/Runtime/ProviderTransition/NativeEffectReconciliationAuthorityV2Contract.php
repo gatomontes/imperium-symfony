@@ -12,7 +12,8 @@ final class NativeEffectReconciliationAuthorityV2Contract
     public const string HOLDER = 'imperium.la-cortine.canonical-native-effect-forward-recovery/v2';
     public const string ISSUER_SERVICE = 'imperium.imperator.native-effect-reconciliation-authority-issuer/v2';
     public const array REQUIRED_FIELDS = [
-        'schema', 'authority_id', 'issuance_id', 'source_native_authority',
+        'schema', 'authority_id', 'issuance_id', 'mission_id',
+        'mission_dossier_identity', 'source_native_authority',
         'source_native_principal', 'source_native_transition', 'effect_admission',
         'callback_start', 'sealed_response', 'deterministic_receipt_id',
         'act', 'holder', 'issuer_service', 'effective_at', 'expires_at',

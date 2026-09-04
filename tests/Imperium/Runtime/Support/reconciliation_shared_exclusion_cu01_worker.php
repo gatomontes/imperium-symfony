@@ -15,7 +15,7 @@ require dirname(__DIR__, 4).'/vendor/autoload.php';
 try {
     $fixture = json_decode((string) file_get_contents((string) $fixturePath), true, 32, JSON_THROW_ON_ERROR);
     $state = new NativeState($fixture['root']);
-    $authorization = (new NativeEffectReconciliationIssuanceAuthorizationService($state))->authorize($fixture['admission_id'], $fixture['issue_at'], $fixture['expires_at']);
+    $authorization = (new NativeEffectReconciliationIssuanceAuthorizationService($state))->authorize(...\App\Tests\Imperium\Runtime\Support\ReconciliationMissionFixture::arguments($fixture['admission_id'], $fixture['issue_at'], $fixture['expires_at']));
     $issuanceResolver = new NativeEffectReconciliationIssuanceAuthorityResolver($state);
     $issued = (new NativeEffectReconciliationAuthorityIssuanceService($state, $issuanceResolver))->issue(
         $issuanceResolver->resolve($authorization['issuance_authority']['issuance_authority_id'], $fixture['issue_at']),

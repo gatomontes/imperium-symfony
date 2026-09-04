@@ -15,14 +15,8 @@ require dirname(__DIR__, 4).'/vendor/autoload.php';
 try {
     $fixture = json_decode((string) file_get_contents((string) $fixturePath), true, 32, JSON_THROW_ON_ERROR);
     $state = new NativeState($fixture['root']);
-    $authorization = (new NativeEffectReconciliationIssuanceAuthorizationService($state))->authorize($fixture['admission_id'], $fixture['at'], $fixture['expires_at']);
-    $issuanceResolver = new NativeEffectReconciliationIssuanceAuthorityResolver($state);
-    $issued = (new NativeEffectReconciliationAuthorityIssuanceService($state, $issuanceResolver))->issue(
-        $issuanceResolver->resolve($authorization['issuance_authority']['issuance_authority_id'], $fixture['at']),
-        $fixture['at'],
-    );
     $resolver = new NativeEffectReconciliationAuthorityResolver($state);
-    $capability = $resolver->resolve($issued['authority']['authority_id'], $fixture['at']);
+    $capability = $resolver->resolve($fixture['authority_id'], $fixture['at']);
     if ('resolve-only' === $mode) {
         echo json_encode(['authority_id' => $capability->authorityId], JSON_THROW_ON_ERROR);
         exit(0);

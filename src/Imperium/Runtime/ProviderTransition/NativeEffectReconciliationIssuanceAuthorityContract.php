@@ -11,7 +11,8 @@ final class NativeEffectReconciliationIssuanceAuthorityContract
     public const int VERSION = 1;
     public const string PERMITTED_TRANSITION = 'ISSUE_EXACT_RECONCILIATION_AUTHORITY';
     public const array REQUIRED_FIELDS = [
-        'schema', 'issuance_authority_id', 'instance_id', 'issuance_decision',
+        'schema', 'issuance_authority_id', 'mission_id', 'mission_dossier_identity',
+        'mission_authorization_consumption', 'instance_id', 'issuance_decision',
         'issuer', 'holder', 'target', 'effect_admission', 'callback_start',
         'sealed_response', 'source_native_authority', 'source_native_principal',
         'source_native_transition', 'operator_root_act', 'permitted_transition',

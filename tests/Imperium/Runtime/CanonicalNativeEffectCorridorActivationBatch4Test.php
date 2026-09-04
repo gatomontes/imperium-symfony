@@ -12,6 +12,7 @@ use App\Imperium\Runtime\ProviderTransition\NativeEffectDoubleExecutionService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationAuthorityIssuanceService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationIssuanceAuthorizationService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectReconciliationIssuanceAuthorityResolver;
+use App\Tests\Imperium\Runtime\Support\ReconciliationMissionFixture;
 
 require_once __DIR__.'/CanonicalNativeEffectCorridorActivationBatch3Test.php';
 
@@ -19,7 +20,7 @@ class CanonicalNativeEffectCorridorActivationBatch4Test extends CanonicalNativeE
 {
     protected function issueReconciliation(string $admissionId, int $at, int $expiresAt, ?\Closure $checkpoint = null): array
     {
-        $authorization = (new NativeEffectReconciliationIssuanceAuthorizationService($this->state))->authorize($admissionId, $at, $expiresAt);
+        $authorization = (new NativeEffectReconciliationIssuanceAuthorizationService($this->state))->authorize(...ReconciliationMissionFixture::arguments($admissionId, $at, $expiresAt));
         $resolver = new NativeEffectReconciliationIssuanceAuthorityResolver($this->state);
         $capability = $resolver->resolve($authorization['issuance_authority']['issuance_authority_id'], $at);
         return (new NativeEffectReconciliationAuthorityIssuanceService($this->state, $resolver, $checkpoint))->issue($capability, $at);

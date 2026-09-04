@@ -10,7 +10,8 @@ final class NativeEffectForwardRecoveryClaimV2Contract
     public const string SCHEMA = 'imperium.la-cortine.native-effect-forward-recovery-claim/v2';
     public const string ACT = NativeEffectReconciliationAuthorityV2Contract::ACT;
     public const array REQUIRED_FIELDS = [
-        'schema', 'claim_id', 'reconciliation_authority', 'authority_issuance',
+        'schema', 'claim_id', 'mission_id', 'mission_dossier_identity',
+        'reconciliation_authority', 'authority_issuance',
         'authority_consumption', 'effect_admission', 'callback_start',
         'sealed_response', 'deterministic_receipt_id', 'act',
         'provider_invocation_permitted', 'credential_resolution_permitted',

@@ -46,6 +46,8 @@ final readonly class NativeEffectReconciliationAuthorityIssuanceService
             $issuance = $this->records->put(self::ISSUANCES, $authority['issuance_id'], [
                 'schema' => NativeEffectReconciliationAuthorityIssuanceContract::SCHEMA,
                 'issuance_id' => $authority['issuance_id'],
+                'mission_id' => $authority['mission_id'],
+                'mission_dossier_identity' => $authority['mission_dossier_identity'],
                 'issued_authority' => NativeState::ref($storedAuthority, 'authority_id'),
                 'source_native_authority' => $authority['source_native_authority'],
                 'source_native_principal' => $authority['source_native_principal'],

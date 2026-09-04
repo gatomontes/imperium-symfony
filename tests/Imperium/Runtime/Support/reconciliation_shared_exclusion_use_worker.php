@@ -26,10 +26,10 @@ try {
     };
     if ('dp01' === $f['mode']) {
         $result = (new NativeEffectReconciliationIssuanceAuthorizationService($state, static fn (string $cut) => $barrier('currentness.passed', 'DP01_CURRENTNESS_HELD', $cut)))
-            ->authorize($f['admission_id'], $f['issue_at'], $f['expires_at']);
+            ->authorize(...\App\Tests\Imperium\Runtime\Support\ReconciliationMissionFixture::arguments($f['admission_id'], $f['issue_at'], $f['expires_at']));
         echo json_encode(['result' => 'DECISION_PUBLISHED_BEFORE_MUTATION', 'id' => $result['decision']['decision_id']], JSON_THROW_ON_ERROR)."\n";
     } else {
-        $authorization = (new NativeEffectReconciliationIssuanceAuthorizationService($state))->authorize($f['admission_id'], $f['issue_at'], $f['expires_at']);
+        $authorization = (new NativeEffectReconciliationIssuanceAuthorizationService($state))->authorize(...\App\Tests\Imperium\Runtime\Support\ReconciliationMissionFixture::arguments($f['admission_id'], $f['issue_at'], $f['expires_at']));
         $issuanceResolver = new NativeEffectReconciliationIssuanceAuthorityResolver($state);
         $issuanceCapability = $issuanceResolver->resolve($authorization['issuance_authority']['issuance_authority_id'], $f['resolve_at']);
         if ('iu01' === $f['mode']) {

@@ -15,7 +15,8 @@ final class NativeEffectReconciliationAuthorityIssuanceContract
         'verified_operator_root_act',
     ];
     public const array REQUIRED_FIELDS = [
-        'schema', 'issuance_id', 'issued_authority', 'source_native_authority',
+        'schema', 'issuance_id', 'mission_id', 'mission_dossier_identity',
+        'issued_authority', 'source_native_authority',
         'source_native_principal', 'source_native_transition', 'effect_admission',
         'issuer_service', 'issued_at', 'authority_issued',
         'provider_invocation_performed', 'credential_resolution_performed',

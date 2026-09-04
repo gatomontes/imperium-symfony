@@ -38,6 +38,8 @@ final class NativeEffectReconciliationAuthorityResolver
             $authority['record_digest'],
             $issuance['issuance_id'],
             $issuance['record_digest'],
+            $authority['mission_id'],
+            $authority['mission_dossier_identity'],
             $authority['expires_at'],
             $this->incarnation->runtimeProcessId(),
             $this->incarnation->binding($material),
@@ -90,7 +92,11 @@ final class NativeEffectReconciliationAuthorityResolver
         unset($this->issued[$capability->capabilityId]);
         $authority = $this->records->read(NativeEffectReconciliationAuthorityIssuanceService::AUTHORITIES, $capability->authorityId);
         $issuance = $this->records->read(NativeEffectReconciliationAuthorityIssuanceService::ISSUANCES, $capability->issuanceId);
-        if ($authority['record_digest'] !== $capability->authorityDigest || $issuance['record_digest'] !== $capability->issuanceDigest) {
+        if ($authority['record_digest'] !== $capability->authorityDigest || $issuance['record_digest'] !== $capability->issuanceDigest
+            || $authority['mission_id'] !== $capability->missionId
+            || $authority['mission_dossier_identity'] !== $capability->dossierIdentity
+            || $issuance['mission_id'] !== $capability->missionId
+            || $issuance['mission_dossier_identity'] !== $capability->dossierIdentity) {
             throw new \RuntimeException('CNE624_RECONCILIATION_CAPABILITY_INVALID');
         }
         return ['authority' => $authority, 'issuance' => $issuance];
@@ -120,6 +126,8 @@ final class NativeEffectReconciliationAuthorityResolver
             || NativeEffectReconciliationAuthorityIssuanceContract::SCHEMA !== ($issuance['schema'] ?? null)
             || NativeState::seal($issuance) !== $issuance
             || ($issuance['issued_authority'] ?? null) !== NativeState::ref($authority, 'authority_id')
+            || ($issuance['mission_id'] ?? null) !== $authority['mission_id']
+            || ($issuance['mission_dossier_identity'] ?? null) !== $authority['mission_dossier_identity']
             || ($issuance['source_native_authority'] ?? null) !== $authority['source_native_authority']
             || ($issuance['source_native_principal'] ?? null) !== $authority['source_native_principal']
             || ($issuance['source_native_transition'] ?? null) !== $authority['source_native_transition']

@@ -13,6 +13,7 @@ use App\Imperium\Runtime\ProviderTransition\NativeEffectAtomicAdmissionService;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectContinuationCapabilityIssuer;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectCredentialCapabilityIssuer;
 use App\Imperium\Runtime\ProviderTransition\NativeEffectDoubleExecutionService;
+use App\Tests\Imperium\Runtime\Support\ReconciliationMissionFixture;
 
 require_once __DIR__.'/CanonicalNativeEffectCorridorActivationBatch4Test.php';
 
@@ -24,7 +25,7 @@ final class CanonicalNativeEffectReconciliationSharedExclusionRemediationBatch2T
         $cuts = [];
         $result = (new NativeEffectReconciliationIssuanceAuthorizationService($this->state, static function (string $cut) use (&$cuts): void {
             $cuts[] = $cut;
-        }))->authorize($admission['admission_id'], $at + 1, $at + 100);
+        }))->authorize(...ReconciliationMissionFixture::arguments($admission['admission_id'], $at + 1, $at + 100));
         self::assertSame(NativeEffectReconciliationIssuanceDecisionContract::REQUIRED_FIELDS, array_keys($result['decision']));
         self::assertSame(NativeEffectReconciliationIssuanceAuthorityContract::REQUIRED_FIELDS, array_keys($result['issuance_authority']));
         self::assertSame(['currentness.passed', 'decision.published', 'issuance_authority.published'], $cuts);
@@ -47,7 +48,7 @@ final class CanonicalNativeEffectReconciliationSharedExclusionRemediationBatch2T
             $this->fails('NIR_NESTED_LOCK', fn () => (new NativePrincipal($this->state, static fn (): int => $at + 2))->lifecycle($chain['principal']['id'], $this->sign($act)));
             self::assertNull($this->state->get('revocations', $chain['principal']['id']));
         });
-        $published = $service->authorize($admission['admission_id'], $at + 1, $at + 100);
+        $published = $service->authorize(...ReconciliationMissionFixture::arguments($admission['admission_id'], $at + 1, $at + 100));
         self::assertTrue($attempted);
         self::assertSame('AUTHORIZED', $published['decision']['disposition']);
     }
