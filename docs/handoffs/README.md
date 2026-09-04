@@ -2,27 +2,24 @@
 
 `CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_SELECTED`
 `PREPARATION_BATCH_0_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_AND_REVOCATION_GAPS_CLASSIFIED`
-`BATCH_1_CONTRACTS_ONLY_AUTHORIZED`
+`BATCH_1_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_CURRENTNESS_CONTRACTS_DEFINED`
 `BATCH_2_NOT_AUTHORIZED`
 `ROOT_PROVENANCE_JOIN_ACCEPTED`
 `FORMAL_CLOSURE_REFUSED_RECONCILIATION_DERIVATION_AUTHORITY_ABSENT`
 `REVOCATION_AT_CONSUMPTION_UNPROVED`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
-Preparation Batch 0 and its review amendment are merged. The controlling
-inventory preserves the accepted typed provenance/recovery substrate while
-classifying the missing derivation authority and at-use currentness boundary.
+Preparation Batch 0 and Batch 1 are complete. Four stages remain. The
+constants-only Batch 1 definitions preserve the accepted typed
+provenance/recovery substrate while defining the missing derivation-authority,
+custody, atomic publication, at-use currentness and reconstruction law.
 
 Current campaign handoff:
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-campaign-ready.md`.
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-complete.md`.
 
-Only authorized local entrypoint:
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-local-ready.md`.
-
-Batch 1 may define contracts and authority-empty tests only. Production runtime
-behavior, service wiring, authority creation/consumption, provider effects,
-Iron Gate/Lazaretto, Batch 2 and Batch 7 remain unauthorized. The former
-Preparation Batch 0 local-ready file is historical.
+The Batch 1 and Preparation Batch 0 local-ready files are historical. Production
+runtime behavior, service wiring, authority creation/consumption, provider
+effects, Iron Gate/Lazaretto, Batch 2 and Batch 7 remain unauthorized.
 
 # Current campaign: reconciliation authority provenance remediation
 

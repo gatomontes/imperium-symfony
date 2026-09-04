@@ -2,23 +2,23 @@
 
 `CANONICAL_NATIVE_EFFECT_RECONCILIATION_ISSUANCE_AUTHORITY_REVOCATION_REMEDIATION_READY`
 `PREPARATION_BATCH_0_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_AND_REVOCATION_GAPS_CLASSIFIED`
-`BATCH_1_CONTRACTS_ONLY_AUTHORIZED`
+`BATCH_1_COMPLETE_RECONCILIATION_ISSUANCE_AUTHORITY_CURRENTNESS_CONTRACTS_DEFINED`
 `BATCH_2_NOT_AUTHORIZED`
 `FORMAL_CLOSURE_REFUSED_RECONCILIATION_DERIVATION_AUTHORITY_ABSENT`
 `REVOCATION_AT_CONSUMPTION_UNPROVED`
 `BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
 
-Preparation Batch 0 and its correction amendment are merged. Five stages remain.
-The current local run may define versioned issuance-authority and at-use
-currentness contracts plus authority-empty contract tests only. It may not
-implement, wire, create, consume or publish authority or operational evidence.
+Preparation Batch 0 and Batch 1 are complete. Four stages remain. Batch 1 defines
+versioned issuance-authority and at-use-currentness law through constants-only,
+authority-empty contracts. It implemented, wired, created, consumed and
+published no authority or operational evidence.
 
 The campaign is
 `docs/next-campaign-canonical-native-effect-reconciliation-issuance-authority-revocation-remediation.md`.
-The sole current local entrypoint is
-`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-local-ready.md`.
-The former Preparation Batch 0 local-ready file is historical. Batch 2 and the
-suspended Batch 7 live trial remain unauthorized.
+The current handoff is
+`docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-complete.md`.
+Both local-ready files are historical. Batch 2 and the suspended Batch 7 live
+trial remain unauthorized.
 
 # Current disposition: reconciliation authority provenance remediation
 

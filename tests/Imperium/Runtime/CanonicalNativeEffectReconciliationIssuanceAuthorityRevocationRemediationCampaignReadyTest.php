@@ -11,6 +11,7 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
     private const string CAMPAIGN = 'docs/next-campaign-canonical-native-effect-reconciliation-issuance-authority-revocation-remediation.md';
     private const string READY = 'docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-campaign-ready.md';
     private const string CURRENT = 'docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-local-ready.md';
+    private const string COMPLETE = 'docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-batch-1-complete.md';
     private const string HISTORICAL = 'docs/handoffs/canonical-native-effect-reconciliation-issuance-authority-revocation-remediation-preparation-batch-0-local-ready.md';
 
     public function testCorrectedPreparationAuthorizesOnlyBatchOneContracts(): void
@@ -66,22 +67,23 @@ final class CanonicalNativeEffectReconciliationIssuanceAuthorityRevocationRemedi
         }
     }
 
-    public function testCurrentConsumersPublishBatchOneAndRetirePreparationEntrypoint(): void
+    public function testCurrentConsumersPublishBatchOneCompletionAndRetireLocalEntrypoints(): void
     {
         foreach ([
             'docs/delegate-mission-flow.md',
             'docs/handoffs/README.md',
             'todo/blackquill-todos.md',
-            self::READY,
             self::CAMPAIGN,
         ] as $consumer) {
             $document = $this->read($consumer);
-            self::assertStringContainsString(self::CURRENT, $document, $consumer);
+            self::assertStringContainsString(self::COMPLETE, $document, $consumer);
+            self::assertStringNotContainsString(self::CURRENT, $document, $consumer);
         }
 
         $historical = $this->read(self::HISTORICAL);
         self::assertStringContainsStringIgnoringCase('Historical entrypoint', $historical);
         self::assertStringContainsString(self::CURRENT, $historical);
+        self::assertStringContainsString(self::CURRENT, $this->read(self::READY));
     }
 
     public function testPromptProvidesPowerShellSynchronizationAndCompletionMarker(): void
