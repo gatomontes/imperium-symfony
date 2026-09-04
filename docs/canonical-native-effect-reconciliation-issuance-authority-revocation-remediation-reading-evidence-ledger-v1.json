@@ -12,7 +12,7 @@
   "provider_effect_performed": false,
   "credential_accessed": false,
   "authority_or_claim_operation_performed": false,
-  "read_status": "HISTORICAL_SNAPSHOT_FULLY_READ_AT_AUDITED_MAIN",
+  "read_status": "HISTORICAL_INDEX_PUBLISHED_AT_ACCEPTED_BASE",
   "governing_documents": [
     "docs/canonical-native-effect-reconciliation-authority-provenance-post-merge-blackquill-review-v1.md",
     "docs/next-campaign-canonical-native-effect-reconciliation-issuance-authority-revocation-remediation.md",
@@ -248,5 +248,7 @@
       "docs/next-campaign-canonical-native-effect-reconciliation-shared-exclusion-remediation.md",
       "docs/handoffs/canonical-native-effect-reconciliation-shared-exclusion-remediation-preparation-batch-0-local-ready.md"
     ]
-  }
+  },
+  "governing_documents_snapshot": "afcaf025d097db0b9adddac25a9083a8be2322a0",
+  "source_audit_base": "3dceba3057497c6c80f019bd78835335cf69c774"
 }
