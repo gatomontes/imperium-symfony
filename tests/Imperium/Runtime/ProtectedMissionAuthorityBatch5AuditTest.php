@@ -33,7 +33,9 @@ final class ProtectedMissionAuthorityBatch5AuditTest extends TestCase
     }
     public function testPendingExpiryAndNonCanonicalSigningRefuseWithoutApproval():void
     {
-        $f=new ProtectedMissionFixture();$input=ProtectedMissionFixture::input();$input['mission']['expires_at']=time()+1;
+        // Leave time for native scratch preflight/cleanup before exporting. The
+        // real clock still crosses the exact expiry before the unchanged refusal.
+        $f=new ProtectedMissionFixture();$input=ProtectedMissionFixture::input();$input['mission']['expires_at']=time()+3;
         $cid=$f->call('prepare',$input)['challenge_id'];$payload=$f->call('export',['challenge_id'=>$cid]);
         while(time()<$input['mission']['expires_at'])usleep(1000);
         $this->refuses($f,'PMA_CHALLENGE_INACTIVE','submit',['challenge_id'=>$cid,'signature'=>$f->sign($payload)]);

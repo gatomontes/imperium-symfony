@@ -116,7 +116,8 @@ final class LocalIsolation
         return ['mission'=>$mission,'disclosures'=>[
             'material_facts'=>['One historical merged snapshot; no inspection of future implementation HEAD. Mechanical bytes and metadata only.',
                 'Already installed protected-git-inspector/PHP and owner-operated Runtime terminal; separate caller, deployment administrator and held-key Operator. No personnel or tool preparation is commissioned. The personnel and tools_credentials_data demand lists are intentionally empty.',
-                'Only allowlisted local Git objects are read. Only separate authority lifecycle, evidence, status and receipt files are written. No network, providers, credentials, target remediation or second mission.'],
+                'Only allowlisted local Git objects are read. Only separate authority lifecycle, evidence, status and receipt files are written. No network, providers, credentials, target remediation or second mission.',
+                'Canonical ceremony and worker staging use the administrator-provisioned ProtectedMissionScratch sibling. Runtime creates nested temporary work and cleans its exact workspace before authority publication. Caller is excluded; owner references remain outside scratch.'],
             'assumptions'=>['Owner has measured actual-account access and protected PHP, PowerShell, environment, dependencies and relevant parents. Administrators and compromised trusted Runtime/signing processes are outside caller exclusion.'],
             'unknowns'=>['Analytical discrepancies are unknown until separately evaluated; zero is a valid result. Hardware power-loss durability is unmeasured.'],
             'dependencies'=>['Actual isolated fresh Windows deployment, independently confirmed public fingerprint and authentic exact canonical approval are required before execution. No migration, replacement enrollment or journal reset.'],
