@@ -17,8 +17,10 @@ final class Ceremony
         if (($state['trust']['revoked'] ?? true) || $now >= $state['trust']['expires_at'] || $now < $state['trust']['not_before']) throw new \RuntimeException('PMA_TRUST_INACTIVE');
         $mid=$mission['mission_id'];
         if (in_array($state['lifecycles'][$mid]['state'] ?? '',['COMPLETED','FAILED','CANCELLED'],true)) throw new \RuntimeException('PMA_TERMINAL');
+        if (count($state['pending'] ?? []) >= 64) throw new \RuntimeException('PMA_PROPOSAL_CAPACITY');
+        $predecessor=self::predecessor($state,$mid);
         $challenge='challenge-'.bin2hex(random_bytes(24));
-        $payload=$this->scratch([],function(string $root) use($mission,$disclosures,$now,$state,$challenge):array {
+        $payload=$this->scratch([],function(string $root) use($mission,$disclosures,$now,$state,$challenge,$predecessor):array {
             $store=new ProceedingStore($root);
             $proceeding='proceeding-'.substr($challenge,10);
             $store->persist(['proceeding_id'=>$proceeding,'instance_id'=>'protected-runtime']);
@@ -26,14 +28,12 @@ final class Ceremony
             $d=(new PlanningDossierAssemblyService($store,$root))->assemble($proceeding,1,[],$disclosures,(new \DateTimeImmutable())->setTimestamp($now));
             $r=(new ImperatorPlanningDossierReviewService($root))->review($d['dossier_id'],$d['imperator_review_authority']['authority_id'],'APPROVE_DOSSIER',[],'I approve every numbered line and every bound value of this exact disposable or separately authorized dossier.',true,(new \DateTimeImmutable())->setTimestamp($now),$state['trust']['identity'],false);
             return ['schema'=>'imperium.protected-approval/v1','challenge_id'=>$challenge,'challenge_version'=>1,
+                'activation'=>['operation'=>$predecessor===null?'INITIAL_AUTHORIZATION':'REPLACE_AUTHORIZATION','expected_predecessor'=>$predecessor],
                 'operator_identity'=>$state['trust']['identity'],'competence'=>PublicTrust::COMPETENCE,'trust_fingerprint'=>$state['trust']['fingerprint'],
                 'mission_id'=>$mission['mission_id'],'dossier'=>$d,'review_preview'=>$r,'target'=>$mission['target'],
                 'permissions'=>$mission['permissions'],'prohibitions'=>$mission['prohibitions'],'paths'=>$mission['paths'],'budget'=>$mission['budget'],
                 'transitions'=>$mission['transitions'],'expires_at'=>$mission['expires_at'],'nonce'=>bin2hex(random_bytes(24))];
         });
-        if (isset($state['current_challenges'][$mid])) $state['pending'][$state['current_challenges'][$mid]]['status']='SUPERSEDED';
-        if (isset($state['current'][$mid])) $state['inactive'][$state['current'][$mid]]='amended';
-        $state['current_challenges'][$mid]=$challenge;
         $state['pending'][$challenge]=['status'=>'PENDING_NON_AUTHORIZING','payload'=>$payload];
         return ['challenge_id'=>$challenge,'status'=>'PENDING_NON_AUTHORIZING','payload_digest'=>hash('sha256',CanonicalJson::encode($payload)),'execution_authority'=>false];
     }
@@ -63,8 +63,15 @@ final class Ceremony
         $pending=$state['pending'][$id] ?? [];
         if (($pending['status'] ?? '')!=='APPROVED_PENDING_DERIVATION') throw new \RuntimeException('PMA_CHALLENGE_NOT_APPROVED');
         $payload=$pending['payload'];
-        if ($now >= $payload['expires_at'] || ($state['current_challenges'][$payload['mission_id']] ?? '')!==$id) throw new \RuntimeException('PMA_CHALLENGE_INACTIVE');
+        if ($now >= $payload['expires_at']) throw new \RuntimeException('PMA_CHALLENGE_INACTIVE');
         PublicTrust::verify($state['trust'],$payload,$pending['signature'],$now);
+        $mid=$payload['mission_id'];
+        $predecessor=self::predecessor($state,$mid);
+        $activation=['operation'=>$predecessor===null?'INITIAL_AUTHORIZATION':'REPLACE_AUTHORIZATION','expected_predecessor'=>$predecessor];
+        if (CanonicalJson::encode($payload['activation'] ?? null)!==CanonicalJson::encode($activation)) throw new \RuntimeException('PMA_STALE_PREDECESSOR');
+        if (in_array($state['lifecycles'][$mid]['state'] ?? '',['COMPLETED','FAILED','CANCELLED'],true)
+            || ($predecessor!==null && ($state['inactive'][$predecessor['authorization_id']] ?? '')==='cancel')) throw new \RuntimeException('PMA_TERMINAL');
+        if ($predecessor!==null && isset($state['inactive'][$predecessor['authorization_id']])) throw new \RuntimeException('PMA_AUTHORITY_INACTIVE');
         $d=$payload['dossier']; $r=$pending['review'];
         $a=$this->scratch(['var/imperium/offices/curia/planning-dossiers/'.$d['dossier_id'].'.json'=>$d,
             'var/imperium/offices/curia/planning-dossier-reviews/'.$r['review_id'].'.json'=>$r],function(string $root)use($r,$now):array {
@@ -72,6 +79,7 @@ final class Ceremony
             });
         $aid=$a['authorization_id'];
         $state['authorizations'][$aid]=['payload'=>$payload,'signature'=>$pending['signature'],'dossier'=>$d,'review'=>$r,'authorization'=>$a];
+        if ($predecessor!==null) $state['inactive'][$predecessor['authorization_id']]='amended';
         $state['current'][$payload['mission_id']]=$aid;
         $state['pending'][$id]['status']='DERIVED'; $state['pending'][$id]['authorization_id']=$aid;
         return ['authorization_id'=>$aid,'status'=>$a['status'],'execution_authority'=>false];
@@ -91,9 +99,15 @@ final class Ceremony
     {
         $p=$state['pending'][$id] ?? null;
         if (!is_array($p)) throw new \RuntimeException('PMA_CHALLENGE_ABSENT');
-        if ($p['status']!=='PENDING_NON_AUTHORIZING' || $now >= $p['payload']['expires_at']
-            || ($state['current_challenges'][$p['payload']['mission_id']] ?? '')!==$id) throw new \RuntimeException('PMA_CHALLENGE_INACTIVE');
+        if ($p['status']!=='PENDING_NON_AUTHORIZING' || $now >= $p['payload']['expires_at']) throw new \RuntimeException('PMA_CHALLENGE_INACTIVE');
         return $p;
+    }
+
+    private static function predecessor(array $state,string $mission):?array
+    {
+        $id=$state['current'][$mission] ?? null;
+        if ($id===null) return null;
+        return ['authorization_id'=>$id,'authorization_digest'=>$state['authorizations'][$id]['authorization']['record_digest']];
     }
 
     private function scratch(array $files,callable $call):array

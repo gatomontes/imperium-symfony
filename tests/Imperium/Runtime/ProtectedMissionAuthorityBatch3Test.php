@@ -64,8 +64,9 @@ final class ProtectedMissionAuthorityBatch3Test extends TestCase
         self::assertSame($before,hash_file('sha256',$f->root.'/authority.journal'));
         self::assertSame('PENDING_NON_AUTHORIZING',$f->call('challenge-status',['challenge_id'=>$cid])['status']);
         $input['mission']['target']['commit']=str_repeat('c',40); $new=$f->call('prepare',$input)['challenge_id'];
-        try {$f->call('submit',['challenge_id'=>$cid,'signature'=>$f->sign($payload)]);self::fail('stale accepted');} catch(\RuntimeException $e){self::assertSame('PMA_CHALLENGE_INACTIVE',$e->getMessage());}
-        self::assertSame('SUPERSEDED',$f->call('challenge-status',['challenge_id'=>$cid])['status']);
+        self::assertSame($payload,$f->call('export',['challenge_id'=>$cid]));
+        self::assertSame('APPROVED_PENDING_DERIVATION',$f->call('submit',['challenge_id'=>$cid,'signature'=>$f->sign($payload)])['status']);
+        self::assertSame('APPROVED_PENDING_DERIVATION',$f->call('challenge-status',['challenge_id'=>$cid])['status']);
         $control=$f->control('cancel-challenge')['payload']; $control['challenge_id']=$new;
         $f->call('control',['payload'=>$control,'signature'=>$f->sign($control)]);
         self::assertSame('CANCELLED',$f->call('challenge-status',['challenge_id'=>$new])['status']);
