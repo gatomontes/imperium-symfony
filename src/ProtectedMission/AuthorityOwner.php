@@ -231,7 +231,7 @@ final class AuthorityOwner
         $currentness='CURRENT';
         try {$this->verify($state,$id,time());} catch (\RuntimeException $error) {$currentness=$error->getMessage();}
         return ['authorization_id'=>$id,'binding'=>$binding,'is_current'=>($state['current'][$mission] ?? null)===$id,'inactive'=>$state['inactive'][$id] ?? false,
-            'currentness'=>$currentness,'next_action'=>$currentness==='CURRENT'?'Inspect lifecycle and exact commission; terminal missions cannot reopen.':'Fresh dossier and approval required; historical evidence grants no authority.',
+            'currentness'=>$currentness,'next_action'=>isset($state['terminal_missions'][$mission])?'Mission identity closed; a new run requires a new identity and approval.':($currentness==='CURRENT'?'Inspect this generation and its exact commission.':'Historical evidence grants no authority; inspect the current generation or obtain a fresh exact approval.'),
             'lifecycle'=>$state['lifecycles'][$id],
             'receipt'=>$state['receipts'][$id] ?? null,
             'execution_authority'=>false];

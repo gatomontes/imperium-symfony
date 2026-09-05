@@ -16,7 +16,7 @@ final class Ceremony
         self::validateMission($mission,$now);
         if (($state['trust']['revoked'] ?? true) || $now >= $state['trust']['expires_at'] || $now < $state['trust']['not_before']) throw new \RuntimeException('PMA_TRUST_INACTIVE');
         $mid=$mission['mission_id'];
-        if (isset($state['terminal_missions'][$mid])) throw new \RuntimeException('PMA_TERMINAL');
+        if (self::terminal($state,$mid)) throw new \RuntimeException('PMA_TERMINAL');
         if (count($state['pending'] ?? []) >= 64) throw new \RuntimeException('PMA_PROPOSAL_CAPACITY');
         $predecessor=self::predecessor($state,$mid);
         $challenge='challenge-'.bin2hex(random_bytes(24));
@@ -69,7 +69,7 @@ final class Ceremony
         $predecessor=self::predecessor($state,$mid);
         $activation=['operation'=>$predecessor===null?'INITIAL_AUTHORIZATION':'REPLACE_AUTHORIZATION','expected_predecessor'=>$predecessor];
         if (CanonicalJson::encode($payload['activation'] ?? null)!==CanonicalJson::encode($activation)) throw new \RuntimeException('PMA_STALE_PREDECESSOR');
-        if (isset($state['terminal_missions'][$mid])
+        if (self::terminal($state,$mid)
             || ($predecessor!==null && ($state['inactive'][$predecessor['authorization_id']] ?? '')==='cancel')) throw new \RuntimeException('PMA_TERMINAL');
         if ($predecessor!==null && isset($state['inactive'][$predecessor['authorization_id']])) throw new \RuntimeException('PMA_AUTHORITY_INACTIVE');
         $d=$payload['dossier']; $r=$pending['review'];
@@ -108,7 +108,15 @@ final class Ceremony
     {
         $id=$state['current'][$mission] ?? null;
         if ($id===null) return null;
+        Generation::requireBinding($state['lifecycles'][$id] ?? [],Generation::binding($state['authorizations'][$id]));
         return ['authorization_id'=>$id,'authorization_digest'=>$state['authorizations'][$id]['authorization']['record_digest']];
+    }
+
+    private static function terminal(array $state,string $mission):bool
+    {
+        $id=$state['current'][$mission] ?? '';
+        return isset($state['terminal_missions'][$mission])
+            || in_array($state['lifecycles'][$id]['state'] ?? '',['COMPLETED','FAILED','CANCELLED'],true);
     }
 
     private function scratch(array $files,callable $call):array
