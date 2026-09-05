@@ -79,6 +79,7 @@ function Get-PmaRequiredProbes($Inventory,[ValidateSet('Runtime','Caller')][stri
 function Get-PmaInstallationBinding([string]$Base) {
  $metadata=Read-PmaEvidence "$Base\ProtectedMission\installation.json"
  $public=Read-PmaEvidence "$Base\ProtectedMissionProbePlans\deployment-binding.json"
+ if($metadata.separate_runtime_account_required -isnot [bool] -or -not $metadata.separate_runtime_account_required -or $metadata.code_path -cne "$Base\ProtectedMissionCode"){throw 'READINESS_INSTALLATION_CONFIGURATION'}
  foreach($key in @('runtime_sid','caller_sid','setup_session','package_manifest_sha256')){Assert-PmaEqual $metadata[$key] $public[$key] 'READINESS_INSTALLATION_BINDING'}
  if($metadata.runtime_sid -ceq $metadata.caller_sid -or $metadata.runtime_sid -notmatch '^S-1-5-21-(\d+-){3}\d+$' -or $metadata.caller_sid -notmatch '^S-1-5-21-(\d+-){3}\d+$' -or $metadata.setup_session -notmatch '^[a-f0-9]{32}$'){throw 'READINESS_INSTALLATION_IDENTITY'}
  return [ordered]@{setup_session=$metadata.setup_session;runtime_sid=$metadata.runtime_sid;caller_sid=$metadata.caller_sid;package_manifest_sha256=$metadata.package_manifest_sha256;installation_sha256=(Get-FileHash "$Base\ProtectedMission\installation.json").Hash;php_ini_sha256=(Get-FileHash "$Base\ProtectedMissionPHP\php.ini").Hash;base=$Base}
@@ -137,6 +138,10 @@ function Test-PmaReadiness($Ready,[string]$Base='C:\ProgramData\Imperium') {
   $now=[DateTime]::UtcNow.Ticks
   if($Ready.captured_ticks -gt $now -or $now-$Ready.captured_ticks -gt [TimeSpan]::FromMinutes(15).Ticks){throw 'READINESS_STALE'}
   $null=& "$PSScriptRoot\Test-LocalIsolationInstalledPackage.ps1" -Base $Base -Manifest "$Base\ProtectedMissionExchange\package-manifest.json" -ManifestSha256 $binding.package_manifest_sha256
+  $packageFiles=Read-PmaEvidence "$Base\ProtectedMissionExchange\package-manifest.json"
+  foreach($reference in @('target-inventory.json','mission-draft.json')){
+   if(-not $packageFiles.Contains($reference) -or (Get-FileHash "$Base\ProtectedMissionExchange\$reference").Hash -ine $packageFiles[$reference]){throw 'READINESS_PACKAGED_REFERENCE_CHANGED'}
+  }
   $trust=Read-PmaEvidence "$Base\ProtectedMissionExchange\public-trust.json"
   Assert-PmaEqual @($trust.Keys|Sort-Object) @('competence','expires_at','identity','not_before','public_key') 'READINESS_PUBLIC_TRUST_SCHEMA'
   $key=[Convert]::FromBase64String($trust.public_key)

@@ -6,6 +6,10 @@ $base='C:\ProgramData\Imperium';$binding=Get-PmaInstallationBinding $base
 $inventory=Read-PmaEvidence "$Directory\inventory.json"
 Assert-PmaEqual $inventory.items (Get-PmaInventory $base).items 'PHASE_INVENTORY_CHANGED'
 $null=& "$PSScriptRoot\Test-LocalIsolationInstalledPackage.ps1" -Base $base -Manifest "$base\ProtectedMissionExchange\package-manifest.json" -ManifestSha256 $binding.package_manifest_sha256
+$packageFiles=Read-PmaEvidence "$base\ProtectedMissionExchange\package-manifest.json"
+foreach($reference in @('target-inventory.json','mission-draft.json')){
+ if(-not $packageFiles.Contains($reference) -or (Get-FileHash "$base\ProtectedMissionExchange\$reference").Hash -ine $packageFiles[$reference]){throw 'PHASE_PACKAGED_REFERENCE_CHANGED'}
+}
 $trust=$null;$now=[DateTime]::UtcNow.Ticks
 foreach($role in @('Runtime','Caller')) {
  $plan=Read-PmaEvidence "$Directory\$role-plan.json"

@@ -13,8 +13,12 @@ foreach($name in @('ProtectedMissionCode','ProtectedMissionPHP','ProtectedMissio
 $manifest=@{};foreach($name in @('ProtectedMissionCode','ProtectedMissionPHP','ProtectedMissionShell','ProtectedMissionTarget')){
  foreach($f in Get-ChildItem "$root\$name" -File){$manifest[$name+'/'+$f.Name]=(Get-FileHash $f.FullName).Hash}
 }
+foreach($reference in @('target-inventory.json','mission-draft.json')){
+ [IO.File]::WriteAllText("$root\ProtectedMissionExchange\$reference",'inert packaged reference')
+ $manifest[$reference]=(Get-FileHash "$root\ProtectedMissionExchange\$reference").Hash
+}
 Save $manifest "$root\ProtectedMissionExchange\package-manifest.json"
-$metadata=@{runtime_sid='S-1-5-21-1-2-3-1001';caller_sid='S-1-5-21-1-2-3-1002';setup_session=('a'*32);package_manifest_sha256=(Get-FileHash "$root\ProtectedMissionExchange\package-manifest.json").Hash}
+$metadata=@{separate_runtime_account_required=$true;code_path="$root\ProtectedMissionCode";runtime_sid='S-1-5-21-1-2-3-1001';caller_sid='S-1-5-21-1-2-3-1002';setup_session=('a'*32);package_manifest_sha256=(Get-FileHash "$root\ProtectedMissionExchange\package-manifest.json").Hash}
 Save $metadata "$root\ProtectedMission\installation.json";Save $metadata "$root\ProtectedMissionProbePlans\deployment-binding.json"
 $binding=Get-PmaInstallationBinding $root
 $now=[DateTime]::UtcNow.Ticks;$start=$now-[TimeSpan]::FromSeconds(30).Ticks
@@ -114,6 +118,8 @@ Bad 'extra-phase' {param($c)$c.phases.other=Clone $c.phases.post}
 Bad 'missing-evidence-file' {param($c)[IO.File]::Move(($c.phases.current.directory+'\Caller-startup.json'),($c.phases.current.directory+'\retained-startup.json'))} $false
 Bad 'changed-installed-bytes' {param($c)[IO.File]::WriteAllText("$root\ProtectedMissionCode\fixture",'changed')}
 [IO.File]::WriteAllText("$root\ProtectedMissionCode\fixture",'inert')
+Bad 'changed-packaged-reference-bytes' {param($c)[IO.File]::WriteAllText("$root\ProtectedMissionExchange\target-inventory.json",'changed')}
+[IO.File]::WriteAllText("$root\ProtectedMissionExchange\target-inventory.json",'inert packaged reference')
 $script:fixtureInventory.items+=Item "$root\ProtectedMissionExchange\challenge.json" 'runtime-output' $false ($now+1)
 Bad 'later-output-requires-current-measurement' {param($c)}
 $script:fixtureInventory.items=@($script:fixtureInventory.items|Where-Object{$_.path -notlike '*\challenge.json'})
