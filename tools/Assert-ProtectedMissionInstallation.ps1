@@ -4,6 +4,16 @@ try {
     $root='C:\ProgramData\Imperium\ProtectedMission'
     $expectedCode='C:\ProgramData\Imperium\ProtectedMissionCode'
     if($CodePath.TrimEnd('\','/') -ne $expectedCode){throw 'code'}
+    # Public, owner-controlled SID binding permits an exact wrong-identity refusal
+    # before the Caller attempts to read its deliberately inaccessible metadata.
+    $publicPath='C:\ProgramData\Imperium\ProtectedMissionProbePlans\deployment-binding.json'
+    if(Test-Path -LiteralPath $publicPath){
+        $binding=Get-Content -LiteralPath $publicPath -Raw|ConvertFrom-Json
+        $token=[Security.Principal.WindowsIdentity]::GetCurrent()
+        if($token.User.Value -ne $binding.runtime_sid -or @($token.Groups|Where-Object{$_.Value -eq 'S-1-5-32-544'}).Count -gt 0){
+            Write-Output 'PMA_RUNTIME_IDENTITY_REFUSED';exit 2
+        }
+    }
     $file=Join-Path $root 'installation.json'
     $installation=Get-Content -LiteralPath $file -Raw | ConvertFrom-Json
     $identity=[Security.Principal.WindowsIdentity]::GetCurrent()

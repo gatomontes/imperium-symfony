@@ -1,6 +1,32 @@
 # Owner-mediated orchestration. All output stays in the owner-controlled exchange.
 if($PSVersionTable.PSVersion -lt [version]'7.5'){throw 'POWERSHELL_7_5_REQUIRED_FOR_EXACT_JSON_DATE_STRINGS'}
 . (Join-Path $PSScriptRoot 'ProtectedMission.ps1')
+function Invoke-PmaLocalAction($Context,[ValidateSet('Prepare','Accept','Step','Status')][string]$Action) {
+    # Status bypasses readiness and never calls the snapshot-writing progress helper.
+    if($Action -eq 'Status') {
+        $path=Join-Path $Context.Exchange 'authorization.json'
+        if(Test-Path -LiteralPath $path){return Invoke-PmaChecked $Context @('status',(Get-Content $path -Raw|ConvertFrom-Json).authorization_id)}
+        $path=Join-Path $Context.Exchange 'challenge.json'
+        if(Test-Path -LiteralPath $path){return Invoke-PmaChecked $Context @('challenge-status',(Get-Content $path -Raw|ConvertFrom-Json).challenge_id)}
+        return @{result='NO_PERSISTED_ID_PRESERVE_ATTEMPT_MARKERS'}
+    }
+    . (Join-Path $PSScriptRoot 'LocalIsolationReadiness.ps1')
+    try {
+        $ready=Read-PmaEvidence (Join-Path $Context.Exchange 'owner-readiness.json')
+        $validation=Test-PmaReadiness $ready
+    } catch {$validation=@{result='LOCAL_ISOLATION_READINESS_REFUSED';reason=$_.Exception.Message}}
+    if($validation.result -cne 'LOCAL_ISOLATION_READINESS_VALID'){
+        Write-Output ($validation|ConvertTo-Json -Depth 20 -Compress)
+        throw 'ACTUAL_OWNER_READINESS_REQUIRED'
+    }
+    $liveTrust=Invoke-PmaChecked $Context @('trust')
+    Assert-PmaEqual $liveTrust $validation.public_trust 'READINESS_LIVE_TRUST_CHANGED'
+    switch($Action) {
+        'Prepare' {Start-PmaPrepared $Context (Join-Path $Context.Exchange 'plan.json')}
+        'Accept' {Accept-PmaSigned $Context (Join-Path $Context.Exchange 'response.json')}
+        'Step' {Step-PmaMission $Context}
+    }
+}
 function Write-PmaNewJson($Value,[string]$Path) {
     $stream=[IO.File]::Open($Path,[IO.FileMode]::CreateNew,[IO.FileAccess]::Write)
     try{$bytes=[Text.UTF8Encoding]::new($false).GetBytes(($Value|ConvertTo-Json -Depth 100));$stream.Write($bytes,0,$bytes.Length);$stream.Flush($true)}finally{$stream.Dispose()}

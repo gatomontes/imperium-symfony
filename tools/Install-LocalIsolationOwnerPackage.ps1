@@ -40,4 +40,31 @@ foreach($pair in @(@('state-canary',"$base\ProtectedMission"),@('metadata-canary
     $file=Join-Path "$base\ProtectedMission" $pair[0];[IO.File]::WriteAllText($file,'public disposable access canary')
     if($pair[0] -eq 'metadata-canary'){$acl=Get-Acl -LiteralPath $pair[1];Set-Acl -LiteralPath $file -AclObject $acl}
 }
+# Directory creation is permitted, but owner reference children cannot be replaced
+# using DELETE_CHILD. File inheritance gives Runtime its required output rights.
+function Set-PmaOperationalDirectory([string]$Path){
+    Set-OwnerAcl $Path $false $false
+    $acl=Get-Acl -LiteralPath $Path
+    $sid=[Security.Principal.SecurityIdentifier]$RuntimeSid
+    foreach($rule in @($acl.GetAccessRules($true,$false,[Security.Principal.SecurityIdentifier]))){if($rule.IdentityReference.Value -eq $RuntimeSid){[void]$acl.RemoveAccessRuleSpecific($rule)}}
+    $acl.AddAccessRule([Security.AccessControl.FileSystemAccessRule]::new($sid,[Security.AccessControl.FileSystemRights]'ReadAndExecute,CreateFiles',[Security.AccessControl.AccessControlType]::Allow))
+    $acl.AddAccessRule([Security.AccessControl.FileSystemAccessRule]::new($sid,[Security.AccessControl.FileSystemRights]::Modify,[Security.AccessControl.InheritanceFlags]::ObjectInherit,[Security.AccessControl.PropagationFlags]::InheritOnly,[Security.AccessControl.AccessControlType]::Allow))
+    Set-Acl -LiteralPath $Path -AclObject $acl
+}
+Set-PmaOperationalDirectory $exchange
+Set-PmaOperationalDirectory "$base\ProtectedMission"
+foreach($name in @('ProtectedMissionProbePlans','ProtectedMissionPostEnrollmentPlans')){
+    [void][IO.Directory]::CreateDirectory("$base\$name");Set-OwnerAcl "$base\$name"
+}
+$binding=[ordered]@{runtime_sid=$RuntimeSid;caller_sid=$CallerSid;setup_session=[guid]::NewGuid().ToString('N');package_manifest_sha256=$ManifestSha256.ToUpperInvariant()}
+$path="$base\ProtectedMission\installation.json"
+$metadata=Get-Content -LiteralPath $path -Raw|ConvertFrom-Json -AsHashtable
+foreach($key in $binding.Keys){$metadata[$key]=$binding[$key]}
+[IO.File]::WriteAllText($path,($metadata|ConvertTo-Json -Compress),[Text.UTF8Encoding]::new($false))
+$path="$base\ProtectedMissionProbePlans\deployment-binding.json"
+[IO.File]::WriteAllText($path,($binding|ConvertTo-Json -Compress),[Text.UTF8Encoding]::new($false));Set-OwnerAcl $path
+foreach($name in @('owner-readiness.json','public-trust.json')){
+    $path=Join-Path $exchange $name
+    [IO.File]::WriteAllText($path,'PMA_RESERVED_UNMEASURED',[Text.UTF8Encoding]::new($false));Set-OwnerAcl $path $false $false
+}
 'OWNER_FRESH_SETUP_APPLIED_NOT_YET_ISOLATION_PROVED'

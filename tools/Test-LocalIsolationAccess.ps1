@@ -36,7 +36,10 @@ $admin=$principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrato
 $administratorMember=@($identity.Groups|Where-Object{$_.Value -eq 'S-1-5-32-544'}).Count -gt 0
 if(-not $identityMatches -or $admin){$failed=$true}
 if($p.role -in @('Runtime','Caller') -and $administratorMember){$failed=$true}
-$result=[ordered]@{schema='imperium.local-access-measurement/v1';role=$p.role;sid=$identity.User.Value;expected_sid=$p.sid;identity_matches=$identityMatches;administrator_token=$admin;administrator_group_present=$administratorMember;groups=@($identity.Groups|ForEach-Object{$_.Value});utc=[DateTimeOffset]::UtcNow.ToString('o');plan_sha256=(Get-FileHash -LiteralPath $Plan).Hash;probes=$rows;acl_sddl_if_readable=$metadata;result=if($failed){'ISOLATION_FAILED_OR_UNRESOLVED'}else{'RECORDED_ACCESS_EXPECTATIONS_MET'};deployment_isolation_claimed=$false}
+$result=[ordered]@{schema='imperium.local-access-measurement/v1';role=$p.role;sid=$identity.User.Value;expected_sid=$p.sid;identity_matches=$identityMatches;administrator_token=$admin;administrator_group_present=$administratorMember;groups=@($identity.Groups|ForEach-Object{$_.Value}|Sort-Object);utc=[DateTimeOffset]::UtcNow.ToString('o');plan_sha256=(Get-FileHash -LiteralPath $Plan).Hash;probes=$rows;acl_sddl_if_readable=$metadata;result=if($failed){'ISOLATION_FAILED_OR_UNRESOLVED'}else{'RECORDED_ACCESS_EXPECTATIONS_MET'};deployment_isolation_claimed=$false}
+if($p.PSObject.Properties.Name -contains 'binding'){
+ $result.schema='imperium.local-access-measurement/v2';$result.binding=$p.binding;$result.phase=$p.phase;$result.captured_ticks=[DateTime]::UtcNow.Ticks
+}
 [IO.File]::WriteAllText($Output,($result|ConvertTo-Json -Depth 20),[Text.UTF8Encoding]::new($false))
 if($failed){throw 'ISOLATION_FAILED_OR_UNRESOLVED: preserve output and stop'}
 $result.result
