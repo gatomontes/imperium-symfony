@@ -3,7 +3,7 @@
 - [x] Batch 0: reproduce AM01/AM02 and preserve candidate/test evidence.
 - [x] Batch 1: inert proposals; signed predecessor-bound atomic activation.
 - [x] Batch 2: exact authorization-generation lifecycle, inspection, receipt and status.
-- [ ] Batch 3: forced process orderings, CLI/PowerShell proof and separate local audit.
+- [x] Batch 3: forced process orderings, CLI/PowerShell proof and separate local audit.
 
 Campaign: `docs/next-campaign-mission-amendment-correction.md`.
 Runner: `docs/handoffs/mission-amendment-correction-local-ready.md`.

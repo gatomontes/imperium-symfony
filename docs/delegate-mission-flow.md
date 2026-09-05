@@ -1,3 +1,27 @@
+# Current disposition: mission amendment correction local audit complete
+
+`MISSION_AMENDMENT_CORRECTION_LOCAL_COMPLETE_PENDING_INDEPENDENT_REVIEW`
+`DEPLOYMENT_ISOLATION_UNPROVED_OPERATOR_SETUP_REQUIRED`
+
+Batches 0–3 are locally complete. Exact audited implementation:
+`2a2b746feb9c66c961033ffafcf961f3bb49c4b5`.
+Full PHPUnit: **2675 tests / 52696 assertions**; focused **26 / 404**, no reported skips.
+Disposable PowerShell A-inspect/B-amend/B-complete refusal and fresh B execution passed.
+
+Current flow: inert pending proposal → exact signed predecessor-bound approval → common-lock
+canonical activation → fresh AUTHORIZED generation → its own admit/inspect/complete and receipt.
+Prior generations remain historical. Completed/failed/cancelled identities cannot reopen.
+Unsigned requests cannot replace authority or another pending challenge. Stale activation refuses.
+
+Audit/changed-test map: `docs/handoffs/mission-amendment-correction-local-audit-complete.md`.
+Ledger: `docs/mission-amendment-evidence-ledger.json`.
+Per-version examples: `docs/mission-amendment-status-examples.json`.
+PowerShell instructions: `docs/protected-mission-operator-runbook.md`, amendment supplement.
+
+STOP locally for independent review. No publication, main change, branch deletion, installation,
+real trust/key/mission or provider action. Schema migration and real deployment isolation remain
+future owner-reviewed gates. Earlier selection and completion blocks below are historical.
+
 # Current continuation: mission amendment authority and evidence binding
 
 `MISSION_AMENDMENT_CORRECTION_SELECTED`

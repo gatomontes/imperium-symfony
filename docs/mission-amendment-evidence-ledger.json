@@ -1,0 +1,421 @@
+{
+  "status": "MISSION_AMENDMENT_CORRECTION_LOCAL_COMPLETE_PENDING_INDEPENDENT_REVIEW",
+  "deployment_status": "DEPLOYMENT_ISOLATION_UNPROVED_OPERATOR_SETUP_REQUIRED",
+  "branch": "codex/mission-amendment-authority-evidence-correction",
+  "implementation_base": "7deb84b9f687ecb09c93f568464a606f0a602a89",
+  "planning_selection": "5b01f7d8a020daff2950ea408e5025438ef92196",
+  "integration": {
+    "commit": "3d5a40f3b1918675f92ecdc848aea287d31fc7ab",
+    "parents": [
+      "7deb84b9f687ecb09c93f568464a606f0a602a89",
+      "5b01f7d8a020daff2950ea408e5025438ef92196"
+    ],
+    "selection_diff_documentation_only": true
+  },
+  "batch_commits": [
+    "ebb1897b9aa320eea1982634104844e842a81079",
+    "f503ae70c2ec2ceb2309e1910f49b55e7f24d652",
+    "df3ee368bd6bad0c971ea23cd15422d3fb11f77a",
+    "2a2b746feb9c66c961033ffafcf961f3bb49c4b5"
+  ],
+  "audited_commit": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+  "audited_tree": "a7d81d3ea3ccc2091c68db2a8bad59b280c13245",
+  "later_evidence_commit": "documentation only, not separately tested; exact SHA/tree in final response",
+  "commands": {
+    "focused": "php vendor/bin/phpunit --filter 'ProtectedMissionAuthority|MissionAmendment' tests",
+    "full": "php vendor/bin/phpunit tests",
+    "powershell": "pwsh -NoProfile -File tests/Imperium/Runtime/Support/mission_amendment_powershell.ps1"
+  },
+  "runs": [
+    {
+      "path": "var/mission-amendment-evidence/batch-0-focused.txt",
+      "result": "16 / 221",
+      "head_at_run": "3d5a40f3b1918675f92ecdc848aea287d31fc7ab",
+      "attribution": "unchanged candidate production, new reproduction script uncommitted",
+      "skips_reported": 0,
+      "sha256": "CF5B5513D67188D16ECD1C3D81C5F68F85309A819714AB38B25F0564B5EBDC9C"
+    },
+    {
+      "path": "var/mission-amendment-evidence/batch-1-focused.txt",
+      "result": "18 / 240",
+      "head_at_run": "ebb1897b9aa320eea1982634104844e842a81079",
+      "attribution": "precommit executable tree committed as f503ae70c2ec2ceb2309e1910f49b55e7f24d652",
+      "skips_reported": 0,
+      "sha256": "3137330F30AA3C43AD34A37DBC962C61F1EE9B319526EB6E0E143C9F1C63D05C"
+    },
+    {
+      "path": "var/mission-amendment-evidence/batch-2-focused.txt",
+      "result": "20 / 305",
+      "head_at_run": "f503ae70c2ec2ceb2309e1910f49b55e7f24d652",
+      "attribution": "precommit executable tree committed as df3ee368bd6bad0c971ea23cd15422d3fb11f77a",
+      "skips_reported": 0,
+      "sha256": "4802020A0EC2EFBD5F09ADDE61273258EA677C3139CF21E8EA0E6CC805C7D3F2"
+    },
+    {
+      "path": "var/mission-amendment-evidence/batch-2-full.txt",
+      "result": "2669 / 52599",
+      "head_at_run": "df3ee368bd6bad0c971ea23cd15422d3fb11f77a",
+      "attribution": "exact committed implementation",
+      "skips_reported": 0,
+      "sha256": "F3EC4CA8A5ECA8205456839A4465E129D2EBAEA6608BDD2D31F01E2654128817"
+    },
+    {
+      "path": "var/mission-amendment-evidence/batch-3-focused.txt",
+      "result": "26 / 404",
+      "head_at_run": "df3ee368bd6bad0c971ea23cd15422d3fb11f77a",
+      "attribution": "precommit executable tree committed as 2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "skips_reported": 0,
+      "sha256": "F85AE8706C6B2BFCC4895A3DACF37FDE5BED92255CAB30D6D3769770B7E2EBA7"
+    },
+    {
+      "path": "var/mission-amendment-evidence/audit-focused.txt",
+      "result": "26 / 404",
+      "head_at_run": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "attribution": "exact committed implementation",
+      "skips_reported": 0,
+      "sha256": "DC76572903994D18E527421EBDFC1DD122A27DF4D9D85F8AEFA1EBDD2CBB5585"
+    },
+    {
+      "path": "var/mission-amendment-evidence/audit-full.txt",
+      "result": "2675 / 52696",
+      "head_at_run": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "attribution": "exact committed implementation",
+      "skips_reported": 0,
+      "sha256": "87DA7494840F18B6634476E6404C40D6F46034290AF7FD965455DCB6DDCC93D8"
+    }
+  ],
+  "powershell": {
+    "tested_commit": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+    "result": "MISSION_AMENDMENT_POWERSHELL_PASSED",
+    "artifact": "docs/mission-amendment-status-examples.json",
+    "sha256": "22AD7494929000F86547F5B3367E6B116CBE9356ECC32989352F640607D23456",
+    "same_user": true,
+    "real_mission": false
+  },
+  "historical_transcripts": [
+    {
+      "path": "E:\\htdocs\\imperium\\var\\protected-mission-evidence\\batch-2-full.txt",
+      "recorded_sha256": "A412A6CD41A602173806C532A9BF041F2A6A8CC557680E98015724BA497414EB",
+      "verified_sha256": "A412A6CD41A602173806C532A9BF041F2A6A8CC557680E98015724BA497414EB",
+      "historical_tested_commit": "d7901c8ae768353fc1cdeac1c57ab207667d3969",
+      "result": "OK (2656 tests, 52392 assertions)",
+      "rerun": false
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\protected-mission-evidence\\batch-4-full.txt",
+      "recorded_sha256": "186F667D5F0A1B44523C57E6EAB6548C380D394D1FD96D89865CA62DE17673D1",
+      "verified_sha256": "186F667D5F0A1B44523C57E6EAB6548C380D394D1FD96D89865CA62DE17673D1",
+      "historical_tested_commit": "3cdc89b05e4faa6b353487755e409a58baac9bd3",
+      "result": "OK (2662 tests, 52496 assertions)",
+      "rerun": false
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\protected-mission-evidence\\audit-focused.txt",
+      "recorded_sha256": "11FC543E703BB89E05C591EA62AFD285E93857661E56DE31F1F9A5586063739B",
+      "verified_sha256": "11FC543E703BB89E05C591EA62AFD285E93857661E56DE31F1F9A5586063739B",
+      "historical_tested_commit": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "result": "OK (16 tests, 221 assertions)",
+      "rerun": false
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\protected-mission-evidence\\audit-full.txt",
+      "recorded_sha256": "7B973F48FA9442A7AE6B0369B24B9CA1BDE44E9A4FE3098BD3C1568294CB1564",
+      "verified_sha256": "7B973F48FA9442A7AE6B0369B24B9CA1BDE44E9A4FE3098BD3C1568294CB1564",
+      "historical_tested_commit": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "result": "OK (2665 tests, 52515 assertions)",
+      "rerun": false
+    }
+  ],
+  "source_blobs": [
+    {
+      "path": "src/ProtectedMission/AuthorityOwner.php",
+      "revision": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "git_blob": "bae7da1504cb6e8e6d69cf9d57ab7aeaad03819d",
+      "sha256": "3C69BC32AB0E7F07A99F91948512DFA6B0AE5604C897D6A3D3127E2E7805F1ED"
+    },
+    {
+      "path": "src/ProtectedMission/Ceremony.php",
+      "revision": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "git_blob": "8dcee5181eda3234cd786545da4d75c32ed88f42",
+      "sha256": "28120769517121E6805A8F15711EB900DF9DA4530A9BBB935CACB0DA3B3F8AC4"
+    },
+    {
+      "path": "src/ProtectedMission/Cli.php",
+      "revision": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "git_blob": "df0204dc189eded2444a39f3bc7220727983399e",
+      "sha256": "AAFE07DF6296EAE4C9E82C83D497E0BD7D67C9DE505E940E9F7176AB6A62DDD9"
+    },
+    {
+      "path": "src/ProtectedMission/Generation.php",
+      "revision": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "git_blob": "1d44444573f13df68eaa65a64bc551ca1ebf546e",
+      "sha256": "E3493BED47A6138C527833A393E58763908C836296FCCA81DC97CE25C592F476"
+    },
+    {
+      "path": "src/ProtectedMission/InspectionProcess.php",
+      "revision": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "git_blob": "e42e07a53c6fc20aa7f6c81c1fb241cafdb94eff",
+      "sha256": "AEE661B00FE41A4E37D3757EBDC326A3693AD9022AB9D9801C10E55367167740"
+    },
+    {
+      "path": "src/ProtectedMission/InstalledRuntime.php",
+      "revision": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "git_blob": "1361d0311fea33dea8dc0540fc772e96f04c1237",
+      "sha256": "B083DD28655FC3C1C02360FF47B9660823259EC124003C4FD4FADE1EF2F54109"
+    },
+    {
+      "path": "src/ProtectedMission/OfflineGitInspector.php",
+      "revision": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "git_blob": "b8ab46586406ef899a899b34d489ced3330d3076",
+      "sha256": "39FA3DA12FD7B7920108E9CCC86FD3BA6AF0C9EAE3B7034EFFDB89C557413B24"
+    },
+    {
+      "path": "src/ProtectedMission/PublicTrust.php",
+      "revision": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "git_blob": "29e68664a330ee8bb9bf33efd3102035dda0d5b1",
+      "sha256": "B3211AB35DC02D3273D287A1D4A9B701E9640FC8603227BC61E8ACF1E97A8568"
+    },
+    {
+      "path": "tests/Imperium/Runtime/MissionAmendmentAuthorityTest.php",
+      "revision": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "git_blob": "95f07a0a6f19c1845cf5fb1232a4e180e75679ef",
+      "sha256": "B0E0D13ECA478D65AEA7A3C31895E9D3C12DEC7F8075E98DC123C70D65D13C53"
+    },
+    {
+      "path": "tests/Imperium/Runtime/MissionAmendmentProcessTest.php",
+      "revision": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "git_blob": "2c2d3c27fac0d19decba033389822e9cb8861276",
+      "sha256": "F1C63CC10AC611370255FF594ED014158415A00D46032FCC2CBFBED3C4D2CE1E"
+    },
+    {
+      "path": "tests/Imperium/Runtime/ProtectedMissionAuthorityBatch1Test.php",
+      "revision": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "git_blob": "870f2a84ca4ef1384d5e3fd21634f382eb93d1e5",
+      "sha256": "91A9478BC99C46BB7D4C26C71FB4E3C5F160C45099FCA4AFE55C699E2CE54C38"
+    },
+    {
+      "path": "tests/Imperium/Runtime/ProtectedMissionAuthorityBatch2Test.php",
+      "revision": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "git_blob": "cf1934ca93ee3239a8dbf6421496cd229d3e4247",
+      "sha256": "8DDF7AA18D1F333078E3ED1FE148BE94949708584F973207CE586CE46A4B3E1D"
+    },
+    {
+      "path": "tests/Imperium/Runtime/ProtectedMissionAuthorityBatch3Test.php",
+      "revision": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "git_blob": "4893b084c118c93cb89cb0b9e1e44fdda688485b",
+      "sha256": "06B56B5A82067C312066235C04BC68CB98552E6CADE104492901CE16835BF097"
+    },
+    {
+      "path": "tests/Imperium/Runtime/ProtectedMissionAuthorityBatch4Test.php",
+      "revision": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "git_blob": "1d4bfd3b0929825c7ebac06cae70409c0efe6c0b",
+      "sha256": "E9EA1983A2BC4FE963E186956DF1FED030416C49565A259548B5AB69F17B02AB"
+    },
+    {
+      "path": "tests/Imperium/Runtime/ProtectedMissionAuthorityBatch5AuditTest.php",
+      "revision": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "git_blob": "0a2aef79153378378e6bdd5e29af68655d5e8fbf",
+      "sha256": "178D3D53E1166C0CFB6C798790F241007933627730F29B9CA3CEAEF8BED7B9B2"
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/ProtectedMissionFixture.php",
+      "revision": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "git_blob": "5620365e2db3aac7cdfe2f215243f99066c280da",
+      "sha256": "79EBCFEE92F1430098589C69A788493E28F93A593D0B0BED6D40EDFDEF02C567"
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/mission_amendment_barrier_worker.php",
+      "revision": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "git_blob": "54e5e40e408e067179caf845c25a77f99f19f452",
+      "sha256": "CDBF9D178737AC1F437D9FF0AA42F12F006BA80C962AA36D25D104F9835A1A7C"
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/mission_amendment_powershell.ps1",
+      "revision": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "git_blob": "5ed6d0172ccebd1ee26e092cc17c89aaee9283da",
+      "sha256": "7DDCBD8EBB38D148A28EEEA37BB32FDC4FF77CB07B253C7C770F1FC39C95EC4B"
+    },
+    {
+      "path": "src/Imperium/Runtime/Curia/PlanningDossierAssemblyService.php",
+      "revision": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "git_blob": "48bbc74e239f408d08927bc936bd399ab337ac8f",
+      "sha256": "9960C414CFACDC308A4FCF3556DA7A6BAB8763B1510A3FC94F3B849926D4A62F"
+    },
+    {
+      "path": "src/Imperium/Runtime/Curia/ImperatorPlanningDossierReviewService.php",
+      "revision": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "git_blob": "b3d416a46ecd23bd6c4c14b711674507b7bcee5a",
+      "sha256": "28195DCA980B54575D23E7FEB717AABEE185749565D68365DDD4DA0F652DD91C"
+    },
+    {
+      "path": "src/Imperium/Runtime/Curia/MissionAuthorizationDerivationService.php",
+      "revision": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "git_blob": "0e492d739288dfe268dfd99a59f357c2837cd493",
+      "sha256": "5FAA2DD3B95AF94E1D48595C35D2F539A49A6F900E2E18B98887E1E3D85BDF47"
+    },
+    {
+      "path": "tests/Imperium/Runtime/InternalOperationalLeaseInterruptionEnforcementServiceTest.php",
+      "revision": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "git_blob": "49f4970ebe59009cf0339708b864c076c5c74d2a",
+      "sha256": "3E9BA1927970A99C80963CD0234045A5BF9C39C376ED589207B7BD64D871B3CE"
+    },
+    {
+      "path": "tools/ProtectedMission.ps1",
+      "revision": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "git_blob": "70c90a34f6c9da0050aa87ccb5be872f676f176d",
+      "sha256": "76C1C093F35046FB4FF3EC2037B4A11F3F3438F678A0FD60CDD6C2B0CDAD8FD5"
+    },
+    {
+      "path": "tools/sign-protected-mission.php",
+      "revision": "2a2b746feb9c66c961033ffafcf961f3bb49c4b5",
+      "git_blob": "ee0f76748a92f6e9aac2fda77c31f778803f2487",
+      "sha256": "416FA1A80F42A3CB204700296E5ED2B93EE4254B0FF824C267225A88FD7720C7"
+    }
+  ],
+  "local_artifacts": [
+    {
+      "path": "var/mission-amendment-evidence/assertion-count-probe.md",
+      "sha256": "3C9DA1F87C4BC1A0DCB0C78E63182B69ADB33949C9FF79090DCFD3C0F8352892"
+    },
+    {
+      "path": "var/mission-amendment-evidence/audit-focused.txt",
+      "sha256": "DC76572903994D18E527421EBDFC1DD122A27DF4D9D85F8AEFA1EBDD2CBB5585"
+    },
+    {
+      "path": "var/mission-amendment-evidence/audit-full.txt",
+      "sha256": "87DA7494840F18B6634476E6404C40D6F46034290AF7FD965455DCB6DDCC93D8"
+    },
+    {
+      "path": "var/mission-amendment-evidence/audit-generated-reference.diff",
+      "sha256": "3E15558156E068D3892E11A03A6C0627C4374CB77AE77A8DD12084F8A5636087"
+    },
+    {
+      "path": "var/mission-amendment-evidence/audit-powershell.json",
+      "sha256": "22AD7494929000F86547F5B3367E6B116CBE9356ECC32989352F640607D23456"
+    },
+    {
+      "path": "var/mission-amendment-evidence/batch-0-focused.txt",
+      "sha256": "CF5B5513D67188D16ECD1C3D81C5F68F85309A819714AB38B25F0564B5EBDC9C"
+    },
+    {
+      "path": "var/mission-amendment-evidence/batch-0-reproduction.json",
+      "sha256": "8B5D0F1B609517872E6973E91ED24AA0F03F753D5D1E18698C3FA791F3652EA3"
+    },
+    {
+      "path": "var/mission-amendment-evidence/batch-1-focused.txt",
+      "sha256": "3137330F30AA3C43AD34A37DBC962C61F1EE9B319526EB6E0E143C9F1C63D05C"
+    },
+    {
+      "path": "var/mission-amendment-evidence/batch-2-focused-initial-order-failure.txt",
+      "sha256": "38C00F6763E2BF3666994C4B5F434670DB78B570F134ADBD5EB3F7C1B6AF8D7D"
+    },
+    {
+      "path": "var/mission-amendment-evidence/batch-2-focused.txt",
+      "sha256": "4802020A0EC2EFBD5F09ADDE61273258EA677C3139CF21E8EA0E6CC805C7D3F2"
+    },
+    {
+      "path": "var/mission-amendment-evidence/batch-2-full.txt",
+      "sha256": "F3EC4CA8A5ECA8205456839A4465E129D2EBAEA6608BDD2D31F01E2654128817"
+    },
+    {
+      "path": "var/mission-amendment-evidence/batch-2-generated-reference.diff",
+      "sha256": "3E15558156E068D3892E11A03A6C0627C4374CB77AE77A8DD12084F8A5636087"
+    },
+    {
+      "path": "var/mission-amendment-evidence/batch-3-focused-before-terminal-capacity.txt",
+      "sha256": "2071091F10D0A20AB1CF8638772455480B2CA9EA3BE912C4F97FBB8E189256A8"
+    },
+    {
+      "path": "var/mission-amendment-evidence/batch-3-focused-initial.txt",
+      "sha256": "CED4E2FF81413080AEB89694D104ED7DD409F1141849F5464EAB5398225E7B82"
+    },
+    {
+      "path": "var/mission-amendment-evidence/batch-3-focused.txt",
+      "sha256": "F85AE8706C6B2BFCC4895A3DACF37FDE5BED92255CAB30D6D3769770B7E2EBA7"
+    },
+    {
+      "path": "var/mission-amendment-evidence/batch-3-powershell-initial-empty.json",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "var/mission-amendment-evidence/batch-3-powershell.json",
+      "sha256": "E59C6DEB4CCD754EDB71A5ECA3371A30EB00CDA717B35210808737CEACD0DF95"
+    },
+    {
+      "path": "var/mission-amendment-evidence/unchanged-race-count-1.txt",
+      "sha256": "870F2FBFCB6ABCDBA69CAEDA320667D66818BFFD11806CB3D199EAF2AB27A94D"
+    },
+    {
+      "path": "var/mission-amendment-evidence/unchanged-race-count-10.txt",
+      "sha256": "2ADA6EEF23D8947B25C3DB7165C14E713D00610474D2E0983F1981742C965CE5"
+    },
+    {
+      "path": "var/mission-amendment-evidence/unchanged-race-count-11.txt",
+      "sha256": "6D886BC571431F4CFBC4BBD97A0D7E46471F57CC75C8ED9F977B3C5C1ED2A65A"
+    },
+    {
+      "path": "var/mission-amendment-evidence/unchanged-race-count-12.txt",
+      "sha256": "870F2FBFCB6ABCDBA69CAEDA320667D66818BFFD11806CB3D199EAF2AB27A94D"
+    },
+    {
+      "path": "var/mission-amendment-evidence/unchanged-race-count-2.txt",
+      "sha256": "74E202B4E0919139D1A86D099510C54BAC188BBC6740A7486CD2DFDC03A566D8"
+    },
+    {
+      "path": "var/mission-amendment-evidence/unchanged-race-count-3.txt",
+      "sha256": "5ECDAA3FEF61A641303E7D83FFA10B74EF936B7C460C84BB7D3961E73CB8AEDB"
+    },
+    {
+      "path": "var/mission-amendment-evidence/unchanged-race-count-4.txt",
+      "sha256": "5CFF1D6FBC899A6147E5C815048418A6F5C4516A4A99A2DC858AF5029F9BC3E6"
+    },
+    {
+      "path": "var/mission-amendment-evidence/unchanged-race-count-5.txt",
+      "sha256": "6D886BC571431F4CFBC4BBD97A0D7E46471F57CC75C8ED9F977B3C5C1ED2A65A"
+    },
+    {
+      "path": "var/mission-amendment-evidence/unchanged-race-count-6.txt",
+      "sha256": "6D886BC571431F4CFBC4BBD97A0D7E46471F57CC75C8ED9F977B3C5C1ED2A65A"
+    },
+    {
+      "path": "var/mission-amendment-evidence/unchanged-race-count-7.txt",
+      "sha256": "B501400F9EF7D1C0E6AB8035DC5A57AC41FF5873A34874F07EA840A36989769B"
+    },
+    {
+      "path": "var/mission-amendment-evidence/unchanged-race-count-8.txt",
+      "sha256": "5ECDAA3FEF61A641303E7D83FFA10B74EF936B7C460C84BB7D3961E73CB8AEDB"
+    },
+    {
+      "path": "var/mission-amendment-evidence/unchanged-race-count-9.txt",
+      "sha256": "5CFF1D6FBC899A6147E5C815048418A6F5C4516A4A99A2DC858AF5029F9BC3E6"
+    },
+    {
+      "path": "var/mission-amendment-evidence/unchanged-race-enforce-first.txt",
+      "sha256": "9C7FAE4D20E66DC87416614831658E7DA94A9ECE0100EADE0D0B3AEB0E9D51CC"
+    },
+    {
+      "path": "var/mission-amendment-evidence/UnchangedRaceEnforceFirstTest.php",
+      "sha256": "F3DA69E442096B95B9A287A09B70D6C59BF6C5C7A1F05E7AB97188E4D4307911"
+    }
+  ],
+  "assertion_count_note": "Full 52696 versus projected 52698: unchanged legacy claim/enforce race has 5 or 7 assertions. Normal reruns measured 7; audit-only enforce-first copy retained assertions and measured 5. Original full per-case winner not recorded; attribution inferred. See assertion-count-probe.md.",
+  "preserved_refs": {
+    "main": "b267e2c2b6a122694418ce59d2bf16319e602b07",
+    "previous_candidate": "7deb84b9f687ecb09c93f568464a606f0a602a89",
+    "quarantine": "8df34679beab0ba8699a68fdd458570bf658c4c8",
+    "earlier_quarantine": "3c4890ffd30f403f72a35b92f1e639d51c8c98f8"
+  },
+  "changed_test_map": "docs/handoffs/mission-amendment-correction-local-audit-complete.md",
+  "runbook": "docs/protected-mission-operator-runbook.md",
+  "limitations": [
+    "Same-user protocol/process proofs; deployment ACL isolation unproved",
+    "Windows-only production startup",
+    "Local loose SHA-1 Git objects only",
+    "No automatic state migration; old/mixed schema refuses",
+    "64 retained proposals; 16 MB state; 64 MiB journal; no eviction/compaction",
+    "No hardware power-loss or exhaustive instruction-level crash proof",
+    "No public FAILED producer; failure terminal guard corruption-tested",
+    "No progress transfer or automatic evidence revalidation",
+    "No independent acceptance or remote CI claim"
+  ]
+}
