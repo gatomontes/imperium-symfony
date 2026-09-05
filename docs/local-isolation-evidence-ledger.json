@@ -245,27 +245,39 @@
   "public_artifacts": [
     {
       "path": "docs/local-isolation-package-manifest.json",
-      "sha256": "8DAB48F98D147A6ABA9E89260D25082BA5B91AD2C72638F1F10FFB9A449CF6AE"
+      "sha256": "8DAB48F98D147A6ABA9E89260D25082BA5B91AD2C72638F1F10FFB9A449CF6AE",
+      "git_blob": "d0c6db21668ca4a65a98298a0cf4d6f0621a1337",
+      "git_blob_sha256": "8DAB48F98D147A6ABA9E89260D25082BA5B91AD2C72638F1F10FFB9A449CF6AE"
     },
     {
       "path": "docs/local-isolation-target-manifest.json",
-      "sha256": "848D57B1B949F1698CE941A1AFFB5EA51943D7C64EC47CE1CB3136742626482E"
+      "sha256": "848D57B1B949F1698CE941A1AFFB5EA51943D7C64EC47CE1CB3136742626482E",
+      "git_blob": "26b125919a19f1a5ccad4b2020be72aa72010de0",
+      "git_blob_sha256": "848D57B1B949F1698CE941A1AFFB5EA51943D7C64EC47CE1CB3136742626482E"
     },
     {
       "path": "docs/local-isolation-mission-draft.json",
-      "sha256": "9A64F333AF0A713A6560D4EEE2971F78930E514ECD2A259995DB21C175C3E2F6"
+      "sha256": "9A64F333AF0A713A6560D4EEE2971F78930E514ECD2A259995DB21C175C3E2F6",
+      "git_blob": "af59a355a384a71e334ec5237f0dfedb47f114de",
+      "git_blob_sha256": "9A64F333AF0A713A6560D4EEE2971F78930E514ECD2A259995DB21C175C3E2F6"
     },
     {
       "path": "docs/local-isolation-rehearsal.json",
-      "sha256": "D398F5373E9C43D781E449407E1C14509ED43CB6E6B81B9E430ADE7549293B89"
+      "sha256": "D398F5373E9C43D781E449407E1C14509ED43CB6E6B81B9E430ADE7549293B89",
+      "git_blob": "432f2c0fccc4fd504ebc182308e0a1e4d8bd7bfe",
+      "git_blob_sha256": "EEC6587350C6EE6D6A26486CED16F17C67A7E2D09B23F9AD9A9E965035A5EE99"
     },
     {
       "path": "docs/local-isolation-reading-ledger.json",
-      "sha256": "92E1AD67A438ABA8E089D7FC032C14EF2B1A34DAADEFD7D0A0A9B97B654DA0CD"
+      "sha256": "92E1AD67A438ABA8E089D7FC032C14EF2B1A34DAADEFD7D0A0A9B97B654DA0CD",
+      "git_blob": "931458b111cd28b18053b46034c93a02968f2215",
+      "git_blob_sha256": "BD80ABEA74672E92F750F8DA0A3A46435BF6985C59CC6A055BDB3E32D3C538CC"
     },
     {
       "path": "docs/local-isolation-matrix.md",
-      "sha256": "6C394D0225305978FA428E0D8A3D66703D662AE1B16DE5788331BAC6757A7B5D"
+      "sha256": "6C394D0225305978FA428E0D8A3D66703D662AE1B16DE5788331BAC6757A7B5D",
+      "git_blob": "162d787bc6c82da53e848b73b7fefe8407a46175",
+      "git_blob_sha256": "6C394D0225305978FA428E0D8A3D66703D662AE1B16DE5788331BAC6757A7B5D"
     }
   ],
   "limits": [
@@ -282,5 +294,6 @@
   "private_key_or_password_custody": false,
   "journal_reset": false,
   "branch_deletion": false,
-  "isolation_matrix": "docs/local-isolation-matrix.md"
+  "isolation_matrix": "docs/local-isolation-matrix.md",
+  "artifact_hash_semantics": "sha256 fields bind exact local file bytes. git_blob and git_blob_sha256 additionally bind repository-normalized public artifacts; Git CRLF/LF normalization may differ. The installable package manifest digest binds its exact immutable candidate bytes."
 }
