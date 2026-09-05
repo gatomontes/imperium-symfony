@@ -1,3 +1,16 @@
+# Superseding continuation: scratch permissions
+
+C0–C2 completed locally; independent source review found LI01/LI02 substantially
+addressed, but identified IS03: the installed ACL denies the scratch subdirectories
+required by the canonical approval ceremony. The current package is not accepted
+for installation.
+
+Continue docs/next-campaign-local-isolation-scratch-correction.md via
+docs/handoffs/local-isolation-scratch-correction-ready.md on the preserved local
+implementation. Complete S0–S2, rebuild a fresh package, then resume parent
+Batches 3–5. Do not repeat this campaign's completed construction or discard its
+tests, evidence or original package.
+
 # Local Isolation Measurement and Readiness — continuation
 
 Local C0–C2 status: `LOCAL_ISOLATION_MEASUREMENT_READINESS_PACKAGE_READY`.

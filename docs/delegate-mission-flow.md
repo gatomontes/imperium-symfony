@@ -1,3 +1,28 @@
+# Current selection: protected scratch workspace correction
+
+SCRATCH_WORKSPACE_CEREMONY_CORRECTION_SELECTED.
+Independent review found IS03 (P1): the installed Runtime is denied directory
+creation required by Ceremony::scratch(). LI01/LI02 are substantially addressed,
+but package-readiness-6bb2628d is not accepted for installation.
+
+Campaign: docs/next-campaign-local-isolation-scratch-correction.md.
+Review: docs/local-isolation-scratch-permission-review.md.
+Runner: docs/handoffs/local-isolation-scratch-correction-ready.md.
+
+Steps: reproduce native permission conflict (S0), correct protected workspace and
+prove positive ceremony plus refusals (S1), audit/rebuild fresh package (S2),
+then resume parent owner setup/measurement (3), authentic mission (4), report (5).
+
+Flow: preserved local readiness source → exact planning integration → protected
+scratch layout → successful real ceremony under equivalent ACLs → fresh reviewed
+package → actual owner evidence → authentic signature → one bounded inspection.
+
+Do not restart completed construction. Preserve old packages/tests/branches.
+No real installation or mission is authorized by this local correction runner.
+Status recovery and owner-reference protection must remain intact.
+
+## Historical campaign records
+
 # Current continuation: isolation measurement and readiness correction
 
 Local C0–C2 complete: `LOCAL_ISOLATION_MEASUREMENT_READINESS_PACKAGE_READY`.
