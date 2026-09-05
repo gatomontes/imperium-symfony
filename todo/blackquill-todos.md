@@ -4,7 +4,7 @@ Campaign: docs/next-campaign-local-isolation-useful-mission.md.
 Runner: docs/handoffs/local-isolation-useful-mission-ready.md.
 
 - [x] Integrate reviewed amendment correction: PR #759, merge a1fc4f27634319f2a22df2e6a1b370f70cdb98bf; GitHub CI passed.
-- [ ] Batch 0: verify baseline/environment, role/access matrix, target objects and previous-test disposition.
+- [x] Batch 0: verify baseline/environment, role/access matrix, target objects and previous-test disposition.
 - [ ] Batch 1: executable probes, orchestration, resume/status and bounded fixes.
 - [ ] Batch 2: disposable rehearsal, exact-commit tests and reviewable owner setup/mission package.
 - [ ] Batch 3: owner applies reviewed setup; actual identities and access attempts prove scoped isolation.
