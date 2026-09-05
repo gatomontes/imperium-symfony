@@ -97,6 +97,19 @@ final class AuthorityOwner
         $chain = $this->verify($state, $id, $now); $payload = $chain['payload'];
         $mission = $payload['mission_id'];
         if (in_array($state['lifecycles'][$mission]['state'] ?? '', ['COMPLETED','FAILED','CANCELLED'], true)) throw new \RuntimeException('PMA_TERMINAL');
+        $preparation=$chain['authorization']['preparation_authorities'];
+        foreach (['model_binding_sealing','profile_model_access_attestation','personnel_preparation','tool_credential_data_preparation'] as $kind) {
+            if (!in_array($preparation[$kind] ?? null,[null,[]],true)) throw new \RuntimeException('PMA_PREPARATION_REQUIRED');
+        }
+        $derivation=$preparation['execution_commission_derivation'] ?? [];
+        if (($derivation['authority_single_use'] ?? false)!==true || ($derivation['preparation_authority'] ?? false)!==true) throw new \RuntimeException('PMA_COMMISSION_DERIVATION_ABSENT');
+        if (!isset($state['commissions'][$id])) {
+            $state['commissions'][$id]=['commission_id'=>'protected-git-commission-'.hash('sha256',$id.'|'.$derivation['authority_id']),
+                'source_authorization_id'=>$id,'source_authorization_digest'=>$chain['authorization']['record_digest'],
+                'source_derivation_authority_id'=>$derivation['authority_id'],'derivation_consumed'=>true,
+                'executor'=>'protected-git-inspector','task'=>'READ_EXACT_GIT_OBJECTS','target'=>$payload['target'],
+                'paths'=>$payload['paths'],'budget'=>$payload['budget'],'expires_at'=>$payload['expires_at'],'delegation_permitted'=>false];
+        }
         if (!isset($state['issuer_secret'])) {
             $pair = sodium_crypto_sign_keypair();
             $state['issuer_secret'] = base64_encode(sodium_crypto_sign_secretkey($pair));
@@ -106,6 +119,7 @@ final class AuthorityOwner
         $capabilities = [];
         foreach ($payload['transitions'] as $transition) {
             $capability = ['authorization_id'=>$id,'authorization_digest'=>$chain['authorization']['record_digest'],
+                'commission_id'=>$state['commissions'][$id]['commission_id'],
                 'dossier_digest'=>$chain['dossier']['record_digest'],'mission_id'=>$mission,
                 'actor'=>$transition['actor'],'target'=>$payload['target'],'issuer'=>$state['issuer_public'],
                 'action'=>$transition['action'],'from'=>$transition['from'],'to'=>$transition['to'],
@@ -131,6 +145,7 @@ final class AuthorityOwner
         $payload=$chain['payload']; $mission=$payload['mission_id'];
         $transition=['action'=>$capability['action'],'actor'=>$capability['actor'],'from'=>$capability['from'],'to'=>$capability['to']];
         if ($capability['mission_id']!==$mission || $capability['authorization_digest']!==$chain['authorization']['record_digest']
+            || ($capability['commission_id'] ?? null)!==($state['commissions'][$id]['commission_id'] ?? null)
             || $capability['dossier_digest']!==$chain['dossier']['record_digest'] || $capability['target']!==$payload['target']
             || $capability['issuer']!==$state['issuer_public'] || $capability['expires_at']!==$payload['expires_at']
             || !in_array(CanonicalJson::encode($transition),array_map(CanonicalJson::encode(...),$payload['transitions']),true)) throw new \RuntimeException('PMA_CAPABILITY_BINDING_INVALID');
@@ -138,6 +153,21 @@ final class AuthorityOwner
         if (isset($record['consumed_nonces'][$nonce])) throw new \RuntimeException('PMA_REPLAY');
         if (in_array($record['state'],['COMPLETED','FAILED','CANCELLED'],true)) throw new \RuntimeException('PMA_TERMINAL');
         if ($record['state']!==$capability['from']) throw new \RuntimeException('PMA_REQUIRED_STATE');
+        if ($capability['action']==='inspect') {
+            $state['inspections'][$mission]=InspectionProcess::run($this->root,$payload);
+            $now=time();
+            PublicTrust::verify($state['trust'],$payload,$chain['signature'],$now);
+            if ($now >= $payload['expires_at']) throw new \RuntimeException('PMA_AUTHORITY_INACTIVE');
+        }
+        if ($capability['to']==='COMPLETED') {
+            if (!isset($state['inspections'][$mission])) throw new \RuntimeException('PMA_INSPECTION_EVIDENCE_ABSENT');
+            $snapshot=$state['inspections'][$mission];
+            if ($snapshot['commit_id']!==$payload['target']['commit'] || $snapshot['tree_id']!==$payload['target']['tree']) throw new \RuntimeException('PMA_INSPECTION_EVIDENCE_INVALID');
+            $state['receipts'][$mission]=['authorization_id'=>$id,'mission_id'=>$mission,'dossier_digest'=>$chain['dossier']['record_digest'],
+                'commission_id'=>$capability['commission_id'],
+                'trust_fingerprint'=>$state['trust']['fingerprint'],'trust_root_id'=>hash('sha256',$this->root),'operator_identity'=>$state['trust']['identity'],
+                'deployment_isolation_claimed'=>false,'snapshot'=>$snapshot,'completed_at'=>$now];
+        }
         $record['state']=$capability['to']; $record['consumed_nonces'][$nonce]=true;
         $record['history'][]=['capability'=>$envelope,'consumed_at'=>$now];
         $state['lifecycles'][$mission]=$record;
@@ -171,6 +201,7 @@ final class AuthorityOwner
         $mission=$state['authorizations'][$id]['payload']['mission_id'];
         return ['authorization_id'=>$id,'inactive'=>$state['inactive'][$id] ?? false,
             'lifecycle'=>$state['lifecycles'][$mission] ?? ['state'=>'AUTHORIZED','history'=>[],'consumed_nonces'=>[]],
+            'receipt'=>$state['receipts'][$mission] ?? null,
             'execution_authority'=>false];
     }
 

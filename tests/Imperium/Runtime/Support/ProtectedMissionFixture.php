@@ -22,7 +22,8 @@ final class ProtectedMissionFixture
         $pair=sodium_crypto_sign_keypair(); $this->secret=sodium_crypto_sign_secretkey($pair); $public=sodium_crypto_sign_publickey($pair); sodium_memzero($pair);
         $this->trust=PublicTrust::validate(['identity'=>'disposable-operator','competence'=>PublicTrust::COMPETENCE,'public_key'=>base64_encode($public),'not_before'=>time()-5,'expires_at'=>time()+3600],hash('sha256',$public));
         (new AuthorityOwner($this->root))->enroll($this->trust,$this->trust['fingerprint']);
-        $challenge=$this->call('prepare',self::input())['challenge_id'];
+        $input=self::input(); $input['mission']['target']=$this->looseTarget();
+        $challenge=$this->call('prepare',$input)['challenge_id'];
         $payload=$this->call('export',['challenge_id'=>$challenge]);
         $this->call('submit',['challenge_id'=>$challenge,'signature'=>$this->sign($payload)]);
         $this->id=$this->call('derive',['challenge_id'=>$challenge])['authorization_id'];
@@ -38,6 +39,18 @@ final class ProtectedMissionFixture
             'expires_at'=>time()+1800,'permissions'=>['READ_EXACT_GIT_OBJECTS'],'prohibitions'=>['NETWORK','TARGET_MUTATION','PROVIDERS','CREDENTIALS'],
             'transitions'=>[['action'=>'admit','actor'=>'protected-git-inspector','from'=>'AUTHORIZED','to'=>'ADMITTED'],['action'=>'inspect','actor'=>'protected-git-inspector','from'=>'ADMITTED','to'=>'INSPECTING'],['action'=>'complete','actor'=>'protected-git-inspector','from'=>'INSPECTING','to'=>'COMPLETED']]],
             'disclosures'=>array_fill_keys(['material_facts','assumptions','unknowns','dependencies','personnel','tools_credentials_data','external_operations','cost_time_retention_limits','risks_contingencies_fallbacks','evidence_provenance_reporting','expiry_revocation_reauthorization'],[])];
+    }
+    private function looseTarget():array
+    {
+        $repository=$this->root.'/disposable-target'; mkdir($repository.'/.git/objects',0700,true);
+        $put=static function(string $type,string $bytes)use($repository):string {
+            $raw=$type.' '.strlen($bytes)."\0".$bytes; $id=sha1($raw); $directory=$repository.'/.git/objects/'.substr($id,0,2);
+            if (!is_dir($directory)) mkdir($directory,0700,true);
+            file_put_contents($directory.'/'.substr($id,2),gzcompress($raw));return $id;
+        };
+        $blob=$put('blob',"Fresh disposable evidence.\n");$tree=$put('tree',"100644 evidence.txt\0".hex2bin($blob));
+        $commit=$put('commit','tree '.$tree."\nauthor Disposable <test@example.invalid> 1 +0000\ncommitter Disposable <test@example.invalid> 1 +0000\n\nDisposable proof\n");
+        return ['repository'=>$repository,'commit'=>$commit,'tree'=>$tree];
     }
     public function save(): void
     {
