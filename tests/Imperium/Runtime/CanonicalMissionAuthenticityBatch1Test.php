@@ -34,6 +34,8 @@ final class CanonicalMissionAuthenticityBatch1Test extends TestCase
         foreach ([
             ['actor' => ['kind' => 'consumer', 'id' => 'self-appointed'], 'expected' => 'MIS403_MISSION_AUTHORIZATION_LINEAGE_INVALID'],
             ['mission' => ['target_commit' => str_repeat('f', 39)], 'expected' => 'MIS400_CANONICAL_MISSION_PLAN_INVALID'],
+            ['mission' => ['inspection_paths' => ['../secrets']], 'expected' => 'MIS400_CANONICAL_MISSION_PLAN_INVALID'],
+            ['forged_signature' => true, 'expected' => 'MIS407_OPERATOR_APPROVAL_UNAUTHENTICATED'],
         ] as $case) {
             $root = $this->root();
             try {

@@ -15,9 +15,11 @@ final readonly class AuthenticatedMissionAuthorizationBridge
     private string $authorizations;
     private string $dossiers;
     private string $reviews;
+    private string $root;
 
     public function __construct(#[Autowire('%kernel.project_dir%')] string $root)
     {
+        $this->root = $root;
         $this->authorizations = $root.'/var/imperium/authorizations/missions';
         $this->dossiers = $root.'/var/imperium/offices/curia/planning-dossiers';
         $this->reviews = $root.'/var/imperium/offices/curia/planning-dossier-reviews';
@@ -38,6 +40,7 @@ final readonly class AuthenticatedMissionAuthorizationBridge
         if (!$this->valid($authorization) || !$this->valid($dossier) || !$this->valid($review)) {
             throw new \RuntimeException('MIS402_MISSION_AUTHORIZATION_TAMPERED');
         }
+        $mission = CanonicalMissionPlan::fromMissionPlan($authorization['mission_plan']);
         $derivation = $authorization['derivation_authority'] ?? [];
         $reviewDerivation = $review['mission_authorization_derivation_authority'] ?? [];
         if ('imperium.mission-authorization/v1' !== ($authorization['schema'] ?? null)
@@ -74,13 +77,14 @@ final readonly class AuthenticatedMissionAuthorizationBridge
             throw new \RuntimeException('MIS403_MISSION_AUTHORIZATION_LINEAGE_INVALID');
         }
 
+        (new OperatorApprovalAuthenticator($this->root))->verify($review, $dossier, $mission);
+
         try {
             $reviewedAt = new \DateTimeImmutable($review['reviewed_at']);
             $derivedAt = new \DateTimeImmutable($authorization['derived_at']);
         } catch (\Throwable) {
             throw new \RuntimeException('MIS404_MISSION_AUTHORIZATION_TIME_INVALID');
         }
-        $mission = CanonicalMissionPlan::fromMissionPlan($authorization['mission_plan']);
         if ($reviewedAt > $derivedAt || $derivedAt > $at || $at >= $mission->expiresAt()) {
             throw new \RuntimeException('MIS404_MISSION_AUTHORIZATION_TIME_INVALID');
         }

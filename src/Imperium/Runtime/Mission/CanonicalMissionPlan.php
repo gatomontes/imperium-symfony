@@ -12,7 +12,7 @@ final readonly class CanonicalMissionPlan
     public const string SCHEMA = 'imperium.canonical-mission-plan/v1';
     public const array REQUIRED_FIELDS = [
         'schema', 'mission_id', 'mission_kind', 'target_repository', 'target_commit', 'target_tree',
-        'requested_permissions', 'prohibitions', 'budget', 'expires_at', 'success_criteria',
+        'inspection_paths', 'requested_permissions', 'prohibitions', 'budget', 'expires_at', 'success_criteria',
         'failure_criteria', 'evidence_requirements', 'lifecycle_transitions',
     ];
 
@@ -33,6 +33,7 @@ final readonly class CanonicalMissionPlan
             || !self::text($record['target_repository'] ?? null)
             || 1 !== preg_match('/^[a-f0-9]{40}$/', $record['target_commit'] ?? '')
             || 1 !== preg_match('/^[a-f0-9]{40}$/', $record['target_tree'] ?? '')
+            || !self::validInspectionPaths($record['inspection_paths'] ?? null)
             || !self::stringList($record['requested_permissions'] ?? null)
             || !self::stringList($record['prohibitions'] ?? null)
             || !self::stringList($record['success_criteria'] ?? null)
@@ -58,6 +59,7 @@ final readonly class CanonicalMissionPlan
     public function digest(): string { return $this->digest; }
     public function targetCommit(): string { return $this->record['target_commit']; }
     public function targetTree(): string { return $this->record['target_tree']; }
+    public function inspectionPaths(): array { return $this->record['inspection_paths']; }
     public function expiresAt(): \DateTimeImmutable { return new \DateTimeImmutable($this->record['expires_at']); }
     public function toArray(): array { return $this->record; }
 
@@ -82,6 +84,17 @@ final readonly class CanonicalMissionPlan
         }
         foreach ($budget as $value) {
             if (!is_int($value) || $value < 1) { return false; }
+        }
+        return true;
+    }
+
+    private static function validInspectionPaths(mixed $paths): bool
+    {
+        if (!self::stringList($paths)) { return false; }
+        foreach ($paths as $path) {
+            if (str_starts_with($path, '-') || str_contains($path, "\0") || str_contains($path, '\\') || str_contains($path, '..')) {
+                return false;
+            }
         }
         return true;
     }

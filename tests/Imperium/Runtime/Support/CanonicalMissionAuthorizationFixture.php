@@ -6,6 +6,7 @@ namespace App\Tests\Imperium\Runtime\Support;
 
 use App\Bootstrap\CanonicalJson;
 use App\Imperium\Runtime\Mission\CanonicalMissionPlan;
+use App\Imperium\Runtime\Mission\OperatorApprovalAuthenticator;
 
 final class CanonicalMissionAuthorizationFixture
 {
@@ -32,7 +33,7 @@ final class CanonicalMissionAuthorizationFixture
         ]);
         $reviewId = 'imperator-planning-dossier-review-'.str_repeat('c', 20);
         $derivationAuthorityId = 'mission-authorization-derivation-authority-'.str_repeat('d', 20);
-        $review = self::seal([
+        $review = [
             'schema' => 'imperium.imperator-planning-dossier-review/v1',
             'review_id' => $reviewId,
             'dossier' => ['id' => $dossierId, 'version' => 1, 'digest' => $dossier['record_digest'], 'line_count' => 1],
@@ -40,6 +41,7 @@ final class CanonicalMissionAuthorizationFixture
             'disposition' => $overrides['disposition'] ?? 'APPROVE_DOSSIER',
             'all_lines_acknowledged' => $overrides['acknowledged'] ?? true,
             'reviewed_at' => '2026-09-04T12:00:00+00:00',
+            'review_authority' => ['id' => $reviewAuthorityId, 'consumed' => true, 'continuing_authority' => false],
             'mission_authorization_derivation_authority' => [
                 'authority_id' => $derivationAuthorityId,
                 'authority_single_use' => true,
@@ -51,7 +53,24 @@ final class CanonicalMissionAuthorizationFixture
             'dossier_approval' => $overrides['approved'] ?? true,
             'status' => 'IMPERATOR_PLANNING_DOSSIER_APPROVED_PENDING_MISSION_AUTHORIZATION',
             'sealed' => true,
-        ]);
+        ];
+        $keyId = 'operator-key-test-1';
+        $keypair = sodium_crypto_sign_keypair();
+        $secretKey = sodium_crypto_sign_secretkey($keypair);
+        $publicKey = sodium_crypto_sign_publickey($keypair);
+        try { $canonicalMission = CanonicalMissionPlan::fromMissionPlan($plan); }
+        catch (\RuntimeException) { $canonicalMission = CanonicalMissionPlan::fromMissionPlan(['canonical_mission' => self::mission()]); }
+        $payload = OperatorApprovalAuthenticator::payload($review, $dossier, $canonicalMission, $keyId);
+        $canonicalPayload = CanonicalJson::encode($payload);
+        $review['operator_authenticity'] = [
+            'schema' => OperatorApprovalAuthenticator::SCHEMA,
+            'key_id' => $keyId,
+            'competence' => OperatorApprovalAuthenticator::COMPETENCE,
+            'payload_digest' => hash('sha256', $canonicalPayload),
+            'signature' => base64_encode(sodium_crypto_sign_detached($canonicalPayload, $secretKey)),
+        ];
+        if (true === ($overrides['forged_signature'] ?? false)) { $review['operator_authenticity']['signature'] = base64_encode(str_repeat("\0", 64)); }
+        $review = self::seal($review);
         $authorizationId = 'mission-authorization-'.str_repeat('e', 20);
         $authorization = self::seal([
             'schema' => 'imperium.mission-authorization/v1',
@@ -75,6 +94,17 @@ final class CanonicalMissionAuthorizationFixture
         self::write($root.'/var/imperium/offices/curia/planning-dossiers/'.$dossierId.'.json', $dossier);
         self::write($root.'/var/imperium/offices/curia/planning-dossier-reviews/'.$reviewId.'.json', $review);
         self::write($root.'/var/imperium/authorizations/missions/'.$authorizationId.'.json', $authorization);
+        self::write($root.'/config/imperium/operator-approval-trust.json', [
+            'schema' => 'imperium.operator-approval-trust/v1',
+            'key_id' => $keyId,
+            'operator_identity' => ['kind' => 'imperator', 'id' => 'imperator-development-root'],
+            'competences' => [OperatorApprovalAuthenticator::COMPETENCE],
+            'public_key_base64' => base64_encode($publicKey),
+            'not_before' => '2026-09-01T00:00:00+00:00',
+            'expires_at' => '2026-10-01T00:00:00+00:00',
+            'active' => true,
+            'revoked' => false,
+        ]);
 
         return compact('authorizationId', 'authorization', 'dossier', 'review', 'mission');
     }
@@ -88,6 +118,7 @@ final class CanonicalMissionAuthorizationFixture
             'target_repository' => 'synthetic/test-repository',
             'target_commit' => str_repeat('1', 40),
             'target_tree' => str_repeat('2', 40),
+            'inspection_paths' => ['src/Imperium/Runtime/Mission/CanonicalMissionPlan.php'],
             'requested_permissions' => ['read-git-objects', 'record-local-evidence'],
             'prohibitions' => ['modify-target', 'network-access', 'credential-access', 'provider-access'],
             'budget' => ['max_files' => 10, 'max_bytes' => 100000, 'max_findings' => 10, 'max_seconds' => 60],

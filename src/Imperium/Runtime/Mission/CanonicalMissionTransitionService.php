@@ -11,11 +11,13 @@ final readonly class CanonicalMissionTransitionService
 {
     private AuthenticatedMissionAuthorizationBridge $bridge;
     private MissionCapabilityVerifier $verifier;
+    private MissionLifecycleStore $lifecycles;
 
     public function __construct(#[Autowire('%kernel.project_dir%')] string $root)
     {
         $this->bridge = new AuthenticatedMissionAuthorizationBridge($root);
         $this->verifier = new MissionCapabilityVerifier($root);
+        $this->lifecycles = new MissionLifecycleStore($root);
     }
 
     /** Verification-only cut until durable transition consumption is introduced in Batch 3. */
@@ -25,6 +27,14 @@ final readonly class CanonicalMissionTransitionService
         $transition = $this->transition($authorization, $capability);
         $this->verifier->verify($capability, $authorization, $transition, $at);
         return $transition;
+    }
+
+    public function consume(MissionCapability $capability, string $authorizationId, \DateTimeImmutable $at): array
+    {
+        $authorization = $this->bridge->authenticate($authorizationId, $at);
+        $transition = $this->transition($authorization, $capability);
+        $this->verifier->verify($capability, $authorization, $transition, $at);
+        return $this->lifecycles->consume($capability, $authorization, $at);
     }
 
     private function transition(AuthenticatedMissionAuthorization $authorization, MissionCapability $capability): array
