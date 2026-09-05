@@ -1,3 +1,24 @@
+## Local deployment isolation and useful mission — selected 2026-09-05
+
+Campaign: docs/next-campaign-local-isolation-useful-mission.md.
+Runner: docs/handoffs/local-isolation-useful-mission-ready.md.
+
+- [x] Integrate reviewed amendment correction: PR #759, merge a1fc4f27634319f2a22df2e6a1b370f70cdb98bf; GitHub CI passed.
+- [ ] Batch 0: verify baseline/environment, role/access matrix, target objects and previous-test disposition.
+- [ ] Batch 1: executable probes, orchestration, resume/status and bounded fixes.
+- [ ] Batch 2: disposable rehearsal, exact-commit tests and reviewable owner setup/mission package.
+- [ ] Batch 3: owner applies reviewed setup; actual identities and access attempts prove scoped isolation.
+- [ ] Batch 4: authentic approval and one exact-snapshot inspection with observable progress.
+- [ ] Batch 5: independently reconstructed receipt/target bindings and useful analytical discrepancy report.
+
+No real-account isolation is claimed yet. Prepare all executable owner steps before
+asking for human action; never substitute a test key or same-user test for actual
+Operator setup. Preserve prior tests, branches and evidence with exact attribution.
+The historical candidate at 7deb84b9f687ecb09c93f568464a606f0a602a89 is now integrated
+through its corrective descendant; earlier statements that it is unmerged are historical.
+
+## Historical campaign checklists
+
 ## Mission amendment authority and evidence binding — selected 2026-09-05
 
 - [x] Batch 0: reproduce AM01/AM02 and preserve candidate/test evidence.
