@@ -18,6 +18,7 @@ final class AuthorityOwner
         return $this->transaction(function (array &$state) use ($trust): array {
             if (isset($state['trust'])) throw new \RuntimeException('PMA_ALREADY_ENROLLED_RECOVERY_REQUIRED');
             $state['trust'] = $trust;
+            $state['schema'] = Generation::SCHEMA;
             $state['custody'] = ['enrolled_at'=>time(), 'fingerprint'=>$trust['fingerprint'], 'action'=>'explicit-owner-bootstrap'];
             return $state['custody'];
         }, true);
@@ -104,7 +105,9 @@ final class AuthorityOwner
     {
         $chain = $this->verify($state, $id, $now); $payload = $chain['payload'];
         $mission = $payload['mission_id'];
-        if (in_array($state['lifecycles'][$mission]['state'] ?? '', ['COMPLETED','FAILED','CANCELLED'], true)) throw new \RuntimeException('PMA_TERMINAL');
+        $binding=Generation::binding($chain);
+        Generation::requireBinding($state['lifecycles'][$id] ?? [],$binding);
+        if (isset($state['terminal_missions'][$mission])) throw new \RuntimeException('PMA_TERMINAL');
         $preparation=$chain['authorization']['preparation_authorities'];
         foreach (['model_binding_sealing','profile_model_access_attestation','personnel_preparation','tool_credential_data_preparation'] as $kind) {
             if (!in_array($preparation[$kind] ?? null,[null,[]],true)) throw new \RuntimeException('PMA_PREPARATION_REQUIRED');
@@ -113,11 +116,12 @@ final class AuthorityOwner
         if (($derivation['authority_single_use'] ?? false)!==true || ($derivation['preparation_authority'] ?? false)!==true) throw new \RuntimeException('PMA_COMMISSION_DERIVATION_ABSENT');
         if (!isset($state['commissions'][$id])) {
             $state['commissions'][$id]=['commission_id'=>'protected-git-commission-'.hash('sha256',$id.'|'.$derivation['authority_id']),
-                'source_authorization_id'=>$id,'source_authorization_digest'=>$chain['authorization']['record_digest'],
+                'binding'=>$binding,'source_authorization_id'=>$id,'source_authorization_digest'=>$chain['authorization']['record_digest'],
                 'source_derivation_authority_id'=>$derivation['authority_id'],'derivation_consumed'=>true,
                 'executor'=>'protected-git-inspector','task'=>'READ_EXACT_GIT_OBJECTS','target'=>$payload['target'],
                 'paths'=>$payload['paths'],'budget'=>$payload['budget'],'expires_at'=>$payload['expires_at'],'delegation_permitted'=>false];
         }
+        Generation::requireBinding($state['commissions'][$id],$binding);
         if (!isset($state['issuer_secret'])) {
             $pair = sodium_crypto_sign_keypair();
             $state['issuer_secret'] = base64_encode(sodium_crypto_sign_secretkey($pair));
@@ -126,7 +130,7 @@ final class AuthorityOwner
         }
         $capabilities = [];
         foreach ($payload['transitions'] as $transition) {
-            $capability = ['authorization_id'=>$id,'authorization_digest'=>$chain['authorization']['record_digest'],
+            $capability = ['binding'=>$binding,'authorization_id'=>$id,'authorization_digest'=>$chain['authorization']['record_digest'],
                 'commission_id'=>$state['commissions'][$id]['commission_id'],
                 'dossier_digest'=>$chain['dossier']['record_digest'],'mission_id'=>$mission,
                 'actor'=>$transition['actor'],'target'=>$payload['target'],'issuer'=>$state['issuer_public'],
@@ -151,34 +155,40 @@ final class AuthorityOwner
             || !sodium_crypto_sign_verify_detached($sig,CanonicalJson::encode($capability),$key)
             || ($state['issued'][$nonce] ?? '') !== hash('sha256',CanonicalJson::encode($envelope))) throw new \RuntimeException('PMA_CAPABILITY_INVALID');
         $payload=$chain['payload']; $mission=$payload['mission_id'];
+        $binding=Generation::binding($chain);
+        Generation::requireBinding($capability,$binding);
+        Generation::requireBinding($state['commissions'][$id] ?? [],$binding);
         $transition=['action'=>$capability['action'],'actor'=>$capability['actor'],'from'=>$capability['from'],'to'=>$capability['to']];
         if ($capability['mission_id']!==$mission || $capability['authorization_digest']!==$chain['authorization']['record_digest']
             || ($capability['commission_id'] ?? null)!==($state['commissions'][$id]['commission_id'] ?? null)
             || $capability['dossier_digest']!==$chain['dossier']['record_digest'] || $capability['target']!==$payload['target']
             || $capability['issuer']!==$state['issuer_public'] || $capability['expires_at']!==$payload['expires_at']
             || !in_array(CanonicalJson::encode($transition),array_map(CanonicalJson::encode(...),$payload['transitions']),true)) throw new \RuntimeException('PMA_CAPABILITY_BINDING_INVALID');
-        $record=$state['lifecycles'][$mission] ?? ['state'=>'AUTHORIZED','history'=>[],'consumed_nonces'=>[]];
+        $record=$state['lifecycles'][$id] ?? [];
+        Generation::requireBinding($record,$binding);
         if (isset($record['consumed_nonces'][$nonce])) throw new \RuntimeException('PMA_REPLAY');
         if (in_array($record['state'],['COMPLETED','FAILED','CANCELLED'],true)) throw new \RuntimeException('PMA_TERMINAL');
         if ($record['state']!==$capability['from']) throw new \RuntimeException('PMA_REQUIRED_STATE');
         if ($capability['action']==='inspect') {
-            $state['inspections'][$mission]=InspectionProcess::run($this->root,$payload);
+            $state['inspections'][$id]=['binding'=>$binding,...InspectionProcess::run($this->root,$payload)];
             $now=time();
             PublicTrust::verify($state['trust'],$payload,$chain['signature'],$now);
             if ($now >= $payload['expires_at']) throw new \RuntimeException('PMA_AUTHORITY_INACTIVE');
         }
         if ($capability['to']==='COMPLETED') {
-            if (!isset($state['inspections'][$mission])) throw new \RuntimeException('PMA_INSPECTION_EVIDENCE_ABSENT');
-            $snapshot=$state['inspections'][$mission];
+            if (!isset($state['inspections'][$id])) throw new \RuntimeException('PMA_INSPECTION_EVIDENCE_ABSENT');
+            $snapshot=$state['inspections'][$id];
+            Generation::requireBinding($snapshot,$binding);
             if ($snapshot['commit_id']!==$payload['target']['commit'] || $snapshot['tree_id']!==$payload['target']['tree']) throw new \RuntimeException('PMA_INSPECTION_EVIDENCE_INVALID');
-            $state['receipts'][$mission]=['authorization_id'=>$id,'mission_id'=>$mission,'dossier_digest'=>$chain['dossier']['record_digest'],
+            $state['receipts'][$id]=['binding'=>$binding,'authorization_id'=>$id,'mission_id'=>$mission,'dossier_digest'=>$chain['dossier']['record_digest'],
                 'commission_id'=>$capability['commission_id'],
                 'trust_fingerprint'=>$state['trust']['fingerprint'],'trust_root_id'=>hash('sha256',$this->root),'operator_identity'=>$state['trust']['identity'],
                 'deployment_isolation_claimed'=>false,'snapshot'=>$snapshot,'completed_at'=>$now];
         }
         $record['state']=$capability['to']; $record['consumed_nonces'][$nonce]=true;
         $record['history'][]=['capability'=>$envelope,'consumed_at'=>$now];
-        $state['lifecycles'][$mission]=$record;
+        $state['lifecycles'][$id]=$record;
+        if (in_array($record['state'],['COMPLETED','FAILED','CANCELLED'],true)) $state['terminal_missions'][$mission]=['authorization_id'=>$id,'state'=>$record['state']];
         return $record;
     }
 
@@ -198,6 +208,11 @@ final class AuthorityOwner
         }
         elseif (in_array($action,['revoke','supersede','cancel'],true) && isset($state['authorizations'][$payload['authorization_id'] ?? ''])) {
             $state['inactive'][$payload['authorization_id']]=$action;
+            if ($action==='cancel') {
+                $aid=$payload['authorization_id'];$mid=$state['authorizations'][$aid]['payload']['mission_id'];
+                // Cancelling an already historical generation cannot cancel its successor.
+                if (($state['current'][$mid] ?? null)===$aid) $state['terminal_missions'][$mid]=['authorization_id'=>$aid,'state'=>'CANCELLED'];
+            }
         } else throw new \RuntimeException('PMA_CONTROL_INVALID');
         $state['control_nonces'][$payload['nonce']]=true;
         return ['status'=>$action,'execution_authority'=>false];
@@ -207,12 +222,18 @@ final class AuthorityOwner
     {
         if (!isset($state['authorizations'][$id])) throw new \RuntimeException('PMA_AUTHORITY_ABSENT');
         $mission=$state['authorizations'][$id]['payload']['mission_id'];
+        $binding=Generation::binding($state['authorizations'][$id]);
+        Generation::requireBinding($state['lifecycles'][$id] ?? [],$binding);
+        if (isset($state['receipts'][$id])) {
+            Generation::requireBinding($state['receipts'][$id],$binding);
+            Generation::requireBinding($state['receipts'][$id]['snapshot'] ?? [],$binding);
+        }
         $currentness='CURRENT';
         try {$this->verify($state,$id,time());} catch (\RuntimeException $error) {$currentness=$error->getMessage();}
-        return ['authorization_id'=>$id,'inactive'=>$state['inactive'][$id] ?? false,
+        return ['authorization_id'=>$id,'binding'=>$binding,'is_current'=>($state['current'][$mission] ?? null)===$id,'inactive'=>$state['inactive'][$id] ?? false,
             'currentness'=>$currentness,'next_action'=>$currentness==='CURRENT'?'Inspect lifecycle and exact commission; terminal missions cannot reopen.':'Fresh dossier and approval required; historical evidence grants no authority.',
-            'lifecycle'=>$state['lifecycles'][$mission] ?? ['state'=>'AUTHORIZED','history'=>[],'consumed_nonces'=>[]],
-            'receipt'=>$state['receipts'][$mission] ?? null,
+            'lifecycle'=>$state['lifecycles'][$id],
+            'receipt'=>$state['receipts'][$id] ?? null,
             'execution_authority'=>false];
     }
 
@@ -248,6 +269,12 @@ final class AuthorityOwner
                 $valid = ftell($handle);
             }
             if (!$bootstrap && !isset($state['trust'])) throw new \RuntimeException('PMA_TRUST_ABSENT');
+            if (isset($state['trust']) && ($state['schema'] ?? '')!==Generation::SCHEMA) throw new \RuntimeException('PMA_STATE_SCHEMA_REQUIRES_OWNER_MIGRATION');
+            foreach (['lifecycles','inspections','receipts','commissions'] as $section) {
+                foreach ($state[$section] ?? [] as $aid=>$record) {
+                    if (!isset($state['authorizations'][$aid])) throw new \RuntimeException('PMA_STATE_SCHEMA_REQUIRES_OWNER_MIGRATION');
+                }
+            }
             $before = CanonicalJson::encode($state);
             $result = $operation($state);
             $after = CanonicalJson::encode($state);

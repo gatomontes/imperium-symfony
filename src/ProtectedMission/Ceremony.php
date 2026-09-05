@@ -16,7 +16,7 @@ final class Ceremony
         self::validateMission($mission,$now);
         if (($state['trust']['revoked'] ?? true) || $now >= $state['trust']['expires_at'] || $now < $state['trust']['not_before']) throw new \RuntimeException('PMA_TRUST_INACTIVE');
         $mid=$mission['mission_id'];
-        if (in_array($state['lifecycles'][$mid]['state'] ?? '',['COMPLETED','FAILED','CANCELLED'],true)) throw new \RuntimeException('PMA_TERMINAL');
+        if (isset($state['terminal_missions'][$mid])) throw new \RuntimeException('PMA_TERMINAL');
         if (count($state['pending'] ?? []) >= 64) throw new \RuntimeException('PMA_PROPOSAL_CAPACITY');
         $predecessor=self::predecessor($state,$mid);
         $challenge='challenge-'.bin2hex(random_bytes(24));
@@ -69,7 +69,7 @@ final class Ceremony
         $predecessor=self::predecessor($state,$mid);
         $activation=['operation'=>$predecessor===null?'INITIAL_AUTHORIZATION':'REPLACE_AUTHORIZATION','expected_predecessor'=>$predecessor];
         if (CanonicalJson::encode($payload['activation'] ?? null)!==CanonicalJson::encode($activation)) throw new \RuntimeException('PMA_STALE_PREDECESSOR');
-        if (in_array($state['lifecycles'][$mid]['state'] ?? '',['COMPLETED','FAILED','CANCELLED'],true)
+        if (isset($state['terminal_missions'][$mid])
             || ($predecessor!==null && ($state['inactive'][$predecessor['authorization_id']] ?? '')==='cancel')) throw new \RuntimeException('PMA_TERMINAL');
         if ($predecessor!==null && isset($state['inactive'][$predecessor['authorization_id']])) throw new \RuntimeException('PMA_AUTHORITY_INACTIVE');
         $d=$payload['dossier']; $r=$pending['review'];
@@ -79,6 +79,7 @@ final class Ceremony
             });
         $aid=$a['authorization_id'];
         $state['authorizations'][$aid]=['payload'=>$payload,'signature'=>$pending['signature'],'dossier'=>$d,'review'=>$r,'authorization'=>$a];
+        $state['lifecycles'][$aid]=['binding'=>Generation::binding($state['authorizations'][$aid]),'state'=>'AUTHORIZED','history'=>[],'consumed_nonces'=>[]];
         if ($predecessor!==null) $state['inactive'][$predecessor['authorization_id']]='amended';
         $state['current'][$payload['mission_id']]=$aid;
         $state['pending'][$id]['status']='DERIVED'; $state['pending'][$id]['authorization_id']=$aid;

@@ -68,7 +68,7 @@ final class ProtectedMissionAuthorityBatch4Test extends TestCase
         try {(new OfflineGitInspector())->inspect($bad);self::fail('missing object');}catch(\RuntimeException $e){self::assertSame('PMA_LOOSE_OBJECT_ABSENT_NO_FETCH',$e->getMessage());}
         self::assertSame($before,$this->hashes($payload['target']['repository']));
         // Test-only corruption cannot manufacture an inspection receipt by moving the state.
-        $mission=$payload['mission_id'];$f->state['lifecycles'][$mission]=['state'=>'INSPECTING','history'=>[],'consumed_nonces'=>[]];$f->save();
+        $f->state['lifecycles'][$f->id]['state']='INSPECTING';$f->save();
         $caps=$f->call('issue',['authorization_id'=>$f->id])['capabilities'];$before=hash_file('sha256',$f->root.'/authority.journal');
         try {$f->call('consume',['capability'=>$caps[2]]);self::fail('completion without proof');}catch(\RuntimeException $e){self::assertSame('PMA_INSPECTION_EVIDENCE_ABSENT',$e->getMessage());}
         self::assertSame($before,hash_file('sha256',$f->root.'/authority.journal'));

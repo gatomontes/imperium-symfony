@@ -48,7 +48,8 @@ final class ProtectedMissionFixture
             if (!is_dir($directory)) mkdir($directory,0700,true);
             file_put_contents($directory.'/'.substr($id,2),gzcompress($raw));return $id;
         };
-        $blob=$put('blob',"Fresh disposable evidence.\n");$tree=$put('tree',"100644 evidence.txt\0".hex2bin($blob));
+        $blob=$put('blob',"Fresh disposable evidence.\n");$other=$put('blob',"Fresh amendment-only evidence.\n");
+        $tree=$put('tree',"100644 amendment.txt\0".hex2bin($other)."100644 evidence.txt\0".hex2bin($blob));
         $commit=$put('commit','tree '.$tree."\nauthor Disposable <test@example.invalid> 1 +0000\ncommitter Disposable <test@example.invalid> 1 +0000\n\nDisposable proof\n");
         return ['repository'=>$repository,'commit'=>$commit,'tree'=>$tree];
     }
