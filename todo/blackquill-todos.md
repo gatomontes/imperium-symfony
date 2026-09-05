@@ -1,3 +1,17 @@
+## Mission amendment authority and evidence binding — selected 2026-09-05
+
+- [ ] Batch 0: reproduce AM01/AM02 and preserve candidate/test evidence.
+- [ ] Batch 1: inert proposals; signed predecessor-bound atomic activation.
+- [ ] Batch 2: exact authorization-generation lifecycle, inspection, receipt and status.
+- [ ] Batch 3: forced process orderings, CLI/PowerShell proof and separate local audit.
+
+Campaign: `docs/next-campaign-mission-amendment-correction.md`.
+Runner: `docs/handoffs/mission-amendment-correction-local-ready.md`.
+Candidate `7deb84b9f687ecb09c93f568464a606f0a602a89` remains preserved and unmerged.
+Prior Batches 0–5 were reported locally completed; independent source review found AM01/AM02.
+Retain the 2665 / 52515 historical result without claiming current-head or deployment proof.
+The older unchecked planning checklist below is historical, not a direction to rerun construction.
+
 ## Protected Mission Authority and Operator Ceremony — selected 2026-09-05
 
 Current campaign: `docs/next-campaign-protected-mission-authority.md`.

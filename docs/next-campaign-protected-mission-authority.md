@@ -1,3 +1,7 @@
+> Superseded local entry: use `docs/handoffs/mission-amendment-correction-local-ready.md`.
+> The completed candidate is preserved for focused AM01/AM02 correction under
+> `docs/next-campaign-mission-amendment-correction.md`. Do not restart this old runner.
+
 # Protected Mission Authority and Operator Ceremony — corrective campaign
 
 `PROTECTED_MISSION_AUTHORITY_CAMPAIGN_SELECTED`
