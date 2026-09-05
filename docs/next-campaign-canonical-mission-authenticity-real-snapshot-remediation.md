@@ -73,7 +73,7 @@ authorization.
 
 Only after a separately supplied Operator authorization artifact, execute the mission against the
 actual authorized Git snapshot. Record verified commit/tree/blob bindings, lifecycle transitions,
-durable capability consumption, findings, evidence and terminal receipt receipt. No target mutation,
+durable capability consumption, findings, evidence and terminal receipt. No target mutation,
 network, provider, credential or remote action is permitted.
 
 ### Batch 5 — adversarial and process proof
