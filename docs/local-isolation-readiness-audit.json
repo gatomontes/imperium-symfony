@@ -1,0 +1,570 @@
+{
+  "schema": "imperium.local-isolation-measurement-readiness-audit/v1",
+  "status": "LOCAL_ISOLATION_MEASUREMENT_READINESS_PACKAGE_READY",
+  "deployment_status": "DEPLOYMENT_ISOLATION_UNPROVED_OPERATOR_SETUP_REQUIRED",
+  "created_utc": "2026-09-05T17:53:57.1772059+00:00",
+  "repository": "E:\\htdocs\\imperium",
+  "origin": "https://github.com/gatomontes/imperium-symfony.git",
+  "branch": "codex/local-isolation-measurement-readiness",
+  "baseline": {
+    "integration_tree": "e30ed2069fdef87e3d580c41f5108f5ccdf23dd9",
+    "main_tree": "ee4b87221e4f9c8e6817718d0a1564ac15fe2b70",
+    "source_tree": "a2d5535dc9ef6e82d02f1225a8066c5de31df245",
+    "integration": "d16c3833c089d4706eafe608603dcb5b0348b12e",
+    "main": "837f2731e705d9aa9737d947b481b57ff0b494f8",
+    "working_tree_clean_at_entry": true,
+    "no_later_preexisting_descendant_in_refs_or_reflogs": true,
+    "applicable_agents_files": [],
+    "source_commit": "574bfc69aebf12b5197f4f808b54896bf02ba142"
+  },
+  "batches": [
+    {
+      "tree": "ec93bef241bc484f07f5c52d547e730ec7ee8af2",
+      "batch": "C0",
+      "commit": "c94742c366735f8f1a8f0b8b57ae3ff64e06cce8"
+    },
+    {
+      "tree": "31134df1ff27308850515f92ddc9ff92a5351821",
+      "batch": "C1",
+      "commit": "e5a0a79709417e69ad8408bf6b0f31160b10853b"
+    },
+    {
+      "tree": "9636c3b560a4aa3d62da9c8bfcbc46684b601db9",
+      "commits": [
+        "4c39c3f6076ff32ee478c60b0997571dab30c8eb",
+        "e8955147760a7144af914cd752edb5d9711f75df",
+        "6bb2628d440b45b881d2d330c61fe3b5b4aab521"
+      ],
+      "batch": "C2"
+    }
+  ],
+  "tested_commit": "6bb2628d440b45b881d2d330c61fe3b5b4aab521",
+  "tested_tree": "9636c3b560a4aa3d62da9c8bfcbc46684b601db9",
+  "tests": {
+    "amendment_powershell": {
+      "result": "MISSION_AMENDMENT_POWERSHELL_PASSED",
+      "command": "pwsh -NoProfile -File tests/Imperium/Runtime/Support/mission_amendment_powershell.ps1"
+    },
+    "interrupted_full_attempts": [
+      "4c39c3f6: exchange reference hash correction",
+      "e8955147: redundant identity/type consistency correction"
+    ],
+    "full": {
+      "duration": "07:22.421",
+      "skips": 0,
+      "tests": 2679,
+      "assertions": 52722,
+      "command": "php vendor/bin/phpunit tests",
+      "transcript": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2/6bb2628d-full.txt"
+    },
+    "packaged_php_focused": {
+      "duration": "00:39.797",
+      "skips": 0,
+      "qualification": "Minimal packaged ini with extension directory relocated to staging; fixture PATH retains Git. Actual protected deployment environment remains owner measurement.",
+      "ini": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2/packaged-rehearsal.ini",
+      "tests": 30,
+      "assertions": 430,
+      "command": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\package-readiness-6bb2628d\\ProtectedMissionPHP\\php.exe vendor/bin/phpunit --filter 'LocalIsolation|ProtectedMissionAuthority|MissionAmendment' tests"
+    },
+    "mission_powershell": {
+      "result": "LOCAL_ISOLATION_DISPOSABLE_REHEARSAL_PASSED",
+      "command": "pwsh -NoProfile -File tests/Imperium/Runtime/Support/local_isolation_powershell.ps1"
+    },
+    "focused": {
+      "duration": "00:52.570",
+      "skips": 0,
+      "tests": 30,
+      "assertions": 430,
+      "command": "php vendor/bin/phpunit --filter 'LocalIsolation|ProtectedMissionAuthority|MissionAmendment' tests",
+      "transcript": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2/6bb2628d-focused.txt"
+    },
+    "old_tests": "All preexisting test methods and expectations retained unchanged, including AM01/AM02 and package receipt. Prior totals remain historical; unchanged conditional race assertion totals vary.",
+    "native": {
+      "handle_rows": 5,
+      "startup_checks": 3,
+      "command": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\package-readiness-6bb2628d\\ProtectedMissionShell\\pwsh.exe -NoProfile -File tests/Imperium/Runtime/Support/local_isolation_native_readiness.ps1",
+      "actual_account_evidence": false,
+      "windows_powershell": "5.1"
+    },
+    "readiness": {
+      "negative_and_recovery_cases": 42,
+      "command": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\package-readiness-6bb2628d\\ProtectedMissionShell\\pwsh.exe -NoProfile -File tests/Imperium/Runtime/Support/local_isolation_readiness.ps1",
+      "actual_account_evidence": false,
+      "valid_rows": 722
+    },
+    "actual_owner_install_and_account_measurements": "NOT_RUN; owner action required, not counted as skipped or passed PHPUnit cases"
+  },
+  "environment": {
+    "token": {
+      "sid": "S-1-5-21-4230689943-3750815333-1810161870-1001",
+      "groups": [
+        "S-1-1-0",
+        "S-1-11-96-3623454863-58364-18864-2661722203-1597581903-1418550975-2793223574-874910464-88001860-3515575777",
+        "S-1-2-0",
+        "S-1-2-1",
+        "S-1-5-11",
+        "S-1-5-113",
+        "S-1-5-15",
+        "S-1-5-21-4230689943-3750815333-1810161870-1006",
+        "S-1-5-32-545",
+        "S-1-5-4",
+        "S-1-5-64-36"
+      ],
+      "administrator_token": false,
+      "administrator_group_present": false
+    },
+    "powershell": "7.6.5",
+    "php": "8.4.14",
+    "utc": "2026-09-05T13:45:06.1490324-04:00"
+  },
+  "package": {
+    "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\package-readiness-6bb2628d",
+    "manifest_sha256": "C0442CFCC4FD68AFF12161FC8C942AFC3E4BD4F01A7336B80A603E341CC9076D",
+    "manifest_entries": 6477
+  },
+  "package_verification": {
+    "result": "PACKAGE_BYTES_VERIFIED_SOURCE_AND_DEPENDENCIES_MATCH_EXCEPT_RECORDED_TEST_CACHE",
+    "manifest_entries": 6477,
+    "code_and_vendor_source_matches": 5771,
+    "unchanged_vendor_files": 4702,
+    "unchanged_original_target_files": 23,
+    "nonexecutable_cache": [
+      {
+        "path": "ProtectedMissionCode/vendor/bin/.phpunit.result.cache",
+        "package_sha256": "b1a537384e72a6269e5a57af8866ddedcee36e9647276e89c530d0fd0cb7d182",
+        "working_sha256": "b377374a38e579a5fac4f022d7365b3cf352a42b2bd5a7fc4e01c627b7dce4db",
+        "original_sha256": "286b5ce1809c3e3f812e24b8295438388a9461adc6156740429f5efb0fa74ac5",
+        "disposition": "Nonexecutable PHPUnit cache; retained manifest bytes, never used as test evidence"
+      }
+    ]
+  },
+  "preservation": {
+    "result": "ORIGINAL_FILES_AND_REVIEW_PRESERVED",
+    "original_files_checked": 19452,
+    "embedded_original_sources_checked": 55,
+    "original_manifest_sha256": "8DAB48F98D147A6ABA9E89260D25082BA5B91AD2C72638F1F10FFB9A449CF6AE",
+    "original_assembler_sha256": "5A5799D5E9A06E36A23806CACC1C7F145901F7C1FB7D223004C4DE2F4B1CE64D",
+    "mismatches": []
+  },
+  "preserved_refs": {
+    "preserved_branch_refs": 45,
+    "main": "837f2731e705d9aa9737d947b481b57ff0b494f8",
+    "useful_mission": "574bfc69aebf12b5197f4f808b54896bf02ba142",
+    "continuation_expected_to_advance": true
+  },
+  "deployment_inventory": {
+    "exists": false,
+    "error_id": "PathNotFound,Microsoft.PowerShell.Commands.GetItemCommand",
+    "result": "PATH_NOT_FOUND"
+  },
+  "historical_source_line_endings": {
+    "path": "E:\\htdocs\\imperium\\docs\\local-isolation-evidence-ledger.json",
+    "historical_raw_sha256": "120575446163186A79D8F640B0DB3235A4AD6B17C73A89187C1318317562FE52",
+    "current_lf_sha256": "38757F5945DC028578D599F00A29E0500D5851C79D0B7E8075DE4139F81B9A5A",
+    "disposition": "Git-normalized text identical; exact historical CRLF bytes remain embedded in unchanged packet"
+  },
+  "policy_rights": {
+    "write-owner": 524288,
+    "write-data": 2,
+    "read-or-list": 1,
+    "delete-child": 64,
+    "append-data": 4,
+    "delete": 65536,
+    "write-dac": 262144
+  },
+  "changed_test_attribution": {
+    "new_php_methods": [
+      "LocalIsolationReadinessTest::testCompleteReadinessAndAdversarialEvidenceThroughPowerShell",
+      "LocalIsolationReadinessTest::testNativeHandlesAndExactStartupRefusal"
+    ],
+    "changed_old_expectations": [],
+    "new_support_files": [
+      "local_isolation_c0.ps1",
+      "local_isolation_readiness.ps1",
+      "local_isolation_native_readiness.ps1",
+      "local_isolation_status_fixture.php"
+    ]
+  },
+  "affected_sources": [
+    {
+      "path": "src/ProtectedMission/InstalledRuntime.php",
+      "sha256": "EBCFA7ABA50AAE8B02106CD93B8023F2A94F4DAA8B9D3487BC80D6CEC1BA7EB7",
+      "git_blob": "d96bfe3efa9bfe50aa0fd784f45ca66c040c32d7"
+    },
+    {
+      "path": "tests/Imperium/Runtime/LocalIsolationReadinessTest.php",
+      "sha256": "27848D686400BD7DC45F65668AD9556B72B764B1B9264D92CB6489690D98F89E",
+      "git_blob": "6384055fc0650225195de13304e907d5554dcd43"
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/local_isolation_c0.ps1",
+      "sha256": "7045CEE11A339EF2469FBCFFED0C03B1B30294965C81C7167F3B8649E5608C30",
+      "git_blob": "cb3031d9db2e80f31a7ed595f503f5a139611ae5"
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/local_isolation_native_readiness.ps1",
+      "sha256": "0F160F2A5B8F3C2B04EC0552C9C10E8309F19F907B4104D431D28FEC30ABCE76",
+      "git_blob": "389f6d99dbc22d6813459feac863c41b1e2fe7dd"
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/local_isolation_readiness.ps1",
+      "sha256": "63DC05E0B2B57F363F36A3A2880CAFC0D9591EAB1C55B68A37649B5A375FBA78",
+      "git_blob": "9372db371429e0ecb9171cc35ff4e761e950b5e1"
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/local_isolation_status_fixture.php",
+      "sha256": "CDB0FE5157C0C2823F4248E74FFCC7B61E03ABE8C088BF43D66F1E01A692B189",
+      "git_blob": "fec72530e6ee4349a58bb9e9cef7484c8e19f765"
+    },
+    {
+      "path": "tools/Assert-ProtectedMissionInstallation.ps1",
+      "sha256": "2E06CCF7D8749918AAB45DF9746EF0EBEBD60F95709BBFDBB76C689AE1CACABF",
+      "git_blob": "65922d5c95b8eb49fc6299e204843942c6e0e708"
+    },
+    {
+      "path": "tools/Build-LocalIsolationReadinessReview.ps1",
+      "sha256": "E2B2A6C78373D3782E63D4518AAC4045C86437182C5515FC2147DD2B5872CF31",
+      "git_blob": "a50e290c732a276cf97e8adbecdf1567dda6c4a2"
+    },
+    {
+      "path": "tools/Collect-LocalIsolationStartup.ps1",
+      "sha256": "851A183A2852B4F821655E052A96C565220149995884B7AA3AE4387D9D6B0A03",
+      "git_blob": "f693d26977017b8a2cbeeae313f7871272513bf5"
+    },
+    {
+      "path": "tools/Import-LocalIsolationMeasurement.ps1",
+      "sha256": "8017ED40ED885EC9F222829F085E65BF5171A04FCDC92F131A754F695F7EB62E",
+      "git_blob": "d69caa7e6a0fd19165f59d950f25b311623f8568"
+    },
+    {
+      "path": "tools/Install-LocalIsolationOwnerPackage.ps1",
+      "sha256": "FE54CC3A95B1641D4F81CF7152BE74BCDFFF727D3078AFDAC7BB45864F66E998",
+      "git_blob": "d6d08018c12408fe652e7a20ac543591c48880f0"
+    },
+    {
+      "path": "tools/Invoke-LocalMission.ps1",
+      "sha256": "6C851B1F4BF6B14113BDA8E215BEFC901B5EFABFFD3077A418A2ECBDFFFCF2A6",
+      "git_blob": "80ea3e364d0e131704f11d53b781a5f412353bd1"
+    },
+    {
+      "path": "tools/LocalIsolationReadiness.ps1",
+      "sha256": "E340D22B94E06D7E8A259BA24AA5554C6CFF6DB0076F6F7F7D1DBC62EF3B7F62",
+      "git_blob": "5bac930315b656cc2bf16331da4e530fbb5dca87"
+    },
+    {
+      "path": "tools/LocalMission.ps1",
+      "sha256": "853E13DD47AA7D801827CECE22C8EDFED3AEDFB42677544D5BF9C9F60D602FDF",
+      "git_blob": "941149b040b00c13c50953b5fc253f49425c283c"
+    },
+    {
+      "path": "tools/New-LocalIsolationMeasurement.ps1",
+      "sha256": "5E72C1D7F99420D6BE7AB60D4AB201909B1A0BB629942FC9383019F1CCAE4ED4",
+      "git_blob": "6808f9778ed26f045ff390b61fea3b7b056c0498"
+    },
+    {
+      "path": "tools/New-LocalIsolationProbePlans.ps1",
+      "sha256": "7039345DFA23457BFDFBF96D9C14844C444AA3846A62D39355E7244B842E3625",
+      "git_blob": "516470531532cfac75fdc5c021c3af77bedeb3f9"
+    },
+    {
+      "path": "tools/Seal-LocalIsolationReadiness.ps1",
+      "sha256": "FF9A84B5AC4BEA83066EF54BD4A07BCC53118F452EAD6677B78B546DA1297AF6",
+      "git_blob": "4a37d6c0d1c78bd12849288d5ce04831dc1f2cc2"
+    },
+    {
+      "path": "tools/Test-LocalIsolationAccess.ps1",
+      "sha256": "5E5F23F1EDCEC80484E78AD00296F94CFEC568C5602EF9E396BB36FA2ED694EA",
+      "git_blob": "5e03b72a1a2645e6d1f18c371a7ef32ee33dccca"
+    },
+    {
+      "path": "tools/Test-LocalIsolationPhase.ps1",
+      "sha256": "1B60ACD33F9D0265464A184130F92400DE18ED4261BBE47567F802DD1E815CE0",
+      "git_blob": "5daf973f6d0279daff90262e7184ad8e5248cd0c"
+    },
+    {
+      "path": "tools/Test-LocalIsolationReadiness.ps1",
+      "sha256": "D708AD47FB4732580B9423ADD98A6FE1B02AE362517D81D619672088A1794991",
+      "git_blob": "1e6a7ac6a480a39b408ea86a6c00c3434963ae37"
+    }
+  ],
+  "unchanged_canonical_dependencies": [
+    {
+      "sha256": "839A106922F9182706D5DE7B59258013F2B78BE683567703841B449DE1805034",
+      "unchanged_from_original_packet": true,
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\package-readiness-6bb2628d\\ProtectedMissionCode\\src\\Bootstrap\\CanonicalJson.php"
+    },
+    {
+      "sha256": "5E054209364E3663203D7F6A8B6DA3F3B670FA7728462ED94563FC84339096DD",
+      "unchanged_from_original_packet": true,
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\package-readiness-6bb2628d\\ProtectedMissionCode\\src\\Imperium\\Runtime\\Curia\\ProceedingStore.php"
+    },
+    {
+      "sha256": "9960C414CFACDC308A4FCF3556DA7A6BAB8763B1510A3FC94F3B849926D4A62F",
+      "unchanged_from_original_packet": true,
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\package-readiness-6bb2628d\\ProtectedMissionCode\\src\\Imperium\\Runtime\\Curia\\PlanningDossierAssemblyService.php"
+    },
+    {
+      "sha256": "28195DCA980B54575D23E7FEB717AABEE185749565D68365DDD4DA0F652DD91C",
+      "unchanged_from_original_packet": true,
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\package-readiness-6bb2628d\\ProtectedMissionCode\\src\\Imperium\\Runtime\\Curia\\ImperatorPlanningDossierReviewService.php"
+    },
+    {
+      "sha256": "5FAA2DD3B95AF94E1D48595C35D2F539A49A6F900E2E18B98887E1E3D85BDF47",
+      "unchanged_from_original_packet": true,
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\package-readiness-6bb2628d\\ProtectedMissionCode\\src\\Imperium\\Runtime\\Curia\\MissionAuthorizationDerivationService.php"
+    },
+    {
+      "sha256": "2F82DB300EC55DF5B8AAFD314873FF431DC9D9A359E673EAA8D995830D6C9CBE",
+      "unchanged_from_original_packet": true,
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\package-readiness-6bb2628d\\ProtectedMissionCode\\vendor\\autoload.php"
+    }
+  ],
+  "owner_runbook": "E:\\htdocs\\imperium/docs/local-isolation-readiness-owner-runbook.md",
+  "review": {
+    "original_packet": "E:\\htdocs\\imperium/var/local-isolation-evidence/independent-review-20260905T141631Z/local-isolation-independent-review.md",
+    "digest_binding": "Derivative manifest binds exact compiled Markdown and source bytes; no self-referential audit digest.",
+    "directory": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\independent-review-readiness-6bb2628d",
+    "derivative_manifest": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\independent-review-readiness-6bb2628d/review-packet-manifest.json",
+    "markdown": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\independent-review-readiness-6bb2628d/local-isolation-readiness-independent-review.md"
+  },
+  "target": {
+    "tree": "21780452f5815d4342f8f5c96923b2b276d9930a",
+    "budget": {
+      "bytes": 4000000,
+      "files": 15,
+      "findings": 15,
+      "seconds": 60
+    },
+    "paths": 15,
+    "real_mission_executed": false,
+    "commit": "a1fc4f27634319f2a22df2e6a1b370f70cdb98bf",
+    "original_objects": 23,
+    "inflated_bytes": 448476
+  },
+  "previous_packages": {
+    "disposition": "Preserved historical evidence; do not install. package-preaudit/package-reviewed and readiness-4c39c3f6/e8955147 also retained and superseded.",
+    "original": "package-47bcc44a",
+    "original_manifest_sha256": "8DAB48F98D147A6ABA9E89260D25082BA5B91AD2C72638F1F10FFB9A449CF6AE"
+  },
+  "remaining_owner_inputs": [
+    "Fresh reviewed standard Runtime/Caller accounts and actual SIDs/groups",
+    "Actual pre/post/current handle and exact native startup evidence",
+    "Independently confirmed Operator public trust/fingerprint and owner collection/transport facts",
+    "Exact fresh dossier and authentic independently held-key signature"
+  ],
+  "limits": [
+    "Consistency of trusted observations, not cryptographic authentication of producer logs",
+    "Current evidence expires after 15 minutes and new exchange outputs require remeasurement",
+    "Historical phases remain package/installation/session bound; no reenrollment/reset to refresh history",
+    "Trusted OS, administrator, Runtime, independent signing and human transport remain premises",
+    "Windows and local loose SHA-1 only; bounded journal capacity; no migration; hardware power loss unmeasured",
+    "Receipt bytes and generation do not certify analytical truth or independent acceptance"
+  ],
+  "prohibited_actions_not_performed": [
+    "Real account creation",
+    "Real installation or trust enrollment",
+    "Real password/private-key custody",
+    "Real mission or provider invocation",
+    "Inspection target mutation",
+    "Journal reset/migration",
+    "Implementation publication or main merge",
+    "Branch deletion"
+  ],
+  "local_artifacts": [
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\4c39c3f6-audit-disposition.txt",
+      "sha256": "79E503079117C6DD9F56659412040EE29AD486EE87C112674CA8DA0AD04AD30B",
+      "bytes": 143
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\6bb2628d-amendment-powershell.txt",
+      "sha256": "DAF27BD0A7E1B3FAA3CFA60185B68A4207D4B4C25D0BC99ECAA2284911224C73",
+      "bytes": 25462
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\6bb2628d-focused.txt",
+      "sha256": "86491F636FDCEB91CC5E7609EA7C664EEC0F82D8B79EFDAE31B065692FB6FB35",
+      "bytes": 239
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\6bb2628d-full.txt",
+      "sha256": "1E64192023A19B14E19C0D6D1AC410BF9147CA01AA2A0CD694EE01C37502BCBF",
+      "bytes": 3770
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\6bb2628d-mission-powershell.txt",
+      "sha256": "5E4675856CFB4B709F81627156DEE91B160E6BF13D34E4DB48A87BE0BFCC4E63",
+      "bytes": 28615
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\6bb2628d-native-powershell.json",
+      "sha256": "75B9BDE3B1103A22E9D2965E637A3316654FDA37880B9ED7F1A4201C0BC6499A",
+      "bytes": 320
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\6bb2628d-package-build.txt",
+      "sha256": "2404594C20159A83B215A24CC7FF3A001A9DA59DCEC845C17C5EB143407455D2",
+      "bytes": 340
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\6bb2628d-packaged-php-focused.txt",
+      "sha256": "263B01D75091C18566F6FE3ABDEABBD39BA9CA2BC146484E87090DCBF2C53A94",
+      "bytes": 239
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\6bb2628d-readiness-powershell.json",
+      "sha256": "FFA165EE4ECCD06A3F5E712B075B859670B4D3540F343C4F4FD5DFD235C3BD71",
+      "bytes": 1584
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\deployment-inventory.json",
+      "sha256": "29E95E8EA070E3486A40019445612657643C16E5C35123292139BDCE0780F926",
+      "bytes": 132
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\e8955147-audit-disposition.txt",
+      "sha256": "FD254FE4ADC6A7555B58E62E3C56DF8C8C151F0DA677191CCD807E2DAB65AC63",
+      "bytes": 171
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\e8955147-focused.txt",
+      "sha256": "085DF969916185E8F51CC13F16DF026AB6D66C16DC23CCF588FC9EA4687E45A9",
+      "bytes": 239
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\e8955147-full.txt",
+      "sha256": "4C9FCD3C81B98ECE56DB6401D580F6DCD28D18EB5305D0E1D4EA0C611E9AE13A",
+      "bytes": 785
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\e8955147-package-build.txt",
+      "sha256": "423FA2C803837A959482B46BEFF97354576AC74E132F5E54CEA2445FC076AB8B",
+      "bytes": 340
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\final-focused.txt",
+      "sha256": "BC17FAD8512D065998532BB5EB9E51859FDBA3FAA5712C76AD7CC581E07B56CE",
+      "bytes": 239
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\final-full.txt",
+      "sha256": "B69CDDC8FBECC06D2F8ACF8AA11CA0ED1032521339A62403A319EDCAC985F5D5",
+      "bytes": 690
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\final-package-build.txt",
+      "sha256": "BFD53DDC06E12D2C316F5280488D8AC526887A9730462AE7C1C3D5C00767FA2E",
+      "bytes": 340
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\historical-source-line-endings.json",
+      "sha256": "687A1DBD57BD4AD846455EA85F0409ADA4C799013F166CF35926A04DC8CA0F85",
+      "bytes": 417
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\installer-checks.json",
+      "sha256": "369F8698D1F834310B432C5718B33AA1766643150BEB4C5DF06A0CEF9E35D522",
+      "bytes": 153
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\owner-installer-whatif.txt",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "bytes": 0
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\package-byte-verification.json",
+      "sha256": "08B18C2730E818DBF099CD8F2938AEA0EC64FC4FF3F79E15A1D2B8FF46DE0BB5",
+      "bytes": 305
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\package-identity.json",
+      "sha256": "2671027192141F815BB35CDDBE60A2D235EFF59FA242C05D6D216E1DE7C8E5A9",
+      "bytes": 218
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\package-source-consistency-verified.json",
+      "sha256": "76674F820DE831D80AFAC48710C39ADAF7C0C5BB4D17CD61B867B2947AD79441",
+      "bytes": 791
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\package-source-consistency.json",
+      "sha256": "2DE87FE35A92E47AB81B6D7F8CE1CFE21E96A2E90C878D1D6E771378C4671298",
+      "bytes": 148
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\packaged-rehearsal.ini",
+      "sha256": "115DF84FD8F2CCF0FB7F17372CA7B6679DCB2FA8F59D7F0C3D4E6CD95FC48578",
+      "bytes": 338
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\phpunit-cache-final.json",
+      "sha256": "B377374A38E579A5FAC4F022D7365B3CF352A42B2BD5A7FC4E01C627B7DCE4DB",
+      "bytes": 452248
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\powershell-parse.json",
+      "sha256": "C8A2E96CCF3A3996E799E47290B22904A9AC27170D258D118F6DC228A2605364",
+      "bytes": 37
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\preservation-result.json",
+      "sha256": "3C6C8EFD6F155F7EA0F0FA420557BB7B83DEBE49D728DDB0D2AE21A51A79B2BB",
+      "bytes": 424
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\preservation-verified.json",
+      "sha256": "8D1EA60FCAC0A15B82812A9DA964048B5C1D5F50ADA61FEA70F377279D5AFA90",
+      "bytes": 360
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\reference-before-full.php",
+      "sha256": "1EF966259713D3BEB1949AE134C1454A5A8AEED664BFCE780881FF2A8A37F65B",
+      "bytes": 75538
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\reference-generated-4c39c3f6.diff",
+      "sha256": "4B44E8E6B50C985F49C686B63C2C7683E7DDEE830E80530D1E80EBD72BC22EBD",
+      "bytes": 1689
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\reference-generated-4c39c3f6.php",
+      "sha256": "2B3B9E9B424C7981E1857EB3A95B990BF8A599663A1234376D2AAB68C1B151D5",
+      "bytes": 75835
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\reference-generated-6bb2628d.diff",
+      "sha256": "4B44E8E6B50C985F49C686B63C2C7683E7DDEE830E80530D1E80EBD72BC22EBD",
+      "bytes": 1689
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\reference-generated-6bb2628d.php",
+      "sha256": "2B3B9E9B424C7981E1857EB3A95B990BF8A599663A1234376D2AAB68C1B151D5",
+      "bytes": 75835
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\reference-generated-e8955147.diff",
+      "sha256": "4B44E8E6B50C985F49C686B63C2C7683E7DDEE830E80530D1E80EBD72BC22EBD",
+      "bytes": 1689
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\reference-generated-e8955147.php",
+      "sha256": "2B3B9E9B424C7981E1857EB3A95B990BF8A599663A1234376D2AAB68C1B151D5",
+      "bytes": 75835
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\refs-verified.json",
+      "sha256": "BE1C48677582AE70B91ED1A2A6CD6BCC1E51E4DCD8BF2EFA3AA894E5F5E1B8D5",
+      "bytes": 202
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\test-environment.json",
+      "sha256": "8E11DEA659658777AAF7884FD68C2A1952CE2608DCD7AD9E97E189A986513DCF",
+      "bytes": 630
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\readiness-c2\\verify-preservation.php",
+      "sha256": "256E9CABEF7D1A416421FC696AFB3A0B75980BC0A77577BFFDED2C462D195F90",
+      "bytes": 2085
+    }
+  ]
+}

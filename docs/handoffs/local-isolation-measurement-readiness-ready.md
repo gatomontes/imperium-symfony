@@ -1,3 +1,16 @@
+# Local completion — owner evidence and signature remain
+
+`LOCAL_ISOLATION_MEASUREMENT_READINESS_PACKAGE_READY`
+
+C0–C2 are complete locally. Tested code: 6bb2628d440b45b881d2d330c61fe3b5b4aab521.
+Full suite: 2679 tests / 52722 assertions / zero skips. Current setup/resume:
+`docs/local-isolation-readiness-owner-runbook.md`. Exact package, review paths,
+lineage, commands and evidence: `docs/local-isolation-readiness-audit.json` and
+`docs/local-isolation-readiness-terminal-audit.md`. Preserve all packages/branches;
+actual-account isolation and authentic parent Batches 3–5 remain pending.
+
+## Preserved selection instructions
+
 # Local runner — isolation measurement and readiness
 
 Read completely:

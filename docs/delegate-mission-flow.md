@@ -1,5 +1,12 @@
 # Current continuation: isolation measurement and readiness correction
 
+Local C0–C2 complete: `LOCAL_ISOLATION_MEASUREMENT_READINESS_PACKAGE_READY`.
+Audited code 6bb2628d440b45b881d2d330c61fe3b5b4aab521; full 2679 / 52722,
+zero skips. Fresh package, exact commands and owner resume are in
+`docs/local-isolation-readiness-audit.json` and
+`docs/local-isolation-readiness-owner-runbook.md`. Actual-account isolation,
+authentic signature and parent Batches 3–5 remain pending. Prior records follow.
+
 `LOCAL_ISOLATION_MEASUREMENT_READINESS_CONTINUATION_SELECTED`
 
 Independent package review accepted the local owner package subject to LI01
