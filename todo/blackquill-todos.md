@@ -1,3 +1,20 @@
+## Protected scratch workspace correction — current
+
+- [x] Independent packet review: hashes match; IS03 permission conflict identified.
+- [ ] S0: reproduce denied scratch creation under disposable native Windows ACLs.
+- [ ] S1: correct workspace, preserve reference protection, prove real ceremony and recovery.
+- [ ] S2: audit committed code, rebuild fresh package and owner review packet.
+- [ ] Resume parent Batches 3–5 after review and authentic owner prerequisites.
+
+Campaign: docs/next-campaign-local-isolation-scratch-correction.md.
+Review: docs/local-isolation-scratch-permission-review.md.
+Runner: docs/handoffs/local-isolation-scratch-correction-ready.md.
+The previous C0–C2 results remain historical local evidence; LI01/LI02 are
+substantially addressed. IS03 blocks installation acceptance. Preserve both
+earlier packages and all tests; no native-success claim from synthetic inventory.
+
+## Historical checklists
+
 ## Isolation measurement and readiness correction — selected 2026-09-05
 
 - [x] Independently verify packet and embedded-source/manifest hashes; record LI01/LI02.
