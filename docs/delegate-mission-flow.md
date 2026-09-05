@@ -15,8 +15,9 @@ from caller-asserted provenance, its authority-bearing writer accepts a caller-s
 its repository mission inspects synthetic bytes merely labeled with a real SHA, and its Fiber proof
 contains no concurrent suspension.
 
-The corrective campaign starts from accepted `main` at
-`2527b33925bf3ef47d029786e60a6aefe752737b`. Preparation Batch 0 and
+The corrective campaign enters from documentation-only merged `main` at
+`4b0eddee3410d74f9931963b460e5efe8c401e0f`; the accepted runtime implementation baseline beneath
+it remains `2527b33925bf3ef47d029786e60a6aefe752737b`. Preparation Batch 0 and
 implementation Batches 1–3 may run locally. The agent must then stop and present an approval-ready
 mission dossier for a distinct human Operator action. It may not authorize or execute the reference
 mission itself.
