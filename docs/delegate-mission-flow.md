@@ -1,3 +1,29 @@
+# Current continuation: protected mission authority and Operator ceremony
+
+`PROTECTED_MISSION_AUTHORITY_CAMPAIGN_SELECTED`
+`LOCAL_IMPLEMENTATION_BATCHES_0_THROUGH_5_AUTHORIZED`
+`PREVIOUS_BATCH_3_CANDIDATE_QUARANTINED`
+`REAL_OPERATOR_ENROLLMENT_AND_MISSION_EXECUTION_NOT_AUTHORIZED`
+`BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
+
+Current campaign: `docs/next-campaign-protected-mission-authority.md`.
+Current local runner: `docs/handoffs/protected-mission-authority-local-ready.md`.
+Review: `docs/canonical-mission-authority-post-batch-3-review.md`.
+
+The candidate at `8df34679beab0ba8699a68fdd458570bf658c4c8` is preserved, not merged.
+Its Operator refusal is accepted; its raw-key custody, public lifecycle writer and
+currentness/consumption boundary require correction. Its old tests are historical evidence,
+not proof of a new implementation. The missing approval ceremony must be implemented end to end.
+
+Current flow: preserve and reproduce (0), enforce custody (1), atomic canonical consumption (2),
+implement ceremony (3), prove application/process/test mission (4), local audit (5).
+Then STOP for independent review and genuine deployment-owner/Operator setup.
+Real approval and real mission execution remain separately gated.
+No local implementation publication, main change or branch deletion is authorized.
+
+The earlier continuation blocks below are historical. They do not supersede this selection
+or authorize resuming the quarantined real reference mission.
+
 # Current continuation: canonical mission authenticity and real snapshot remediation
 
 `CANONICAL_MISSION_AUTHENTICITY_REAL_SNAPSHOT_REMEDIATION_SELECTED`

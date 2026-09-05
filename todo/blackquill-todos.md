@@ -1,3 +1,20 @@
+## Protected Mission Authority and Operator Ceremony — selected 2026-09-05
+
+Current campaign: `docs/next-campaign-protected-mission-authority.md`.
+Local runner: `docs/handoffs/protected-mission-authority-local-ready.md`.
+
+- [ ] Batch 0: preserve previous test/evidence; reproduce source-review gaps; define enforced threat model.
+- [ ] Batch 1: protect trust and signing custody at an actual boundary.
+- [ ] Batch 2: close direct lifecycle mutation and couple currentness to consumption.
+- [ ] Batch 3: implement and exercise the complete Operator ceremony with disposable test identities.
+- [ ] Batch 4: prove application wiring, real process races and one test-only Git mission.
+- [ ] Batch 5: separately sequenced local audit and executable human handoff.
+
+The prior branch at `8df34679beab0ba8699a68fdd458570bf658c4c8` remains quarantined.
+Preserve its passing tests as limited historical evidence and add the missing negative proofs.
+Do not reuse its pending dossier, test trust or capabilities. No real mission or live Batch 7.
+Current local work is authorized through Batch 5 only; publication and real Operator setup are separate.
+
 ## Canonical Native Effect Reconciliation Shared-Exclusion Remediation — selected 2026-09-04
 
 Current campaign:

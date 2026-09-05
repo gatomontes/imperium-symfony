@@ -1,3 +1,7 @@
+> Historical selection, superseded by `docs/next-campaign-protected-mission-authority.md`.
+> Use `docs/handoffs/protected-mission-authority-local-ready.md` for the current run.
+> Preserve the previous candidate/test evidence; do not resume its blocked real Batch 4.
+
 # Next campaign — Canonical Mission Authenticity and Real Snapshot Remediation
 
 `CANONICAL_MISSION_AUTHENTICITY_REAL_SNAPSHOT_REMEDIATION_SELECTED`
