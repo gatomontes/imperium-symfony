@@ -1,3 +1,13 @@
+# Current owner-action package — 2026-09-05
+
+LOCAL_ISOLATION_PACKAGE_READY_AWAITING_OWNER_ACTION.
+The exact prepared deployment/mission sequence is docs/local-isolation-owner-runbook.md;
+package hashes and tested commit are in docs/local-isolation-evidence-ledger.json.
+Full local audit: 2677 tests / 52713 assertions, zero skips, at
+47bcc44a8fc0540bef855d27ba71abaebb452c84. This is disposable/local evidence only.
+Actual Runtime/caller setup and signing remain owner actions. Use the new runbook's
+explicit PHP/environment and PowerShell 7.5+ JSON handling. Keep historical guidance below.
+
 # Current campaign context — 2026-09-05
 
 The protected ceremony and amendment correction were integrated by PR #759 at

@@ -1,0 +1,31 @@
+{
+  "result": "LOCAL_ISOLATION_DISPOSABLE_REHEARSAL_PASSED",
+  "proof_root": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-local-isolation-7030e881edd345218ab93c5849f6bb80",
+  "same_user": true,
+  "actual_deployment_isolation": false,
+  "progress": [
+    "AUTHORIZED",
+    "ADMITTED",
+    "INSPECTING",
+    "COMPLETED"
+  ],
+  "verified": {
+    "result": "PUBLIC_RECEIPT_BYTES_AND_GENERATION_VERIFIED",
+    "generation_id": "36e6ab4e34a3fb8be50a78ab4e7871d4f2497bafbb1694ce2f122173e627b40f",
+    "authorization_id": "mission-authorization-f1791983168e719743a4",
+    "target_commit": "138c17964ed7ddd58c987be62c484e34b148791e",
+    "target_tree": "fddf0a3c31a72412026fe586fb6082e8dceac50c",
+    "files": 15,
+    "object_bytes_read": 5510,
+    "target_manifest_sha256": "1bf4b5a455579b7a807bb34986d6f9cb96613c78459ee2d42c8d9a5b7ef029d5",
+    "isolation_proved": false,
+    "semantic_conclusions_certified": false,
+    "limit": "Receipt is not independently signed; issuer identity and elapsed deadline rely on recorded trusted Runtime provenance. Public reconstruction detects inconsistent bindings/bytes, not a compromised Runtime fabricating a consistent transcript."
+  },
+  "resume_derived_and_completed": true,
+  "uncertain_attempt_refused_without_journal_change": true,
+  "native_canary_denial": true,
+  "absence_is_not_denial": true,
+  "target_unchanged": true,
+  "analytical_report": "No semantic analysis of real target performed in rehearsal."
+}

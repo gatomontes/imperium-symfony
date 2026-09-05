@@ -1,0 +1,286 @@
+{
+  "status": "LOCAL_ISOLATION_PACKAGE_READY_AWAITING_OWNER_ACTION",
+  "deployment_status": "DEPLOYMENT_ISOLATION_UNPROVED_OPERATOR_SETUP_REQUIRED",
+  "branch": "codex/local-isolation-useful-mission",
+  "repository": "https://github.com/gatomontes/imperium-symfony.git",
+  "baseline": {
+    "main": "ad9518acb095f69bbea4fef19cf383a44286c077",
+    "selection_merge": "ad9518acb095f69bbea4fef19cf383a44286c077",
+    "clean_at_entry": true,
+    "accepted_implementation": "a1fc4f27634319f2a22df2e6a1b370f70cdb98bf",
+    "accepted_is_ancestor": true,
+    "main_unchanged": true
+  },
+  "batches": [
+    {
+      "batch": 0,
+      "status": "COMPLETE",
+      "commit": "b88baf065bb60906a298f88a12ad88489161807c"
+    },
+    {
+      "batch": 1,
+      "status": "COMPLETE",
+      "commit": "962905a8382fbeff8651f13d996fb54ca98e716c"
+    },
+    {
+      "batch": 2,
+      "status": "COMPLETE",
+      "commits": [
+        "c6f1cd81d8d5dfcc3d5d7b0aa94f7d53a5d33cb3",
+        "47bcc44a8fc0540bef855d27ba71abaebb452c84"
+      ]
+    },
+    {
+      "batch": 3,
+      "status": "AWAITING_OWNER_SETUP_AND_ACTUAL_ACCOUNT_MEASUREMENTS"
+    },
+    {
+      "batch": 4,
+      "status": "AWAITING_ACTUAL_ISOLATION_AND_AUTHENTIC_SIGNATURE"
+    },
+    {
+      "batch": 5,
+      "status": "AWAITING_REAL_RECEIPT_AND_SEPARATE_ANALYSIS"
+    }
+  ],
+  "tested_commit": "47bcc44a8fc0540bef855d27ba71abaebb452c84",
+  "tested_tree": "176246497348d0f71be5cdedd6c404d8d523b44e",
+  "later_commit": "Documentation and public evidence only; exact completion SHA reported in task final answer",
+  "environment": {
+    "os": "Windows",
+    "php": "8.4.14",
+    "powershell": "7.6.5",
+    "volumes": "C: and E: fixed NTFS",
+    "same_user_rehearsal": true,
+    "actual_runtime_caller_setup_performed": false
+  },
+  "tests": {
+    "full": {
+      "command": "php vendor/bin/phpunit tests",
+      "tests": 2677,
+      "assertions": 52713,
+      "skips": 0,
+      "duration": "07:44.435",
+      "transcript": "var/local-isolation-evidence/audit-final-full.txt"
+    },
+    "focused": {
+      "command": "php vendor/bin/phpunit --filter 'LocalIsolationPackage|ProtectedMissionAuthority|MissionAmendment' tests",
+      "tests": 28,
+      "assertions": 419,
+      "skips": 0,
+      "transcript": "var/local-isolation-evidence/audit-final-focused.txt"
+    },
+    "packaged_php_focused": {
+      "tests": 28,
+      "assertions": 419,
+      "skips": 0,
+      "qualification": "Same minimal ini; extension directory relocated to disposable staging for this test. Actual fixed-path environment unmeasured.",
+      "transcript": "var/local-isolation-evidence/audit-final-packaged-php-focused.txt"
+    },
+    "powershell": "LOCAL_ISOLATION_DISPOSABLE_REHEARSAL_PASSED",
+    "amendment_powershell": "MISSION_AMENDMENT_POWERSHELL_PASSED",
+    "actual_account_tests": "NOT_RUN_OWNER_ACTION_REQUIRED",
+    "earlier_full_attempt": "c6f1cd8 interrupted before completion for verifier correction; not a passing result"
+  },
+  "package": {
+    "path": "E:/htdocs/imperium/var/local-isolation-evidence/package-47bcc44a",
+    "manifest": "docs/local-isolation-package-manifest.json",
+    "manifest_sha256": "8DAB48F98D147A6ABA9E89260D25082BA5B91AD2C72638F1F10FFB9A449CF6AE",
+    "installed_file_count": 6467,
+    "total_manifest_files": 6469,
+    "runtime_build": "47bcc44a8fc0540bef855d27ba71abaebb452c84",
+    "php_binary_sha256": "56b481ef3eeb9197fb701f989632b6d5d3a4e7a0c78362e93c7a2b5ac2cb2bbf",
+    "php_ini_sha256": "04defd48944bf432158d38051f1fe0da4bb2890e12d33d1f92789f48c7d5529e",
+    "powershell_binary_sha256": "362a356ce7f0940ec74f73a8fc2c990a2cc24a38a11c90bbd8eca947110ad139",
+    "autoload_sha256": "2f82db300ec55df5b8aafd314873ff431dc9d9a359e673eaa8d995830d6c9cbe",
+    "composer_lock_sha256": "4AB52C72C931BCC945385CDBAE48DD9AE3F192E4C207C59A7783E4CF38B8E6E9",
+    "hashes_rechecked_after_pause": true,
+    "installation_applied": false,
+    "whatif_is_not_isolation": true,
+    "preserved_earlier_candidates": [
+      "package-preaudit",
+      "package-reviewed"
+    ]
+  },
+  "target": {
+    "commit": "a1fc4f27634319f2a22df2e6a1b370f70cdb98bf",
+    "tree": "21780452f5815d4342f8f5c96923b2b276d9930a",
+    "paths": [
+      "docs/delegate-mission-flow.md",
+      "docs/protected-mission-operator-runbook.md",
+      "docs/next-campaign-mission-amendment-correction.md",
+      "docs/handoffs/mission-amendment-correction-local-audit-complete.md",
+      "bin/protected-mission.php",
+      "src/ProtectedMission/Cli.php",
+      "src/ProtectedMission/InstalledRuntime.php",
+      "src/ProtectedMission/AuthorityOwner.php",
+      "src/ProtectedMission/Ceremony.php",
+      "src/ProtectedMission/Generation.php",
+      "src/ProtectedMission/OfflineGitInspector.php",
+      "src/ProtectedMission/InspectionProcess.php",
+      "tools/ProtectedMission.ps1",
+      "tools/Install-ProtectedMission.ps1",
+      "tools/Assert-ProtectedMissionInstallation.ps1"
+    ],
+    "distinct_original_id_objects": 23,
+    "blob_bytes": 239613,
+    "inflated_bytes_with_repeated_trees": 448476,
+    "budget": {
+      "max_files": 15,
+      "max_findings": 15,
+      "max_bytes": 4000000,
+      "max_seconds": 60
+    },
+    "inventory": "docs/local-isolation-target-manifest.json",
+    "derivation": "Local original cat-file bytes with lazy fetch and replacements disabled; new compressed files without shared objects/hardlinks",
+    "additional_blob_identity_check": "All 15 matched independent git ls-tree",
+    "actual_mission_executed": false,
+    "staging_isolation_proved": false
+  },
+  "rehearsal": {
+    "public_artifact": "docs/local-isolation-rehearsal.json",
+    "same_user": true,
+    "actual_isolation": false,
+    "native_canary_denial": true,
+    "absence_not_denial": true,
+    "uncertain_attempt_refused": true,
+    "derived_and_terminal_resume": true,
+    "fixture_receipt_verified": true,
+    "real_receipt": null,
+    "semantic_conclusions_certified": false
+  },
+  "owner_runbook": "docs/local-isolation-owner-runbook.md",
+  "terminal_audit": "docs/local-isolation-terminal-audit.md",
+  "analytical_report": {
+    "status": "NOT_EXECUTED_AWAITING_OWNER_SETUP_AND_AUTHORIZATION",
+    "specification": "docs/local-isolation-report-template.md",
+    "zero_findings_claimed": false
+  },
+  "previous_tests": {
+    "disposition": "All previous methods RETAIN_UNCHANGED",
+    "new_php_methods": 2,
+    "new_support_files": [
+      "tests/Imperium/Runtime/Support/local_isolation_fixture.php",
+      "tests/Imperium/Runtime/Support/local_isolation_powershell.ps1"
+    ],
+    "historical_full": "2675 / 52696 at 2a2b746feb9c66c961033ffafcf961f3bb49c4b5 remains historical",
+    "AM01_AM02_and_fresh_amendment": "Retained and passed",
+    "prior_transcript_hashes_rechecked": 4,
+    "prior_branch_refs_unchanged": true
+  },
+  "local_artifacts": [
+    {
+      "path": "var/local-isolation-evidence/audit-final-full.txt",
+      "sha256": "CE1ED3C6582BC4FE8FC717F894213CDCE261CF141E64EC3C908C68C2DDFED4E4"
+    },
+    {
+      "path": "var/local-isolation-evidence/audit-final-focused.txt",
+      "sha256": "523238AE784B383C2EA6B1E6237FBB4CE8553A61DF5DF1D8D2026226819FE0CC"
+    },
+    {
+      "path": "var/local-isolation-evidence/audit-final-packaged-php-focused.txt",
+      "sha256": "FEEDFC09F3779A1ACD09CB9F90CC50DCD7D76B242E767C3DC4AA65C2A153ADEE"
+    },
+    {
+      "path": "var/local-isolation-evidence/audit-final-powershell.txt",
+      "sha256": "2D4AE92CFDDC3E3C6355923926167F64D7EEAC816087E6C38DE59202F04C8955"
+    },
+    {
+      "path": "var/local-isolation-evidence/audit-final-amendment-powershell.txt",
+      "sha256": "3E0CE20DD179846C61371CD92989AE14EF122AA4A4419800443E16053F094303"
+    },
+    {
+      "path": "var/local-isolation-evidence/audit-final-package-consistency.json",
+      "sha256": "1DCAF9AA655519C92D00CC6B601ED7B04BAC569D487C3E3B81484912FBBFD45B"
+    },
+    {
+      "path": "var/local-isolation-evidence/audit-final-installer-checks.json",
+      "sha256": "217B4ABA50D6387FBB6F3342E94F8B1F82162258CC9C77BA348B60E38D252AE4"
+    },
+    {
+      "path": "var/local-isolation-evidence/audit-final-powershell-parse.json",
+      "sha256": "551C9234DF5956EFD9FD9708D67D15D5189D5EF357F046EA6536E8542D38394B"
+    },
+    {
+      "path": "var/local-isolation-evidence/audit-final-generated-reference.diff",
+      "sha256": "4B44E8E6B50C985F49C686B63C2C7683E7DDEE830E80530D1E80EBD72BC22EBD"
+    },
+    {
+      "path": "var/local-isolation-evidence/audit-public-content-review.json",
+      "sha256": "1C0D253877E35D84D2C830C73E48A75D413F178AAAABCB93C4188B2860B7D200"
+    },
+    {
+      "path": "var/local-isolation-evidence/audit-preserved-refs.json",
+      "sha256": "76FF8C4A6A63A42B7A47F358499005DB4EB81E987279907FF921557804D6C549"
+    },
+    {
+      "path": "var/local-isolation-evidence/historical-hashes.json",
+      "sha256": "F841A66CD3C2843B229B44337A083616A6E7786EA7C67226F9490D5ED24CAB1A"
+    },
+    {
+      "path": "var/local-isolation-evidence/target-git-ls-tree.txt",
+      "sha256": "656CD37D4A48D912661C7524A7B2CCD82D94118F0035409A6CC7A3A345AD8492"
+    },
+    {
+      "path": "var/local-isolation-evidence/resume-package-consistency.json",
+      "sha256": "16C1C0EFA4A4BF4160F92B72C4FE0999B7AA6F6B828A122CB4574DA1A53C64AD"
+    },
+    {
+      "path": "var/local-isolation-evidence/c6f1cd8-full-interrupted-verifier-review.txt",
+      "sha256": "A4D95CD8269C2C0FFF4146E92D1ED14E62CD7F50C82DCF4FC20AEE856BB26A67"
+    },
+    {
+      "path": "var/local-isolation-evidence/c6f1cd8-full-disposition.txt",
+      "sha256": "248F136AF924E9FAAA8B8CA198531C8C6B4F7D4A9C8E1B4B429084A82293EB35"
+    },
+    {
+      "path": "var/local-isolation-evidence/batch-1-powershell.txt",
+      "sha256": "A0F5A481867E16C00B580510FB8BA5BD2BB06FBDEE2D2DAC3259E0D9E82C2B22"
+    },
+    {
+      "path": "var/local-isolation-evidence/batch-1-powershell-corrected.txt",
+      "sha256": "DA175981546EA1FDC52562D5C960C1785E79AFD968998018931573771DB48700"
+    }
+  ],
+  "public_artifacts": [
+    {
+      "path": "docs/local-isolation-package-manifest.json",
+      "sha256": "8DAB48F98D147A6ABA9E89260D25082BA5B91AD2C72638F1F10FFB9A449CF6AE"
+    },
+    {
+      "path": "docs/local-isolation-target-manifest.json",
+      "sha256": "848D57B1B949F1698CE941A1AFFB5EA51943D7C64EC47CE1CB3136742626482E"
+    },
+    {
+      "path": "docs/local-isolation-mission-draft.json",
+      "sha256": "9A64F333AF0A713A6560D4EEE2971F78930E514ECD2A259995DB21C175C3E2F6"
+    },
+    {
+      "path": "docs/local-isolation-rehearsal.json",
+      "sha256": "D398F5373E9C43D781E449407E1C14509ED43CB6E6B81B9E430ADE7549293B89"
+    },
+    {
+      "path": "docs/local-isolation-reading-ledger.json",
+      "sha256": "92E1AD67A438ABA8E089D7FC032C14EF2B1A34DAADEFD7D0A0A9B97B654DA0CD"
+    },
+    {
+      "path": "docs/local-isolation-matrix.md",
+      "sha256": "6C394D0225305978FA428E0D8A3D66703D662AE1B16DE5788331BAC6757A7B5D"
+    }
+  ],
+  "limits": [
+    "Same-user rehearsal and WhatIf are not deployed isolation",
+    "Receipt is not separately signed; trusted Runtime/issuer provenance remains required",
+    "Mechanical bytes and generation verification do not certify analytical truth/completeness",
+    "Windows-only; local loose SHA-1 objects; no migration",
+    "64 proposals, 16 MB state, 64 MiB journal; no resets/eviction",
+    "Hardware power-loss and whole-OS integrity unmeasured",
+    "Owner administrator, trusted Runtime and signing-process compromise excluded from caller boundary"
+  ],
+  "git_maintenance": "Git emitted automatic packing notice during local correction commit, outside any mission; prior refs reverified.",
+  "publication_performed": false,
+  "private_key_or_password_custody": false,
+  "journal_reset": false,
+  "branch_deletion": false,
+  "isolation_matrix": "docs/local-isolation-matrix.md"
+}

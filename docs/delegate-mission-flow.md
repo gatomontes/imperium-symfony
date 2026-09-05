@@ -1,12 +1,14 @@
 # Current continuation: local deployment isolation and useful mission
 
-LOCAL_ISOLATION_BATCHES_0_1_PREPARED_BATCH_2_REHEARSAL_IN_PROGRESS.
+LOCAL_ISOLATION_PACKAGE_READY_AWAITING_OWNER_ACTION.
 AM01/AM02 correction accepted in source review and merged through PR #759 at
 a1fc4f27634319f2a22df2e6a1b370f70cdb98bf; GitHub full-suite run 33965668160 passed.
 This closes that corrective integration, not the deployment-isolation question.
 
 Campaign: docs/next-campaign-local-isolation-useful-mission.md.
 Local runner: docs/handoffs/local-isolation-useful-mission-ready.md.
+
+Batches 0–2 complete at 47bcc44a8fc0540bef855d27ba71abaebb452c84; full 2677 / 52713, zero skips. Owner sequence: docs/local-isolation-owner-runbook.md. Audit: docs/local-isolation-terminal-audit.md. No actual deployment isolation or real receipt yet.
 
 Current steps: inventory (0), executable probes/orchestration (1), disposable
 rehearsal and exact owner package (2), owner setup and actual-account measurement

@@ -6,7 +6,7 @@ agent terminal or evidence. The agent has not created accounts or installed code
 
 Use the final package digest in docs/local-isolation-evidence-ledger.json; the
 preaudit package is historical and must not be installed. The final package is
-E:/htdocs/imperium/var/local-isolation-evidence/package-reviewed. Its manifest
+E:/htdocs/imperium/var/local-isolation-evidence/package-47bcc44a. Its manifest
 hash binds every included code, dependency, PHP, PowerShell and target file.
 No network/package installation is required. This route requires PowerShell
 7.5+ (packaged 7.6.5) for exact JSON timestamp strings, PHP 8.4.14 plus Sodium.
@@ -24,7 +24,7 @@ In your own elevated PowerShell 7 terminal, outside agent control:
 
 ```powershell
 $ErrorActionPreference='Stop'
-$package='E:\htdocs\imperium\var\local-isolation-evidence\package-reviewed'
+$package='E:\htdocs\imperium\var\local-isolation-evidence\package-47bcc44a'
 $ledger=Get-Content 'E:\htdocs\imperium\docs\local-isolation-evidence-ledger.json' -Raw|ConvertFrom-Json
 $digest=$ledger.package.manifest_sha256 # Compare with the task's final digest.
 foreach($name in @('PmaRuntime','PmaCaller')) {
@@ -33,7 +33,9 @@ foreach($name in @('PmaRuntime','PmaCaller')) {
     try { New-LocalUser -Name $name -Password $password -Description 'Dedicated protected mission account' }
     finally { $password.Dispose() }
     $users=Get-LocalGroup -SID 'S-1-5-32-545'
-    Add-LocalGroupMember -Group $users -Member $name
+    if(-not (Get-LocalGroupMember $users|Where-Object{$_.SID.Value -eq (Get-LocalUser $name).SID.Value})) {
+        Add-LocalGroupMember -Group $users -Member $name
+    }
 }
 $runtime=(Get-LocalUser PmaRuntime).SID.Value
 $caller=(Get-LocalUser PmaCaller).SID.Value
@@ -45,6 +47,10 @@ Review the exact existing-account SIDs, package digest and proposed writes. Then
 apply the identical command without `-WhatIf`. Owner review is required by the
 campaign's Batch 3 boundary: account creation, privileged ACL changes and genuine
 key custody cannot be supplied by a same-user agent rehearsal.
+
+```powershell
+& "$package\ProtectedMissionCode\tools\Install-LocalIsolationOwnerPackage.ps1" -Package $package -ManifestSha256 $digest -RuntimeSid $runtime -CallerSid $caller
+```
 
 Planned writes are ONLY a fresh C:/ProgramData/Imperium parent and the siblings
 ProtectedMissionCode, ProtectedMission, ProtectedMissionPHP, ProtectedMissionShell,
@@ -166,13 +172,45 @@ Administrator generates a fresh second pair of probe plans with `-IncludeJournal
 into ProtectedMissionPostEnrollmentPlans. Both actual accounts run them as above
 into fresh result filenames. Caller journal probes only open a handle; no journal
 bytes are read. Collect and review again. Re-run installed hashes before ceremony.
+
+```powershell
+# Administrator:
+& "$code\tools\New-LocalIsolationProbePlans.ps1" -RuntimeSid $runtime -CallerSid $caller -IncludeJournal -OutputDirectory "$base\ProtectedMissionPostEnrollmentPlans"
+# Runtime, in its own terminal:
+& "$base\ProtectedMissionCode\tools\Test-LocalIsolationAccess.ps1" -Plan "$base\ProtectedMissionPostEnrollmentPlans\Runtime-plan.json" -Output "$out\runtime-access-final.json"
+# Caller, in its own terminal:
+& "$base\ProtectedMissionCode\tools\Test-LocalIsolationAccess.ps1" -Plan "$base\ProtectedMissionPostEnrollmentPlans\Caller-plan.json" -Output "$out\caller-access-final.json"
+```
+
 Owner writes exchange/owner-readiness.json, with status
 OWNER_REVIEWED_ACTUAL_DEPLOYMENT_READY, runtime_measurement_sha256 and
-caller_measurement_sha256 (actual final output hashes), package digest, SIDs,
+caller_measurement_sha256 (actual final output hashes), package_manifest_sha256, SIDs,
 confirmed public fingerprint, startup results and human-transport statement.
 This is an owner attestation, not a replacement for reviewing the measured files.
 Provide those public results to this task; the agent must verify them before
 continuing real Batches 4–5. Never provide journal, private key or passwords.
+
+After personally reviewing all measured results, administrator can create that
+record using only public values:
+
+```powershell
+$runtimeProfile=(Get-CimInstance Win32_UserProfile|Where-Object SID -eq $runtime).LocalPath
+$callerProfile=(Get-CimInstance Win32_UserProfile|Where-Object SID -eq $caller).LocalPath
+Copy-Item "$runtimeProfile\PmaIsolationResults\runtime-access-final.json" "$exchange\runtime-access-final.json"
+Copy-Item "$callerProfile\PmaIsolationResults\caller-access-final.json" "$exchange\caller-access-final.json"
+$ready=[ordered]@{
+    status='OWNER_REVIEWED_ACTUAL_DEPLOYMENT_READY'
+    runtime_measurement_sha256=(Get-FileHash "$exchange\runtime-access-final.json").Hash
+    caller_measurement_sha256=(Get-FileHash "$exchange\caller-access-final.json").Hash
+    package_manifest_sha256=$digest
+    runtime_sid=$runtime; caller_sid=$caller
+    public_fingerprint=(Read-Host 'Independently confirmed PUBLIC fingerprint')
+    startup='Actual Runtime checker passed; caller checker and CLI refused; evidence retained'
+    transport='Owner-mediated fixed stdio; caller has no Runtime shell or command selection'
+}
+if(Test-Path "$exchange\owner-readiness.json"){throw 'Readiness already exists; preserve and review'}
+[IO.File]::WriteAllText("$exchange\owner-readiness.json",($ready|ConvertTo-Json),[Text.UTF8Encoding]::new($false))
+```
 
 ## 5. Runtime preparation, independent exact signing, one execution
 
@@ -181,18 +219,25 @@ protected environment above. All ceremony files stay in owner-only exchange.
 
 ```powershell
 $exchange="$base\ProtectedMissionExchange"
+$digest=(Get-Content "$exchange\owner-readiness.json" -Raw|ConvertFrom-Json).package_manifest_sha256
 $expiry=[DateTimeOffset]::UtcNow.AddHours(1).ToUnixTimeSeconds()
 & $php .\tools\local-isolation.php draft "$exchange\target-inventory.json" "$base\ProtectedMissionTarget" $expiry > "$exchange\plan.json"
 if($LASTEXITCODE -ne 0){throw 'Fresh plan refused'}
 # Fresh identity/expiry, same exact 15 paths and 15/4000000/15/60 budgets.
+$plan=Get-Content "$exchange\plan.json" -Raw|ConvertFrom-Json -AsHashtable -DateKind String
+$ready=Get-Content "$exchange\owner-readiness.json" -Raw|ConvertFrom-Json
+$plan.disclosures.material_facts += "Installed build 47bcc44a8fc0540bef855d27ba71abaebb452c84; reviewed package manifest SHA-256 $digest. Runtime SID $($ready.runtime_sid); caller SID $($ready.caller_sid). Authority state: C:/ProgramData/Imperium/ProtectedMission. Evidence/exchange: C:/ProgramData/Imperium/ProtectedMissionExchange. No writes to target."
+[IO.File]::WriteAllText("$exchange\plan.json",($plan|ConvertTo-Json -Depth 100),[Text.UTF8Encoding]::new($false))
 & $php .\tools\local-isolation.php manifest "$base\ProtectedMissionTarget" > "$exchange\target-before.json"
 if($LASTEXITCODE -ne 0){throw 'Target manifest failed'}
 & .\tools\Invoke-LocalMission.ps1 -Action Prepare
 ```
 
 Review all numbered lines and the full rendering; compare exported payload.json
-SHA-256 and public fingerprint. Transfer only that exact payload and reviewed
-signer/helper to the independently held-key environment. Operator runs the
+SHA-256 and public fingerprint. Transfer that exact payload and the reviewed
+ProtectedMissionCode copy (including vendor/autoload.php and src dependencies)
+to the independently held-key environment; do not transfer authority state or
+the entire exchange. Operator uses PHP 8.4+ with Sodium there and runs the
 Sign-PmaApproval SecureString sequence in protected-mission-operator-runbook.md.
 Return only response.json to Runtime. No test key, previous payload or prior
 generation is accepted. Never publish a pending payload or usable capability.
