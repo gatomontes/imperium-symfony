@@ -12,7 +12,13 @@ $dir=Join-Path "$base\$parent" ($Phase+'-'+[guid]::NewGuid().ToString('N'))
 foreach($name in @('inventory.json','Runtime-plan.json','Caller-plan.json','Runtime-access.json','Caller-access.json','Runtime-startup.json','Caller-startup.json','detached-manifest.json','previous-readiness.json')) {
  [IO.File]::WriteAllText("$dir\$name",'PMA_RESERVED_UNMEASURED',[Text.UTF8Encoding]::new($false))
 }
-# Inherit only the administrator-owned read-only plan directory policy.
+# Preserve inherited read-only grants, set explicit administrative ownership.
+foreach($item in @((Get-Item $dir))+@(Get-ChildItem $dir -File)){
+ $acl=Get-Acl -LiteralPath $item.FullName
+ $acl.SetOwner([Security.Principal.SecurityIdentifier]'S-1-5-32-544')
+ $acl.SetGroup([Security.Principal.SecurityIdentifier]'S-1-5-32-544')
+ Set-Acl -LiteralPath $item.FullName -AclObject $acl
+}
 $inventory=Get-PmaInventory $base
 [IO.File]::WriteAllText("$dir\inventory.json",($inventory|ConvertTo-Json -Depth 20),[Text.UTF8Encoding]::new($false))
 foreach($role in @('Runtime','Caller')) {

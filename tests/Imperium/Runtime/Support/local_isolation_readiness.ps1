@@ -18,6 +18,7 @@ $metadata=@{runtime_sid='S-1-5-21-1-2-3-1001';caller_sid='S-1-5-21-1-2-3-1002';s
 Save $metadata "$root\ProtectedMission\installation.json";Save $metadata "$root\ProtectedMissionProbePlans\deployment-binding.json"
 $binding=Get-PmaInstallationBinding $root
 $now=[DateTime]::UtcNow.Ticks;$start=$now-[TimeSpan]::FromSeconds(30).Ticks
+[IO.File]::SetCreationTimeUtc("$root\ProtectedMission\installation.json",[DateTime]::new($start-1,[DateTimeKind]::Utc))
 $public=[byte[]](1..32);$fingerprint=[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($public)).ToLowerInvariant()
 $trust=@{identity='fixture-public-only';competence='APPROVE_CANONICAL_MISSION_PLAN';public_key=[Convert]::ToBase64String($public);not_before=[DateTimeOffset]::UtcNow.ToUnixTimeSeconds()-60;expires_at=[DateTimeOffset]::UtcNow.ToUnixTimeSeconds()+3600}
 Save $trust "$root\ProtectedMissionExchange\public-trust.json"
@@ -55,7 +56,7 @@ foreach($phase in @('pre','post','current')){
   Save $measurement "$dir\$role-access.json"
   $checker=if($role -eq 'Runtime'){@{ExitCode=0;Output="PMA_INSTALLATION_ACL_AND_IDENTITY_VERIFIED`r`n";Error=''}}else{@{ExitCode=2;Output="PMA_RUNTIME_IDENTITY_REFUSED`r`n";Error=''}}
   $cli=if($role -eq 'Caller'){@{ExitCode=2;Output='';Error="PMA_RUNTIME_IDENTITY_REFUSED`n"}}elseif($phase -eq 'pre'){@{ExitCode=2;Output='';Error="PMA_TRUST_ABSENT`n"}}else{@{ExitCode=0;Output=($enrolled|ConvertTo-Json);Error=''}}
-  $startup=@{binding=$binding;phase=$phase;role=$role;sid=$plan.sid;groups=$measurement.groups;administrator_token=$false;administrator_group_present=$false;captured_ticks=$tick+1;checker=$checker;cli=$cli}
+  $startup=@{schema='imperium.local-isolation-startup/v2';binding=$binding;phase=$phase;role=$role;sid=$plan.sid;groups=$measurement.groups;administrator_token=$false;administrator_group_present=$false;captured_ticks=$tick+1;checker=$checker;cli=$cli}
   Save $startup "$dir\$role-startup.json"
  }
  $hashes=@{};foreach($file in Get-ChildItem $dir -File){$hashes[$file.Name]=(Get-FileHash $file.FullName).Hash;$backups[$file.FullName]=[IO.File]::ReadAllBytes($file.FullName)}

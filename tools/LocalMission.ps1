@@ -19,6 +19,9 @@ function Invoke-PmaLocalAction($Context,[ValidateSet('Prepare','Accept','Step','
         Write-Output ($validation|ConvertTo-Json -Depth 20 -Compress)
         throw 'ACTUAL_OWNER_READINESS_REQUIRED'
     }
+    $token=Get-PmaToken
+    Assert-PmaToken $token $validation.binding.runtime_sid
+    Assert-PmaEqual $token.groups $validation.groups.Runtime 'READINESS_LIVE_RUNTIME_GROUPS_CHANGED'
     $liveTrust=Invoke-PmaChecked $Context @('trust')
     Assert-PmaEqual $liveTrust $validation.public_trust 'READINESS_LIVE_TRUST_CHANGED'
     switch($Action) {

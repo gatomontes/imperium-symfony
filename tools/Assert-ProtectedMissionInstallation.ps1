@@ -9,6 +9,7 @@ try {
     $publicPath='C:\ProgramData\Imperium\ProtectedMissionProbePlans\deployment-binding.json'
     if(Test-Path -LiteralPath $publicPath){
         $binding=Get-Content -LiteralPath $publicPath -Raw|ConvertFrom-Json
+        if($binding.runtime_sid -notmatch '^S-1-5-21-(\d+-){3}\d+$' -or $binding.caller_sid -notmatch '^S-1-5-21-(\d+-){3}\d+$' -or $binding.runtime_sid -eq $binding.caller_sid -or $binding.setup_session -notmatch '^[a-f0-9]{32}$' -or $binding.package_manifest_sha256 -notmatch '^[A-Fa-f0-9]{64}$'){throw 'binding'}
         $token=[Security.Principal.WindowsIdentity]::GetCurrent()
         if($token.User.Value -ne $binding.runtime_sid -or @($token.Groups|Where-Object{$_.Value -eq 'S-1-5-32-544'}).Count -gt 0){
             Write-Output 'PMA_RUNTIME_IDENTITY_REFUSED';exit 2

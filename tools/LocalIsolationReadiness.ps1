@@ -91,7 +91,7 @@ function Assert-PmaMeasurement($Measurement,$Plan,[string]$PlanHash,$Binding,[st
  Assert-PmaEqual $Measurement.role $Plan.role 'READINESS_ROLE'
  Assert-PmaToken $Measurement $Plan.sid
  if($Phase -eq 'current' -and $NowTicks-$Measurement.captured_ticks -gt [TimeSpan]::FromMinutes(15).Ticks){throw 'READINESS_CURRENT_MEASUREMENT_STALE'}
- if($Measurement.captured_ticks -lt $Inventory.captured_ticks -or $Measurement.captured_ticks -gt $NowTicks -or $NowTicks-$Measurement.captured_ticks -gt [TimeSpan]::FromHours(24).Ticks){throw 'READINESS_STALE_MEASUREMENT'}
+ if($Measurement.captured_ticks -lt $Inventory.captured_ticks -or $Measurement.captured_ticks -gt $NowTicks){throw 'READINESS_STALE_MEASUREMENT'}
  $required=Get-PmaRequiredProbes $Inventory $Plan.role
  if(@($Plan.probes).Count -ne $required.Count){throw 'READINESS_PLAN_COVERAGE'}
  if(@($Measurement.probes).Count -ne $required.Count){throw 'READINESS_ROW_COUNT'}
@@ -109,11 +109,12 @@ function Assert-PmaMeasurement($Measurement,$Plan,[string]$PlanHash,$Binding,[st
  Assert-PmaEqual $Measurement.result 'RECORDED_ACCESS_EXPECTATIONS_MET' 'READINESS_RESULT'
 }
 function Assert-PmaStartup($Startup,$Binding,[string]$Phase,[string]$Role,$Trust,[long]$NowTicks) {
+ Assert-PmaEqual $Startup.schema 'imperium.local-isolation-startup/v2' 'READINESS_STARTUP_SCHEMA'
  Assert-PmaEqual $Startup.binding $Binding 'READINESS_STARTUP_BINDING'
  Assert-PmaEqual $Startup.phase $Phase 'READINESS_STARTUP_PHASE'
  Assert-PmaEqual $Startup.role $Role 'READINESS_STARTUP_ROLE'
  Assert-PmaToken $Startup $Binding[($Role.ToLower()+'_sid')]
- if($Startup.captured_ticks -gt $NowTicks -or $NowTicks-$Startup.captured_ticks -gt [TimeSpan]::FromHours(24).Ticks){throw 'READINESS_STALE_STARTUP'}
+ if($Startup.captured_ticks -gt $NowTicks -or ($Phase -eq 'current' -and $NowTicks-$Startup.captured_ticks -gt [TimeSpan]::FromMinutes(15).Ticks)){throw 'READINESS_STALE_STARTUP'}
  $checker=$Startup.checker;$cli=$Startup.cli
  if($Role -eq 'Caller') {
   Assert-PmaEqual $checker @{ExitCode=2;Output="PMA_RUNTIME_IDENTITY_REFUSED`r`n";Error=''} 'READINESS_EXPECTED_IDENTITY_REFUSAL'
@@ -137,6 +138,7 @@ function Test-PmaReadiness($Ready,[string]$Base='C:\ProgramData\Imperium') {
   if($Ready.captured_ticks -gt $now -or $now-$Ready.captured_ticks -gt [TimeSpan]::FromMinutes(15).Ticks){throw 'READINESS_STALE'}
   $null=& "$PSScriptRoot\Test-LocalIsolationInstalledPackage.ps1" -Base $Base -Manifest "$Base\ProtectedMissionExchange\package-manifest.json" -ManifestSha256 $binding.package_manifest_sha256
   $trust=Read-PmaEvidence "$Base\ProtectedMissionExchange\public-trust.json"
+  Assert-PmaEqual @($trust.Keys|Sort-Object) @('competence','expires_at','identity','not_before','public_key') 'READINESS_PUBLIC_TRUST_SCHEMA'
   $key=[Convert]::FromBase64String($trust.public_key)
   if($key.Length -ne 32){throw 'READINESS_TRUST_KEY'}
   $fingerprint=[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($key)).ToLowerInvariant()
@@ -160,6 +162,7 @@ function Test-PmaReadiness($Ready,[string]$Base='C:\ProgramData\Imperium') {
    foreach($file in $files){Assert-PmaEqual (Get-FileHash "$dir\$file").Hash $hashes[$file] 'READINESS_EVIDENCE_HASH'}
    $inventory=Read-PmaEvidence "$dir\inventory.json"
    if($inventory.captured_ticks -lt $previous -or $inventory.captured_ticks -gt $now){throw 'READINESS_PHASE_ORDER'}
+   if($inventory.captured_ticks -lt (Get-Item "$Base\ProtectedMission\installation.json").CreationTimeUtc.Ticks){throw 'READINESS_PHASE_PREDATES_INSTALLATION'}
    $previous=$inventory.captured_ticks
    # Reconstruct historical finite inventory from retained installed objects' creation times.
    $expected=@($live.items|Where-Object{$_.created_ticks -le $inventory.captured_ticks})
@@ -182,6 +185,6 @@ function Test-PmaReadiness($Ready,[string]$Base='C:\ProgramData\Imperium') {
     $total+=@($measurement.probes).Count
    }
   }
-  return [ordered]@{result='LOCAL_ISOLATION_READINESS_VALID';binding=$binding;public_fingerprint=$fingerprint;public_trust=$enrolled;rows=$total;isolation_claim='Consistency of trusted observations only; owner custody and transport remain premises'}
+  return [ordered]@{result='LOCAL_ISOLATION_READINESS_VALID';binding=$binding;groups=$groups;public_fingerprint=$fingerprint;public_trust=$enrolled;rows=$total;isolation_claim='Consistency of trusted observations only; owner custody and transport remain premises'}
  } catch {return [ordered]@{result='LOCAL_ISOLATION_READINESS_REFUSED';reason=$_.Exception.Message}}
 }
