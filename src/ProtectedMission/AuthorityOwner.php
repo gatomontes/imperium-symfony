@@ -77,6 +77,14 @@ final class AuthorityOwner
             $digest = $record['record_digest'] ?? ''; unset($record['record_digest']);
             if (!hash_equals($digest, hash('sha256', CanonicalJson::encode($record)))) throw new \RuntimeException('PMA_CHAIN_INVALID');
         }
+        if (($a['schema'] ?? '')!=='imperium.mission-authorization/v1'
+            || ($a['status'] ?? '')!=='MISSION_AUTHORIZATION_SEALED_PENDING_AUTHORIZED_PREPARATION'
+            || ($a['direct_execution_prohibited'] ?? false)!==true || ($a['sealed'] ?? false)!==true
+            || ($a['derivation_authority']['consumed'] ?? false)!==true
+            || ($a['derivation_authority']['continuing_authority'] ?? true)!==false) throw new \RuntimeException('PMA_CHAIN_INVALID');
+        foreach (['profile_mutation_performed','credential_release_performed','provider_invocation_performed','deployment_performed','external_effect_performed','execution_performed','execution_authority'] as $flag) {
+            if (($a[$flag] ?? null)!==false) throw new \RuntimeException('PMA_CHAIN_INVALID');
+        }
         if (CanonicalJson::encode($d) !== CanonicalJson::encode($payload['dossier'])
             || CanonicalJson::encode($preview) !== CanonicalJson::encode($payload['review_preview'])
             || $id !== $a['authorization_id']
@@ -199,7 +207,10 @@ final class AuthorityOwner
     {
         if (!isset($state['authorizations'][$id])) throw new \RuntimeException('PMA_AUTHORITY_ABSENT');
         $mission=$state['authorizations'][$id]['payload']['mission_id'];
+        $currentness='CURRENT';
+        try {$this->verify($state,$id,time());} catch (\RuntimeException $error) {$currentness=$error->getMessage();}
         return ['authorization_id'=>$id,'inactive'=>$state['inactive'][$id] ?? false,
+            'currentness'=>$currentness,'next_action'=>$currentness==='CURRENT'?'Inspect lifecycle and exact commission; terminal missions cannot reopen.':'Fresh dossier and approval required; historical evidence grants no authority.',
             'lifecycle'=>$state['lifecycles'][$mission] ?? ['state'=>'AUTHORIZED','history'=>[],'consumed_nonces'=>[]],
             'receipt'=>$state['receipts'][$mission] ?? null,
             'execution_authority'=>false];
@@ -219,10 +230,18 @@ final class AuthorityOwner
         try {
             $state = []; $valid = 0;
             while (($header = fgets($handle, 100)) !== false) {
-                if (!preg_match('/^([0-9]{1,9}) ([a-f0-9]{64})\n$/D', $header, $match)) break;
+                if (!preg_match('/^([0-9]{1,9}) ([a-f0-9]{64})\n$/D', $header, $match)) {
+                    if (!feof($handle) || !preg_match('/^[0-9]{1,9}(?: [a-f0-9]{0,64})?$/D',$header)) throw new \RuntimeException('PMA_JOURNAL_CORRUPT');
+                    break;
+                }
                 $length = (int)$match[1];
                 if ($length > 16000000) throw new \RuntimeException('PMA_JOURNAL_LIMIT');
-                $bytes = ''; while (strlen($bytes) < $length && !feof($handle)) $bytes .= fread($handle, $length - strlen($bytes));
+                $bytes = '';
+                while (strlen($bytes) < $length && !feof($handle)) {
+                    $part=fread($handle,$length-strlen($bytes));
+                    if ($part===false) throw new \RuntimeException('PMA_JOURNAL_READ_FAILED');
+                    $bytes.=$part;
+                }
                 if (strlen($bytes) !== $length) break;
                 if (!hash_equals($match[2], hash('sha256', $bytes))) throw new \RuntimeException('PMA_JOURNAL_CORRUPT');
                 $state = json_decode($bytes, true, 512, JSON_THROW_ON_ERROR);
@@ -234,8 +253,9 @@ final class AuthorityOwner
             $after = CanonicalJson::encode($state);
             if ($after !== $before) {
                 if (strlen($after) > 16000000) throw new \RuntimeException('PMA_JOURNAL_LIMIT');
-                ftruncate($handle, $valid); fseek($handle, $valid);
                 $frame = strlen($after).' '.hash('sha256', $after)."\n".$after;
+                if ($valid+strlen($frame)>67108864) throw new \RuntimeException('PMA_JOURNAL_CAPACITY');
+                if (!ftruncate($handle, $valid) || fseek($handle, $valid)!==0) throw new \RuntimeException('PMA_COMMIT_FAILED');
                 $offset = 0;
                 while ($offset < strlen($frame)) {
                     $written = fwrite($handle, substr($frame, $offset));

@@ -75,7 +75,7 @@ final class ProtectedMissionAuthorityBatch2Test extends TestCase
             } else {
                 self::assertTrue($out[1]['ok']); self::assertSame($contender,$status['inactive']);
                 self::assertCount($out[0]['ok']?1:0,$status['lifecycle']['history']);
-                if (!$out[0]['ok']) self::assertSame('PMA_AUTHORITY_INACTIVE',$out[0]['error']);
+                self::assertSame($out[0]['ok']?null:'PMA_AUTHORITY_INACTIVE',$out[0]['error'] ?? null);
                 $this->refuses($f,'PMA_AUTHORITY_INACTIVE','consume',['capability'=>$cap]);
             }
         }
