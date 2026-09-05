@@ -20,9 +20,10 @@ final class ProtectedMissionAuthorityBatch1Test extends TestCase
         self::assertDirectoryDoesNotExist($root);
         $owner->enroll($trust,hash('sha256',$public));
         $before=hash_file('sha256',$root.'/authority.journal');
-        foreach (['enroll','existing','initialize','consume','replace-trust'] as $op) {
+        foreach (['enroll','existing','initialize','replace-trust'] as $op) {
             $this->refuses('PMA_OPERATION_REFUSED', fn()=> $owner->dispatch(['operation'=>$op,'arguments'=>[]]));
         }
+        $this->refuses('PMA_ARGUMENTS_INVALID', fn()=> $owner->dispatch(['operation'=>'consume','arguments'=>[]]));
         foreach (['root','verifier','clock','consumer'] as $field) {
             $this->refuses('PMA_REQUEST_INVALID', fn()=> $owner->dispatch(['operation'=>'trust','arguments'=>[],$field=>'attacker']));
         }

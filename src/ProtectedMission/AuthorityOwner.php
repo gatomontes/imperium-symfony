@@ -5,6 +5,7 @@ namespace App\ProtectedMission;
 use App\Bootstrap\CanonicalJson;
 
 /** Trusted Runtime implementation. OS access to root/code is the security boundary. */
+#[\Symfony\Component\DependencyInjection\Attribute\Exclude]
 final class AuthorityOwner
 {
     public function __construct(private readonly string $root) {}
@@ -28,9 +29,131 @@ final class AuthorityOwner
         if (array_keys($request) !== ['operation', 'arguments'] || !is_string($request['operation']) || !is_array($request['arguments'])) {
             throw new \RuntimeException('PMA_REQUEST_INVALID');
         }
-        if ($request['operation'] !== 'trust' || $request['arguments'] !== []) throw new \RuntimeException('PMA_OPERATION_REFUSED');
-        return $this->transaction(static fn(array &$state): array => $state['trust']);
+        $operation = $request['operation']; $arguments = $request['arguments'];
+        $fields = match ($operation) {
+            'trust' => [], 'verify', 'issue', 'status' => ['authorization_id'],
+            'consume' => ['capability'], 'control' => ['payload', 'signature'],
+            default => throw new \RuntimeException('PMA_OPERATION_REFUSED'),
+        };
+        if (array_keys($arguments) !== $fields) throw new \RuntimeException('PMA_ARGUMENTS_INVALID');
+        return $this->transaction(function (array &$state) use ($operation, $arguments): array {
+            $now = time();
+            return match ($operation) {
+                'trust' => $state['trust'],
+                'verify' => $this->verify($state, $arguments['authorization_id'], $now),
+                'issue' => $this->issue($state, $arguments['authorization_id'], $now),
+                'consume' => $this->consume($state, $arguments['capability'], $now),
+                'control' => $this->control($state, $arguments['payload'], $arguments['signature'], $now),
+                'status' => $this->status($state, $arguments['authorization_id']),
+            };
+        });
     }
+
+    private function verify(array $state, string $id, int $now): array
+    {
+        $chain = $state['authorizations'][$id] ?? null;
+        if (!is_array($chain)) throw new \RuntimeException('PMA_AUTHORITY_ABSENT');
+        $payload = $chain['payload'];
+        PublicTrust::verify($state['trust'], $payload, $chain['signature'], $now);
+        if (($state['inactive'][$id] ?? false) !== false || $now >= $payload['expires_at']
+            || ($state['current'][$payload['mission_id']] ?? null) !== $id) throw new \RuntimeException('PMA_AUTHORITY_INACTIVE');
+        $d = $chain['dossier']; $r = $chain['review']; $a = $chain['authorization'];
+        foreach ([$d, $r, $a] as $record) {
+            $digest = $record['record_digest'] ?? ''; unset($record['record_digest']);
+            if (!hash_equals($digest, hash('sha256', CanonicalJson::encode($record)))) throw new \RuntimeException('PMA_CHAIN_INVALID');
+        }
+        if (CanonicalJson::encode($d) !== CanonicalJson::encode($payload['dossier'])
+            || CanonicalJson::encode($r) !== CanonicalJson::encode($payload['review_preview'])
+            || $id !== $a['authorization_id']
+            || !$this->same($a['authority_source']['dossier'], ['id'=>$d['dossier_id'],'version'=>$d['dossier_version'],'digest'=>$d['record_digest']])
+            || !$this->same($a['authority_source']['imperator_review'], ['id'=>$r['review_id'],'digest'=>$r['record_digest']])
+            || $a['authority_source']['derivation_authority_id'] !== $r['mission_authorization_derivation_authority']['authority_id']
+            || $a['authorized_dossier_lines'] !== $d['lines'] || $a['mission_plan'] !== $d['mission_plan']
+            || $a['authorized_resource_demands'] !== ($d['resource_demands'] ?? [])
+            || $a['authorized_disclosures'] !== ($d['disclosures'] ?? [])
+            || $a['authorized_proposed_model_bindings'] !== ($d['proposed_model_bindings'] ?? [])
+            || $r['actor']['id'] !== $payload['operator_identity'] || $r['disposition'] !== 'APPROVE_DOSSIER'
+            || $r['all_lines_acknowledged'] !== true || $r['dossier_approval'] !== true) throw new \RuntimeException('PMA_CHAIN_INVALID');
+        return $chain;
+    }
+
+    private function issue(array &$state, string $id, int $now): array
+    {
+        $chain = $this->verify($state, $id, $now); $payload = $chain['payload'];
+        $mission = $payload['mission_id'];
+        if (in_array($state['lifecycles'][$mission]['state'] ?? '', ['COMPLETED','FAILED','CANCELLED'], true)) throw new \RuntimeException('PMA_TERMINAL');
+        if (!isset($state['issuer_secret'])) {
+            $pair = sodium_crypto_sign_keypair();
+            $state['issuer_secret'] = base64_encode(sodium_crypto_sign_secretkey($pair));
+            $state['issuer_public'] = base64_encode(sodium_crypto_sign_publickey($pair));
+            sodium_memzero($pair);
+        }
+        $capabilities = [];
+        foreach ($payload['transitions'] as $transition) {
+            $capability = ['authorization_id'=>$id,'authorization_digest'=>$chain['authorization']['record_digest'],
+                'dossier_digest'=>$chain['dossier']['record_digest'],'mission_id'=>$mission,
+                'actor'=>$transition['actor'],'target'=>$payload['target'],'issuer'=>$state['issuer_public'],
+                'action'=>$transition['action'],'from'=>$transition['from'],'to'=>$transition['to'],
+                'expires_at'=>$payload['expires_at'],'nonce'=>bin2hex(random_bytes(24))];
+            $sig = sodium_crypto_sign_detached(CanonicalJson::encode($capability), base64_decode($state['issuer_secret'], true));
+            $envelope = ['payload'=>$capability,'signature'=>base64_encode($sig)];
+            $state['issued'][$capability['nonce']] = hash('sha256',CanonicalJson::encode($envelope));
+            $capabilities[] = $envelope;
+        }
+        return ['capabilities'=>$capabilities,'verification_key'=>$state['issuer_public']];
+    }
+
+    private function consume(array &$state, array $envelope, int $now): array
+    {
+        $capability = $envelope['payload'] ?? [];
+        $id = $capability['authorization_id'] ?? '';
+        $chain = $this->verify($state, $id, $now);
+        $key=base64_decode($state['issuer_public'] ?? '',true); $sig=base64_decode($envelope['signature'] ?? '',true);
+        $nonce=$capability['nonce'] ?? '';
+        if (!is_string($key) || strlen($key)!==32 || !is_string($sig) || strlen($sig)!==64
+            || !sodium_crypto_sign_verify_detached($sig,CanonicalJson::encode($capability),$key)
+            || ($state['issued'][$nonce] ?? '') !== hash('sha256',CanonicalJson::encode($envelope))) throw new \RuntimeException('PMA_CAPABILITY_INVALID');
+        $payload=$chain['payload']; $mission=$payload['mission_id'];
+        $transition=['action'=>$capability['action'],'actor'=>$capability['actor'],'from'=>$capability['from'],'to'=>$capability['to']];
+        if ($capability['mission_id']!==$mission || $capability['authorization_digest']!==$chain['authorization']['record_digest']
+            || $capability['dossier_digest']!==$chain['dossier']['record_digest'] || $capability['target']!==$payload['target']
+            || $capability['issuer']!==$state['issuer_public'] || $capability['expires_at']!==$payload['expires_at']
+            || !in_array(CanonicalJson::encode($transition),array_map(CanonicalJson::encode(...),$payload['transitions']),true)) throw new \RuntimeException('PMA_CAPABILITY_BINDING_INVALID');
+        $record=$state['lifecycles'][$mission] ?? ['state'=>'AUTHORIZED','history'=>[],'consumed_nonces'=>[]];
+        if (isset($record['consumed_nonces'][$nonce])) throw new \RuntimeException('PMA_REPLAY');
+        if (in_array($record['state'],['COMPLETED','FAILED','CANCELLED'],true)) throw new \RuntimeException('PMA_TERMINAL');
+        if ($record['state']!==$capability['from']) throw new \RuntimeException('PMA_REQUIRED_STATE');
+        $record['state']=$capability['to']; $record['consumed_nonces'][$nonce]=true;
+        $record['history'][]=['capability'=>$envelope,'consumed_at'=>$now];
+        $state['lifecycles'][$mission]=$record;
+        return $record;
+    }
+
+    private function control(array &$state, array $payload, string $signature, int $now): array
+    {
+        PublicTrust::verify($state['trust'],$payload,$signature,$now);
+        if (($payload['schema'] ?? '')!=='imperium.protected-control/v1' || !is_int($payload['expires_at'] ?? null)
+            || $now >= $payload['expires_at'] || !preg_match('/^[a-f0-9]{48}$/',$payload['nonce'] ?? '')
+            || isset($state['control_nonces'][$payload['nonce']])) throw new \RuntimeException('PMA_CONTROL_INVALID');
+        $action=$payload['action'] ?? '';
+        if ($action==='revoke-trust') $state['trust']['revoked']=true;
+        elseif (in_array($action,['revoke','supersede','cancel'],true) && isset($state['authorizations'][$payload['authorization_id'] ?? ''])) {
+            $state['inactive'][$payload['authorization_id']]=$action;
+        } else throw new \RuntimeException('PMA_CONTROL_INVALID');
+        $state['control_nonces'][$payload['nonce']]=true;
+        return ['status'=>$action,'execution_authority'=>false];
+    }
+
+    private function status(array $state, string $id): array
+    {
+        if (!isset($state['authorizations'][$id])) throw new \RuntimeException('PMA_AUTHORITY_ABSENT');
+        $mission=$state['authorizations'][$id]['payload']['mission_id'];
+        return ['authorization_id'=>$id,'inactive'=>$state['inactive'][$id] ?? false,
+            'lifecycle'=>$state['lifecycles'][$mission] ?? ['state'=>'AUTHORIZED','history'=>[],'consumed_nonces'=>[]],
+            'execution_authority'=>false];
+    }
+
+    private function same(mixed $a, mixed $b): bool { return CanonicalJson::encode($a) === CanonicalJson::encode($b); }
 
     /** One journal frame publishes the complete authority state under a common file lock.
      * Partial final frames are ignored. The next writer removes only that incomplete tail.

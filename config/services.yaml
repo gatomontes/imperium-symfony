@@ -25,7 +25,6 @@ services:
     App\:
         resource: '../src/'
         exclude:
-            - '../src/ProtectedMission/'
             - '../src/Imperium/Runtime/ProviderTransition/'
             - '../src/ReproofV2/'
             - '../src/IndependentVerification/ReproofV2*'
