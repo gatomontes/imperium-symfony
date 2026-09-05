@@ -1,3 +1,14 @@
+# Local completion — 2026-09-05
+
+Batches 0–3 completed locally and separately committed. Exact-head audit passed on
+`2a2b746feb9c66c961033ffafcf961f3bb49c4b5`: full **2675 / 52696**, focused **26 / 404**,
+zero reported skips; disposable PowerShell ceremony and fresh amended execution passed.
+`MISSION_AMENDMENT_CORRECTION_LOCAL_COMPLETE_PENDING_INDEPENDENT_REVIEW`.
+`DEPLOYMENT_ISOLATION_UNPROVED_OPERATOR_SETUP_REQUIRED`.
+See `docs/handoffs/mission-amendment-correction-local-audit-complete.md` for attribution,
+changed-test map, conditional legacy assertion-count explanation, evidence and limitations.
+The selection below is preserved as the governing historical plan; no publication or real setup is authorized.
+
 # Mission Amendment Authority and Evidence Binding — local corrective campaign
 
 `MISSION_AMENDMENT_CORRECTION_SELECTED`

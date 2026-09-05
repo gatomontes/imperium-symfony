@@ -1,0 +1,516 @@
+{
+  "result": "MISSION_AMENDMENT_POWERSHELL_PASSED",
+  "test_only": true,
+  "same_user": true,
+  "deployment_isolation_proved": false,
+  "proof_root": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-amendment-powershell-bf318904f7ea478c968e533f86f9c2bd",
+  "commit": "916b42302f7601afc7e602fe3e3b506d4e195c19",
+  "tree": "01bddc8c8342583732bbffadcc56c52083c220a3",
+  "unsigned_proposal_preserved_authority": true,
+  "inherited_completion_refused": true,
+  "target_unchanged": true,
+  "old": {
+    "authorization_id": "mission-authorization-d0d6e8b09280b2812949",
+    "binding": {
+      "authorization_digest": "9ebc97f6ba79e417544cdf9936bb202e6146a0d8dbf4548dcc10b131c0f5483d",
+      "authorization_id": "mission-authorization-d0d6e8b09280b2812949",
+      "budget": {
+        "max_bytes": 100000,
+        "max_files": 1,
+        "max_findings": 1,
+        "max_seconds": 10
+      },
+      "dossier_digest": "84379bea459b08ac1e1750677bddb23f7b042872ab9c009b5e88687955755ed6",
+      "dossier_id": "curia-planning-dossier-bd450867ea293dbfd4d0",
+      "dossier_version": 1,
+      "generation_id": "afc5bc9db4b18472d0460c7251fd735c8ebd8d4efac030097288fcae40ef42b8",
+      "mission_id": "disposable-mission-5be3bcc0efc63d14",
+      "paths": [
+        "a.txt"
+      ],
+      "target": {
+        "commit": "916b42302f7601afc7e602fe3e3b506d4e195c19",
+        "repository": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-amendment-powershell-bf318904f7ea478c968e533f86f9c2bd\\target",
+        "tree": "01bddc8c8342583732bbffadcc56c52083c220a3"
+      }
+    },
+    "is_current": false,
+    "inactive": "amended",
+    "currentness": "PMA_AUTHORITY_INACTIVE",
+    "next_action": "Mission identity closed; a new run requires a new identity and approval.",
+    "lifecycle": {
+      "binding": {
+        "authorization_digest": "9ebc97f6ba79e417544cdf9936bb202e6146a0d8dbf4548dcc10b131c0f5483d",
+        "authorization_id": "mission-authorization-d0d6e8b09280b2812949",
+        "budget": {
+          "max_bytes": 100000,
+          "max_files": 1,
+          "max_findings": 1,
+          "max_seconds": 10
+        },
+        "dossier_digest": "84379bea459b08ac1e1750677bddb23f7b042872ab9c009b5e88687955755ed6",
+        "dossier_id": "curia-planning-dossier-bd450867ea293dbfd4d0",
+        "dossier_version": 1,
+        "generation_id": "afc5bc9db4b18472d0460c7251fd735c8ebd8d4efac030097288fcae40ef42b8",
+        "mission_id": "disposable-mission-5be3bcc0efc63d14",
+        "paths": [
+          "a.txt"
+        ],
+        "target": {
+          "commit": "916b42302f7601afc7e602fe3e3b506d4e195c19",
+          "repository": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-amendment-powershell-bf318904f7ea478c968e533f86f9c2bd\\target",
+          "tree": "01bddc8c8342583732bbffadcc56c52083c220a3"
+        }
+      },
+      "consumed_nonces": {
+        "07a749c0191a7a7effef5d6358aa5b13af71db405ab89220": true,
+        "1486aacf9eac3d5cad452b35298457bfa6a28d5fe9e3bd5b": true
+      },
+      "history": [
+        {
+          "capability": {
+            "payload": {
+              "action": "admit",
+              "actor": "protected-git-inspector",
+              "authorization_digest": "9ebc97f6ba79e417544cdf9936bb202e6146a0d8dbf4548dcc10b131c0f5483d",
+              "authorization_id": "mission-authorization-d0d6e8b09280b2812949",
+              "binding": {
+                "authorization_digest": "9ebc97f6ba79e417544cdf9936bb202e6146a0d8dbf4548dcc10b131c0f5483d",
+                "authorization_id": "mission-authorization-d0d6e8b09280b2812949",
+                "budget": {
+                  "max_bytes": 100000,
+                  "max_files": 1,
+                  "max_findings": 1,
+                  "max_seconds": 10
+                },
+                "dossier_digest": "84379bea459b08ac1e1750677bddb23f7b042872ab9c009b5e88687955755ed6",
+                "dossier_id": "curia-planning-dossier-bd450867ea293dbfd4d0",
+                "dossier_version": 1,
+                "generation_id": "afc5bc9db4b18472d0460c7251fd735c8ebd8d4efac030097288fcae40ef42b8",
+                "mission_id": "disposable-mission-5be3bcc0efc63d14",
+                "paths": [
+                  "a.txt"
+                ],
+                "target": {
+                  "commit": "916b42302f7601afc7e602fe3e3b506d4e195c19",
+                  "repository": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-amendment-powershell-bf318904f7ea478c968e533f86f9c2bd\\target",
+                  "tree": "01bddc8c8342583732bbffadcc56c52083c220a3"
+                }
+              },
+              "commission_id": "protected-git-commission-c3d4548dbb4a3be5a6d76498b66401f85cb78093d48c2340dea788985c6c28a7",
+              "dossier_digest": "84379bea459b08ac1e1750677bddb23f7b042872ab9c009b5e88687955755ed6",
+              "expires_at": 1788610821,
+              "from": "AUTHORIZED",
+              "issuer": "QNaNAVb/K60QNlfUMRbUms1BgxkeNg/6gn8UsDlfd9k=",
+              "mission_id": "disposable-mission-5be3bcc0efc63d14",
+              "nonce": "1486aacf9eac3d5cad452b35298457bfa6a28d5fe9e3bd5b",
+              "target": {
+                "commit": "916b42302f7601afc7e602fe3e3b506d4e195c19",
+                "repository": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-amendment-powershell-bf318904f7ea478c968e533f86f9c2bd\\target",
+                "tree": "01bddc8c8342583732bbffadcc56c52083c220a3"
+              },
+              "to": "ADMITTED"
+            },
+            "signature": "OLbVSYVn1pk+aJ8vrUJk7MF4Y4oWQIW7Bm/znNgSXkWlPmjE6thn/dnGOtG8hXbVId8JVpbGhGiy/R1yOJgaAA=="
+          },
+          "consumed_at": 1788609022
+        },
+        {
+          "capability": {
+            "payload": {
+              "action": "inspect",
+              "actor": "protected-git-inspector",
+              "authorization_digest": "9ebc97f6ba79e417544cdf9936bb202e6146a0d8dbf4548dcc10b131c0f5483d",
+              "authorization_id": "mission-authorization-d0d6e8b09280b2812949",
+              "binding": {
+                "authorization_digest": "9ebc97f6ba79e417544cdf9936bb202e6146a0d8dbf4548dcc10b131c0f5483d",
+                "authorization_id": "mission-authorization-d0d6e8b09280b2812949",
+                "budget": {
+                  "max_bytes": 100000,
+                  "max_files": 1,
+                  "max_findings": 1,
+                  "max_seconds": 10
+                },
+                "dossier_digest": "84379bea459b08ac1e1750677bddb23f7b042872ab9c009b5e88687955755ed6",
+                "dossier_id": "curia-planning-dossier-bd450867ea293dbfd4d0",
+                "dossier_version": 1,
+                "generation_id": "afc5bc9db4b18472d0460c7251fd735c8ebd8d4efac030097288fcae40ef42b8",
+                "mission_id": "disposable-mission-5be3bcc0efc63d14",
+                "paths": [
+                  "a.txt"
+                ],
+                "target": {
+                  "commit": "916b42302f7601afc7e602fe3e3b506d4e195c19",
+                  "repository": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-amendment-powershell-bf318904f7ea478c968e533f86f9c2bd\\target",
+                  "tree": "01bddc8c8342583732bbffadcc56c52083c220a3"
+                }
+              },
+              "commission_id": "protected-git-commission-c3d4548dbb4a3be5a6d76498b66401f85cb78093d48c2340dea788985c6c28a7",
+              "dossier_digest": "84379bea459b08ac1e1750677bddb23f7b042872ab9c009b5e88687955755ed6",
+              "expires_at": 1788610821,
+              "from": "ADMITTED",
+              "issuer": "QNaNAVb/K60QNlfUMRbUms1BgxkeNg/6gn8UsDlfd9k=",
+              "mission_id": "disposable-mission-5be3bcc0efc63d14",
+              "nonce": "07a749c0191a7a7effef5d6358aa5b13af71db405ab89220",
+              "target": {
+                "commit": "916b42302f7601afc7e602fe3e3b506d4e195c19",
+                "repository": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-amendment-powershell-bf318904f7ea478c968e533f86f9c2bd\\target",
+                "tree": "01bddc8c8342583732bbffadcc56c52083c220a3"
+              },
+              "to": "INSPECTING"
+            },
+            "signature": "DJO3MFnDeW23UwKmHGn8X/Gmw7NVp3MnXBipPoi1g8i/MHIkwchFOba8PoyChvU4NNZ/NjCirm2uzVof/X0pBg=="
+          },
+          "consumed_at": 1788609022
+        }
+      ],
+      "state": "INSPECTING"
+    },
+    "receipt": null,
+    "execution_authority": false
+  },
+  "successor_initial": {
+    "authorization_id": "mission-authorization-d4a9012f2a24c0105ae4",
+    "binding": {
+      "authorization_digest": "ea1a4c1c94e60c1808c85a7398ba0e6c55165bc573065bdf68fa7e8397e48df6",
+      "authorization_id": "mission-authorization-d4a9012f2a24c0105ae4",
+      "budget": {
+        "max_bytes": 100000,
+        "max_files": 1,
+        "max_findings": 1,
+        "max_seconds": 10
+      },
+      "dossier_digest": "67c419a5192656040db7812156555908c851148f21d7e0267da09a7d56520c6d",
+      "dossier_id": "curia-planning-dossier-f3d5020fec60327bafe3",
+      "dossier_version": 1,
+      "generation_id": "70ee4c6ebbc6829522b51abfc1e4b3a5827a5ee238caf0d87f23920c38a0fd19",
+      "mission_id": "disposable-mission-5be3bcc0efc63d14",
+      "paths": [
+        "b.txt"
+      ],
+      "target": {
+        "commit": "916b42302f7601afc7e602fe3e3b506d4e195c19",
+        "repository": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-amendment-powershell-bf318904f7ea478c968e533f86f9c2bd\\target",
+        "tree": "01bddc8c8342583732bbffadcc56c52083c220a3"
+      }
+    },
+    "is_current": true,
+    "inactive": false,
+    "currentness": "CURRENT",
+    "next_action": "Inspect this generation and its exact commission.",
+    "lifecycle": {
+      "binding": {
+        "authorization_digest": "ea1a4c1c94e60c1808c85a7398ba0e6c55165bc573065bdf68fa7e8397e48df6",
+        "authorization_id": "mission-authorization-d4a9012f2a24c0105ae4",
+        "budget": {
+          "max_bytes": 100000,
+          "max_files": 1,
+          "max_findings": 1,
+          "max_seconds": 10
+        },
+        "dossier_digest": "67c419a5192656040db7812156555908c851148f21d7e0267da09a7d56520c6d",
+        "dossier_id": "curia-planning-dossier-f3d5020fec60327bafe3",
+        "dossier_version": 1,
+        "generation_id": "70ee4c6ebbc6829522b51abfc1e4b3a5827a5ee238caf0d87f23920c38a0fd19",
+        "mission_id": "disposable-mission-5be3bcc0efc63d14",
+        "paths": [
+          "b.txt"
+        ],
+        "target": {
+          "commit": "916b42302f7601afc7e602fe3e3b506d4e195c19",
+          "repository": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-amendment-powershell-bf318904f7ea478c968e533f86f9c2bd\\target",
+          "tree": "01bddc8c8342583732bbffadcc56c52083c220a3"
+        }
+      },
+      "consumed_nonces": [],
+      "history": [],
+      "state": "AUTHORIZED"
+    },
+    "receipt": null,
+    "execution_authority": false
+  },
+  "successor_completed": {
+    "authorization_id": "mission-authorization-d4a9012f2a24c0105ae4",
+    "binding": {
+      "authorization_digest": "ea1a4c1c94e60c1808c85a7398ba0e6c55165bc573065bdf68fa7e8397e48df6",
+      "authorization_id": "mission-authorization-d4a9012f2a24c0105ae4",
+      "budget": {
+        "max_bytes": 100000,
+        "max_files": 1,
+        "max_findings": 1,
+        "max_seconds": 10
+      },
+      "dossier_digest": "67c419a5192656040db7812156555908c851148f21d7e0267da09a7d56520c6d",
+      "dossier_id": "curia-planning-dossier-f3d5020fec60327bafe3",
+      "dossier_version": 1,
+      "generation_id": "70ee4c6ebbc6829522b51abfc1e4b3a5827a5ee238caf0d87f23920c38a0fd19",
+      "mission_id": "disposable-mission-5be3bcc0efc63d14",
+      "paths": [
+        "b.txt"
+      ],
+      "target": {
+        "commit": "916b42302f7601afc7e602fe3e3b506d4e195c19",
+        "repository": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-amendment-powershell-bf318904f7ea478c968e533f86f9c2bd\\target",
+        "tree": "01bddc8c8342583732bbffadcc56c52083c220a3"
+      }
+    },
+    "is_current": true,
+    "inactive": false,
+    "currentness": "CURRENT",
+    "next_action": "Mission identity closed; a new run requires a new identity and approval.",
+    "lifecycle": {
+      "binding": {
+        "authorization_digest": "ea1a4c1c94e60c1808c85a7398ba0e6c55165bc573065bdf68fa7e8397e48df6",
+        "authorization_id": "mission-authorization-d4a9012f2a24c0105ae4",
+        "budget": {
+          "max_bytes": 100000,
+          "max_files": 1,
+          "max_findings": 1,
+          "max_seconds": 10
+        },
+        "dossier_digest": "67c419a5192656040db7812156555908c851148f21d7e0267da09a7d56520c6d",
+        "dossier_id": "curia-planning-dossier-f3d5020fec60327bafe3",
+        "dossier_version": 1,
+        "generation_id": "70ee4c6ebbc6829522b51abfc1e4b3a5827a5ee238caf0d87f23920c38a0fd19",
+        "mission_id": "disposable-mission-5be3bcc0efc63d14",
+        "paths": [
+          "b.txt"
+        ],
+        "target": {
+          "commit": "916b42302f7601afc7e602fe3e3b506d4e195c19",
+          "repository": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-amendment-powershell-bf318904f7ea478c968e533f86f9c2bd\\target",
+          "tree": "01bddc8c8342583732bbffadcc56c52083c220a3"
+        }
+      },
+      "consumed_nonces": {
+        "31d6007c4bfe3b2d8bb0584d21493fd1cd392585989bee89": true,
+        "768dd4e4f5e10aa725e4dab516d7d4f54d5a7e3d1955e780": true,
+        "8bc07c3e4e3b7f44907faca1654fb0358c9bd301bc887ab4": true
+      },
+      "history": [
+        {
+          "capability": {
+            "payload": {
+              "action": "admit",
+              "actor": "protected-git-inspector",
+              "authorization_digest": "ea1a4c1c94e60c1808c85a7398ba0e6c55165bc573065bdf68fa7e8397e48df6",
+              "authorization_id": "mission-authorization-d4a9012f2a24c0105ae4",
+              "binding": {
+                "authorization_digest": "ea1a4c1c94e60c1808c85a7398ba0e6c55165bc573065bdf68fa7e8397e48df6",
+                "authorization_id": "mission-authorization-d4a9012f2a24c0105ae4",
+                "budget": {
+                  "max_bytes": 100000,
+                  "max_files": 1,
+                  "max_findings": 1,
+                  "max_seconds": 10
+                },
+                "dossier_digest": "67c419a5192656040db7812156555908c851148f21d7e0267da09a7d56520c6d",
+                "dossier_id": "curia-planning-dossier-f3d5020fec60327bafe3",
+                "dossier_version": 1,
+                "generation_id": "70ee4c6ebbc6829522b51abfc1e4b3a5827a5ee238caf0d87f23920c38a0fd19",
+                "mission_id": "disposable-mission-5be3bcc0efc63d14",
+                "paths": [
+                  "b.txt"
+                ],
+                "target": {
+                  "commit": "916b42302f7601afc7e602fe3e3b506d4e195c19",
+                  "repository": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-amendment-powershell-bf318904f7ea478c968e533f86f9c2bd\\target",
+                  "tree": "01bddc8c8342583732bbffadcc56c52083c220a3"
+                }
+              },
+              "commission_id": "protected-git-commission-dfd0f5aecef9c03fa5efe5b5698acd712ba3deb4dcefe3aebbe4079f5ff1bde6",
+              "dossier_digest": "67c419a5192656040db7812156555908c851148f21d7e0267da09a7d56520c6d",
+              "expires_at": 1788610821,
+              "from": "AUTHORIZED",
+              "issuer": "QNaNAVb/K60QNlfUMRbUms1BgxkeNg/6gn8UsDlfd9k=",
+              "mission_id": "disposable-mission-5be3bcc0efc63d14",
+              "nonce": "768dd4e4f5e10aa725e4dab516d7d4f54d5a7e3d1955e780",
+              "target": {
+                "commit": "916b42302f7601afc7e602fe3e3b506d4e195c19",
+                "repository": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-amendment-powershell-bf318904f7ea478c968e533f86f9c2bd\\target",
+                "tree": "01bddc8c8342583732bbffadcc56c52083c220a3"
+              },
+              "to": "ADMITTED"
+            },
+            "signature": "wIdi83ik4bvzjh8pp+XRoX2X//fWwS6D8ApHovVUvuJUfzRNNT0KuaevW3Az+VJYyUW6gcyw43CJFc4/5LJNDA=="
+          },
+          "consumed_at": 1788609024
+        },
+        {
+          "capability": {
+            "payload": {
+              "action": "inspect",
+              "actor": "protected-git-inspector",
+              "authorization_digest": "ea1a4c1c94e60c1808c85a7398ba0e6c55165bc573065bdf68fa7e8397e48df6",
+              "authorization_id": "mission-authorization-d4a9012f2a24c0105ae4",
+              "binding": {
+                "authorization_digest": "ea1a4c1c94e60c1808c85a7398ba0e6c55165bc573065bdf68fa7e8397e48df6",
+                "authorization_id": "mission-authorization-d4a9012f2a24c0105ae4",
+                "budget": {
+                  "max_bytes": 100000,
+                  "max_files": 1,
+                  "max_findings": 1,
+                  "max_seconds": 10
+                },
+                "dossier_digest": "67c419a5192656040db7812156555908c851148f21d7e0267da09a7d56520c6d",
+                "dossier_id": "curia-planning-dossier-f3d5020fec60327bafe3",
+                "dossier_version": 1,
+                "generation_id": "70ee4c6ebbc6829522b51abfc1e4b3a5827a5ee238caf0d87f23920c38a0fd19",
+                "mission_id": "disposable-mission-5be3bcc0efc63d14",
+                "paths": [
+                  "b.txt"
+                ],
+                "target": {
+                  "commit": "916b42302f7601afc7e602fe3e3b506d4e195c19",
+                  "repository": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-amendment-powershell-bf318904f7ea478c968e533f86f9c2bd\\target",
+                  "tree": "01bddc8c8342583732bbffadcc56c52083c220a3"
+                }
+              },
+              "commission_id": "protected-git-commission-dfd0f5aecef9c03fa5efe5b5698acd712ba3deb4dcefe3aebbe4079f5ff1bde6",
+              "dossier_digest": "67c419a5192656040db7812156555908c851148f21d7e0267da09a7d56520c6d",
+              "expires_at": 1788610821,
+              "from": "ADMITTED",
+              "issuer": "QNaNAVb/K60QNlfUMRbUms1BgxkeNg/6gn8UsDlfd9k=",
+              "mission_id": "disposable-mission-5be3bcc0efc63d14",
+              "nonce": "8bc07c3e4e3b7f44907faca1654fb0358c9bd301bc887ab4",
+              "target": {
+                "commit": "916b42302f7601afc7e602fe3e3b506d4e195c19",
+                "repository": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-amendment-powershell-bf318904f7ea478c968e533f86f9c2bd\\target",
+                "tree": "01bddc8c8342583732bbffadcc56c52083c220a3"
+              },
+              "to": "INSPECTING"
+            },
+            "signature": "ZpJSKKt6CwbyT+VCNXYR53H6zgwGcx3YL4pNHBcjubbhjKBX6DTes7rFYllhBbawtLKtuPXJkpCd+ipPcVmtBQ=="
+          },
+          "consumed_at": 1788609024
+        },
+        {
+          "capability": {
+            "payload": {
+              "action": "complete",
+              "actor": "protected-git-inspector",
+              "authorization_digest": "ea1a4c1c94e60c1808c85a7398ba0e6c55165bc573065bdf68fa7e8397e48df6",
+              "authorization_id": "mission-authorization-d4a9012f2a24c0105ae4",
+              "binding": {
+                "authorization_digest": "ea1a4c1c94e60c1808c85a7398ba0e6c55165bc573065bdf68fa7e8397e48df6",
+                "authorization_id": "mission-authorization-d4a9012f2a24c0105ae4",
+                "budget": {
+                  "max_bytes": 100000,
+                  "max_files": 1,
+                  "max_findings": 1,
+                  "max_seconds": 10
+                },
+                "dossier_digest": "67c419a5192656040db7812156555908c851148f21d7e0267da09a7d56520c6d",
+                "dossier_id": "curia-planning-dossier-f3d5020fec60327bafe3",
+                "dossier_version": 1,
+                "generation_id": "70ee4c6ebbc6829522b51abfc1e4b3a5827a5ee238caf0d87f23920c38a0fd19",
+                "mission_id": "disposable-mission-5be3bcc0efc63d14",
+                "paths": [
+                  "b.txt"
+                ],
+                "target": {
+                  "commit": "916b42302f7601afc7e602fe3e3b506d4e195c19",
+                  "repository": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-amendment-powershell-bf318904f7ea478c968e533f86f9c2bd\\target",
+                  "tree": "01bddc8c8342583732bbffadcc56c52083c220a3"
+                }
+              },
+              "commission_id": "protected-git-commission-dfd0f5aecef9c03fa5efe5b5698acd712ba3deb4dcefe3aebbe4079f5ff1bde6",
+              "dossier_digest": "67c419a5192656040db7812156555908c851148f21d7e0267da09a7d56520c6d",
+              "expires_at": 1788610821,
+              "from": "INSPECTING",
+              "issuer": "QNaNAVb/K60QNlfUMRbUms1BgxkeNg/6gn8UsDlfd9k=",
+              "mission_id": "disposable-mission-5be3bcc0efc63d14",
+              "nonce": "31d6007c4bfe3b2d8bb0584d21493fd1cd392585989bee89",
+              "target": {
+                "commit": "916b42302f7601afc7e602fe3e3b506d4e195c19",
+                "repository": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-amendment-powershell-bf318904f7ea478c968e533f86f9c2bd\\target",
+                "tree": "01bddc8c8342583732bbffadcc56c52083c220a3"
+              },
+              "to": "COMPLETED"
+            },
+            "signature": "iD/Vc92muuHpudAwBvPK2LFu+QJAXU44I4hHkaKxxzh3aMFAvhJdec0ut6Dt8iIqpEKitgiiXgD7ah3XxNvtAQ=="
+          },
+          "consumed_at": 1788609025
+        }
+      ],
+      "state": "COMPLETED"
+    },
+    "receipt": {
+      "authorization_id": "mission-authorization-d4a9012f2a24c0105ae4",
+      "binding": {
+        "authorization_digest": "ea1a4c1c94e60c1808c85a7398ba0e6c55165bc573065bdf68fa7e8397e48df6",
+        "authorization_id": "mission-authorization-d4a9012f2a24c0105ae4",
+        "budget": {
+          "max_bytes": 100000,
+          "max_files": 1,
+          "max_findings": 1,
+          "max_seconds": 10
+        },
+        "dossier_digest": "67c419a5192656040db7812156555908c851148f21d7e0267da09a7d56520c6d",
+        "dossier_id": "curia-planning-dossier-f3d5020fec60327bafe3",
+        "dossier_version": 1,
+        "generation_id": "70ee4c6ebbc6829522b51abfc1e4b3a5827a5ee238caf0d87f23920c38a0fd19",
+        "mission_id": "disposable-mission-5be3bcc0efc63d14",
+        "paths": [
+          "b.txt"
+        ],
+        "target": {
+          "commit": "916b42302f7601afc7e602fe3e3b506d4e195c19",
+          "repository": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-amendment-powershell-bf318904f7ea478c968e533f86f9c2bd\\target",
+          "tree": "01bddc8c8342583732bbffadcc56c52083c220a3"
+        }
+      },
+      "commission_id": "protected-git-commission-dfd0f5aecef9c03fa5efe5b5698acd712ba3deb4dcefe3aebbe4079f5ff1bde6",
+      "completed_at": 1788609025,
+      "deployment_isolation_claimed": false,
+      "dossier_digest": "67c419a5192656040db7812156555908c851148f21d7e0267da09a7d56520c6d",
+      "mission_id": "disposable-mission-5be3bcc0efc63d14",
+      "operator_identity": "disposable-amendment-operator",
+      "snapshot": {
+        "adapter": "offline-loose-sha1-v1",
+        "binding": {
+          "authorization_digest": "ea1a4c1c94e60c1808c85a7398ba0e6c55165bc573065bdf68fa7e8397e48df6",
+          "authorization_id": "mission-authorization-d4a9012f2a24c0105ae4",
+          "budget": {
+            "max_bytes": 100000,
+            "max_files": 1,
+            "max_findings": 1,
+            "max_seconds": 10
+          },
+          "dossier_digest": "67c419a5192656040db7812156555908c851148f21d7e0267da09a7d56520c6d",
+          "dossier_id": "curia-planning-dossier-f3d5020fec60327bafe3",
+          "dossier_version": 1,
+          "generation_id": "70ee4c6ebbc6829522b51abfc1e4b3a5827a5ee238caf0d87f23920c38a0fd19",
+          "mission_id": "disposable-mission-5be3bcc0efc63d14",
+          "paths": [
+            "b.txt"
+          ],
+          "target": {
+            "commit": "916b42302f7601afc7e602fe3e3b506d4e195c19",
+            "repository": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-amendment-powershell-bf318904f7ea478c968e533f86f9c2bd\\target",
+            "tree": "01bddc8c8342583732bbffadcc56c52083c220a3"
+          }
+        },
+        "commit_id": "916b42302f7601afc7e602fe3e3b506d4e195c19",
+        "commit_verified": true,
+        "findings": [
+          {
+            "blob_id": "a037554ab8dd5802b1ffeedf010b41999793f3b8",
+            "byte_length": 24,
+            "bytes_base64": "QiBjb21taXR0ZWQgdGVzdCBieXRlcy4K",
+            "path": "b.txt",
+            "sha256": "04f69edb6b2faf814f80adb9a710a06b3c72c378e255fc6298224f21b933b1e4"
+          }
+        ],
+        "git_network_or_subprocess_used": false,
+        "object_bytes_read": 284,
+        "target_mutation_performed": false,
+        "tree_id": "01bddc8c8342583732bbffadcc56c52083c220a3",
+        "tree_verified": true
+      },
+      "trust_fingerprint": "47d28c20ba8f5d05ede1dcc92a79b12244746c71eaee16c3281a5021cbbec2c9",
+      "trust_root_id": "276f9661c3b46d98b93a643ecec857aabf063427e3824a5ffa9eeddb1b32c467"
+    },
+    "execution_authority": false
+  }
+}

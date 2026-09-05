@@ -1,3 +1,27 @@
+# Current disposition: mission amendment correction local audit complete
+
+`MISSION_AMENDMENT_CORRECTION_LOCAL_COMPLETE_PENDING_INDEPENDENT_REVIEW`
+`DEPLOYMENT_ISOLATION_UNPROVED_OPERATOR_SETUP_REQUIRED`
+
+Batches 0–3 are locally complete. Exact audited implementation:
+`2a2b746feb9c66c961033ffafcf961f3bb49c4b5`.
+Full PHPUnit: **2675 tests / 52696 assertions**; focused **26 / 404**, no reported skips.
+Disposable PowerShell A-inspect/B-amend/B-complete refusal and fresh B execution passed.
+
+Current flow: inert pending proposal → exact signed predecessor-bound approval → common-lock
+canonical activation → fresh AUTHORIZED generation → its own admit/inspect/complete and receipt.
+Prior generations remain historical. Completed/failed/cancelled identities cannot reopen.
+Unsigned requests cannot replace authority or another pending challenge. Stale activation refuses.
+
+Audit/changed-test map: `docs/handoffs/mission-amendment-correction-local-audit-complete.md`.
+Ledger: `docs/mission-amendment-evidence-ledger.json`.
+Per-version examples: `docs/mission-amendment-status-examples.json`.
+PowerShell instructions: `docs/protected-mission-operator-runbook.md`, amendment supplement.
+
+STOP locally for independent review. No publication, main change, branch deletion, installation,
+real trust/key/mission or provider action. Schema migration and real deployment isolation remain
+future owner-reviewed gates. Earlier selection and completion blocks below are historical.
+
 # Current continuation: mission amendment authority and evidence binding
 
 `MISSION_AMENDMENT_CORRECTION_SELECTED`
@@ -24,6 +48,26 @@ Unsigned preparation cannot revoke authority or displace another pending challen
 Local corrections stop for independent review. Real Operator setup, actual mission execution,
 implementation publication/main merge, branch deletion and live Batch 7 remain unauthorized.
 Earlier continuation blocks are historical and do not supersede this selection.
+
+# Current disposition: protected mission authority local audit
+
+`PROTECTED_MISSION_AUTHORITY_LOCAL_CANDIDATE_COMPLETE_PENDING_REVIEW_AND_OPERATOR_SETUP`
+`DEPLOYMENT_ISOLATION_UNPROVED_OPERATOR_SETUP_REQUIRED`
+
+Local Batches 0–5 are complete. Audited implementation:
+`f12524f2b25942b8149e8c455a39da5d26217a9b`; full local suite **2665 / 52515**,
+focused **16 / 221**, no reported skips. Fresh disposable identities exercised the executable
+canonical approval ceremony and an unchanged-target Git inspection through the real CLI.
+Same-user process proofs are not measured deployment isolation.
+
+Handoff: `docs/handoffs/protected-mission-authority-local-audit-complete.md`.
+Evidence: `docs/protected-mission-authority-evidence-ledger.json`.
+Human setup: `docs/protected-mission-operator-runbook.md`.
+
+STOP for independent review and separate human deployment/Operator setup. No push, PR, merge,
+main update, real trust enrollment, previous blocked mission, real mission, provider or live trial.
+The old branch at `8df34679beab0ba8699a68fdd458570bf658c4c8` and its historical test result remain
+preserved. The selection and older continuation blocks below are historical context.
 
 # Current continuation: protected mission authority and Operator ceremony
 
