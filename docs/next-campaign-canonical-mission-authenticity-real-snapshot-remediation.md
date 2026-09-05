@@ -17,8 +17,9 @@ Git snapshot named by the Operator.
 The governing review is
 `docs/canonical-mission-thread-post-review-blackquill-v1.md`.
 
-Accepted implementation baseline is
-`2527b33925bf3ef47d029786e60a6aefe752737b`. The quarantined branch
+Campaign entry is documentation-only merged `main` at
+`4b0eddee3410d74f9931963b460e5efe8c401e0f`. The accepted runtime implementation baseline beneath
+that merge is `2527b33925bf3ef47d029786e60a6aefe752737b`. The quarantined branch
 `codex/canonical-mission-thread-authority-provenance` is evidence only.
 
 ## Campaign sequence

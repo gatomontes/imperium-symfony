@@ -1,6 +1,8 @@
 # Canonical Mission Authenticity and Real Snapshot Remediation — local entrypoint
 
-Start from clean local `main` exactly at
+Start from clean local `main` exactly at campaign-entry commit
+`4b0eddee3410d74f9931963b460e5efe8c401e0f`. The accepted runtime implementation beneath the
+documentation-only selection merge remains
 `2527b33925bf3ef47d029786e60a6aefe752737b`.
 
 Read completely:

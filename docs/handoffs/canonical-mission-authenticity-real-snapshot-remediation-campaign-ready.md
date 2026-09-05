@@ -11,7 +11,8 @@ The prior mission-thread candidate at
 shape but not authentic Operator authority, non-substitutable verification, real Git-snapshot
 inspection or process contention.
 
-The corrective campaign starts from accepted `main` at
+The corrective campaign enters from documentation-only merged `main` at
+`4b0eddee3410d74f9931963b460e5efe8c401e0f`; its accepted runtime implementation baseline is
 `2527b33925bf3ef47d029786e60a6aefe752737b`. Seven stages are defined:
 Preparation Batch 0, Batches 1–6, with a mandatory human Operator authorization gate between
 Batches 3 and 4.
