@@ -5,6 +5,8 @@ param([Parameter(Mandatory)][string]$Source,
 $ErrorActionPreference='Stop'
 $statePath='C:\ProgramData\Imperium\ProtectedMission'
 $codePath='C:\ProgramData\Imperium\ProtectedMissionCode'
+$scratchPath='C:\ProgramData\Imperium\ProtectedMissionScratch'
+. (Join-Path $PSScriptRoot 'ProtectedMissionScratch.ps1')
 if ($RuntimeSid -eq $CallerSid -or $RuntimeSid -notmatch '^S-1-5-21-(\d+-){3}\d+$' -or $CallerSid -notmatch '^S-1-5-21-(\d+-){3}\d+$') { throw 'Distinct non-builtin account SIDs are required.' }
 if (-not $PSCmdlet.ShouldProcess("$statePath and $codePath",'Install reviewed code and explicit protected ACLs; no account creation or trust enrollment')) {
     [pscustomobject]@{StatePath=$statePath;CodePath=$codePath;RuntimeSid=$RuntimeSid;CallerSid=$CallerSid;Applied=$false}
@@ -12,7 +14,7 @@ if (-not $PSCmdlet.ShouldProcess("$statePath and $codePath",'Install reviewed co
 }
 $principal=New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 if (-not $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) { throw 'Run the reviewed installer as deployment administrator.' }
-if ((Test-Path -LiteralPath $statePath) -or (Test-Path -LiteralPath $codePath)) { throw 'Existing installations are never replaced by bootstrap.' }
+if ((Test-Path -LiteralPath $statePath) -or (Test-Path -LiteralPath $codePath) -or (Test-Path -LiteralPath $scratchPath)) { throw 'Existing installations are never replaced by bootstrap.' }
 foreach ($sid in @($RuntimeSid,$CallerSid)) { $null=([Security.Principal.SecurityIdentifier]$sid).Translate([Security.Principal.NTAccount]) }
 function Set-ExactPmaAcl([string]$Path,[bool]$Directory,[bool]$RuntimeWrite,[bool]$CallerRead) {
     if ($Directory) { $acl=New-Object Security.AccessControl.DirectorySecurity } else { $acl=New-Object Security.AccessControl.FileSecurity }
@@ -30,6 +32,8 @@ function Set-ExactPmaAcl([string]$Path,[bool]$Directory,[bool]$RuntimeWrite,[boo
 }
 [void][IO.Directory]::CreateDirectory($statePath)
 [void][IO.Directory]::CreateDirectory($codePath)
+[void][IO.Directory]::CreateDirectory($scratchPath)
+Set-Acl -LiteralPath $scratchPath -AclObject (New-PmaScratchAcl $RuntimeSid)
 Set-ExactPmaAcl $statePath $true $true $false
 Set-ExactPmaAcl $codePath $true $false $true
 foreach($folder in @('src','bin','vendor','tools')) {

@@ -40,7 +40,8 @@ foreach($pair in @(@('state-canary',"$base\ProtectedMission"),@('metadata-canary
     $file=Join-Path "$base\ProtectedMission" $pair[0];[IO.File]::WriteAllText($file,'public disposable access canary')
     if($pair[0] -eq 'metadata-canary'){$acl=Get-Acl -LiteralPath $pair[1];Set-Acl -LiteralPath $file -AclObject $acl}
 }
-# Directory creation is permitted, but owner reference children cannot be replaced
+# Only file creation is permitted here; directories belong in dedicated scratch.
+# Owner reference children cannot be replaced
 # using DELETE_CHILD. File inheritance gives Runtime its required output rights.
 function Set-PmaOperationalDirectory([string]$Path){
     Set-OwnerAcl $Path $false $false

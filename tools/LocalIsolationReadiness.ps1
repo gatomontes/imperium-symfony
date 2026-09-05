@@ -1,5 +1,6 @@
 # Reviewed finite access policy and deterministic evidence validation. No authority writes.
 Set-StrictMode -Version Latest
+. (Join-Path $PSScriptRoot 'ProtectedMissionScratch.ps1')
 $PmaReadinessSchema='imperium.local-isolation-readiness/v2'
 function ConvertTo-PmaStable($Value) {
  if($Value -is [Collections.IDictionary]) {
@@ -27,6 +28,7 @@ function Assert-PmaToken($Token,[string]$Sid) {
 }
 function Get-PmaSurfaceClass([string]$Path,[bool]$Directory,[string]$Base) {
  $rel=$Path.Substring($Base.Length).TrimStart('\')
+ if($rel -eq 'ProtectedMissionScratch' -and $Directory){return 'scratch-root'}
  if($rel -match '^ProtectedMission(Code|PHP|Shell|Target|ProbePlans|PostEnrollmentPlans)(\\|$)'){return 'immutable'}
  if($rel -eq 'ProtectedMissionExchange'){return 'exchange-root'}
  if($rel -like 'ProtectedMissionExchange\*') {
@@ -42,8 +44,13 @@ function Get-PmaSurfaceClass([string]$Path,[bool]$Directory,[string]$Base) {
  throw 'READINESS_UNCLASSIFIED_SURFACE'
 }
 function Get-PmaInventory([string]$Base='C:\ProgramData\Imperium') {
+ $scratch=Join-Path $Base 'ProtectedMissionScratch'
+ $metadata=Read-PmaEvidence "$Base\ProtectedMission\installation.json"
+ Assert-PmaScratchPolicy $scratch $metadata.runtime_sid
+ Assert-PmaScratchEmpty $scratch
  $roots=@('ProtectedMissionCode','ProtectedMissionPHP','ProtectedMissionShell','ProtectedMissionTarget','ProtectedMission','ProtectedMissionExchange','ProtectedMissionProbePlans','ProtectedMissionPostEnrollmentPlans')
  $items=@();foreach($name in $roots){$root=Join-Path $Base $name;$items+=@(Get-Item -LiteralPath $root -Force)+@(Get-ChildItem -LiteralPath $root -Recurse -Force)}
+ $items+=Get-Item -LiteralPath $scratch -Force
  $system='C:\Windows\System32\WindowsPowerShell\v1.0'
  $items+=@(Get-Item $system -Force)+@(Get-ChildItem $system -Recurse -Force)
  $parents=@($Base,(Split-Path $Base),[IO.Path]::GetPathRoot($Base),'C:\Windows','C:\Windows\System32','C:\Windows\System32\WindowsPowerShell')|Select-Object -Unique
@@ -69,6 +76,7 @@ function Get-PmaRequiredProbes($Inventory,[ValidateSet('Runtime','Caller')][stri
    if($Role -eq 'Runtime') {
     if($item.class -eq 'reference' -and $right -eq 'read-or-list'){$success=$true}
     if($item.class -in @('exchange-root','state-root') -and $right -in @('read-or-list','write-data')){$success=$true}
+    if($item.class -eq 'scratch-root' -and $right -in @('read-or-list','write-data','append-data')){$success=$true}
     if($item.class -in @('runtime-state','runtime-output') -and $right -in @('read-or-list','write-data','append-data','delete')){$success=$true}
    }
    $rows.Add([ordered]@{path=$item.path;right=$right;mask=$rights[$right];expected=if($success){'ACCESS_SUCCEEDED'}else{'ACCESS_DENIED'}})

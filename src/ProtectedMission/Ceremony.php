@@ -121,21 +121,15 @@ final class Ceremony
 
     private function scratch(array $files,callable $call):array
     {
-        $scratch=$this->root.'/scratch-'.bin2hex(random_bytes(16)); mkdir($scratch,0700,true);
-        try {
+        return ScratchWorkspace::run($this->root,function(string $scratch) use($files,$call):array {
             foreach ($files as $relative=>$record) {
-                $path=$scratch.'/'.$relative; if (!is_dir(dirname($path))) mkdir(dirname($path),0700,true);
-                file_put_contents($path,CanonicalJson::encode($record));
+                $path=$scratch.'/'.$relative;
+                if (!is_dir(dirname($path)) && !mkdir(dirname($path),0700,true)) throw new \RuntimeException('PMA_SCRATCH_SEED_FAILED');
+                $bytes=CanonicalJson::encode($record);
+                if (file_put_contents($path,$bytes)!==strlen($bytes)) throw new \RuntimeException('PMA_SCRATCH_SEED_FAILED');
             }
             return $call($scratch);
-        } finally { $this->removeScratch($scratch); }
-    }
-    private function removeScratch(string $path):void
-    {
-        foreach (new \FilesystemIterator($path) as $item) {
-            if ($item->isDir() && !$item->isLink()) $this->removeScratch($item->getPathname()); else unlink($item->getPathname());
-        }
-        rmdir($path);
+        });
     }
     private static function validateMission(array $m,int $now):void
     {

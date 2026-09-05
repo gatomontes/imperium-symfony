@@ -1,4 +1,4 @@
-param([Parameter(Mandatory)][string]$CodePath)
+param([Parameter(Mandatory)][string]$CodePath,[switch]$Recovery)
 $ErrorActionPreference='Stop'
 try {
     $root='C:\ProgramData\Imperium\ProtectedMission'
@@ -44,6 +44,12 @@ try {
     Assert-PmaAcl $expectedCode $false $false
     foreach($item in Get-ChildItem -LiteralPath $expectedCode -Recurse -Force){Assert-PmaAcl $item.FullName $false $false}
     foreach($item in Get-ChildItem -LiteralPath $root -Recurse -Force){Assert-PmaAcl $item.FullName $true ($item.FullName -eq $file)}
+    # Recovery still verifies identity/code/state; it grants no scratch operation.
+    if(-not $Recovery){
+        . (Join-Path $PSScriptRoot 'ProtectedMissionScratch.ps1')
+        Assert-PmaScratchPolicy ($root+'Scratch') $installation.runtime_sid
+        Assert-PmaScratchEmpty ($root+'Scratch')
+    }
     Write-Output 'PMA_INSTALLATION_ACL_AND_IDENTITY_VERIFIED'
     exit 0
 } catch { Write-Output 'PMA_INSTALLATION_ACL_OR_IDENTITY_REFUSED';exit 2 }

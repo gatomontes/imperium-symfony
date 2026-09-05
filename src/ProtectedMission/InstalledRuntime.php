@@ -10,12 +10,12 @@ final class InstalledRuntime
         return PHP_OS_FAMILY === 'Windows' ? 'C:/ProgramData/Imperium/ProtectedMission' : '/var/lib/imperium-protected-mission';
     }
 
-    public static function owner(): AuthorityOwner
+    public static function owner(bool $recovery = false): AuthorityOwner
     {
         $root = self::root();
         if (PHP_OS_FAMILY !== 'Windows') throw new \RuntimeException('PMA_WINDOWS_DEPLOYMENT_REQUIRED');
         $process=proc_open(['C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe','-NoProfile','-NonInteractive','-File',
-            dirname(__DIR__,2).'/tools/Assert-ProtectedMissionInstallation.ps1','-CodePath',realpath(dirname(__DIR__,2))],
+            dirname(__DIR__,2).'/tools/Assert-ProtectedMissionInstallation.ps1','-CodePath',realpath(dirname(__DIR__,2)),...($recovery?['-Recovery']:[])],
             [0=>['pipe','r'],1=>['pipe','w'],2=>['pipe','w']],$pipes,null,null,['bypass_shell'=>true]);
         if (!is_resource($process)) throw new \RuntimeException('PMA_INSTALLATION_CHECK_FAILED');
         fclose($pipes[0]);$out=stream_get_contents($pipes[1]);fclose($pipes[1]);stream_get_contents($pipes[2]);fclose($pipes[2]);
