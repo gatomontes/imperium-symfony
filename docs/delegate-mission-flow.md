@@ -1,3 +1,23 @@
+# Current disposition: protected mission authority local audit
+
+`PROTECTED_MISSION_AUTHORITY_LOCAL_CANDIDATE_COMPLETE_PENDING_REVIEW_AND_OPERATOR_SETUP`
+`DEPLOYMENT_ISOLATION_UNPROVED_OPERATOR_SETUP_REQUIRED`
+
+Local Batches 0–5 are complete. Audited implementation:
+`f12524f2b25942b8149e8c455a39da5d26217a9b`; full local suite **2665 / 52515**,
+focused **16 / 221**, no reported skips. Fresh disposable identities exercised the executable
+canonical approval ceremony and an unchanged-target Git inspection through the real CLI.
+Same-user process proofs are not measured deployment isolation.
+
+Handoff: `docs/handoffs/protected-mission-authority-local-audit-complete.md`.
+Evidence: `docs/protected-mission-authority-evidence-ledger.json`.
+Human setup: `docs/protected-mission-operator-runbook.md`.
+
+STOP for independent review and separate human deployment/Operator setup. No push, PR, merge,
+main update, real trust enrollment, previous blocked mission, real mission, provider or live trial.
+The old branch at `8df34679beab0ba8699a68fdd458570bf658c4c8` and its historical test result remain
+preserved. The selection and older continuation blocks below are historical context.
+
 # Current continuation: protected mission authority and Operator ceremony
 
 `PROTECTED_MISSION_AUTHORITY_CAMPAIGN_SELECTED`

@@ -1,0 +1,622 @@
+{
+  "status": "PROTECTED_MISSION_AUTHORITY_LOCAL_CANDIDATE_COMPLETE_PENDING_REVIEW_AND_OPERATOR_SETUP",
+  "deployment_status": "DEPLOYMENT_ISOLATION_UNPROVED_OPERATOR_SETUP_REQUIRED",
+  "baseline": "0099c5f7e4008fe06cafc9c5dfa3458dc68f4db9",
+  "audited_commit": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+  "audited_tree": "de1f4f79c70b5106408729eafcaca4aa0d9ffb38",
+  "branch": "codex/protected-mission-authority-operator-ceremony",
+  "main_preserved": "b267e2c2b6a122694418ce59d2bf16319e602b07",
+  "old_branch_preserved": "8df34679beab0ba8699a68fdd458570bf658c4c8",
+  "earlier_candidate_preserved": "3c4890ffd30f403f72a35b92f1e639d51c8c98f8",
+  "batch_commits": [
+    "a52c74a2ec6128af74140c6648b1deaf389a1563 Document protected authority threat model and reproduce quarantine bypasses",
+    "d00529f6c1ea60e884e032f82e6015b12b7be39a Establish fixed protected owner protocol and explicit public trust bootstrap",
+    "d7901c8ae768353fc1cdeac1c57ab207667d3969 Verify and consume protected authority atomically with revocation and durable replay exclusion",
+    "eff6034ca96dca80c2cceadf7c9c557794b428fb Deliver canonical pending challenge and executable Operator approval ceremony",
+    "3cdc89b05e4faa6b353487755e409a58baac9bd3 Prove disposable CLI mission with bounded offline Git inspection and durable receipt",
+    "f12524f2b25942b8149e8c455a39da5d26217a9b Audit protected authority and enforce installed identity and ACL checks"
+  ],
+  "runtime": {
+    "powershell": "7.6.5",
+    "pcntl_available": false,
+    "phpunit": "13.3.0",
+    "git": "2.51.2.windows.1",
+    "platform": "Windows",
+    "php": "8.4.14"
+  },
+  "tests": [
+    {
+      "path": "E:\\htdocs\\imperium\\var\\protected-mission-evidence\\batch-2-full.txt",
+      "tested_commit": "d7901c8ae768353fc1cdeac1c57ab207667d3969",
+      "result": "OK (2656 tests, 52392 assertions)",
+      "sha256": "A412A6CD41A602173806C532A9BF041F2A6A8CC557680E98015724BA497414EB",
+      "skips_reported": 0
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\protected-mission-evidence\\batch-4-full.txt",
+      "tested_commit": "3cdc89b05e4faa6b353487755e409a58baac9bd3",
+      "result": "OK (2662 tests, 52496 assertions)",
+      "sha256": "186F667D5F0A1B44523C57E6EAB6548C380D394D1FD96D89865CA62DE17673D1",
+      "skips_reported": 0
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\protected-mission-evidence\\audit-focused.txt",
+      "tested_commit": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "result": "OK (16 tests, 221 assertions)",
+      "sha256": "11FC543E703BB89E05C591EA62AFD285E93857661E56DE31F1F9A5586063739B",
+      "skips_reported": 0
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\protected-mission-evidence\\audit-full.txt",
+      "tested_commit": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "result": "OK (2665 tests, 52515 assertions)",
+      "sha256": "7B973F48FA9442A7AE6B0369B24B9CA1BDE44E9A4FE3098BD3C1568294CB1564",
+      "skips_reported": 0
+    }
+  ],
+  "additional_local_proofs": [
+    {
+      "path": "E:\\htdocs\\imperium\\var\\protected-mission-evidence\\audit-protocol-probe.json",
+      "sha256": "4F415ADCF6C3A123A517F0A96BBCB62F9AE0909607DBC539FAA50EC4C814770A",
+      "tested_commit": "f12524f2b25942b8149e8c455a39da5d26217a9b"
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\protected-mission-evidence\\audit-powershell.txt",
+      "sha256": "779A7F37396C7DB5E37C1A880EC9970D7391219BC86A72946EBC92407717E3B1",
+      "tested_commit": "f12524f2b25942b8149e8c455a39da5d26217a9b"
+    },
+    {
+      "path": "E:\\htdocs\\imperium\\var\\protected-mission-evidence\\protocol-probe.php",
+      "sha256": "91CFF7907A5DBAD8780383362140C721B7FE0737A20E353BF119C4F36DCDD11F",
+      "tested_commit": "f12524f2b25942b8149e8c455a39da5d26217a9b"
+    }
+  ],
+  "sources": [
+    {
+      "path": "bin/protected-git-worker.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "0a83380b7a4e9d6a10f853bff8fc010ac44ce5a6",
+      "worktree_sha256": "75B7D8AA42F95330B8AD48E9CCFE34A19BF7127E07F87DF60091B338845CE096"
+    },
+    {
+      "path": "bin/protected-mission.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "d61036240cac702ae94283d8e7321ff527fb069b",
+      "worktree_sha256": "E8AF220D715313B4802478C315A4709FD3DDE27F1A0E1B95E5B6EA4CC73EB277"
+    },
+    {
+      "path": "contracts/la-cortine-boundary.md",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "b213185e131fcc5937106d757b5b1a37ff578e3f",
+      "worktree_sha256": "C42F372B05716AD5EB7594726F0D4660A6260A2A938EB05F2B5233FF142CC5AB"
+    },
+    {
+      "path": "contracts/mission-authorization.md",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "864183866cfe34aab5de1dc19c482e1da336ab31",
+      "worktree_sha256": "EB31323821115108AA8ECA4FB0187DBF16D7260F07E42F704DCC4E34BC7A0421"
+    },
+    {
+      "path": "contracts/mission-planning.md",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "2cbc6567fe561d69c435026dda2f39ed50ead674",
+      "worktree_sha256": "22DF58B0E5798FE2967723B585596C5F77FF8EE1CB972FF6132C11478515C40E"
+    },
+    {
+      "path": "contracts/seneschal-suitability.md",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "da02727732cb4860dd15c92c0c01c2a3c8412de6",
+      "worktree_sha256": "E2D68BE5CAA6CA25D92460E0CBD848C034B8209F85A9E2B909825CB69051BA9F"
+    },
+    {
+      "path": "docs/canonical-mission-authority-post-batch-3-review.md",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "d1310c0d07f871cbbb9db1f80617fb9cc26b4e8c",
+      "worktree_sha256": "DDE3854193D0D0E8364EECBD30F7B0AC2CD6A3E52399820C880DE0E66B1F42CC"
+    },
+    {
+      "path": "docs/handoffs/protected-mission-authority-local-ready.md",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "9a0703763bc3698a9faa7fc420dc4ec900a3dd69",
+      "worktree_sha256": "843EE712C4C7B475CED77D1566227315FA41BD44C6359CDFECF90D3C01BD8BD7"
+    },
+    {
+      "path": "docs/next-campaign-protected-mission-authority.md",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "e741c81dc5e7a77026a3efea1542d4047657cf1d",
+      "worktree_sha256": "B04EA553E209C964437546C81874362BCEAFAAB11FAD29613C1193CBD34940C0"
+    },
+    {
+      "path": "docs/protected-mission-authority-batch-0.md",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "60c743342043d9256fabee0dac18308523d62762",
+      "worktree_sha256": "B0E2EF26C65050D7D1AD5C0DBA12A061CB79A243AF34517F5B3957BB8F7526FB"
+    },
+    {
+      "path": "docs/protected-mission-authority-batch-1.md",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "04b22a8e2d29cd44fb509d4db5e85b241ef480c5",
+      "worktree_sha256": "B2FC90BBBD264F837C81400D81029A4E92457430A4D3243BC3F9024B2D8168B7"
+    },
+    {
+      "path": "docs/protected-mission-authority-batch-2.md",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "2ba1303e0a13c3bc942aabe5cf0f47fbab04835d",
+      "worktree_sha256": "6122FFD4AC6560C186101689703F80D14F6745D86CE6B6DAB280B2AA33F3FE05"
+    },
+    {
+      "path": "docs/protected-mission-authority-batch-3.md",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "9b01c0fd668a9843f142f4272c101a89ad8e5f93",
+      "worktree_sha256": "726B4AD356BD4482B3CD5B73FE6AF99F6B454E0AEAB1E6BDB61126F8429F3438"
+    },
+    {
+      "path": "docs/protected-mission-authority-batch-4.md",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "f9724711cd0f6e1f5d195330a0c3d0a3e699a1a1",
+      "worktree_sha256": "4F0873ED241A35BD32A96B09A7FD41798C4A131A2F2C9F7B63D0ECC52B6ED574"
+    },
+    {
+      "path": "docs/protected-mission-authority-batch-5-audit.md",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "57f95284abe0ce48d2d793112bac892b33855133",
+      "worktree_sha256": "581D0713B46EEE16FC466F7E12B72B9D95FC3120D968CBFBE67334787C754387"
+    },
+    {
+      "path": "docs/protected-mission-operator-runbook.md",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "57c247b46b632d7f263b79ba786a3773dc36fa4f",
+      "worktree_sha256": "3DE0375CB5E0EA146061C05FCD6F56C3011E0CFAD7F90221D4BAC38312337889"
+    },
+    {
+      "path": "src/Imperium/Runtime/Clavium/OpaqueCapabilityCustodyContract.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "1d7aab203ad5d0dedc6e672409e160debbf43776",
+      "worktree_sha256": "F888B79F00169FA3DB966B2F87E1DADD12CFF5ECF9F4510248FDB00905DBD853"
+    },
+    {
+      "path": "src/Imperium/Runtime/Curia/ImperatorPlanningDossierReviewService.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "b3d416a46ecd23bd6c4c14b711674507b7bcee5a",
+      "worktree_sha256": "28195DCA980B54575D23E7FEB717AABEE185749565D68365DDD4DA0F652DD91C"
+    },
+    {
+      "path": "src/Imperium/Runtime/Curia/MissionAuthorizationDerivationService.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "0e492d739288dfe268dfd99a59f357c2837cd493",
+      "worktree_sha256": "5FAA2DD3B95AF94E1D48595C35D2F539A49A6F900E2E18B98887E1E3D85BDF47"
+    },
+    {
+      "path": "src/Imperium/Runtime/Curia/PlanningDossierAssemblyService.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "48bbc74e239f408d08927bc936bd399ab337ac8f",
+      "worktree_sha256": "9960C414CFACDC308A4FCF3556DA7A6BAB8763B1510A3FC94F3B849926D4A62F"
+    },
+    {
+      "path": "src/Imperium/Runtime/Curia/ProceedingStore.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "a4ca72fcbb4c1654c9e7d4646b624fb9d9c6d118",
+      "worktree_sha256": "5E054209364E3663203D7F6A8B6DA3F3B670FA7728462ED94563FC84339096DD"
+    },
+    {
+      "path": "src/Imperium/Runtime/Persistence/AtomicTransition.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "95411cc32d34d209ea3de7d42f3e5228e171c35c",
+      "worktree_sha256": "8AB78031EA4FA7C5552BF8A1E7FCA50167D8FD2F265081326750C6B81FC9C0BB"
+    },
+    {
+      "path": "src/Imperium/Runtime/Persistence/AuthorityConsumptionStore.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "c4ec74a69a5e25bd01e8f58fd16559c479282e0c",
+      "worktree_sha256": "4D5B4F456625A57DEA16E201FB14BCCE026C636C1AD3C53AD50FB5577708F634"
+    },
+    {
+      "path": "src/Imperium/Runtime/Persistence/ImmutableRecordStore.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "ab80f2b3ca049c88b3eacf379f7d5ca35c773a20",
+      "worktree_sha256": "51ACAF101D0C14301CD2D29F19581473FF93FDC82179FA34225566282F97AE7A"
+    },
+    {
+      "path": "src/Imperium/Runtime/ProviderTransition/NativeEffectReconciliationAuthorityCustodyContract.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "f0d438daebac43f988ed1a1c34b7e5ee0558566c",
+      "worktree_sha256": "2FBE87BCA1A7D1694B777D15567A18E303A410DED4541389E29A3B112E9DEDBF"
+    },
+    {
+      "path": "src/Imperium/Runtime/ProviderTransition/NativeEffectReconciliationIssuanceCapabilityCustodyContract.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "839abd962a9d95b69b446ab9ea083e72aecc90a4",
+      "worktree_sha256": "EDDBD397E2B6C04B98AF8D5BAD6629AD9C6CAF8F7349890282F25E5F3F223B66"
+    },
+    {
+      "path": "src/ProtectedMission/AuthorityOwner.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "bd28a46d5eff82368ed15cc9df928db9e27387bf",
+      "worktree_sha256": "DA73D06B466CAF01F2119526CA90942CA68377F1F55C4026AAFC3396043528FC"
+    },
+    {
+      "path": "src/ProtectedMission/Ceremony.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "202ca6cd771eaea9a4441ad990bb406e9d317d79",
+      "worktree_sha256": "ECBE6612A7B6438D971304707698F3F8F2F1351BA08E6AD1CF4B645104073CCF"
+    },
+    {
+      "path": "src/ProtectedMission/Cli.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "df0204dc189eded2444a39f3bc7220727983399e",
+      "worktree_sha256": "AAFE07DF6296EAE4C9E82C83D497E0BD7D67C9DE505E940E9F7176AB6A62DDD9"
+    },
+    {
+      "path": "src/ProtectedMission/InspectionProcess.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "e42e07a53c6fc20aa7f6c81c1fb241cafdb94eff",
+      "worktree_sha256": "AEE661B00FE41A4E37D3757EBDC326A3693AD9022AB9D9801C10E55367167740"
+    },
+    {
+      "path": "src/ProtectedMission/InstalledRuntime.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "1361d0311fea33dea8dc0540fc772e96f04c1237",
+      "worktree_sha256": "B083DD28655FC3C1C02360FF47B9660823259EC124003C4FD4FADE1EF2F54109"
+    },
+    {
+      "path": "src/ProtectedMission/OfflineGitInspector.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "b8ab46586406ef899a899b34d489ced3330d3076",
+      "worktree_sha256": "39FA3DA12FD7B7920108E9CCC86FD3BA6AF0C9EAE3B7034EFFDB89C557413B24"
+    },
+    {
+      "path": "src/ProtectedMission/PublicTrust.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "29e68664a330ee8bb9bf33efd3102035dda0d5b1",
+      "worktree_sha256": "B3211AB35DC02D3273D287A1D4A9B701E9640FC8603227BC61E8ACF1E97A8568"
+    },
+    {
+      "path": "tests/Imperium/Runtime/ProtectedMissionAuthorityBatch1Test.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "870f2a84ca4ef1384d5e3fd21634f382eb93d1e5",
+      "worktree_sha256": "91A9478BC99C46BB7D4C26C71FB4E3C5F160C45099FCA4AFE55C699E2CE54C38"
+    },
+    {
+      "path": "tests/Imperium/Runtime/ProtectedMissionAuthorityBatch2Test.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "cf1934ca93ee3239a8dbf6421496cd229d3e4247",
+      "worktree_sha256": "8DDF7AA18D1F333078E3ED1FE148BE94949708584F973207CE586CE46A4B3E1D"
+    },
+    {
+      "path": "tests/Imperium/Runtime/ProtectedMissionAuthorityBatch3Test.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "a742053db57c8e3de1f7160fc979ba1bf9c21b92",
+      "worktree_sha256": "3024F712327F432D081455E7958C44DBB29045939742D2B9F5711543CDA2BF2B"
+    },
+    {
+      "path": "tests/Imperium/Runtime/ProtectedMissionAuthorityBatch4Test.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "907b62dc4b3997542256f718dc88f09615c2ba1d",
+      "worktree_sha256": "C95802E3B90C77E9FCF0C9662ED0B10CD224D4F45F9F03998EC9CD839BD21BD0"
+    },
+    {
+      "path": "tests/Imperium/Runtime/ProtectedMissionAuthorityBatch5AuditTest.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "0a2aef79153378378e6bdd5e29af68655d5e8fbf",
+      "worktree_sha256": "178D3D53E1166C0CFB6C798790F241007933627730F29B9CA3CEAEF8BED7B9B2"
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/protected_ceremony_powershell.ps1",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "9d93a8ab6dc504932aea5742f6c57cb09f9b5173",
+      "worktree_sha256": "E00FE11316A84349B41969C77A6E048A32B504CAAF89FAF85B9CAD311661ABD7"
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/protected_mission_cli.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "2929e220a2cd01afb9231f98ca65e931bc88703f",
+      "worktree_sha256": "E0A7178DFCAF2E4B42FB78936ADD96A2240B032E70D72451F376347A711A3CE2"
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/protected_mission_crash_worker.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "d5c0a29a2d27e4da5e5744269437744cd39f8cfc",
+      "worktree_sha256": "0C9757681D21BB02047AFC40F9A2095C97766A851B18D18AE7252C0E56A8B1F5"
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/protected_mission_worker.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "8dff1c39542a502990934f3e4507e2b1dec11896",
+      "worktree_sha256": "66271B82D42D1E6834EA655BA1461C4C2B4A30D4D5464A274E7AD682674F2E43"
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/ProtectedMissionFixture.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "7b5a773053dd726a076203f4e9d0cec25486450a",
+      "worktree_sha256": "D911BB6530ABDDF4BFBC26EF58BA73A1C4E45C8EE4AB72FD2BA8B3873FAB26BF"
+    },
+    {
+      "path": "tools/Assert-ProtectedMissionInstallation.ps1",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "1b0d6d6ccde23c9704e355758af8abb061f510d5",
+      "worktree_sha256": "46212803B1E199FB01B6494A6CCAE67B137671B97748A7D3E675F83CF4A9488F"
+    },
+    {
+      "path": "tools/Install-ProtectedMission.ps1",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "c940b95f5bc4a5c03074847846fff63ebd9647c8",
+      "worktree_sha256": "CF44140AAB6B0562024959612E87109970F9AF71D57E1E496D3547DAA5C8DECC"
+    },
+    {
+      "path": "tools/ProtectedMission.ps1",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "70c90a34f6c9da0050aa87ccb5be872f676f176d",
+      "worktree_sha256": "76C1C093F35046FB4FF3EC2037B4A11F3F3438F678A0FD60CDD6C2B0CDAD8FD5"
+    },
+    {
+      "path": "tools/reproduce-protected-mission-quarantine.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "1948c6e977d9917ac6ff7cb567a1eda875406c99",
+      "worktree_sha256": "10C94E88976EA69554E824CEECB554845BB25E2C1117B7E46DD4C9EDA0FD7402"
+    },
+    {
+      "path": "tools/sign-protected-mission.php",
+      "revision": "f12524f2b25942b8149e8c455a39da5d26217a9b",
+      "git_blob": "ee0f76748a92f6e9aac2fda77c31f778803f2487",
+      "worktree_sha256": "416FA1A80F42A3CB204700296E5ED2B93EE4254B0FF824C267225A88FD7720C7"
+    }
+  ],
+  "disposable_sanitized_artifacts": [
+    {
+      "path": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-protected-cli-00119451e7c9d865d8758c82\\sanitized-ceremony-transcript.json",
+      "sha256": "4F3A33DE6D24CC012D4F6BE9BF0D0375130F1F4A7CDC4608744961EF53034D86",
+      "test_only": true,
+      "deployment_isolation_measured": false
+    },
+    {
+      "path": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-protected-cli-1134dc3ea6fc59a49ce10928\\sanitized-ceremony-transcript.json",
+      "sha256": "6D74B70BC6CCEABCD984CD6A6AD546E4FDAB6E65039C9EB9442A10A6DD9EADF8",
+      "test_only": true,
+      "deployment_isolation_measured": false
+    },
+    {
+      "path": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-protected-cli-1c5ca89ae32f47360ce4f82f\\sanitized-ceremony-transcript.json",
+      "sha256": "F968DEEDD115F09047F1A9D5674E507E5A52A8A99E5F73E118CC69F29033AA65",
+      "test_only": true,
+      "deployment_isolation_measured": false
+    },
+    {
+      "path": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-protected-cli-1dd9fbf96ecb2a6a01ae925e\\sanitized-ceremony-transcript.json",
+      "sha256": "9C1C7DE53066FE4AFBF893B4C6401B8EE6380BD3EE6B4C048A13BAC426914008",
+      "test_only": true,
+      "deployment_isolation_measured": false
+    },
+    {
+      "path": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-protected-cli-5136bc8b66b04d55cbe9d2be\\sanitized-ceremony-transcript.json",
+      "sha256": "28D29D6B0A58AFA0977A3807BB43183B577083AB0E6B57F8A621514B67A162A5",
+      "test_only": true,
+      "deployment_isolation_measured": false
+    },
+    {
+      "path": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-protected-cli-69bc255b83b76ed4079571b2\\sanitized-ceremony-transcript.json",
+      "sha256": "89F5A50ED067A1BFC30BFC195F566FC0E51E9F0B29684BA2D8C7FD415194C4BF",
+      "test_only": true,
+      "deployment_isolation_measured": false
+    },
+    {
+      "path": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-protected-cli-71286ef41ea645b4edc5e5dc\\sanitized-ceremony-transcript.json",
+      "sha256": "D3521691DEC9E63C1E22840101E1E4876AAE3FC5EF598F92BE0EED96014F2E68",
+      "test_only": true,
+      "deployment_isolation_measured": false
+    },
+    {
+      "path": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-protected-cli-96e4b7c23e693f7f550c8189\\sanitized-ceremony-transcript.json",
+      "sha256": "6D034E2097DC8326277DE21DB58EB208C376DA85D2D239890F4CCAF2548CE3F3",
+      "test_only": true,
+      "deployment_isolation_measured": false
+    },
+    {
+      "path": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-protected-cli-cc5c2007e9b762136875a303\\sanitized-ceremony-transcript.json",
+      "sha256": "C41ACE04E77CEC7C55FDE7FBBA67C0C9C401FA206961055E2808643752302611",
+      "test_only": true,
+      "deployment_isolation_measured": false
+    },
+    {
+      "path": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-protected-cli-d7e2174c21d751bf9682c898\\sanitized-ceremony-transcript.json",
+      "sha256": "4F075A1208E716DADF5B2D14070FB09829B90C681814C2FE5BD4DD53C986878C",
+      "test_only": true,
+      "deployment_isolation_measured": false
+    },
+    {
+      "path": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-protected-mission-0dea4796cb05d52dbe411c9d\\sanitized-test-mission-receipt.json",
+      "sha256": "504AB5055CEF955B49520A2DC9CD800F87BC6144AC9215FA3CA110BEF91F3B26",
+      "test_only": true,
+      "deployment_isolation_measured": false
+    },
+    {
+      "path": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-protected-mission-10ac578911991802faedf20d\\sanitized-test-mission-receipt.json",
+      "sha256": "94FCF0A2DF7936C5230BF999B4D0D24C2F06FC26A1BB8DAFBDF21F2747C3829E",
+      "test_only": true,
+      "deployment_isolation_measured": false
+    },
+    {
+      "path": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-protected-mission-4a48ce0f1f7f11ae78a023e2\\sanitized-test-mission-receipt.json",
+      "sha256": "769145F1063090251C113CED97D2A95403B1602BAF7104B1F5AA19D89D77EC66",
+      "test_only": true,
+      "deployment_isolation_measured": false
+    },
+    {
+      "path": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-protected-mission-4b3696ecaa8f4665a7a1c0bd\\sanitized-test-mission-receipt.json",
+      "sha256": "4ACC4DAD698E365822E9FF41ECDE685E6ECF4BA74BD5F452D65F16D97B740AE6",
+      "test_only": true,
+      "deployment_isolation_measured": false
+    },
+    {
+      "path": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-protected-mission-6283e2d6293f0f82d6d7676b\\sanitized-test-mission-receipt.json",
+      "sha256": "CAB9BF91FBF0AF0F3C4A96411D97329B50ADB8443CBF64BFBED764D02FD70DA2",
+      "test_only": true,
+      "deployment_isolation_measured": false
+    },
+    {
+      "path": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-protected-mission-6bda61b58d637f4ff1809348\\sanitized-test-mission-receipt.json",
+      "sha256": "E54E7713360A3F9C256A74D12321F0E7B00914BB298D938DB8718FB6FE279F8F",
+      "test_only": true,
+      "deployment_isolation_measured": false
+    },
+    {
+      "path": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-protected-mission-d30515967b5222424fd2f654\\sanitized-test-mission-receipt.json",
+      "sha256": "0E1E1A4BEE9DE36910916CCDC205CF2A2F954CB6C7B2610DA4C82DCC57A5EB53",
+      "test_only": true,
+      "deployment_isolation_measured": false
+    },
+    {
+      "path": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-protected-mission-f73a6699dffd483154e0dc29\\sanitized-test-mission-receipt.json",
+      "sha256": "8DD5739B4E50AC4F0D23C1A1C17350AD8C23C81965B1F22F15C8D3379850D469",
+      "test_only": true,
+      "deployment_isolation_measured": false
+    },
+    {
+      "path": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-protected-powershell-21c29007fab84147b398eab59b6f2ee2\\sanitized-powershell-transcript.json",
+      "sha256": "779A7F37396C7DB5E37C1A880EC9970D7391219BC86A72946EBC92407717E3B1",
+      "test_only": true,
+      "deployment_isolation_measured": false
+    },
+    {
+      "path": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-protected-powershell-24ffdf47b8a24574b9c4bcb8caa03d77\\sanitized-powershell-transcript.json",
+      "sha256": "42FC26FEC82DCE2E30DE48A8B851D42974021EC5DADAA4CA4F8E909F2B13289B",
+      "test_only": true,
+      "deployment_isolation_measured": false
+    }
+  ],
+  "historical": {
+    "reported_assertions": 52390,
+    "source_artifacts": [
+      {
+        "path": "docs/canonical-mission-authenticity-preparation-batch-0-inventory.md",
+        "revision": "8df34679beab0ba8699a68fdd458570bf658c4c8",
+        "git_blob": "99dbc3df259341ba620305d615c5e01d6884cfba",
+        "disposition": "PRESERVED_UNCHANGED_HISTORICAL_ONLY"
+      },
+      {
+        "path": "src/Imperium/Runtime/Mission/AuthenticatedMissionAuthorization.php",
+        "revision": "8df34679beab0ba8699a68fdd458570bf658c4c8",
+        "git_blob": "194983c75c46ce5b65897368b52923aaf971ce85",
+        "disposition": "PRESERVED_UNCHANGED_HISTORICAL_ONLY"
+      },
+      {
+        "path": "src/Imperium/Runtime/Mission/AuthenticatedMissionAuthorizationBridge.php",
+        "revision": "8df34679beab0ba8699a68fdd458570bf658c4c8",
+        "git_blob": "3643c9ba1e674bdbe2972b1992a86c232b0e2bea",
+        "disposition": "PRESERVED_UNCHANGED_HISTORICAL_ONLY"
+      },
+      {
+        "path": "src/Imperium/Runtime/Mission/CanonicalMissionPlan.php",
+        "revision": "8df34679beab0ba8699a68fdd458570bf658c4c8",
+        "git_blob": "29634708aa07a7587e01fddb215ef582ad27883c",
+        "disposition": "PRESERVED_UNCHANGED_HISTORICAL_ONLY"
+      },
+      {
+        "path": "src/Imperium/Runtime/Mission/CanonicalMissionTransitionService.php",
+        "revision": "8df34679beab0ba8699a68fdd458570bf658c4c8",
+        "git_blob": "a3b2fca8431ea2ddc4b807037fe55d86fb80ee08",
+        "disposition": "PRESERVED_UNCHANGED_HISTORICAL_ONLY"
+      },
+      {
+        "path": "src/Imperium/Runtime/Mission/GitRepositorySnapshotAdapter.php",
+        "revision": "8df34679beab0ba8699a68fdd458570bf658c4c8",
+        "git_blob": "7fde8e8112b558bb0cb3e1d3f8c33c541b189025",
+        "disposition": "PRESERVED_UNCHANGED_HISTORICAL_ONLY"
+      },
+      {
+        "path": "src/Imperium/Runtime/Mission/MissionCapability.php",
+        "revision": "8df34679beab0ba8699a68fdd458570bf658c4c8",
+        "git_blob": "5fec06813f5ddd76d131c4d2f686ef84b0b2f709",
+        "disposition": "PRESERVED_UNCHANGED_HISTORICAL_ONLY"
+      },
+      {
+        "path": "src/Imperium/Runtime/Mission/MissionCapabilityIssuanceService.php",
+        "revision": "8df34679beab0ba8699a68fdd458570bf658c4c8",
+        "git_blob": "97bad9e7d2ad7511e8ffc41da7d7f7140c8f2a16",
+        "disposition": "PRESERVED_UNCHANGED_HISTORICAL_ONLY"
+      },
+      {
+        "path": "src/Imperium/Runtime/Mission/MissionCapabilityKeyStore.php",
+        "revision": "8df34679beab0ba8699a68fdd458570bf658c4c8",
+        "git_blob": "62dcbaa52b3ef4c7cab0fe6b337fdfbbb2a0a8e6",
+        "disposition": "PRESERVED_UNCHANGED_HISTORICAL_ONLY"
+      },
+      {
+        "path": "src/Imperium/Runtime/Mission/MissionCapabilityVerifier.php",
+        "revision": "8df34679beab0ba8699a68fdd458570bf658c4c8",
+        "git_blob": "c81ab6da6b0872d1212b984c1c28cb3c6c22b4a2",
+        "disposition": "PRESERVED_UNCHANGED_HISTORICAL_ONLY"
+      },
+      {
+        "path": "src/Imperium/Runtime/Mission/MissionLifecycleStore.php",
+        "revision": "8df34679beab0ba8699a68fdd458570bf658c4c8",
+        "git_blob": "402864d0853c32d86f5fd8bce1243aed8ef1b16d",
+        "disposition": "PRESERVED_UNCHANGED_HISTORICAL_ONLY"
+      },
+      {
+        "path": "src/Imperium/Runtime/Mission/OperatorApprovalAuthenticator.php",
+        "revision": "8df34679beab0ba8699a68fdd458570bf658c4c8",
+        "git_blob": "2899430bd470f5d3d87c99e4d7f0151b85ef43c9",
+        "disposition": "PRESERVED_UNCHANGED_HISTORICAL_ONLY"
+      },
+      {
+        "path": "tests/Imperium/Runtime/CanonicalMissionAuthenticityBatch1Test.php",
+        "revision": "8df34679beab0ba8699a68fdd458570bf658c4c8",
+        "git_blob": "09a02079549ac63772e410713d741dd38dac284c",
+        "disposition": "PRESERVED_UNCHANGED_HISTORICAL_ONLY"
+      },
+      {
+        "path": "tests/Imperium/Runtime/CanonicalMissionAuthenticityBatch2Test.php",
+        "revision": "8df34679beab0ba8699a68fdd458570bf658c4c8",
+        "git_blob": "2dae9ff694d2d9174656e80453f58ed2b4cb51be",
+        "disposition": "PRESERVED_UNCHANGED_HISTORICAL_ONLY"
+      },
+      {
+        "path": "tests/Imperium/Runtime/CanonicalMissionAuthenticityBatch3Test.php",
+        "revision": "8df34679beab0ba8699a68fdd458570bf658c4c8",
+        "git_blob": "de6f8402a597e1c820662859bc7db3211336a51f",
+        "disposition": "PRESERVED_UNCHANGED_HISTORICAL_ONLY"
+      },
+      {
+        "path": "tests/Imperium/Runtime/CanonicalMissionAuthenticityPreparationBatch0Test.php",
+        "revision": "8df34679beab0ba8699a68fdd458570bf658c4c8",
+        "git_blob": "3c85639dbb0a1f7ad39d25aeaf343bda87a589e5",
+        "disposition": "PRESERVED_UNCHANGED_HISTORICAL_ONLY"
+      },
+      {
+        "path": "tests/Imperium/Runtime/Support/CanonicalMissionAuthorizationFixture.php",
+        "revision": "8df34679beab0ba8699a68fdd458570bf658c4c8",
+        "git_blob": "0314bf2797d42a0172a354cd6e961faf5123377a",
+        "disposition": "PRESERVED_UNCHANGED_HISTORICAL_ONLY"
+      },
+      {
+        "path": "tests/Imperium/Runtime/Support/canonical_mission_transition_worker.php",
+        "revision": "8df34679beab0ba8699a68fdd458570bf658c4c8",
+        "git_blob": "b9a0e83dd14fe5f5fed74c6e0256c1d740baa58b",
+        "disposition": "PRESERVED_UNCHANGED_HISTORICAL_ONLY"
+      }
+    ],
+    "rerun": false,
+    "search_scope": "repository docs/var filenames, E:/ai/imperium (empty); old temporary directories preserved without reading trust",
+    "reported_tests": 2661,
+    "original_full_transcript_located": false
+  },
+  "exclusions": [
+    "No real Operator key or enrollment",
+    "No real or prior blocked mission",
+    "No account/production ACL provisioning",
+    "No push, PR, merge, main modification or branch deletion",
+    "No independent/remote acceptance claimed"
+  ],
+  "artifact_attribution": "Disposable artifact collection spans batches. Exact source attribution belongs to the named commit-bound test transcripts; archived receipt filenames alone do not establish an audited source revision.",
+  "quarantine_reproduction": {
+    "source_revision": "8df34679beab0ba8699a68fdd458570bf658c4c8",
+    "command": "php tools/reproduce-protected-mission-quarantine.php",
+    "exit_code": 0,
+    "forged_unsigned_expired_DTO_consumed": true,
+    "raw_issuer_key_extractable": true,
+    "key_value_disclosed": false,
+    "disposable_key_removed": true,
+    "artifact": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-protected-quarantine-429a51a3fcd217126d9db881\\var\\imperium\\runtime\\canonical-mission\\lifecycles\\disposable-forged-mission.json",
+    "sha256": "3AFC41BE04F291E80A46B737D70B0E17379DA088A45F4022F44A84BB514E185A"
+  }
+}
