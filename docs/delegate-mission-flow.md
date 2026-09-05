@@ -1,3 +1,38 @@
+# Current continuation: canonical mission authenticity and real snapshot remediation
+
+`CANONICAL_MISSION_AUTHENTICITY_REAL_SNAPSHOT_REMEDIATION_SELECTED`
+`QUARANTINED_CANDIDATE_NOT_ACCEPTED`
+`IMPLEMENTATION_BATCHES_0_THROUGH_3_AUTHORIZED_LOCAL`
+`MANDATORY_OPERATOR_GATE_AFTER_BATCH_3`
+`REFERENCE_MISSION_NOT_YET_AUTHORIZED`
+`REMOTE_PUBLICATION_NOT_AUTHORIZED`
+`BATCH_7_LIVE_TRIAL_AUTHORIZATION_SUSPENDED`
+
+The post-review rejects the mission-thread candidate at
+`3c4890ffd30f403f72a35b92f1e639d51c8c98f8`. Its mission vocabulary and
+identity propagation are recoverable shapes, but its public boundary creates its own signing key
+from caller-asserted provenance, its authority-bearing writer accepts a caller-selected consumer,
+its repository mission inspects synthetic bytes merely labeled with a real SHA, and its Fiber proof
+contains no concurrent suspension.
+
+The corrective campaign starts from accepted `main` at
+`2527b33925bf3ef47d029786e60a6aefe752737b`. Preparation Batch 0 and
+implementation Batches 1–3 may run locally. The agent must then stop and present an approval-ready
+mission dossier for a distinct human Operator action. It may not authorize or execute the reference
+mission itself.
+
+Campaign:
+`docs/next-campaign-canonical-mission-authenticity-real-snapshot-remediation.md`.
+
+Controlling review:
+`docs/canonical-mission-thread-post-review-blackquill-v1.md`.
+
+Local entrypoint:
+`docs/handoffs/canonical-mission-authenticity-real-snapshot-remediation-local-ready.md`.
+
+No remote publication, actual reference mission, provider operation, credential access, external
+I/O, live trial or Batch 7 action is authorized.
+
 # Current continuation: reconciliation shared-exclusion remediation
 
 `CANONICAL_NATIVE_EFFECT_RECONCILIATION_SHARED_EXCLUSION_REMEDIATION_SELECTED`
