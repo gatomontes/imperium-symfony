@@ -26,7 +26,8 @@ final class LocalIsolationReadinessTest extends TestCase
         self::assertSame(0,proc_close($process),$err."\n".$out);
         $proof=json_decode($out,true,512,JSON_THROW_ON_ERROR);
         self::assertSame('LOCAL_ISOLATION_READINESS_FIXTURES_PASSED',$proof['result']);
-        self::assertGreaterThanOrEqual(35,$proof['negative_cases']);
+        self::assertSame(42,$proof['negative_cases']);
+        self::assertSame($proof['cases'],array_values(array_unique($proof['cases'])));
         self::assertFalse($proof['actual_account_isolation']);
     }
 }

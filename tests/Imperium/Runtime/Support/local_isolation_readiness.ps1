@@ -58,6 +58,8 @@ foreach($phase in @('pre','post','current')){
   Save $plan "$dir\$role-plan.json"
   $measurement=@{schema='imperium.local-access-measurement/v2';role=$role;binding=$binding;phase=$phase;sid=$plan.sid;groups=@('S-1-5-32-545','S-1-5-11');administrator_token=$false;administrator_group_present=$false;plan_sha256=(Get-FileHash "$dir\$role-plan.json").Hash;captured_ticks=$tick+1;result='RECORDED_ACCESS_EXPECTATIONS_MET';probes=@($plan.probes|ForEach-Object{$r=Clone $_;$r.result=$r.expected;$r.win32_error=if($r.expected -eq 'ACCESS_SUCCEEDED'){0}else{5};$r.pass=$true;$r})}
   Save $measurement "$dir\$role-access.json"
+  $measurement.expected_sid=$plan.sid;$measurement.identity_matches=$true
+  Save $measurement "$dir\$role-access.json"
   $checker=if($role -eq 'Runtime'){@{ExitCode=0;Output="PMA_INSTALLATION_ACL_AND_IDENTITY_VERIFIED`r`n";Error=''}}else{@{ExitCode=2;Output="PMA_RUNTIME_IDENTITY_REFUSED`r`n";Error=''}}
   $cli=if($role -eq 'Caller'){@{ExitCode=2;Output='';Error="PMA_RUNTIME_IDENTITY_REFUSED`n"}}elseif($phase -eq 'pre'){@{ExitCode=2;Output='';Error="PMA_TRUST_ABSENT`n"}}else{@{ExitCode=0;Output=($enrolled|ConvertTo-Json);Error=''}}
   $startup=@{schema='imperium.local-isolation-startup/v2';binding=$binding;phase=$phase;role=$role;sid=$plan.sid;groups=$measurement.groups;administrator_token=$false;administrator_group_present=$false;captured_ticks=$tick+1;checker=$checker;cli=$cli}
@@ -94,6 +96,9 @@ Bad 'altered-expectation' {param($c) Alter $c 'Caller-access.json' {param($v)$v.
 Bad 'unknown-result' {param($c) Alter $c 'Caller-access.json' {param($v)$v.probes[0].result='UNKNOWN_OS_ERROR'}}
 Bad 'wrong-native-error' {param($c) Alter $c 'Caller-access.json' {param($v)$v.probes[0].win32_error=123}}
 Bad 'wrong-sid' {param($c) Alter $c 'Caller-access.json' {param($v)$v.sid='S-1-5-21-1-2-3-9999'}}
+Bad 'wrong-redundant-expected-sid' {param($c) Alter $c 'Caller-access.json' {param($v)$v.expected_sid='S-1-5-21-1-2-3-9999'}}
+Bad 'contradictory-identity-summary' {param($c) Alter $c 'Caller-access.json' {param($v)$v.identity_matches=$false}}
+Bad 'noninteger-mask' {param($c) Alter $c 'Caller-access.json' {param($v)$v.probes[0].mask=$true}}
 Bad 'administrator-token' {param($c) Alter $c 'Runtime-access.json' {param($v)$v.administrator_token=$true}}
 Bad 'filtered-administrator-group' {param($c) Alter $c 'Runtime-access.json' {param($v)$v.groups+='S-1-5-32-544'}}
 Bad 'changed-token-groups' {param($c) Alter $c 'Runtime-access.json' {param($v)$v.groups+='S-1-5-99'}}
@@ -105,6 +110,14 @@ Bad 'stale-measurement' {param($c) Alter $c 'Runtime-access.json' {param($v)$v.c
 Bad 'wrong-measurement-binding' {param($c) Alter $c 'Runtime-access.json' {param($v)$v.binding.setup_session='b'*32}}
 Bad 'wrong-plan-hash' {param($c) Alter $c 'Runtime-access.json' {param($v)$v.plan_sha256='B'*64}}
 Bad 'reduced-plan' {param($c) Alter $c 'Runtime-plan.json' {param($v)$v.probes=@($v.probes|Select-Object -Skip 1)}}
+Bad 'self-consistent-reduced-plan-and-measurement' {param($c)
+ $dir=$c.phases.current.directory;$p=Read-PmaEvidence "$dir\Runtime-plan.json";$p.probes=@($p.probes|Select-Object -Skip 1);Save $p "$dir\Runtime-plan.json"
+ $v=Read-PmaEvidence "$dir\Runtime-access.json";$v.probes=@($v.probes|Select-Object -Skip 1);$v.plan_sha256=(Get-FileHash "$dir\Runtime-plan.json").Hash;Save $v "$dir\Runtime-access.json"
+}
+Bad 'self-consistent-altered-policy-and-result' {param($c)
+ $dir=$c.phases.current.directory;$p=Read-PmaEvidence "$dir\Caller-plan.json";$p.probes[0].expected='ACCESS_DENIED';Save $p "$dir\Caller-plan.json"
+ $v=Read-PmaEvidence "$dir\Caller-access.json";$v.probes[0].expected='ACCESS_DENIED';$v.probes[0].result='ACCESS_DENIED';$v.probes[0].win32_error=5;$v.plan_sha256=(Get-FileHash "$dir\Caller-plan.json").Hash;Save $v "$dir\Caller-access.json"
+}
 Bad 'missing-exchange-inventory' {param($c) Alter $c 'inventory.json' {param($v)$v.items=@($v.items|Where-Object{$_.class -ne 'exchange-root'})}}
 Bad 'missing-probe-surface' {param($c) Alter $c 'inventory.json' {param($v)$v.items=@($v.items|Where-Object{$_.path -notlike '*ProtectedMissionProbePlans*'})}}
 Bad 'missing-post-plan-surface' {param($c) Alter $c 'inventory.json' {param($v)$v.items=@($v.items|Where-Object{$_.path -notlike '*ProtectedMissionPostEnrollmentPlans*'})}}

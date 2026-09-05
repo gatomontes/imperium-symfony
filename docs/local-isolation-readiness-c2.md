@@ -22,7 +22,7 @@ or bypass is provided. Current new-output coverage must always match live invent
 
 Changed-test attribution: LocalIsolationReadinessTest adds two methods (synthetic
 complete/adversarial evidence and native Windows handles/startup). Its three new
-support files cover 37 negative/recovery cases, a 722-row valid set, five native
+support files cover 42 negative/recovery cases, a 722-row valid set, five native
 handle rows and three native startup checks. C0's historical reproduction remains.
 No old PHP test, AM01/AM02 assertion, package-receipt test or PowerShell fixture
 expectation was modified. Preserved mission/amendment routes are rerun for C2.
@@ -38,3 +38,8 @@ audit was interrupted for explicit rehashing of the packaged target inventory
 and inert draft copied to exchange, plus metadata configuration validation.
 Its transcript and package candidate are preserved and not final installation
 evidence. A corrective C2 commit precedes the restarted final audit.
+
+The e8955147 candidate also passed focused 30 / 430. Its full attempt was
+interrupted for rejecting contradictory redundant identity fields and noninteger
+mask/error values explicitly. Both partial full logs and package directories are
+retained; neither partial full run is counted as passed.

@@ -91,6 +91,8 @@ function Assert-PmaMeasurement($Measurement,$Plan,[string]$PlanHash,$Binding,[st
  Assert-PmaEqual $Measurement.plan_sha256 $PlanHash 'READINESS_PLAN_HASH'
  Assert-PmaEqual $Measurement.role $Plan.role 'READINESS_ROLE'
  Assert-PmaToken $Measurement $Plan.sid
+ Assert-PmaEqual $Measurement.expected_sid $Plan.sid 'READINESS_EXPECTED_SID'
+ Assert-PmaEqual $Measurement.identity_matches $true 'READINESS_IDENTITY_SUMMARY'
  if($Phase -eq 'current' -and $NowTicks-$Measurement.captured_ticks -gt [TimeSpan]::FromMinutes(15).Ticks){throw 'READINESS_CURRENT_MEASUREMENT_STALE'}
  if($Measurement.captured_ticks -lt $Inventory.captured_ticks -or $Measurement.captured_ticks -gt $NowTicks){throw 'READINESS_STALE_MEASUREMENT'}
  $required=Get-PmaRequiredProbes $Inventory $Plan.role
@@ -98,7 +100,9 @@ function Assert-PmaMeasurement($Measurement,$Plan,[string]$PlanHash,$Binding,[st
  if(@($Measurement.probes).Count -ne $required.Count){throw 'READINESS_ROW_COUNT'}
  for($i=0;$i -lt $required.Count;$i++) {
   $row=$Measurement.probes[$i];$want=$required[$i]
-  if($row.mask -is [string] -or $row.win32_error -is [string] -or $Plan.probes[$i].mask -is [string]){throw 'READINESS_ROW_TYPE'}
+  foreach($number in @($row.mask,$row.win32_error,$Plan.probes[$i].mask)){
+   if($number -isnot [int] -and $number -isnot [long]){throw 'READINESS_ROW_TYPE'}
+  }
   foreach($field in @('path','right','mask','expected')){
    if($Plan.probes[$i][$field] -cne $want[$field]){throw 'READINESS_PLAN_COVERAGE'}
    if($row[$field] -cne $want[$field]){throw 'READINESS_ROW_CHANGED'}

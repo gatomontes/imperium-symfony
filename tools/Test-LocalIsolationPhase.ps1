@@ -23,6 +23,9 @@ foreach($role in @('Runtime','Caller')) {
   $trust=Read-PmaEvidence "$base\ProtectedMissionExchange\public-trust.json"
   $trust.fingerprint=[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Convert]::FromBase64String($trust.public_key))).ToLowerInvariant();$trust.revoked=$false
  }
- Assert-PmaStartup (Read-PmaEvidence "$Directory\$role-startup.json") $binding $plan.phase $role $trust $now
+ $startup=Read-PmaEvidence "$Directory\$role-startup.json"
+ if($startup.captured_ticks -lt $inventory.captured_ticks){throw 'PHASE_STARTUP_PRECEDES_INVENTORY'}
+ Assert-PmaStartup $startup $binding $plan.phase $role $trust $now
+ Assert-PmaEqual $startup.groups $measurement.groups 'PHASE_TOKEN_GROUPS_CHANGED'
 }
 'EXACT_PHASE_OBSERVATIONS_VALIDATED_NOT_OWNER_CUSTODY_PROOF'
