@@ -7,7 +7,7 @@ use App\ProtectedMission\AuthorityOwner;
 use App\ProtectedMission\PublicTrust;
 use App\Imperium\Runtime\Curia\{ProceedingStore,PlanningDossierAssemblyService,ImperatorPlanningDossierReviewService,MissionAuthorizationDerivationService};
 
-/** Batch 2 storage fixture, not an enrollment/approval handoff or ceremony proof. */
+/** Fresh canonical ceremony fixture. save() is only for explicit corruption/adverse tests. */
 final class ProtectedMissionFixture
 {
     public string $root;
@@ -22,21 +22,22 @@ final class ProtectedMissionFixture
         $pair=sodium_crypto_sign_keypair(); $this->secret=sodium_crypto_sign_secretkey($pair); $public=sodium_crypto_sign_publickey($pair); sodium_memzero($pair);
         $this->trust=PublicTrust::validate(['identity'=>'disposable-operator','competence'=>PublicTrust::COMPETENCE,'public_key'=>base64_encode($public),'not_before'=>time()-5,'expires_at'=>time()+3600],hash('sha256',$public));
         (new AuthorityOwner($this->root))->enroll($this->trust,$this->trust['fingerprint']);
-        $store=new ProceedingStore($this->root);
-        $store->persist(['proceeding_id'=>'disposable-proceeding','instance_id'=>'disposable-test']);
-        $store->appendTurn('disposable-proceeding','test-response',1,['seneschal'=>['disposition'=>'MISSION_PLAN_DRAFTED','mission_plan'=>['objective'=>'Disposable authority proof; no actual target access.']]]);
-        $disclosures=array_fill_keys(['material_facts','assumptions','unknowns','dependencies','personnel','tools_credentials_data','external_operations','cost_time_retention_limits','risks_contingencies_fallbacks','evidence_provenance_reporting','expiry_revocation_reauthorization'],[]);
-        $d=(new PlanningDossierAssemblyService($store,$this->root))->assemble('disposable-proceeding',1,[],$disclosures,new \DateTimeImmutable());
-        $r=(new ImperatorPlanningDossierReviewService($this->root))->review($d['dossier_id'],$d['imperator_review_authority']['authority_id'],'APPROVE_DOSSIER',[],'Disposable test approval only.',true,new \DateTimeImmutable());
-        $r['actor']['id']=$this->trust['identity']; unset($r['record_digest']); $r['record_digest']=hash('sha256',CanonicalJson::encode($r));
-        file_put_contents($this->root.'/var/imperium/offices/curia/planning-dossier-reviews/'.$r['review_id'].'.json',CanonicalJson::encode($r));
-        $a=(new MissionAuthorizationDerivationService($this->root))->derive($r['review_id'],$r['mission_authorization_derivation_authority']['authority_id'],new \DateTimeImmutable());
-        $this->id=$a['authorization_id'];
-        $payload=['schema'=>'imperium.protected-approval/v1','operator_identity'=>$this->trust['identity'],'competence'=>PublicTrust::COMPETENCE,'trust_fingerprint'=>$this->trust['fingerprint'],
-            'mission_id'=>'disposable-mission-'.bin2hex(random_bytes(8)),'dossier'=>$d,'review_preview'=>$r,'expires_at'=>time()+1800,'target'=>['commit'=>str_repeat('a',40),'tree'=>str_repeat('b',40)],
-            'transitions'=>[['action'=>'admit','actor'=>'test-runtime','from'=>'AUTHORIZED','to'=>'ADMITTED'],['action'=>'finish','actor'=>'test-runtime','from'=>'ADMITTED','to'=>'COMPLETED']]];
-        $this->state=['trust'=>$this->trust,'authorizations'=>[$this->id=>['payload'=>$payload,'signature'=>$this->sign($payload),'dossier'=>$d,'review'=>$r,'authorization'=>$a]],'current'=>[$payload['mission_id']=>$this->id]];
-        $this->save();
+        $challenge=$this->call('prepare',self::input())['challenge_id'];
+        $payload=$this->call('export',['challenge_id'=>$challenge]);
+        $this->call('submit',['challenge_id'=>$challenge,'signature'=>$this->sign($payload)]);
+        $this->id=$this->call('derive',['challenge_id'=>$challenge])['authorization_id'];
+        $handle=fopen($this->root.'/authority.journal','rb');
+        while (($line=fgets($handle))!==false) {$length=(int)explode(' ',$line)[0];$this->state=json_decode(fread($handle,$length),true,512,JSON_THROW_ON_ERROR);}
+        fclose($handle);
+    }
+    public static function input():array
+    {
+        return ['mission'=>['mission_id'=>'disposable-mission-'.bin2hex(random_bytes(8)),
+            'target'=>['repository'=>'not-accessed','commit'=>str_repeat('a',40),'tree'=>str_repeat('b',40)],
+            'paths'=>['evidence.txt'],'budget'=>['max_files'=>1,'max_bytes'=>100000,'max_findings'=>1,'max_seconds'=>10],
+            'expires_at'=>time()+1800,'permissions'=>['READ_EXACT_GIT_OBJECTS'],'prohibitions'=>['NETWORK','TARGET_MUTATION','PROVIDERS','CREDENTIALS'],
+            'transitions'=>[['action'=>'admit','actor'=>'protected-git-inspector','from'=>'AUTHORIZED','to'=>'ADMITTED'],['action'=>'inspect','actor'=>'protected-git-inspector','from'=>'ADMITTED','to'=>'INSPECTING'],['action'=>'complete','actor'=>'protected-git-inspector','from'=>'INSPECTING','to'=>'COMPLETED']]],
+            'disclosures'=>array_fill_keys(['material_facts','assumptions','unknowns','dependencies','personnel','tools_credentials_data','external_operations','cost_time_retention_limits','risks_contingencies_fallbacks','evidence_provenance_reporting','expiry_revocation_reauthorization'],[])];
     }
     public function save(): void
     {

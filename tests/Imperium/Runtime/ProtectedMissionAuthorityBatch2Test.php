@@ -15,10 +15,11 @@ final class ProtectedMissionAuthorityBatch2Test extends TestCase
         self::assertSame('ADMITTED',$first['state']); self::assertCount(1,$first['history']);
         $this->refuses($f,'PMA_REPLAY','consume',['capability'=>$caps[0]]);
         $fresh=$f->call('issue',['authorization_id'=>$f->id])['capabilities'];
-        self::assertSame('COMPLETED',$f->call('consume',['capability'=>$caps[1]])['state']);
+        self::assertSame('INSPECTING',$f->call('consume',['capability'=>$caps[1]])['state']);
+        self::assertSame('COMPLETED',$f->call('consume',['capability'=>$caps[2]])['state']);
         $this->refuses($f,'PMA_TERMINAL','consume',['capability'=>$fresh[0]]);
         $this->refuses($f,'PMA_TERMINAL','issue',['authorization_id'=>$f->id]);
-        self::assertCount(2,$f->call('status',['authorization_id'=>$f->id])['lifecycle']['history']);
+        self::assertCount(3,$f->call('status',['authorization_id'=>$f->id])['lifecycle']['history']);
     }
     public function testForgedDtoBindingsAndDirectWriterCannotCreateAuthority(): void
     {

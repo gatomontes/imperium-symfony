@@ -33,11 +33,14 @@ final class AuthorityOwner
         $fields = match ($operation) {
             'trust' => [], 'verify', 'issue', 'status' => ['authorization_id'],
             'consume' => ['capability'], 'control' => ['payload', 'signature'],
+            'prepare' => ['mission','disclosures'], 'export','derive','challenge-status' => ['challenge_id'],
+            'submit' => ['challenge_id','signature'],
             default => throw new \RuntimeException('PMA_OPERATION_REFUSED'),
         };
         if (array_keys($arguments) !== $fields) throw new \RuntimeException('PMA_ARGUMENTS_INVALID');
         return $this->transaction(function (array &$state) use ($operation, $arguments): array {
             $now = time();
+            $ceremony = new Ceremony($this->root);
             return match ($operation) {
                 'trust' => $state['trust'],
                 'verify' => $this->verify($state, $arguments['authorization_id'], $now),
@@ -45,6 +48,11 @@ final class AuthorityOwner
                 'consume' => $this->consume($state, $arguments['capability'], $now),
                 'control' => $this->control($state, $arguments['payload'], $arguments['signature'], $now),
                 'status' => $this->status($state, $arguments['authorization_id']),
+                'prepare' => $ceremony->prepare($state,$arguments['mission'],$arguments['disclosures'],$now),
+                'export' => $ceremony->export($state,$arguments['challenge_id'],$now),
+                'submit' => $ceremony->submit($state,$arguments['challenge_id'],$arguments['signature'],$now),
+                'derive' => $ceremony->derive($state,$arguments['challenge_id'],$now),
+                'challenge-status' => $ceremony->status($state,$arguments['challenge_id'],$now),
             };
         });
     }
@@ -58,12 +66,19 @@ final class AuthorityOwner
         if (($state['inactive'][$id] ?? false) !== false || $now >= $payload['expires_at']
             || ($state['current'][$payload['mission_id']] ?? null) !== $id) throw new \RuntimeException('PMA_AUTHORITY_INACTIVE');
         $d = $chain['dossier']; $r = $chain['review']; $a = $chain['authorization'];
+        $preview=$r; $authenticity=$preview['operator_authenticity'] ?? null;
+        unset($preview['operator_authenticity'],$preview['record_digest']);
+        $preview['record_digest']=hash('sha256',CanonicalJson::encode($preview));
+        if (!is_array($authenticity) || $authenticity['signature']!==$chain['signature']
+            || $authenticity['payload_digest']!==hash('sha256',CanonicalJson::encode($payload))
+            || $authenticity['challenge_id']!==$payload['challenge_id']
+            || $authenticity['trust_fingerprint']!==$state['trust']['fingerprint']) throw new \RuntimeException('PMA_REVIEW_AUTHENTICITY_ABSENT');
         foreach ([$d, $r, $a] as $record) {
             $digest = $record['record_digest'] ?? ''; unset($record['record_digest']);
             if (!hash_equals($digest, hash('sha256', CanonicalJson::encode($record)))) throw new \RuntimeException('PMA_CHAIN_INVALID');
         }
         if (CanonicalJson::encode($d) !== CanonicalJson::encode($payload['dossier'])
-            || CanonicalJson::encode($r) !== CanonicalJson::encode($payload['review_preview'])
+            || CanonicalJson::encode($preview) !== CanonicalJson::encode($payload['review_preview'])
             || $id !== $a['authorization_id']
             || !$this->same($a['authority_source']['dossier'], ['id'=>$d['dossier_id'],'version'=>$d['dossier_version'],'digest'=>$d['record_digest']])
             || !$this->same($a['authority_source']['imperator_review'], ['id'=>$r['review_id'],'digest'=>$r['record_digest']])
@@ -137,6 +152,12 @@ final class AuthorityOwner
             || isset($state['control_nonces'][$payload['nonce']])) throw new \RuntimeException('PMA_CONTROL_INVALID');
         $action=$payload['action'] ?? '';
         if ($action==='revoke-trust') $state['trust']['revoked']=true;
+        elseif ($action==='cancel-challenge' && isset($state['pending'][$payload['challenge_id'] ?? ''])) $state['pending'][$payload['challenge_id']]['status']='CANCELLED';
+        elseif ($action==='rotate-trust') {
+            $state['trust']=PublicTrust::validate($payload['new_trust'] ?? [],$payload['new_fingerprint'] ?? '');
+            foreach ($state['authorizations'] ?? [] as $aid=>$unused) $state['inactive'][$aid]='trust-rotated';
+            foreach ($state['pending'] ?? [] as $cid=>$unused) $state['pending'][$cid]['status']='SUPERSEDED';
+        }
         elseif (in_array($action,['revoke','supersede','cancel'],true) && isset($state['authorizations'][$payload['authorization_id'] ?? ''])) {
             $state['inactive'][$payload['authorization_id']]=$action;
         } else throw new \RuntimeException('PMA_CONTROL_INVALID');
