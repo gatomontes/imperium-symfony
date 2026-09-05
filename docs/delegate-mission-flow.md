@@ -1,3 +1,30 @@
+# Current continuation: mission amendment authority and evidence binding
+
+`MISSION_AMENDMENT_CORRECTION_SELECTED`
+`LOCAL_BATCHES_0_THROUGH_3_AUTHORIZED`
+`IMPLEMENTATION_ACCEPTANCE_PENDING`
+`DEPLOYMENT_ISOLATION_UNPROVED_OPERATOR_SETUP_REQUIRED`
+
+Campaign: `docs/next-campaign-mission-amendment-correction.md`.
+Runner: `docs/handoffs/mission-amendment-correction-local-ready.md`.
+Review: `docs/protected-mission-amendment-review.md`.
+
+Preserve candidate `7deb84b9f687ecb09c93f568464a606f0a602a89`; create a new corrective
+descendant and locally integrate this documentation-only selection. Do not merge that candidate
+into main. Prior local completion is historical, with AM01/AM02 unresolved.
+
+Current steps: reproduce (0), inert proposals and signed activation (1), exact version-bound
+execution/evidence (2), integrated process proof and separately sequenced audit (3).
+
+Current flow: proposal creates only its own pending record; exact signed predecessor-bound
+approval permits atomic successor derivation; successor starts AUTHORIZED; fresh admit/inspect/
+complete produces its own receipt. Prior evidence remains historical. Stale activation refuses.
+Unsigned preparation cannot revoke authority or displace another pending challenge.
+
+Local corrections stop for independent review. Real Operator setup, actual mission execution,
+implementation publication/main merge, branch deletion and live Batch 7 remain unauthorized.
+Earlier continuation blocks are historical and do not supersede this selection.
+
 # Current continuation: protected mission authority and Operator ceremony
 
 `PROTECTED_MISSION_AUTHORITY_CAMPAIGN_SELECTED`

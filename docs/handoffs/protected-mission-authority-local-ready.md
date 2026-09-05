@@ -1,3 +1,7 @@
+> Superseded local entry: use `docs/handoffs/mission-amendment-correction-local-ready.md`.
+> The completed candidate is preserved for focused AM01/AM02 correction under
+> `docs/next-campaign-mission-amendment-correction.md`. Do not restart this old runner.
+
 # Protected Mission Authority and Operator Ceremony — local runner
 
 Read `docs/next-campaign-protected-mission-authority.md` and `docs/canonical-mission-authority-post-batch-3-review.md` completely before acting. Follow repository instructions, including any applicable AGENTS.md. Read `contracts/mission-planning.md`, `contracts/mission-authorization.md`, the canonical planning/review/derivation services, custody and AtomicTransition services, relevant tests and the current top section of `docs/delegate-mission-flow.md`. Track required source reads and exact revisions.
