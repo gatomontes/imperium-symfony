@@ -1,3 +1,17 @@
+# Current local result: scratch native proof pending
+
+SCRATCH_WORKSPACE_CORRECTION_NATIVE_PROOF_PENDING.
+S0 reproduced IS03 with native ACLs. S1 implemented protected sibling scratch,
+exact cleanup/refusal and Status recovery. S2 commits code before tests/package
+and prepares the fresh review artifacts in docs/local-isolation-scratch-audit.json.
+The equivalent separate-account ceremony is NOT RUN. Execute the exact disposable
+owner proof in docs/local-isolation-scratch-owner-proof.md after review; no real
+installation, accounts or mission are created by this correction task.
+Then resume existing parent Batches 3–5 only with authentic owner prerequisites,
+using docs/local-isolation-scratch-owner-runbook.md. Preserve both prior packages.
+
+## Preserved selection
+
 # Current selection: protected scratch workspace correction
 
 SCRATCH_WORKSPACE_CEREMONY_CORRECTION_SELECTED.

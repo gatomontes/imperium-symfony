@@ -1,9 +1,9 @@
 ## Protected scratch workspace correction — current
 
 - [x] Independent packet review: hashes match; IS03 permission conflict identified.
-- [ ] S0: reproduce denied scratch creation under disposable native Windows ACLs.
-- [ ] S1: correct workspace, preserve reference protection, prove real ceremony and recovery.
-- [ ] S2: audit committed code, rebuild fresh package and owner review packet.
+- [x] S0: reproduce denied scratch creation under disposable native Windows ACLs.
+- [ ] S1: implementation/component tests complete; equivalent native ceremony proof remains NOT RUN.
+- [x] S2: committed tests and fresh package/review preparation complete; equivalent native proof remains required for acceptance.
 - [ ] Resume parent Batches 3–5 after review and authentic owner prerequisites.
 
 Campaign: docs/next-campaign-local-isolation-scratch-correction.md.

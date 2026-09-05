@@ -50,6 +50,7 @@ $php="$base\ProtectedMissionPHP\php.exe"
 if($LASTEXITCODE -ne 0){throw 'Disposable key preparation failed'}
 & "$code\tools\Test-ProtectedScratchOwnerProof.ps1" -Proof $proof -Action RuntimeCanary -Output "$private\runtime-canary.json"
 $private # Transfer public-trust.json and public canary result only; never disposable.secret.
+[IO.File]::ReadAllText("$private\public-trust.json") # Public JSON may be copied to an owner-readable file.
 ```
 
 Administrator copies the public trust to its reserved slot without replacing ACL:

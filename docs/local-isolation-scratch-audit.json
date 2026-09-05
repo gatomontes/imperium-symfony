@@ -1,0 +1,423 @@
+{
+  "schema": "imperium.local-isolation-scratch-audit/v1",
+  "status": "SCRATCH_WORKSPACE_CORRECTION_NATIVE_PROOF_PENDING",
+  "created_utc": "2026-09-05T21:17:34.1625077+00:00",
+  "repository": "E:\\htdocs\\imperium",
+  "origin": "https://github.com/gatomontes/imperium-symfony.git",
+  "branch": "codex/local-isolation-scratch-correction",
+  "lineage": {
+    "6bdfce95": {
+      "tree": "df4e27c7fb152c9b03ca83a749113fcc8625f55d",
+      "commit": "6bdfce958f7a3d66544948a2d720bada463a8d74"
+    },
+    "3d562b3c": {
+      "tree": "5487ac701c9fb8bbde993a99ad38b9716256dc7f",
+      "commit": "3d562b3c24cfc97b658b3ae271cbf412dedadee7"
+    },
+    "main": {
+      "tree": "f752a06be02f3c09b03f1d0e88aec901e1ef75b4",
+      "commit": "a06a2dec6fc1d62aeef7260e3a9c3508c801fffb"
+    },
+    "c95163808fa0581edc369abe74e977b4ede4e9da": {
+      "tree": "aae364bb7cd4c32531d0d6121f7b1991180f6692",
+      "commit": "c95163808fa0581edc369abe74e977b4ede4e9da"
+    },
+    "codex/local-isolation-measurement-readiness": {
+      "tree": "219da17703d6bb64c5b6582c3aec343f426f278c",
+      "commit": "3e61c0c283aca4fbdd51179405cd7fcc17be3fcf"
+    },
+    "3c880d7e": {
+      "tree": "f25134e98d0ec8e3ac84ed096276d2282cea2378",
+      "commit": "3c880d7e462f25bbeb8b1606501c50aea88fd979"
+    }
+  },
+  "tested_commit": "c95163808fa0581edc369abe74e977b4ede4e9da",
+  "tested_tree": "aae364bb7cd4c32531d0d6121f7b1991180f6692",
+  "final_identity": "Derivative review manifest records final documentation/compilation SHA and tree, avoiding a self-referential committed hash.",
+  "tests": {
+    "amendment": "MISSION_AMENDMENT_POWERSHELL_PASSED",
+    "focused": {
+      "sha256": "0047AA5A4D260F18EB71BF3695E111A22E7B9E8E88529A5A14FCDEAE9F6CB2D5",
+      "transcript": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\scratch-s2\\focused.txt",
+      "assertions": 449,
+      "skips": 0,
+      "tests": 34,
+      "duration": "      PHP 8.4.14\r\n\r\n..................................                                34 / 34 (100%)\r\n\r\nTime: 00:55.023"
+    },
+    "native_components": "SCRATCH_NATIVE_COMPONENTS_PASSED (PowerShell 7); same-user ownership, not equivalent ceremony",
+    "windows_powershell51_policy": {
+      "equivalent_ceremony": false,
+      "result": "WINDOWS_POWERSHELL51_POLICY_AND_CHECKER_PARSE_PASSED",
+      "version": "5.1.26100.9168",
+      "rules": 4
+    },
+    "powershell_parse": {
+      "errors": [],
+      "files": 31,
+      "version": "7.6.5"
+    },
+    "attempts": [
+      "Two precommit focused failures: old one-second expiry crossed before export. Dedicated rerun passed. Three-second window preserves all real expiry assertions.",
+      "PowerShell 5.1 invocation of the PS7 native component fixture failed at php -r quoting; retained, not counted as passed. Supported PS7 native fixture and PS5.1 production policy/checker parse are separately attributed."
+    ],
+    "mission": "LOCAL_ISOLATION_DISPOSABLE_REHEARSAL_PASSED",
+    "ceremony": "POWERSHELL_CEREMONY_PASSED; same-user fixture",
+    "full": {
+      "sha256": "E5A3910AC99D433AC2F9F49BBEA3CE73AF576ACFAAA70AC03366B3AFE25115D2",
+      "transcript": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\scratch-s2\\full.txt",
+      "assertions": 52743,
+      "skips": 0,
+      "tests": 2683,
+      "duration": "      PHP 8.4.14\r\n\r\n.............................................................   61 / 2683 (  2%)\r\n.............................................................  122 / 2683 (  4%)\r\n.............................................................  183 / 2683 (  6%)\r\n.............................................................  244 / 2683 (  9%)\r\n.............................................................  305 / 2683 ( 11%)\r\n.............................................................  366 / 2683 ( 13%)\r\n.............................................................  427 / 2683 ( 15%)\r\n.............................................................  488 / 2683 ( 18%)\r\n.............................................................  549 / 2683 ( 20%)\r\n.............................................................  610 / 2683 ( 22%)\r\n.............................................................  671 / 2683 ( 25%)\r\n.............................................................  732 / 2683 ( 27%)\r\n.............................................................  793 / 2683 ( 29%)\r\n.............................................................  854 / 2683 ( 31%)\r\n.............................................................  915 / 2683 ( 34%)\r\n.............................................................  976 / 2683 ( 36%)\r\n............................................................. 1037 / 2683 ( 38%)\r\n............................................................. 1098 / 2683 ( 40%)\r\n............................................................. 1159 / 2683 ( 43%)\r\n............................................................. 1220 / 2683 ( 45%)\r\n............................................................. 1281 / 2683 ( 47%)\r\n............................................................. 1342 / 2683 ( 50%)\r\n............................................................. 1403 / 2683 ( 52%)\r\n............................................................. 1464 / 2683 ( 54%)\r\n............................................................. 1525 / 2683 ( 56%)\r\n............................................................. 1586 / 2683 ( 59%)\r\n............................................................. 1647 / 2683 ( 61%)\r\n............................................................. 1708 / 2683 ( 63%)\r\n............................................................. 1769 / 2683 ( 65%)\r\n............................................................. 1830 / 2683 ( 68%)\r\n............................................................. 1891 / 2683 ( 70%)\r\n............................................................. 1952 / 2683 ( 72%)\r\n............................................................. 2013 / 2683 ( 75%)\r\n............................................................. 2074 / 2683 ( 77%)\r\n............................................................. 2135 / 2683 ( 79%)\r\n............................................................. 2196 / 2683 ( 81%)\r\n............................................................. 2257 / 2683 ( 84%)\r\n............................................................. 2318 / 2683 ( 86%)\r\n............................................................. 2379 / 2683 ( 88%)\r\n............................................................. 2440 / 2683 ( 90%)\r\n............................................................. 2501 / 2683 ( 93%)\r\n............................................................. 2562 / 2683 ( 95%)\r\n............................................................. 2623 / 2683 ( 97%)\r\n............................................................  2683 / 2683 (100%)\r\n\r\nTime: 08:48.803"
+    }
+  },
+  "native_proof": {
+    "actual_installation": false,
+    "synthetic_evidence_not_native_proof": true,
+    "s0": {
+      "token": {
+        "sid": "S-1-5-21-4230689943-3750815333-1810161870-1001",
+        "groups": [
+          "S-1-1-0",
+          "S-1-11-96-3623454863-58364-18864-2661722203-1597581903-1418550975-2793223574-874910464-88001860-3515575777",
+          "S-1-2-0",
+          "S-1-2-1",
+          "S-1-5-11",
+          "S-1-5-113",
+          "S-1-5-15",
+          "S-1-5-21-4230689943-3750815333-1810161870-1006",
+          "S-1-5-32-545",
+          "S-1-5-4",
+          "S-1-5-64-36"
+        ],
+        "administrator_token": false,
+        "administrator_group_present": false
+      },
+      "fixture": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-scratch-s0-2dae4250f20848d887a5491dea488536",
+      "result": "IS03_NATIVE_DIRECTORY_CREATION_DENIED",
+      "equivalent_ceremony_proof": false,
+      "production_function_sha256": "15B2A88961A63ADAF82AE809E71D0F21F0660D274474FE7115CF57B151B8E880",
+      "sddl": "O:S-1-5-21-4230689943-3750815333-1810161870-1001G:S-1-5-21-4230689943-3750815333-1810161870-1001D:PAI(A;;0x1200ab;;;S-1-5-21-4230689943-3750815333-1810161870-1001)(A;OIIO;0x1301bf;;;S-1-5-21-4230689943-3750815333-1810161870-1001)",
+      "owner_difference": "Current standard user owns fixture; no owner/reference equivalence claimed",
+      "create_directory_denied": true,
+      "create_file": true
+    },
+    "equivalent_ceremony": "NOT_RUN",
+    "components": {
+      "fixture": "C:\\Users\\gatom\\AppData\\Local\\Temp\\imperium-scratch-native-414a1773f2af4e169025fb2b7e068c0d",
+      "junction_refused": "PMA_SCRATCH_PATH_SUBSTITUTED",
+      "actual_sddl": "O:S-1-5-21-4230689943-3750815333-1810161870-1001G:S-1-5-21-4230689943-3750815333-1810161870-1001D:PAI(A;;0x1200af;;;S-1-5-21-4230689943-3750815333-1810161870-1001)(A;OICIIO;0x1301bf;;;S-1-5-21-4230689943-3750815333-1810161870-1001)",
+      "result": "SCRATCH_NATIVE_COMPONENTS_PASSED",
+      "equivalent_ceremony_proof": false,
+      "production_sddl": "O:BAG:BAD:P(A;OICI;FA;;;SY)(A;OICI;FA;;;BA)(A;;0x1200af;;;S-1-5-21-4230689943-3750815333-1810161870-1001)(A;OICIIO;0x1301bf;;;S-1-5-21-4230689943-3750815333-1810161870-1001)",
+      "token": {
+        "sid": "S-1-5-21-4230689943-3750815333-1810161870-1001",
+        "groups": [
+          "S-1-1-0",
+          "S-1-11-96-3623454863-58364-18864-2661722203-1597581903-1418550975-2793223574-874910464-88001860-3515575777",
+          "S-1-2-0",
+          "S-1-2-1",
+          "S-1-5-11",
+          "S-1-5-113",
+          "S-1-5-15",
+          "S-1-5-21-4230689943-3750815333-1810161870-1006",
+          "S-1-5-32-545",
+          "S-1-5-4",
+          "S-1-5-64-36"
+        ],
+        "administrator_token": false,
+        "administrator_group_present": false
+      },
+      "components": {
+        "native_nested_write_rename_read": true,
+        "cleanup_failure_preserved": true
+      }
+    },
+    "reason": "Administrator-owned disposable layout and distinct existing standard Runtime/Caller tokens unavailable in this agent session. No elevated token, account creation, password or real key custody requested.",
+    "owner_command": "docs/local-isolation-scratch-owner-proof.md"
+  },
+  "package": {
+    "workspace": "C:\\ProgramData\\Imperium\\ProtectedMissionScratch",
+    "manifest_sha256": "AAD090FC455F336AD9CCCDB1A3258F18F7791A47071B7E939E110EF724FFABC9",
+    "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\package-scratch-c9516380",
+    "native_acceptance": "PENDING",
+    "entries": 6483
+  },
+  "preservation": {
+    "package-47bcc44a": {
+      "entries": 6469,
+      "manifest_sha256": "8DAB48F98D147A6ABA9E89260D25082BA5B91AD2C72638F1F10FFB9A449CF6AE"
+    },
+    "package-readiness-6bb2628d": {
+      "entries": 6477,
+      "manifest_sha256": "C0442CFCC4FD68AFF12161FC8C942AFC3E4BD4F01A7336B80A603E341CC9076D"
+    },
+    "independent-review-20260905T141631Z": {
+      "packet_sha256": "CFC0D2C189CF7DFF19FBD8967086886EEF3E3F30155270B9B74451F3DDDB1B49",
+      "manifest_sha256": "1D8B566398A071E32912E4E3D40D7DA4B2D500391EF21F810B0AB0C9513E77D1"
+    },
+    "independent-review-readiness-6bb2628d": {
+      "packet_sha256": "9451424C5D08E3454DBDE6BA62A315D564C228FDB94DC34690A4965B61B85BA1",
+      "manifest_sha256": "7B6F1F21C2314BC2E86AE410123218E9286A4FE8A9C098D5BB3473985620F5CE"
+    },
+    "assembler_sha256": "5A5799D5E9A06E36A23806CACC1C7F145901F7C1FB7D223004C4DE2F4B1CE64D"
+  },
+  "changed_test_attribution": {
+    "preserved": "All LI01/LI02 42 adversarial/recovery cases, AM01/AM02, receipt/generation methods and assertions retained",
+    "new": "LocalIsolationScratchTest (4 methods), local_isolation_s0.ps1 and local_isolation_scratch_native.ps1",
+    "timing_change": "ProtectedMissionAuthorityBatch5AuditTest expiry window 1 to 3 seconds before export; actual expiry crossing and all assertions preserved",
+    "setup_changes": [
+      "ProtectedMissionFixture: provision sibling in disposable setup",
+      "protected_mission_cli.php: provision sibling only in test enrollment adapter"
+    ]
+  },
+  "changed_sources": [
+    {
+      "sha256": "308B0BD85F495FD25332523D10C99AEEA65E47547FACAF030752FE86309CA9EE",
+      "path": "src/ProtectedMission/AuthorityOwner.php",
+      "blob": "ad0f5fa4764d04df4ca97b0b53249403a2d38f40"
+    },
+    {
+      "sha256": "014FEDC906084FC8C4C7C559678BB1370ED54945A8F87F74690DE6A47AD77C36",
+      "path": "src/ProtectedMission/Ceremony.php",
+      "blob": "782acd4f71cc752cf9f82e9d73d7126d81793186"
+    },
+    {
+      "sha256": "26A212AE021BE64697FC74E1FB8BA414637499A267F02AAD9B04BFE150C55576",
+      "path": "src/ProtectedMission/Cli.php",
+      "blob": "dbfff050833e1b6f1b290302a08aa2b67dc21e58"
+    },
+    {
+      "sha256": "6D947A0BF7347B63D182052040358C8EF7C078E07A403D9D980EF78ED583D01B",
+      "path": "src/ProtectedMission/InspectionProcess.php",
+      "blob": "c2fa3ada457c5a0ed8138827b6930acb3ad4b770"
+    },
+    {
+      "sha256": "161A7CE7F73A82519E4CA140F970A7557DBDB266D3CB86B7C90FE2293D7F274B",
+      "path": "src/ProtectedMission/InstalledRuntime.php",
+      "blob": "1ca729200b55b8450acff2ebb7720bfc7788a04c"
+    },
+    {
+      "sha256": "62CBE107F018D2A35517636CFAD1F5AC286F82416D8B39FCF69CF9BA5D88DC98",
+      "path": "src/ProtectedMission/ScratchWorkspace.php",
+      "blob": "f7a1e3bae389ee429377f8643e73fd38a50f4725"
+    },
+    {
+      "sha256": "0B9F5BD93C6FFD30AE33C7A6B445D5DAA49DBB467FC66087DD40A66EBF63D458",
+      "path": "tests/Imperium/Runtime/LocalIsolationScratchTest.php",
+      "blob": "b45f2d238e7ecd2674a791e064d899f1eb51b43f"
+    },
+    {
+      "sha256": "3C76D304510E38B3A3F401FDC9F0A392F38E44FBF6D15BB1A86BB7AA1FA2FC88",
+      "path": "tests/Imperium/Runtime/ProtectedMissionAuthorityBatch5AuditTest.php",
+      "blob": "57269d17db08e7e83db3f5c7b552d0eacc2c2f0b"
+    },
+    {
+      "sha256": "1422315683A639BF42DA44A130144066B77139C4F00E7274B492312A393D99E1",
+      "path": "tests/Imperium/Runtime/Support/ProtectedMissionFixture.php",
+      "blob": "2047611c975b7315578535528cf1c4b1557db772"
+    },
+    {
+      "sha256": "BE30237EFFE7251E4BD606435F5B78C43D230AE10ECEBCAB301182E5708C320C",
+      "path": "tests/Imperium/Runtime/Support/local_isolation_s0.ps1",
+      "blob": "f90e09dabe7d188182320b701f6ba67aa66bf7ea"
+    },
+    {
+      "sha256": "5FAD1A4EE31AB08300F020B077B0C46DCFF22437D51227400B2F109AEEA164C1",
+      "path": "tests/Imperium/Runtime/Support/local_isolation_scratch_native.ps1",
+      "blob": "6281b86f96e9a5318d26945e728ccde4c7036310"
+    },
+    {
+      "sha256": "1F0B75FB800BC3EE91D2F06A627A6D09D599F47C49B290C88C8796F2545F6CC1",
+      "path": "tests/Imperium/Runtime/Support/protected_mission_cli.php",
+      "blob": "a424fb651f778fd9283c30b138914a4692796451"
+    },
+    {
+      "sha256": "4D31A0FCCEA001E603A0366E811780C8DDDD690C2EA6D6F0F24031F8F123BF64",
+      "path": "tools/Assert-ProtectedMissionInstallation.ps1",
+      "blob": "37445b29f00e49f6810be8c094e8adf593437e33"
+    },
+    {
+      "sha256": "CB0D7BD4E51F2C479C4D8AEF82271039328890D3E48F9F149C4201FFA61E0839",
+      "path": "tools/Build-LocalIsolationScratchReview.ps1",
+      "blob": "6bb9ec7367ba3c488b01c43025952b93d9d6d846"
+    },
+    {
+      "sha256": "B1B417B21222B448585AF5F9C08A7F6A6C45754DF8C0537264F97E73066F38F5",
+      "path": "tools/Install-LocalIsolationOwnerPackage.ps1",
+      "blob": "1b8ba684ef6809e7d1ea3ac5ba9eaedf41212c93"
+    },
+    {
+      "sha256": "FF692F22ACF93A3C2A3731F2087C2F513F426E2BF2A5E22AEFC25D6A9DCB3F15",
+      "path": "tools/Install-ProtectedMission.ps1",
+      "blob": "8fb19720473dcc3b72aef59f2fb25c8c55b3dd82"
+    },
+    {
+      "sha256": "A47D19D69E300BAFB2C7FA653A052F71E6CA98C918BF15290DD5D170DA4CF837",
+      "path": "tools/LocalIsolation.php",
+      "blob": "51685873b102ccd58b5794516b302f038fa56355"
+    },
+    {
+      "sha256": "F47645717E73B40147EDDCE50E809C23F2AD3D7B442F487A71AD5FA94C8CED7D",
+      "path": "tools/LocalIsolationReadiness.ps1",
+      "blob": "d646edb995b35fcba7b27be7d529895cee355268"
+    },
+    {
+      "sha256": "9314FEE160DE215FAEC17B675629DA9A44C9CDF7F869EB3F66CF4C80D7A90DD5",
+      "path": "tools/New-ProtectedScratchOwnerProof.ps1",
+      "blob": "d5d0131a59406624970781535674480db5f9d8ea"
+    },
+    {
+      "sha256": "02D0D29BAC765382C2B19A024AFA5A2B65372235F384ABC90400E933BF524198",
+      "path": "tools/ProtectedMissionScratch.ps1",
+      "blob": "74631cf5c7b2607f5016b481edb992ac5855f561"
+    },
+    {
+      "sha256": "18E83D33E347EEE01248D81CE1177EC4ED8ACC87A0BB4D5FB44D1DB03D22C33F",
+      "path": "tools/Test-ProtectedScratchCeremony.php",
+      "blob": "9bc45476402e8eee7037cb3738ff7549b2228d6c"
+    },
+    {
+      "sha256": "1C8FF31B635D33B7EED8D923C99B913704D45C084C6F8382A0AEF5910617C67B",
+      "path": "tools/Test-ProtectedScratchOwnerProof.ps1",
+      "blob": "6364dfe863c96ff6b9005450fbbf74215fe8730f"
+    }
+  ],
+  "evidence_files": [
+    {
+      "sha256": "F19BBA91D0511B9F3EFF5B65F4E4C3C57986363D5A2AECE3827BDD3BA1F5A6BB",
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\scratch-s2\\amendment-powershell.txt",
+      "bytes": 25462
+    },
+    {
+      "sha256": "CC1D8F24240D136B2C947B607004F87E7929B5DD06D801A80036275A3B7DB893",
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\scratch-s2\\ceremony-powershell.txt",
+      "bytes": 558
+    },
+    {
+      "sha256": "33425C7131E00DD8560C93A89CF3755BFC624494303BFFB96D409E93922B93BC",
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\scratch-s2\\check-owner-path.php",
+      "bytes": 584
+    },
+    {
+      "sha256": "416BA679045C3519A7C45CD7E17AEA5340097FE47B016B32F688CE0DEE6DEFBA",
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\scratch-s2\\check-policy51.ps1",
+      "bytes": 732
+    },
+    {
+      "sha256": "0047AA5A4D260F18EB71BF3695E111A22E7B9E8E88529A5A14FCDEAE9F6CB2D5",
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\scratch-s2\\focused.txt",
+      "bytes": 239
+    },
+    {
+      "sha256": "E5A3910AC99D433AC2F9F49BBEA3CE73AF576ACFAAA70AC03366B3AFE25115D2",
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\scratch-s2\\full.txt",
+      "bytes": 3770
+    },
+    {
+      "sha256": "00D23C5A65C1169B3A72571CD8B0F1E767419161830467389202BF9EDAEF7B55",
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\scratch-s2\\mission-powershell.txt",
+      "bytes": 29733
+    },
+    {
+      "sha256": "19DF1164E940080621159D030215A264E30AE970B5276948A795C29ED50FCDD6",
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\scratch-s2\\native-components.json",
+      "bytes": 1356
+    },
+    {
+      "sha256": "02E98A920DD7E470528A4B1677B5D55D7D014857B505F2469FD7B352419DA596",
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\scratch-s2\\native-windows-powershell51.txt",
+      "bytes": 516
+    },
+    {
+      "sha256": "EF14A1BACAC31D4B82414A8A7CC0CCC5EC0EFE0E228FD74B12F674216FC16954",
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\scratch-s2\\owner-path.json",
+      "bytes": 67
+    },
+    {
+      "sha256": "286AAC7907D45084E86EE3A4E3C7EB8796CDC3D4A199D684B33E489344C9EBFB",
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\scratch-s2\\package-build.txt",
+      "bytes": 338
+    },
+    {
+      "sha256": "ED2CD09FF9366FCD7E8A0D229C03A3524F37442CBEC9578A38ECBF1B857F0175",
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\scratch-s2\\package-identity.json",
+      "bytes": 207
+    },
+    {
+      "sha256": "339252E2ADAD95CEF025E9EFDB082928682714C115D5928D052B0B905A35E84A",
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\scratch-s2\\parse.json",
+      "bytes": 61
+    },
+    {
+      "sha256": "11038424BDE54177BD76508FA47F0C78D51F59A24516BF7A55367A64B5A5AD18",
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\scratch-s2\\policy51.json",
+      "bytes": 166
+    },
+    {
+      "sha256": "C3B23D0DC0D6CF5E971E3B9D4B2337A8B3E5254EC2BBB68DF7B29BB17B993B52",
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\scratch-s2\\precommit-focused.txt",
+      "bytes": 239
+    },
+    {
+      "sha256": "AD11EDD5A03BA876C5120F4B9933799F81DE5BCBB76B94E809F0BAF086ADF201",
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\scratch-s2\\preservation.json",
+      "bytes": 888
+    },
+    {
+      "sha256": "1EF966259713D3BEB1949AE134C1454A5A8AEED664BFCE780881FF2A8A37F65B",
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\scratch-s2\\reference-before-full.php",
+      "bytes": 75538
+    },
+    {
+      "sha256": "2B3B9E9B424C7981E1857EB3A95B990BF8A599663A1234376D2AAB68C1B151D5",
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\scratch-s2\\reference-generated.php",
+      "bytes": 75835
+    },
+    {
+      "sha256": "A3E94916916A76A0BA91031BF69AC90AF55620ADE9E5C28356E3F643CCC65D92",
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\scratch-s2\\refs.json",
+      "bytes": 183
+    },
+    {
+      "sha256": "F1606DC16188910F6F57891A14219F6CFEBB4DB779018B353B34FBC2FF0D852E",
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\scratch-s2\\verify-preservation.php",
+      "bytes": 1264
+    },
+    {
+      "sha256": "984DF3A32A8900C8F79EADB603A22480FA65FA466EED8855B94AD397C0BE3FDF",
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\scratch-s2\\write-audit.ps1",
+      "bytes": 5668
+    }
+  ],
+  "owner_runbook": "E:\\htdocs\\imperium\\docs\\local-isolation-scratch-owner-runbook.md",
+  "owner_native_proof": "E:\\htdocs\\imperium\\docs\\local-isolation-scratch-owner-proof.md",
+  "review": {
+    "directory": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\independent-review-scratch-c9516380",
+    "derivative_manifest": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\independent-review-scratch-c9516380\\review-packet-manifest.json",
+    "markdown": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\independent-review-scratch-c9516380\\local-isolation-scratch-independent-review.md"
+  },
+  "target": {
+    "commit": "a1fc4f27634319f2a22df2e6a1b370f70cdb98bf",
+    "paths": 15,
+    "tree": "21780452f5815d4342f8f5c96923b2b276d9930a",
+    "real_mission_executed": false
+  },
+  "limits": [
+    "Equivalent Windows ceremony NOT RUN; executable owner proof is pending, not acceptance",
+    "Trusted OS, administrator, Runtime and signing custody remain premises",
+    "Unknown/abandoned scratch refuses mutation; no generic deletion or retry",
+    "Current readiness/exchange coverage and 15 minute freshness remain unchanged",
+    "Windows/local loose SHA-1, bounded journal capacity, no migration, unmeasured hardware power loss"
+  ],
+  "prohibited_actions_not_performed": [
+    "Real installation or account creation",
+    "Password or real private-key custody",
+    "Journal reset/migration",
+    "Implementation push or main merge",
+    "Branch deletion",
+    "Provider invocation",
+    "Target mutation"
+  ],
+  "parent_batches": "3–5 remain pending independent review and authentic owner prerequisites; resume the existing parent when available."
+}
