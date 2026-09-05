@@ -1,0 +1,234 @@
+{
+    "test_only": true,
+    "public_protocol_only": true,
+    "deployment_isolation_proved": false,
+    "am01": {
+        "before": {
+            "authorization_id": "mission-authorization-772285a2b04a4bae99f7",
+            "inactive": false,
+            "currentness": "CURRENT",
+            "next_action": "Inspect lifecycle and exact commission; terminal missions cannot reopen.",
+            "lifecycle": {
+                "state": "AUTHORIZED",
+                "history": [],
+                "consumed_nonces": []
+            },
+            "receipt": null,
+            "execution_authority": false
+        },
+        "after": {
+            "authorization_id": "mission-authorization-772285a2b04a4bae99f7",
+            "inactive": "amended",
+            "currentness": "PMA_AUTHORITY_INACTIVE",
+            "next_action": "Fresh dossier and approval required; historical evidence grants no authority.",
+            "lifecycle": {
+                "state": "AUTHORIZED",
+                "history": [],
+                "consumed_nonces": []
+            },
+            "receipt": null,
+            "execution_authority": false
+        },
+        "unsigned_challenge": "challenge-1515c7431e858062924da514c4e58f2500c21221cc588629"
+    },
+    "am02": {
+        "before": {
+            "authorization_id": "mission-authorization-84dd95ba38969b1b322f",
+            "inactive": false,
+            "currentness": "CURRENT",
+            "next_action": "Inspect lifecycle and exact commission; terminal missions cannot reopen.",
+            "lifecycle": {
+                "consumed_nonces": {
+                    "b661024a4d65dd7081f0aac97e9e724757b3c4a5ab6956e2": true,
+                    "c2c7635b4e607a3f13f2eef60bfdd56529840e7a07736369": true
+                },
+                "history": [
+                    {
+                        "capability": {
+                            "payload": {
+                                "action": "admit",
+                                "actor": "protected-git-inspector",
+                                "authorization_digest": "64146ce6805da6727dc569ee4e925cddde90591543012bcec0f505f526fba9da",
+                                "authorization_id": "mission-authorization-84dd95ba38969b1b322f",
+                                "commission_id": "protected-git-commission-9c65bfbbb6e50a5f49f5119df46f438543440ac1c53ef7b173498aa8f5979a50",
+                                "dossier_digest": "e39b33d5503ba45ffbcb5ab2adfc2a5c9e24201d05c59be26f3eb4f028fc070a",
+                                "expires_at": 1788609654,
+                                "from": "AUTHORIZED",
+                                "issuer": "VghOo7Kgsk0BuzSqBSwdSI6NjWc+w+ccDBn1w4Z6e6I=",
+                                "mission_id": "disposable-mission-178d27aed17af603",
+                                "nonce": "b661024a4d65dd7081f0aac97e9e724757b3c4a5ab6956e2",
+                                "target": {
+                                    "commit": "f03caf341630f5242eeab040ef06363ab971ef15",
+                                    "repository": "C:\\Users\\gatom\\AppData\\Local\\Temp/imperium-protected-fixture-8dc6fc2ab6b9d0753ed830be/disposable-target",
+                                    "tree": "4f8b07872a4b2a72fe2c43106f215fd51822fe1e"
+                                },
+                                "to": "ADMITTED"
+                            },
+                            "signature": "3tU7wuPB6Jiv2KTdT7K0EHcJfKDjI+3JPPvTG2rWN01tl7bCCVHSqsunK00eiUdiKGzl5tBI13akwCW7UTjTAg=="
+                        },
+                        "consumed_at": 1788607854
+                    },
+                    {
+                        "capability": {
+                            "payload": {
+                                "action": "inspect",
+                                "actor": "protected-git-inspector",
+                                "authorization_digest": "64146ce6805da6727dc569ee4e925cddde90591543012bcec0f505f526fba9da",
+                                "authorization_id": "mission-authorization-84dd95ba38969b1b322f",
+                                "commission_id": "protected-git-commission-9c65bfbbb6e50a5f49f5119df46f438543440ac1c53ef7b173498aa8f5979a50",
+                                "dossier_digest": "e39b33d5503ba45ffbcb5ab2adfc2a5c9e24201d05c59be26f3eb4f028fc070a",
+                                "expires_at": 1788609654,
+                                "from": "ADMITTED",
+                                "issuer": "VghOo7Kgsk0BuzSqBSwdSI6NjWc+w+ccDBn1w4Z6e6I=",
+                                "mission_id": "disposable-mission-178d27aed17af603",
+                                "nonce": "c2c7635b4e607a3f13f2eef60bfdd56529840e7a07736369",
+                                "target": {
+                                    "commit": "f03caf341630f5242eeab040ef06363ab971ef15",
+                                    "repository": "C:\\Users\\gatom\\AppData\\Local\\Temp/imperium-protected-fixture-8dc6fc2ab6b9d0753ed830be/disposable-target",
+                                    "tree": "4f8b07872a4b2a72fe2c43106f215fd51822fe1e"
+                                },
+                                "to": "INSPECTING"
+                            },
+                            "signature": "fnkCtGhbk1QLNf/aTUMGBFdVhQmJ0RROVIQWC+eMiGHy89/fJOUKN6goQbQU1VuzgVVgSmofkWvejQCFU0oxBw=="
+                        },
+                        "consumed_at": 1788607854
+                    }
+                ],
+                "state": "INSPECTING"
+            },
+            "receipt": null,
+            "execution_authority": false
+        },
+        "successor_paths": [
+            "not-inspected.txt"
+        ],
+        "after": {
+            "authorization_id": "mission-authorization-257533e160669f6c46a8",
+            "inactive": false,
+            "currentness": "CURRENT",
+            "next_action": "Inspect lifecycle and exact commission; terminal missions cannot reopen.",
+            "lifecycle": {
+                "consumed_nonces": {
+                    "0f8dfbf3203b50c86d8631380805f1a6332453ab5b8e028b": true,
+                    "b661024a4d65dd7081f0aac97e9e724757b3c4a5ab6956e2": true,
+                    "c2c7635b4e607a3f13f2eef60bfdd56529840e7a07736369": true
+                },
+                "history": [
+                    {
+                        "capability": {
+                            "payload": {
+                                "action": "admit",
+                                "actor": "protected-git-inspector",
+                                "authorization_digest": "64146ce6805da6727dc569ee4e925cddde90591543012bcec0f505f526fba9da",
+                                "authorization_id": "mission-authorization-84dd95ba38969b1b322f",
+                                "commission_id": "protected-git-commission-9c65bfbbb6e50a5f49f5119df46f438543440ac1c53ef7b173498aa8f5979a50",
+                                "dossier_digest": "e39b33d5503ba45ffbcb5ab2adfc2a5c9e24201d05c59be26f3eb4f028fc070a",
+                                "expires_at": 1788609654,
+                                "from": "AUTHORIZED",
+                                "issuer": "VghOo7Kgsk0BuzSqBSwdSI6NjWc+w+ccDBn1w4Z6e6I=",
+                                "mission_id": "disposable-mission-178d27aed17af603",
+                                "nonce": "b661024a4d65dd7081f0aac97e9e724757b3c4a5ab6956e2",
+                                "target": {
+                                    "commit": "f03caf341630f5242eeab040ef06363ab971ef15",
+                                    "repository": "C:\\Users\\gatom\\AppData\\Local\\Temp/imperium-protected-fixture-8dc6fc2ab6b9d0753ed830be/disposable-target",
+                                    "tree": "4f8b07872a4b2a72fe2c43106f215fd51822fe1e"
+                                },
+                                "to": "ADMITTED"
+                            },
+                            "signature": "3tU7wuPB6Jiv2KTdT7K0EHcJfKDjI+3JPPvTG2rWN01tl7bCCVHSqsunK00eiUdiKGzl5tBI13akwCW7UTjTAg=="
+                        },
+                        "consumed_at": 1788607854
+                    },
+                    {
+                        "capability": {
+                            "payload": {
+                                "action": "inspect",
+                                "actor": "protected-git-inspector",
+                                "authorization_digest": "64146ce6805da6727dc569ee4e925cddde90591543012bcec0f505f526fba9da",
+                                "authorization_id": "mission-authorization-84dd95ba38969b1b322f",
+                                "commission_id": "protected-git-commission-9c65bfbbb6e50a5f49f5119df46f438543440ac1c53ef7b173498aa8f5979a50",
+                                "dossier_digest": "e39b33d5503ba45ffbcb5ab2adfc2a5c9e24201d05c59be26f3eb4f028fc070a",
+                                "expires_at": 1788609654,
+                                "from": "ADMITTED",
+                                "issuer": "VghOo7Kgsk0BuzSqBSwdSI6NjWc+w+ccDBn1w4Z6e6I=",
+                                "mission_id": "disposable-mission-178d27aed17af603",
+                                "nonce": "c2c7635b4e607a3f13f2eef60bfdd56529840e7a07736369",
+                                "target": {
+                                    "commit": "f03caf341630f5242eeab040ef06363ab971ef15",
+                                    "repository": "C:\\Users\\gatom\\AppData\\Local\\Temp/imperium-protected-fixture-8dc6fc2ab6b9d0753ed830be/disposable-target",
+                                    "tree": "4f8b07872a4b2a72fe2c43106f215fd51822fe1e"
+                                },
+                                "to": "INSPECTING"
+                            },
+                            "signature": "fnkCtGhbk1QLNf/aTUMGBFdVhQmJ0RROVIQWC+eMiGHy89/fJOUKN6goQbQU1VuzgVVgSmofkWvejQCFU0oxBw=="
+                        },
+                        "consumed_at": 1788607854
+                    },
+                    {
+                        "capability": {
+                            "payload": {
+                                "action": "complete",
+                                "actor": "protected-git-inspector",
+                                "authorization_digest": "e23fe73d4d89ccc3f4bff274257f9d5bc0fc4bdb7d6746ddd69f2bfd87b4287a",
+                                "authorization_id": "mission-authorization-257533e160669f6c46a8",
+                                "commission_id": "protected-git-commission-25fb5674beb2ece2bce13853ab499024a02905f7085576cd1c5b3d58e67400eb",
+                                "dossier_digest": "1f18a72472af523c0895edcd003144da19e00c52fd7520ce817e07c474b0f664",
+                                "expires_at": 1788609654,
+                                "from": "INSPECTING",
+                                "issuer": "VghOo7Kgsk0BuzSqBSwdSI6NjWc+w+ccDBn1w4Z6e6I=",
+                                "mission_id": "disposable-mission-178d27aed17af603",
+                                "nonce": "0f8dfbf3203b50c86d8631380805f1a6332453ab5b8e028b",
+                                "target": {
+                                    "commit": "f03caf341630f5242eeab040ef06363ab971ef15",
+                                    "repository": "C:\\Users\\gatom\\AppData\\Local\\Temp/imperium-protected-fixture-8dc6fc2ab6b9d0753ed830be/disposable-target",
+                                    "tree": "4f8b07872a4b2a72fe2c43106f215fd51822fe1e"
+                                },
+                                "to": "COMPLETED"
+                            },
+                            "signature": "f6W3qhNFgMe1VMXdjdUfy4+LU5NVcB7TfaPXSFdlnc3nHeAxEiiIoX5CePL3PE5TQYi/wbXtWZ437tPYu//dAw=="
+                        },
+                        "consumed_at": 1788607855
+                    }
+                ],
+                "state": "COMPLETED"
+            },
+            "receipt": {
+                "authorization_id": "mission-authorization-257533e160669f6c46a8",
+                "commission_id": "protected-git-commission-25fb5674beb2ece2bce13853ab499024a02905f7085576cd1c5b3d58e67400eb",
+                "completed_at": 1788607855,
+                "deployment_isolation_claimed": false,
+                "dossier_digest": "1f18a72472af523c0895edcd003144da19e00c52fd7520ce817e07c474b0f664",
+                "mission_id": "disposable-mission-178d27aed17af603",
+                "operator_identity": "disposable-operator",
+                "snapshot": {
+                    "adapter": "offline-loose-sha1-v1",
+                    "commit_id": "f03caf341630f5242eeab040ef06363ab971ef15",
+                    "commit_verified": true,
+                    "findings": [
+                        {
+                            "blob_id": "377333c3c90edb37f75ed6031f4a5cc3996f856a",
+                            "byte_length": 27,
+                            "bytes_base64": "RnJlc2ggZGlzcG9zYWJsZSBldmlkZW5jZS4K",
+                            "path": "evidence.txt",
+                            "sha256": "b416f1c9646ee409c3f205e02bbd5fc831dcb64011735ca4117e6dfa785e55c0"
+                        }
+                    ],
+                    "git_network_or_subprocess_used": false,
+                    "object_bytes_read": 232,
+                    "target_mutation_performed": false,
+                    "tree_id": "4f8b07872a4b2a72fe2c43106f215fd51822fe1e",
+                    "tree_verified": true
+                },
+                "trust_fingerprint": "63ae720ba1b584907ab89b70051862892b19be70969d7b59034eb2cbe83651cd",
+                "trust_root_id": "1de33e361c0e829d5291652fe7f8eae9827e2d40e39b8b11cd199e13a24f830a"
+            },
+            "execution_authority": false
+        }
+    },
+    "affected_hashes": {
+        "am01_before": "31056627acb5313faac0ab27620a4576c06821808b0730d95c03f8d40d552d87",
+        "am01_after": "eee8b17c697339ab6cfb3610a5a8c9a7045c421ca4c6ce4cf6852e1a5adfdab2",
+        "am02_before": "1f39e6f21021fdf2c6d31356df6b044c76e50c5d8fa507e90c710a8b91df7977",
+        "am02_after": "5983c6231b258a74d33ac2e26dc36ef3dfb40dc1b39f9df31320d051a49abab9"
+    }
+}

@@ -1,6 +1,6 @@
 ## Mission amendment authority and evidence binding — selected 2026-09-05
 
-- [ ] Batch 0: reproduce AM01/AM02 and preserve candidate/test evidence.
+- [x] Batch 0: reproduce AM01/AM02 and preserve candidate/test evidence.
 - [ ] Batch 1: inert proposals; signed predecessor-bound atomic activation.
 - [ ] Batch 2: exact authorization-generation lifecycle, inspection, receipt and status.
 - [ ] Batch 3: forced process orderings, CLI/PowerShell proof and separate local audit.
