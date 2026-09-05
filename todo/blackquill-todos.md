@@ -1,3 +1,20 @@
+## Isolation measurement and readiness correction — selected 2026-09-05
+
+- [x] Independently verify packet and embedded-source/manifest hashes; record LI01/LI02.
+- [ ] C0: reproduce omissions and freeze the access/evidence contract.
+- [ ] C1: cover exchange/probe surfaces and validate readiness evidence.
+- [ ] C2: run tests, rebuild and audit a fresh owner package.
+- [ ] Resume parent Batch 3: owner setup and actual-account measurement.
+- [ ] Resume parent Batch 4: authentic approval and exact-snapshot mission.
+- [ ] Resume parent Batch 5: receipt reconstruction and analytical report.
+
+Campaign: `docs/next-campaign-local-isolation-measurement-readiness.md`.
+Runner: `docs/handoffs/local-isolation-measurement-readiness-ready.md`.
+Preserve the old package digest and local implementation history. A status field
+or self-declared hash is not proof; human collection/transport facts remain explicit.
+
+## Historical campaign checklists
+
 ## Local deployment isolation and useful mission — selected 2026-09-05
 
 Campaign: docs/next-campaign-local-isolation-useful-mission.md.
