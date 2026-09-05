@@ -1,8 +1,10 @@
 # PowerShell 7 helper. Private key bytes are never placed in process arguments.
 function Invoke-PmaProcess {
-    param([Parameter(Mandatory)][string]$Script, [string[]]$Arguments = @(), [string]$InputText = '')
+    param([Parameter(Mandatory)][string]$Script, [string[]]$Arguments = @(), [string]$InputText = '',
+          [string]$Php = (Get-Command php -ErrorAction Stop).Source,
+          [ValidateRange(1000,180000)][int]$TimeoutMilliseconds = 120000)
     $start = [Diagnostics.ProcessStartInfo]::new()
-    $start.FileName = (Get-Command php -ErrorAction Stop).Source
+    $start.FileName = $Php
     $start.UseShellExecute = $false
     $start.CreateNoWindow = $true
     $start.RedirectStandardInput = $true
@@ -21,7 +23,7 @@ function Invoke-PmaProcess {
         $errors = $process.StandardError.ReadToEndAsync()
         $process.StandardInput.Write($InputText)
         $process.StandardInput.Close()
-        if (-not $process.WaitForExit(60000)) { $process.Kill($true); throw 'PMA_PROCESS_TIMEOUT' }
+        if (-not $process.WaitForExit($TimeoutMilliseconds)) { $process.Kill($true); throw 'PMA_PROCESS_TIMEOUT_QUERY_PERSISTED_STATUS_BEFORE_ANY_RETRY' }
         $result = [pscustomobject]@{ ExitCode = $process.ExitCode; Output = $output.GetAwaiter().GetResult(); Error = $errors.GetAwaiter().GetResult() }
         return $result
     } finally { $process.Dispose() }

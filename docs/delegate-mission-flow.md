@@ -1,6 +1,6 @@
 # Current continuation: local deployment isolation and useful mission
 
-LOCAL_ISOLATION_AND_USEFUL_MISSION_SELECTED.
+LOCAL_ISOLATION_BATCHES_0_1_PREPARED_BATCH_2_REHEARSAL_IN_PROGRESS.
 AM01/AM02 correction accepted in source review and merged through PR #759 at
 a1fc4f27634319f2a22df2e6a1b370f70cdb98bf; GitHub full-suite run 33965668160 passed.
 This closes that corrective integration, not the deployment-isolation question.
