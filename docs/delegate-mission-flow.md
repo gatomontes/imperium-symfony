@@ -1,3 +1,28 @@
+# Current continuation: isolation measurement and readiness correction
+
+`LOCAL_ISOLATION_MEASUREMENT_READINESS_CONTINUATION_SELECTED`
+
+Independent package review accepted the local owner package subject to LI01
+(exchange/probe surfaces omitted from explicit measurement) and LI02 (readiness
+references not deterministically validated). Campaign:
+`docs/next-campaign-local-isolation-measurement-readiness.md`. Review:
+`docs/local-isolation-package-independent-review.md`. Runner:
+`docs/handoffs/local-isolation-measurement-readiness-ready.md`.
+
+Steps: reproduce/freeze (C0) → complete coverage and validator (C1) → fresh
+package and audit (C2) → resume owner setup/measurement (3) → authentic approval
+and one inspection (4) → receipt verification and separate analysis (5).
+
+Flow: preserved local source → planning integration → complete measured surfaces
+→ validated readiness evidence → fresh owner package → actual-account evidence
+→ owner signature → one bounded mission → verified receipt/report.
+
+Deployment isolation remains unproved. C0–C2 proceed locally without repeated
+permission; owner secrets and privileged actions stay in owner custody. Preserve
+the original package/tests/branches. No implementation publication or main merge.
+
+## Historical continuation and audit records
+
 # Current continuation: local deployment isolation and useful mission
 
 LOCAL_ISOLATION_AND_USEFUL_MISSION_SELECTED.

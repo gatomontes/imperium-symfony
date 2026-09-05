@@ -1,3 +1,14 @@
+# Bounded continuation after independent package review
+
+Batches 0–2 remain complete locally. Independent review accepted their package
+for owner-controlled setup subject to LI01/LI02: complete exchange/probe-plan
+measurements and deterministic validation of readiness evidence.
+
+Complete `docs/next-campaign-local-isolation-measurement-readiness.md` C0–C2
+using `docs/handoffs/local-isolation-measurement-readiness-ready.md`, produce a
+fresh package, then resume this campaign's Batches 3–5. Preserve the old package
+and do not claim deployed isolation before actual measurements pass.
+
 # Local Deployment Isolation and Useful Mission — campaign
 
 Status: LOCAL_ISOLATION_AND_USEFUL_MISSION_SELECTED.
