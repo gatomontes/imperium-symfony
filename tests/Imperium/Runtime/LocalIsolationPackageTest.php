@@ -16,13 +16,15 @@ final class LocalIsolationPackageTest extends TestCase
         $status=$f->call('status',['authorization_id'=>$f->id]);
         $verify=fn($s,$after)=>\LocalIsolation::verify($chain,$s,$f->trust,$inventory,$repo,$before,$after);
         self::assertSame('PUBLIC_RECEIPT_BYTES_AND_GENERATION_VERIFIED',$verify($status,$before)['result']);
-        foreach(['generation','bytes','history','budget','manifest'] as $case){
+        foreach(['generation','bytes','history','budget','manifest','receipt-alias','status-alias'] as $case){
             $bad=$status;$after=$before;
             if($case==='generation')$bad['receipt']['binding']['generation_id']=str_repeat('0',64);
             if($case==='bytes')$bad['receipt']['snapshot']['findings'][0]['bytes_base64']=base64_encode('substituted');
             if($case==='history')$bad['lifecycle']['history'][1]['capability']['payload']['from']='AUTHORIZED';
             if($case==='budget')$bad['receipt']['snapshot']['object_bytes_read']--;
             if($case==='manifest')$after['unexpected']='file';
+            if($case==='receipt-alias')$bad['receipt']['mission_id']='unrelated-mission';
+            if($case==='status-alias')$bad['authorization_id']='unrelated-authorization';
             try{$verify($bad,$after);self::fail('Tamper accepted: '.$case);}catch(\RuntimeException $e){self::assertNotEmpty($e->getMessage());}
         }
     }
