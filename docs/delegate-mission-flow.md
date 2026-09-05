@@ -1,3 +1,39 @@
+# Current continuation: local deployment isolation and useful mission
+
+LOCAL_ISOLATION_AND_USEFUL_MISSION_SELECTED.
+AM01/AM02 correction accepted in source review and merged through PR #759 at
+a1fc4f27634319f2a22df2e6a1b370f70cdb98bf; GitHub full-suite run 33965668160 passed.
+This closes that corrective integration, not the deployment-isolation question.
+
+Campaign: docs/next-campaign-local-isolation-useful-mission.md.
+Local runner: docs/handoffs/local-isolation-useful-mission-ready.md.
+
+Current steps: inventory (0), executable probes/orchestration (1), disposable
+rehearsal and exact owner package (2), owner setup and actual-account measurement
+(3), authentic approval and one read-only snapshot inspection (4), receipt
+verification and useful analytical report (5).
+
+Flow: verified merged baseline → prepared/rehearsed installation package →
+owner-applied protected deployment → measured caller/Runtime separation →
+fresh canonical dossier and authentic signature → exact generation execution →
+verified receipt plus separately labeled analytical findings.
+
+Batches 0–2 proceed locally without repeated permission for routine preparation.
+If owner setup/signing is absent, finish the reviewable package first and provide
+exact owner actions. Resume the already selected bounded route when its authentic
+prerequisites exist. Fixture success cannot satisfy real deployment proof.
+
+Retain DEPLOYMENT_ISOLATION_UNPROVED_OPERATOR_SETUP_REQUIRED until actual-account
+evidence supports a scoped deployment result. Preserve old branches/tests and
+qualifications. The current GitHub authorization concerns planning publication;
+the new local implementation runner stops before push/merge.
+
+## Historical continuation and audit records
+
+Everything below records earlier selection/completion states. Prior no-merge
+instructions and candidate dispositions are historical for their respective
+campaigns; they do not undo PR #759 or replace the current selection above.
+
 # Current disposition: mission amendment correction local audit complete
 
 `MISSION_AMENDMENT_CORRECTION_LOCAL_COMPLETE_PENDING_INDEPENDENT_REVIEW`

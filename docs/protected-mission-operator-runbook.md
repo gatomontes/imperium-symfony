@@ -1,3 +1,21 @@
+# Current campaign context — 2026-09-05
+
+The protected ceremony and amendment correction were integrated by PR #759 at
+a1fc4f27634319f2a22df2e6a1b370f70cdb98bf. The next local route is
+docs/next-campaign-local-isolation-useful-mission.md, with executable entry at
+docs/handoffs/local-isolation-useful-mission-ready.md.
+
+That selection authorizes local preparation/rehearsal and specifies the exact
+owner setup, measured isolation and authentic approval prerequisites for the
+real inspection. The old campaign's "no setup authorized" wording below is
+historical; it is not a command to abandon the new setup package. Private key
+custody and runtime signature checks still apply. Do not run placeholder SID,
+fingerprint or path commands as if they were an approved concrete setup plan.
+
+The existing inspector produces byte-verification evidence. A discrepancy report
+is a separate analysis of those verified bytes, not a semantic guarantee from the
+mechanical receipt. All deployment qualifications remain until actually measured.
+
 # Protected mission Operator ceremony
 
 Implementation commands below use PHP 8.4+, Sodium, and PowerShell 7. The same CLI implementation
