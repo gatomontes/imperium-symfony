@@ -22,6 +22,17 @@ try{
  # Idempotent resume queries DERIVED; never repeats submit/derive.
  $resumed=Accept-PmaSigned $context (Join-Path $root 'response.json')
  if($resumed.binding.generation_id -cne $initial.binding.generation_id){throw 'RESUME_CHANGED_GENERATION'}
+ # Simulate a lost consume response BEFORE dispatch in a separate disposable
+ # exchange. A marker must stop Step without adding a journal frame.
+ $blocked=Join-Path $root 'blocked-exchange';[void][IO.Directory]::CreateDirectory($blocked)
+ $issued=Invoke-PmaRequestChecked $context 'issue' ([ordered]@{authorization_id=$initial.authorization_id})
+ Write-PmaNewJson $issued (Join-Path $root 'capabilities.json')
+ Copy-Item (Join-Path $root 'authorization.json'),(Join-Path $root 'capabilities.json') $blocked
+ Write-PmaNewJson @{simulated_uncertain_attempt=$true} (Join-Path $blocked 'admit-attempt.json')
+ $blockedContext=$context.Clone();$blockedContext.Exchange=$blocked
+ $journal=Join-Path $context.Prefix[0] 'authority.journal';$journalHash=(Get-FileHash $journal).Hash
+ $refused=$false;try{$null=Step-PmaMission $blockedContext}catch{$refused=$true}
+ if(-not $refused -or (Get-FileHash $journal).Hash -cne $journalHash){throw 'UNCERTAIN_ATTEMPT_REPLAYED'}
  $progress=@('AUTHORIZED')
  foreach($expected in @('ADMITTED','INSPECTING','COMPLETED')){
     $status=Step-PmaMission $context
@@ -44,11 +55,18 @@ try{
  & (Get-Command pwsh).Source -NoProfile -File (Join-Path $repo 'tools/Test-LocalIsolationAccess.ps1') -Plan (Join-Path $root 'probe-plan.json') -Output (Join-Path $root 'probe-result.json')
  if($LASTEXITCODE -ne 0){throw 'PROBE_REHEARSAL_FAILED'}
  if([IO.File]::ReadAllText($canary) -cne 'unchanged'){throw 'PROBE_CHANGED_BYTES'}
+ $acl=Get-Acl $canary
+ $acl.AddAccessRule([Security.AccessControl.FileSystemAccessRule]::new([Security.Principal.SecurityIdentifier]$sid,[Security.AccessControl.FileSystemRights]::WriteData,[Security.AccessControl.AccessControlType]::Deny))
+ Set-Acl -LiteralPath $canary -AclObject $acl
+ $deniedPlan=@{role='DisposableSameUser';sid=$sid;probes=@(@{path=$canary;right='write';mask=2;expected='ACCESS_DENIED'})}
+ Write-PmaNewJson $deniedPlan (Join-Path $root 'denied-plan.json')
+ & (Get-Command pwsh).Source -NoProfile -File (Join-Path $repo 'tools/Test-LocalIsolationAccess.ps1') -Plan (Join-Path $root 'denied-plan.json') -Output (Join-Path $root 'denied-result.json')
+ if($LASTEXITCODE -ne 0){throw 'NATIVE_DENIAL_PROBE_FAILED'}
  $probePlan.probes[1].expected='ACCESS_DENIED'
  Write-PmaNewJson $probePlan (Join-Path $root 'bad-probe-plan.json')
  & (Get-Command pwsh).Source -NoProfile -File (Join-Path $repo 'tools/Test-LocalIsolationAccess.ps1') -Plan (Join-Path $root 'bad-probe-plan.json') -Output (Join-Path $root 'bad-probe-result.json') 2> (Join-Path $root 'expected-probe-refusal.txt')
  if($LASTEXITCODE -eq 0){throw 'ABSENT_COUNTED_AS_DENIAL'}
- $proof=[ordered]@{result='LOCAL_ISOLATION_DISPOSABLE_REHEARSAL_PASSED';proof_root=$root;same_user=$true;actual_deployment_isolation=$false;progress=$progress;verified=$verified;resume_derived_and_completed=$true;absence_is_not_denial=$true;target_unchanged=$true;analytical_report='No semantic analysis of real target performed in rehearsal.'}
+ $proof=[ordered]@{result='LOCAL_ISOLATION_DISPOSABLE_REHEARSAL_PASSED';proof_root=$root;same_user=$true;actual_deployment_isolation=$false;progress=$progress;verified=$verified;resume_derived_and_completed=$true;uncertain_attempt_refused_without_journal_change=$true;native_canary_denial=$true;absence_is_not_denial=$true;target_unchanged=$true;analytical_report='No semantic analysis of real target performed in rehearsal.'}
  Write-PmaNewJson $proof (Join-Path $root 'public-rehearsal.json')
  $proof|ConvertTo-Json -Depth 20
 }finally{$held.Dispose()}

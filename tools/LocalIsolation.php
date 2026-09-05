@@ -127,7 +127,7 @@ final class LocalIsolation
             'risks_contingencies_fallbacks'=>['Any access success where denial is required stops deployment. Refusal, timeout or unknown consume stops; query persisted IDs and preserve incident, never blindly replay or enlarge scope. No automatic fallback or retry mission.'],
             'evidence_provenance_reporting'=>['Capture AUTHORIZED, ADMITTED, INSPECTING, COMPLETED and reconstruct generation/receipt/object bindings. INSPECTING is persisted after synchronous inspection; no percentage progress is claimed.',
                 'Hash complete target before/after. Separate analyst report cites exact document and executable blob/line, expected/observed behavior, confidence and bounded implication. Receipt verifies bytes, not semantic truth/completeness. Outside-allowlist gaps remain unverified.'],
-            'expiry_revocation_reauthorization'=>['Expiry 0 in the draft is deliberately unusable. Set fresh Unix expiry within 24 hours only immediately before preparation; changed scope or retry requires fresh authentic approval. Never borrow historical generations.'],
+            'expiry_revocation_reauthorization'=>[($expiry===0?'Expiry 0 in this draft is deliberately unusable.':'Fresh explicit Unix expiry is '.$expiry.'.').' Set expiry within 24 hours only immediately before preparation; changed scope or retry requires fresh authentic approval. Never borrow historical generations.'],
         ]];
     }
     /** Public chain and receipt verification; independent of producer booleans and Generation. */
