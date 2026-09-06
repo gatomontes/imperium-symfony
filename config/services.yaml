@@ -7,13 +7,6 @@
 parameters:
 
 services:
-    App\SourceReview\Transport:
-        alias: App\SourceReview\HttpTransport
-
-    App\SourceReview\HttpTransport:
-        arguments:
-            $offlineClient: null
-
     _defaults:
         autowire: true
         autoconfigure: true
