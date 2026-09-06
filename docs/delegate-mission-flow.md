@@ -1,3 +1,7 @@
+# Current flow — accepted process correction → parent Batch 3
+
+Both process corrections are closed within the independently accepted disposable owner proof. See local-isolation-scratch-process-owner-result.md. Current work is the existing parent Batch 3 prerequisite inventory in local-isolation-parent-batch-3-prerequisites.md: reviewed package and existing identities → owner fresh real installation → real pre measurement → independent Operator public trust and enrollment → real post measurement. Batches 4–5 remain gated; no signing or mission execution is authorized by this continuation. Disposable keys, trust, measurements and consumed authority cannot satisfy real prerequisites. Preserve historical records below.
+
 # Current local result: scratch native proof pending
 
 SCRATCH_WORKSPACE_CORRECTION_NATIVE_PROOF_PENDING.

@@ -1,3 +1,13 @@
+## Current steps — parent Batch 3 prerequisites
+
+- [x] Close both process corrections within independently accepted fresh disposable proof (41 hashes; 304,526 observations; 20 Caller denials; ten normal operations; expected exit-2 refusal).
+- [x] Preserve historical 304,942-row proof, failures, package/test attribution and private custody limits.
+- [ ] Batch 3: fresh real installation, actual-account pre/post measurements and independent Operator public trust/fingerprint. Reuse existing accounts.
+- [ ] Batch 4: authentic approval and exact inspection; not authorized by this continuation.
+- [ ] Batch 5: receipt reconstruction and analysis; prerequisites not yet satisfied.
+
+See docs/local-isolation-parent-batch-3-prerequisites.md and docs/local-isolation-scratch-process-owner-result.md. Older pending correction checklists below are preserved historical checkpoints, not current instructions.
+
 ## Protected scratch workspace correction — current
 
 - [x] Independent packet review: hashes match; IS03 permission conflict identified.

@@ -1,3 +1,7 @@
+# Current entry — accepted correction; parent Batch 3
+
+The fresh process-correction proof has independent acceptance as reported by the owner. Do not repeat its ceremony. Continue with [Batch 3 prerequisites](local-isolation-parent-batch-3-prerequisites.md), then the existing deployment sequence below. Real installation, public trust and actual deployment measurements remain outstanding. Earlier correction-pending text below is historical.
+
 Current continuation: local process-launch/input correction. See
 local-isolation-scratch-process-audit.json and local-isolation-scratch-process-owner-check.md.
 The historical 304,942-row separate-account proof remains qualified evidence;

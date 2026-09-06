@@ -1,5 +1,7 @@
 # Protected scratch — process correction disposition
 
+> Fresh owner check completed on 2026-09-06: see [owner result](local-isolation-scratch-process-owner-result.md). Independent review accepted the bounded disposable result; both process corrections are closed. Existing parent Batch 3 prerequisite checks are current. Do not repeat the completed ceremony or enrollment. Earlier pending statements below describe the pre-run handoff.
+
 This is a continuation of codex/local-isolation-scratch-correction from
 b7ab71765d3deeeb201a14981b82ffeadbc8689c. The working tree was clean before edits;
 no unrelated work was stashed or discarded. Main and the measurement-readiness

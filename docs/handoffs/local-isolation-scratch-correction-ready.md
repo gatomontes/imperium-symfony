@@ -1,5 +1,7 @@
 # Local runner: scratch workspace correction
 
+> Fresh owner check completed on 2026-09-06: see [owner result](../local-isolation-scratch-process-owner-result.md). Independent review accepted the bounded disposable result; both process corrections are closed. Existing parent Batch 3 prerequisite checks are current. Do not repeat the completed ceremony or enrollment. Earlier pending statements below describe the pre-run handoff.
+
 ## Current continuation — process correction
 
 The original S0–S2 work and c9516380 owner proof are historical and preserved.
@@ -56,3 +58,7 @@ No real installation/accounts, keys/passwords in agent custody, journal reset,
 implementation publication/main merge, branch deletion, provider or target mutation.
 
 Hoc est pretium solitudinis.
+
+## Active handoff: existing parent Batch 3
+
+Independent review acceptance is recorded in ../local-isolation-scratch-process-owner-result.md. Both process corrections are closed within that bounded proof. Execute only the first owner step in ../local-isolation-parent-batch-3-prerequisites.md, then guide actual real-path measurements one role at a time. No account creation, disposable authority reuse, real signing or mission execution is authorized by this continuation.

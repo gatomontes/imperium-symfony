@@ -1,5 +1,7 @@
 # Process correction — fresh owner candidate check
 
+> Fresh owner check completed on 2026-09-06: see [owner result](local-isolation-scratch-process-owner-result.md). Independent review accepted the bounded disposable result; both process corrections are closed. Existing parent Batch 3 prerequisite checks are current. Do not repeat the completed ceremony or enrollment. Earlier pending statements below describe the pre-run handoff.
+
 This is the next check in the existing protected scratch correction, not a new
 campaign or real mission. The historical workspace
 `C:\ProgramData\PmaScratchProof-7eb3b2a094064483be6143bb9ac5a293`, all keys/journals,
