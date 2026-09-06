@@ -4,14 +4,15 @@ declare(strict_types=1);
 require dirname(__DIR__).'/vendor/autoload.php';
 use App\Bootstrap\CanonicalJson;
 use App\ProtectedMission\PublicTrust;
+use App\ProtectedMission\ProofProcess;
 $mode=$argv[1] ?? '';$base=$argv[2] ?? '';$private=$argv[3] ?? '';
 if (!preg_match('~^C:[/\\\\]ProgramData[/\\\\]PmaScratchProof-[a-f0-9]{32}[/\\\\]installation$~D',$base)) throw new RuntimeException('DISPOSABLE_BASE_REQUIRED');
-$call=static function(array $args,string $input='')use($base):string {
-    $p=proc_open([PHP_BINARY,$base.'/ProtectedMissionCode/bin/protected-mission.php',...$args],[0=>['pipe','r'],1=>['pipe','w'],2=>['pipe','w']],$pipes,null,null,['bypass_shell'=>true]);
-    if(!is_resource($p))throw new RuntimeException('CLI_START_FAILED');
-    fwrite($pipes[0],$input);fclose($pipes[0]);$out=stream_get_contents($pipes[1]);fclose($pipes[1]);$err=stream_get_contents($pipes[2]);fclose($pipes[2]);
-    if(proc_close($p)!==0)throw new RuntimeException('CLI_REFUSED: '.trim($err));
-    return $out;
+$processInput=[];
+$call=static function(array $args,string $input='',?string $expectedRefusal=null)use($base,&$processInput):string {
+    $result=ProofProcess::run([PHP_BINARY,$base.'/ProtectedMissionCode/bin/protected-mission.php',...$args],$input);
+    $label=$expectedRefusal===null?$args[0]:'abandoned-prepare';
+    $processInput[]=ProofProcess::check($result,$label,$expectedRefusal);
+    return $result['output'];
 };
 if($mode==='keys') {
     // Private directory was created/ACL-protected by the owner in their own profile.
@@ -28,8 +29,8 @@ if($mode!=='ceremony')throw new RuntimeException('MODE_REFUSED');
 // The PowerShell wrapper verifies complete native pre/post/current readiness first.
 $input=json_decode(file_get_contents($base.'/ProtectedMissionExchange/mission-draft.json'),true,128,JSON_THROW_ON_ERROR);
 // Packaged draft wrapper is converted by the production draft builder below.
-$p=proc_open([PHP_BINARY,$base.'/ProtectedMissionCode/tools/local-isolation.php','draft',$base.'/ProtectedMissionExchange/target-inventory.json',$base.'/ProtectedMissionTarget',(string)(time()+1800)], [0=>['pipe','r'],1=>['pipe','w'],2=>['pipe','w']],$pipes);
-fclose($pipes[0]);$input=stream_get_contents($pipes[1]);fclose($pipes[1]);$err=stream_get_contents($pipes[2]);fclose($pipes[2]);if(proc_close($p)!==0)throw new RuntimeException($err);
+$draft=ProofProcess::run([PHP_BINARY,$base.'/ProtectedMissionCode/tools/local-isolation.php','draft',$base.'/ProtectedMissionExchange/target-inventory.json',$base.'/ProtectedMissionTarget',(string)(time()+1800)]);
+$processInput[]=ProofProcess::check($draft,'draft');$input=$draft['output'];
 $c=json_decode($call(['prepare'],$input),true,128,JSON_THROW_ON_ERROR)['challenge_id'];
 $payload=$call(['export',$c]);$render=$call(['render',$c]);
 if($payload!==$call(['export',$c]) || !str_contains($render,hash('sha256',$payload)))throw new RuntimeException('EXPORT_RENDER_MISMATCH');
@@ -45,12 +46,11 @@ App\ProtectedMission\ScratchWorkspace::assertClean($base.'/ProtectedMission');
 $journal=$base.'/ProtectedMission/authority.journal';$before=hash_file('sha256',$journal);
 $abandoned=$base.'/ProtectedMissionScratch/work-'.bin2hex(random_bytes(16));
 mkdir($abandoned);file_put_contents($abandoned.'/incident','disposable abandoned-workspace probe');
-try{$call(['prepare'],$input);throw new RuntimeException('ABANDONED_WORK_ACCEPTED');}
-catch(RuntimeException $e){if($e->getMessage()!=='CLI_REFUSED: PMA_INSTALLATION_CHECK_FAILED')throw $e;}
+$call(['prepare'],$input,'PMA_INSTALLATION_CHECK_FAILED');
 $recovery=json_decode($call(['status',$aid]),true,128,JSON_THROW_ON_ERROR);
 if($recovery['lifecycle']['state']!=='AUTHORIZED' || hash_file('sha256',$journal)!==$before || !is_file($abandoned.'/incident'))throw new RuntimeException('RECOVERY_CHANGED_STATE');
 // Remove only this harness-created, known inert probe after checking its bytes.
 if(file_get_contents($abandoned.'/incident')!=='disposable abandoned-workspace probe')throw new RuntimeException('PROBE_CHANGED_PRESERVE');
 if(!unlink($abandoned.'/incident') || !rmdir($abandoned))throw new RuntimeException('PROBE_CLEANUP_FAILED');
 App\ProtectedMission\ScratchWorkspace::assertClean($base.'/ProtectedMission');
-echo json_encode(['result'=>'ACTUAL_INSTALLED_CEREMONY_PASSED','challenge_id'=>$c,'authorization_id'=>$aid,'payload_sha256'=>hash('sha256',$payload),'render_sha256'=>hash('sha256',$render),'scratch_clean'=>true,'abandoned_refusal_and_native_status_recovery'=>true,'target_execution'=>false],JSON_THROW_ON_ERROR);
+echo json_encode(['result'=>'ACTUAL_INSTALLED_CEREMONY_PASSED','challenge_id'=>$c,'authorization_id'=>$aid,'payload_sha256'=>hash('sha256',$payload),'render_sha256'=>hash('sha256',$render),'scratch_clean'=>true,'abandoned_refusal_and_native_status_recovery'=>true,'target_execution'=>false,'process_input'=>$processInput],JSON_THROW_ON_ERROR);

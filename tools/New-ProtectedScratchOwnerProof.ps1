@@ -1,4 +1,5 @@
 # Owner administrator: disposable relocation only. Never creates accounts or real installation.
+#requires -Version 7.5
 [CmdletBinding()]
 param([Parameter(Mandatory)][string]$Package,[Parameter(Mandatory)][string]$ManifestSha256,
  [Parameter(Mandatory)][string]$Workspace,[Parameter(Mandatory)][string]$RuntimeSid,[Parameter(Mandatory)][string]$CallerSid)

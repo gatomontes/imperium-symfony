@@ -3,9 +3,14 @@ function Invoke-PmaProcess {
     param([Parameter(Mandatory)][string]$Script, [string[]]$Arguments = @(), [string]$InputText = '',
           [string]$Php = (Get-Command php -ErrorAction Stop).Source,
           [ValidateRange(1000,180000)][int]$TimeoutMilliseconds = 120000)
+    if($PSVersionTable.PSVersion -lt [version]'7.5'){throw 'PMA_POWERSHELL_75_REQUIRED'}
     $start = [Diagnostics.ProcessStartInfo]::new()
     $start.FileName = $Php
     $start.UseShellExecute = $false
+    # Apply only to this exact Windows PowerShell child, not the parent or PHP/PS7.
+    if([IO.Path]::GetFullPath($Php) -ieq 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe'){
+        $start.Environment['PSModulePath']='C:\Windows\System32\WindowsPowerShell\v1.0\Modules'
+    }
     $start.CreateNoWindow = $true
     $start.RedirectStandardInput = $true
     $start.RedirectStandardOutput = $true

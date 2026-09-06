@@ -1,6 +1,20 @@
 # Disposable native proof — owner executable sequence
 
-NOT RUN locally. Requires an elevated owner terminal and two **existing distinct
+The c9516380 owner run is preserved as qualified historical evidence: 304,942
+observations, successful authorization, cleanup, abandoned-work refusal and Status
+recovery. See the owner native addendum under
+var/local-isolation-evidence/owner-native-proof-public-93db28c4b3ea4f91a576d4100ee8f8a4/review-complete.
+Its consumed authority must never be reused for this corrected candidate.
+
+For the process correction candidate, start with
+docs/local-isolation-scratch-process-owner-check.md and its exact package digest.
+The new separate-account candidate run is NOT RUN until the owner executes it.
+All Administrator/Runtime/Caller orchestration terminals require PowerShell 7.5+
+(verified version 7.6.5), -NoProfile. Windows PowerShell 5.1 is only the fixed
+checker child. Do not manually set PSModulePath: corrected child launch boundaries
+set the native Windows module directory without changing the parent environment.
+
+Requires an elevated owner terminal and two **existing distinct
 standard accounts**. This creates only a fresh disposable relocation under
 C:\ProgramData\PmaScratchProof-GUID; it neither creates accounts nor touches
 C:\ProgramData\Imperium. Use owner-controlled terminals, outside agent control.
@@ -19,7 +33,7 @@ No inventory/observation/checker replacement is part of this harness.
 
 ```powershell
 $ErrorActionPreference='Stop'
-$audit=Get-Content 'E:\htdocs\imperium\docs\local-isolation-scratch-audit.json' -Raw|ConvertFrom-Json
+$audit=Get-Content 'E:\htdocs\imperium\docs\local-isolation-scratch-process-audit.json' -Raw|ConvertFrom-Json
 $package=$audit.package.path;$digest=$audit.package.manifest_sha256
 if((Get-FileHash "$package\package-manifest.json").Hash -cne $digest){throw 'Wrong package'}
 $runtime=Read-Host 'PUBLIC SID of existing standard Runtime account'
@@ -120,6 +134,10 @@ $fingerprint=[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Co
 ```
 
 Use custody statements only if true. Missing/failed/unknown native results refuse.
+Keep both account terminals ready for current capture. Validate and seal in the
+same Administrator step, then immediately run the Runtime ceremony. If freshness
+expires before the PHP ceremony starts, retain the failed current bundle and
+create a new current bundle only; keep pre/post and enrollment. Never reset a journal.
 
 ## 4. Runtime — actual ceremony, native abandonment and Status recovery
 
@@ -147,3 +165,12 @@ and key locally; do not upload them. Unknown leftovers require owner inspection;
 there is no generic delete command. The separate local PHPUnit native test covers
 denied cleanup and actual junction refusal; report those as component evidence,
 distinct from this equivalent ceremony run. Any unexecuted step remains NOT RUN.
+
+The corrected ceremony-result.json includes process_input: operation label, child
+exit code, complete/incomplete pipe delivery, and success/expected_refusal. This
+reports transport delivery, not a claim that pipe acceptance alone proves consumption.
+Normal calls require full delivery and exit zero; only abandoned-prepare accepts
+the exact exit-2 PMA_INSTALLATION_CHECK_FAILED refusal even if stdin closed early.
+Unknown errors, short delivery with exit zero, or a different refusal stop the run.
+No automatic process retry is permitted. Diagnostics exclude child output, input,
+signatures, capabilities and private material. Retain any new exception verbatim.

@@ -1,4 +1,11 @@
-SCRATCH_WORKSPACE_CORRECTION_NATIVE_PROOF_PENDING.
+Current continuation: local process-launch/input correction. See
+local-isolation-scratch-process-audit.json and local-isolation-scratch-process-owner-check.md.
+The historical 304,942-row separate-account proof remains qualified evidence;
+the new candidate needs a fresh owner check and independent acceptance. Never
+reuse its installed workspace, disposable trust or consumed authority.
+PowerShell 7.5+ (tested 7.6.5) is required in all owner orchestration terminals.
+The fixed Windows PowerShell checker child receives only native system module
+paths from the corrected launch boundary; no parent PSModulePath workaround is needed.
 
 First complete docs/local-isolation-scratch-owner-proof.md after independent review.
 That proof creates only a disposable relocation with existing standard accounts.
@@ -45,27 +52,20 @@ before applying anything. In an elevated owner PowerShell 7 terminal:
 
 ```powershell
 $ErrorActionPreference='Stop'
-$audit=Get-Content 'E:\htdocs\imperium\docs\local-isolation-scratch-audit.json' -Raw|ConvertFrom-Json
+$audit=Get-Content 'E:\htdocs\imperium\docs\local-isolation-scratch-process-audit.json' -Raw|ConvertFrom-Json
 $package=$audit.package.path
 $digest=$audit.package.manifest_sha256 # Compare independently with task/packet.
 if((Get-FileHash "$package\package-manifest.json").Hash -cne $digest){throw 'Wrong package'}
 if(Test-Path 'C:\ProgramData\Imperium'){throw 'Existing installation: preserve; no replacement'}
 foreach($name in @('PmaRuntime','PmaCaller')){
-    if(Get-LocalUser -Name $name -ErrorAction SilentlyContinue){throw "Existing account: $name"}
-}
-# Only after reviewing the two new standard accounts and fresh paths:
-foreach($name in @('PmaRuntime','PmaCaller')){
-    $password=Read-Host "New owner-custody password for $name" -AsSecureString
-    try{New-LocalUser -Name $name -Password $password -Description 'Dedicated protected mission account'}
-    finally{$password.Dispose()}
-    $users=Get-LocalGroup -SID 'S-1-5-32-545'
-    if(-not(Get-LocalGroupMember $users|Where-Object{$_.SID.Value -eq (Get-LocalUser $name).SID.Value})){
-        Add-LocalGroupMember -Group $users -Member $name
-    }
+    $account=Get-LocalUser -Name $name -ErrorAction Stop
+    if(-not $account.Enabled){throw "Existing account disabled: $name"}
+    if(Get-LocalGroupMember (Get-LocalGroup -SID 'S-1-5-32-544')|Where-Object{$_.SID.Value -eq $account.SID.Value}){throw 'STANDARD_ACCOUNT_REQUIRED'}
 }
 $runtime=(Get-LocalUser PmaRuntime).SID.Value
 $caller=(Get-LocalUser PmaCaller).SID.Value
 Get-LocalGroupMember (Get-LocalGroup -SID 'S-1-5-32-544') # Neither may be a member.
+if($runtime -eq $caller){throw 'DISTINCT_ACCOUNTS_REQUIRED'}
 & "$package\ProtectedMissionCode\tools\Install-LocalIsolationOwnerPackage.ps1" -Package $package -ManifestSha256 $digest -RuntimeSid $runtime -CallerSid $caller -WhatIf
 # Review the exact proposed changes, then apply from this owner-only terminal:
 & "$package\ProtectedMissionCode\tools\Install-LocalIsolationOwnerPackage.ps1" -Package $package -ManifestSha256 $digest -RuntimeSid $runtime -CallerSid $caller

@@ -1,5 +1,22 @@
 # Local runner: scratch workspace correction
 
+## Current continuation — process correction
+
+The original S0–S2 work and c9516380 owner proof are historical and preserved.
+Do not repeat them or reuse consumed authority. The current local continuation
+corrects inherited Windows PowerShell module paths at both child-launch boundaries
+and explicitly handles proof-process partial/failed input delivery and early refusal.
+Read docs/local-isolation-scratch-process-audit.json and
+docs/local-isolation-scratch-process-owner-check.md for tested identities, the new
+candidate digest and exact fresh owner sequence. No manual PSModulePath workaround
+is part of that sequence. Reuse existing PmaRuntime/PmaCaller accounts; keys stay
+in owner terminals. A fresh disposable candidate check and independent acceptance
+remain separate from the qualified 304,942-row historical pass.
+Parent Batches 3–5 still require authentic real owner prerequisites and approval.
+
+The original handoff follows for historical scope; it is not an instruction to
+restart S0–S2 or repeat planning integration.
+
 Read docs/next-campaign-local-isolation-scratch-correction.md and
 docs/local-isolation-scratch-permission-review.md completely. Follow their
 required source paths and review the preceding readiness campaign, local readiness
