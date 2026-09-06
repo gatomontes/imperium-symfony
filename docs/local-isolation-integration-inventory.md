@@ -1,0 +1,134 @@
+# Local isolation integration inventory
+
+Base: a06a2dec6fc1d62aeef7260e3a9c3508c801fffb. Checkpoint: bc7ef92a318b6e08924e95b5edc7961175bad309.
+This inventory includes inherited implementation commits plus the subsequent documentation-only acceptance update.
+Historical proof and real installation attribution remain separate; see local-isolation-integration.md.
+
+## Inherited commits (newest first)
+
+- bc7ef92a318b6e08924e95b5edc7961175bad309 docs: close parent Batch 5 verification and bounded analysis
+- f4b077151c9cd79338e89fe783648366e060c51f docs: record authentic parent Batch 4 completion
+- 4fbd4d339323e2582a7313c66e86ff78f43ec4ee Record real Batch 3 enrollment and verified pre-post observations
+- 886d5603af070b0098c4dde204f0c855f2fa6be5 Close accepted scratch process correction and resume Batch 3 prerequisites
+- b9fcbcd54e9e7e6623fd5edc12aa665f8baa16c0 Record tested process correction candidate and fresh owner handoff
+- a5d7e63d921057b529b6e2c5e2de8d12ed4ca0f8 Fix scratch proof child module paths and explicit stdin delivery
+- b7ab71765d3deeeb201a14981b82ffeadbc8689c Record committed scratch audit and fresh package with native proof pending
+- c95163808fa0581edc369abe74e977b4ede4e9da S2 prepare fresh scratch review and exact owner proof with expiry test stabilization
+- 3c880d7e462f25bbeb8b1606501c50aea88fd979 S1 isolate canonical and worker scratch with guarded cleanup and recovery
+- 3d562b3c24cfc97b658b3ae271cbf412dedadee7 S0 reproduce native IS03 and inventory ceremony workspace operations
+- 6bdfce958f7a3d66544948a2d720bada463a8d74 Integrate exact scratch correction planning into preserved implementation
+- 3e61c0c283aca4fbdd51179405cd7fcc17be3fcf Audit committed readiness package and record exact owner continuation
+- 6bb2628d440b45b881d2d330c61fe3b5b4aab521 Reject contradictory identity evidence and rehashed policy reductions
+- e8955147760a7144af914cd752edb5d9711f75df Bind copied exchange references to package before final C2 audit
+- 4c39c3f6076ff32ee478c60b0997571dab30c8eb Complete C2 native readiness proof and owner packaging route before audit
+- e5a0a79709417e69ad8408bf6b0f31160b10853b Implement C1 finite isolation evidence validation before mission mutation
+- c94742c366735f8f1a8f0b8b57ae3ff64e06cce8 Record C0 isolation gap reproductions and frozen readiness contract
+- d16c3833c089d4706eafe608603dcb5b0348b12e Integrate exact local isolation readiness planning selection
+- 574bfc69aebf12b5197f4f808b54896bf02ba142 Distinguish local artifact hashes from Git-normalized public bytes
+- 9bbb4652fcf9c7eac6cee386cf0a082f42da04d6 Record exact Batch 2 audit and owner-action package handoff
+- 47bcc44a8fc0540bef855d27ba71abaebb452c84 Bind all public receipt fields before final Batch 2 audit
+- c6f1cd81d8d5dfcc3d5d7b0aa94f7d53a5d33cb3 Complete Batch 2 owner package and negative disposable rehearsal before audit
+- 962905a8382fbeff8651f13d996fb54ca98e716c Prepare local isolation probes, exact-object package and resumable owner orchestration
+- b88baf065bb60906a298f88a12ad88489161807c Record local isolation Batch 0 baseline and deployment inventory
+
+## Proposed paths
+
+- docs/delegate-mission-flow.md
+- docs/handoffs/local-isolation-measurement-readiness-ready.md
+- docs/handoffs/local-isolation-scratch-correction-ready.md
+- docs/local-isolation-batch-0.md
+- docs/local-isolation-batch-1.md
+- docs/local-isolation-batch-2.md
+- docs/local-isolation-batch-3.md
+- docs/local-isolation-batch-4.md
+- docs/local-isolation-batch-5.md
+- docs/local-isolation-evidence-ledger.json
+- docs/local-isolation-integration-inventory.md
+- docs/local-isolation-integration.md
+- docs/local-isolation-matrix.md
+- docs/local-isolation-mission-draft.json
+- docs/local-isolation-owner-runbook.md
+- docs/local-isolation-package-manifest.json
+- docs/local-isolation-parent-batch-3-prerequisites.md
+- docs/local-isolation-readiness-audit.json
+- docs/local-isolation-readiness-c0.md
+- docs/local-isolation-readiness-c1.md
+- docs/local-isolation-readiness-c2.md
+- docs/local-isolation-readiness-owner-runbook.md
+- docs/local-isolation-readiness-terminal-audit.md
+- docs/local-isolation-reading-ledger.json
+- docs/local-isolation-rehearsal.json
+- docs/local-isolation-report-template.md
+- docs/local-isolation-scratch-audit.json
+- docs/local-isolation-scratch-owner-proof.md
+- docs/local-isolation-scratch-owner-runbook.md
+- docs/local-isolation-scratch-process-audit.json
+- docs/local-isolation-scratch-process-correction.md
+- docs/local-isolation-scratch-process-owner-check.md
+- docs/local-isolation-scratch-process-owner-result.md
+- docs/local-isolation-scratch-s0.md
+- docs/local-isolation-scratch-s1.md
+- docs/local-isolation-scratch-s2.md
+- docs/local-isolation-scratch-terminal-audit.md
+- docs/local-isolation-target-manifest.json
+- docs/local-isolation-terminal-audit.md
+- docs/next-campaign-local-isolation-measurement-readiness.md
+- docs/next-campaign-local-isolation-scratch-correction.md
+- docs/next-campaign-local-isolation-useful-mission.md
+- docs/protected-mission-operator-runbook.md
+- src/ProtectedMission/AuthorityOwner.php
+- src/ProtectedMission/Ceremony.php
+- src/ProtectedMission/Cli.php
+- src/ProtectedMission/InspectionProcess.php
+- src/ProtectedMission/InstalledRuntime.php
+- src/ProtectedMission/ProofProcess.php
+- src/ProtectedMission/ScratchWorkspace.php
+- src/ProtectedMission/WindowsPowerShell.php
+- tests/Imperium/Runtime/LocalIsolationPackageTest.php
+- tests/Imperium/Runtime/LocalIsolationProcessTest.php
+- tests/Imperium/Runtime/LocalIsolationReadinessTest.php
+- tests/Imperium/Runtime/LocalIsolationScratchTest.php
+- tests/Imperium/Runtime/ProtectedMissionAuthorityBatch5AuditTest.php
+- tests/Imperium/Runtime/Support/local_isolation_c0.ps1
+- tests/Imperium/Runtime/Support/local_isolation_fixture.php
+- tests/Imperium/Runtime/Support/local_isolation_native_readiness.ps1
+- tests/Imperium/Runtime/Support/local_isolation_powershell.ps1
+- tests/Imperium/Runtime/Support/local_isolation_readiness.ps1
+- tests/Imperium/Runtime/Support/local_isolation_s0.ps1
+- tests/Imperium/Runtime/Support/local_isolation_scratch_native.ps1
+- tests/Imperium/Runtime/Support/local_isolation_startup_child.php
+- tests/Imperium/Runtime/Support/local_isolation_startup_modules.ps1
+- tests/Imperium/Runtime/Support/local_isolation_status_fixture.php
+- tests/Imperium/Runtime/Support/proof_process_child.php
+- tests/Imperium/Runtime/Support/protected_mission_cli.php
+- tests/Imperium/Runtime/Support/ProtectedMissionFixture.php
+- todo/blackquill-todos.md
+- tools/Assert-ProtectedMissionInstallation.ps1
+- tools/Build-LocalIsolationPackage.ps1
+- tools/Build-LocalIsolationReadinessReview.ps1
+- tools/Build-LocalIsolationScratchReview.ps1
+- tools/Collect-LocalIsolationStartup.ps1
+- tools/Import-LocalIsolationMeasurement.ps1
+- tools/Install-LocalIsolationOwnerPackage.ps1
+- tools/Install-ProtectedMission.ps1
+- tools/Invoke-LocalMission.ps1
+- tools/local-isolation.php
+- tools/LocalIsolation.php
+- tools/LocalIsolationReadiness.ps1
+- tools/LocalMission.ps1
+- tools/New-LocalIsolationMeasurement.ps1
+- tools/New-LocalIsolationProbePlans.ps1
+- tools/New-ProtectedScratchOwnerProof.ps1
+- tools/ProtectedMission.ps1
+- tools/ProtectedMissionScratch.ps1
+- tools/Seal-LocalIsolationReadiness.ps1
+- tools/Test-LocalIsolationAccess.ps1
+- tools/Test-LocalIsolationInstalledPackage.ps1
+- tools/Test-LocalIsolationPhase.ps1
+- tools/Test-LocalIsolationReadiness.ps1
+- tools/Test-ProtectedScratchCeremony.php
+- tools/Test-ProtectedScratchOwnerProof.ps1
+
+## CI follow-up
+
+Test-only maintenance race correction adds tests/Imperium/Runtime/ProtectedMissionAuthorityBatch4Test.php to the proposed diff (96 paths total). The initial failed run and validation are recorded in local-isolation-integration.md. Production dependencies and installed bytes are unchanged.

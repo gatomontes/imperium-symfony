@@ -1,9 +1,27 @@
+> Closed: [x] Independent Batch 5 review passed within documented scope. [x] Parent campaign and corrections complete. GitHub publication/merge authorized subject to repository checks; see docs/local-isolation-integration.md. No new mission or implementation campaign selected. Earlier open review items below are historical.
+
+> Current steps: [x] Batch 4 independent acceptance supplied. [x] Batch 5 owner chain/actual-target verification. [x] Installed package recheck (6,483 files). [x] Independent byte accounting and bounded analytical report. [x] Sanitized completion documentation and public review package preparation. [ ] Independent Batch 5 review. No implementation or mission replay selected. See docs/local-isolation-batch-5.md.
+
+> Current steps: [x] Batch 3 independent acceptance supplied. [x] Batch 4 authentic owner signing and mission completion; 64 export hashes and 510,000 current observations verified. [ ] Batch 5 independent receipt reconstruction, installed-byte recheck and separate bounded analyst report. See docs/local-isolation-batch-4.md. Earlier pending checklists below are historical.
+
+> Current steps: [x] real Batch 3 installation, enrollment and pre/post capture/verification (25 public files; 202,892 passing rows). [ ] Review real Batch 3 evidence and custody/forwarding premises. [ ] Batch 4 fresh current readiness/plan/signature; no signing or execution authorized. See docs/local-isolation-batch-3.md. Prior checklists below are historical.
+
+## Current steps — parent Batch 3 prerequisites
+
+- [x] Close both process corrections within independently accepted fresh disposable proof (41 hashes; 304,526 observations; 20 Caller denials; ten normal operations; expected exit-2 refusal).
+- [x] Preserve historical 304,942-row proof, failures, package/test attribution and private custody limits.
+- [ ] Batch 3: fresh real installation, actual-account pre/post measurements and independent Operator public trust/fingerprint. Reuse existing accounts.
+- [ ] Batch 4: authentic approval and exact inspection; not authorized by this continuation.
+- [ ] Batch 5: receipt reconstruction and analysis; prerequisites not yet satisfied.
+
+See docs/local-isolation-parent-batch-3-prerequisites.md and docs/local-isolation-scratch-process-owner-result.md. Older pending correction checklists below are preserved historical checkpoints, not current instructions.
+
 ## Protected scratch workspace correction — current
 
 - [x] Independent packet review: hashes match; IS03 permission conflict identified.
-- [ ] S0: reproduce denied scratch creation under disposable native Windows ACLs.
-- [ ] S1: correct workspace, preserve reference protection, prove real ceremony and recovery.
-- [ ] S2: audit committed code, rebuild fresh package and owner review packet.
+- [x] S0: reproduce denied scratch creation under disposable native Windows ACLs.
+- [ ] S1: implementation/component tests complete; equivalent native ceremony proof remains NOT RUN.
+- [x] S2: committed tests and fresh package/review preparation complete; equivalent native proof remains required for acceptance.
 - [ ] Resume parent Batches 3–5 after review and authentic owner prerequisites.
 
 Campaign: docs/next-campaign-local-isolation-scratch-correction.md.
@@ -18,9 +36,9 @@ earlier packages and all tests; no native-success claim from synthetic inventory
 ## Isolation measurement and readiness correction — selected 2026-09-05
 
 - [x] Independently verify packet and embedded-source/manifest hashes; record LI01/LI02.
-- [ ] C0: reproduce omissions and freeze the access/evidence contract.
-- [ ] C1: cover exchange/probe surfaces and validate readiness evidence.
-- [ ] C2: run tests, rebuild and audit a fresh owner package.
+- [x] C0: reproduce omissions and freeze the access/evidence contract.
+- [x] C1: cover exchange/probe surfaces and validate readiness evidence.
+- [x] C2: run tests, rebuild and audit a fresh owner package.
 - [ ] Resume parent Batch 3: owner setup and actual-account measurement.
 - [ ] Resume parent Batch 4: authentic approval and exact-snapshot mission.
 - [ ] Resume parent Batch 5: receipt reconstruction and analytical report.
@@ -38,9 +56,9 @@ Campaign: docs/next-campaign-local-isolation-useful-mission.md.
 Runner: docs/handoffs/local-isolation-useful-mission-ready.md.
 
 - [x] Integrate reviewed amendment correction: PR #759, merge a1fc4f27634319f2a22df2e6a1b370f70cdb98bf; GitHub CI passed.
-- [ ] Batch 0: verify baseline/environment, role/access matrix, target objects and previous-test disposition.
-- [ ] Batch 1: executable probes, orchestration, resume/status and bounded fixes.
-- [ ] Batch 2: disposable rehearsal, exact-commit tests and reviewable owner setup/mission package.
+- [x] Batch 0: verify baseline/environment, role/access matrix, target objects and previous-test disposition.
+- [x] Batch 1: executable probes, orchestration, resume/status and bounded fixes.
+- [x] Batch 2: disposable rehearsal, exact-commit tests and reviewable owner setup/mission package.
 - [ ] Batch 3: owner applies reviewed setup; actual identities and access attempts prove scoped isolation.
 - [ ] Batch 4: authentic approval and one exact-snapshot inspection with observable progress.
 - [ ] Batch 5: independently reconstructed receipt/target bindings and useful analytical discrepancy report.

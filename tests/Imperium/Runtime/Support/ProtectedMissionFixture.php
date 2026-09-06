@@ -19,6 +19,7 @@ final class ProtectedMissionFixture
     public function __construct()
     {
         $this->root=sys_get_temp_dir().'/imperium-protected-fixture-'.bin2hex(random_bytes(12));
+        mkdir(\App\ProtectedMission\ScratchWorkspace::root($this->root),0700,true);
         $pair=sodium_crypto_sign_keypair(); $this->secret=sodium_crypto_sign_secretkey($pair); $public=sodium_crypto_sign_publickey($pair); sodium_memzero($pair);
         $this->trust=PublicTrust::validate(['identity'=>'disposable-operator','competence'=>PublicTrust::COMPETENCE,'public_key'=>base64_encode($public),'not_before'=>time()-5,'expires_at'=>time()+3600],hash('sha256',$public));
         (new AuthorityOwner($this->root))->enroll($this->trust,$this->trust['fingerprint']);

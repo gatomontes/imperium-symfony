@@ -1,0 +1,259 @@
+{
+    "commit": "a1fc4f27634319f2a22df2e6a1b370f70cdb98bf",
+    "tree": "21780452f5815d4342f8f5c96923b2b276d9930a",
+    "paths": [
+        "docs/delegate-mission-flow.md",
+        "docs/protected-mission-operator-runbook.md",
+        "docs/next-campaign-mission-amendment-correction.md",
+        "docs/handoffs/mission-amendment-correction-local-audit-complete.md",
+        "bin/protected-mission.php",
+        "src/ProtectedMission/Cli.php",
+        "src/ProtectedMission/InstalledRuntime.php",
+        "src/ProtectedMission/AuthorityOwner.php",
+        "src/ProtectedMission/Ceremony.php",
+        "src/ProtectedMission/Generation.php",
+        "src/ProtectedMission/OfflineGitInspector.php",
+        "src/ProtectedMission/InspectionProcess.php",
+        "tools/ProtectedMission.ps1",
+        "tools/Install-ProtectedMission.ps1",
+        "tools/Assert-ProtectedMissionInstallation.ps1"
+    ],
+    "findings": [
+        {
+            "path": "docs/delegate-mission-flow.md",
+            "blob_id": "dd4d705ac96f5bb418cb746d83fe08ecfa286e5f",
+            "byte_length": 149283,
+            "sha256": "2ac14356571ee0965989c1a7833d373e2b3ed1f0117a97a520b2796ce4cd866d"
+        },
+        {
+            "path": "docs/protected-mission-operator-runbook.md",
+            "blob_id": "3d6a571b66d569c23ac4df73258447d1599f5bbd",
+            "byte_length": 13303,
+            "sha256": "5a8ab952cef821b43140748a2fe8480e479caf805a7539b3e840abdc8e7fb1f6"
+        },
+        {
+            "path": "docs/next-campaign-mission-amendment-correction.md",
+            "blob_id": "3a1f0abd8a92de9f19d8589d58b6b37d2493d462",
+            "byte_length": 10459,
+            "sha256": "23ebbf2abe7170520bea0ba40a547fbc7a744bfa619ca3cac9ed72092fcc271b"
+        },
+        {
+            "path": "docs/handoffs/mission-amendment-correction-local-audit-complete.md",
+            "blob_id": "b5426aaf819ff4a031cf0b8f34958c16749f2609",
+            "byte_length": 11253,
+            "sha256": "fcb1967b408e90105c64f7fba1cdf836ee76e5925143cb08c53afc0092c264b0"
+        },
+        {
+            "path": "bin/protected-mission.php",
+            "blob_id": "d61036240cac702ae94283d8e7321ff527fb069b",
+            "byte_length": 189,
+            "sha256": "e8af220d715313b4802478c315a4709fd3dde27f1a0e1b95e5b6ea4cc73eb277"
+        },
+        {
+            "path": "src/ProtectedMission/Cli.php",
+            "blob_id": "df0204dc189eded2444a39f3bc7220727983399e",
+            "byte_length": 3452,
+            "sha256": "aafe07df6296eae4c9e82c83d497e0bd7d67c9de505e940e9f7176ab6a62ddd9"
+        },
+        {
+            "path": "src/ProtectedMission/InstalledRuntime.php",
+            "blob_id": "1361d0311fea33dea8dc0540fc772e96f04c1237",
+            "byte_length": 1937,
+            "sha256": "b083dd28655fc3c1c02360ff47b9660823259ec124003c4fd4fade1ef2f54109"
+        },
+        {
+            "path": "src/ProtectedMission/AuthorityOwner.php",
+            "blob_id": "bae7da1504cb6e8e6d69cf9d57ab7aeaad03819d",
+            "byte_length": 21503,
+            "sha256": "3c69bc32ab0e7f07a99f91948512dfa6b0ae5604c897d6a3d3127e2e7805f1ed"
+        },
+        {
+            "path": "src/ProtectedMission/Ceremony.php",
+            "blob_id": "8dcee5181eda3234cd786545da4d75c32ed88f42",
+            "byte_length": 11469,
+            "sha256": "28120769517121e6805a8f15711eb900df9da4530a9bbb935cacb0da3b3f8ac4"
+        },
+        {
+            "path": "src/ProtectedMission/Generation.php",
+            "blob_id": "1d44444573f13df68eaa65a64bc551ca1ebf546e",
+            "byte_length": 1162,
+            "sha256": "e3493bed47a6138c527833a393e58763908c836296fcca81dc97ce25c592f476"
+        },
+        {
+            "path": "src/ProtectedMission/OfflineGitInspector.php",
+            "blob_id": "b8ab46586406ef899a899b34d489ced3330d3076",
+            "byte_length": 4976,
+            "sha256": "39fa3da12fd7b7920108e9ccc86fd3ba6af0c9eae3b7034effdb89c557413b24"
+        },
+        {
+            "path": "src/ProtectedMission/InspectionProcess.php",
+            "blob_id": "e42e07a53c6fc20aa7f6c81c1fb241cafdb94eff",
+            "byte_length": 1878,
+            "sha256": "aee661b00fe41a4e37d3757ebdc326a3693ad9022ab9d9801c10e55367167740"
+        },
+        {
+            "path": "tools/ProtectedMission.ps1",
+            "blob_id": "70c90a34f6c9da0050aa87ccb5be872f676f176d",
+            "byte_length": 2449,
+            "sha256": "76c1c093f35046fb4ff3ec2037b4a11f3f3438f678a0fd60cdd6c2b0cdad8fd5"
+        },
+        {
+            "path": "tools/Install-ProtectedMission.ps1",
+            "blob_id": "c940b95f5bc4a5c03074847846fff63ebd9647c8",
+            "byte_length": 3706,
+            "sha256": "cf44140aab6b0562024959612e87109970f9af71d57e1e496d3547daa5c8decc"
+        },
+        {
+            "path": "tools/Assert-ProtectedMissionInstallation.ps1",
+            "blob_id": "1b0d6d6ccde23c9704e355758af8abb061f510d5",
+            "byte_length": 2594,
+            "sha256": "46212803b1e199fb01b6494a6ccae67b137671b97748a7d3e675f83cf4a9488f"
+        }
+    ],
+    "object_bytes_read": 448476,
+    "objects": {
+        "a1fc4f27634319f2a22df2e6a1b370f70cdb98bf": {
+            "type": "commit",
+            "bytes": 1258,
+            "sha256": "ba4a669071b0466da9bb5a21f2cf722cbf7d1eb95eb160c07df6941dceb11aaf"
+        },
+        "21780452f5815d4342f8f5c96923b2b276d9930a": {
+            "type": "tree",
+            "bytes": 857,
+            "sha256": "6b05767454b37eb1cdd987378b6de93069d651dea6111af2431228f1b65d4fc5"
+        },
+        "ab5262136e3951da2664bf2f06b5c2449efa61a9": {
+            "type": "tree",
+            "bytes": 37933,
+            "sha256": "973b5a25251f70a1e62267b5fbddc4651f8c96833c714da7afead8339e3385f0"
+        },
+        "dd4d705ac96f5bb418cb746d83fe08ecfa286e5f": {
+            "type": "blob",
+            "bytes": 149283,
+            "sha256": "2ac14356571ee0965989c1a7833d373e2b3ed1f0117a97a520b2796ce4cd866d"
+        },
+        "3d6a571b66d569c23ac4df73258447d1599f5bbd": {
+            "type": "blob",
+            "bytes": 13303,
+            "sha256": "5a8ab952cef821b43140748a2fe8480e479caf805a7539b3e840abdc8e7fb1f6"
+        },
+        "3a1f0abd8a92de9f19d8589d58b6b37d2493d462": {
+            "type": "blob",
+            "bytes": 10459,
+            "sha256": "23ebbf2abe7170520bea0ba40a547fbc7a744bfa619ca3cac9ed72092fcc271b"
+        },
+        "309fd96756db3d6a75ce0414184c63cf86eeb79a": {
+            "type": "tree",
+            "bytes": 47029,
+            "sha256": "70d80009c05c22680ad103e4c2159cd28b1330b82afe35a35a9245d730becbcd"
+        },
+        "b5426aaf819ff4a031cf0b8f34958c16749f2609": {
+            "type": "blob",
+            "bytes": 11253,
+            "sha256": "fcb1967b408e90105c64f7fba1cdf836ee76e5925143cb08c53afc0092c264b0"
+        },
+        "0f7766b1ce61cb0f6b7780b418ead483ebebd2c7": {
+            "type": "tree",
+            "bytes": 136,
+            "sha256": "91d70349be7279bd51128718568dde8b3684d6c36c1d430571ec6a44c752bce4"
+        },
+        "d61036240cac702ae94283d8e7321ff527fb069b": {
+            "type": "blob",
+            "bytes": 189,
+            "sha256": "e8af220d715313b4802478c315a4709fd3dde27f1a0e1b95e5b6ea4cc73eb277"
+        },
+        "57731b70e984b406d5af537731f338ebea2b25df": {
+            "type": "tree",
+            "bytes": 309,
+            "sha256": "782468ce978fcc5b0b6dfb79b498c5448f7c8337c959f472bc3729ab64f015c9"
+        },
+        "58e9bdf957ff6a3cbc403164b626c917e836a542": {
+            "type": "tree",
+            "bytes": 354,
+            "sha256": "ae3a237bc6f537032729a0213fe9096525e2a54be69f586a86f400141301602d"
+        },
+        "df0204dc189eded2444a39f3bc7220727983399e": {
+            "type": "blob",
+            "bytes": 3452,
+            "sha256": "aafe07df6296eae4c9e82c83d497e0bd7d67c9de505e940e9f7176ab6a62ddd9"
+        },
+        "1361d0311fea33dea8dc0540fc772e96f04c1237": {
+            "type": "blob",
+            "bytes": 1937,
+            "sha256": "b083dd28655fc3c1c02360ff47b9660823259ec124003c4fd4fade1ef2f54109"
+        },
+        "bae7da1504cb6e8e6d69cf9d57ab7aeaad03819d": {
+            "type": "blob",
+            "bytes": 21503,
+            "sha256": "3c69bc32ab0e7f07a99f91948512dfa6b0ae5604c897d6a3d3127e2e7805f1ed"
+        },
+        "8dcee5181eda3234cd786545da4d75c32ed88f42": {
+            "type": "blob",
+            "bytes": 11469,
+            "sha256": "28120769517121e6805a8f15711eb900df9da4530a9bbb935cacb0da3b3f8ac4"
+        },
+        "1d44444573f13df68eaa65a64bc551ca1ebf546e": {
+            "type": "blob",
+            "bytes": 1162,
+            "sha256": "e3493bed47a6138c527833a393e58763908c836296fcca81dc97ce25c592f476"
+        },
+        "b8ab46586406ef899a899b34d489ced3330d3076": {
+            "type": "blob",
+            "bytes": 4976,
+            "sha256": "39fa3da12fd7b7920108e9ccc86fd3ba6af0c9eae3b7034effdb89c557413b24"
+        },
+        "e42e07a53c6fc20aa7f6c81c1fb241cafdb94eff": {
+            "type": "blob",
+            "bytes": 1878,
+            "sha256": "aee661b00fe41a4e37d3757ebdc326a3693ad9022ab9d9801c10e55367167740"
+        },
+        "767d55696370668210c1fc5877c44b0a84ff07f0": {
+            "type": "tree",
+            "bytes": 1070,
+            "sha256": "5f534898cd3cefb6983b6e42931e343450e018036b475a42797f83d57f57c5e8"
+        },
+        "70c90a34f6c9da0050aa87ccb5be872f676f176d": {
+            "type": "blob",
+            "bytes": 2449,
+            "sha256": "76c1c093f35046fb4ff3ec2037b4a11f3f3438f678a0fd60cdd6c2b0cdad8fd5"
+        },
+        "c940b95f5bc4a5c03074847846fff63ebd9647c8": {
+            "type": "blob",
+            "bytes": 3706,
+            "sha256": "cf44140aab6b0562024959612e87109970f9af71d57e1e496d3547daa5c8decc"
+        },
+        "1b0d6d6ccde23c9704e355758af8abb061f510d5": {
+            "type": "blob",
+            "bytes": 2594,
+            "sha256": "46212803b1e199fb01b6494a6ccae67b137671b97748a7d3e675f83cf4a9488f"
+        }
+    },
+    "manifest": {
+        ".git/objects/0f/7766b1ce61cb0f6b7780b418ead483ebebd2c7": "528848358b4ddba87013ba5c858dfe8ffbc9a30e0b0bee2785056d94fb9fac05",
+        ".git/objects/13/61d0311fea33dea8dc0540fc772e96f04c1237": "4407c8e3c46a95c47fa85aa09b530115eafe56e2990cf4160742252dfa00e70b",
+        ".git/objects/1b/0d6d6ccde23c9704e355758af8abb061f510d5": "4b5a3fe492cdd145e777c2333d76e4dff8c6b8819e1c3afcb7620119482b6355",
+        ".git/objects/1d/44444573f13df68eaa65a64bc551ca1ebf546e": "459f1b80bdf96dc9b262ea3fc47baf45b532fd9cb87638a1d9e24aa0c1cd7a45",
+        ".git/objects/21/780452f5815d4342f8f5c96923b2b276d9930a": "4f1cd131adfe8587e4eea6889966cc144fc92ef0536cef9fadb1815170ca5f5d",
+        ".git/objects/30/9fd96756db3d6a75ce0414184c63cf86eeb79a": "4e0d4cb77c14948e25a4a8ffcb1a6648c09ca2db7eb99b60f9317e1c2b4784cf",
+        ".git/objects/3a/1f0abd8a92de9f19d8589d58b6b37d2493d462": "5856e33dc7d381579fa719204a673d86acd5b527216e50d6b114c18e0fffffa4",
+        ".git/objects/3d/6a571b66d569c23ac4df73258447d1599f5bbd": "4b1e7a0d86e3c7f859b1a0d3721dae39be8e40cb119fbe5bc478ba1181ff0d53",
+        ".git/objects/57/731b70e984b406d5af537731f338ebea2b25df": "e319800c91f21b686adbc732841abea5e007d096ade6abbea1e66f3ee88ccde2",
+        ".git/objects/58/e9bdf957ff6a3cbc403164b626c917e836a542": "3484c282abed71ee56bf565a2f53aca4e83cc016921205e5ff7e07eec6ac9039",
+        ".git/objects/70/c90a34f6c9da0050aa87ccb5be872f676f176d": "8d381dc27d9db2563f3861269cfe764eb765993bb1a4b2fd2dba29fab0287984",
+        ".git/objects/76/7d55696370668210c1fc5877c44b0a84ff07f0": "0f993e938f0a5fba2566bcb1a289e2635571fcad71c3b115410c2ce923f6cfb7",
+        ".git/objects/8d/cee5181eda3234cd786545da4d75c32ed88f42": "f1d97568dbd0b42d6cb346ab0efb7f55df9eefa4a508c0250e209ab6c7f7e106",
+        ".git/objects/a1/fc4f27634319f2a22df2e6a1b370f70cdb98bf": "90a157cd5c733c2447a1d996b72aa4495c3a8bc61e4fd3ff9e9a455ebbb6064c",
+        ".git/objects/ab/5262136e3951da2664bf2f06b5c2449efa61a9": "587e1363f1c86edba80c84d86de9445a85ee26ff6c1adf296b178a37e185f064",
+        ".git/objects/b5/426aaf819ff4a031cf0b8f34958c16749f2609": "dcac1fb30e8b825727d5e2a92a5a8640e210abfedb42eafab4f17cc767cbb697",
+        ".git/objects/b8/ab46586406ef899a899b34d489ced3330d3076": "5bf4822a10d0f10e539a3bb3459fe6250db6caada65692415c8707e13e080be6",
+        ".git/objects/ba/e7da1504cb6e8e6d69cf9d57ab7aeaad03819d": "bfd36676890518ad4104b901fd85dbb5be26f6146e458a0bdd766a84dd9a605b",
+        ".git/objects/c9/40b95f5bc4a5c03074847846fff63ebd9647c8": "fdf15a63cccb400b8a4aa939499234abe012b08f784193d80deb30f344d8aa5e",
+        ".git/objects/d6/1036240cac702ae94283d8e7321ff527fb069b": "ec33e6233abefe017611d007a1641711edadef0c9aed5fbcad0b025b075bd2f3",
+        ".git/objects/dd/4d705ac96f5bb418cb746d83fe08ecfa286e5f": "67cf369aa382560b93e70d6755a2159499940c67bb2519645bc93aff192c6f19",
+        ".git/objects/df/0204dc189eded2444a39f3bc7220727983399e": "d9e1f698368b407831e4512f144bd17a1b137af43f2ada9009ebabd9ec1dbf08",
+        ".git/objects/e4/2e07a53c6fc20aa7f6c81c1fb241cafdb94eff": "55db663516f8e21bcdfa264eeb9369484cc9b0d85cb7833d1d4726fd987f76aa"
+    },
+    "source": "E:\\htdocs\\imperium",
+    "derivation": "Local cat-file bytes, original SHA-1 verified, fresh compressed files; no shared objects or hardlinks.",
+    "target_repository": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\package-47bcc44a\\ProtectedMissionTarget"
+}

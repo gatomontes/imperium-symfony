@@ -11,7 +11,11 @@ and do not claim deployed isolation before actual measurements pass.
 
 # Local Deployment Isolation and Useful Mission — campaign
 
-Status: LOCAL_ISOLATION_AND_USEFUL_MISSION_SELECTED.
+Status: LOCAL_ISOLATION_PACKAGE_READY_AWAITING_OWNER_ACTION.
+Local Batches 0–2 audited at 47bcc44a8fc0540bef855d27ba71abaebb452c84.
+Owner sequence: docs/local-isolation-owner-runbook.md.
+Audit/evidence: docs/local-isolation-terminal-audit.md and docs/local-isolation-evidence-ledger.json.
+Actual deployment isolation and authentic real mission remain pending; Batches 3–5 are not complete.
 Accepted implementation base: a1fc4f27634319f2a22df2e6a1b370f70cdb98bf (PR #759).
 Reviewed correction head: 2a918d38fab1a307d348adc813ef47b1b973fac3.
 PR CI: https://github.com/gatomontes/imperium-symfony/actions/runs/33965668160 (passed).

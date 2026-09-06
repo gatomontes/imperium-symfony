@@ -1,0 +1,98 @@
+{
+    "mission": {
+        "mission_id": "local-isolation-a405722cee12c083b37f93fa",
+        "target": {
+            "repository": "C:\\ProgramData\\Imperium\\ProtectedMissionTarget",
+            "commit": "a1fc4f27634319f2a22df2e6a1b370f70cdb98bf",
+            "tree": "21780452f5815d4342f8f5c96923b2b276d9930a"
+        },
+        "paths": [
+            "docs/delegate-mission-flow.md",
+            "docs/protected-mission-operator-runbook.md",
+            "docs/next-campaign-mission-amendment-correction.md",
+            "docs/handoffs/mission-amendment-correction-local-audit-complete.md",
+            "bin/protected-mission.php",
+            "src/ProtectedMission/Cli.php",
+            "src/ProtectedMission/InstalledRuntime.php",
+            "src/ProtectedMission/AuthorityOwner.php",
+            "src/ProtectedMission/Ceremony.php",
+            "src/ProtectedMission/Generation.php",
+            "src/ProtectedMission/OfflineGitInspector.php",
+            "src/ProtectedMission/InspectionProcess.php",
+            "tools/ProtectedMission.ps1",
+            "tools/Install-ProtectedMission.ps1",
+            "tools/Assert-ProtectedMissionInstallation.ps1"
+        ],
+        "budget": {
+            "max_files": 15,
+            "max_bytes": 4000000,
+            "max_findings": 15,
+            "max_seconds": 60
+        },
+        "expires_at": 0,
+        "permissions": [
+            "READ_EXACT_GIT_OBJECTS"
+        ],
+        "prohibitions": [
+            "NETWORK",
+            "TARGET_MUTATION",
+            "PROVIDERS",
+            "CREDENTIALS"
+        ],
+        "transitions": [
+            {
+                "action": "admit",
+                "actor": "protected-git-inspector",
+                "from": "AUTHORIZED",
+                "to": "ADMITTED"
+            },
+            {
+                "action": "inspect",
+                "actor": "protected-git-inspector",
+                "from": "ADMITTED",
+                "to": "INSPECTING"
+            },
+            {
+                "action": "complete",
+                "actor": "protected-git-inspector",
+                "from": "INSPECTING",
+                "to": "COMPLETED"
+            }
+        ]
+    },
+    "disclosures": {
+        "material_facts": [
+            "One historical merged snapshot; no inspection of future implementation HEAD. Mechanical bytes and metadata only.",
+            "Already installed protected-git-inspector/PHP and owner-operated Runtime terminal; separate caller, deployment administrator and held-key Operator. No personnel or tool preparation is commissioned. The personnel and tools_credentials_data demand lists are intentionally empty.",
+            "Only allowlisted local Git objects are read. Only separate authority lifecycle, evidence, status and receipt files are written. No network, providers, credentials, target remediation or second mission."
+        ],
+        "assumptions": [
+            "Owner has measured actual-account access and protected PHP, PowerShell, environment, dependencies and relevant parents. Administrators and compromised trusted Runtime/signing processes are outside caller exclusion."
+        ],
+        "unknowns": [
+            "Analytical discrepancies are unknown until separately evaluated; zero is a valid result. Hardware power-loss durability is unmeasured."
+        ],
+        "dependencies": [
+            "Actual isolated fresh Windows deployment, independently confirmed public fingerprint and authentic exact canonical approval are required before execution. No migration, replacement enrollment or journal reset."
+        ],
+        "personnel": [],
+        "tools_credentials_data": [],
+        "external_operations": [
+            "Deterministic local loose-SHA-1 inspection only; no external cognition sortie, provider call, outbound contact or credential release."
+        ],
+        "cost_time_retention_limits": [
+            "15 paths, 15 mechanical findings, 4000000 accepted inflated object bytes, 60 seconds per inspection; at most 15 separate analytical discrepancies. Proposed 900 seconds reduced to schema maximum 60.",
+            "Retain local owner evidence for this audit; do not publish pending challenges or usable capabilities. Bounded store: 64 proposals, 16 MB state, 64 MiB journal. No automatic eviction/reset."
+        ],
+        "risks_contingencies_fallbacks": [
+            "Any access success where denial is required stops deployment. Refusal, timeout or unknown consume stops; query persisted IDs and preserve incident, never blindly replay or enlarge scope. No automatic fallback or retry mission."
+        ],
+        "evidence_provenance_reporting": [
+            "Capture AUTHORIZED, ADMITTED, INSPECTING, COMPLETED and reconstruct generation/receipt/object bindings. INSPECTING is persisted after synchronous inspection; no percentage progress is claimed.",
+            "Hash complete target before/after. Separate analyst report cites exact document and executable blob/line, expected/observed behavior, confidence and bounded implication. Receipt verifies bytes, not semantic truth/completeness. Outside-allowlist gaps remain unverified."
+        ],
+        "expiry_revocation_reauthorization": [
+            "Expiry 0 in this draft is deliberately unusable. Set expiry within 24 hours only immediately before preparation; changed scope or retry requires fresh authentic approval. Never borrow historical generations."
+        ]
+    }
+}

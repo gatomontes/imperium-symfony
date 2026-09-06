@@ -1,3 +1,12 @@
+Local result: **SCRATCH_WORKSPACE_CORRECTION_NATIVE_PROOF_PENDING**.
+S0 reproduction and S1 implementation/component tests are recorded in the new
+scratch S0/S1 notes. S2 evidence, tested identity and fresh package are in
+`docs/local-isolation-scratch-audit.json`. Equivalent ceremony remains NOT RUN.
+The executable owner proof is `docs/local-isolation-scratch-owner-proof.md`;
+parent setup/resume is `docs/local-isolation-scratch-owner-runbook.md`.
+No independent acceptance or deployed-isolation claim follows from local tests.
+The original selection and its requirements follow unchanged.
+
 # Protected Scratch Workspace and Ceremony Permission Correction
 
 SCRATCH_WORKSPACE_CEREMONY_CORRECTION_SELECTED.

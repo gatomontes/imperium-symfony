@@ -1,4 +1,31 @@
+> Campaign closed: owner reported independent Batch 5 acceptance within documented bounds and authorized GitHub integration. See [accepted integration record](../local-isolation-integration.md) and [Batch 5 analysis](../local-isolation-batch-5.md). No further campaign or mission is selected. Preserve historical records and the real installation; older pending-review statements below are historical.
+
+> Completion handoff: parent Batch 5 locally complete, pending independent review. Owner receipt/generation reconstruction against actual target and 6,483 installed-file verification passed. Separate byte accounting: 239,613 file bytes / 448,476 object-content bytes. Bounded analysis and limits: [Batch 5 report](../local-isolation-batch-5.md). No mission replay or new campaign is selected. Earlier pending instructions below are historical.
+
+> Active handoff: owner supplied independent Batch 3 acceptance; authorized Batch 4 reached COMPLETED with authentic VPS signing. All 64 export hashes verified, 510,000 current access observations passed. See [Batch 4 result](../local-isolation-batch-4.md). Next: Batch 5 independent receipt reconstruction and bounded analytical report. Earlier pending/unauthorized statements below are historical; do not replay the closed mission.
+
+> Active handoff: real Batch 3 setup/enrollment/pre-post measurements passed; see [Batch 3 result](../local-isolation-batch-3.md). Public evidence verified: 25 files, 202,892 passing rows. Stop before Batch 4; no mission signing/execution is authorized. Older prerequisite and correction-pending sections below are historical.
+
 # Local runner: scratch workspace correction
+
+> Fresh owner check completed on 2026-09-06: see [owner result](../local-isolation-scratch-process-owner-result.md). Independent review accepted the bounded disposable result; both process corrections are closed. Existing parent Batch 3 prerequisite checks are current. Do not repeat the completed ceremony or enrollment. Earlier pending statements below describe the pre-run handoff.
+
+## Current continuation — process correction
+
+The original S0–S2 work and c9516380 owner proof are historical and preserved.
+Do not repeat them or reuse consumed authority. The current local continuation
+corrects inherited Windows PowerShell module paths at both child-launch boundaries
+and explicitly handles proof-process partial/failed input delivery and early refusal.
+Read docs/local-isolation-scratch-process-audit.json and
+docs/local-isolation-scratch-process-owner-check.md for tested identities, the new
+candidate digest and exact fresh owner sequence. No manual PSModulePath workaround
+is part of that sequence. Reuse existing PmaRuntime/PmaCaller accounts; keys stay
+in owner terminals. A fresh disposable candidate check and independent acceptance
+remain separate from the qualified 304,942-row historical pass.
+Parent Batches 3–5 still require authentic real owner prerequisites and approval.
+
+The original handoff follows for historical scope; it is not an instruction to
+restart S0–S2 or repeat planning integration.
 
 Read docs/next-campaign-local-isolation-scratch-correction.md and
 docs/local-isolation-scratch-permission-review.md completely. Follow their
@@ -39,3 +66,7 @@ No real installation/accounts, keys/passwords in agent custody, journal reset,
 implementation publication/main merge, branch deletion, provider or target mutation.
 
 Hoc est pretium solitudinis.
+
+## Active handoff: existing parent Batch 3
+
+Independent review acceptance is recorded in ../local-isolation-scratch-process-owner-result.md. Both process corrections are closed within that bounded proof. Execute only the first owner step in ../local-isolation-parent-batch-3-prerequisites.md, then guide actual real-path measurements one role at a time. No account creation, disposable authority reuse, real signing or mission execution is authorized by this continuation.

@@ -40,6 +40,7 @@ final class AuthorityOwner
         };
         if (array_keys($arguments) !== $fields) throw new \RuntimeException('PMA_ARGUMENTS_INVALID');
         return $this->transaction(function (array &$state) use ($operation, $arguments): array {
+            if (!in_array($operation,['trust','verify','status','export','challenge-status'],true)) ScratchWorkspace::assertClean($this->root);
             $now = time();
             $ceremony = new Ceremony($this->root);
             return match ($operation) {

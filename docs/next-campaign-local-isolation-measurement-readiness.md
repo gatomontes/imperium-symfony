@@ -13,6 +13,12 @@ tests, evidence or original package.
 
 # Local Isolation Measurement and Readiness — continuation
 
+Local C0–C2 status: `LOCAL_ISOLATION_MEASUREMENT_READINESS_PACKAGE_READY`.
+Tested code: 6bb2628d440b45b881d2d330c61fe3b5b4aab521. Owner continuation and
+exact evidence: `docs/local-isolation-readiness-owner-runbook.md` and
+`docs/local-isolation-readiness-audit.json`. Parent Batches 3–5 remain conditional
+on authentic actual-account evidence and signature. Selection/history follows.
+
 `LOCAL_ISOLATION_MEASUREMENT_READINESS_CONTINUATION_SELECTED`
 
 Parent campaign: `docs/next-campaign-local-isolation-useful-mission.md`.

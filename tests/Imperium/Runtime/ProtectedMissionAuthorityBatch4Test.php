@@ -110,7 +110,10 @@ final class ProtectedMissionAuthorityBatch4Test extends TestCase
     }
     private function git(string $root,array $args):string
     {
-        [$code,$out,$err]=$this->process(['git','-C',$root,'-c','core.hooksPath='.dirname($root).'/empty-hooks','-c','core.fsmonitor=false',...$args]);
+        // Fixture construction must not leave background maintenance racing the
+        // complete before/after manifest. Keep every manifest entry asserted.
+        [$code,$out,$err]=$this->process(['git','-C',$root,'-c','core.hooksPath='.dirname($root).'/empty-hooks','-c','core.fsmonitor=false',
+            '-c','maintenance.auto=false','-c','gc.auto=0',...$args]);
         self::assertSame(0,$code,$err);return $out;
     }
     private function process(array $args,string $input=''):array

@@ -1,9 +1,20 @@
-param([Parameter(Mandatory)][string]$CodePath)
+param([Parameter(Mandatory)][string]$CodePath,[switch]$Recovery)
 $ErrorActionPreference='Stop'
 try {
     $root='C:\ProgramData\Imperium\ProtectedMission'
     $expectedCode='C:\ProgramData\Imperium\ProtectedMissionCode'
     if($CodePath.TrimEnd('\','/') -ne $expectedCode){throw 'code'}
+    # Public, owner-controlled SID binding permits an exact wrong-identity refusal
+    # before the Caller attempts to read its deliberately inaccessible metadata.
+    $publicPath='C:\ProgramData\Imperium\ProtectedMissionProbePlans\deployment-binding.json'
+    if(Test-Path -LiteralPath $publicPath){
+        $binding=Get-Content -LiteralPath $publicPath -Raw|ConvertFrom-Json
+        if($binding.runtime_sid -notmatch '^S-1-5-21-(\d+-){3}\d+$' -or $binding.caller_sid -notmatch '^S-1-5-21-(\d+-){3}\d+$' -or $binding.runtime_sid -eq $binding.caller_sid -or $binding.setup_session -notmatch '^[a-f0-9]{32}$' -or $binding.package_manifest_sha256 -notmatch '^[A-Fa-f0-9]{64}$'){throw 'binding'}
+        $token=[Security.Principal.WindowsIdentity]::GetCurrent()
+        if($token.User.Value -ne $binding.runtime_sid -or @($token.Groups|Where-Object{$_.Value -eq 'S-1-5-32-544'}).Count -gt 0){
+            Write-Output 'PMA_RUNTIME_IDENTITY_REFUSED';exit 2
+        }
+    }
     $file=Join-Path $root 'installation.json'
     $installation=Get-Content -LiteralPath $file -Raw | ConvertFrom-Json
     $identity=[Security.Principal.WindowsIdentity]::GetCurrent()
@@ -33,6 +44,12 @@ try {
     Assert-PmaAcl $expectedCode $false $false
     foreach($item in Get-ChildItem -LiteralPath $expectedCode -Recurse -Force){Assert-PmaAcl $item.FullName $false $false}
     foreach($item in Get-ChildItem -LiteralPath $root -Recurse -Force){Assert-PmaAcl $item.FullName $true ($item.FullName -eq $file)}
+    # Recovery still verifies identity/code/state; it grants no scratch operation.
+    if(-not $Recovery){
+        . (Join-Path $PSScriptRoot 'ProtectedMissionScratch.ps1')
+        Assert-PmaScratchPolicy ($root+'Scratch') $installation.runtime_sid
+        Assert-PmaScratchEmpty ($root+'Scratch')
+    }
     Write-Output 'PMA_INSTALLATION_ACL_AND_IDENTITY_VERIFIED'
     exit 0
 } catch { Write-Output 'PMA_INSTALLATION_ACL_OR_IDENTITY_REFUSED';exit 2 }

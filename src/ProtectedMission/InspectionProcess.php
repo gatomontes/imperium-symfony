@@ -6,8 +6,10 @@ final class InspectionProcess
 {
     public static function run(string $root,array $payload):array
     {
-        $base=$root.'/inspection-'.bin2hex(random_bytes(16));
-        file_put_contents($base.'.input',json_encode($payload,JSON_THROW_ON_ERROR));
+        return ScratchWorkspace::run($root,static function(string $workspace) use ($payload):array {
+        $base=$workspace.'/inspection';
+        $input=json_encode($payload,JSON_THROW_ON_ERROR);
+        if (file_put_contents($base.'.input',$input)!==strlen($input)) throw new \RuntimeException('PMA_INSPECTION_INPUT_FAILED');
         $process=null;
         try {
             $deadline=microtime(true)+$payload['budget']['max_seconds'];
@@ -29,7 +31,8 @@ final class InspectionProcess
             return $result['snapshot'];
         } finally {
             if (is_resource($process)) {proc_terminate($process);proc_close($process);}
-            foreach (['.input','.output','.error'] as $suffix) if (is_file($base.$suffix)) unlink($base.$suffix);
+
         }
+        });
     }
 }

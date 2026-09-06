@@ -21,7 +21,10 @@ final class Cli
             if (!in_array($op,['enroll','prepare','export','render','submit','derive','verify','status','challenge-status','trust','request'],true)) throw new \RuntimeException('PMA_COMMAND_UNKNOWN');
             $needsId=in_array($op,['enroll','export','render','derive','verify','status','challenge-status'],true);
             if (count($args)!==($needsId?2:1)) throw new \RuntimeException('PMA_USAGE_INVALID');
-            $owner=$ownerFactory();
+            $raw=$op==='request'?self::input():null;
+            $recovery=in_array($op,['status','challenge-status'],true)
+                || ($op==='request' && in_array($raw['operation'] ?? '',['status','challenge-status'],true));
+            $owner=$ownerFactory($recovery);
             if ($op==='enroll') $result=$owner->enroll(self::input(),$args[1]);
             else {
                 $arguments=match($op) {
@@ -30,7 +33,7 @@ final class Cli
                     'verify','status'=>['authorization_id'=>$args[1]],
                     default=>[],
                 };
-                $request=$op==='request'?self::input():['operation'=>$op==='render'?'export':$op,'arguments'=>$arguments];
+                $request=$op==='request'?$raw:['operation'=>$op==='render'?'export':$op,'arguments'=>$arguments];
                 $result=$owner->dispatch($request);
             }
             if ($op==='export') echo CanonicalJson::encode($result); // Exact UTF-8 bytes; no BOM/newline.

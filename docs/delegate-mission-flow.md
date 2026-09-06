@@ -1,3 +1,29 @@
+> Campaign closed after owner-reported independent Batch 5 acceptance. Existing parent implementation, readiness and scratch/process corrections are accepted within documented bounds; GitHub integration is authorized subject to checks. See local-isolation-integration.md. No new campaign or mission starts automatically. Earlier pending dispositions below are historical.
+
+> Current disposition: existing parent Batch 5 locally complete, pending independent review. Actual-target receipt/generation and installed-package checks passed. See local-isolation-batch-5.md for bounded analytical findings, exact identities and retained custody assumptions. No new campaign starts automatically; earlier pending steps below are historical.
+
+> Current result: Batch 3 independently accepted by owner report; Batch 4 authentic bounded mission COMPLETED. See local-isolation-batch-4.md for identities, evidence, hashes and custody limitations. Next: Batch 5 independent receipt reconstruction and separate analytical report. Earlier Batch 3/4 pending statements below are historical.
+
+> Current result: real Batch 3 setup, public enrollment and pre/post observations passed; public hashes/plan bindings verified. See local-isolation-batch-3.md for custody limits and exact evidence. Next: review Batch 3 evidence and owner premises; Batch 4 current readiness, plan and authentic signature remain outstanding and unauthorized.
+
+# Current flow — accepted process correction → parent Batch 3
+
+Both process corrections are closed within the independently accepted disposable owner proof. See local-isolation-scratch-process-owner-result.md. Current work is the existing parent Batch 3 prerequisite inventory in local-isolation-parent-batch-3-prerequisites.md: reviewed package and existing identities → owner fresh real installation → real pre measurement → independent Operator public trust and enrollment → real post measurement. Batches 4–5 remain gated; no signing or mission execution is authorized by this continuation. Disposable keys, trust, measurements and consumed authority cannot satisfy real prerequisites. Preserve historical records below.
+
+# Current local result: scratch native proof pending
+
+SCRATCH_WORKSPACE_CORRECTION_NATIVE_PROOF_PENDING.
+S0 reproduced IS03 with native ACLs. S1 implemented protected sibling scratch,
+exact cleanup/refusal and Status recovery. S2 commits code before tests/package
+and prepares the fresh review artifacts in docs/local-isolation-scratch-audit.json.
+The equivalent separate-account ceremony is NOT RUN. Execute the exact disposable
+owner proof in docs/local-isolation-scratch-owner-proof.md after review; no real
+installation, accounts or mission are created by this correction task.
+Then resume existing parent Batches 3–5 only with authentic owner prerequisites,
+using docs/local-isolation-scratch-owner-runbook.md. Preserve both prior packages.
+
+## Preserved selection
+
 # Current selection: protected scratch workspace correction
 
 SCRATCH_WORKSPACE_CEREMONY_CORRECTION_SELECTED.
@@ -25,6 +51,13 @@ Status recovery and owner-reference protection must remain intact.
 
 # Current continuation: isolation measurement and readiness correction
 
+Local C0–C2 complete: `LOCAL_ISOLATION_MEASUREMENT_READINESS_PACKAGE_READY`.
+Audited code 6bb2628d440b45b881d2d330c61fe3b5b4aab521; full 2679 / 52722,
+zero skips. Fresh package, exact commands and owner resume are in
+`docs/local-isolation-readiness-audit.json` and
+`docs/local-isolation-readiness-owner-runbook.md`. Actual-account isolation,
+authentic signature and parent Batches 3–5 remain pending. Prior records follow.
+
 `LOCAL_ISOLATION_MEASUREMENT_READINESS_CONTINUATION_SELECTED`
 
 Independent package review accepted the local owner package subject to LI01
@@ -50,13 +83,15 @@ the original package/tests/branches. No implementation publication or main merge
 
 # Current continuation: local deployment isolation and useful mission
 
-LOCAL_ISOLATION_AND_USEFUL_MISSION_SELECTED.
+LOCAL_ISOLATION_PACKAGE_READY_AWAITING_OWNER_ACTION.
 AM01/AM02 correction accepted in source review and merged through PR #759 at
 a1fc4f27634319f2a22df2e6a1b370f70cdb98bf; GitHub full-suite run 33965668160 passed.
 This closes that corrective integration, not the deployment-isolation question.
 
 Campaign: docs/next-campaign-local-isolation-useful-mission.md.
 Local runner: docs/handoffs/local-isolation-useful-mission-ready.md.
+
+Batches 0–2 complete at 47bcc44a8fc0540bef855d27ba71abaebb452c84; full 2677 / 52713, zero skips. Owner sequence: docs/local-isolation-owner-runbook.md. Audit: docs/local-isolation-terminal-audit.md. No actual deployment isolation or real receipt yet.
 
 Current steps: inventory (0), executable probes/orchestration (1), disposable
 rehearsal and exact owner package (2), owner setup and actual-account measurement
