@@ -2572,3 +2572,10 @@ Active local entrypoint:
 `BOUND_INACTIVE`, historical v3 `NOT_IMPLEMENTED` and
 `UNKNOWN_REPLAY_PROHIBITED` remain binding. Provider invocation, external I/O,
 credential/capability handling, retry, Iron Gate and Lazaretto remain closed.
+# Separate bounded source-review integration
+
+The closed inspection campaign remains closed. The additive local source-review
+command and steps are documented in [source-review.md](source-review.md), with
+[local handoff](handoffs/bounded-source-review-local.md). Preparation is offline;
+source transmission requires separate explicit activation and legitimate existing
+operational authority. Historical campaign instructions below are preserved.
