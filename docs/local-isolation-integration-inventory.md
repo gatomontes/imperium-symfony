@@ -128,3 +128,7 @@ Historical proof and real installation attribution remain separate; see local-is
 - tools/Test-LocalIsolationReadiness.ps1
 - tools/Test-ProtectedScratchCeremony.php
 - tools/Test-ProtectedScratchOwnerProof.ps1
+
+## CI follow-up
+
+Test-only maintenance race correction adds tests/Imperium/Runtime/ProtectedMissionAuthorityBatch4Test.php to the proposed diff (96 paths total). The initial failed run and validation are recorded in local-isolation-integration.md. Production dependencies and installed bytes are unchanged.

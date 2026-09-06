@@ -77,3 +77,20 @@ Runtime/signer assumptions remain. Receipt verification does not independently
 anchor issuer identity or certify semantic truth/elapsed deadline. No universal
 isolation, exhaustive crash durability or outside-allowlist claim is made.
 Historical/quarantined branches, packages and attempts must remain preserved.
+
+## CI integration correction — disposable Git maintenance
+
+Initial PR workflow run 34063841379 failed at head aefa5c7c72948e6823e9ccb8666857bbdd4e7eb9:
+2689 tests / 52750 assertions, one failure and four Windows-only skips.
+ProtectedMissionAuthorityBatch4Test's complete target manifest lost only Git's
+empty .git/objects/maintenance.lock between snapshots. The fixture's commit
+command had not disabled automatic Git maintenance. This is evidence of a
+background-maintenance race, not permission to ignore changed target files.
+
+The test-only Git helper now supplies maintenance.auto=false and gc.auto=0 to
+every fixture Git command. The exact before/after comparison remains unchanged;
+no lock path is excluded and no assertion is weakened. Fresh affected-class
+validation passed 4 tests / 62 assertions on Windows/PHP 8.4.14 before commit.
+The next PR workflow runs the full resulting suite on Linux. This correction
+changes test code only; src/bin/tools and the real installation remain unchanged.
+The failed run is preserved in GitHub, not erased or blindly rerun.
