@@ -1,3 +1,5 @@
+> Campaign closed after owner-reported independent Batch 5 acceptance. Existing parent implementation, readiness and scratch/process corrections are accepted within documented bounds; GitHub integration is authorized subject to checks. See local-isolation-integration.md. No new campaign or mission starts automatically. Earlier pending dispositions below are historical.
+
 > Current disposition: existing parent Batch 5 locally complete, pending independent review. Actual-target receipt/generation and installed-package checks passed. See local-isolation-batch-5.md for bounded analytical findings, exact identities and retained custody assumptions. No new campaign starts automatically; earlier pending steps below are historical.
 
 > Current result: Batch 3 independently accepted by owner report; Batch 4 authentic bounded mission COMPLETED. See local-isolation-batch-4.md for identities, evidence, hashes and custody limitations. Next: Batch 5 independent receipt reconstruction and separate analytical report. Earlier Batch 3/4 pending statements below are historical.

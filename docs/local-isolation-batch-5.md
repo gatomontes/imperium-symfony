@@ -1,3 +1,5 @@
+> Subsequent acceptance: the owner reported independent Batch 5 review passed for the 57-entry public package, object/file reconstruction, installed-file mapping and bounded analysis; owner-run verifier passes and all custody/Runtime qualifications remain. Campaign closed within those bounds. GitHub integration is separately authorized; see [integration record](local-isolation-integration.md). Original local disposition below is preserved.
+
 # Parent Batch 5 — verification and bounded analytical completion
 
 Disposition: BATCH_5_LOCAL_COMPLETE_PENDING_INDEPENDENT_REVIEW.
