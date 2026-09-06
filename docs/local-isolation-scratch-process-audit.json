@@ -1,0 +1,116 @@
+{
+  "schema": "imperium.scratch-process-correction/v1",
+  "status": "LOCAL_CORRECTIONS_VERIFIED_FRESH_OWNER_CANDIDATE_PENDING",
+  "created_utc": "2026-09-06T16:04:04.288929+00:00",
+  "branch": "codex/local-isolation-scratch-correction",
+  "source_commit": "b7ab71765d3deeeb201a14981b82ffeadbc8689c",
+  "source_tree": "7f4fc27c927c739b9349f4fd7c9e392864ed3d89",
+  "tested_commit": "a5d7e63d921057b529b6e2c5e2de8d12ed4ca0f8",
+  "tested_tree": "9162f1002b514f2961032e203819a486826ea8a8",
+  "final_identity": "Recorded after documentation commit in derivative review-manifest.json",
+  "main": "a06a2dec6fc1d62aeef7260e3a9c3508c801fffb",
+  "preserved_source_branch": "3e61c0c283aca4fbdd51179405cd7fcc17be3fcf",
+  "package": {
+    "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\package-scratch-process-a5d7e63d",
+    "manifest_sha256": "CC1544907815FE9E9F00E5F2ACB90CD4191CDF4E8F892F26D739A4EF7D139558",
+    "files": 6485
+  },
+  "preservation": {
+    "packages": [
+      {
+        "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\package-47bcc44a",
+        "manifest_sha256": "8DAB48F98D147A6ABA9E89260D25082BA5B91AD2C72638F1F10FFB9A449CF6AE",
+        "files": 6469
+      },
+      {
+        "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\package-readiness-6bb2628d",
+        "manifest_sha256": "C0442CFCC4FD68AFF12161FC8C942AFC3E4BD4F01A7336B80A603E341CC9076D",
+        "files": 6477
+      },
+      {
+        "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\package-scratch-c9516380",
+        "manifest_sha256": "AAD090FC455F336AD9CCCDB1A3258F18F7791A47071B7E939E110EF724FFABC9",
+        "files": 6483
+      },
+      {
+        "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\package-scratch-process-a5d7e63d",
+        "manifest_sha256": "CC1544907815FE9E9F00E5F2ACB90CD4191CDF4E8F892F26D739A4EF7D139558",
+        "files": 6485
+      }
+    ],
+    "historical_native_review_manifest_sha256": "56556FAF8BAD479195CD42F9C237E70A1077206453AEC62A17DF5F33D640F665",
+    "historical_native_review_files_verified": 42
+  },
+  "tests": {
+    "full": {
+      "tests": 2689,
+      "assertions": 52762,
+      "skips": 0,
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\scratch-process-correction\\full.txt",
+      "sha256": "76BF9A6BF529130D6D16C806B52686110CD196A6E154E3428F7208E55112A8B2",
+      "duration": "09:30.991"
+    },
+    "focused": {
+      "tests": 40,
+      "assertions": 470,
+      "skips": 0,
+      "path": "E:\\htdocs\\imperium\\var\\local-isolation-evidence\\scratch-process-correction\\focused-committed.txt",
+      "sha256": "761BA367712CA684947B3EC5C948E17499F14837872F40B50FE99C8C7FEDF313",
+      "duration": "01:03.549"
+    },
+    "windows_startup": "POLLUTED_BASELINE_REPRODUCED_BOTH_CHILD_BOUNDARIES_PASSED_PARENT_UNCHANGED",
+    "powershell_parse": "POWERSHELL_PARSE_PASSED"
+  },
+  "historical_native": {
+    "status": "QUALIFIED_HISTORICAL_PASS_PRESERVED_NOT_RELABELED",
+    "rows": 304942,
+    "workspace": "C:\\ProgramData\\PmaScratchProof-7eb3b2a094064483be6143bb9ac5a293",
+    "review": "var/local-isolation-evidence/owner-native-proof-public-93db28c4b3ea4f91a576d4100ee8f8a4/review-complete",
+    "broken_pipe_invocation": "UNCONFIRMED"
+  },
+  "new_native": "NOT RUN: fresh owner-only installation/account token ceremony required; no historical authority reuse",
+  "owner_instructions": "docs/local-isolation-scratch-process-owner-check.md",
+  "limits": [
+    "Trusted bounded synchronous CLI pipe transport; no general hostile-child timeout/concurrent drain supervisor",
+    "Pipe delivery is not semantic consumption; real CLI/ceremony checks remain",
+    "No deployed-isolation or real-mission authorization; independent acceptance and parent prerequisites pending"
+  ],
+  "evidence": {
+    "focused-committed.txt": {
+      "sha256": "761BA367712CA684947B3EC5C948E17499F14837872F40B50FE99C8C7FEDF313",
+      "bytes": 239
+    },
+    "focused-precommit.txt": {
+      "sha256": "C04BF0CF91EB9FD2D87AC7E5CA7EFD0BA0CF18E025F23C6CC847B91F30885F40",
+      "bytes": 239
+    },
+    "full.txt": {
+      "sha256": "76BF9A6BF529130D6D16C806B52686110CD196A6E154E3428F7208E55112A8B2",
+      "bytes": 3852
+    },
+    "package-build.txt": {
+      "sha256": "B522DC9A3A8CFC575D328932BDE6C881AE29AE09148945A0C82E59B5D0DB3C6C",
+      "bytes": 346
+    },
+    "package-verification.json": {
+      "sha256": "B8D751459D21BFCCA9B2B75D912056A7AA832C0BE7A5CA9F4A4E8D5563BC0A04",
+      "bytes": 1098
+    },
+    "package-verification.txt": {
+      "sha256": "0AD3D401F15667EF546281A3BDAAB83C343BD28E62D5211D87E6457E1190F037",
+      "bytes": 162
+    },
+    "php-lint.txt": {
+      "sha256": "27215E9C4F899517ED952DDD01681CC89432604A2D85F256088541F25DFB450C",
+      "bytes": 546
+    },
+    "powershell-parse.txt": {
+      "sha256": "78181B53FFE40381E1528BA8C999C1F3AFBFA36121FE6CF7EF90E8237F6D09E8",
+      "bytes": 25
+    },
+    "windows-startup.txt": {
+      "sha256": "69A3E95786BCF65C93FA0C973C907332789FC45C4AA03D81D71180B1973A6251",
+      "bytes": 76
+    }
+  }
+}

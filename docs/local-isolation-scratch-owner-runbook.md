@@ -12,8 +12,9 @@ That proof creates only a disposable relocation with existing standard accounts.
 No real installation or account creation is performed by this correction task.
 The deployment commands below are the existing parent Batches 3–5 continuation,
 for future owner execution only when their authentic prerequisites exist.
-Both package-47bcc44a and package-readiness-6bb2628d remain historical and must not
-be installed. Use the newly hashed package in local-isolation-scratch-audit.json.
+Packages package-47bcc44a, package-readiness-6bb2628d and package-scratch-c9516380
+remain historical. Use the separately hashed process-correction candidate in
+local-isolation-scratch-process-audit.json only after the documented review gates.
 
 Scratch is an administrator-provisioned sibling, ProtectedMissionScratch.
 Runtime creates nested work there and cleans before authority publication;
@@ -27,7 +28,7 @@ No automatic retry or generic scratch cleanup command is authorized.
 
 # Owner setup and resume — protected scratch correction
 
-Use only the fresh package named in `docs/local-isolation-scratch-audit.json`.
+Use only the candidate named in `docs/local-isolation-scratch-process-audit.json`.
 The earlier package-47bcc44a and original runbook remain historical evidence;
 do not install that candidate. This runbook supersedes its readiness commands.
 No real installation, accounts, trust, signature or mission has been performed
@@ -79,9 +80,8 @@ cannot delete owner-controlled children through their parent. Both identities
 read plans; neither modifies them. Caller cannot read exchange/state.
 
 On partial setup preserve all directories/evidence; enroll nothing and do not
-rerun over them. Disable only an account confirmed newly created by this attempt
-pending owner review (`Disable-LocalUser -Name PmaRuntime`, or PmaCaller as
-applicable). Never disable a pre-existing account, delete branches, remove markers,
+rerun over them. Existing accounts remain unchanged. Never disable or repurpose
+these accounts, delete branches, remove markers,
 reset/migrate a journal or replace trust. There is no automated destructive rollback.
 
 ## 2. Pre-enrollment measurement

@@ -1,5 +1,13 @@
 # Protected scratch — terminal local audit
 
+Current continuation (2026-09-06): see local-isolation-scratch-process-audit.json
+and local-isolation-scratch-process-correction.md for the committed startup/input
+corrections and separately identified candidate. The qualified owner native proof
+(304,942 rows) and its review-complete addendum are preserved under
+var/local-isolation-evidence/owner-native-proof-public-93db28c4b3ea4f91a576d4100ee8f8a4.
+Fresh owner verification of the new candidate remains pending; the historical
+record below describes the earlier implementation delivery and is unchanged.
+
 **SCRATCH_WORKSPACE_CORRECTION_NATIVE_PROOF_PENDING**
 
 Implementation, local component proof, committed testing and fresh owner-package
