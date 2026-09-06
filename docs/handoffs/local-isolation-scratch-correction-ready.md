@@ -1,3 +1,5 @@
+> Active handoff: real Batch 3 setup/enrollment/pre-post measurements passed; see [Batch 3 result](../local-isolation-batch-3.md). Public evidence verified: 25 files, 202,892 passing rows. Stop before Batch 4; no mission signing/execution is authorized. Older prerequisite and correction-pending sections below are historical.
+
 # Local runner: scratch workspace correction
 
 > Fresh owner check completed on 2026-09-06: see [owner result](../local-isolation-scratch-process-owner-result.md). Independent review accepted the bounded disposable result; both process corrections are closed. Existing parent Batch 3 prerequisite checks are current. Do not repeat the completed ceremony or enrollment. Earlier pending statements below describe the pre-run handoff.

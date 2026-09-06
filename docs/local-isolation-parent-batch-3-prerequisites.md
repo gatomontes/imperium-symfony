@@ -1,3 +1,5 @@
+> Batch 3 update: real setup, public enrollment and recorded pre/post measurements passed. See [Batch 3 result](local-isolation-batch-3.md). The missing-resource inventory below is the preserved pre-setup checkpoint. Current readiness and Batch 4 authority remain outstanding; do not repeat setup or enrollment.
+
 # Existing parent Batch 3 — prerequisite inventory, 2026-09-06
 
 This resumes Batch 3 of next-campaign-local-isolation-useful-mission.md, using

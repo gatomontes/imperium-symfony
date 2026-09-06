@@ -1,3 +1,5 @@
+> Current steps: [x] real Batch 3 installation, enrollment and pre/post capture/verification (25 public files; 202,892 passing rows). [ ] Review real Batch 3 evidence and custody/forwarding premises. [ ] Batch 4 fresh current readiness/plan/signature; no signing or execution authorized. See docs/local-isolation-batch-3.md. Prior checklists below are historical.
+
 ## Current steps — parent Batch 3 prerequisites
 
 - [x] Close both process corrections within independently accepted fresh disposable proof (41 hashes; 304,526 observations; 20 Caller denials; ten normal operations; expected exit-2 refusal).
