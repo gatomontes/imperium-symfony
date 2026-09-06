@@ -1,3 +1,5 @@
+> Subsequent status: owner supplied independent Batch 4 acceptance with chain/actual-target/package checks reserved. Those checks and the bounded analysis now complete parent Batch 5 locally; see [Batch 5 report](local-isolation-batch-5.md). Earlier pending statements below remain historical.
+
 # Parent Batch 4 — recorded authentic mission completion
 
 Recorded 2026-09-06. Entry HEAD: 4fbd4d339323e2582a7313c66e86ff78f43ec4ee,
