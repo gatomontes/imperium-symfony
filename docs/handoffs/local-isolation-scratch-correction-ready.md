@@ -1,3 +1,5 @@
+> Active handoff: owner supplied independent Batch 3 acceptance; authorized Batch 4 reached COMPLETED with authentic VPS signing. All 64 export hashes verified, 510,000 current access observations passed. See [Batch 4 result](../local-isolation-batch-4.md). Next: Batch 5 independent receipt reconstruction and bounded analytical report. Earlier pending/unauthorized statements below are historical; do not replay the closed mission.
+
 > Active handoff: real Batch 3 setup/enrollment/pre-post measurements passed; see [Batch 3 result](../local-isolation-batch-3.md). Public evidence verified: 25 files, 202,892 passing rows. Stop before Batch 4; no mission signing/execution is authorized. Older prerequisite and correction-pending sections below are historical.
 
 # Local runner: scratch workspace correction

@@ -1,3 +1,5 @@
+> Current result: Batch 3 independently accepted by owner report; Batch 4 authentic bounded mission COMPLETED. See local-isolation-batch-4.md for identities, evidence, hashes and custody limitations. Next: Batch 5 independent receipt reconstruction and separate analytical report. Earlier Batch 3/4 pending statements below are historical.
+
 > Current result: real Batch 3 setup, public enrollment and pre/post observations passed; public hashes/plan bindings verified. See local-isolation-batch-3.md for custody limits and exact evidence. Next: review Batch 3 evidence and owner premises; Batch 4 current readiness, plan and authentic signature remain outstanding and unauthorized.
 
 # Current flow — accepted process correction → parent Batch 3

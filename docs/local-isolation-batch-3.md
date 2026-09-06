@@ -1,3 +1,5 @@
+> Subsequent status: owner supplied independent acceptance of this recorded Batch 3 result before authorizing Batch 4. Batch 4 is now recorded in [local-isolation-batch-4.md](local-isolation-batch-4.md). Original pre-acceptance disposition below is preserved as history.
+
 # Parent Batch 3 — real owner setup and enrollment measurements
 
 Recorded 2026-09-06 on codex/local-isolation-scratch-correction, entry HEAD

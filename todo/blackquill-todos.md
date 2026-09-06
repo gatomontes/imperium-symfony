@@ -1,3 +1,5 @@
+> Current steps: [x] Batch 3 independent acceptance supplied. [x] Batch 4 authentic owner signing and mission completion; 64 export hashes and 510,000 current observations verified. [ ] Batch 5 independent receipt reconstruction, installed-byte recheck and separate bounded analyst report. See docs/local-isolation-batch-4.md. Earlier pending checklists below are historical.
+
 > Current steps: [x] real Batch 3 installation, enrollment and pre/post capture/verification (25 public files; 202,892 passing rows). [ ] Review real Batch 3 evidence and custody/forwarding premises. [ ] Batch 4 fresh current readiness/plan/signature; no signing or execution authorized. See docs/local-isolation-batch-3.md. Prior checklists below are historical.
 
 ## Current steps — parent Batch 3 prerequisites
