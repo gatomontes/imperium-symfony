@@ -94,7 +94,7 @@ final class PersonnelReservationFlowTest extends TestCase
     {
         $root = sys_get_temp_dir().'/imperium-personnel-reservation-'.bin2hex(random_bytes(6));
         $store = new ProceedingStore($root);
-        $store->persist(['proceeding_id' => 'proceeding-test', 'instance_id' => 'imperium-test']);
+        \App\Tests\Imperium\Runtime\Support\HistoricalCuriaFixture::persist($store, ['proceeding_id' => 'proceeding-test', 'instance_id' => 'imperium-test']);
         $dispositionId = 'personnel-use-disposition-'.str_repeat('a', 20);
         $commitment = [
             'capability_slot_id' => 'slot-passive-assessment',

@@ -63,46 +63,7 @@ final readonly class CurianAudience
         if (null !== $existing) {
             return $existing;
         }
-        $context = [
-            'instance_id' => $binding['instance_id'],
-            'proceeding_id' => $proceedingId,
-        ];
-        $authority = $this->cognitionAuthorities->openAudience($request, $context, $occupants['seneschal']);
-        $decision = $this->seneschal->decide($authority['authority_id'], $request, $context);
-        $proceeding = [
-            'schema' => 'imperium.curian-proceeding/v1',
-            'proceeding_id' => $proceedingId,
-            'instance_id' => $binding['instance_id'],
-            'manifest_id' => $binding['manifest_id'],
-            'status' => $decision['disposition'],
-            'imperator_request' => [
-                'actor' => ['kind' => 'imperator', 'id' => self::DEVELOPMENT_IMPERATOR_ID],
-                'authority_basis' => 'development-local-cli',
-                'content' => $request,
-            ],
-            'chamberlain' => [
-                'disposition' => 'PROCEEDING_OPENED',
-                'occupant' => $occupants['chamberlain'],
-            ],
-            'secretary' => [
-                'disposition' => 'REQUEST_RECORDED',
-                'occupant' => $occupants['secretary'],
-            ],
-            'seneschal' => [
-                'disposition' => $decision['disposition'],
-                'occupant' => $occupants['seneschal'],
-                'decision' => $decision['decision'],
-                'question' => $decision['question'],
-                'mission_plan' => $decision['mission_plan'],
-            ],
-            'resource_demands' => $decision['resource_demands'],
-            'authorization_required' => $decision['authorization_required'],
-            'authorization_note' => 'No resources are authorized by opening a proceeding; planning must disclose resource demands separately.',
-            'source_cognition_authority' => ['id' => $authority['authority_id'], 'digest' => $authority['record_digest']],
-        ];
-        $proceeding['record_digest'] = hash('sha256', CanonicalJson::encode($proceeding));
-
-        return $this->proceedings->persist($proceeding);
+        throw new \RuntimeException('CMF112_NEW_REQUEST_USES_CITADEL_INTAKE');
     }
 
     private function lastOutput(array $record, string $transition): array

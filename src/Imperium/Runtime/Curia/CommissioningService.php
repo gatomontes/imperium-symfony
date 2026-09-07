@@ -14,6 +14,7 @@ final readonly class CommissioningService
 
     public function issue(string $proceedingId, int $turnSequence): array
     {
+        $this->store->requireHistoricalPlan($proceedingId, $turnSequence);
         $proceeding = $this->store->find($proceedingId);
         $turn = $this->store->turn($proceedingId, $turnSequence);
         if (null === $proceeding || null === $turn || 'MISSION_PLAN_DRAFTED' !== ($turn['seneschal']['disposition'] ?? null)) {

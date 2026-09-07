@@ -14,6 +14,7 @@ final class Ceremony
     public function prepare(array &$state, array $mission, array $disclosures, int $now): array
     {
         self::validateMission($mission,$now);
+        (new \App\Imperium\Runtime\Citadel\Formation\LegacyFormationGuard($this->root))->requireHistorical(['mission'=>$mission,'disclosures'=>$disclosures], 'protected-input');
         if (($state['trust']['revoked'] ?? true) || $now >= $state['trust']['expires_at'] || $now < $state['trust']['not_before']) throw new \RuntimeException('PMA_TRUST_INACTIVE');
         $mid=$mission['mission_id'];
         if (self::terminal($state,$mid)) throw new \RuntimeException('PMA_TERMINAL');
@@ -23,6 +24,7 @@ final class Ceremony
         $payload=$this->scratch([],function(string $root) use($mission,$disclosures,$now,$state,$challenge,$predecessor):array {
             $store=new ProceedingStore($root);
             $proceeding='proceeding-'.substr($challenge,10);
+            (new \App\Imperium\Runtime\Citadel\Formation\LegacyFormationGuard($this->root))->bindProtectedScratch($root,$mission,$disclosures,$proceeding);
             $store->persist(['proceeding_id'=>$proceeding,'instance_id'=>'protected-runtime']);
             $store->appendTurn($proceeding,'supplied-plan',1,['seneschal'=>['disposition'=>'MISSION_PLAN_DRAFTED','mission_plan'=>['objective'=>'Exact bounded Git object inspection.','protected_mission'=>$mission]]]);
             $d=(new PlanningDossierAssemblyService($store,$root))->assemble($proceeding,1,[],$disclosures,(new \DateTimeImmutable())->setTimestamp($now));
@@ -122,6 +124,7 @@ final class Ceremony
     private function scratch(array $files,callable $call):array
     {
         return ScratchWorkspace::run($this->root,function(string $scratch) use($files,$call):array {
+            (new \App\Imperium\Runtime\Citadel\Formation\LegacyFormationGuard($this->root))->copyHistoryToScratch($scratch);
             foreach ($files as $relative=>$record) {
                 $path=$scratch.'/'.$relative;
                 if (!is_dir(dirname($path)) && !mkdir(dirname($path),0700,true)) throw new \RuntimeException('PMA_SCRATCH_SEED_FAILED');

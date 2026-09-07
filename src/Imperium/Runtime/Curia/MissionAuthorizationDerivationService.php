@@ -9,11 +9,11 @@ use App\Bootstrap\CanonicalJson;
 final readonly class MissionAuthorizationDerivationService
 {
     private string $reviews;private string $dossiers;private string $authorizations;
-    public function __construct(string$root){$this->reviews=$root.'/var/imperium/offices/curia/planning-dossier-reviews';$this->dossiers=$root.'/var/imperium/offices/curia/planning-dossiers';$this->authorizations=$root.'/var/imperium/authorizations/missions';}
+    public function __construct(private string$root){$this->reviews=$root.'/var/imperium/offices/curia/planning-dossier-reviews';$this->dossiers=$root.'/var/imperium/offices/curia/planning-dossiers';$this->authorizations=$root.'/var/imperium/authorizations/missions';}
 
     public function derive(string$reviewId,string$authorityId,\DateTimeImmutable$derivedAt):array
     {
-        $existing=$this->existing($authorityId);if(null!==$existing)return$existing;$r=$this->read($this->reviews.'/'.$reviewId.'.json','C254_DOSSIER_APPROVAL_ABSENT');$dossierId=$r['dossier']['id']??'';$d=$this->read($this->dossiers.'/'.$dossierId.'.json','C255_PLANNING_DOSSIER_ABSENT');$a=$r['mission_authorization_derivation_authority']??[];
+        $existing=$this->existing($authorityId);if(null!==$existing)return$existing;$r=$this->read($this->reviews.'/'.$reviewId.'.json','C254_DOSSIER_APPROVAL_ABSENT');$dossierId=$r['dossier']['id']??'';$d=$this->read($this->dossiers.'/'.$dossierId.'.json','C255_PLANNING_DOSSIER_ABSENT');(new \App\Imperium\Runtime\Citadel\Formation\LegacyFormationGuard($this->root))->requireDossier($d);$a=$r['mission_authorization_derivation_authority']??[];
         if(!$this->ok($r)||'imperium.imperator-planning-dossier-review/v1'!==($r['schema']??null)||'APPROVE_DOSSIER'!==($r['disposition']??null)||true!==($r['dossier_approval']??null)||true!==($r['all_lines_acknowledged']??null)||'IMPERATOR_PLANNING_DOSSIER_APPROVED_PENDING_MISSION_AUTHORIZATION'!==($r['status']??null)||$authorityId!==($a['authority_id']??null)||true!==($a['derivation_authority']??null)||true!==($a['authority_single_use']??null)
             ||!$this->ok($d)||($r['dossier']['digest']??null)!==($d['record_digest']??null)||($a['dossier']['digest']??null)!==($d['record_digest']??null)||($r['dossier']['version']??null)!==($d['dossier_version']??null)||($r['dossier']['line_count']??null)!==($d['line_count']??null)
         )throw new \RuntimeException('C256_MISSION_AUTHORIZATION_DERIVATION_INVALID');

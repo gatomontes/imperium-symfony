@@ -1,0 +1,668 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://imperium.invalid/contracts/citadel-formation-command.schema.json",
+  "title": "Citadel formation command protocol v1",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "arguments"
+      ],
+      "properties": {
+        "operation": {
+          "const": "personnel-authority-source"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "role"
+          ],
+          "properties": {
+            "role": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "arguments"
+      ],
+      "properties": {
+        "operation": {
+          "const": "delegate-personnel-evidence"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "delegation",
+            "decision"
+          ],
+          "properties": {
+            "delegation": {
+              "type": "object"
+            },
+            "decision": {
+              "$ref": "#/$defs/ownerDecision"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "arguments"
+      ],
+      "properties": {
+        "operation": {
+          "const": "record-personnel-evidence"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "envelope"
+          ],
+          "properties": {
+            "envelope": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "arguments"
+      ],
+      "properties": {
+        "operation": {
+          "const": "appoint-castellan"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "candidate",
+            "decision"
+          ],
+          "properties": {
+            "candidate": {
+              "type": "object"
+            },
+            "decision": {
+              "$ref": "#/$defs/ownerDecision"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "arguments"
+      ],
+      "properties": {
+        "operation": {
+          "const": "appoint-locksmith"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "candidate",
+            "decision"
+          ],
+          "properties": {
+            "candidate": {
+              "type": "object"
+            },
+            "decision": {
+              "$ref": "#/$defs/ownerDecision"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "arguments"
+      ],
+      "properties": {
+        "operation": {
+          "const": "revoke-decision"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "envelope",
+            "nonce"
+          ],
+          "properties": {
+            "envelope": {
+              "type": "object"
+            },
+            "nonce": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "arguments"
+      ],
+      "properties": {
+        "operation": {
+          "const": "reply"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "intakeId",
+            "content",
+            "changedIntent",
+            "decision"
+          ],
+          "properties": {
+            "intakeId": {
+              "type": "string"
+            },
+            "content": {
+              "type": "string"
+            },
+            "changedIntent": {
+              "type": "boolean"
+            },
+            "decision": {
+              "$ref": "#/$defs/ownerDecision"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "arguments"
+      ],
+      "properties": {
+        "operation": {
+          "const": "drafting-request"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "intakeId",
+            "charter"
+          ],
+          "properties": {
+            "intakeId": {
+              "type": "string"
+            },
+            "charter": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "arguments"
+      ],
+      "properties": {
+        "operation": {
+          "const": "authorization-source"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "intakeId",
+            "phase"
+          ],
+          "properties": {
+            "intakeId": {
+              "type": "string"
+            },
+            "phase": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "arguments"
+      ],
+      "properties": {
+        "operation": {
+          "const": "grant"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "intakeId",
+            "phase",
+            "terms",
+            "decision"
+          ],
+          "properties": {
+            "intakeId": {
+              "type": "string"
+            },
+            "phase": {
+              "type": "string"
+            },
+            "terms": {
+              "type": "object"
+            },
+            "decision": {
+              "$ref": "#/$defs/ownerDecision"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "arguments"
+      ],
+      "properties": {
+        "operation": {
+          "const": "control-session"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sessionId",
+            "disposition",
+            "decision"
+          ],
+          "properties": {
+            "sessionId": {
+              "type": "string"
+            },
+            "disposition": {
+              "type": "string"
+            },
+            "decision": {
+              "$ref": "#/$defs/ownerDecision"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "arguments"
+      ],
+      "properties": {
+        "operation": {
+          "const": "call"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sessionId",
+            "attemptId"
+          ],
+          "properties": {
+            "sessionId": {
+              "type": "string"
+            },
+            "attemptId": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "arguments"
+      ],
+      "properties": {
+        "operation": {
+          "const": "recover-response"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sessionId",
+            "attemptId"
+          ],
+          "properties": {
+            "sessionId": {
+              "type": "string"
+            },
+            "attemptId": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "arguments"
+      ],
+      "properties": {
+        "operation": {
+          "const": "present-mission"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "intakeId",
+            "version",
+            "appointments",
+            "expiresAt"
+          ],
+          "properties": {
+            "intakeId": {
+              "type": "string"
+            },
+            "version": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "appointments": {
+              "type": "object"
+            },
+            "expiresAt": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "arguments"
+      ],
+      "properties": {
+        "operation": {
+          "const": "review-mission"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "terms",
+            "disposition",
+            "lineDigests",
+            "rationale",
+            "decision"
+          ],
+          "properties": {
+            "terms": {
+              "type": "object"
+            },
+            "disposition": {
+              "type": "string"
+            },
+            "lineDigests": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            },
+            "rationale": {
+              "type": "string"
+            },
+            "decision": {
+              "$ref": "#/$defs/ownerDecision"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "arguments"
+      ],
+      "properties": {
+        "operation": {
+          "const": "reserve-mission"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "reviewId"
+          ],
+          "properties": {
+            "reviewId": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "arguments"
+      ],
+      "properties": {
+        "operation": {
+          "const": "deliver-handoff"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "intakeId"
+          ],
+          "properties": {
+            "intakeId": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "arguments"
+      ],
+      "properties": {
+        "operation": {
+          "const": "route-mission"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "missionId",
+            "decision"
+          ],
+          "properties": {
+            "missionId": {
+              "type": "string"
+            },
+            "decision": {
+              "$ref": "#/$defs/ownerDecision"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "arguments"
+      ],
+      "properties": {
+        "operation": {
+          "const": "expire-unused-reservation"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "intakeId"
+          ],
+          "properties": {
+            "intakeId": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "arguments"
+      ],
+      "properties": {
+        "operation": {
+          "const": "validate-step-one"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "intakeId"
+          ],
+          "properties": {
+            "intakeId": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "ownerDecision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "payload",
+        "signature"
+      ],
+      "properties": {
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schema",
+            "citadel_id",
+            "trust_fingerprint",
+            "effect",
+            "object_digest",
+            "issued_at",
+            "expires_at",
+            "nonce"
+          ],
+          "properties": {
+            "schema": {
+              "const": "imperium.citadel-owner-decision/v1"
+            },
+            "citadel_id": {
+              "type": "string"
+            },
+            "trust_fingerprint": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "effect": {
+              "type": "string"
+            },
+            "object_digest": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "issued_at": {
+              "type": "integer"
+            },
+            "expires_at": {
+              "type": "integer"
+            },
+            "nonce": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{48}$"
+            }
+          }
+        },
+        "signature": {
+          "type": "string",
+          "contentEncoding": "base64"
+        }
+      }
+    }
+  }
+}

@@ -15,12 +15,12 @@ final class ImperatorActsTest extends TestCase
         $root = sys_get_temp_dir().DIRECTORY_SEPARATOR.'imperium-acts-'.bin2hex(random_bytes(6));
         mkdir($root, 0700, true);
         $store = new ProceedingStore($root);
-        $store->persist([
+        \App\Tests\Imperium\Runtime\Support\HistoricalCuriaFixture::persist($store, [
             'proceeding_id' => 'proceeding-test-acts',
             'instance_id' => 'imperium-test',
             'manifest_id' => str_repeat('a', 64),
         ]);
-        $turn = $store->appendTurn('proceeding-test-acts', 'response-test-plan', 1, [
+        $turn = \App\Tests\Imperium\Runtime\Support\HistoricalCuriaFixture::appendTurn($store, 'proceeding-test-acts', 'response-test-plan', 1, [
             'schema' => 'imperium.curian-turn/v1',
             'proceeding_id' => 'proceeding-test-acts',
             'response_id' => 'response-test-plan',
@@ -59,8 +59,8 @@ final class ImperatorActsTest extends TestCase
         $root = sys_get_temp_dir().DIRECTORY_SEPARATOR.'imperium-acts-'.bin2hex(random_bytes(6));
         mkdir($root, 0700, true);
         $store = new ProceedingStore($root);
-        $store->persist(['proceeding_id' => 'proceeding-test-refusal', 'instance_id' => 'imperium-test']);
-        $store->appendTurn('proceeding-test-refusal', 'response-test-plan', 1, [
+        \App\Tests\Imperium\Runtime\Support\HistoricalCuriaFixture::persist($store, ['proceeding_id' => 'proceeding-test-refusal', 'instance_id' => 'imperium-test']);
+        \App\Tests\Imperium\Runtime\Support\HistoricalCuriaFixture::appendTurn($store, 'proceeding-test-refusal', 'response-test-plan', 1, [
             'seneschal' => ['disposition' => 'MISSION_PLAN_DRAFTED', 'mission_plan' => $this->missionPlan()],
             'resource_demands' => ['declared resource'],
         ]);
@@ -76,7 +76,7 @@ final class ImperatorActsTest extends TestCase
 
     public function testImperatorMayObjectToExactPlanAndReturnItForRevision(): void
     {
-        $root = sys_get_temp_dir().DIRECTORY_SEPARATOR.'imperium-acts-'.bin2hex(random_bytes(6));mkdir($root, 0700, true);$store = new ProceedingStore($root);$store->persist(['proceeding_id' => 'proceeding-test-objection', 'instance_id' => 'imperium-test']);$store->appendTurn('proceeding-test-objection', 'response-test-plan', 1, ['seneschal' => ['disposition' => 'MISSION_PLAN_DRAFTED', 'mission_plan' => $this->missionPlan()],'resource_demands' => []]);$acts = new ImperatorActs($store);
+        $root = sys_get_temp_dir().DIRECTORY_SEPARATOR.'imperium-acts-'.bin2hex(random_bytes(6));mkdir($root, 0700, true);$store = new ProceedingStore($root);\App\Tests\Imperium\Runtime\Support\HistoricalCuriaFixture::persist($store, ['proceeding_id' => 'proceeding-test-objection', 'instance_id' => 'imperium-test']);\App\Tests\Imperium\Runtime\Support\HistoricalCuriaFixture::appendTurn($store, 'proceeding-test-objection', 'response-test-plan', 1, ['seneschal' => ['disposition' => 'MISSION_PLAN_DRAFTED', 'mission_plan' => $this->missionPlan()],'resource_demands' => []]);$acts = new ImperatorActs($store);
         try{$objection=$acts->objectToPlan('proceeding-test-objection',1,'The proposed model cost ceiling is unacceptable.','objection-test-0001');self::assertSame('OBJECTED_RETURNED_FOR_REVISION',$objection['disposition']);self::assertFalse($objection['readiness']['plan_approved']);self::assertTrue($objection['readiness']['unresolved_plan_objection']);self::assertFalse($objection['readiness']['commissioning_ready']);self::assertFalse($objection['grants_execution_authority']);}
         finally{$this->removeTree($root);}
     }

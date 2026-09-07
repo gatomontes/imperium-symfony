@@ -174,7 +174,7 @@ final class TransactionalAuthorityConsumptionBatch12CoverageTest extends TestCas
     private function versionedInventory(string $path): array
     {
         $inventories = [];
-        foreach (file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [] as $line) {
+        foreach (array_merge(file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [], file(dirname($path).'/citadel-mission-formation-runtime-inventory-v1.tsv', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: []) as $line) {
             if (str_starts_with($line, '#')
                 || "inventory\tclassification\tpath\tdetail\tauthorizing_batch\tfocused_test" === $line) {
                 continue;

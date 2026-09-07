@@ -25,8 +25,9 @@ final class CurianGovernanceCognitionBoundaryTest extends TestCase
         self::assertStringContainsString('currentSeneschal', $resolver);
         self::assertStringContainsString('GCA913_CURIAN_LINEAGE_INVALID', $resolver);
         self::assertStringContainsString('GovernanceCognitionInvoker', $gateway);
-        self::assertStringContainsString("'assess-imperator-request'", $gateway);
-        self::assertStringContainsString("'advance-curian-planning'", $gateway);
+        self::assertStringContainsString('CMF112_NEW_REQUEST_USES_CITADEL_INTAKE', $gateway);
+        self::assertStringContainsString('CMF113_NEW_PLANNING_REQUIRES_CITADEL_AUTHORITY', $gateway);
+        self::assertStringContainsString("'exercisable' => false", $resolver);
         self::assertStringNotContainsString('AgentInterface', $gateway);
         self::assertStringContainsString('CurianGovernanceCognitionAuthorityResolver', $services);
         self::assertStringNotContainsString('@ai.agent.seneschal', $services);

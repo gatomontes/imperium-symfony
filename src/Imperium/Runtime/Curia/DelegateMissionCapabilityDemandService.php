@@ -94,7 +94,7 @@ final readonly class DelegateMissionCapabilityDemandService
 
         $this->validateChain($missionAuthorizationId, $authorization, $dossierId, $dossier, $reviewId, $review);
         $plan = $authorization['mission_plan'];
-        $this->validateDelegateDemandPlan($plan);
+        self::validateDelegateDemandPlan($plan);
 
         foreach (glob($this->demands.'/*.json') ?: [] as $path) {
             $prior = $this->read($path, 'CUR496_DELEGATE_MISSION_CAPABILITY_DEMAND_CONFLICT');
@@ -222,25 +222,25 @@ final readonly class DelegateMissionCapabilityDemandService
         }
     }
 
-    private function validateDelegateDemandPlan(mixed $plan): void
+    public static function validateDelegateDemandPlan(mixed $plan): void
     {
         if (!is_array($plan)
             || !is_string($plan['objective'] ?? null)
             || '' === trim($plan['objective'])
             || !is_string($plan['mission_seat'] ?? null)
             || 1 !== preg_match('/^[a-z0-9][a-z0-9.-]{2,127}$/', $plan['mission_seat'])
-            || !$this->validDuration($plan['bounded_duration'] ?? null)
-            || $this->containsPersonnelSelectionKey($plan)) {
+            || !self::validDuration($plan['bounded_duration'] ?? null)
+            || self::containsPersonnelSelectionKey($plan)) {
             throw new \RuntimeException('CUR495_DELEGATE_MISSION_CAPABILITY_DEMAND_PLAN_INVALID');
         }
         foreach (self::REQUIRED_LISTS as $field) {
-            if (!$this->nonEmptyUniqueStrings($plan[$field] ?? null)) {
+            if (!self::nonEmptyUniqueStrings($plan[$field] ?? null)) {
                 throw new \RuntimeException('CUR495_DELEGATE_MISSION_CAPABILITY_DEMAND_PLAN_INVALID');
             }
         }
     }
 
-    private function validDuration(mixed $duration): bool
+    private static function validDuration(mixed $duration): bool
     {
         return is_array($duration)
             && ['maximum', 'unit', 'starts_when', 'expires_when'] === array_keys($duration)
@@ -253,7 +253,7 @@ final readonly class DelegateMissionCapabilityDemandService
             && '' !== trim($duration['expires_when']);
     }
 
-    private function nonEmptyUniqueStrings(mixed $values): bool
+    private static function nonEmptyUniqueStrings(mixed $values): bool
     {
         if (!is_array($values) || [] === $values || array_values($values) !== $values) {
             return false;
@@ -267,13 +267,13 @@ final readonly class DelegateMissionCapabilityDemandService
         return array_values(array_unique($values)) === $values;
     }
 
-    private function containsPersonnelSelectionKey(array $value): bool
+    private static function containsPersonnelSelectionKey(array $value): bool
     {
         foreach ($value as $key => $nested) {
             if (is_string($key) && in_array(strtolower($key), ['profession', 'profession_id', 'profession_requirements', 'persona', 'persona_id', 'persona_version', 'persona_selection'], true)) {
                 return true;
             }
-            if (is_array($nested) && $this->containsPersonnelSelectionKey($nested)) {
+            if (is_array($nested) && self::containsPersonnelSelectionKey($nested)) {
                 return true;
             }
         }

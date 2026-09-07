@@ -14,7 +14,7 @@ final class ConstructionAuthorizationRequestServiceTest extends TestCase
     public function testCuriaRequestsButDoesNotGrantExactFoundryConstructionAuthority(): void
     {
         $root = sys_get_temp_dir().'/imperium-construction-request-'.bin2hex(random_bytes(6)); $store = new ProceedingStore($root);
-        $store->persist(['proceeding_id' => 'proceeding-test', 'instance_id' => 'imperium-test']);
+        \App\Tests\Imperium\Runtime\Support\HistoricalCuriaFixture::persist($store, ['proceeding_id' => 'proceeding-test', 'instance_id' => 'imperium-test']);
         $dispositionId = 'personnel-disposition-1234567890abcdef1234'; $professions = ['Cybersecurity assessor', 'Independent reviewer'];
         $disposition = ['schema' => 'imperium.guildhall-personnel-disposition/v1', 'disposition_id' => $dispositionId, 'instance_id' => 'imperium-test', 'proceeding_id' => 'proceeding-test',
             'unresolved_personnel_gaps' => $professions, 'disposition' => 'PERSONNEL_GAPS_REQUIRE_CONSTRUCTION', 'final_personnel_disposition' => true,

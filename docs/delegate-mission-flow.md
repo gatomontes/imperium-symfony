@@ -1,6 +1,49 @@
 # Current flow — Citadel mission formation
 
-## Current continuation — Citadel refusal and handoff recovery correction
+## Current disposition — commissioning readiness preparation
+
+Citadel Stages 1–3 and CF01/CF02 are accepted within the reviewed local/offline
+scope. See [independent acceptance](citadel-formation-correction-acceptance.md).
+Exact reviewed-tree integration: 645d53bdbb80d537ef0a7f226b8ad48f192ea1ef.
+Pending-review and local-only statements below describe preserved earlier runs.
+
+Current campaign: [Citadel operational readiness](next-campaign-citadel-operational-readiness.md).
+Current runner: [local readiness prompt](handoffs/citadel-operational-readiness-ready.md).
+
+R0: actual public prerequisites and producer/consumer map.
+R1: read-only preflight, owner artifacts and supported dormant adapters.
+R2: integrated offline rehearsal and exact owner commissioning runbook.
+R3: committed-code tests, readiness disposition and independent-review package.
+
+Flow: accepted formation mechanics -> verified public prerequisites and bounded
+transport -> reviewed owner commissioning package -> separately authorized
+commissioning -> first live bounded Castellan interview. Understanding still
+precedes separate drafting approval; mission approval, child handoff and receiving
+assessment remain distinct. This local campaign activates none of those effects.
+Preserve earlier test packets, owner ceremonies and Delegate Steps 1–69.
+
+## Historical campaign record
+
+
+## Current disposition — local correction complete, independent review pending
+
+`LOCAL_CORRECTION_COMPLETE_PENDING_INDEPENDENT_REVIEW`
+
+C0 reproduced both findings; C1 makes refusal terminal; C2 recognizes only exact
+verifiable completed child effects; C3 passed the full repository suite on
+`1a978ae42fbeaab55437768b88818fb40ba88676`: 2,729 tests, 53,069 assertions,
+no failures/errors/skips, with four unchanged historical worktree warnings.
+CF01 and CF02 are CLOSED_LOCAL. The final record is in the
+[correction report](citadel-formation-correction-report.md) and
+[review handoff](handoffs/citadel-formation-correction-review.md).
+
+The corrected implementation commits remain local. Independent review and later
+integration are separate. Flow remains intake -> bounded interview -> separate
+drafting approval -> exact mission review -> Curia handoff -> attributable
+receiving acceptance -> non-executing Step 1 validation. Historical recognition
+confers no new authority. Delegate Steps 1–69 remain terminal and preserved.
+
+## Published correction instructions (preserved history)
 
 Stages 1–3 exist in the local candidate e0386e75ce7619fbbeaac450af078d2d606df012.
 Review found CF01 (indirect reopening of a refused session) and CF02 (completed

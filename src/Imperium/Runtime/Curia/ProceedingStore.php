@@ -9,14 +9,17 @@ use App\Bootstrap\CanonicalJson;
 final readonly class ProceedingStore
 {
     private string $directory;
+    private \App\Imperium\Runtime\Citadel\Formation\LegacyFormationGuard $formationGuard;
 
     public function __construct(string $projectDir)
     {
         $this->directory = $projectDir.'/var/imperium/curia/proceedings';
+        $this->formationGuard = new \App\Imperium\Runtime\Citadel\Formation\LegacyFormationGuard($projectDir);
     }
 
     public function persist(array $proceeding): array
     {
+        $this->formationGuard->requireHistorical($proceeding, 'proceeding');
         $id = $proceeding['proceeding_id'] ?? null;
         if (!is_string($id) || '' === $id) {
             throw new \InvalidArgumentException('Curian proceeding identity is required.');
@@ -200,6 +203,7 @@ final readonly class ProceedingStore
             }
             $turn['sequence'] = $sequence;
             $turn['record_digest'] = hash('sha256', CanonicalJson::encode($turn));
+            $this->formationGuard->requireHistorical($turn, 'turn');
             $path = sprintf('%s/%s.turn.%06d.json', $this->directory, $proceedingId, $sequence);
             $temporary = $path.'.tmp.'.bin2hex(random_bytes(6));
             $json = json_encode($turn, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)."\n";
@@ -213,5 +217,14 @@ final readonly class ProceedingStore
             flock($handle, LOCK_UN);
             fclose($handle);
         }
+    }
+
+    public function requireHistoricalPlan(string $proceedingId, int $sequence): void
+    {
+        $proceeding = $this->find($proceedingId);
+        $turn = $this->turn($proceedingId, $sequence);
+        if (!is_array($proceeding) || !is_array($turn)) { throw new \RuntimeException('CMF111_FRESH_INPUT_REQUIRES_CITADEL_FORMATION'); }
+        $this->formationGuard->requireHistorical($proceeding, 'proceeding');
+        $this->formationGuard->requireHistorical($turn, 'turn');
     }
 }

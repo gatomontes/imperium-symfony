@@ -59,6 +59,9 @@ final readonly class ProfileElaborationSmokeService
 
     public function run(string $root, string $senateDisposition = 'ACCEPTED'): array
     {
+        // This development driver fabricates authority and a supplied plan. Its
+        // historical mechanics are exercised only by the test-owned driver.
+        throw new \RuntimeException('CMF113_NEW_PLANNING_REQUIRES_CITADEL_AUTHORITY');
         if (is_dir($root) || is_file($root)) throw new \RuntimeException('DEV01_SMOKE_ROOT_ALREADY_EXISTS');
 
         $store = new ProceedingStore($root);

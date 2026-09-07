@@ -84,6 +84,7 @@ final readonly class ImperatorActs
 
     private function plan(string $proceedingId, int $turnSequence): array
     {
+        $this->store->requireHistoricalPlan($proceedingId, $turnSequence);
         $proceeding = $this->store->find($proceedingId);
         $turn = $this->store->turn($proceedingId, $turnSequence);
         if (null === $proceeding || null === $turn) {

@@ -16,7 +16,7 @@ final class CommissioningServiceTest extends TestCase
         $root = sys_get_temp_dir().DIRECTORY_SEPARATOR.'imperium-commissioning-'.bin2hex(random_bytes(6));
         mkdir($root, 0700, true);
         $store = new ProceedingStore($root);
-        $store->persist(['proceeding_id' => 'proceeding-commission-test', 'instance_id' => 'imperium-test']);
+        \App\Tests\Imperium\Runtime\Support\HistoricalCuriaFixture::persist($store, ['proceeding_id' => 'proceeding-commission-test', 'instance_id' => 'imperium-test']);
         $demands = [
             'Guildhall professional and personnel disposition',
             'Garrison protected personnel inventory facts supplied to Guildhall',
@@ -24,7 +24,7 @@ final class CommissioningServiceTest extends TestCase
             'Secure document storage for draft outputs',
             'Standard office productivity tooling for drafting',
         ];
-        $store->appendTurn('proceeding-commission-test', 'response-plan-test', 1, [
+        \App\Tests\Imperium\Runtime\Support\HistoricalCuriaFixture::appendTurn($store, 'proceeding-commission-test', 'response-plan-test', 1, [
             'seneschal' => ['disposition' => 'MISSION_PLAN_DRAFTED', 'mission_plan' => $this->plan()],
             'resource_demands' => $demands,
         ]);
@@ -62,7 +62,7 @@ final class CommissioningServiceTest extends TestCase
         $root = sys_get_temp_dir().DIRECTORY_SEPARATOR.'imperium-commissioning-normalized-'.bin2hex(random_bytes(6));
         mkdir($root, 0700, true);
         $store = new ProceedingStore($root);
-        $store->persist(['proceeding_id' => 'proceeding-normalized-test', 'instance_id' => 'imperium-test']);
+        \App\Tests\Imperium\Runtime\Support\HistoricalCuriaFixture::persist($store, ['proceeding_id' => 'proceeding-normalized-test', 'instance_id' => 'imperium-test']);
         $demands = [
             'Profession and personnel disposition: Guildhall authority for personnel disposition and as institutional source of independent review',
             'Protected inventory access: Garrison supply of admitted Persona and personnel inventory and availability facts to Guildhall',
@@ -75,7 +75,7 @@ final class CommissioningServiceTest extends TestCase
             'Profession and personnel disposition: Guildhall authority for personnel disposition',
             'Tooling disposition: Armory authority for passive assessment tooling',
         ];
-        $store->appendTurn('proceeding-normalized-test', 'response-normalized-test', 1, [
+        \App\Tests\Imperium\Runtime\Support\HistoricalCuriaFixture::appendTurn($store, 'proceeding-normalized-test', 'response-normalized-test', 1, [
             'seneschal' => ['disposition' => 'MISSION_PLAN_DRAFTED', 'mission_plan' => $plan],
             'resource_demands' => $demands,
         ]);
