@@ -1,5 +1,30 @@
 # Citadel session refusal and handoff recovery correction
 
+## Current disposition — commissioning readiness preparation
+
+Citadel Stages 1–3 and CF01/CF02 are accepted within the reviewed local/offline
+scope. See [independent acceptance](citadel-formation-correction-acceptance.md).
+Exact reviewed-tree integration: 645d53bdbb80d537ef0a7f226b8ad48f192ea1ef.
+Pending-review and local-only statements below describe preserved earlier runs.
+
+Current campaign: [Citadel operational readiness](next-campaign-citadel-operational-readiness.md).
+Current runner: [local readiness prompt](handoffs/citadel-operational-readiness-ready.md).
+
+R0: actual public prerequisites and producer/consumer map.
+R1: read-only preflight, owner artifacts and supported dormant adapters.
+R2: integrated offline rehearsal and exact owner commissioning runbook.
+R3: committed-code tests, readiness disposition and independent-review package.
+
+Flow: accepted formation mechanics -> verified public prerequisites and bounded
+transport -> reviewed owner commissioning package -> separately authorized
+commissioning -> first live bounded Castellan interview. Understanding still
+precedes separate drafting approval; mission approval, child handoff and receiving
+assessment remain distinct. This local campaign activates none of those effects.
+Preserve earlier test packets, owner ceremonies and Delegate Steps 1–69.
+
+## Historical campaign record
+
+
 Status: LOCAL_CORRECTION_COMPLETE_PENDING_INDEPENDENT_REVIEW.
 CF01 and CF02 are CLOSED_LOCAL; independent acceptance of Stages 1–3 remains pending.
 This bounded continuation addresses two source-traced review findings. It does not
