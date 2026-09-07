@@ -24,6 +24,7 @@ final class ProtectedMissionAuthorityBatch4Test extends TestCase
         $trust=['identity'=>'disposable-mission-operator','competence'=>PublicTrust::COMPETENCE,'public_key'=>base64_encode($public),'not_before'=>time()-1,'expires_at'=>time()+600];
         $this->cli($root,['enroll',hash('sha256',$public)],$trust);
         $input=ProtectedMissionFixture::input();$input['mission']['target']=['repository'=>$repo,'commit'=>$commit,'tree'=>$tree];
+        \App\Tests\Imperium\Runtime\Support\HistoricalCuriaFixture::admit($root,$input,'protected-input');
         $cid=$this->cli($root,['prepare'],$input)['challenge_id'];
         $payload=$this->cli($root,['export',$cid]);
         $signature=base64_encode(sodium_crypto_sign_detached(CanonicalJson::encode($payload),sodium_crypto_sign_secretkey($pair)));

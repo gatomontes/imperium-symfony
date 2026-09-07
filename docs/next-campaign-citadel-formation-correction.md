@@ -1,6 +1,7 @@
 # Citadel session refusal and handoff recovery correction
 
-Status: LOCAL_CORRECTION_AUTHORIZED; implementation Stages 1–3 remain pending closure.
+Status: LOCAL_CORRECTION_COMPLETE_PENDING_INDEPENDENT_REVIEW.
+CF01 and CF02 are CLOSED_LOCAL; independent acceptance of Stages 1–3 remains pending.
 This bounded continuation addresses two source-traced review findings. It does not
 restart formation, revisit accepted policy, or commission the installed Citadel.
 Runner: [local prompt](handoffs/citadel-formation-correction-ready.md).
@@ -116,3 +117,19 @@ mission execution, branch deletion or force push is part of this correction.
 Existing authority decisions, institutions and completed Delegate Steps 1–69 remain.
 
 Nulla requies impiis.
+
+## Recorded local C0–C3 completion
+
+C0 reproduced both findings against the reviewed executable source. C1 terminal
+refusal and C2 exact historical-effect recognition are implemented and committed
+locally. C3 full-suite verification on `1a978ae42fbeaab55437768b88818fb40ba88676`
+(tree `7ef164554789ca46c51dd00f0d846d2b8b82c967`) passed 2,729 tests and 53,069
+assertions, with no failures/errors/skips and four unchanged historical warnings.
+Focused and command/DI proof passed. Both finding dispositions are CLOSED_LOCAL.
+
+See [the correction report](citadel-formation-correction-report.md),
+[changed-test map](citadel-formation-correction-changed-tests.md) and
+[review handoff](handoffs/citadel-formation-correction-review.md).
+The ZIP/manifest identify the tested executable tree and separate documentation
+review tree. Original evidence and worktrees remain preserved. No corrected-code
+push/merge, live call, real key, commissioning, activation or execution occurred.

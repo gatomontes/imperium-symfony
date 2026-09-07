@@ -60,7 +60,10 @@ final class ProtectedMissionFixture
         file_put_contents($this->root.'/authority.journal',strlen($bytes).' '.hash('sha256',$bytes)."\n".$bytes);
     }
     public function sign(array $payload): string { return base64_encode(sodium_crypto_sign_detached(CanonicalJson::encode($payload),$this->secret)); }
-    public function call(string $operation,array $arguments=[]): array {return (new AuthorityOwner($this->root))->dispatch(['operation'=>$operation,'arguments'=>$arguments]);}
+    public function call(string $operation,array $arguments=[]): array {
+        if ($operation==='prepare') HistoricalCuriaFixture::admit($this->root,$arguments,'protected-input');
+        return (new AuthorityOwner($this->root))->dispatch(['operation'=>$operation,'arguments'=>$arguments]);
+    }
     public function control(string $action): array
     {
         $payload=['schema'=>'imperium.protected-control/v1','operator_identity'=>$this->trust['identity'],'competence'=>PublicTrust::COMPETENCE,'trust_fingerprint'=>$this->trust['fingerprint'],'action'=>$action,'authorization_id'=>$this->id,'nonce'=>bin2hex(random_bytes(24)),'expires_at'=>time()+60];

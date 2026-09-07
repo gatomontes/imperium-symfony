@@ -14,7 +14,7 @@ use App\Imperium\Runtime\Conscription\OperationalManifestationSeatBindingService
 use App\Imperium\Runtime\Curia\OperationalDeploymentAuthorizationService;
 use App\Imperium\Runtime\Garrison\OperationalCustodyTransitionService;
 use App\Imperium\Runtime\Laboratorium\ProfileElaborationCognitionGateway;
-use App\Imperium\Runtime\Laboratorium\ProfileElaborationSmokeService;
+use App\Tests\Imperium\Runtime\Support\HistoricalProfileElaborationDriver as ProfileElaborationSmokeService;
 use App\Imperium\Runtime\Senate\ProfileExaminationQuestionCognitionGateway;
 use App\Imperium\Runtime\Senate\ProfileExaminationTestimonyCognitionGateway;
 use App\Imperium\Runtime\Senate\ProfileExaminationFindingCognitionGateway;

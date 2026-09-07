@@ -68,6 +68,7 @@ final readonly class ProfileDerivationAuthorizationRequestService
             throw new \RuntimeException('C140_PROFILE_SCOPE_SOURCE_INVALID');
         }
         $this->validatePlan($plan);
+        $this->proceedings->requireHistoricalPlan($proceedingId, $planTurnSequence);
         $capabilities = $commitment['capability_requirements'] ?? null;
         if (!is_array($capabilities) || [] === $capabilities || [] !== array_diff($capabilities, $plan['capability_requirements'])) {
             throw new \RuntimeException('C141_PROFILE_SCOPE_MISMATCH');

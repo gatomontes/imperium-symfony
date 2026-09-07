@@ -73,12 +73,6 @@ final readonly class CurianCognitionAuthorityService
             }
             return $existing;
         }
-        $temporary = $path.'.tmp.'.bin2hex(random_bytes(6));
-        if (false === file_put_contents($temporary, json_encode($authority, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)."\n", LOCK_EX)
-            || !rename($temporary, $path)) {
-            @unlink($temporary);
-            throw new \RuntimeException('GCA901_CURIAN_AUTHORITY_PERSISTENCE_FAILED');
-        }
-        return $authority;
+        throw new \RuntimeException('CMF113_NEW_PLANNING_REQUIRES_CITADEL_AUTHORITY');
     }
 }

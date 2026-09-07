@@ -14,7 +14,7 @@ final class PlanningCommissionRouterTest extends TestCase
     {
         $root = sys_get_temp_dir().'/imperium-router-'.bin2hex(random_bytes(6));
         $store = new ProceedingStore($root);
-        $store->persist(['proceeding_id' => 'proceeding-router-test', 'instance_id' => 'instance-router-test']);
+        \App\Tests\Imperium\Runtime\Support\HistoricalCuriaFixture::persist($store, ['proceeding_id' => 'proceeding-router-test', 'instance_id' => 'instance-router-test']);
         foreach (['guildhall' => 'guildhall.guildmaster', 'armory' => 'armory.armorer'] as $name => $target) {
             $store->persistCommission('proceeding-router-test', 'planning-'.$name.'-12345678', [
                 'schema' => 'imperium.planning-commission/v1',

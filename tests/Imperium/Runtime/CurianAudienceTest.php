@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 final class CurianAudienceTest extends TestCase
 {
-    public function testOpensAndReplaysDurableProceedingFromReadyCuria(): void
+    public function testFreshAudienceRefusesBeforeCognitionEvenWhenCuriaReady(): void
     {
         $root = sys_get_temp_dir().DIRECTORY_SEPARATOR.'imperium-curia-'.bin2hex(random_bytes(6));
         mkdir($root, 0700, true);
@@ -23,18 +23,10 @@ final class CurianAudienceTest extends TestCase
         $audience = new CurianAudience($bootstrap, new ProceedingStore($root), $this->seneschal($calls), new CurianCognitionAuthorityService($root));
 
         try {
-            $first = $audience->open('Prepare a cybersecurity assessment mission.');
-            $replay = $audience->open('Prepare a cybersecurity assessment mission.');
-
-            self::assertSame($first, $replay);
-            self::assertSame(1, $calls->count, 'A durable replay must not invoke Seneschal cognition twice.');
-            self::assertSame('ADMITTED_FOR_PLANNING', $first['status']);
-            self::assertSame('PROCEEDING_OPENED', $first['chamberlain']['disposition']);
-            self::assertSame('REQUEST_RECORDED', $first['secretary']['disposition']);
-            self::assertSame('ADMITTED_FOR_PLANNING', $first['seneschal']['disposition']);
-            self::assertFalse($first['authorization_required']);
-            self::assertFileExists($root.'/var/imperium/curia/proceedings/'.$first['proceeding_id'].'.json');
+            $this->expectExceptionMessage('CMF112_NEW_REQUEST_USES_CITADEL_INTAKE');
+            $audience->open('Prepare a cybersecurity assessment mission.');
         } finally {
+            self::assertSame(0, $calls->count);
             $this->removeTree($root);
         }
     }
@@ -52,6 +44,7 @@ final class CurianAudienceTest extends TestCase
             $this->expectExceptionMessage('C01_CURIA_NOT_READY');
             $audience->open('Prepare a mission.');
         } finally {
+            self::assertSame(0, $calls->count);
             $this->removeTree($root);
         }
     }

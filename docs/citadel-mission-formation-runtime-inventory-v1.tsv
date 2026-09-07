@@ -1,0 +1,4 @@
+# Citadel formation Stages 1–3 authority consumers; supplements frozen v1 evidence.
+inventory	classification	path	detail	authorizing_batch	focused_test
+RUNTIME_CANDIDATE	APPROVED_POST_BATCH12_SUCCESSOR	src/Imperium/Runtime/Citadel/Formation/FormationCognition.php	Exact formation authority and aggregate reservation transaction	CITADEL_MISSION_FORMATION_STAGES_1_3	CitadelMissionFormationTest
+RUNTIME_CANDIDATE	APPROVED_POST_BATCH12_SUCCESSOR	src/Imperium/Runtime/Clavium/FormationSessionLeaseService.php	Exact formation authority and aggregate reservation transaction	CITADEL_MISSION_FORMATION_STAGES_1_3	CitadelMissionFormationTest

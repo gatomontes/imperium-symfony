@@ -45,7 +45,7 @@ final class GuildhallSummonsServiceTest extends TestCase
             'chamberlain' => ['occupant' => $this->occupantRef($occupants['chamberlain'], 'chamberlain')],
         ];
         $proceeding['record_digest'] = hash('sha256', CanonicalJson::encode($proceeding));
-        $proceedings->persist($proceeding);
+        \App\Tests\Imperium\Runtime\Support\HistoricalCuriaFixture::persist($proceedings, $proceeding);
         $packet = [
             'schema' => 'imperium.planning-commission/v1',
             'commission_id' => $commissionId,

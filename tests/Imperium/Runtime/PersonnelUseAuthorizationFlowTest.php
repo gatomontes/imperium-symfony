@@ -91,7 +91,7 @@ final class PersonnelUseAuthorizationFlowTest extends TestCase
     {
         $root = sys_get_temp_dir().'/imperium-personnel-use-auth-'.bin2hex(random_bytes(6));
         $store = new ProceedingStore($root);
-        $store->persist(['proceeding_id' => 'proceeding-test', 'instance_id' => 'imperium-test']);
+        \App\Tests\Imperium\Runtime\Support\HistoricalCuriaFixture::persist($store, ['proceeding_id' => 'proceeding-test', 'instance_id' => 'imperium-test']);
         $dispositionId = 'personnel-use-disposition-'.str_repeat('a', 20);
         $disposition = [
             'schema' => 'imperium.guildhall-personnel-use-disposition/v1',

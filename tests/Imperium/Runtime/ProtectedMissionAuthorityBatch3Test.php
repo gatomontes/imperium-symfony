@@ -19,6 +19,8 @@ final class ProtectedMissionAuthorityBatch3Test extends TestCase
         self::assertSame(2,$this->cli($root,['trust'])[0]);
         $enrollment=$this->cli($root,['enroll',hash('sha256',$public)],json_encode($trust)); self::assertSame(0,$enrollment[0],$enrollment[2]);
         $input=ProtectedMissionFixture::input();
+        self::assertSame(2,$this->cli($root,['prepare'],json_encode($input))[0], 'Fresh supplied plans cannot bypass Citadel.');
+        \App\Tests\Imperium\Runtime\Support\HistoricalCuriaFixture::admit($root,$input,'protected-input');
         $prepared=$this->cli($root,['prepare'],json_encode($input)); self::assertSame(0,$prepared[0],$prepared[2]);
         $cid=json_decode($prepared[1],true)['challenge_id'];
         $export=$this->cli($root,['export',$cid]); self::assertSame(0,$export[0],$export[2]);

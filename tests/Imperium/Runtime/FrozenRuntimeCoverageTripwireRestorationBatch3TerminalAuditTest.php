@@ -147,6 +147,7 @@ final class FrozenRuntimeCoverageTripwireRestorationBatch3TerminalAuditTest exte
         $this->roots[] = $root;
         $this->copyDirectory($sourceRoot.'/src/Imperium/Runtime', $root.'/src/Imperium/Runtime');
         foreach ([
+            'citadel-mission-formation-runtime-inventory-v1.tsv',
             'transactional-authority-consumption-runtime-coverage-snapshot.tsv',
             'frozen-runtime-coverage-tripwire-restoration-inventory-v1.tsv',
             'frozen-runtime-coverage-tripwire-restoration-activation-disposition-exceptions-v1.tsv',

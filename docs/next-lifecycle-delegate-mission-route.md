@@ -1,6 +1,24 @@
 # Next lifecycle: Delegate mission route
 
-## Current continuation — Citadel refusal and handoff recovery correction
+## Current disposition — local correction complete, independent review pending
+
+`LOCAL_CORRECTION_COMPLETE_PENDING_INDEPENDENT_REVIEW`
+
+C0 reproduced both findings; C1 makes refusal terminal; C2 recognizes only exact
+verifiable completed child effects; C3 passed the full repository suite on
+`1a978ae42fbeaab55437768b88818fb40ba88676`: 2,729 tests, 53,069 assertions,
+no failures/errors/skips, with four unchanged historical worktree warnings.
+CF01 and CF02 are CLOSED_LOCAL. The final record is in the
+[correction report](citadel-formation-correction-report.md) and
+[review handoff](handoffs/citadel-formation-correction-review.md).
+
+The corrected implementation commits remain local. Independent review and later
+integration are separate. Flow remains intake -> bounded interview -> separate
+drafting approval -> exact mission review -> Curia handoff -> attributable
+receiving acceptance -> non-executing Step 1 validation. Historical recognition
+confers no new authority. Delegate Steps 1–69 remain terminal and preserved.
+
+## Published correction instructions (preserved history)
 
 Stages 1–3 exist in the local candidate e0386e75ce7619fbbeaac450af078d2d606df012.
 Review found CF01 (indirect reopening of a refused session) and CF02 (completed
