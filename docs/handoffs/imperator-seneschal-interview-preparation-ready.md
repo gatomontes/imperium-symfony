@@ -1,3 +1,12 @@
+> SUPERSEDED DIRECTION: Citadel now owns new-request intake and proposal preparation.
+> Understanding alone does not permit drafting; a separate Imperator decision is required.
+> Prior local Batch 0 at 7eb2e9abee148e024d227aa7809dfd92979af43f is complete and
+> reviewed as preparation. Preserve its findings; do not run this old prompt or
+> treat its proposed Stage 1 as authorized.
+> Current campaign: /docs/next-campaign-citadel-mission-formation.md.
+> Current local runner: /docs/handoffs/citadel-mission-formation-preparation-ready.md.
+> Earlier selection and authority wording below is historical.
+
 # Local handoff: Imperator–Seneschal interview Preparation Batch 0
 
 Status: ready for local preparation only.

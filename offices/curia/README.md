@@ -1,10 +1,10 @@
 # Curia
 
-Curia is the mission-specific governing Office of one Imperium instance. It owns the planning proceeding, mission dossier, executive deliberation, mission decisions, and mission orchestration within the exact authority granted to that instance.
+Curia is the governing Office of one approved mission instance. Citadel owns new-request intake and proposal preparation, then hands the approved mission to a legitimately constituted Curia. Curia owns its mission dossier, executive deliberation, bounded planning/amendments and orchestration under its exact mandate. See /contracts/citadel-mission-intake.md.
 
 ## Migration status
 
-These files define the active architecture pinned by the executable bootstrap manifest. Curia is the single governing runtime; its resident Seats are Seneschal, Chamberlain, and the optional Secretary.
+These files define the approved target responsibilities. Source amendments do not activate a new bootstrap manifest or Profile. Curia governs its own mission under a coordinating Citadel; its resident functions are Seneschal, Chamberlain and a cognitive Secretary, normally Isolde. Current runtime mapping and migration remain to be verified.
 
 ## Constituents
 
@@ -15,7 +15,7 @@ These files define the active architecture pinned by the executable bootstrap ma
 - [`profile-seneschal.md`](profile-seneschal.md) — universal Seneschal qualification.
 - [`seat-resident-chamberlain.md`](seat-resident-chamberlain.md) — Curia's coordination Seat.
 - [`profile-chamberlain.md`](profile-chamberlain.md) — universal Chamberlain qualification.
-- [`seat-resident-secretary.md`](seat-resident-secretary.md) — Curia's optional Secretary Seat.
+- [`seat-resident-secretary.md`](seat-resident-secretary.md) — Curia's cognitive Secretary Seat.
 - [`profile-secretary.md`](profile-secretary.md) — Curial Secretary qualification, provisionally used by Isolde.
 - [`seat-demand-curialis-{specialization}.md`](seat-demand-curialis-{specialization}.md) — mission-specific Curialis Seat demand template.
 - [`profile-curialis-{specialization}.md`](profile-curialis-{specialization}.md) — mission-specific Curialis qualification template.
