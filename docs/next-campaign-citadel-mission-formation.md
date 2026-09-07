@@ -1,6 +1,14 @@
 # Citadel-led mission formation and Curia handoff campaign
 
-Status: selected; local Preparation Batch 0 authorized.
+Status: Preparation Batch 0 reviewed; implementation Stages 1–3 authorized locally.
+The owner provisionally accepted the four recommendations and directed continuation.
+Current policy: [citadel-mission-formation-decisions.md](citadel-mission-formation-decisions.md).
+Current runner: [implementation handoff](handoffs/citadel-mission-formation-implementation-ready.md).
+Owner clarification during preparation: Castellan is Citadel's cognitive holder.
+See [preparation report](citadel-mission-formation-preparation.md) and
+[completion handoff](handoffs/citadel-mission-formation-preparation-complete.md).
+Stages 1–3 are authorized but remain unstarted. Historical preparation instructions
+and restrictions below apply to the completed Batch 0 only.
 The preceding Imperator–Seneschal interview campaign is superseded in direction;
 its completed preparation is retained as evidence, not restarted or discarded.
 
@@ -13,9 +21,11 @@ draft → Imperator drafting approval → Citadel proposal → separate mission
 approval → legitimate new Curia constitution and handoff → receiving Seneschal
 acceptance within mission authority.
 
-The full campaign aims at a reviewable Citadel-to-Curia path. This local start
-authorizes only the focused preparation needed to identify the cognitive holder,
-resource policy, reusable services and smallest complete implementation.
+The current local run implements the complete Citadel-to-Curia path in coherent
+Stages 1–3, with offline proof and sanitized local commits. The accepted decisions
+and implementation handoff control this work. Do not repeat completed preparation
+or request these decisions again. Finish at Seneschal handoff acceptance and the
+preserved non-executing Step 1 boundary.
 No new Secretariat, automatic provisional Curia or extra executive tier is selected.
 
 ## Evidence already available
@@ -46,7 +56,7 @@ missing exact cognitive artifact and response provenance; unenforced ceilings;
 Charter/revision gaps; and Delegate Step 1 schema mismatch. Revalidate only where
 the changed Citadel ownership or current source affects the conclusion.
 
-## Preparation Batch 0
+## Historical Preparation Batch 0 (completed)
 
 1. **Ground the current implementation.** Read the new contract and required
    sources in the handoff. Verify local branch, HEAD, worktrees and source-review
@@ -94,14 +104,14 @@ the changed Citadel ownership or current source affects the conclusion.
    that source and existing approval cannot resolve. Finish all authorized
    preparation before requesting those decisions.
 
-## Provisional implementation sequence
+## Authorized local implementation sequence
 
 | Stage | Deliverable | Present status |
 | --- | --- | --- |
-| 0 | Changed-boundary inventory, cognitive-holder/resource decisions and minimum implementation plan | Authorized locally |
-| 1 | Citadel intake, mission-registry coordination and authorized cognitive interview | Pending preparation decisions |
-| 2 | Explicit drafting permission, Citadel proposal and exact-version review/revision | Pending preparation decisions |
-| 3 | Approved Curia constitution/handoff, receiving Seneschal acceptance and integrated proof | Pending preparation decisions |
+| 0 | Changed-boundary inventory, cognitive-holder/resource decisions and minimum implementation plan | Reviewed; decisions provisionally accepted |
+| 1 | Citadel intake, mission-registry coordination and authorized cognitive interview | Authorized locally; unstarted |
+| 2 | Explicit drafting permission, Citadel proposal and exact-version review/revision | Authorized locally; unstarted |
+| 3 | Approved Curia constitution/handoff, receiving Seneschal acceptance and integrated proof | Authorized locally; unstarted |
 
 Revise grouping if dependencies require it; do not invent stages to meet a count.
 Operational activation requires a separate concrete owner-reviewed readiness plan.
@@ -131,7 +141,7 @@ Future proof must establish:
   cognitive identity, provider-response provenance and budget enforcement are
   actually exercised in isolated tests, with uncertainty never converted to retry.
 
-## Deliverables and boundaries
+## Historical preparation deliverables and boundaries
 
 Write:
 - docs/citadel-mission-formation-preparation.md

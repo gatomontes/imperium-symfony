@@ -7,19 +7,26 @@ Prior local Preparation Batch 0 at 7eb2e9abee148e024d227aa7809dfd92979af43f rema
 reviewed evidence; it is not restarted or claimed as merged implementation.
 
 Campaign: [next-campaign-citadel-mission-formation.md](next-campaign-citadel-mission-formation.md).
-Local runner: [handoffs/citadel-mission-formation-preparation-ready.md](handoffs/citadel-mission-formation-preparation-ready.md).
+Local runner: [handoffs/citadel-mission-formation-implementation-ready.md](handoffs/citadel-mission-formation-implementation-ready.md).
 Contract: [citadel-mission-intake.md](../contracts/citadel-mission-intake.md).
 
-Only focused Preparation Batch 0 is currently authorized: establish the competent
-Citadel cognitive holder, cross-mission registry/admission, interview resource
-authority, distinct drafting permission and approved Curia handoff. Reuse prior
-source findings and return the smallest implementation plus unresolved decisions.
-Production implementation and live activity remain pending.
+Preparation Batch 0 review is accepted. The owner provisionally accepted the
+four implementation recommendations and directed continuation on 2026-09-07.
+Castellan is Citadel's cognitive holder; qualification and activation remain
+prerequisites. Select one Citadel registry with registered child Curiae, a bounded
+interview-session grant, a separate exact drafting decision, and disclosed
+mission-specific constitution/appointment acts combined where terms are known.
+
+Decisions: [citadel-mission-formation-decisions.md](citadel-mission-formation-decisions.md).
+Historical report: [citadel-mission-formation-preparation.md](citadel-mission-formation-preparation.md).
+Stages 1–3 are authorized for local implementation and offline proof; none is
+claimed implemented yet. Continue through attributable handoff acceptance and
+non-executing Step 1 validation. Live activation needs later readiness review.
 
 ## Required entry phase before existing Delegate Step 1
 
 1. Citadel receives and routes the request. A new inquiry creates no Curia.
-2. Its competent cognitive holder discusses intent and existing mission overlap
+2. Castellan, its cognitive holder, discusses intent and existing mission overlap
    with the Imperator. Registry facts inform judgment; similarity is not refusal.
 3. Attributable “I understand” closes the interview only. Dissent remains separate.
 4. Citadel discloses drafting scope/resources/limits and asks:
@@ -39,9 +46,11 @@ Production implementation and live activity remain pending.
     Delegate Step 1 still needs its approved plan and competent authority records.
 
 Intake cognition needs legitimate authority before its first call. Drafting
-permission cannot authorize it retroactively. The responsible Citadel officer
-and per-attempt/session funding policy remain preparation decisions, not inferred
-appointments or standing grants. No new Secretariat or provisional Curia is selected.
+permission cannot authorize it retroactively. Castellan is the owner-selected
+Citadel cognitive holder. Implement one authentic bounded interview-session
+grant with aggregate reservations and per-call enforcement; do not request approval
+for each question within unchanged bounds. No actual appointment, tariff or live
+grant is created by this implementation policy. No new Secretariat or provisional Curia is selected.
 
 This is approved target order, not a claim of implementation. Delegate Steps 1–69
 and all completed mission evidence remain intact. Runtime namespace names and

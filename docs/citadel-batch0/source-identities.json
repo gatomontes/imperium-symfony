@@ -1,0 +1,1218 @@
+{
+  "schema": "imperium.citadel-batch0-source-identities/v1",
+  "baseline": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+  "baseline_tree": "6b16f4e1ad8620c6a549af3bb3433a2886d85bbe",
+  "prior_preparation": "7eb2e9abee148e024d227aa7809dfd92979af43f",
+  "source_review": "8244afa5630b06973cc4a52dce6ed96f42a444f3",
+  "required_count": 42,
+  "source_count": 80,
+  "citadel_runtime_inventory": [
+    "src/Imperium/Runtime/Citadel/CommissionerCognitionResultReviewService.php",
+    "src/Imperium/Runtime/Citadel/DeepSeekDelegateModelConfiguration.php",
+    "src/Imperium/Runtime/Citadel/DeepSeekDelegatePlatformAdapter.php",
+    "src/Imperium/Runtime/Citadel/DeepSeekSymfonyPlatformAdapter.php",
+    "src/Imperium/Runtime/Citadel/DelegateMissionBoundedCognitionTurnService.php",
+    "src/Imperium/Runtime/Citadel/DelegateMissionCognitionGateway.php",
+    "src/Imperium/Runtime/Citadel/DelegateMissionTurnRecoveryService.php",
+    "src/Imperium/Runtime/Citadel/DelegateProviderInvoker.php",
+    "src/Imperium/Runtime/Citadel/LegateBoundedCognitionTurnService.php",
+    "src/Imperium/Runtime/Citadel/LegateCognitionGateway.php",
+    "src/Imperium/Runtime/Citadel/LegateCognitionResultDeliveryService.php",
+    "src/Imperium/Runtime/Citadel/LegateCognitionTurnAuthorizationService.php",
+    "src/Imperium/Runtime/Citadel/LegateGovernedCommissionDispositionService.php",
+    "src/Imperium/Runtime/Citadel/LegateGovernedCommissionIssuanceService.php",
+    "src/Imperium/Runtime/Citadel/SymfonyAiBrokeredDelegateProviderInvoker.php",
+    "src/Imperium/Runtime/Citadel/SymfonyAiDelegateMissionCognitionGateway.php",
+    "src/Imperium/Runtime/Citadel/SymfonyAiLegateCognitionGateway.php"
+  ],
+  "office_directories": [
+    "offices/conscription",
+    "offices/curia",
+    "offices/foundry",
+    "offices/garrison",
+    "offices/guildhall",
+    "offices/hagiography",
+    "offices/laboratorium",
+    "offices/senate",
+    "offices/studium"
+  ],
+  "unchanged_source_check": {
+    "from": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+    "to": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+    "paths": [
+      "src",
+      "tests",
+      "config",
+      ".github",
+      "tools"
+    ],
+    "diff": []
+  },
+  "search_bounds": [
+    "tracked offices, contracts, src, config, tests, todo",
+    "Citadel/registry/root/appointment/Charter references and relevant callers",
+    "Castellan references: historical migration and initial-bootstrap exclusion"
+  ],
+  "verification": "static source review; prior runtime characterization reused, not rerun; no live state inspected",
+  "sources": [
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": ".github/workflows/phpunit.yml",
+      "git_blob": "16f87e5317f15e8b578da873529e3ad0b2e1e583",
+      "git_bytes_sha256": "b703d046012b8bdd89335d1ef8f0d3af8c222bf812e110bc6be8b8ead675f935",
+      "bytes": 571,
+      "line_count": 27,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "16f87e5317f15e8b578da873529e3ad0b2e1e583",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/.github/workflows/phpunit.yml"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "config/packages/routing.yaml",
+      "git_blob": "0f34f872ce35ab780aba3b249d2603274273a28b",
+      "git_bytes_sha256": "a6c2ec4696fe6a51cab7eb5644fa6609a5444d44647aad517f68038fab899045",
+      "bytes": 318,
+      "line_count": 10,
+      "required_reading": false,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/config/packages/routing.yaml"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "config/routes.yaml",
+      "git_blob": "cef258cdf80b56b9b5a7b081eaf325ff338c8e45",
+      "git_bytes_sha256": "542faedcdca86c6c087450a992ac0bbebef06ba96f321105f89ed2668db0a7f6",
+      "bytes": 421,
+      "line_count": 11,
+      "required_reading": false,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/config/routes.yaml"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "config/services.yaml",
+      "git_blob": "6d20434882acd67b555f91d1f238e1a825960a12",
+      "git_bytes_sha256": "ce13733ba4f5581517bcb42b0c752837616eb270981f3c95d4a89674660fe824",
+      "bytes": 13820,
+      "line_count": 316,
+      "required_reading": false,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "6d20434882acd67b555f91d1f238e1a825960a12",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/config/services.yaml"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "contracts/bootstrap-manifest.md",
+      "git_blob": "5db8572a71385b860cb05b1185c3b56f0d5fd370",
+      "git_bytes_sha256": "3a8c0b5f9cbb16978c532924c03826665a6bb7d468ec26a8da8a882620e4fd28",
+      "bytes": 2190,
+      "line_count": 34,
+      "required_reading": false,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/contracts/bootstrap-manifest.md"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "contracts/bootstrap-state-machine.md",
+      "git_blob": "0120fd2e52b96e65c54799fda757f356cf9628f4",
+      "git_bytes_sha256": "474abe6d25a5f98882db75f940731be6f66358dabc32294e9e76a363133253e4",
+      "bytes": 3164,
+      "line_count": 60,
+      "required_reading": true,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/contracts/bootstrap-state-machine.md"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "contracts/citadel-mission-intake.md",
+      "git_blob": "268368fc104ced00096ec1457183086c51d12496",
+      "git_bytes_sha256": "fef1d4dce18c38fe7135cba3cd7d79e57ae04381642c116ab50584270ec6edf3",
+      "bytes": 8610,
+      "line_count": 136,
+      "required_reading": true,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/contracts/citadel-mission-intake.md"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "contracts/imperator-planning-dossier-review.md",
+      "git_blob": "04b98d94cd802dfc3bd63e6785ef99744912e876",
+      "git_bytes_sha256": "03159c8b86f0a72571a16b17608527c8641a8d58ca4f7b089d7ac085365fef13",
+      "bytes": 1056,
+      "line_count": 9,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "83e8c5e2ef60c6c80bd6d7bdce8b6f359ca13fdf",
+        "unchanged": false,
+        "disposition": "current source reread"
+      },
+      "packet_path": "sources/4a2cda76/contracts/imperator-planning-dossier-review.md"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "contracts/mission-planning.md",
+      "git_blob": "e1720818562ae6c43c20a9b7988ab9f29c1bc3ff",
+      "git_bytes_sha256": "34e9729f166aa4443f892edd064de4cdd60852040b22f8b183c12d56f25103d0",
+      "bytes": 17371,
+      "line_count": 211,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "82ecdd498a994f1066d1c41f9f4016f1633e0c40",
+        "unchanged": false,
+        "disposition": "current source reread"
+      },
+      "packet_path": "sources/4a2cda76/contracts/mission-planning.md"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "contracts/planning-dossier.md",
+      "git_blob": "fe17992d501356a96ffec558c6c2b1b15050e2a5",
+      "git_bytes_sha256": "b2a126177ad3058231677dcc51b84a2308e94eebba35491ad9f739a434f81c98",
+      "bytes": 1664,
+      "line_count": 12,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "7b59b7e79bee10f43069499148bba44c7f5e5790",
+        "unchanged": false,
+        "disposition": "current source reread"
+      },
+      "packet_path": "sources/4a2cda76/contracts/planning-dossier.md"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "contracts/seneschal-succession.md",
+      "git_blob": "35d861dba6f2a4601f66a841c5ad00f546dfcb04",
+      "git_bytes_sha256": "c9836d6cb6f9601ec93075563b5171ab06821e1b4e1d660a77615a7199c17e49",
+      "bytes": 4700,
+      "line_count": 88,
+      "required_reading": false,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/contracts/seneschal-succession.md"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "contracts/seneschal-suitability.md",
+      "git_blob": "da02727732cb4860dd15c92c0c01c2a3c8412de6",
+      "git_bytes_sha256": "e2d68be5caa6ca25d92460e0cbd848c034b8209f85a9e2b909825cb69051ba9f",
+      "bytes": 3181,
+      "line_count": 67,
+      "required_reading": true,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/contracts/seneschal-suitability.md"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "docs/curia-migration-plan.md",
+      "git_blob": "d1cda19c627b762aeafc00c9ad54582a54decc9c",
+      "git_bytes_sha256": "31b0c5c1b072f56a0d4cf8fa1e7192031851eae9a8fccdaf4486941b3a3fb0e4",
+      "bytes": 5302,
+      "line_count": 123,
+      "required_reading": false,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/docs/curia-migration-plan.md"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "docs/delegate-mission-flow.md",
+      "git_blob": "06d80d25cbb5379a22fc4671f3bf2370f1679bde",
+      "git_bytes_sha256": "9538dd7c455b7ab40bc0fcc39b4c4f1085f32bd32ff2be6fba2e4897f6267748",
+      "bytes": 160949,
+      "line_count": 2629,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "b22a460a06fdc565520ccf371219bc06413dd1e3",
+        "unchanged": false,
+        "disposition": "current source reread"
+      },
+      "packet_path": "sources/4a2cda76/docs/delegate-mission-flow.md"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "docs/handoffs/citadel-mission-formation-preparation-ready.md",
+      "git_blob": "9907112193174873324645b87a107c959d865438",
+      "git_bytes_sha256": "cb648326200c023563f5150ac8a6a8ad22c7bcc84261cdbb7d42f030c25d3ec2",
+      "bytes": 5957,
+      "line_count": 112,
+      "required_reading": true,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/docs/handoffs/citadel-mission-formation-preparation-ready.md"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "docs/next-campaign-citadel-mission-formation.md",
+      "git_blob": "371287ca4ad1b2572b38bd6f91f605b5be65e9b7",
+      "git_bytes_sha256": "7fe5159bf0dbb4722fb3ff01b5938b1b50136442e44bb5ff8296e4603044ef26",
+      "bytes": 9647,
+      "line_count": 153,
+      "required_reading": true,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/docs/next-campaign-citadel-mission-formation.md"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "docs/next-lifecycle-delegate-mission-route.md",
+      "git_blob": "4e0f4df6870ee2d795673be2c854f991c301a2c0",
+      "git_bytes_sha256": "aea257b7310bdd3309d4e0b3f3bae5d2d2d4eab1f707fd83abaab81abb7a5b2e",
+      "bytes": 41114,
+      "line_count": 679,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "24d6fddda21b5793499385202d2fed9273beaeea",
+        "unchanged": false,
+        "disposition": "current source reread"
+      },
+      "packet_path": "sources/4a2cda76/docs/next-lifecycle-delegate-mission-route.md"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "imperium-doctrine.md",
+      "git_blob": "a66649486273438780bda7b208f9c12681610b3c",
+      "git_bytes_sha256": "7b8d38e103f5acb9e0442690a0be0755e026aa67abfd27cba163213b6abed92d",
+      "bytes": 22365,
+      "line_count": 290,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "3e53be8f393badd85de0d7d01c0365ba32c64bd1",
+        "unchanged": false,
+        "disposition": "current source reread"
+      },
+      "packet_path": "sources/4a2cda76/imperium-doctrine.md"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "offices/README.md",
+      "git_blob": "71903f2f6867d4b19200fefbf8b70808dbfd67d0",
+      "git_bytes_sha256": "0e1360465b248cf509d626bbdd6b78d5f31662e2600adecd7aea0c96e98c04c7",
+      "bytes": 7286,
+      "line_count": 92,
+      "required_reading": true,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/offices/README.md"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "offices/curia/README.md",
+      "git_blob": "50a05eb0b224bd29435db47823846f37ac481903",
+      "git_bytes_sha256": "6577fff3074861b8b1eb4facb8735450cf19657e93c919cf43a169c44c4b9b40",
+      "bytes": 2198,
+      "line_count": 27,
+      "required_reading": true,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/offices/curia/README.md"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "offices/curia/doctrine.md",
+      "git_blob": "ac15eccbcf33d99684c50a343502188235d83762",
+      "git_bytes_sha256": "64a032ff978ce23512977b04a3f69b8f4ce5fb512f9d10815decea31bfac70f9",
+      "bytes": 8388,
+      "line_count": 126,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "9396a47e9b4d160001641d2586df5d51ef32698e",
+        "unchanged": false,
+        "disposition": "current source reread"
+      },
+      "packet_path": "sources/4a2cda76/offices/curia/doctrine.md"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "offices/curia/mechanics.md",
+      "git_blob": "8ea444afe30e61190862ea9273f377b5a43b15d2",
+      "git_bytes_sha256": "b90b4d6e97f15d6601ca6b9d9f37ecadfc88a8f4d6c42d79aca8e09b5cb08d62",
+      "bytes": 14138,
+      "line_count": 156,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "87f2f1b5f3e9409e0b8174ccbe5f81c1085715d5",
+        "unchanged": false,
+        "disposition": "current source reread"
+      },
+      "packet_path": "sources/4a2cda76/offices/curia/mechanics.md"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "offices/curia/profile-secretary.md",
+      "git_blob": "de53463521ab889d363dab18fb9205896c7a33f0",
+      "git_bytes_sha256": "c2fb0f4d1a813374d275e7aeb7f280f86809597ef8460827d258a0c351e65a2d",
+      "bytes": 1502,
+      "line_count": 33,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "0025f6e318bf7923d1170b5570833455aa5194cf",
+        "unchanged": false,
+        "disposition": "current source reread"
+      },
+      "packet_path": "sources/4a2cda76/offices/curia/profile-secretary.md"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "offices/curia/profile-seneschal.md",
+      "git_blob": "b6e31ca6b7abad6c44e784760dc13f7a2f21e86c",
+      "git_bytes_sha256": "201f3d35c8cb99df9104e32a35419ffad7bf5f2e0fcf4d4740eeaa260458d300",
+      "bytes": 3013,
+      "line_count": 64,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "b2100d5de9fb214100eb56f009b69be3c19b86ff",
+        "unchanged": false,
+        "disposition": "current source reread"
+      },
+      "packet_path": "sources/4a2cda76/offices/curia/profile-seneschal.md"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "offices/curia/seat-resident-secretary.md",
+      "git_blob": "4d15b97a31b70d4e633ead292720cc44ebfbd2a8",
+      "git_bytes_sha256": "f881e48fb552c6adc239a625d0335914331ee202118dfd7a8c048c7fb5bf0f9a",
+      "bytes": 1462,
+      "line_count": 42,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "d34e2ff75ece7ee2742f0507ac95c31f24b81f81",
+        "unchanged": false,
+        "disposition": "current source reread"
+      },
+      "packet_path": "sources/4a2cda76/offices/curia/seat-resident-secretary.md"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "offices/curia/seat-resident-seneschal.md",
+      "git_blob": "ce43f2167a095643a4ad89efb2727ee4c496c2fa",
+      "git_bytes_sha256": "7da2ee215aafd005798f41fff744456a99921bdf3663d32a4c4df140acbc2829",
+      "bytes": 2021,
+      "line_count": 60,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "b55551eb0f3356aee8501865614086387144bde6",
+        "unchanged": false,
+        "disposition": "current source reread"
+      },
+      "packet_path": "sources/4a2cda76/offices/curia/seat-resident-seneschal.md"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Bootstrap/MasterMason.php",
+      "git_blob": "96e351fc8c2fe66f0593d635e3a1a6e0ca55e944",
+      "git_bytes_sha256": "8c72dc96219316d328e854aeaec13ba65f15890c49a8f53c97739229af6c45fc",
+      "bytes": 35636,
+      "line_count": 760,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "96e351fc8c2fe66f0593d635e3a1a6e0ca55e944",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Bootstrap/MasterMason.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Bootstrap/StateStore.php",
+      "git_blob": "f494e152950d2bf5ba7d50231a75377a7d5ef804",
+      "git_bytes_sha256": "b35ef18b4908fa8d80fac6a9239450abafcae56c2b348aeb1853835aebe23e11",
+      "bytes": 1875,
+      "line_count": 57,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "f494e152950d2bf5ba7d50231a75377a7d5ef804",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Bootstrap/StateStore.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Command/CuriaRequestCommand.php",
+      "git_blob": "d43158428eff74c303245fe3f3168fa0f0d67c45",
+      "git_bytes_sha256": "d827fece79cb42bcc9ed66c9271fd6e6c0e39def6cd8b1a2a7a19c0af66e1d4d",
+      "bytes": 2383,
+      "line_count": 59,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "d43158428eff74c303245fe3f3168fa0f0d67c45",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Command/CuriaRequestCommand.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Command/CuriaRespondCommand.php",
+      "git_blob": "08f2114c761f70860689dac6fd004382509d073a",
+      "git_bytes_sha256": "e88d50ff72c42547d2ea34169e3196bb30410c51e58a9190843e54dfed715f45",
+      "bytes": 2768,
+      "line_count": 64,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "08f2114c761f70860689dac6fd004382509d073a",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Command/CuriaRespondCommand.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Bootstrap/RequiredV0SeatRegistry.php",
+      "git_blob": "563b5d688fedf76187deaf7177aa81088e466710",
+      "git_bytes_sha256": "a142f4863ddaeac702b53af765bca7a65c654979458ccc13a3e2f1e1f0d98700",
+      "bytes": 3096,
+      "line_count": 111,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "563b5d688fedf76187deaf7177aa81088e466710",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Bootstrap/RequiredV0SeatRegistry.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Bootstrap/V0ActivationService.php",
+      "git_blob": "88e28dafbd691353cf0b348780e82b2c3e23afe7",
+      "git_bytes_sha256": "1ac30d699e56cefe0d86e815c2773f71ca834b97e61af7993a6a6b6f18eb3e4d",
+      "bytes": 4966,
+      "line_count": 129,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "88e28dafbd691353cf0b348780e82b2c3e23afe7",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Bootstrap/V0ActivationService.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Citadel/CommissionerCognitionResultReviewService.php",
+      "git_blob": "acba69759ab00dde9584af4754cb72e5f489d906",
+      "git_bytes_sha256": "4d2e77e27c70f0a035142e75207e629d34a8e21198ea041c45d0ee3ad6c5cf49",
+      "bytes": 10639,
+      "line_count": 191,
+      "required_reading": false,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Citadel/CommissionerCognitionResultReviewService.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Citadel/DeepSeekDelegateModelConfiguration.php",
+      "git_blob": "732f48725dbb7db6ea03a8467b85a2d6c512bd20",
+      "git_bytes_sha256": "a1d576b9a24a6c5994820a1ca919392ff38a9d1e7c779641c1d42ed38d757176",
+      "bytes": 1116,
+      "line_count": 31,
+      "required_reading": false,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "732f48725dbb7db6ea03a8467b85a2d6c512bd20",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Citadel/DeepSeekDelegateModelConfiguration.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Citadel/DeepSeekDelegatePlatformAdapter.php",
+      "git_blob": "bf3fbc3077dc78df279ab907b279c2b2f18128db",
+      "git_bytes_sha256": "5446375f05e34cd92316b83abc97622f6864300a48a62aa3620185d0e2d60309",
+      "bytes": 635,
+      "line_count": 24,
+      "required_reading": false,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "bf3fbc3077dc78df279ab907b279c2b2f18128db",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Citadel/DeepSeekDelegatePlatformAdapter.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Citadel/DeepSeekSymfonyPlatformAdapter.php",
+      "git_blob": "ad1fd8d82dc852a890da07a103c090417320a610",
+      "git_bytes_sha256": "f15526abc03f03da1ddafac4195104a8492b3f46cf08d64ac7b389d858ffb254",
+      "bytes": 1566,
+      "line_count": 48,
+      "required_reading": false,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "ad1fd8d82dc852a890da07a103c090417320a610",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Citadel/DeepSeekSymfonyPlatformAdapter.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Citadel/DelegateMissionBoundedCognitionTurnService.php",
+      "git_blob": "3b0b2268d448d79a886bed469d761b9ac80a7a38",
+      "git_bytes_sha256": "3029ec73876028a438e09dc14592adde1c572fe8c3357e4814dba01c632b4206",
+      "bytes": 8690,
+      "line_count": 209,
+      "required_reading": false,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Citadel/DelegateMissionBoundedCognitionTurnService.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Citadel/DelegateMissionCognitionGateway.php",
+      "git_blob": "2b49913fc2d61968b392e2ee9271299492c2dace",
+      "git_bytes_sha256": "89de7859679a4f6b1c4443a92c4d371f61cd5e4a0e7a2c153507afb9930ceaec",
+      "bytes": 207,
+      "line_count": 10,
+      "required_reading": false,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Citadel/DelegateMissionCognitionGateway.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Citadel/DelegateMissionTurnRecoveryService.php",
+      "git_blob": "935cfd85701ea8ce6c253e3e5af5ac535687c366",
+      "git_bytes_sha256": "492a46516896e6cabf59ed7b363dd4adea4eddcaf0673301c3b1897cb51e8a87",
+      "bytes": 10951,
+      "line_count": 187,
+      "required_reading": false,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Citadel/DelegateMissionTurnRecoveryService.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Citadel/DelegateProviderInvoker.php",
+      "git_blob": "81951dd90ee77ea9db56b9c9e3b030d0608a6302",
+      "git_bytes_sha256": "f8ff38b2bcbde2e04e8005e12fa4daf68cc79ea1b411ca298a6d5d91d238cddc",
+      "bytes": 312,
+      "line_count": 17,
+      "required_reading": false,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Citadel/DelegateProviderInvoker.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Citadel/LegateBoundedCognitionTurnService.php",
+      "git_blob": "3e94159a3740d7a830bb4607caebe465b816537e",
+      "git_bytes_sha256": "51ce347c1f9dfbba1b14d7d81ccdc0e1505f1e40cf82bfb78e05bd815599a4cd",
+      "bytes": 10437,
+      "line_count": 43,
+      "required_reading": false,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Citadel/LegateBoundedCognitionTurnService.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Citadel/LegateCognitionGateway.php",
+      "git_blob": "a3ef9b1027767e6be264b6390787886f5b6e9d7d",
+      "git_bytes_sha256": "52f3a7fd659ea8ce213dfd02267626073d82033ccaef8ca1ab96815a881206db",
+      "bytes": 198,
+      "line_count": 10,
+      "required_reading": false,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Citadel/LegateCognitionGateway.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Citadel/LegateCognitionResultDeliveryService.php",
+      "git_blob": "661673322dfb65ff2a61337eb9612f5986514e3c",
+      "git_bytes_sha256": "00c3fa4fe7c8d1ad335461af6d73cdba9a083d57988c834522464ca20b60c60c",
+      "bytes": 12302,
+      "line_count": 198,
+      "required_reading": false,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Citadel/LegateCognitionResultDeliveryService.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Citadel/LegateCognitionTurnAuthorizationService.php",
+      "git_blob": "c0df9f9f47403580bc5c2194ad7f16ab5174e5d9",
+      "git_bytes_sha256": "36dfcff68a5e7ce400573fc36ce0ed3bf593a64225da63349df5983b2cfa9d93",
+      "bytes": 14287,
+      "line_count": 216,
+      "required_reading": false,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Citadel/LegateCognitionTurnAuthorizationService.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Citadel/LegateGovernedCommissionDispositionService.php",
+      "git_blob": "ea0897a7d49887b21623db5cd1996730c8268413",
+      "git_bytes_sha256": "641eaba946d38a1aadb211fb94159e4214e2054a5b881eca26a3bb6ef1521087",
+      "bytes": 12619,
+      "line_count": 207,
+      "required_reading": false,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Citadel/LegateGovernedCommissionDispositionService.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Citadel/LegateGovernedCommissionIssuanceService.php",
+      "git_blob": "a8f050d6fa71336a01dd2c92c1df760618880f50",
+      "git_bytes_sha256": "2dd01321d700ea5361557d857db8de9c490e5ffcddd01691f804fe9378fa37b2",
+      "bytes": 12407,
+      "line_count": 219,
+      "required_reading": false,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Citadel/LegateGovernedCommissionIssuanceService.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Citadel/SymfonyAiBrokeredDelegateProviderInvoker.php",
+      "git_blob": "3348d8f6c81f739ff189a9c7bbc3f441abc8a242",
+      "git_bytes_sha256": "010fcd6f6098aa22ebdffbd8829d04bb9cb909429940f4e3af11209488f48e9a",
+      "bytes": 4120,
+      "line_count": 90,
+      "required_reading": false,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Citadel/SymfonyAiBrokeredDelegateProviderInvoker.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Citadel/SymfonyAiDelegateMissionCognitionGateway.php",
+      "git_blob": "765a44cb4a6467e3ad5ea40127d44e784806124d",
+      "git_bytes_sha256": "dc295d06b16de85e5f05b5efbfbec469c6c9080e613bebd8410bcfb95d206dc3",
+      "bytes": 3438,
+      "line_count": 65,
+      "required_reading": false,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Citadel/SymfonyAiDelegateMissionCognitionGateway.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Citadel/SymfonyAiLegateCognitionGateway.php",
+      "git_blob": "c3a9fbebe026c3e411206d9ec443ec82e0dba945",
+      "git_bytes_sha256": "604adac20f792c7b98c64cc12bf7ac4d09cf1079b572daf05327d75b551cd6e7",
+      "bytes": 4003,
+      "line_count": 85,
+      "required_reading": false,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Citadel/SymfonyAiLegateCognitionGateway.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Clavium/GovernanceCognitionInvocationClaimService.php",
+      "git_blob": "369ae21045db26b9e18deee1be3165db67946633",
+      "git_bytes_sha256": "7866756c05f548e10e698c4ca9ad6e19abb253ec68c49f653892053b955ce67f",
+      "bytes": 12718,
+      "line_count": 160,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "369ae21045db26b9e18deee1be3165db67946633",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Clavium/GovernanceCognitionInvocationClaimService.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Clavium/GovernanceCognitionInvoker.php",
+      "git_blob": "48702c92604741d04fcc60c1cb573b1b30146433",
+      "git_bytes_sha256": "067e4d6a3837de7a8d7990b6e497522d3e223b2a0826cfbbf9b85963033b6bf3",
+      "bytes": 3208,
+      "line_count": 42,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "48702c92604741d04fcc60c1cb573b1b30146433",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Clavium/GovernanceCognitionInvoker.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Clavium/GovernanceCognitionLeaseService.php",
+      "git_blob": "e319ab8f3bc8c04bc84fd139527944470c5be4fc",
+      "git_bytes_sha256": "8dd44ab8de04f1062ede4b030af9c40c45b5afc8e5c58ab228ae9edb625dde76",
+      "bytes": 7425,
+      "line_count": 83,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "e319ab8f3bc8c04bc84fd139527944470c5be4fc",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Clavium/GovernanceCognitionLeaseService.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Cognition/GovernanceCognitionAuthorityRegistry.php",
+      "git_blob": "22e03f88a340f12c23005e5a98068a8b7403fdb9",
+      "git_bytes_sha256": "02f1b9544a2812990b27061020130179d6a4ba1f0f8ec006aaa4bcb3eed221e1",
+      "bytes": 955,
+      "line_count": 29,
+      "required_reading": false,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Cognition/GovernanceCognitionAuthorityRegistry.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Cognition/GovernanceCognitionRequestService.php",
+      "git_blob": "810b864ac36a810e08eb5065b562f9c27930c89c",
+      "git_bytes_sha256": "5f7240f29be2986771001ddd58ebd17d3ddf4a1208f8034d675118405cee3896",
+      "bytes": 7173,
+      "line_count": 134,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "810b864ac36a810e08eb5065b562f9c27930c89c",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Cognition/GovernanceCognitionRequestService.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Curia/CommissioningService.php",
+      "git_blob": "66c1b22052d5114f9e5793e9689a1131056a8332",
+      "git_bytes_sha256": "3aab1f272721ba07a22e7f5c94f373d98b65a2880c032e6a57f23784aaa45118",
+      "bytes": 8508,
+      "line_count": 169,
+      "required_reading": false,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "66c1b22052d5114f9e5793e9689a1131056a8332",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Curia/CommissioningService.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Curia/CurianAudience.php",
+      "git_blob": "9254b3810f256b3841f6e9ffcebbe70e7aa682ae",
+      "git_bytes_sha256": "f433911443534fa452d13ed781f3a8f917a9b2596a860b732ba255c1f65760a2",
+      "bytes": 5135,
+      "line_count": 119,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "9254b3810f256b3841f6e9ffcebbe70e7aa682ae",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Curia/CurianAudience.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Curia/CurianCognitionAuthorityService.php",
+      "git_blob": "ef1476b366d507070c2d35b0b305f4c50159d252",
+      "git_bytes_sha256": "506cabcd65fedb1e75a4c6809d7039b5b0d3fb43e1b107607bd637859b4c374f",
+      "bytes": 4013,
+      "line_count": 84,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "ef1476b366d507070c2d35b0b305f4c50159d252",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Curia/CurianCognitionAuthorityService.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Curia/CurianDeliberation.php",
+      "git_blob": "a371759d5e28ea53ff0904c4fc1706b523698c86",
+      "git_bytes_sha256": "11604ce87f2c797dd612a245d41a17167ce275873270a073799c501d449dc0cc",
+      "bytes": 5184,
+      "line_count": 108,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "a371759d5e28ea53ff0904c4fc1706b523698c86",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Curia/CurianDeliberation.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Curia/CurianGovernanceCognitionAuthorityResolver.php",
+      "git_blob": "562a2c2f096bfbd8ac658923100224b4dca31dd1",
+      "git_bytes_sha256": "b24ca7fc38f4ae743b9790dd6950583447450a4067ec22b487a892f35f583431",
+      "bytes": 6697,
+      "line_count": 124,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "562a2c2f096bfbd8ac658923100224b4dca31dd1",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Curia/CurianGovernanceCognitionAuthorityResolver.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Curia/DefaultModelFallbackOrderService.php",
+      "git_blob": "4cc5004ddb53dab31ba484005aed7a5014c467ee",
+      "git_bytes_sha256": "fb9049f777c969c1eb21c1ee6e38dbfa58d17e51fd66db6fe08e0cffcce747cd",
+      "bytes": 4464,
+      "line_count": 25,
+      "required_reading": false,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "4cc5004ddb53dab31ba484005aed7a5014c467ee",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Curia/DefaultModelFallbackOrderService.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Curia/DelegateMissionCapabilityDemandService.php",
+      "git_blob": "ba3021eec338f460f96ecd562d602d6bf2516ab2",
+      "git_bytes_sha256": "13cf02024fbe2fd8d23771f3676295de158622045a16a5211259acd4cc817662",
+      "bytes": 15633,
+      "line_count": 322,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "ba3021eec338f460f96ecd562d602d6bf2516ab2",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Curia/DelegateMissionCapabilityDemandService.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Curia/ImperatorActs.php",
+      "git_blob": "2133204a087c80a4dec5209375210f7a2ec892ea",
+      "git_bytes_sha256": "4b04d398910794fd53da770a876b3fc4ad7367a1635555d49c16d8dd424e1837",
+      "bytes": 6919,
+      "line_count": 136,
+      "required_reading": false,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "2133204a087c80a4dec5209375210f7a2ec892ea",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Curia/ImperatorActs.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Curia/ImperatorPlanningDossierReviewService.php",
+      "git_blob": "b3d416a46ecd23bd6c4c14b711674507b7bcee5a",
+      "git_bytes_sha256": "28195dca980b54575d23e7feb717aabee185749565d68365ddd4da0f652dd91c",
+      "bytes": 7170,
+      "line_count": 47,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "b3d416a46ecd23bd6c4c14b711674507b7bcee5a",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Curia/ImperatorPlanningDossierReviewService.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Curia/MissionAuthorizationDerivationService.php",
+      "git_blob": "0e492d739288dfe268dfd99a59f357c2837cd493",
+      "git_bytes_sha256": "5faa2dd3b95af94e1d48595c35d2f539a49a6f900e2e18b98887e1e3d85bdf47",
+      "bytes": 7362,
+      "line_count": 30,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "0e492d739288dfe268dfd99a59f357c2837cd493",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Curia/MissionAuthorizationDerivationService.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Curia/ModelRequirementCommissionService.php",
+      "git_blob": "9979210927cf22c94ccb3faa8617eda79851c7f3",
+      "git_bytes_sha256": "5f5a94b5b4e2c2e29cf97b27bd6dee3c08195e3cf6890fb5222385a2f8f5ecf8",
+      "bytes": 6382,
+      "line_count": 31,
+      "required_reading": false,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "9979210927cf22c94ccb3faa8617eda79851c7f3",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Curia/ModelRequirementCommissionService.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Curia/ModelSelectionPlanningDecisionService.php",
+      "git_blob": "1d62cd185a2ff9989ad911e0371cd5ce97e85ae4",
+      "git_bytes_sha256": "c7163324cd2feb0399f0d1dfb8c38f08d296c433741c3994e916087675b57ddc",
+      "bytes": 7720,
+      "line_count": 30,
+      "required_reading": false,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "1d62cd185a2ff9989ad911e0371cd5ce97e85ae4",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Curia/ModelSelectionPlanningDecisionService.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Curia/PlanningCommissionRouter.php",
+      "git_blob": "26a53dae4b283e61a6c127757e6902ca68d92998",
+      "git_bytes_sha256": "e2313733f55ec4a51b0fe7d4163add5d89dc5494d6074be8d876b365ef2a1d08",
+      "bytes": 4474,
+      "line_count": 101,
+      "required_reading": false,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Curia/PlanningCommissionRouter.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Curia/PlanningDossierAssemblyService.php",
+      "git_blob": "48bbc74e239f408d08927bc936bd399ab337ac8f",
+      "git_bytes_sha256": "9960c414cfacdc308a4fcf3556da7a6bab8763b1510a3fc94f3b849926d4a62f",
+      "bytes": 6864,
+      "line_count": 30,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "48bbc74e239f408d08927bc936bd399ab337ac8f",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Curia/PlanningDossierAssemblyService.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Curia/ProceedingStore.php",
+      "git_blob": "a4ca72fcbb4c1654c9e7d4646b624fb9d9c6d118",
+      "git_bytes_sha256": "5e054209364e3663203d7f6a8b6da3f3b670fa7728462ed94563fc84339096dd",
+      "bytes": 8804,
+      "line_count": 217,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "a4ca72fcbb4c1654c9e7d4646b624fb9d9c6d118",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Curia/ProceedingStore.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Curia/ProfileDerivationAuthorizationRequestService.php",
+      "git_blob": "b3bc30956951e99d22e471928ec41b420684d1b3",
+      "git_bytes_sha256": "330857303b64f68b2905369c03a4ab57ba48488b19e7c8a9c827200e168b8a71",
+      "bytes": 9848,
+      "line_count": 159,
+      "required_reading": false,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "b3bc30956951e99d22e471928ec41b420684d1b3",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Curia/ProfileDerivationAuthorizationRequestService.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Curia/SymfonyAiSeneschalCognitionGateway.php",
+      "git_blob": "73458f9081874da2c412164a60266d20845fc2e9",
+      "git_bytes_sha256": "b8b14d55a7d0ff279ef6629559b521ad77b584e62cbc29b3b92423695d59502f",
+      "bytes": 8261,
+      "line_count": 142,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "73458f9081874da2c412164a60266d20845fc2e9",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Curia/SymfonyAiSeneschalCognitionGateway.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Imperator/FutureInstanceImperatorPrincipalConstitutionService.php",
+      "git_blob": "5b4d1a245d9fa66d5f19a24c99f79287e227d529",
+      "git_bytes_sha256": "5a7ecf744f1bbaf2a2c6c9a13e5c10be66be966942a366135fbd85833e7b628b",
+      "bytes": 4733,
+      "line_count": 55,
+      "required_reading": true,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Imperator/FutureInstanceImperatorPrincipalConstitutionService.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Imperator/GovernanceProviderResourceDecisionService.php",
+      "git_blob": "fa0c25c21c9e17a32210ad0832cf2f3b0161c834",
+      "git_bytes_sha256": "a96ac09c9fde1a70e76e7448622ad31a03e70c2c03caf1d3e0478db25015ec98",
+      "bytes": 7471,
+      "line_count": 102,
+      "required_reading": true,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "fa0c25c21c9e17a32210ad0832cf2f3b0161c834",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Imperator/GovernanceProviderResourceDecisionService.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/Imperium/Runtime/Persistence/AtomicTransition.php",
+      "git_blob": "95411cc32d34d209ea3de7d42f3e5228e171c35c",
+      "git_bytes_sha256": "8ab78031ea4fa7c5552bf8a1e7fca50167d8fd2f265081326750c6b81fc9c0bb",
+      "bytes": 1313,
+      "line_count": 42,
+      "required_reading": false,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/src/Imperium/Runtime/Persistence/AtomicTransition.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/ProtectedMission/Ceremony.php",
+      "git_blob": "782acd4f71cc752cf9f82e9d73d7126d81793186",
+      "git_bytes_sha256": "014fedc906084fc8c4c7c559678bb1370ed54945a8f87f74690de6a47ad77c36",
+      "bytes": 11313,
+      "line_count": 149,
+      "required_reading": false,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "782acd4f71cc752cf9f82e9d73d7126d81793186",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/ProtectedMission/Ceremony.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "src/ProtectedMission/Cli.php",
+      "git_blob": "dbfff050833e1b6f1b290302a08aa2b67dc21e58",
+      "git_bytes_sha256": "26a212ae021be64697fc74e1fb8ba414637499a267f02aad9b04bfe150c55576",
+      "bytes": 3686,
+      "line_count": 60,
+      "required_reading": false,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "dbfff050833e1b6f1b290302a08aa2b67dc21e58",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/src/ProtectedMission/Cli.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "tests/Imperium/Runtime/CurianAudienceTest.php",
+      "git_blob": "be2112acd2fb4443537376f1354429733d1694de",
+      "git_bytes_sha256": "e1503ea69002ac340d503072d9562c571465119e529575590b3d1e2e71546f67",
+      "bytes": 5359,
+      "line_count": 137,
+      "required_reading": false,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "be2112acd2fb4443537376f1354429733d1694de",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/tests/Imperium/Runtime/CurianAudienceTest.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "tests/Imperium/Runtime/CurianDeliberationTest.php",
+      "git_blob": "2c89f08356d78238ceb452510b0e528c7b6007a5",
+      "git_bytes_sha256": "d0782272cd2e1b580883b353efd4aaa62e50f90dd672f99d10a3fda7e441ccfc",
+      "bytes": 4507,
+      "line_count": 108,
+      "required_reading": false,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "2c89f08356d78238ceb452510b0e528c7b6007a5",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/tests/Imperium/Runtime/CurianDeliberationTest.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "tests/Imperium/Runtime/PlanningDossierAssemblyServiceTest.php",
+      "git_blob": "c6775f7ae820edf9304907f59c3a0f678efaa67b",
+      "git_bytes_sha256": "4e77b9023389af1659ef198791b0b3b17c2610d8efe9253fb8bc7664042f94bb",
+      "bytes": 7868,
+      "line_count": 28,
+      "required_reading": false,
+      "prior_evidence": {
+        "revision": "56f4ec70f292ad5edfebedfcf8a40fa2175f48d4",
+        "git_blob": "c6775f7ae820edf9304907f59c3a0f678efaa67b",
+        "unchanged": true,
+        "disposition": "reuse findings; changed Citadel ownership reviewed separately"
+      },
+      "packet_path": "sources/4a2cda76/tests/Imperium/Runtime/PlanningDossierAssemblyServiceTest.php"
+    },
+    {
+      "revision": "4a2cda76b15f71310eb02783874047dc8005b6a2",
+      "path": "todo/citadel-officer-model-assignments.md",
+      "git_blob": "33934a3f789a2af06cb0ac1b655961287792441c",
+      "git_bytes_sha256": "dc4289723f3f0f8ded98e11273568c6d6e48e9e6af273a1ce5ed26b03ad390f5",
+      "bytes": 2305,
+      "line_count": 51,
+      "required_reading": false,
+      "prior_evidence": null,
+      "packet_path": "sources/4a2cda76/todo/citadel-officer-model-assignments.md"
+    }
+  ],
+  "historical_evidence": [
+    {
+      "revision": "7eb2e9abee148e024d227aa7809dfd92979af43f",
+      "path": "docs/imperator-seneschal-interview-preparation.md",
+      "git_blob": "b7ec5beb2bd235d9ce8b45e19ec96e3c4816dc17",
+      "git_bytes_sha256": "d182b9bccba5fedb77a4567325b991f70a3e4010ee36e14fa8ad2f4e8a42ab09",
+      "bytes": 29948,
+      "line_count": 319
+    },
+    {
+      "revision": "7eb2e9abee148e024d227aa7809dfd92979af43f",
+      "path": "docs/handoffs/imperator-seneschal-interview-preparation-complete.md",
+      "git_blob": "a88066db1d04c87b5adb1cacc31758ed9dd65201",
+      "git_bytes_sha256": "48eeb239d7d52a495bf539724b9767c8c903ca04a93eee81c6f5ad921e76968e",
+      "bytes": 5585,
+      "line_count": 96
+    },
+    {
+      "revision": "7eb2e9abee148e024d227aa7809dfd92979af43f",
+      "path": "docs/interview-batch0/source-inventory.json",
+      "git_blob": "bcf0aa884af0b22a259e5af9a4a73ef238a25cc1",
+      "git_bytes_sha256": "2154ad36d94e413156dd8d452a049c95833e3531a573af079716ca8ead887e33",
+      "bytes": 50129,
+      "line_count": 1306
+    },
+    {
+      "revision": "7eb2e9abee148e024d227aa7809dfd92979af43f",
+      "path": "docs/interview-batch0/characterization.json",
+      "git_blob": "7d1fb2740a0a6d151d95229ca5e964dc90869c98",
+      "git_bytes_sha256": "8be2a23f8364b6c94390b516aad70f66a821ddb2941ef004e11e083b5e3f02b4",
+      "bytes": 1014,
+      "line_count": 24
+    }
+  ]
+}
