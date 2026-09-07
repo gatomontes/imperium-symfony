@@ -1,104 +1,51 @@
 # Next lifecycle: Delegate mission route
 
-## Current campaign — Imperator–Seneschal interview
+## Current campaign — Citadel mission formation and Curia handoff
 
-Selected 2026-09-07. Local Preparation Batch 0 is authorized.
-Campaign: [next-campaign-imperator-seneschal-interview.md](next-campaign-imperator-seneschal-interview.md).
-Local runner: [handoffs/imperator-seneschal-interview-preparation-ready.md](handoffs/imperator-seneschal-interview-preparation-ready.md).
+The owner-approved direction supersedes the Curia-first interview campaign.
+Prior local Preparation Batch 0 at 7eb2e9abee148e024d227aa7809dfd92979af43f remains
+reviewed evidence; it is not restarted or claimed as merged implementation.
 
-Sequence: preparation and implementation choices (0), direct interview and
-understanding transition (1), actual proposal handoff and boundary enforcement (2),
-integrated proof and review (3). Stages 1–3 await discussion and approval after
-preparation. Stage labels are campaign work, not new Delegate Mission steps.
+Campaign: [next-campaign-citadel-mission-formation.md](next-campaign-citadel-mission-formation.md).
+Local runner: [handoffs/citadel-mission-formation-preparation-ready.md](handoffs/citadel-mission-formation-preparation-ready.md).
+Contract: [citadel-mission-intake.md](../contracts/citadel-mission-intake.md).
 
-Current task: trace the real request/response commands, occupied Seneschal,
-interview cognition authority, records and proposal producers/consumers. Return
-the first missing connection and smallest design for discussion. “I understand”
-is the interview's only completion criterion and opens proposal preparation,
-not agreement, resource authority or execution.
+Only focused Preparation Batch 0 is currently authorized: establish the competent
+Citadel cognitive holder, cross-mission registry/admission, interview resource
+authority, distinct drafting permission and approved Curia handoff. Reuse prior
+source findings and return the smallest implementation plus unresolved decisions.
+Production implementation and live activity remain pending.
 
-Preserve the source-review work, completed missions and Steps 1–69.
-No live interview, payroll review, commissioning or installation follows from
-this preparation selection. Runtime enforcement and production proof remain pending.
+## Required entry phase before existing Delegate Step 1
 
-## Required entry phase — Imperator intent and default planning
+1. Citadel receives and routes the request. A new inquiry creates no Curia.
+2. Its competent cognitive holder discusses intent and existing mission overlap
+   with the Imperator. Registry facts inform judgment; similarity is not refusal.
+3. Attributable “I understand” closes the interview only. Dissent remains separate.
+4. Citadel discloses drafting scope/resources/limits and asks:
+   “I understand. I am ready to draft a proposal. Do you approve?”
+5. The Imperator's separate exact approval permits bounded proposal drafting.
+   Silence, understanding or readiness does not. Decline/defer preserves records.
+6. Citadel drafts and presents the numbered proposal within planning authority.
+   Additional investigation and revisions follow their applicable authorization.
+7. The Imperator separately approves the exact mission proposal. Recheck overlap
+   and competing commitments before new mission admission.
+8. The competent path constitutes the mission Curia and its officers and delivers
+   the approved plan, original exchange, rationale, dissent and authority references.
+9. The receiving Seneschal assesses the handoff and accepts responsibility within
+   the mandate or identifies a specific gap. Do not repeat the original interview
+   or reapprove unchanged terms automatically. Each Curia retains its own Isolde.
+10. Valid downstream commissions and prerequisites permit execution. Existing
+    Delegate Step 1 still needs its approved plan and competent authority records.
 
-Decision recorded 2026-09-07. This required phase precedes Delegate Mission
-Step 1. It preserves Steps 1–69 and their historical completion. Documentation
-of the requirement does not prove a complete production entry path.
+Intake cognition needs legitimate authority before its first call. Drafting
+permission cannot authorize it retroactively. The responsible Citadel officer
+and per-attempt/session funding policy remain preparation decisions, not inferred
+appointments or standing grants. No new Secretariat or provisional Curia is selected.
 
-The Imperator supplies the objective in ordinary language. For example:
-
-> Examine Nomina's hourly-earnings calculation for an actionable functional defect.
-
-Imperium must initiate the applicable planning, disclosure and authorization
-process by default. The Imperator need not append “present the proposed scope,
-resources and limits for my authorization.” Omission never waives the process,
-supplies missing limits, or grants resource or execution authority.
-
-Follow [Mission Planning and Authorization](../contracts/mission-planning.md)
-and [Imperator planning-dossier review](../contracts/imperator-planning-dossier-review.md):
-
-1. **Receive intent and arrange the interview.** Isolde, or another qualified
-   Curial Secretary, receives and preserves the request and brings the Imperator
-   into direct conversation with the Seneschal. Secretary vacancy cannot block
-   authenticated direct access. Intent grants no resource or execution authority.
-2. **Conduct the interview.** The Seneschal interviews the Imperator directly,
-   one question at a time, to understand intent, desired outcome and relevant
-   constraints. Isolde coordinates and preserves the exact exchange; the
-   Chamberlain maintains the versioned dossier. Questions and challenges serve
-   understanding, not a requirement that the participants agree.
-3. **Declare “I understand.”** Only the Seneschal determines that he understands
-   the mission and has what he needs to prepare a proposal. This is the
-   interview's single completion criterion. Record his explicit declaration
-   against the exchange and understood intent, preserving objections separately.
-   It establishes neither agreement, endorsement, feasibility, proposal readiness
-   nor authorization. Until he can declare understanding, continue clarification
-   or record the specific impediment; do not begin elaborating the actual proposal.
-4. **Begin proposal elaboration under the Seneschal.** His declaration opens
-   Curial proposal preparation only within already lawful bounds. Resource-bearing
-   cognition, investigation or other activity still needs its applicable authority.
-5. **Authorize resource-bearing planning when needed.** Before planning requires
-   commissioned Offices, protected access, metered capacity or external effects,
-   Imperium presents an exact Planning Charter disclosing scope, resources,
-   effects, ceilings and stop conditions. Valid approval and resulting Planning
-   Authorization precede the corresponding derived commissions. If no such
-   investigation is needed, proceed to Mission Plan presentation.
-6. **Present the Mission Plan by default.** Curia elaborates under the Seneschal's
-   direction, and he presents an approval-ready, versioned dossier stating outcome and success criteria, scope and exclusions,
-   institutional and personnel needs, resources and provider/model proposals,
-   disclosure and effects, cost/time/resource limits, unknowns, stop conditions,
-   evidence and closure requirements. Missing material terms require clarification
-   or a bounded blocker; they never silently become unlimited permission.
-7. **Obtain the exact-version decision.** Present the dossier through the existing
-   numbered review process. Revision produces a new version for review. Valid
-   approval opens the applicable Mission Authorization derivation path; approval
-   is not execution authority. Planning Authorization cannot replace Mission
-   Authorization. Preserve the existing approval and authority distinctions.
-8. **Enter the established institutional route.** Only the approved Mission Plan
-   and competent authorization records can feed Delegate Mission Step 1.
-   Curia states capability needs; Guildhall resolves profession and Persona
-   suitability. The established custody, Profile derivation, Senate examination,
-   approval, assembly and deployment boundaries apply. The Imperator is not
-   required to supply a ready-made Profile or internal record identifiers to
-   compensate for missing integration. Later protected commitments retain their
-   existing authorization requirements.
-
-Next continuation: trace the sequence from the Imperator's request, identify the
-first missing production connection, discuss intended behavior with the Imperator,
-and implement only within the subsequently agreed scope. Preserve the prepared
-payroll snapshot, source-review components and historical evidence. This
-documentation change does not select an owner-supplied Profile admission policy,
-commission officers, or activate the payroll review.
-
-Required future proof: a request containing only the objective still reaches the
-applicable proposal and authorization gates, clarifies missing terms, and cannot
-invoke resources or execute because the user omitted control language.
-Future proof must also show that proposal elaboration cannot precede the
-Seneschal's explicit understanding declaration, that the Secretary cannot make
-that determination for him, and that understanding with a recorded objection
-can close the interview without implying agreement or authorization.
-End-to-end production proof remains outstanding.
+This is approved target order, not a claim of implementation. Delegate Steps 1–69
+and all completed mission evidence remain intact. Runtime namespace names and
+new schema labels do not establish Citadel jurisdiction or multi-instance support.
 
 ## Purpose
 

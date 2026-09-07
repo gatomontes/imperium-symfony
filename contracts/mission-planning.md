@@ -1,60 +1,96 @@
 # Mission Planning and Authorization Contract
 
-## Purpose
+## Purpose and current phase allocation
 
-This contract governs the conversion of authenticated Operator intent into two separately authorized phases: bounded resource-bearing planning, followed by bounded mission execution.
+This contract governs bounded planning and separately authorized execution.
+For new missions, [Citadel mission intake](citadel-mission-intake.md) governs
+ownership: Citadel receives, discusses overlap, interviews, requests drafting
+permission, drafts and presents. A mission-specific Curia receives the approved
+mission only after competent constitution and handoff. Curia retains planning
+and amendment responsibilities within its existing mission mandate.
 
-```text
-Intent → direct Seneschal interview → explicit “I understand”
-       → proposal elaboration within applicable authority
-       → disclosed Planning Charter → valid approval → Planning Authorization
-       → bounded planning commissions → approval-ready Mission Plan
-       → valid approval → Mission Authorization → execution commissions → execution
-```
+The default order is: Citadel request and discussion → attributable understanding
+→ disclosed request to draft → Imperator approval to draft → authorized proposal
+elaboration → exact proposal approval → Mission Authorization and competent Curia
+constitution/handoff → receiving Seneschal acceptance → governed execution.
 
-No earlier state implies a later one. Resource-bearing investigation uses the
-Planning Charter branch; a Mission Plan may be elaborated directly from material
-lawfully present when that investigation is unnecessary. The understanding gate
-applies in either case and grants no resource authority.
+No earlier state implies a later one. Interview cognition requires legitimate
+authority before use; drafting approval cannot retroactively authorize it.
 
 ## Constitutional distinctions
 
-- **Intent** requests that Imperium begin mission formation.
-- **Authority** is legitimate power already held within an exact jurisdiction.
-- **Approval** is an attributable decision concerning an exact authorization-object version.
-- **Planning Charter** is the disclosed, versioned object that bounds resource-bearing investigation needed to formulate a Mission Plan.
-- **Planning Authorization** is the bounded permission resulting when competent authority validly approves that exact Planning Charter version.
-- **Mission Authorization** is the separate bounded permission resulting when competent authority validly approves the exact Mission Plan version.
-- **Commission** is a single-purpose, least-necessary delegation derived from that authorization.
-- **Execution** is action under a valid commission; it is not produced by planning, disclosure, or technical capability alone.
+- Intent opens deliberation; it grants no resource or execution authority.
+- Understanding is a cognitive judgment about intent, outcome and constraints.
+- Readiness to draft is a separate judgment, not proposal approval-readiness.
+- Approval to draft is the Imperator's exact affirmative decision permitting
+  bounded proposal preparation under the applicable planning authority.
+- Planning Charter and Planning Authorization bound resource-bearing planning.
+- Mission Plan approval and Mission Authorization concern the eventual mission.
+- Commissions derive bounded work from competent authority; they do not enlarge it.
 
-Therefore:
+Understanding, agreement, readiness, drafting permission, mission approval,
+appointment, handoff acceptance and execution are distinct.
 
-```text
-approval ≠ authority
-authority ≠ approval
-internal clarification ≠ resource-bearing planning ≠ execution
-Planning Authorization ≠ Mission Authorization
-authorization ≠ commission ≠ action
-```
+## New-request proceeding
 
-## Planning proceeding
-
-The first Operator input opens a Curial planning proceeding but authorizes no resource use and no mission execution. Isolde or another qualified Curial Secretary receives the request, coordinates direct access to the Seneschal and preserves the exact exchange. The Seneschal conducts the interview directly, one question at a time, using the Operator's supplied material, admitted doctrine and information lawfully present. The Chamberlain maintains the versioned dossier and planning state. Secretary vacancy cannot block direct authenticated access. Curia preserves every accepted value against exact Operator evidence.
+Citadel preserves the exact Imperator request and conducts the direct interview
+through a competent cognitive holder. It consults shared mission records to
+identify overlap and asks other Seneschals only when their judgment is needed.
+A similarity result does not reject the request or approve duplicate work.
+The holder's title, appointment and resource policy must be grounded in the
+implementation preparation; this contract does not invent them.
 
 ### Interview completion: “I understand”
 
-The interview's single objective is for the Seneschal to understand the Imperator's intent, desired outcome and relevant constraints. Only the Seneschal may determine and explicitly declare “I understand”: he understands the mission and has what he needs to prepare a proposal. The declaration is attributable to him and correlated to the exact interview record and understood intent. Clerical recording preserves that judgment; it does not make it.
+Understanding is the interview's single completion criterion. Preserve the
+attributable declaration, exact exchange, understood intent, uncertainties and
+objections. Disagreement can coexist with understanding. Recording a declaration
+does not make its author competent, prove semantic understanding or grant authority.
 
-Understanding is distinct from agreement, endorsement, feasibility, proposal readiness, approval and authorization. The Seneschal may question or contest assumptions, feasibility, constraints or usefulness; such challenges during the interview serve understanding. Objections and alternatives remain separately attributable and must not be silently substituted for the Imperator's intent. Understanding with disagreement can complete the interview.
+Without that declaration the interview remains open or records its impediment.
+With it the interview is complete, but actual proposal elaboration remains
+blocked until the distinct drafting decision. Changed intent requiring renewed
+understanding preserves the original record and invalidates affected continuation.
 
-Before this declaration, the proceeding remains in interview/clarification or records its specific impediment; actual proposal elaboration cannot begin. After it, Curia elaborates the actual proposal under the Seneschal's direction within applicable authority. The declaration does not resolve technical unknowns, require agreement, certify feasibility, authorize expenditure or start the mission. Later corrections that undermine the recorded understanding return the affected proposal preparation to clarification and a renewed Seneschal declaration; prior exchanges and declarations remain evidence.
+### Separate request and permission to draft
 
-This interview and the subsequent proposal presentation occur by default. The Imperator need not request them or recite authorization language. Any resource-bearing interview cognition or investigation still requires its applicable authority; the understanding declaration creates none.
+The responsible cognitive officer may state:
+“I understand. I am ready to draft a proposal. Do you approve?”
 
-Before Imperium commissions another Office, invokes a restricted tool, releases a credential, accesses protected data, queries an external system, consumes money or metered capacity, performs outbound contact, or creates any other external effect for planning, it must disclose an exact Planning Charter and obtain valid approval from competent Operator authority.
+Present the exact drafting scope, information/disclosure, resources, limits and
+expiry with that request. Understanding plus silence or continued conversation
+does not authorize drafting. The drafting request is not itself the elaborated
+mission proposal and may not hide research, recruitment or external operations.
 
-After the understanding declaration, proposal preparation and authorized planning continue until the Seneschal, acting through Curia, can either declare an exact Planning Charter or Mission Plan approval-ready, identify an exact unresolved blocker, or return a bounded refusal or impossibility disposition. The Seneschal's readiness disposition is not Operator approval and creates no authorization.
+Only a valid, exact-version Imperator approval permits actual drafting, within
+the applicable planning authority. Use the existing Planning Charter/authorization
+machinery where competent; preparation must specify the concrete object mapping.
+Even a draft using only material already present requires the explicit permission
+to draft. Resource-bearing investigation requires the Charter and derived
+commissions appropriate to its disclosed bounds; no redundant permission is
+required for unchanged work already covered by valid authority.
+
+Decline, deferral, expiry and resumption preserve information without preserving
+spend permission indefinitely. Citadel presents an approval-ready proposal or
+a specific unresolved requirement. Understanding, drafting readiness and
+proposal approval-readiness must remain separately attributable.
+
+## Existing mission proceedings
+
+After an approved handoff, the Seneschal governs the assigned mission. Its Isolde
+coordinates and preserves mission communication; the Chamberlain maintains its
+dossier. Clarification, proposed changes and additional planning remain subject
+to their applicable scope and authorization. Receiving the original exchange
+avoids automatically repeating the initial interview. Handoff gaps and material
+changes are resolved without silently rewriting the approved mission.
+
+## Implementation compatibility
+
+Existing Curia-named classes, schemas and source records describe the legacy
+implementation. New Citadel work must establish competent issuer/holder,
+proceeding and authority mappings before reusing them. Renaming a caller,
+copying records or giving it a Curia-shaped fixture is not migration evidence.
+The underlying version, approval, commission and boundary rules below remain.
 
 ## Approval-ready Planning Charter
 
@@ -81,11 +117,11 @@ Resource-bearing planning may proceed only through exact, least-necessary planni
 
 Armory possession does not authorize tool use. Clavium custody does not authorize credential release. Guildhall, Hagiography, or another Office's institutional jurisdiction does not authorize its participation in a particular planning proceeding. Each requires a valid derived planning commission and Runtime enforcement at the relevant boundary.
 
-Any external planning operation must cross La Cortine through Iron Gate and return through Lazaretto. Internal cognition does not continue inside a sortie. No raw external payload may be delivered directly into Curia or another internal cognitive proceeding.
+Any external planning operation must cross La Cortine through Iron Gate and return through Lazaretto. Internal cognition does not continue inside a sortie. No raw external payload may be delivered directly into Citadel's planning proceeding, Curia or another internal cognitive proceeding.
 
-When personnel requirements are material, Curia commissions Guildhall to determine the required professions and reconcile them against exact Garrison inventory facts. Guildhall returns a versioned Personnel Disposition identifying suitable admitted Personas available or unavailable, personnel gaps requiring Foundry construction, and the estimated cost, effort, dependencies, and uncertainty of filling those gaps. Garrison reports inventory facts; Guildhall determines suitability. The disposition informs planning and disclosure but authorizes neither construction nor deployment.
+When personnel requirements are material, the competent planning authority (Citadel for new mission formation; Curia within an existing mission mandate) commissions Guildhall to determine the required professions and reconcile them against exact Garrison inventory facts. Guildhall returns a versioned Personnel Disposition identifying suitable admitted Personas available or unavailable, personnel gaps requiring Foundry construction, and the estimated cost, effort, dependencies, and uncertainty of filling those gaps. Garrison reports inventory facts; Guildhall determines suitability. The disposition informs planning and disclosure but authorizes neither construction nor deployment.
 
-When the mission may require a non-standard executive disposition, Curia produces an exact Seneschal Suitability Demand under [`seneschal-suitability.md`](seneschal-suitability.md). Guildhall evaluates the standard Seneschal first unless the demand validly states otherwise, compares admitted Persona versions against the demand, and returns `standard_suitable`, `admitted_candidate_suitable`, `construction_required`, or `unresolved`. Formulating the demand from material lawfully present inside Curia consumes no external resource by itself. Guildhall evaluation, protected inventory access, candidate examination, research, or Persona construction requires the applicable Planning Authorization and exact derived commissions.
+When the mission may require a non-standard executive disposition, the competent planning holder prepares an exact Seneschal Suitability Demand under [`seneschal-suitability.md`](seneschal-suitability.md). Guildhall evaluates the standard Seneschal first unless the demand validly states otherwise, compares admitted Persona versions against the demand, and returns `standard_suitable`, `admitted_candidate_suitable`, `construction_required`, or `unresolved`. The existing suitability contract's Curia-specific issuer assumptions require an explicit competent mapping before Citadel can use this route. Merely formatting a demand from lawfully present material grants no evaluation or appointment authority. Guildhall evaluation, protected inventory access, candidate examination, research, or Persona construction requires the applicable Planning Authorization and exact derived commissions.
 
 When the demand arises from an Imperator succession directive, its executive requirements must remain bound to that directive. The incumbent Seneschal may contribute attributable evidence but may not authoritatively narrow, delay, veto, or rewrite the demand or Guildhall commission.
 
@@ -99,7 +135,7 @@ Every proposed Mission Plan must have a stable identity, version, digest, status
 - included and excluded scope;
 - material facts, assumptions, unknowns, and dependencies;
 - Offices, roles, planned sorties, suitable personnel already available, and personnel gaps requiring construction;
-- every proposed exact provider/model/version binding, its Oracle evidence and recommendation lineage, Curial selection rationale, expected cost and limits, fallback policy, and unresolved objection;
+- every proposed exact provider/model/version binding, its Oracle evidence and recommendation lineage, attributable planning selection rationale, expected cost and limits, fallback policy, and unresolved objection;
 - tools, credentials, data, and other resources;
 - recipients, operation surfaces, ingress and egress points, and external effects;
 - classification of each external operation as deterministic boundary execution or external-cognition sortie;
@@ -110,7 +146,7 @@ Every proposed Mission Plan must have a stable identity, version, digest, status
 
 Disclosure must be understandable enough for the Operator to know what is being approved. Hidden execution-relevant terms cannot acquire authorization through approval of the visible plan.
 
-The complete versioned planning dossier is presented to Imperator as one authorization object. Imperator may affirmatively approve that exact version, object to identified terms, or return it for revision. A Curial model-selection decision is planning evidence inside the dossier; it is not separately approved and cannot become an operational binding by itself.
+The complete versioned planning dossier is presented to Imperator as one authorization object. Imperator may affirmatively approve that exact version, object to identified terms, or return it for revision. A competent planning model-selection decision is evidence inside the dossier; it is not separately approved and cannot become an operational binding by itself.
 
 ## Valid approval
 
@@ -118,12 +154,12 @@ An approval has authorizing effect only when Runtime can verify:
 
 1. the approving Operator's identity;
 2. the Operator's competent authority over the proposed mission and affected resources;
-3. the exact Planning Charter or Mission Plan identity, version, and digest presented;
+3. the exact drafting request, Planning Charter or Mission Plan identity, version, and digest presented;
 4. the approval's explicit affirmative disposition;
 5. the approval's scope, conditions, timing, and authenticity; and
 6. the absence of supersession, revocation, expiry, or unresolved authority conflict.
 
-Silence, continued conversation, submission of intent, correction of a draft, approval of a different version, or possession of SuperAdmin capability is not valid approval of either authorization object.
+Silence, continued conversation, submission of intent, correction of a draft, approval of a different version, or possession of SuperAdmin capability is not valid approval of any of these authorization objects.
 
 ## Authorization record
 
@@ -172,4 +208,4 @@ External-cognition sorties are retired at the boundary on completion, failure, r
 
 ## Governing maxim
 
-> **Intent opens deliberation. Planning Authorization permits bounded investigation. Mission Authorization permits bounded execution. Both arise only from valid approval exercising competent authority over an exact disclosed version, and both act only through exact derived commissions. External work crosses La Cortine: deterministic execution when the operation is fully specified, or a disposable sortie only when cognition must occur outside the trust boundary.**
+> **Intent opens deliberation. Understanding closes the interview only. Distinct Imperator approval permits bounded proposal drafting. Planning Authorization permits bounded investigation. Mission Authorization permits bounded execution. Both arise only from valid approval exercising competent authority over an exact disclosed version, and both act only through exact derived commissions. External work crosses La Cortine: deterministic execution when the operation is fully specified, or a disposable sortie only when cognition must occur outside the trust boundary.**

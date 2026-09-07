@@ -11,21 +11,22 @@ inherits:
 
 These mechanics preserve, correlate, version, and route Curia's work. They do not interpret intent, weigh evidence, determine sufficiency, choose personnel, render executive dispositions, approve authorization objects, or create authority.
 
-## Approved interview boundary — implementation verification pending
+## Current allocation and legacy implementation
 
-Under /contracts/mission-planning.md, Isolde receives and coordinates, the
-Seneschal conducts the interview directly, and the Chamberlain maintains the
-dossier. The interview completes only with the Seneschal's explicit “I understand”
-declaration. Record that judgment against the exact exchange and understood
-intent, with objections preserved separately. Mechanics cannot infer understanding
-from a filled form, elapsed turns, Secretary disposition, agreement or a draft.
+Citadel owns new-request intake, understanding, the distinct request/approval to
+draft and proposal presentation under /contracts/citadel-mission-intake.md.
+A new mission Curia receives an approved handoff only through competent
+constitution and appointment. It governs that mission and retains its own Isolde.
 
-Actual proposal elaboration must remain downstream of that declaration.
-Understanding grants no resource, planning-commission or execution authority.
-This is the approved target behavior; the command descriptions below record the
-existing development slice and are not evidence that this new gate is enforced.
-The production transition and proof must be checked in the later implementation
-work. No new command or disposition identifier is asserted here.
+“I understand” grants no drafting permission. The Imperator must separately
+approve the disclosed drafting request before actual proposal elaboration.
+The receiving Seneschal's handoff acceptance is not a second mission approval
+or execution authority.
+
+The command descriptions below document the existing Curia-first development
+slice. They are preserved as implementation evidence, not as current Citadel
+entry semantics. Reuse requires explicit issuer, identity, scope and consumer
+mapping. No new production command or schema is asserted by this source change.
 
 ## `open-planning-proceeding`
 
