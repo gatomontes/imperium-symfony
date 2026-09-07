@@ -77,6 +77,25 @@ limits, consume the legitimate claim at custody, retain trustworthy response ID
 and usage, and preserve maxima on unknown outcomes. The new preparation surface
 has no credential, provider, journal or activation dependency.
 
+The adjacent governance path was also traced: `Clavium/GovernanceCognitionInvoker`
+uses `GovernanceClaimBoundCredentialBroker::claimFor/consume`, not the Delegate
+broker. It requires native `imperium.clavium-governance-cognition-invocation-claim/v1`
+records in `var/imperium/runtime/governance-cognition-invocation-claims`, with
+matching native cognition requests, `GOVERNANCE_INVOCATION_CLAIMED_DURABLE_PRE_IO`,
+`lease_consumption`, `governance_authority_consumption` and a fixed DeepSeek binding.
+Formation instead stores `imperium.citadel-session-call-claim/v1` inside the
+aggregate journal, with `derivation`, `derived_authority_consumed` and
+`lease_consumed`. The shared ID prefix does not make these schemas interchangeable;
+the governance broker refuses unavailable or mismatched native records with
+GCA450/GCA451. Its invoker reaches the same text-only platform adapter, so it also
+does not satisfy the bounded transport contract. This conclusion is source-traced;
+the new focused credential spy test specifically exercises the Delegate broker.
+
+`DeterministicJournalBoundCredentialBroker` and stationary credential resolution
+were checked as adjacent boundaries as well. Their admitted deterministic effect
+journal, execution claim, `email.send` operation and AgentMail capability path do
+not authorize formation cognition. They are not an alternate route around Clavium.
+
 ## Public export schema and owner evidence
 
 `docs/citadel-readiness/public-evidence-request.json` is the exact top-level input.

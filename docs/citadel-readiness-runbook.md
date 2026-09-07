@@ -19,6 +19,7 @@ In the known local preparation checkout, the exact harmless starting commands ar
 
 ```powershell
 Set-Location E:\htdocs\imperium-citadel-readiness
+if (Test-Path var/owner-public-evidence.json) { throw 'Choose a new evidence filename; preserve the existing export.' }
 Copy-Item -LiteralPath docs/citadel-readiness/public-evidence-request.json -Destination var/owner-public-evidence.json
 php bin/console imperium:citadel:prepare inspect var/owner-public-evidence.json
 ```
@@ -89,6 +90,7 @@ the accepted signed payload binds the effect and canonical object digest, not
 new arbitrary metadata fields. Confirm source identity outside the signature.
 
 ```powershell
+if (Test-Path signing-packet.json) { throw 'Choose a new packet filename; preserve prior bytes.' }
 php bin/console imperium:citadel:prepare decision decision-request.json > signing-packet.json
 Get-FileHash signing-packet.json -Algorithm SHA256
 ```
@@ -127,6 +129,7 @@ exact fields `{packet: <complete packet object>, public_key: <base64 raw public
 key>, signature: <base64 detached signature>}` and execute:
 
 ```powershell
+if (Test-Path assembled-decision.json) { throw 'Choose a new result filename; preserve prior evidence.' }
 php bin/console imperium:citadel:prepare assemble signed-public.json > assembled-decision.json
 ```
 
