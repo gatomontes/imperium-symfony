@@ -1,14 +1,19 @@
 # Citadel-led mission formation and Curia handoff campaign
 
-Status: Preparation Batch 0 reviewed; implementation Stages 1–3 authorized locally.
+Status: Stages 1–3 locally implemented; review closure pending CF01 and CF02.
+Continue [the bounded correction](next-campaign-citadel-formation-correction.md)
+using [the correction runner](handoffs/citadel-formation-correction-ready.md).
+Candidate: e0386e75ce7619fbbeaac450af078d2d606df012; preserve its evidence.
+C0 reproduction -> C1 terminal refusal -> C2 completed-effect reconciliation ->
+C3 audit and new independent-review packet. Do not restart Stages 1–3.
 The owner provisionally accepted the four recommendations and directed continuation.
 Current policy: [citadel-mission-formation-decisions.md](citadel-mission-formation-decisions.md).
-Current runner: [implementation handoff](handoffs/citadel-mission-formation-implementation-ready.md).
+Historical implementation runner: [implementation handoff](handoffs/citadel-mission-formation-implementation-ready.md).
 Owner clarification during preparation: Castellan is Citadel's cognitive holder.
 See [preparation report](citadel-mission-formation-preparation.md) and
 [completion handoff](handoffs/citadel-mission-formation-preparation-complete.md).
-Stages 1–3 are authorized but remain unstarted. Historical preparation instructions
-and restrictions below apply to the completed Batch 0 only.
+The candidate is local; this instruction publication does not merge its code.
+Historical preparation instructions below apply to the completed Batch 0 only.
 The preceding Imperator–Seneschal interview campaign is superseded in direction;
 its completed preparation is retained as evidence, not restarted or discarded.
 
@@ -109,9 +114,9 @@ the changed Citadel ownership or current source affects the conclusion.
 | Stage | Deliverable | Present status |
 | --- | --- | --- |
 | 0 | Changed-boundary inventory, cognitive-holder/resource decisions and minimum implementation plan | Reviewed; decisions provisionally accepted |
-| 1 | Citadel intake, mission-registry coordination and authorized cognitive interview | Authorized locally; unstarted |
-| 2 | Explicit drafting permission, Citadel proposal and exact-version review/revision | Authorized locally; unstarted |
-| 3 | Approved Curia constitution/handoff, receiving Seneschal acceptance and integrated proof | Authorized locally; unstarted |
+| 1 | Citadel intake, mission-registry coordination and authorized cognitive interview | Implemented locally; review closure pending |
+| 2 | Explicit drafting permission, Citadel proposal and exact-version review/revision | Implemented locally; review closure pending |
+| 3 | Approved Curia constitution/handoff, receiving Seneschal acceptance and integrated proof | Implemented locally; review closure pending |
 
 Revise grouping if dependencies require it; do not invent stages to meet a count.
 Operational activation requires a separate concrete owner-reviewed readiness plan.
