@@ -1,5 +1,26 @@
 # Next lifecycle: Delegate mission route
 
+## Current campaign — Imperator–Seneschal interview
+
+Selected 2026-09-07. Local Preparation Batch 0 is authorized.
+Campaign: [next-campaign-imperator-seneschal-interview.md](next-campaign-imperator-seneschal-interview.md).
+Local runner: [handoffs/imperator-seneschal-interview-preparation-ready.md](handoffs/imperator-seneschal-interview-preparation-ready.md).
+
+Sequence: preparation and implementation choices (0), direct interview and
+understanding transition (1), actual proposal handoff and boundary enforcement (2),
+integrated proof and review (3). Stages 1–3 await discussion and approval after
+preparation. Stage labels are campaign work, not new Delegate Mission steps.
+
+Current task: trace the real request/response commands, occupied Seneschal,
+interview cognition authority, records and proposal producers/consumers. Return
+the first missing connection and smallest design for discussion. “I understand”
+is the interview's only completion criterion and opens proposal preparation,
+not agreement, resource authority or execution.
+
+Preserve the source-review work, completed missions and Steps 1–69.
+No live interview, payroll review, commissioning or installation follows from
+this preparation selection. Runtime enforcement and production proof remain pending.
+
 ## Required entry phase — Imperator intent and default planning
 
 Decision recorded 2026-09-07. This required phase precedes Delegate Mission
