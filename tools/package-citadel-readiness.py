@@ -73,9 +73,9 @@ def main():
                 data = archive.extractfile(member).read()
                 entries['source/' + member.name] = data
                 identities[member.name] = {'git_blob': blobs[member.name], 'sha256': sha(data)}
-    proof_files = ['environment.txt', 'entry-identity.json', 'focused.txt', 'focused.xml', 'container-lint.txt',
+    proof_files = ['environment.txt', 'entry-identity.json', 'focused.txt', 'focused.xml', 'preparation-final.txt', 'preparation-final.xml', 'container-lint.txt',
                    'transport-di.txt', 'checkout-preflight.json', 'readiness-demo.json', 'offline-demo.json',
-                   'correction-demo.json', 'full-suite.txt', 'full-suite.xml', 'verification.json',
+                   'correction-demo.json', 'full-suite.txt', 'full-suite.xml', 'full-run.json', 'verification.json',
                    'preservation-check.json', 'generated-reference.diff', 'public-proof-check.json']
     for name in proof_files:
         data = (PROOF / name).read_bytes()
