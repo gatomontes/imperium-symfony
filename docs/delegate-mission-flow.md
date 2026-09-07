@@ -1,6 +1,20 @@
 # Current flow — Citadel mission formation
 
-## Current campaign — Citadel mission formation and Curia handoff
+## Current continuation — Citadel refusal and handoff recovery correction
+
+Stages 1–3 exist in the local candidate e0386e75ce7619fbbeaac450af078d2d606df012.
+Review found CF01 (indirect reopening of a refused session) and CF02 (completed
+child receipt cannot reconcile after approval expiry). Closure remains pending.
+
+Current campaign: [correction and proof](next-campaign-citadel-formation-correction.md).
+Current runner: [local correction prompt](handoffs/citadel-formation-correction-ready.md).
+
+Current steps: C0 reproduce both findings -> C1 terminal refusal -> C2 historical
+receipt reconciliation -> C3 committed-code audit and independent-review package.
+Preserve prior tests and artifacts; no repeat owner ceremony or live activation.
+The remote instruction update does not merge or accept the local implementation.
+
+## Preserved Citadel formation direction
 
 The owner-approved direction supersedes the Curia-first interview campaign.
 Prior local Preparation Batch 0 at 7eb2e9abee148e024d227aa7809dfd92979af43f remains
@@ -19,8 +33,8 @@ mission-specific constitution/appointment acts combined where terms are known.
 
 Decisions: [citadel-mission-formation-decisions.md](citadel-mission-formation-decisions.md).
 Historical report: [citadel-mission-formation-preparation.md](citadel-mission-formation-preparation.md).
-Stages 1–3 are authorized for local implementation and offline proof; none is
-claimed implemented yet. Continue through attributable handoff acceptance and
+Stages 1–3 are locally implemented with offline evidence; the two review findings
+above prevent closure. Continue the correction through attributable handoff and
 non-executing Step 1 validation. Live activation needs later readiness review.
 
 ## Required entry phase before existing Delegate Step 1
@@ -52,7 +66,8 @@ grant with aggregate reservations and per-call enforcement; do not request appro
 for each question within unchanged bounds. No actual appointment, tariff or live
 grant is created by this implementation policy. No new Secretariat or provisional Curia is selected.
 
-This is approved target order, not a claim of implementation. Delegate Steps 1–69
+This is the approved order, exercised locally within the recorded limitations.
+It does not establish live readiness. Delegate Steps 1–69
 and all completed mission evidence remain intact. Runtime namespace names and
 new schema labels do not establish Citadel jurisdiction or multi-instance support.
 
