@@ -4,6 +4,8 @@ Status: approved target direction; production implementation unverified.
 Decision: owner-approved revision following interview Preparation Batch 0.
 Inherits: /imperium-doctrine.md.
 Related: [mission-planning.md](mission-planning.md).
+Implementation decisions provisionally accepted after Citadel Batch 0:
+[citadel-mission-formation-decisions.md](../docs/citadel-mission-formation-decisions.md).
 
 ## Purpose and ownership
 
@@ -24,11 +26,11 @@ No separate Secretariat Office or additional executive approval layer is created
 by this decision. Existing direct authenticated access remains available when
 clerical support is absent.
 
-Citadel's interview, relevance judgment and proposal preparation are cognitive
-responsibilities. Preparation must establish their competent officer/Seat,
-qualification, mandate and actual cognition binding; an orchestration service
-cannot pretend to make those judgments. The specific officer assignment and
-resource policy remain decisions to resolve from source evidence. Do not
+Citadel's interview, relevance judgment and proposal preparation belong to
+Castellan, its owner-selected cognitive officer. Implementation must establish
+his Seat, qualification, mandate and actual cognition binding; an orchestration
+service cannot pretend to make those judgments. Assignment alone does not qualify,
+appoint or activate a manifestation. Do not
 automatically borrow a mission's Seneschal, invent a new Legate, or treat a
 mechanical appointment as selection, qualification or a source of authority.
 
@@ -85,14 +87,16 @@ They occur by default without requiring governance wording in the mission reques
 
 ## Overlap and concurrency
 
-Citadel owns the shared intake/mission coordination record. Registry retrieval,
+Citadel owns one shared intake/mission coordination record with registered
+child-Curia roots and distinct intake, mission and Curia identities. A child Curia
+does not found another Imperium. Registry retrieval,
 version checks, reservations and admission are mechanical; semantic similarity,
 relevance and the recommendation are cognitive. Similar work may be a legitimate
 independent review. Present consequential alternatives to the Imperator: reuse,
 join, amend, defer or deliberately commission separate work.
 
 Do not auto-reject on a similarity score or let two simultaneous “nothing found”
-checks authorize duplicate commitments. Preparation must propose atomic admission
+checks authorize duplicate commitments. Implementation must provide atomic admission
 or reservation against exact registry versions, with contention, expiry and
 recheck semantics. Pending requests must be visible where relevant. Registry
 visibility itself is scoped by lawful access and is not permission to expose
@@ -102,10 +106,14 @@ all other missions' source material.
 
 Interview cognition requires legitimate authority before it occurs. The later
 drafting decision cannot authorize an interview retroactively or depend on an
-already completed proposal. A bounded session grant with per-call validation and
-aggregate accounting is an option to evaluate, not an already-approved standing
-grant. Per-attempt and session designs must state their owner interaction and
-actual enforcement. No live budget, tariff, model or spend is selected here.
+already completed proposal. The selected policy is a bounded interview-session
+grant: one authentic decision covers disclosed interview scope and resources,
+with exact per-call validation and aggregate accounting. Reserve maximum exposure
+atomically before I/O; enforce limits and retain reservations on unknown outcomes.
+Within unchanged bounds, do not ask for approval before each question. Expiry,
+revocation, exhaustion or material scope change stops for amendment. Drafting is
+not covered by interview funding. No live budget, tariff, model or spend is
+selected here. See the decision record for required disclosure and enforcement.
 
 “I understand” and “ready to draft” are separate cognitive claims. Neither creates
 authority. Drafting approval, proposal approval, appointment, Curia handoff
@@ -116,6 +124,12 @@ No new Curia may be created as a hidden interview prerequisite. Mechanical
 appointment can apply only an established rule under competent authority to an
 eligible officer. No ready-made Profile, fixture or temporary founding exception
 may be fabricated to fill a missing production connection.
+
+Mission constitution and exact appointments may share the mission-approval
+presentation when candidates, eligibility and terms are known, while retaining
+distinct typed authority effects. If unresolved, return only for that specific
+boundary. No standing automatic appointment policy is inferred. Full handoff and
+Seneschal acceptance preserve source Citadel and target Curia authority scopes.
 
 ## Migration and proof
 

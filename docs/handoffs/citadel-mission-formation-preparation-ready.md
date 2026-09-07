@@ -1,6 +1,9 @@
 # Local handoff: Citadel mission formation Preparation Batch 0
 
-Status: ready for focused local preparation; replaces the earlier interview runner.
+Status: SUPERSEDED as an entry point. Preparation is complete and reviewed.
+Use [citadel-mission-formation-implementation-ready.md](citadel-mission-formation-implementation-ready.md).
+The original task and reading list below are retained as historical instructions;
+do not rerun Batch 0 or treat its pending choices as unresolved.
 
 ## Start and preservation
 
