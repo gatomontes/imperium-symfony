@@ -46,6 +46,9 @@ provider permission. Source-review code is under `src/SourceReview`; the command
 
 ## Input schema
 
+The original string-path input remains supported with byte-identical v1 proposals.
+Explicit selections are also supported; see "Provenance-preserving excerpts" below.
+
 Supply a directory containing the explicitly named source files, behavior text and
 this JSON file. Paths are relative to the JSON file's directory. This example is an
 input illustration; use your actual filenames and runtime context.
@@ -77,6 +80,65 @@ The numbers above illustrate integer units, **not current prices**. Round each
 verified rate upward to whole micro-USD per token, using the highest applicable
 input rate rather than assuming cache discounts. A micro-USD is 0.000001 USD.
 Changing pricing or any other approved field changes the proposal identity.
+
+## Provenance-preserving excerpts
+
+Each `files` entry may instead be an object with exactly `path`, `sha256`, and
+`ranges`. Paths are original repository-relative paths within the input directory,
+using the same safe-path rules as whole files. Example entry (replace the hash with
+the expected original SHA-256):
+
+```json
+{
+  "path": "src/Service/Example.php",
+  "sha256": "<64 lowercase hexadecimal characters identifying the complete original>",
+  "ranges": [[1, 25], [100, 160]]
+}
+```
+
+Ranges are inclusive original 1-based line numbers, in ascending order, with no
+overlap. There must be 1-30 ranges per original; paths cannot repeat, including
+case variants or mixed string/object entries. A complete file can be selected as
+`[[1, N]]` with its expected hash, or retain the historical string entry.
+
+`SnapshotStore::prepare` reads each original at most once through the same bounded
+safe local reader. `Selection::derive` hashes that in-memory content, compares it
+with the expected SHA-256, and derives all selected bytes from that same content.
+LF determines line boundaries; CRLF and final newline state remain unchanged.
+Omitted originals are neither stored in the proposal nor re-read during dispatch.
+The local original file read remains capped at 131,072 bytes. No directory crawling,
+automatic splitting, limit increases or provider call is introduced.
+
+A proposal containing selections uses `imperium.source-review-proposal/v2`.
+Its sealed `files` store original path/hash/byte count/line count plus separate
+segments with original start/end and exact base64 bytes. Rebuilt manifest and
+outgoing payload include segment hashes/sizes and explicit local-to-original
+mapping (`segment_start_line: 1`, `segment_end_line: N` maps to original
+`start_line` through `end_line`). `omitted_ranges` lists all absent original lines.
+The provider receives separate segment content strings, never concatenated across
+gaps. Fully selected files have empty omitted ranges and a verified full-content
+hash. Whole-file string entries in mixed proposals retain their original format.
+
+All identity, selection, mappings and content participate in the proposal ID,
+manifest digest, approval digest and exact payload digest. Validation rebuilds
+metadata from the sealed selections. As with v1, the existing immutable store and
+authorization chain protect the prepared snapshot; an original hash is not a
+signature or proof of semantic completeness. The original-to-excerpt relationship
+is verified locally at acquisition; after preparation, validation uses sealed
+selected bytes and their bound provenance, without retrieving omitted content.
+
+The existing gateway sends the already validated payload string unchanged. The
+result parser first validates the proposal and accepts a citation only if its
+original path and entire original line range lie within one supplied segment.
+Omitted lines and cross-segment citations are rejected, even for adjacent segments;
+select a contiguous range when one finding must span it. Results retain the proposal
+and manifest digest references needed to retrieve the exact mappings.
+
+Limits still apply to 30 original files, 131,072 selected source bytes, serialized
+HTTP payload bytes + 1,024 <= 32,000, 4,000 output tokens, one request, 120 seconds,
+and the existing tariff-based USD 1 ceiling. Metadata consumes serialized-payload
+budget too. `pricing: null` continues to permit only preparation/inspection.
+The command syntax and all authority/lease/claim/journal controls are unchanged.
 
 Files must be regular, single-link UTF-8 text without BOM, NUL or binary control
 characters. Paths use portable ASCII segments, `/`, no escapes, device names,

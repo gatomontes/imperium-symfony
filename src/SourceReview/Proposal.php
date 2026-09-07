@@ -41,11 +41,18 @@ final class Proposal
         if (!array_is_list($files) || count($files) < 1 || count($files) > 30) { throw new \RuntimeException('SR_FILE_LIMIT'); }
         self::text($behavior); self::text($runtime);
         if (trim($behavior) === '' || trim($runtime) === '' || strlen($behavior) > 131072 || strlen($runtime) > 1024) { throw new \RuntimeException('SR_CONTEXT_INVALID'); }
-        $seen = []; $total = 0; $manifest = []; $data = [];
+        $seen = []; $total = 0; $manifest = []; $data = []; $selected = false;
         foreach ($files as $file) {
-            self::keys($file, ['path', 'bytes_base64']); self::path($file['path']);
+            self::path($file['path']);
             $path = strtolower($file['path']);
             if (isset($seen[$path])) { throw new \RuntimeException('SR_DUPLICATE_PATH'); } $seen[$path] = true;
+            if (array_key_exists('segments', $file)) {
+                $selection = Selection::describe($file);
+                $selected = true; $total += $selection['bytes'];
+                $manifest[] = $selection['manifest']; $data[] = $selection['data'];
+                continue;
+            }
+            self::keys($file, ['path', 'bytes_base64']);
             $bytes = base64_decode($file['bytes_base64'], true);
             if ($bytes === false || base64_encode($bytes) !== $file['bytes_base64']) { throw new \RuntimeException('SR_BASE64_INVALID'); }
             self::text($bytes); $total += strlen($bytes);
@@ -60,7 +67,8 @@ final class Proposal
             if ((new \DateTimeImmutable($pricing['valid_until']))->format(DATE_ATOM) !== $pricing['valid_until']) { throw new \RuntimeException('SR_PRICING_INVALID'); }
             foreach (['input_microusd_per_token', 'output_microusd_per_token'] as $key) { if (!is_int($pricing[$key]) || $pricing[$key] < 1 || $pricing[$key] > 1000000) { throw new \RuntimeException('SR_PRICING_INVALID'); } }
         }
-        $body = ['model' => self::MODEL, 'messages' => [['role' => 'system', 'content' => self::INSTRUCTION], ['role' => 'user', 'content' => CanonicalJson::encode(['expected_behavior' => $behavior, 'runtime' => $runtime, 'files' => $data])]], 'temperature' => 0.2, 'max_tokens' => 4000, 'stream' => false, 'thinking' => ['type' => 'disabled'], 'response_format' => ['type' => 'json_object']];
+        $instruction = self::INSTRUCTION.($selected ? ' Files with segments retain original paths and original line coordinates. Each segment starts at segment_start_line 1 and maps linearly to start_line through end_line in the original. omitted_ranges explicitly identify unavailable context; do not infer its contents. Cite only selected original lines within one segment; never cross segment boundaries. Original hashes identify the locally verified snapshot, not proof that omitted dependencies are irrelevant.' : '');
+        $body = ['model' => self::MODEL, 'messages' => [['role' => 'system', 'content' => $instruction], ['role' => 'user', 'content' => CanonicalJson::encode(['expected_behavior' => $behavior, 'runtime' => $runtime, 'files' => $data])]], 'temperature' => 0.2, 'max_tokens' => 4000, 'stream' => false, 'thinking' => ['type' => 'disabled'], 'response_format' => ['type' => 'json_object']];
         $payload = CanonicalJson::encode($body);
         // UTF-8 byte fallback bound plus 1024 tokens for the two fixed role/template frames.
         $tokens = strlen($payload) + 1024;
@@ -68,6 +76,7 @@ final class Proposal
         $cost = $pricing === null ? null : $tokens * $pricing['input_microusd_per_token'] + 4000 * $pricing['output_microusd_per_token'];
         if ($cost !== null && $cost > 1000000) { throw new \RuntimeException('SR_COST_LIMIT'); }
         $p = ['schema' => 'imperium.source-review-proposal/v1', 'files' => $files, 'manifest' => $manifest, 'manifest_digest' => self::digest($manifest), 'expected_behavior' => $behavior, 'behavior_digest' => hash('sha256', $behavior), 'runtime' => $runtime, 'provider' => 'deepseek', 'endpoint' => self::ENDPOINT, 'payload' => $payload, 'payload_digest' => hash('sha256', $payload), 'limits' => self::LIMITS, 'pricing' => $pricing, 'input_token_upper_bound' => $tokens, 'cost_upper_bound_microusd' => $cost, 'token_bound_version' => 'utf8-bytes-plus-1024-v1', 'transport' => ['retries' => 0, 'redirects' => 0, 'max_duration' => 120], 'disclosure' => 'Source, behavior and runtime text in the exact payload leave for DeepSeek. Authentication is broker-added. Timeout does not guarantee remote cancellation or zero billing. No source execution. Static hypotheses only.'];
+        if ($selected) { $p['schema'] = 'imperium.source-review-proposal/v2'; }
         return ['proposal_id' => 'source-review-'.self::digest($p), ...$p];
     }
     public static function validate(array $p): array

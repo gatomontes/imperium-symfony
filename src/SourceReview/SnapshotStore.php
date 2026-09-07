@@ -11,16 +11,35 @@ final readonly class SnapshotStore
     public function __construct(private ImmutableRecordStore $records) {}
     public function prepare(string $inputFile): array
     {
-        $input = json_decode(self::readText($inputFile, 262144), true, 64, JSON_THROW_ON_ERROR);
+        $inputBytes = self::readText($inputFile, 262144);
+        $input = json_decode($inputBytes, true, 64, JSON_THROW_ON_ERROR);
         Proposal::keys($input, ['files', 'expected_behavior_file', 'runtime', 'pricing']);
         $root = dirname(realpath($inputFile)); $files = [];
         if (!is_array($input['files']) || !array_is_list($input['files']) || count($input['files']) > 30) { throw new \RuntimeException('SR_FILE_LIMIT'); }
-        foreach ($input['files'] as $path) {
+        $seen = [];
+        foreach ($input['files'] as $entry) {
+            if (is_array($entry)) { Proposal::keys($entry, ['path', 'sha256', 'ranges']); }
+            $path = is_array($entry) ? $entry['path'] : $entry;
             if (!is_string($path)) { throw new \RuntimeException('SR_PATH_INVALID'); } Proposal::path($path);
-            $files[] = ['path' => $path, 'bytes_base64' => base64_encode(self::readText($root.'/'.$path, 131072))];
+            if (isset($seen[strtolower($path)])) { throw new \RuntimeException('SR_DUPLICATE_PATH'); }
+            $seen[strtolower($path)] = true;
+        }
+        $cacheKey = static fn (string $path): string => PHP_OS_FAMILY === 'Windows' ? strtolower($path) : $path;
+        $cache = [$cacheKey(basename($inputFile)) => $inputBytes];
+        $read = static function (string $path) use ($root, &$cache, $cacheKey): string {
+            $key = $cacheKey($path);
+            $bytes = $cache[$key] ??= self::readText($root.'/'.$path, 131072);
+            if (strlen($bytes) > 131072) { throw new \RuntimeException('SR_INPUT_SIZE'); }
+            return $bytes;
+        };
+        foreach ($input['files'] as $entry) {
+            $path = is_array($entry) ? $entry['path'] : $entry;
+            $original = $read($path);
+            $files[] = is_array($entry) ? Selection::derive($entry, $original)
+                : ['path' => $path, 'bytes_base64' => base64_encode($original)];
         }
         Proposal::path($input['expected_behavior_file']);
-        $p = Proposal::build($files, self::readText($root.'/'.$input['expected_behavior_file'], 131072), $input['runtime'], $input['pricing']);
+        $p = Proposal::build($files, $read($input['expected_behavior_file']), $input['runtime'], $input['pricing']);
         return $this->records->put(self::DIRECTORY, $p['proposal_id'], $p);
     }
     public function get(string $id): array { return Proposal::validate($this->records->read(self::DIRECTORY, $id)); }
