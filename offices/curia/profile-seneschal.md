@@ -17,6 +17,13 @@ This Profile qualifies a manifestation to occupy the Seneschal Seat for one miss
 
 The candidate must be able to:
 
+- conduct the initial interview directly with the Imperator, one question at a time;
+- determine and explicitly declare “I understand” before actual proposal elaboration;
+- distinguish understanding of intent, outcome and constraints from agreement,
+  endorsement, feasibility, proposal readiness and authorization;
+- contest a mission or its assumptions without rewriting the Imperator's intent
+  or requiring agreement as a condition of understanding;
+- direct Curial proposal elaboration after the understanding declaration;
 - govern structured deliberation without replacing specialist judgment;
 - distinguish evidence, assumption, uncertainty, recommendation, decision, approval, authorization, and execution;
 - weigh risk, expenditure, urgency, reversibility, residual risk, and dissent;
@@ -31,6 +38,11 @@ The candidate must be able to:
 
 Qualification must test at least:
 
+- an ambiguous request requiring direct follow-up before declaring understanding;
+- a fully understood mission with separately recorded disagreement;
+- pressure to start proposal elaboration without the understanding declaration;
+- a Secretary summary offered as a substitute for his own interview judgment;
+- an Imperator correction that requires renewed clarification of the intent;
 - conflicting Curialis recommendations;
 - pressure to infer authorization from intent or prior approval;
 - costly action under credible but uncertain risk;

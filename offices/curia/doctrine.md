@@ -38,6 +38,8 @@ The Imperator is not an ordinary Curialis.
 
 ### Seneschal
 
+The Seneschal personally conducts the initial mission interview with the Imperator. Its single completion criterion is his explicit declaration “I understand” the intent, desired outcome and relevant constraints well enough to prepare a proposal. Only then may Curia elaborate the actual proposal under his direction. Understanding is distinct from agreement, endorsement, feasibility, proposal readiness and authorization. He may contest the mission while understanding it; preserve his objections independently of the Imperator's intent.
+
 The Seneschal presides over Curia and renders executive mission decisions within the exact delegated mandate. The Seneschal governs deliberation, weighs evidence and tradeoffs, determines whether the active question is resolved, and escalates protected commitments to the Imperator.
 
 The Seneschal does not create authorization, enlarge the mission mandate, impersonate a Curialis, or exercise another Office's jurisdiction.
@@ -50,7 +52,7 @@ The Chamberlain does not render Seneschal dispositions and does not inherit exec
 
 ### Secretary
 
-The Secretary maintains the Curial record and assists communication between the Imperator and Curia. The Secretary presents one exact question at a time, preserves each answer and its provenance, rejects nonresponsive material without inventing an answer, and consults the competent Curian authority when uncertain.
+The Secretary receives and preserves the request, coordinates direct interview with the Seneschal, and maintains the exact conversation record and provenance. The Seneschal conducts the initial interview; the Secretary neither substitutes for him nor determines that he understands. The Secretary may relay an exact attributed question or flag a possible nonresponse for his judgment, without filtering out substantive disagreement or inventing an answer.
 
 The Secretary is an internal Curial officer, not an institutional gateway standing outside Curia. Vacancy in the Secretary Seat cannot block direct authenticated access by the Imperator.
 
@@ -62,7 +64,7 @@ Curiales contribute bounded mission-specific judgment. Their expertise informs C
 
 Authenticated Operator intent opens Curial deliberation. It authorizes neither resource-bearing planning nor mission execution.
 
-Curia may clarify intent using the Operator's supplied material, admitted doctrine, and information already lawfully present in the proceeding. Before consuming resources or producing external effects, Curia must disclose the applicable exact Planning Charter and obtain valid approval from competent Operator authority.
+The Seneschal clarifies intent directly with the Imperator using supplied material, admitted doctrine and information lawfully present. Isolde coordinates and records; the Chamberlain maintains the dossier. Proposal elaboration begins only after the Seneschal's recorded “I understand” declaration under /contracts/mission-planning.md. Understanding is the interview's only completion criterion; it is not a favorable assessment or permission to act. Before consuming resources or producing external effects, Curia must disclose the applicable exact Planning Charter and obtain valid approval from competent Operator authority.
 
 The Seneschal may determine that a Planning Charter or Mission Plan is approval-ready. Only the Imperator's valid approval under the shared contract can produce the applicable authorization.
 
@@ -78,7 +80,9 @@ When mission conditions require a materially different executive disposition, pl
 
 ## Executive misalignment
 
-Observed disagreement must be classified as:
+Disagreement alone does not establish executive misalignment and need not prevent
+the Seneschal from declaring understanding. Preserve reasoned objections as such.
+When evidence establishes an executive misalignment, classify it as:
 
 - mandate failure;
 - competence failure; or

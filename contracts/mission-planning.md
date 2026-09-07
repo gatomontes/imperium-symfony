@@ -5,12 +5,17 @@
 This contract governs the conversion of authenticated Operator intent into two separately authorized phases: bounded resource-bearing planning, followed by bounded mission execution.
 
 ```text
-Intent → internal clarification → disclosed Planning Charter → valid approval
-       → Planning Authorization → planning commissions → approval-ready Mission Plan
+Intent → direct Seneschal interview → explicit “I understand”
+       → proposal elaboration within applicable authority
+       → disclosed Planning Charter → valid approval → Planning Authorization
+       → bounded planning commissions → approval-ready Mission Plan
        → valid approval → Mission Authorization → execution commissions → execution
 ```
 
-No earlier state implies a later one.
+No earlier state implies a later one. Resource-bearing investigation uses the
+Planning Charter branch; a Mission Plan may be elaborated directly from material
+lawfully present when that investigation is unnecessary. The understanding gate
+applies in either case and grants no resource authority.
 
 ## Constitutional distinctions
 
@@ -35,11 +40,21 @@ authorization ≠ commission ≠ action
 
 ## Planning proceeding
 
-The first Operator input opens a Curial planning proceeding but authorizes no resource use and no mission execution. Curia may clarify intent one question at a time and reason over the Operator's supplied material, admitted doctrine, and information already lawfully present in the proceeding. Isolde or another qualified Curial Secretary may present the exact active question and preserve the exact answer; the Seneschal determines whether that answer resolves the question; the Chamberlain maintains the versioned mission dossier and planning state. Curia preserves every accepted value against exact Operator evidence.
+The first Operator input opens a Curial planning proceeding but authorizes no resource use and no mission execution. Isolde or another qualified Curial Secretary receives the request, coordinates direct access to the Seneschal and preserves the exact exchange. The Seneschal conducts the interview directly, one question at a time, using the Operator's supplied material, admitted doctrine and information lawfully present. The Chamberlain maintains the versioned dossier and planning state. Secretary vacancy cannot block direct authenticated access. Curia preserves every accepted value against exact Operator evidence.
+
+### Interview completion: “I understand”
+
+The interview's single objective is for the Seneschal to understand the Imperator's intent, desired outcome and relevant constraints. Only the Seneschal may determine and explicitly declare “I understand”: he understands the mission and has what he needs to prepare a proposal. The declaration is attributable to him and correlated to the exact interview record and understood intent. Clerical recording preserves that judgment; it does not make it.
+
+Understanding is distinct from agreement, endorsement, feasibility, proposal readiness, approval and authorization. The Seneschal may question or contest assumptions, feasibility, constraints or usefulness; such challenges during the interview serve understanding. Objections and alternatives remain separately attributable and must not be silently substituted for the Imperator's intent. Understanding with disagreement can complete the interview.
+
+Before this declaration, the proceeding remains in interview/clarification or records its specific impediment; actual proposal elaboration cannot begin. After it, Curia elaborates the actual proposal under the Seneschal's direction within applicable authority. The declaration does not resolve technical unknowns, require agreement, certify feasibility, authorize expenditure or start the mission. Later corrections that undermine the recorded understanding return the affected proposal preparation to clarification and a renewed Seneschal declaration; prior exchanges and declarations remain evidence.
+
+This interview and the subsequent proposal presentation occur by default. The Imperator need not request them or recite authorization language. Any resource-bearing interview cognition or investigation still requires its applicable authority; the understanding declaration creates none.
 
 Before Imperium commissions another Office, invokes a restricted tool, releases a credential, accesses protected data, queries an external system, consumes money or metered capacity, performs outbound contact, or creates any other external effect for planning, it must disclose an exact Planning Charter and obtain valid approval from competent Operator authority.
 
-Planning continues until the Seneschal, acting through Curia, can either declare an exact Planning Charter or Mission Plan approval-ready, identify an exact unresolved blocker, or return a bounded refusal or impossibility disposition. The Seneschal's readiness disposition is not Operator approval and creates no authorization.
+After the understanding declaration, proposal preparation and authorized planning continue until the Seneschal, acting through Curia, can either declare an exact Planning Charter or Mission Plan approval-ready, identify an exact unresolved blocker, or return a bounded refusal or impossibility disposition. The Seneschal's readiness disposition is not Operator approval and creates no authorization.
 
 ## Approval-ready Planning Charter
 

@@ -1,5 +1,105 @@
 # Next lifecycle: Delegate mission route
 
+## Current campaign — Imperator–Seneschal interview
+
+Selected 2026-09-07. Local Preparation Batch 0 is authorized.
+Campaign: [next-campaign-imperator-seneschal-interview.md](next-campaign-imperator-seneschal-interview.md).
+Local runner: [handoffs/imperator-seneschal-interview-preparation-ready.md](handoffs/imperator-seneschal-interview-preparation-ready.md).
+
+Sequence: preparation and implementation choices (0), direct interview and
+understanding transition (1), actual proposal handoff and boundary enforcement (2),
+integrated proof and review (3). Stages 1–3 await discussion and approval after
+preparation. Stage labels are campaign work, not new Delegate Mission steps.
+
+Current task: trace the real request/response commands, occupied Seneschal,
+interview cognition authority, records and proposal producers/consumers. Return
+the first missing connection and smallest design for discussion. “I understand”
+is the interview's only completion criterion and opens proposal preparation,
+not agreement, resource authority or execution.
+
+Preserve the source-review work, completed missions and Steps 1–69.
+No live interview, payroll review, commissioning or installation follows from
+this preparation selection. Runtime enforcement and production proof remain pending.
+
+## Required entry phase — Imperator intent and default planning
+
+Decision recorded 2026-09-07. This required phase precedes Delegate Mission
+Step 1. It preserves Steps 1–69 and their historical completion. Documentation
+of the requirement does not prove a complete production entry path.
+
+The Imperator supplies the objective in ordinary language. For example:
+
+> Examine Nomina's hourly-earnings calculation for an actionable functional defect.
+
+Imperium must initiate the applicable planning, disclosure and authorization
+process by default. The Imperator need not append “present the proposed scope,
+resources and limits for my authorization.” Omission never waives the process,
+supplies missing limits, or grants resource or execution authority.
+
+Follow [Mission Planning and Authorization](../contracts/mission-planning.md)
+and [Imperator planning-dossier review](../contracts/imperator-planning-dossier-review.md):
+
+1. **Receive intent and arrange the interview.** Isolde, or another qualified
+   Curial Secretary, receives and preserves the request and brings the Imperator
+   into direct conversation with the Seneschal. Secretary vacancy cannot block
+   authenticated direct access. Intent grants no resource or execution authority.
+2. **Conduct the interview.** The Seneschal interviews the Imperator directly,
+   one question at a time, to understand intent, desired outcome and relevant
+   constraints. Isolde coordinates and preserves the exact exchange; the
+   Chamberlain maintains the versioned dossier. Questions and challenges serve
+   understanding, not a requirement that the participants agree.
+3. **Declare “I understand.”** Only the Seneschal determines that he understands
+   the mission and has what he needs to prepare a proposal. This is the
+   interview's single completion criterion. Record his explicit declaration
+   against the exchange and understood intent, preserving objections separately.
+   It establishes neither agreement, endorsement, feasibility, proposal readiness
+   nor authorization. Until he can declare understanding, continue clarification
+   or record the specific impediment; do not begin elaborating the actual proposal.
+4. **Begin proposal elaboration under the Seneschal.** His declaration opens
+   Curial proposal preparation only within already lawful bounds. Resource-bearing
+   cognition, investigation or other activity still needs its applicable authority.
+5. **Authorize resource-bearing planning when needed.** Before planning requires
+   commissioned Offices, protected access, metered capacity or external effects,
+   Imperium presents an exact Planning Charter disclosing scope, resources,
+   effects, ceilings and stop conditions. Valid approval and resulting Planning
+   Authorization precede the corresponding derived commissions. If no such
+   investigation is needed, proceed to Mission Plan presentation.
+6. **Present the Mission Plan by default.** Curia elaborates under the Seneschal's
+   direction, and he presents an approval-ready, versioned dossier stating outcome and success criteria, scope and exclusions,
+   institutional and personnel needs, resources and provider/model proposals,
+   disclosure and effects, cost/time/resource limits, unknowns, stop conditions,
+   evidence and closure requirements. Missing material terms require clarification
+   or a bounded blocker; they never silently become unlimited permission.
+7. **Obtain the exact-version decision.** Present the dossier through the existing
+   numbered review process. Revision produces a new version for review. Valid
+   approval opens the applicable Mission Authorization derivation path; approval
+   is not execution authority. Planning Authorization cannot replace Mission
+   Authorization. Preserve the existing approval and authority distinctions.
+8. **Enter the established institutional route.** Only the approved Mission Plan
+   and competent authorization records can feed Delegate Mission Step 1.
+   Curia states capability needs; Guildhall resolves profession and Persona
+   suitability. The established custody, Profile derivation, Senate examination,
+   approval, assembly and deployment boundaries apply. The Imperator is not
+   required to supply a ready-made Profile or internal record identifiers to
+   compensate for missing integration. Later protected commitments retain their
+   existing authorization requirements.
+
+Next continuation: trace the sequence from the Imperator's request, identify the
+first missing production connection, discuss intended behavior with the Imperator,
+and implement only within the subsequently agreed scope. Preserve the prepared
+payroll snapshot, source-review components and historical evidence. This
+documentation change does not select an owner-supplied Profile admission policy,
+commission officers, or activate the payroll review.
+
+Required future proof: a request containing only the objective still reaches the
+applicable proposal and authorization gates, clarifies missing terms, and cannot
+invoke resources or execute because the user omitted control language.
+Future proof must also show that proposal elaboration cannot precede the
+Seneschal's explicit understanding declaration, that the Secretary cannot make
+that determination for him, and that understanding with a recorded objection
+can close the interview without implying agreement or authorization.
+End-to-end production proof remains outstanding.
+
 ## Purpose
 
 The next implementation leg governs temporary mission-bound Officers from demand through deployment, bounded work, return, unbinding, and termination.
