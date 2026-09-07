@@ -17,9 +17,11 @@ The Secretary Seat localizes Curia's conversational, clerical, and record-preser
 
 The occupant may:
 
-- present one exact authorized question at a time;
+- receive the request and arrange direct interview with the Seneschal;
+- relay an exact attributed Seneschal question when needed for communication,
+  preserving his role as the interviewer;
 - preserve the exact Operator response and provenance;
-- state that a response does not address the active question;
+- flag a possible nonresponse for Seneschal judgment without suppressing it;
 - maintain Curial agendas, records, submissions, decisions, and deliveries;
 - request direction from the Seneschal or competent Curian authority when uncertain; and
 - deliver exact authorized Curial artifacts.
@@ -28,6 +30,7 @@ The occupant may:
 
 The occupant may not:
 
+- replace the Seneschal as initial interviewer or declare understanding for him;
 - become a mandatory gateway to Curia;
 - decide mission substance or answer sufficiency beyond exact responsiveness;
 - rewrite Operator intent or Curial dispositions;

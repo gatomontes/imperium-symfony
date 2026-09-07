@@ -13,13 +13,25 @@ from bare intent remains to be verified.
 
 ## Default mission-formation flow
 
-- Imperator intent opens Curial clarification. It grants no resource-use or
-  execution authority.
+- Isolde receives the request, preserves it and arranges direct interview with
+  the Seneschal. Direct authenticated access remains available without a Secretary.
+  Intent grants no resource-use or execution authority.
+- The Seneschal conducts the interview one question at a time. Isolde coordinates
+  and records; the Chamberlain maintains the dossier. Questions and challenges
+  serve understanding of intent, desired outcome and relevant constraints.
+- Only the Seneschal closes the interview by explicitly declaring “I understand.”
+  This is its single completion criterion. Understanding is distinct from
+  agreement, endorsement, feasibility, proposal readiness and authorization.
+  Preserve objections independently; disagreement need not prevent understanding.
+- Without that declaration, return to clarification or record the impediment;
+  actual proposal elaboration cannot begin. Once recorded, Curia elaborates the
+  proposal under the Seneschal's direction within applicable authority.
 - If forming the plan requires resource-bearing investigation, Curia presents
   the exact Planning Charter automatically. Valid approval yields Planning
   Authorization; only its bounded derived commissions may perform that planning.
   Otherwise Curia can prepare the Mission Plan from information lawfully present.
-- Curia presents an exact, versioned Mission Plan and numbered dossier by default:
+- The Seneschal presents Curia's exact, versioned Mission Plan and numbered
+  dossier by default:
   outcome and success criteria, scope and exclusions, institutional/personnel
   needs, resources and provider/model proposals, disclosure and effects, limits,
   unknowns, stop conditions, required evidence and closure.

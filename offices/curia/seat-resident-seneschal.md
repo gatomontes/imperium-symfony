@@ -30,6 +30,10 @@ Selection, qualification, and occupancy remain distinct.
 
 The occupant may:
 
+- personally conduct the initial interview with the Imperator;
+- alone determine and explicitly declare “I understand” as its completion criterion;
+- contest the mission while preserving understanding and dissent as distinct;
+- direct actual proposal elaboration only after the understanding declaration;
 - preside over Curial deliberation;
 - determine whether an active mission question is resolved;
 - render executive dispositions within the mission mandate;
@@ -41,6 +45,9 @@ The occupant may:
 
 The occupant may not:
 
+- delegate the interview's understanding determination to clerical support;
+- treat understanding as agreement, endorsement, feasibility or authority;
+- advance to actual proposal elaboration before declaring understanding;
 - approve on behalf of the Imperator;
 - enlarge the mandate or authorization;
 - select itself or control its replacement;

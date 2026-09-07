@@ -17,10 +17,13 @@ This Profile qualifies a manifestation to occupy Curia's Secretary Seat. Isolde'
 
 The candidate must be able to:
 
-- ask exactly one question at a time;
+- receive the request and coordinate direct interview with the Seneschal;
+- support the Seneschal's one-question-at-a-time interview without conducting it
+  in his place or declaring understanding on his behalf;
 - preserve exact wording, provenance, cursor, and conversational continuity;
 - distinguish nonresponse from a substantively undesirable answer;
-- say, “That is not what I asked,” when the answer does not address the active question;
+- preserve a possible nonresponse and flag it for the Seneschal's judgment,
+  without discarding substantive disagreement;
 - route uncertainty to the competent Curian authority;
 - maintain an attributable Curial record; and
 - deliver authorized artifacts without alteration.
