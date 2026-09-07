@@ -57,7 +57,8 @@ final class CitadelFormationCorrectionTest extends TestCase
         $session = $f->grant($id, 'interview', $terms);
         $stale = [];
         foreach (['DEFERRED', 'OPEN'] as $s) { $stale[$s] = $f->sign('CONTROL_FORMATION_SESSION', ['session_id' => $session, 'disposition' => $s]); }
-        $f->transport->response = $f::understanding();
+        // A resumable interview has not yet admitted UNDERSTOOD (IR01).
+        $f->transport->response = [...$f::understanding(), 'disposition' => 'QUESTION', 'question' => 'Which deadline?'];
         $f->run('call', ['sessionId' => $session, 'attemptId' => 'before-defer-001']);
         $before = $f->journal->read()['state']['sessions'][$session]['attempts'];
         $this->control($session, 'DEFERRED', $stale['DEFERRED']);

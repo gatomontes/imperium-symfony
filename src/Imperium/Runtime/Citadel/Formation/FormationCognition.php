@@ -124,7 +124,7 @@ final readonly class FormationCognition
         $this->journal->change(function (array &$state) use ($sessionId, $disposition, $decision): void {
             $session = $state['sessions'][$sessionId] ?? throw new \RuntimeException('CMF054_SESSION_ABSENT');
             if (!in_array($disposition, ['REFUSED', 'DEFERRED', 'OPEN'], true)
-                || $this->wasRefused($session)) { throw new \RuntimeException('CMF055_SESSION_CONTROL_INVALID'); }
+                || $this->wasRefused($session) || isset($session['interview_completion'])) { throw new \RuntimeException('CMF055_SESSION_CONTROL_INVALID'); }
             $this->signatures->verify($state, $decision, 'CONTROL_FORMATION_SESSION', ['session_id' => $sessionId, 'disposition' => $disposition]);
             if ($disposition === 'OPEN') { $this->validateSession($state, $session, false); }
             $state['sessions'][$sessionId]['status'] = $disposition;
@@ -228,7 +228,19 @@ final readonly class FormationCognition
                     throw new \RuntimeException('CMF061_INTERVIEW_RESPONSE_INVALID_NO_PROPOSAL_ALLOWED');
                 }
                 $intake['exchange'][] = ['sequence' => count($intake['exchange']) + 1, 'kind' => 'castellan-response', 'attribution' => $record];
-                if ($response['disposition'] === 'UNDERSTOOD') { $intake['understanding'] = $record; }
+                if ($response['disposition'] === 'UNDERSTOOD') {
+                    $intake['understanding'] = $record;
+                    // Admission and closure share the journal transaction. Fence every
+                    // existing interview grant, including work already in flight.
+                    // A signed reply may clear understanding, but cannot revive these grants.
+                    foreach ($state['sessions'] as &$interview) {
+                        if ($interview['intake_id'] === $session['intake_id'] && $interview['phase'] === 'interview') {
+                            $interview['interview_completion'] ??= ['session_id' => $sessionId, 'attempt_id' => $attemptId];
+                            if ($interview['status'] === 'OPEN') { $interview['status'] = 'COMPLETED'; }
+                        }
+                    }
+                    unset($interview);
+                }
             } elseif ($session['phase'] === 'drafting') {
                 FormationPlan::validate($response);
                 $version = count($state['dossiers'][$session['intake_id']] ?? []) + 1;
@@ -275,6 +287,7 @@ final readonly class FormationCognition
         } else {
             $holder = $this->personnel->currentCastellan($state);
             if ($phase === 'interview') {
+                if (isset($intake['understanding'])) { throw new \RuntimeException('CMF067_SESSION_CLOSED_CHANGED_OR_EXPIRED'); }
                 $authority = ['intake_id' => $intakeId, 'intent_version' => $intake['intent_version'],
                     'opening_exchange' => $intake['exchange'][0], 'holder_digest' => FormationJournal::digest($holder)];
             } elseif ($phase === 'drafting') {
@@ -291,7 +304,7 @@ final readonly class FormationCognition
     {
         $this->signatures->verify($state, $session['decision'], $session['effect'], $session['terms']);
         $source = $this->source($state, $session['intake_id'], $session['phase']);
-        if ($this->wasRefused($session) || ($requireOpen && $session['status'] !== 'OPEN')
+        if ($this->wasRefused($session) || isset($session['interview_completion']) || ($requireOpen && $session['status'] !== 'OPEN')
             || $session['terms']['expires_at'] <= $this->clock->now()->getTimestamp()
             || $session['terms']['source'] !== $source['authorization_source']
             || $session['holder_digest'] !== FormationJournal::digest($source['holder'])
