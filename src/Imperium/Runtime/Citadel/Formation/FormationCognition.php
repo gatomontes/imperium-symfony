@@ -38,6 +38,12 @@ final readonly class FormationCognition
             $intake['exchange'][] = ['sequence' => count($intake['exchange']) + 1,
                 'kind' => 'imperator-response', 'content' => $content, 'decision' => $decision];
             if ($changedIntent) { ++$intake['intent_version']; }
+            // Older journals can retain UNDERSTOOD without session completion
+            // markers. Preserve that boundary before the supported reply clears it.
+            if (isset($intake['understanding'])) {
+                $claim = $intake['understanding']['claim'];
+                $this->completeInterviews($state, $intakeId, $claim['session_id'], $claim['attempt_id']);
+            }
             unset($intake['understanding'], $intake['drafting_request']);
             $intake['status'] = 'PENDING_AUTHENTICATED_INTERVIEW';
             unset($intake['record_digest']);
@@ -233,13 +239,7 @@ final readonly class FormationCognition
                     // Admission and closure share the journal transaction. Fence every
                     // existing interview grant, including work already in flight.
                     // A signed reply may clear understanding, but cannot revive these grants.
-                    foreach ($state['sessions'] as &$interview) {
-                        if ($interview['intake_id'] === $session['intake_id'] && $interview['phase'] === 'interview') {
-                            $interview['interview_completion'] ??= ['session_id' => $sessionId, 'attempt_id' => $attemptId];
-                            if ($interview['status'] === 'OPEN') { $interview['status'] = 'COMPLETED'; }
-                        }
-                    }
-                    unset($interview);
+                    $this->completeInterviews($state, $session['intake_id'], $sessionId, $attemptId);
                 }
             } elseif ($session['phase'] === 'drafting') {
                 FormationPlan::validate($response);
@@ -273,6 +273,16 @@ final readonly class FormationCognition
     public function authorizationSource(string $intakeId, string $phase): array
     {
         return $this->source($this->journal->read()['state'], $intakeId, $phase)['authorization_source'];
+    }
+
+    private function completeInterviews(array &$state, string $intakeId, string $sessionId, string $attemptId): void
+    {
+        foreach ($state['sessions'] as &$interview) {
+            if ($interview['intake_id'] === $intakeId && $interview['phase'] === 'interview') {
+                $interview['interview_completion'] ??= ['session_id' => $sessionId, 'attempt_id' => $attemptId];
+                if ($interview['status'] === 'OPEN') { $interview['status'] = 'COMPLETED'; }
+            }
+        }
     }
 
     private function source(array $state, string $intakeId, string $phase): array

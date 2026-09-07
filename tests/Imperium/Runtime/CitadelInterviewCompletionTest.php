@@ -85,11 +85,20 @@ final class CitadelInterviewCompletionTest extends TestCase
     }
 
     #[DataProvider('replyKinds')]
-    public function testSignedReplyAllowsFreshAuthorityButNeverRevivesCompletedGrants(bool $changed): void
+    public function testSignedReplyAllowsFreshAuthorityButNeverRevivesCompletedGrants(bool $changed, bool $legacy): void
     {
         $f = $this->f; $id = $f->receive()['intake_id']; $f->appoint(); $sid = $f->grant($id, 'interview');
         $f->transport->response = $f::understanding();
         $original = $f->run('call', ['sessionId' => $sid, 'attemptId' => 'before-reply-001']);
+        if ($legacy) {
+            // Exact pre-IR01 projection: authentic admitted result, OPEN, no marker.
+            $f->journal->change(static function (array &$state) use ($sid): void {
+                unset($state['sessions'][$sid]['interview_completion']);
+                $state['sessions'][$sid]['status'] = 'OPEN';
+            });
+            $this->refuses('CMF067', fn () => $f->run('call', ['sessionId' => $sid, 'attemptId' => 'legacy-understood-001']));
+            $this->refuses('CMF067', fn () => $f->grant($id, 'interview'));
+        }
         $intake = $f->journal->read()['state']['intakes'][$id];
         $terms = ['intake_id' => $id, 'head' => $intake['record_digest'], 'content' => 'Clarified scope.', 'changed_intent' => $changed];
         $f->run('reply', ['intakeId' => $id, 'content' => $terms['content'], 'changedIntent' => $changed, 'decision' => $f->sign('REPLY_TO_CITADEL', $terms)]);
@@ -104,7 +113,7 @@ final class CitadelInterviewCompletionTest extends TestCase
         self::assertSame($intake['intent_version'] + (int) $changed, $f->journal->read()['state']['intakes'][$id]['intent_version']);
     }
 
-    public static function replyKinds(): array { return [[false], [true]]; }
+    public static function replyKinds(): array { return [[false, false], [true, false], [false, true], [true, true]]; }
     private function refuses(string $code, callable $operation): void
     {
         try { $operation(); self::fail('Expected refusal '.$code); }
