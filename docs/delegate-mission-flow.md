@@ -1,3 +1,56 @@
+# Current direction — start from Imperator intent
+
+Decision recorded 2026-09-07: mission formation starts with the Imperator's
+objective. Imperium must present the applicable scope, resources and limits
+and obtain required authorization by default, even when the request does
+not mention planning, disclosure or approval.
+
+The required entry phase is documented in
+[next-lifecycle-delegate-mission-route.md](next-lifecycle-delegate-mission-route.md#required-entry-phase--imperator-intent-and-default-planning).
+It precedes Delegate Steps 1–69 and preserves their numbering and historical
+completion. This is a documented requirement; end-to-end production invocation
+from bare intent remains to be verified.
+
+## Default mission-formation flow
+
+- Imperator intent opens Curial clarification. It grants no resource-use or
+  execution authority.
+- If forming the plan requires resource-bearing investigation, Curia presents
+  the exact Planning Charter automatically. Valid approval yields Planning
+  Authorization; only its bounded derived commissions may perform that planning.
+  Otherwise Curia can prepare the Mission Plan from information lawfully present.
+- Curia presents an exact, versioned Mission Plan and numbered dossier by default:
+  outcome and success criteria, scope and exclusions, institutional/personnel
+  needs, resources and provider/model proposals, disclosure and effects, limits,
+  unknowns, stop conditions, required evidence and closure.
+- Missing material information returns to clarification. Objections return the
+  dossier for revision and new-version review. Neither path grants authority.
+- Exact-version approval opens Mission Authorization derivation under the
+  existing contract. Approval, Planning Authorization, Mission Authorization,
+  commissions and execution remain distinct.
+- The approved plan and competent authorization feed Step 1 capability demand,
+  then the existing institutional route. Each protected action retains its
+  required authority; admission, qualification or plan approval cannot replace it.
+
+See [mission-planning.md](../contracts/mission-planning.md) and
+[imperator-planning-dossier-review.md](../contracts/imperator-planning-dossier-review.md).
+Resource-bearing clarification or planning, including metered provider cognition,
+requires its applicable authority before use. Submission cannot silently grant it.
+
+The Imperator need only state the objective, for example:
+“Examine Nomina's hourly-earnings calculation for an actionable functional defect.”
+The user need not request governance steps or supply an Officer Profile.
+Curia states capabilities; Guildhall resolves profession and Persona suitability;
+the established Profile derivation and Senate examination route remains applicable.
+
+Next continuation follows this flow from the top and brings the first missing
+production connection back for discussion of intended behavior. Implementation
+choices remain for that discussion. This update does not select an alternative
+owner-supplied Profile policy, commission officers, or activate the payroll review.
+Preserve source-review work, the prepared snapshot and completed evidence.
+
+## Preserved campaign and implementation records
+
 > Campaign closed after owner-reported independent Batch 5 acceptance. Existing parent implementation, readiness and scratch/process corrections are accepted within documented bounds; GitHub integration is authorized subject to checks. See local-isolation-integration.md. No new campaign or mission starts automatically. Earlier pending dispositions below are historical.
 
 > Current disposition: existing parent Batch 5 locally complete, pending independent review. Actual-target receipt/generation and installed-package checks passed. See local-isolation-batch-5.md for bounded analytical findings, exact identities and retained custody assumptions. No new campaign starts automatically; earlier pending steps below are historical.
@@ -619,6 +672,10 @@ Earlier reproof countdowns and active handoffs below are historical stage record
 Curia states mission capabilities but never chooses a profession or Persona. Guildhall resolves profession and Persona suitability. Garrison owns custody and availability facts. Conscription assembles and qualifies but does not select personnel. Imperator decides protected personnel, Profile, deployment, resource, perimeter, and action commitments.
 
 ## Implemented terminal flow through Step 69
+
+Entry prerequisite: follow the default mission-formation phase above. The numbered
+Delegate flow begins with an approved Mission Plan and competent authorization;
+its recorded implementation does not prove the preceding production entry path.
 
 ### Demand and personnel resolution
 

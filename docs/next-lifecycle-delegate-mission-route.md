@@ -1,5 +1,67 @@
 # Next lifecycle: Delegate mission route
 
+## Required entry phase — Imperator intent and default planning
+
+Decision recorded 2026-09-07. This required phase precedes Delegate Mission
+Step 1. It preserves Steps 1–69 and their historical completion. Documentation
+of the requirement does not prove a complete production entry path.
+
+The Imperator supplies the objective in ordinary language. For example:
+
+> Examine Nomina's hourly-earnings calculation for an actionable functional defect.
+
+Imperium must initiate the applicable planning, disclosure and authorization
+process by default. The Imperator need not append “present the proposed scope,
+resources and limits for my authorization.” Omission never waives the process,
+supplies missing limits, or grants resource or execution authority.
+
+Follow [Mission Planning and Authorization](../contracts/mission-planning.md)
+and [Imperator planning-dossier review](../contracts/imperator-planning-dossier-review.md):
+
+1. **Receive intent.** Open the Curial planning proceeding and preserve the
+   objective. Intent authorizes neither resource use nor execution.
+2. **Clarify the objective.** Curia identifies missing information and asks the
+   Imperator necessary questions using information lawfully available to the
+   proceeding. Metered cognition or other resource-bearing activity requires its
+   applicable authority; calling it clarification does not exempt it.
+3. **Authorize resource-bearing planning when needed.** Before planning requires
+   commissioned Offices, protected access, metered capacity or external effects,
+   Imperium presents an exact Planning Charter disclosing scope, resources,
+   effects, ceilings and stop conditions. Valid approval and resulting Planning
+   Authorization precede the corresponding derived commissions. If no such
+   investigation is needed, proceed to Mission Plan presentation.
+4. **Present the Mission Plan by default.** Curia produces an approval-ready,
+   versioned dossier stating outcome and success criteria, scope and exclusions,
+   institutional and personnel needs, resources and provider/model proposals,
+   disclosure and effects, cost/time/resource limits, unknowns, stop conditions,
+   evidence and closure requirements. Missing material terms require clarification
+   or a bounded blocker; they never silently become unlimited permission.
+5. **Obtain the exact-version decision.** Present the dossier through the existing
+   numbered review process. Revision produces a new version for review. Valid
+   approval opens the applicable Mission Authorization derivation path; approval
+   is not execution authority. Planning Authorization cannot replace Mission
+   Authorization. Preserve the existing approval and authority distinctions.
+6. **Enter the established institutional route.** Only the approved Mission Plan
+   and competent authorization records can feed Delegate Mission Step 1.
+   Curia states capability needs; Guildhall resolves profession and Persona
+   suitability. The established custody, Profile derivation, Senate examination,
+   approval, assembly and deployment boundaries apply. The Imperator is not
+   required to supply a ready-made Profile or internal record identifiers to
+   compensate for missing integration. Later protected commitments retain their
+   existing authorization requirements.
+
+Next continuation: trace the sequence from the Imperator's request, identify the
+first missing production connection, discuss intended behavior with the Imperator,
+and implement only within the subsequently agreed scope. Preserve the prepared
+payroll snapshot, source-review components and historical evidence. This
+documentation change does not select an owner-supplied Profile admission policy,
+commission officers, or activate the payroll review.
+
+Required future proof: a request containing only the objective still reaches the
+applicable proposal and authorization gates, clarifies missing terms, and cannot
+invoke resources or execute because the user omitted control language.
+End-to-end production proof remains outstanding.
+
 ## Purpose
 
 The next implementation leg governs temporary mission-bound Officers from demand through deployment, bounded work, return, unbinding, and termination.
