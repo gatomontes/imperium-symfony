@@ -4,7 +4,7 @@ The implemented next public evidence interface is the
 [native-lineage collector/verifier](citadel-native-lineage-runbook.md). Its exact
 commands and refusing dispositions supersede the earlier future-tool wording
 below. It is standalone read-only tooling, not an installation update or authority
-import. Native-lineage final offline validation is pending.
+import. Native-lineage offline validation passed. The [completed preparation report](citadel-native-lineage-report.md) records the exact tests and explicit owner blockers; live commissioning remains blocked.
 
 Status: SOURCE_INTEGRATION_ACCEPTED_COMMISSIONING_BLOCKED. Stop before live
 commissioning. [Matrix and B1 decision](citadel-readiness-matrix.md) control the

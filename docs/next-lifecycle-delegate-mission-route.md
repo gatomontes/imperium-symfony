@@ -7,7 +7,7 @@ The [bounded public lineage tool](citadel-native-lineage-runbook.md) collects an
 verifies original public evidence without admitting new authority. The
 [action matrix](citadel-native-lineage-authority-matrix.md) identifies missing
 Garrison powers, exact Guildhall acceptance/scope and public currentness. Final
-offline validation and independent review are pending. The historical pending-IR01
+offline validation passed; [the report](citadel-native-lineage-report.md) records complete N0–N3 preparation with explicit owner blockers. Independent review remains pending. The historical pending-IR01
 text below is preserved history, not the current acceptance disposition.
 
 ## Current disposition — IR01 corrected locally, independent review pending
