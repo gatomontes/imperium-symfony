@@ -1,8 +1,10 @@
 # Citadel readiness: R0 boundary and disposition
 
 Native-lineage update: bounded original-byte and structural evidence now has a
-[specific action matrix](citadel-native-lineage-authority-matrix.md). Fourteen
-public records were collected without private-state access. Actual authority,
+[specific action matrix](citadel-native-lineage-authority-matrix.md). The initial fourteen
+public records were collected without private-state access. The accepted follow-up
+adds the exact Guildhall acceptance and its inbox envelope: sixteen originals in
+total, with the earlier fourteen unchanged. Actual formation authority,
 currentness and custody remain unverified; no production witness variant was
 admitted. [N0–N3 preparation and offline validation are complete](citadel-native-lineage-report.md) with explicit owner blockers. The historical R0 matrix remains below.
 
@@ -11,15 +13,36 @@ within their local scope. The owner confirmed `E:\htdocs\imperium`; public recor
 establish concrete Garrison/Guildhall schema and authority questions, while the
 upstream chains and current competence remain unverified. The
 [native lineage campaign](next-campaign-citadel-native-institutional-lineage.md)
-collects those exact public prerequisites and supports only justified dormant
-witness variants. B1 and live commissioning remain blocked. The original R0
+is complete through public export and offline refusal; no positive witness variant
+was justified. B1 and live commissioning remain blocked. The original R0
 source observations and matrix below are preserved with their historical date/scope.
 
 Disposition: **READINESS_PREPARATION_COMPLETE_WITH_EXPLICIT_BLOCKERS**.
 This is a local commissioning preparation package, not an operational installation.
 CF01/CF02 remain accepted within the [reviewed scope](citadel-formation-correction-acceptance.md).
 
-## Source identity and inspection boundary
+## Accepted Guildhall follow-up — current finding
+
+`guildhall-acceptance-0a1361819c5739081088` is **observed and structurally
+consistent; planning-only and out of scope for formation authority**. This
+supersedes the earlier unavailable-acceptance finding, including that historical
+finding in the native-lineage action matrix. The exact lookup is complete.
+The immutable pending cohort/envelope coexist with the separate acceptance.
+See the [accepted 16-record follow-up](citadel-native-lineage-report.md#accepted-16-record-follow-up--2026-09-08)
+for exact source/record identities, archive/collection hashes and verification
+attribution. Supplied-byte consistency does not certify underlying approval acts,
+historical producer execution, custody or current incumbency.
+
+Garrison admission/custody powers, public ordinary-Recruiter successor/currentness,
+supersession closure, other formation-seat witnesses, genuine custody and trust,
+formation-specific competence/suitability/delegation and candidate/appointment
+closure remain unresolved. B1 still requires owner-bound payload, destination,
+model, limits and authority with supportable timeout/cost semantics. Unknown
+outcomes retain exposure without retry/refund; default transport refuses.
+`live_ready`, `activation` and `execution_authority` remain false. CF01/CF02/IR01
+and accepted historical tests/reviews remain preserved. No new campaign follows.
+
+## Historical R0 source identity and inspection boundary
 
 Entry HEAD `7a7881b91f10f8c2382b28029ba2846d448370a9`, tree
 `f655e4e20c207bc0955ea8a5968bf5627b9f23ce`, on

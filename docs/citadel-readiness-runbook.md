@@ -22,20 +22,38 @@ resumes discussion but leaves completed grants fenced; obtain fresh interview
 authority afterward. Replies within an unfinished QUESTION exchange retain the
 existing session behavior. Drafting still requires its separate exact approval.
 
-## First concrete owner action
+## Completed collection and remaining owner prerequisites
 
 The owner identified `E:\htdocs\imperium`; its last supplied source identity and
 public institutional observations are recorded in the
 [integration acceptance](citadel-readiness-integration-acceptance.md). The source
 merge does not update this installation. Do not repeat the empty five-null template.
 
-Run the [native lineage campaign](next-campaign-citadel-native-institutional-lineage.md)
-in its fresh worktree. Its first action is the
-[bounded public collection](citadel-native-lineage-public-evidence.md): actual
-Garrison/Guildhall upstream lineage, exact separate acceptance when supplied,
-other public witnesses and explicit custody/trust/appointment gaps. New public
-export commands will be documented only after implementation and offline proof.
-The current installed source has no complete formation-compatible export.
+The native-lineage campaign and its exact acceptance follow-up are complete.
+The initial fourteen-record observation remains history; the accepted follow-up
+contains sixteen originals, adding `guildhall-acceptance-0a1361819c5739081088`
+and its bound inbox envelope while preserving the earlier fourteen byte-for-byte.
+Record the acceptance as **observed and structurally consistent, planning-only;
+out of scope for formation authority**. Its separate persistence leaves the
+pending cohort/envelope originals intact. Do not repeat the completed lookup or
+restart the campaign. This supersedes the earlier request for an exact acceptance
+ID in the native-lineage runbook. The [follow-up report](citadel-native-lineage-report.md#accepted-16-record-follow-up--2026-09-08)
+retains exact identities, archive/collection hashes and verification attribution.
+
+Remaining owner prerequisites are genuine Garrison admission/custody powers;
+public ordinary-Recruiter successor/currentness, historical producer provenance
+and supersession closure; exact public witnesses for the other formation Seats;
+genuine custody, formation trust/competence, suitability, role-limited delegation
+and candidate/appointment closure. Underlying approval acts are not verified by
+the planning acceptance. B1 requires a real decision binding payload, destination,
+model, limits and authority with supportable timeout/cost semantics. Unknown
+outcomes retain exposure without retry/refund; default transport refuses.
+These unresolved inputs do not authorize new collection, institutional acts or
+activation. `live_ready`, `activation` and `execution_authority` remain false.
+
+Settled flow: Citadel receives; Castellan interviews; understanding closes interview
+authority; separate drafting approval; separate mission approval; legitimate
+child-Curia constitution/handoff; receiving assessment grants no execution authority.
 
 ## Historical initial request — preserved reference, not a repeat task
 
