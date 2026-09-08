@@ -1,0 +1,43 @@
+# CP1 — public owner decision proposal
+
+Status: UNAPPROVED. Recommendation: **DEFER_ENROLLMENT** in the intended installation until the owner accepts the loss of the fenced workflows and independently establishes the operational prerequisites below. A bounded native admission/inventory installation is a possible later choice; it cannot presently serve the full legacy personnel lifecycle or a live Castellan interview.
+
+The proposed deployment target is `f35a0b33ddab9e8815470a697d8593984e050023`, tree `e4140d95cbb83b3dbf9125849953cec0c7eda989`. Preparation helper HEAD is separate and is not the deployment target. The public example is [citadel-commissioning-proposal.example.json](citadel-commissioning-proposal.example.json); [the package contract](citadel-commissioning-package-contract.md) defines every input. No example field establishes approval.
+
+| Decision | Source evidence | Proposed choice and consequence | Required owner input | Approval |
+| --- | --- | --- | --- | --- |
+| Installation / deployment custodian | CP0 assessment; command DI uses kernel.project_dir | Keep identified E:\htdocs\imperium; deploy only pinned accepted runtime after a separate decision | Responsible person, approved change window and exact deployment target | UNAPPROVED; person null |
+| Authority custodian | NativeTrust::enroll/verify | One deployment policy custodian; no new Office or general sovereign competence | Real identity and accountable delegation | UNAPPROVED; identity null |
+| Native policy | NativeTrust constants; native contract | Domain IMPERIUM_NATIVE_INSTITUTIONAL_V1, role NATIVE_INSTITUTIONAL_CUSTODIAN, exact six ordered effects and writer boundary from unchanged enrollment template | Explicit agreement to this exact policy and fence | UNAPPROVED |
+| Instance | AuthorityInput::id; NativeProtocol::original/rosterAct | Bind one exact instance across public evidence and enrollment; never infer it from Git or test IDs | Independently confirmed actual instance ID | UNAPPROVED; null |
+| Key and fingerprint | NativeTrust::enroll | Ed25519, 32 public bytes, base64; confirm SHA-256 of decoded bytes independently | Public key and independently communicated fingerprint | UNAPPROVED; both null |
+| Validity | NativeTrust::enroll/verify; NativeProtocol::interval | Owner chooses a short commissioning window adequate for manual acts; positive integer UTC Unix seconds, not_before <= acceptance < expires_at; each act/effect expires no later than trust | Concrete start/end and clock verification procedure | UNAPPROVED; times null |
+| Signer exchange | CanonicalJson::encode; NativeTrust::verify | Detached 64-byte Ed25519 signature over exact canonical public payload, base64 return; no incoming key | Selected signer interface, operator and independent byte/fingerprint checking procedure | UNAPPROVED; signer null |
+| Key custody | NativeTrust; no signing key stored by runtime | Private key remains solely in separately controlled signer; no copying to app, Git, public packet or command line | Custody/access/recovery procedure and accountable operator | UNAPPROVED; custody interface null |
+| Storage / admin access | NativeJournal; NativeBoundary; AtomicTransition | Protect root, public input parents, transition locks and native frames against noncooperating writers; restrict enrollment CLI and filesystem administrators | ACL/access assessment, process inventory and external writer control | UNAPPROVED; evidence null |
+| Legacy compatibility | 38-source map and compatibility matrix | Defer enrollment by default. BOUNDED_NATIVE_ONLY is possible only with explicit acceptance of all fenced operations and missing transport | Intended workflows and signed-off loss-of-function decision | UNAPPROVED; acceptance null |
+| Deployment recovery | Journal pending/chain rules | Verify restorable backup and quiescence before deployment; no automatic source rollback after enrollment | Backup/restore feasibility, data scope, downtime procedure and responsible person | UNAPPROVED; feasibility null |
+| Initial adoption | RecruiterEvidence::inspect; NativeProtocol::rosterAct | Attest exact retained evidence prospectively; do not certify historical producer execution | Genuine Recruiter public projection, original Garrison occupancy/currentness review and explicit attestation | UNAPPROVED; attestation null |
+
+The exact six effects are ADOPT_ROSTER, SUPERSEDE_RECRUITER, RETIRE_ROSTER, REVISE_GARRISON, REVOKE_DECISION and REVOKE_ISSUER. Decision revocation targets an exact 48-lowercase-hex nonce; issuer revocation targets its exact public fingerprint. Recruiter succession is prospective, binds the exact prior roster and generation+1, and proves no historical qualification. Garrison succession, key rotation and re-enrollment are unsupported. Retirement and revocation preserve history; they are not a reset mechanism.
+
+## Public signing interface to satisfy
+
+The signer receives the retained exact object plus the prepared payload, the intended effect, independently confirmed fingerprint and human review context. Payload keys are exactly `schema, domain, instance_id, trust_fingerprint, issuer_role, effect, object_digest, issued_at, expires_at, nonce`. Schema is `imperium.native-institutional-decision/v1`. Object digest is SHA-256 of `App\Bootstrap\CanonicalJson::encode(object)`. Sign exactly `CanonicalJson::encode(payload)`, without BOM or trailing newline; native empty-object/array and Unicode handling must match that implementation. Do not sign pretty-printed stdout or a JSON wrapper.
+
+Return only `{payload, signature}` with base64 of the 64 detached signature bytes. The independent reviewer compares the original object, scope, head/predecessors, nonce and validity; recomputes canonical digests; decodes the 32 public-key bytes and compares their SHA-256 through an independent channel. A repeated fingerprint copied from the same request is not independent confirmation. Actual `assemble` then verifies against separately enrolled trust; no signer command-line syntax is asserted until a real signer is selected. The synthetic rehearsal exercises this exchange with CanonicalJson and in-memory ephemeral keys only.
+
+## Exact initial evidence
+
+Recruiter adoption requires the exact `imperium.recruiter-public-projection/v1` packet: `schema, producer, observed_at, source, source_projection_digest, source_original_digest:null, authenticated_provenance:false, currentness, observation_boundary, live_ready:false, activation:false, execution_authority:false, record_digest`. The exact nested source contract is enforced by `RecruiterEvidence::validateSource`: instance/manifest identity, state and T04 generations, T03 predecessor, consumed succession commission, retired predecessor, successor and qualification packet/digest. This genuine projection is missing. A future separately authorized export may read private bootstrap state under its lock; it is not authorized by this package and has not been run on the installation.
+
+Garrison adoption binds the sole exact original occupancy, its manifestation, instance and occupancy generation. The retained historical public collection identifies `garrison-constable-binding-37b4c4192f137e2601ea`, record digest `40c824cf0537a432c2968cbe38b775c5c4181bb4981b4458977b468f45e55079`. CP0 does not freshly inspect that runtime file. The accepted 16-record collection and planning-only Guildhall acceptance remain historical, qualified evidence; they are neither recollected nor promoted to current authority.
+
+Both adoption objects have exactly `{expected_head, seat, actor, occupancy_generation, prior_roster:null, evidence, effective_at, expires_at}`. Seats are `conscription.recruiter` and `garrison.constable`. Read the head again after each act; initial null means verified enrolled absence only at that head.
+
+Garrison preparation is `{schema:"imperium.garrison-authority-preparation/v1", occupancy, prior_revision, effective_at, expires_at, request_nonce}`. The request binds the unchanged original and exactly these two scopes:
+
+- `persona_admission_disposition_authority`: admit or refuse exact immutable Persona packages under Garrison doctrine only.
+- `custody_registration_authority`: register custody only after the same occupied Constable renders an attributable admission disposition.
+
+The signed revision object is `{expected_head, roster_digest, prior_revision, request, occupancy}`. Top-level prior_revision is the current revision digest or verified null; inside request terms it is `{id,digest}` or null. Independent original inventory power is retained; other powers keep original values. Revision alone neither admits a Persona nor grants selection, reservation, Profile handoff, formation competence or execution.

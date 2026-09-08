@@ -1,5 +1,13 @@
 # Citadel readiness: R0 boundary and disposition
 
+## Current disposition — commissioning package prepared for owner review
+
+**COMMISSIONING_PACKAGE_PREPARED_FOR_OWNER_REVIEW.** CP0–CP3 is complete locally: [report and evidence index](citadel-commissioning-preparation-report.md), [installation assessment](citadel-commissioning-installation-assessment.md), [owner decisions](citadel-commissioning-owner-decisions.md), [compatibility matrix](citadel-commissioning-compatibility.md) and [phased runbook](citadel-commissioning-owner-runbook.md). Independent package review is next. Recommendation: defer enrollment until explicit owner decisions and genuine operational prerequisites are resolved.
+
+The checker and offline rehearsal grant no authority. Deployment approval, enrollment authorization, live readiness, activation and execution remain false. Stop at local commits; publication and any real commissioning are later gates. Accepted P0–P3/NA-IR01/02, CF01/CF02/IR01 and the exact Guildhall lookup remain closed within scope. Native authority does not supply formation competence or resolve other Seats, appointments or B1. Citadel receives; Castellan interviews; understanding closes interview authority; drafting and mission approval remain separate; receiving assessment grants no execution authority. Default transport refuses; unknown outcomes retain exposure without retry/refund.
+
+The campaign/status entries below retain their historical attribution.
+
 ## Current campaign — native authority commissioning preparation CP0–CP3
 
 P0–P3 and NA-IR01/02 are [accepted and integrated through PR #774](citadel-native-authority-protocol-acceptance.md), merge `f35a0b33ddab9e8815470a697d8593984e050023`, exact accepted tree `e4140d95cbb83b3dbf9125849953cec0c7eda989`. GitHub CI passed. Earlier accepted campaigns and the exact Guildhall lookup remain closed within scope.
