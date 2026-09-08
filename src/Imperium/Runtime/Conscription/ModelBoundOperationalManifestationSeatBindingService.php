@@ -12,16 +12,24 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class ModelBoundOperationalManifestationSeatBindingService
 {
+    private string $nativeRoot;
+
     private string $a;
     private string $q;
     private string $o;
     public function __construct(#[Autowire('%kernel.project_dir%')]string $root,
     private StateStore $b) {
+        $this->nativeRoot = $root;
+
         $this->a = $root.'/var/imperium/offices/conscription/model-bound-operational-manifestation-assemblies';
         $this->q = $root.'/var/imperium/offices/conscription/model-bound-operational-profile-qualifications';
         $this->o = $root.'/var/imperium/operational/occupancy';
     }
     public function bind(string $id): array
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeBind($id));
+    }
+    private function legacyNativeBind(string $id): array
     {
         if (!preg_match('/^model-bound-operational-manifestation-assembly-[a-f0-9]{20}$/',
         $id)) throw new \InvalidArgumentException('R220_MODEL_BOUND_ASSEMBLY_ID_INVALID');

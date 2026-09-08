@@ -11,6 +11,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class ExaminationAssemblyAuthorizationRequestService
 {
+    private string $nativeRoot;
+
     private string $acceptanceDirectory;
     private string $returnDirectory;
     private string $candidateDirectory;
@@ -19,6 +21,8 @@ final readonly class ExaminationAssemblyAuthorizationRequestService
 
     public function __construct(#[Autowire('%kernel.project_dir%')] string $projectDir, private StateStore $bootstrap)
     {
+        $this->nativeRoot = $projectDir;
+
         $this->acceptanceDirectory = $projectDir.'/var/imperium/offices/conscription/profile-candidate-return-acceptances';
         $this->returnDirectory = $projectDir.'/var/imperium/offices/conscription/profile-candidate-return-inbox';
         $this->candidateDirectory = $projectDir.'/var/imperium/offices/laboratorium/profile-candidates';
@@ -27,6 +31,10 @@ final readonly class ExaminationAssemblyAuthorizationRequestService
     }
 
     public function request(string $acceptanceId): array
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeRequest($acceptanceId));
+    }
+    private function legacyNativeRequest(string $acceptanceId): array
     {
         if (!preg_match('/^profile-candidate-return-acceptance-[a-f0-9]{20}$/', $acceptanceId)) throw new \InvalidArgumentException('R91_PROFILE_CANDIDATE_ACCEPTANCE_ID_INVALID');
         $acceptance = $this->read($this->acceptanceDirectory.'/'.$acceptanceId.'.json', 'R92_PROFILE_CANDIDATE_ACCEPTANCE_ABSENT');

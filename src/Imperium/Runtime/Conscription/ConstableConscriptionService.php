@@ -11,18 +11,26 @@ use App\Imperium\Runtime\Garrison\CanonicalConstableRegistry;
 
 final readonly class ConstableConscriptionService
 {
+    private string $nativeRoot;
+
     private string $commissionDirectory;
     private string $caseDirectory;
     private string $deliveryDirectory;
 
     public function __construct(string $projectDir, private StateStore $bootstrap, private CanonicalConstableRegistry $constable, private GenericOfficerSubstrateRegistry $substrate)
     {
+        $this->nativeRoot = $projectDir;
+
         $this->commissionDirectory = $projectDir.'/var/imperium/offices/conscription/inbox';
         $this->caseDirectory = $projectDir.'/var/imperium/mastermason/activation-cases';
         $this->deliveryDirectory = $projectDir.'/var/imperium/mastermason/qualified-manifestations';
     }
 
     public function fulfill(string $commissionId): array
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeFulfill($commissionId));
+    }
+    private function legacyNativeFulfill(string $commissionId): array
     {
         if (!preg_match('/^constable-construction-[a-f0-9]{20}$/', $commissionId)) throw new \InvalidArgumentException('R30_CONSTABLE_COMMISSION_INVALID: exact Constable construction commission identity is required.');
         $commission = $this->read($this->commissionDirectory.'/'.$commissionId.'.json', 'R31_CONSTABLE_COMMISSION_ABSENT');

@@ -1,0 +1,11 @@
+{
+  "schema": "imperium.native-authority-enrollment/v1",
+  "domain": "IMPERIUM_NATIVE_INSTITUTIONAL_V1",
+  "instance_id": null,
+  "public_key": null,
+  "issuer_role": "NATIVE_INSTITUTIONAL_CUSTODIAN",
+  "effects": ["ADOPT_ROSTER", "SUPERSEDE_RECRUITER", "RETIRE_ROSTER", "REVISE_GARRISON", "REVOKE_DECISION", "REVOKE_ISSUER"],
+  "not_before": null,
+  "expires_at": null,
+  "writer_boundary": "NATIVE_REGISTRY_EXCLUSIVE_GARRISON_AND_RECRUITER_V1"
+}

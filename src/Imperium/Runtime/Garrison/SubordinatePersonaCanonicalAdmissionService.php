@@ -5,9 +5,19 @@ use App\Bootstrap\CanonicalJson;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 final readonly class SubordinatePersonaCanonicalAdmissionService
 {
+    private string $nativeRoot;
+    private ?\App\Imperium\Runtime\Citadel\NativeAuthority\NativeProtocol $nativeProtocol;
+
     private string$inbox;private string$occupancy;private string$dispositions;private string$custody;
-    public function __construct(#[Autowire("%kernel.project_dir%")]string$p){$this->inbox=$p."/var/imperium/offices/garrison/inbox/canonical-subordinate-persona-admissions";$this->occupancy=$p."/var/imperium/offices/garrison/occupancy";$this->dispositions=$p."/var/imperium/offices/garrison/subordinate-persona-admission-dispositions";$this->custody=$p."/var/imperium/offices/garrison/custody";}
+    public function __construct(#[Autowire("%kernel.project_dir%")]string$p, ?\App\Imperium\Runtime\Citadel\NativeAuthority\NativeProtocol $nativeProtocol = null){
+        $this->nativeRoot = $p;
+        $this->nativeProtocol = $nativeProtocol;
+$this->inbox=$p."/var/imperium/offices/garrison/inbox/canonical-subordinate-persona-admissions";$this->occupancy=$p."/var/imperium/offices/garrison/occupancy";$this->dispositions=$p."/var/imperium/offices/garrison/subordinate-persona-admission-dispositions";$this->custody=$p."/var/imperium/offices/garrison/custody";}
     public function admit(string$deliveryId,string$bindingId):array
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::lock($this->nativeRoot, fn () => \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::enabled($this->nativeRoot) ? ($this->nativeProtocol ?? \App\Imperium\Runtime\Citadel\NativeAuthority\NativeServices::protocol($this->nativeRoot))->admit($deliveryId, $bindingId) : $this->legacyNativeAdmit($deliveryId, $bindingId));
+    }
+    private function legacyNativeAdmit(string$deliveryId,string$bindingId):array
     {
         if(!preg_match('/^guildhall-garrison-persona-admission-delivery-[a-f0-9]{20}$/',$deliveryId))throw new \InvalidArgumentException("GA86_CANONICAL_ADMISSION_DELIVERY_ID_INVALID");$d=$this->read($this->inbox."/".$deliveryId.".json","GA87_CANONICAL_ADMISSION_CHAIN_INVALID");$c=$this->read($this->occupancy."/".$bindingId.".json","GA87_CANONICAL_ADMISSION_CHAIN_INVALID");
         if(!$this->ok($d)||!$this->ok($c)||"CANONICAL_GUILDHALL_TO_GARRISON"!==($d["route_class"]??null)||"DELIVERED_PENDING_CONSTABLE_ADMISSION_DISPOSITION"!==($d["status"]??null)||"garrison.constable"!==($d["recipient"]["seat"]??null)||"garrison.constable"!==($c["seat"]??null)||($d["instance_id"]??null)!==($c["instance_id"]??null)||"ACTIVE"!==($c["status"]??null)||true!==($c["persona_admission_disposition_authority"]??null)||true!==($c["custody_registration_authority"]??null)||true===($c["selection_authority"]??null)||true===($c["execution_authority"]??null)||true===($d["admission_authority"]??null)||!is_string($d["senate_confirmation_record_id"]??null)||!is_string($d["originating_guildhall_commission_id"]??null))throw new \RuntimeException("GA87_CANONICAL_ADMISSION_CHAIN_INVALID");

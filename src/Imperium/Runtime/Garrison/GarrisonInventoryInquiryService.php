@@ -8,12 +8,16 @@ use App\Bootstrap\CanonicalJson;
 
 final readonly class GarrisonInventoryInquiryService
 {
+    private string $nativeRoot;
+
     private string $determinationDirectory;
     private string $occupancyDirectory;
     private string $inquiryDirectory;
 
     public function __construct(string $projectDir)
     {
+        $this->nativeRoot = $projectDir;
+
         $this->determinationDirectory =
             $projectDir . "/var/imperium/offices/guildhall/deliberations";
         $this->occupancyDirectory =
@@ -23,6 +27,10 @@ final readonly class GarrisonInventoryInquiryService
     }
 
     public function route(string $determinationId): array
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeRoute($determinationId));
+    }
+    private function legacyNativeRoute(string $determinationId): array
     {
         if (
             !preg_match(

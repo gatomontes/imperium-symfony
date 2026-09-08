@@ -9,6 +9,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class PersonaReservationDispositionService
 {
+    private string $nativeRoot;
+
     private string $inbox;
     private string $acceptanceDirectory;
     private string $dispositionDirectory;
@@ -17,6 +19,8 @@ final readonly class PersonaReservationDispositionService
 
     public function __construct(#[Autowire('%kernel.project_dir%')] string $projectDir)
     {
+        $this->nativeRoot = $projectDir;
+
         $this->inbox = $projectDir.'/var/imperium/offices/garrison/persona-reservation-inbox';
         $this->acceptanceDirectory = $projectDir.'/var/imperium/offices/guildhall/personnel-use-authorization-acceptances';
         $this->dispositionDirectory = $projectDir.'/var/imperium/offices/garrison/persona-reservation-dispositions';
@@ -25,6 +29,10 @@ final readonly class PersonaReservationDispositionService
     }
 
     public function decide(string $requestId, string $bindingId): array
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeDecide($requestId, $bindingId));
+    }
+    private function legacyNativeDecide(string $requestId, string $bindingId): array
     {
         if (!preg_match('/^persona-reservation-request-[a-f0-9]{20}$/', $requestId)) throw new \InvalidArgumentException('GA92_RESERVATION_REQUEST_ID_INVALID');
         if ('' === trim($bindingId)) throw new \InvalidArgumentException('GA93_CONSTABLE_BINDING_ID_INVALID');

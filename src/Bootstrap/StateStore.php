@@ -6,16 +6,24 @@ namespace App\Bootstrap;
 
 final readonly class StateStore
 {
+    private string $nativeRoot;
+
     private string $statePath;
     private string $lockPath;
 
     public function __construct(string $projectDir)
     {
+        $this->nativeRoot = $projectDir;
+
         $this->statePath = $projectDir.'/var/imperium/bootstrap-state.json';
         $this->lockPath = $projectDir.'/var/imperium/bootstrap.lock';
     }
 
     public function read(): ?array
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeRead());
+    }
+    private function legacyNativeRead(): ?array
     {
         if (!is_file($this->statePath)) {
             return null;
@@ -28,6 +36,10 @@ final readonly class StateStore
     }
 
     public function locked(callable $operation): mixed
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::lock($this->nativeRoot, fn () => $this->legacyNativeLocked($operation));
+    }
+    private function legacyNativeLocked(callable $operation): mixed
     {
         $directory = dirname($this->lockPath);
         if (!is_dir($directory) && !mkdir($directory, 0770, true) && !is_dir($directory)) {
@@ -46,6 +58,10 @@ final readonly class StateStore
     }
 
     public function write(array $state): void
+    {
+        \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, function () use ($state) { $this->legacyNativeWrite($state); });
+    }
+    private function legacyNativeWrite(array $state): void
     {
         $json = json_encode($state, JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES)."\n";
         $temporary = $this->statePath.'.tmp.'.bin2hex(random_bytes(6));

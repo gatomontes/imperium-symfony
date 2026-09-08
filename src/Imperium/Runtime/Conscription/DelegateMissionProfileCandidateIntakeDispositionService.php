@@ -12,6 +12,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class DelegateMissionProfileCandidateIntakeDispositionService
 {
+    private string $nativeRoot;
+
     private const array DISPOSITIONS = ['ACCEPTED', 'REFUSED'];
 
     private string $returns;
@@ -22,6 +24,8 @@ final readonly class DelegateMissionProfileCandidateIntakeDispositionService
 
     public function __construct(#[Autowire('%kernel.project_dir%')] string $root, private StateStore $bootstrap)
     {
+        $this->nativeRoot = $root;
+
         $this->returns = $root.'/var/imperium/offices/conscription/delegate-mission-profile-candidate-return-inbox';
         $this->candidates = $root.'/var/imperium/offices/laboratorium/delegate-mission-profile-candidates';
         $this->derivationDispositions = $root.'/var/imperium/offices/laboratorium/delegate-mission-profile-derivation-commission-dispositions';
@@ -30,6 +34,10 @@ final readonly class DelegateMissionProfileCandidateIntakeDispositionService
     }
 
     public function decide(string $returnId, string $disposition, string $rationale, \DateTimeImmutable $decidedAt): array
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeDecide($returnId, $disposition, $rationale, $decidedAt));
+    }
+    private function legacyNativeDecide(string $returnId, string $disposition, string $rationale, \DateTimeImmutable $decidedAt): array
     {
         if (!preg_match('/^delegate-mission-profile-candidate-return-[a-f0-9]{20}$/', $returnId)) {
             throw new \InvalidArgumentException('R520_DELEGATE_MISSION_PROFILE_CANDIDATE_RETURN_ID_INVALID');

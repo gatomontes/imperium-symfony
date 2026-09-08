@@ -12,6 +12,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class DelegateMissionOperationalManifestationAssemblyService
 {
+    private string $nativeRoot;
+
     private string $q;
     private string $c;
     private string $a;
@@ -19,12 +21,18 @@ final readonly class DelegateMissionOperationalManifestationAssemblyService
     public function __construct(#[Autowire('%kernel.project_dir%')]string $root,
     private StateStore $b,
     ?DelegateMissionOperationalTransitionCoordinator $coordinator = null) {
+        $this->nativeRoot = $root;
+
         $this->q = $root.'/var/imperium/offices/conscription/delegate-mission-operational-profile-qualifications';
         $this->c = $root.'/var/imperium/offices/garrison/custody';
         $this->a = $root.'/var/imperium/offices/conscription/delegate-mission-operational-manifestation-assemblies';
         $this->t = $coordinator ?? new DelegateMissionOperationalTransitionCoordinator($root);
     }
     public function assemble(string $id,
+    \DateTimeImmutable $at): array {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeAssemble($id, $at));
+    }
+    private function legacyNativeAssemble(string $id,
     \DateTimeImmutable $at): array {
         if (!preg_match('/^delegate-mission-operational-profile-qualification-[a-f0-9]{20}$/',
         $id)) throw new \InvalidArgumentException('R250_DELEGATE_MISSION_QUALIFICATION_ID_INVALID');

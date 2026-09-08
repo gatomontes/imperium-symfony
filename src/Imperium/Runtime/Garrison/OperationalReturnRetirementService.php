@@ -3,9 +3,17 @@ declare(strict_types=1);namespace App\Imperium\Runtime\Garrison;
 use App\Bootstrap\CanonicalJson;use Symfony\Component\DependencyInjection\Attribute\Autowire;
 final readonly class OperationalReturnRetirementService
 {
+    private string $nativeRoot;
+
  private string$authorizations;private string$executions;private string$bindings;private string$occupancy;private string$custody;private string$terminals;
- public function __construct(#[Autowire('%kernel.project_dir%')]string$root){$this->authorizations=$root.'/var/imperium/offices/curia/operational-return-authorizations';$this->executions=$root.'/var/imperium/mission/bounded-executions';$this->bindings=$root.'/var/imperium/mission/occupancy';$this->occupancy=$root.'/var/imperium/offices/garrison/occupancy';$this->custody=$root.'/var/imperium/offices/garrison/custody';$this->terminals=$root.'/var/imperium/offices/garrison/operational-return-retirements';}
+ public function __construct(#[Autowire('%kernel.project_dir%')]string$root){
+        $this->nativeRoot = $root;
+$this->authorizations=$root.'/var/imperium/offices/curia/operational-return-authorizations';$this->executions=$root.'/var/imperium/mission/bounded-executions';$this->bindings=$root.'/var/imperium/mission/occupancy';$this->occupancy=$root.'/var/imperium/offices/garrison/occupancy';$this->custody=$root.'/var/imperium/offices/garrison/custody';$this->terminals=$root.'/var/imperium/offices/garrison/operational-return-retirements';}
  public function complete(string$authorizationId,string$constableBindingId):array
+ {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeComplete($authorizationId, $constableBindingId));
+    }
+    private function legacyNativeComplete(string$authorizationId,string$constableBindingId):array
  {
   if(!preg_match('/^operational-return-authorization-[a-f0-9]{20}$/',$authorizationId))throw new \InvalidArgumentException('GA208_OPERATIONAL_RETURN_AUTHORIZATION_ID_INVALID');$a=$this->read($this->authorizations.'/'.$authorizationId.'.json','GA209_OPERATIONAL_RETURN_AUTHORIZATION_ABSENT');foreach(glob($this->terminals.'/operational-return-retirement-*.json')?:[]as$p){$x=$this->read($p,'GA215_OPERATIONAL_RETURN_RETIREMENT_CONFLICT');if(!$this->ok($x))throw new \RuntimeException('GA215_OPERATIONAL_RETURN_RETIREMENT_CONFLICT');if(($x['source_return_authorization']['id']??null)===$authorizationId)return$x;}
   $eid=$a['source_bounded_execution']['id']??null;$e=is_string($eid)?$this->read($this->executions.'/'.$eid.'.json','GA210_BOUNDED_EXECUTION_ABSENT'):[];$bid=$a['source_binding']['id']??null;$b=is_string($bid)?$this->read($this->bindings.'/'.$bid.'.json','GA211_OPERATIONAL_BINDING_ABSENT'):[];$k=$this->read($this->occupancy.'/'.$constableBindingId.'.json','GA212_CONSTABLE_OCCUPANCY_ABSENT');$cid=$a['operational_custody']['id']??null;$c=is_string($cid)?$this->read($this->custody.'/'.$cid.'.json','GA213_OPERATIONAL_CUSTODY_ABSENT'):[];$this->validate($authorizationId,$a,$e,$b,$constableBindingId,$k,$c);

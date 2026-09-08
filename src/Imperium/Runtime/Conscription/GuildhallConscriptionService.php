@@ -11,6 +11,8 @@ use App\Imperium\Runtime\Guildhall\CanonicalGuildhallStaffRegistry;
 
 final readonly class GuildhallConscriptionService
 {
+    private string $nativeRoot;
+
     private string $proceedingDirectory;
     private string $commissionDirectory;
     private string $deliveryDirectory;
@@ -21,12 +23,18 @@ final readonly class GuildhallConscriptionService
         private CanonicalGuildhallStaffRegistry $staff,
         private GenericOfficerSubstrateRegistry $substrate,
     ) {
+        $this->nativeRoot = $projectDir;
+
         $this->proceedingDirectory = $projectDir.'/var/imperium/curia/proceedings';
         $this->commissionDirectory = $projectDir.'/var/imperium/offices/conscription/inbox';
         $this->deliveryDirectory = $projectDir.'/var/imperium/mastermason/qualified-manifestations';
     }
 
     public function fulfill(string $summonsId): array
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeFulfill($summonsId));
+    }
+    private function legacyNativeFulfill(string $summonsId): array
     {
         if (!preg_match('/^guildhall-summons-[a-f0-9]{20}$/', $summonsId)) {
             throw new \InvalidArgumentException('R20_GUILDHALL_SUMMONS_INVALID: exact Guildhall summons identity is required.');

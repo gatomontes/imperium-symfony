@@ -3,9 +3,17 @@ declare(strict_types=1);namespace App\Imperium\Runtime\Conscription;
 use App\Bootstrap\BootstrapState;use App\Bootstrap\CanonicalJson;use App\Bootstrap\StateStore;use App\Imperium\Runtime\Identity\OfficerClass;use Symfony\Component\DependencyInjection\Attribute\Autowire;
 final readonly class OperationalManifestationAssemblyService
 {
+    private string $nativeRoot;
+
  private string$qualifications;private string$candidates;private string$custody;private string$assemblies;
- public function __construct(#[Autowire('%kernel.project_dir%')]string$root,private StateStore$bootstrap){$this->qualifications=$root.'/var/imperium/offices/conscription/operational-profile-qualifications';$this->candidates=$root.'/var/imperium/offices/laboratorium/profile-candidates';$this->custody=$root.'/var/imperium/offices/garrison/custody';$this->assemblies=$root.'/var/imperium/offices/conscription/operational-manifestation-assemblies';}
+ public function __construct(#[Autowire('%kernel.project_dir%')]string$root,private StateStore$bootstrap){
+        $this->nativeRoot = $root;
+$this->qualifications=$root.'/var/imperium/offices/conscription/operational-profile-qualifications';$this->candidates=$root.'/var/imperium/offices/laboratorium/profile-candidates';$this->custody=$root.'/var/imperium/offices/garrison/custody';$this->assemblies=$root.'/var/imperium/offices/conscription/operational-manifestation-assemblies';}
  public function assemble(string$qualificationId):array
+ {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeAssemble($qualificationId));
+    }
+    private function legacyNativeAssemble(string$qualificationId):array
  {
   if(!preg_match('/^operational-profile-qualification-[a-f0-9]{20}$/',$qualificationId))throw new \InvalidArgumentException('R116_OPERATIONAL_PROFILE_QUALIFICATION_ID_INVALID');
   $q=$this->read($this->qualifications.'/'.$qualificationId.'.json','R117_OPERATIONAL_PROFILE_QUALIFICATION_ABSENT');foreach(glob($this->assemblies.'/operational-manifestation-assembly-*.json')?:[]as$path){$prior=$this->read($path,'R122_OPERATIONAL_MANIFESTATION_ASSEMBLY_CONFLICT');if(!$this->ok($prior))throw new \RuntimeException('R122_OPERATIONAL_MANIFESTATION_ASSEMBLY_CONFLICT');if(($prior['source_qualification']['id']??null)===$qualificationId){if(($prior['source_qualification']['digest']??null)!==($q['record_digest']??null))throw new \RuntimeException('R122_OPERATIONAL_MANIFESTATION_ASSEMBLY_CONFLICT');return$prior;}}

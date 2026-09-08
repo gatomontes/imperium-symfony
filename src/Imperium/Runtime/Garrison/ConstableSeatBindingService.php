@@ -11,6 +11,8 @@ use App\Imperium\Runtime\Conscription\GenericOfficerSubstrateRegistry;
 
 final readonly class ConstableSeatBindingService
 {
+    private string $nativeRoot;
+
     private string $deliveryDirectory;
     private string $occupancyDirectory;
 
@@ -20,6 +22,8 @@ final readonly class ConstableSeatBindingService
         private CanonicalConstableRegistry $constable,
         private GenericOfficerSubstrateRegistry $substrate,
     ) {
+        $this->nativeRoot = $projectDir;
+
         $this->deliveryDirectory =
             $projectDir . "/var/imperium/mastermason/qualified-manifestations";
         $this->occupancyDirectory =
@@ -27,6 +31,10 @@ final readonly class ConstableSeatBindingService
     }
 
     public function bind(string $deliveryId): array
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeBind($deliveryId));
+    }
+    private function legacyNativeBind(string $deliveryId): array
     {
         if (!preg_match('/^qualified-delivery-[a-f0-9]{20}$/', $deliveryId)) {
             throw new \InvalidArgumentException(

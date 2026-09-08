@@ -10,18 +10,26 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class OperationalCustodyTransitionService
 {
+    private string $nativeRoot;
+
     private string $authorizations;
     private string $occupancy;
     private string $custody;
     private string $transitions;
     public function __construct(#[Autowire('%kernel.project_dir%')]string $root)
     {
+        $this->nativeRoot = $root;
+
         $this->authorizations = $root.'/var/imperium/offices/curia/operational-deployment-authorizations';
         $this->occupancy = $root.'/var/imperium/offices/garrison/occupancy';
         $this->custody = $root.'/var/imperium/offices/garrison/custody';
         $this->transitions = $root.'/var/imperium/offices/garrison/operational-custody-transitions';
     }
     public function transition(string $authorizationId,
+    string $constableBindingId): array {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeTransition($authorizationId, $constableBindingId));
+    }
+    private function legacyNativeTransition(string $authorizationId,
     string $constableBindingId): array {
         if (!preg_match('/^operational-deployment-authorization-[a-f0-9]{20}$/',
         $authorizationId)) throw new \InvalidArgumentException('GA201_DEPLOYMENT_AUTHORIZATION_ID_INVALID');

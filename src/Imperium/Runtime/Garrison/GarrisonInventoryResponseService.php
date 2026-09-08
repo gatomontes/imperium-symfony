@@ -8,13 +8,19 @@ use App\Bootstrap\CanonicalJson;
 
 final readonly class GarrisonInventoryResponseService
 {
+    private string $nativeRoot;
+    private ?\App\Imperium\Runtime\Citadel\NativeAuthority\NativeProtocol $nativeProtocol;
+
     private string $inquiryDirectory;
     private string $occupancyDirectory;
     private string $custodyDirectory;
     private string $guildhallResponses;
 
-    public function __construct(string $projectDir)
+    public function __construct(string $projectDir, ?\App\Imperium\Runtime\Citadel\NativeAuthority\NativeProtocol $nativeProtocol = null)
     {
+        $this->nativeRoot = $projectDir;
+        $this->nativeProtocol = $nativeProtocol;
+
         $this->inquiryDirectory =
             $projectDir . "/var/imperium/offices/garrison/inbox";
         $this->occupancyDirectory =
@@ -26,6 +32,10 @@ final readonly class GarrisonInventoryResponseService
     }
 
     public function respond(string $inquiryId): array
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::lock($this->nativeRoot, fn () => \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::enabled($this->nativeRoot) ? ($this->nativeProtocol ?? \App\Imperium\Runtime\Citadel\NativeAuthority\NativeServices::protocol($this->nativeRoot))->inventory($inquiryId) : $this->legacyNativeRespond($inquiryId));
+    }
+    private function legacyNativeRespond(string $inquiryId): array
     {
         if (!preg_match('/^garrison-inquiry-[a-f0-9]{20}$/', $inquiryId)) {
             throw new \InvalidArgumentException(

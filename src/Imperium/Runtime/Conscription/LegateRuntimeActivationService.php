@@ -9,6 +9,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class LegateRuntimeActivationService
 {
+    private string $nativeRoot;
+
     private string $authorizations;
     private string $bindings;
     private string $assemblies;
@@ -20,6 +22,8 @@ final readonly class LegateRuntimeActivationService
 
     public function __construct(#[Autowire('%kernel.project_dir%')] string $root, private StateStore $bootstrap)
     {
+        $this->nativeRoot = $root;
+
         $this->authorizations = $root.'/var/imperium/imperator/citadel-legate-activation-authorization-decisions';
         $this->bindings = $root.'/var/imperium/operational/occupancy';
         $this->assemblies = $root.'/var/imperium/offices/conscription/model-bound-operational-manifestation-assemblies';
@@ -31,6 +35,10 @@ final readonly class LegateRuntimeActivationService
     }
 
     public function activate(string $decisionId, \DateTimeImmutable $activatedAt): array
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeActivate($decisionId, $activatedAt));
+    }
+    private function legacyNativeActivate(string $decisionId, \DateTimeImmutable $activatedAt): array
     {
         if (!preg_match('/^citadel-legate-activation-authorization-decision-[a-f0-9]{20}$/', $decisionId)) {
             throw new \InvalidArgumentException('R230_CITADEL_ACTIVATION_DECISION_ID_INVALID');

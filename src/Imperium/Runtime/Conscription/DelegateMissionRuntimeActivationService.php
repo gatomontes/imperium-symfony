@@ -18,6 +18,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class DelegateMissionRuntimeActivationService
 {
+    private string $nativeRoot;
+
     private string $t;
     private string $b;
     private string $c;
@@ -28,6 +30,8 @@ final readonly class DelegateMissionRuntimeActivationService
     private StateStore $s,
     ?RecordReferenceValidator $v = null,
     ?ImmutableRecordStore $records = null) {
+        $this->nativeRoot = $root;
+
         $this->t = $root.'/var/imperium/offices/garrison/delegate-mission-operational-custody-transitions';
         $this->b = $root.'/var/imperium/mission/occupancy';
         $this->c = $root.'/var/imperium/offices/garrison/custody';
@@ -37,6 +41,10 @@ final readonly class DelegateMissionRuntimeActivationService
         new AtomicTransition($root));
     }
     public function activate(string $id,
+    \DateTimeImmutable $at): array {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeActivate($id, $at));
+    }
+    private function legacyNativeActivate(string $id,
     \DateTimeImmutable $at): array {
         if (!preg_match('/^delegate-mission-operational-custody-transition-[a-f0-9]{20}$/',
         $id)) throw new \InvalidArgumentException('R270_DELEGATE_MISSION_CUSTODY_TRANSITION_ID_INVALID');
