@@ -33,7 +33,8 @@ try {
     foreach (['OPEN', 'DEFERRED', 'REFUSED'] as $s) { $controls[$s] = $f->sign('CONTROL_FORMATION_SESSION', ['session_id' => $session, 'disposition' => $s]); }
     $control = fn (string $s) => $f->run('control-session', ['sessionId' => $session, 'disposition' => $s, 'decision' => $controls[$s]]);
     $control('DEFERRED'); $control('OPEN');
-    $f->transport->response = $f::understanding();
+    // CF01 resume/refusal exercises an unfinished interview; UNDERSTOOD now closes it.
+    $f->transport->response = [...$f::understanding(), 'disposition' => 'QUESTION', 'question' => 'Which deadline?'];
     $f->run('call', ['sessionId' => $session, 'attemptId' => 'legitimate-resume-001']);
     $control('REFUSED'); $before = $f->journal->read();
     $denials = [];

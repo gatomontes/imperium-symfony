@@ -300,7 +300,13 @@ final class CitadelMissionFormationTest extends TestCase
         $this->refuses('CMF087', fn () => $f->formation->reserve($review['review_id']));
         self::assertArrayNotHasKey('reservations', $f->journal->read()['state']);
         self::assertDirectoryDoesNotExist($f->root.'/var/imperium/citadel/children');
-        // Reassess changed registry with Castellan; unchanged approved terms need no new approval.
+        // Explicit signed reply reopens intake discussion after UNDERSTOOD (IR01).
+        // Reassess changed registry; unchanged approved terms need no new approval.
+        $intake = $f->journal->read()['state']['intakes'][$id];
+        $reply = ['intake_id' => $id, 'head' => $intake['record_digest'],
+            'content' => 'Reassess overlap with the new pending inquiry; my intent is unchanged.', 'changed_intent' => false];
+        $f->run('reply', ['intakeId' => $id, 'content' => $reply['content'], 'changedIntent' => false,
+            'decision' => $f->sign('REPLY_TO_CITADEL', $reply)]);
         $f->understand($id);
         $reservation = $f->formation->reserve($review['review_id']);
         self::assertSame($terms['mission_id'], $reservation['mission_id']);

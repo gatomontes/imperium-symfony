@@ -95,6 +95,17 @@ final class CitadelFormationFixture
         return json_decode($tester->getDisplay(), true, 512, JSON_THROW_ON_ERROR)['result'];
     }
 
+    /** Sign only with this isolated fixture's ephemeral key; never a production signer. */
+    public function signPrepared(array $packet): array
+    {
+        $bytes = base64_decode($packet['signing_bytes_base64'], true);
+        if ($bytes !== CanonicalJson::encode($packet['payload']) || hash('sha256', $bytes) !== $packet['signing_bytes_sha256']
+            || FormationJournal::digest($packet['object']) !== $packet['payload']['object_digest']) {
+            throw new \RuntimeException('Synthetic signing packet mismatch');
+        }
+        return ['payload' => $packet['payload'], 'signature' => base64_encode(sodium_crypto_sign_detached($bytes, $this->secret))];
+    }
+
     public function receive(string $text = "  Synthetic mission request.\r\nPreserve exact bytes.\n", string $id = 'synthetic-request-0001'): array
     {
         $path = $this->root.'/request.txt';

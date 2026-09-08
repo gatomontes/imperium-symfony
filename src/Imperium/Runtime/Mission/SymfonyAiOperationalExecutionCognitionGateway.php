@@ -22,11 +22,16 @@ final readonly class SymfonyAiOperationalExecutionCognitionGateway implements Op
         private DeepSeekDelegatePlatformAdapter $platform,
         private Clock $clock,
         private ?DeepSeekDelegateModelConfiguration $configuration = null,
+        private ?\App\SourceReview\Gateway $sourceReview = null,
     ) {
     }
 
     public function execute(array $authorization, array $manifestation): array
     {
+        if (array_key_exists('source_review', $authorization['input'] ?? [])) {
+            if ($this->sourceReview === null) { throw new \RuntimeException('SR_GATEWAY_UNAVAILABLE'); }
+            return $this->sourceReview->execute($authorization, $manifestation);
+        }
         $claim = $this->credentialBroker->claimFor($authorization, $manifestation, $this->clock->now());
         try {
             $configuration = ($this->configuration ?? new DeepSeekDelegateModelConfiguration())->normalize(

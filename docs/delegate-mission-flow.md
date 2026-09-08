@@ -1,26 +1,52 @@
 # Current flow — Citadel mission formation
 
-## Current disposition — commissioning readiness preparation
+## Current disposition — IR01 corrected locally, independent review pending
 
-Citadel Stages 1–3 and CF01/CF02 are accepted within the reviewed local/offline
-scope. See [independent acceptance](citadel-formation-correction-acceptance.md).
-Exact reviewed-tree integration: 645d53bdbb80d537ef0a7f226b8ad48f192ea1ef.
-Pending-review and local-only statements below describe preserved earlier runs.
+**IR01_CORRECTED_LOCAL_PENDING_INDEPENDENT_REVIEW_COMMISSIONING_BLOCKED**.
+See the [IR01 correction report](citadel-ir01-correction-report.md) for source,
+changed tests, exact identities, and fresh proof. UNDERSTOOD closes interview
+use across the intake and existing grants; stale work and controls cannot revive
+it. Original recovery and separately authorized drafting remain supported.
+Signed reply remains the explicit discussion transition; completed grants stay closed.
 
-Current campaign: [Citadel operational readiness](next-campaign-citadel-operational-readiness.md).
-Current runner: [local readiness prompt](handoffs/citadel-operational-readiness-ready.md).
+Tested commit `41e7ef45c71b42a3d118cccfb435b240d7690466`, tree
+`3e89cd506282486dca22fa3ff96539cd44846037`: focused 57 tests / 399 assertions;
+full suite 2,746 tests / 53,196 assertions, no errors/failures/skips, four unchanged
+historical warnings. Offline handoff and non-executing Step 1 passed.
 
-R0: actual public prerequisites and producer/consumer map.
-R1: read-only preflight, owner artifacts and supported dormant adapters.
-R2: integrated offline rehearsal and exact owner commissioning runbook.
-R3: committed-code tests, readiness disposition and independent-review package.
+Current steps: independent review of the corrected packet, then the runbook's
+public installation/custody/authority evidence and B1 decision, then separately
+authorized commissioning only when prerequisites are resolved. Default transport
+still refuses. CF01/CF02 acceptance and all historical packets are preserved.
 
-Flow: accepted formation mechanics -> verified public prerequisites and bounded
-transport -> reviewed owner commissioning package -> separately authorized
-commissioning -> first live bounded Castellan interview. Understanding still
-precedes separate drafting approval; mission approval, child handoff and receiving
-assessment remain distinct. This local campaign activates none of those effects.
-Preserve earlier test packets, owner ceremonies and Delegate Steps 1–69.
+## Historical readiness disposition — preparation complete with explicit blockers
+
+**READINESS_PREPARATION_COMPLETE_WITH_EXPLICIT_BLOCKERS**.
+R0–R3 local work is complete; see the [terminal report](citadel-readiness-report.md),
+[readiness matrix](citadel-readiness-matrix.md), [owner runbook](citadel-readiness-runbook.md)
+and [changed-test map](citadel-readiness-changed-tests.md).
+
+R0 traced actual producers/consumers and missing genuine public evidence.
+R1 added read-only public witness export, public preflight, exact unsigned decision
+preparation and public signature assembly. Unsupported live transport/credential
+and unknown successor boundaries remain refusing; no authentic records were fabricated.
+R2 rehearsed actual command/DI through distinct interview, drafting, mission
+approval, child handoff, receiving acceptance and non-executing Step 1.
+R3 passed 2,739 tests / 53,138 assertions on committed executable code, with zero
+failures/errors/skips and four retained historical linked-worktree warnings.
+Tested commit: `2313b69f8f06af5064df4a0e711834f8cf90d97d`;
+tree: `da7dee9c6f467e005e123c33ffbec7f31daedcd2`.
+
+Next: independent package review → owner public installation/custody/authority
+exports and explicit B1 transport decision → separately authorized commissioning
+only after the real prerequisites and supported adapter are established.
+Default `UnavailableFormationTransport` refuses. No live interview, enrollment,
+commissioning, real-key handling, installation change or mission execution occurred.
+First owner action is the exact public evidence request in the runbook.
+
+CF01/CF02 remain [accepted within reviewed scope](citadel-formation-correction-acceptance.md).
+Prior reports, owner ceremonies, candidate branches and Delegate Steps 1–69 remain
+preserved. Historical pending-era text below is not reopened by this campaign.
 
 ## Historical campaign record
 
@@ -2694,3 +2720,10 @@ Active local entrypoint:
 `BOUND_INACTIVE`, historical v3 `NOT_IMPLEMENTED` and
 `UNKNOWN_REPLAY_PROHIBITED` remain binding. Provider invocation, external I/O,
 credential/capability handling, retry, Iron Gate and Lazaretto remain closed.
+# Separate bounded source-review integration
+
+The closed inspection campaign remains closed. The additive local source-review
+command and steps are documented in [source-review.md](source-review.md), with
+[local handoff](handoffs/bounded-source-review-local.md). Preparation is offline;
+source transmission requires separate explicit activation and legitimate existing
+operational authority. Historical campaign instructions below are preserved.
