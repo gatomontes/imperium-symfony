@@ -1,8 +1,8 @@
 # Native public lineage preparation
 
-N0/N1 establish bounded public byte and structural evidence. They do not establish current authority. N2 has no justified positive adapter: the actual older Garrison occupancy lacks Persona-admission/custody powers, no exact Guildhall acceptance ID was supplied, and public currentness/Recruiter provenance remains unavailable. Production FormationInstitution, FormationPersonnel and FormationPublicationEvidence are unchanged; operator-root witnesses and CF02 recovery retain their existing format and checks.
+N0/N1 establish bounded public byte and structural evidence. They do not establish current authority. N2 has no justified positive adapter: the actual older Garrison occupancy lacks Persona-admission/custody powers, the accepted separate Guildhall acceptance has planning-only scope, and public currentness/Recruiter provenance remains unavailable. Production FormationInstitution, FormationPersonnel and FormationPublicationEvidence are unchanged; operator-root witnesses and CF02 recovery retain their existing format and checks.
 
-## Exact public tool
+## Historical collection command — completed, not a repeat task
 
 Use Python 3.12 or newer with only the standard library, from the campaign worktree. The example output directory must be unused; preserve earlier exports and choose a new sibling name if needed. Output must be outside every Git checkout and the input root.
 
@@ -15,7 +15,7 @@ Expected native exit **2** means collection completed with explicit authority bl
 
 The fixed scope is the seven seed paths plus the unique exact summons filename from `citadel-native-lineage-public-evidence.md`. Only intact, historically matching, structurally appropriate deliveries can expand to actual Conscription commission references; Garrison's matching commission may expand to its actual provisioning case. No inquiry or private bootstrap reference is followed. Changed original bytes are retained and marked changed, without automatic reference expansion or repair. Missing records remain unavailable, not absent everywhere.
 
-The collector never searches the Guildhall acceptance directory. Only after the custodian supplies an exact public ID may the same command add `--guildhall-acceptance-id` followed by that actual ID. It then reads only that acceptance and, when bound to this cohort, its actual public Guildhall inbox envelope. Do not pass an illustrative ID. An intact planning acceptance is still outside formation-suitability scope; no caller flag can make it eligible.
+The collector never searches the Guildhall acceptance directory. The completed follow-up used `--guildhall-acceptance-id guildhall-acceptance-0a1361819c5739081088` and collected that acceptance and its bound inbox envelope. Both are accepted supplied evidence; do not repeat the lookup. The option remains a supported interface for separately authorized future observations. Planning acceptance remains outside formation-suitability scope; no caller flag can make it eligible.
 
 Offline verification reads only the exported packet:
 
@@ -31,7 +31,7 @@ The tool has no application boot, provider, credential, signing, enrollment or a
 
 ## Remaining exact inputs and acts
 
-1. Custodian: exact existing public Guildhall acceptance ID/index for the retained cohort, with bounded planning commission and scope closure. The current pending cohort is not proof no separate acceptance exists. No general formation competence follows from that planning act.
+1. Guildhall planning acceptance is observed and structurally consistent; the exact lookup is complete. Genuine formation-specific competence and suitability/delegation remain unresolved. Pending cohort/envelope originals coexist with the separate acceptance.
 2. Garrison's legitimate authority producer/owner: an actual attributable public act/interface establishing the missing `persona_admission_disposition_authority` and `custody_registration_authority`, if such an act exists. None was supplied or created. Current producer defaults cannot amend older occupancy bytes. Preserve the original record.
 3. Custodian: public ordinary-Recruiter T04 successor receipt/projection, parent instance, manifestation, generation, powers and currentness/supersession provenance. The inspected reader uses private bootstrap state; no safe public exporter for that backing state was implemented or invoked here. Supply an existing public projection, not the state file. Any projection has a distinct digest and needs original/projection provenance.
 4. Actual institutional custodians: exact public IDs and producer/currentness closure for Laboratorium Alchemist, Conscription Recruiter, Senate Lord Speaker and four committee Seats. No IDs supplied means unavailable in this collection, not proof no incumbents exist elsewhere. Resolve duplicate, superseded or inactive records through their genuine producer; never choose the highest generation by convention.
@@ -40,3 +40,7 @@ The tool has no application boot, provider, credential, signing, enrollment or a
 7. Owner B1 decision remains separate: provider/model/destination and supportable pricing, usage and enforceable bounds evidence, or a substantive policy amendment distinguishing local reservation/deadline from remote billing/cancellation guarantees. Missing formation credential support and refusing transport remain explicit; unknown outcomes retain maxima without retry/refund.
 
 No positive native witness is emitted. A future supported variant would need coordinated current and versioned historical validation, without rewriting the accepted operator-root CF02 witnesses, signatures or publication times. This campaign's safe completion does not commission a live interview.
+
+## Current next action
+
+Run the [A0–A3 interface campaign](next-campaign-citadel-recruiter-garrison-authority-interfaces.md) in its fresh local worktree. It uses disposable synthetic backing state and preserves this public collector’s scope. Real private-state export and authority acts remain separate owner boundaries. [Acceptance](citadel-native-lineage-acceptance.md) records the merged evidence and test qualifications.

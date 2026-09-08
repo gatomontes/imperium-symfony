@@ -1,16 +1,25 @@
 # Next lifecycle: Delegate mission route
 
-## Current native-lineage preparation
+## Current campaign — Recruiter currentness and Garrison authority interfaces
 
-Source integration and IR01 are accepted within their recorded local scope.
-The [bounded public lineage tool](citadel-native-lineage-runbook.md) collects and
-verifies original public evidence without admitting new authority. The
-[action matrix](citadel-native-lineage-authority-matrix.md) identifies missing
-Garrison powers, exact Guildhall acceptance/scope and public currentness. Final
-offline validation passed; [the report](citadel-native-lineage-report.md) records complete N0–N3 preparation with explicit owner blockers. Independent review remains pending. The historical pending-IR01
-text below is preserved history, not the current acceptance disposition.
+[Native-lineage preparation and its exact acceptance follow-up are accepted](citadel-native-lineage-acceptance.md)
+and integrated through PR #771. Planning-only Guildhall acceptance is observed;
+formation authority remains unresolved. N0–N3 and the exact lookup are closed.
 
-## Current disposition — IR01 corrected locally, independent review pending
+Run [A0–A3 locally](handoffs/citadel-recruiter-garrison-authority-interfaces-ready.md): implement public Recruiter evidence, explicit Garrison
+authority revision and their proof/runbook under the [bounded campaign](next-campaign-citadel-recruiter-garrison-authority-interfaces.md).
+Use disposable roots; do not perform real export from private state, signing,
+institutional acts, installation updates, provider activity or mission execution.
+
+After independent acceptance, actual owner acts and remaining formation-specific
+competence, custody/trust, other Seat evidence, appointments and B1 remain separate
+gates. Citadel receives; Castellan interviews; understanding closes interview
+use; drafting and mission approval are separate; legitimate child constitution
+precedes handoff; receiving assessment grants no execution authority.
+See [current steps and flow](delegate-mission-flow.md). Earlier pending-review
+statements below are history, not an instruction to reopen completed reviews.
+
+## Historical disposition — IR01 corrected locally, independent review pending
 
 **IR01_CORRECTED_LOCAL_PENDING_INDEPENDENT_REVIEW_COMMISSIONING_BLOCKED**.
 See the [IR01 correction report](citadel-ir01-correction-report.md) for source,

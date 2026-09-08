@@ -1,5 +1,9 @@
 # Citadel owner commissioning preparation runbook
 
+Current local implementation: [Recruiter currentness and Garrison authority interfaces](next-campaign-citadel-recruiter-garrison-authority-interfaces.md),
+[Loco A0–A3](handoffs/citadel-recruiter-garrison-authority-interfaces-ready.md). [Native-lineage preparation is accepted and integrated](citadel-native-lineage-acceptance.md).
+This selects fixture-only interface work; it does not resolve or authorize the real owner prerequisites below.
+
 The implemented next public evidence interface is the
 [native-lineage collector/verifier](citadel-native-lineage-runbook.md). Its exact
 commands and refusing dispositions supersede the earlier future-tool wording

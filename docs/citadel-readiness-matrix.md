@@ -1,5 +1,9 @@
 # Citadel readiness: R0 boundary and disposition
 
+Current local implementation: [Recruiter currentness and Garrison authority interfaces](next-campaign-citadel-recruiter-garrison-authority-interfaces.md),
+[Loco A0–A3](handoffs/citadel-recruiter-garrison-authority-interfaces-ready.md). [Native-lineage preparation is accepted and integrated](citadel-native-lineage-acceptance.md).
+This selects fixture-only interface work; it does not resolve or authorize the real owner prerequisites below.
+
 Native-lineage update: bounded original-byte and structural evidence now has a
 [specific action matrix](citadel-native-lineage-authority-matrix.md). The initial fourteen
 public records were collected without private-state access. The accepted follow-up
@@ -40,7 +44,7 @@ closure remain unresolved. B1 still requires owner-bound payload, destination,
 model, limits and authority with supportable timeout/cost semantics. Unknown
 outcomes retain exposure without retry/refund; default transport refuses.
 `live_ready`, `activation` and `execution_authority` remain false. CF01/CF02/IR01
-and accepted historical tests/reviews remain preserved. No new campaign follows.
+and accepted historical tests/reviews remain preserved. No corrective campaign follows from the acceptance evidence; the separately selected A0–A3 work addresses the remaining interfaces.
 
 ## Historical R0 source identity and inspection boundary
 

@@ -1,5 +1,7 @@
 # Loco: Citadel native institutional lineage and authority preparation
 
+**Historical handoff — N0–N3 is accepted and integrated.** Use [the A0–A3 authority-interface handoff](citadel-recruiter-garrison-authority-interfaces-ready.md) for current work. Preserve the instructions below as the original campaign record.
+
 Execute N0–N3 of [the complete campaign](../next-campaign-citadel-native-institutional-lineage.md).
 Read [integration acceptance](../citadel-readiness-integration-acceptance.md),
 [exact public collection scope](../citadel-native-lineage-public-evidence.md),
