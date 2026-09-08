@@ -1,13 +1,14 @@
 # Citadel owner commissioning preparation runbook
 
-Status: IR01_CORRECTED_LOCAL_PENDING_INDEPENDENT_REVIEW_COMMISSIONING_BLOCKED. Stop before live
+Status: SOURCE_INTEGRATION_ACCEPTED_COMMISSIONING_BLOCKED. Stop before live
 commissioning. [Matrix and B1 decision](citadel-readiness-matrix.md) control the
 unresolved authority, credential and transport boundaries. This runbook neither
 repeats CF01/CF02 owner ceremonies nor asks for approval of unchanged prior work.
 
 ## Interview completion boundary
 
-The [IR01 correction](citadel-ir01-correction-report.md) awaits independent review.
+The [IR01 correction](citadel-ir01-correction-report.md) is independently accepted
+within the [recorded local scope](citadel-readiness-integration-acceptance.md).
 UNDERSTOOD closes further interview use and replacement grants for that completed
 intake state. Recover the original admitted attempt idempotently; do not use
 controls or fresh grants to bypass completion. A supported signed reply explicitly
@@ -16,6 +17,21 @@ authority afterward. Replies within an unfinished QUESTION exchange retain the
 existing session behavior. Drafting still requires its separate exact approval.
 
 ## First concrete owner action
+
+The owner identified `E:\htdocs\imperium`; its last supplied source identity and
+public institutional observations are recorded in the
+[integration acceptance](citadel-readiness-integration-acceptance.md). The source
+merge does not update this installation. Do not repeat the empty five-null template.
+
+Run the [native lineage campaign](next-campaign-citadel-native-institutional-lineage.md)
+in its fresh worktree. Its first action is the
+[bounded public collection](citadel-native-lineage-public-evidence.md): actual
+Garrison/Guildhall upstream lineage, exact separate acceptance when supplied,
+other public witnesses and explicit custody/trust/appointment gaps. New public
+export commands will be documented only after implementation and offline proof.
+The current installed source has no complete formation-compatible export.
+
+## Historical initial request — preserved reference, not a repeat task
 
 The installation custodian identifies the **intended existing installation root**,
 its source commit/tree, public custody references, and the separate Ubuntu signing

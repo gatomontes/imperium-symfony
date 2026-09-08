@@ -1,5 +1,14 @@
 # Citadel readiness: R0 boundary and disposition
 
+Current update (2026-09-08): [source integration and IR01 are accepted](citadel-readiness-integration-acceptance.md)
+within their local scope. The owner confirmed `E:\htdocs\imperium`; public records
+establish concrete Garrison/Guildhall schema and authority questions, while the
+upstream chains and current competence remain unverified. The
+[native lineage campaign](next-campaign-citadel-native-institutional-lineage.md)
+collects those exact public prerequisites and supports only justified dormant
+witness variants. B1 and live commissioning remain blocked. The original R0
+source observations and matrix below are preserved with their historical date/scope.
+
 Disposition: **READINESS_PREPARATION_COMPLETE_WITH_EXPLICIT_BLOCKERS**.
 This is a local commissioning preparation package, not an operational installation.
 CF01/CF02 remain accepted within the [reviewed scope](citadel-formation-correction-acceptance.md).

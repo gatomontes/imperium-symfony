@@ -1,6 +1,38 @@
 # Current flow — Citadel mission formation
 
-## Current disposition — IR01 corrected locally, independent review pending
+## Current disposition — source integration accepted; native lineage campaign selected
+
+**SOURCE_INTEGRATION_ACCEPTED_COMMISSIONING_BLOCKED**.
+[PR #769](https://github.com/gatomontes/imperium-symfony/pull/769) merged the exact
+reviewed tree `47df11fa5f5a0afcb51e1066112f621bf7e911ad` after GitHub CI passed.
+See [independent acceptance](citadel-readiness-integration-acceptance.md) for the
+source identities, supplied local 2,789 tests / 53,334 assertions, four historical
+warnings and review limits. R0–R3, CF01/CF02 and IR01 are accepted within their
+documented local/preparation scope. No repeated correction campaign is selected.
+
+Current campaign: [native institutional lineage and authority preparation](next-campaign-citadel-native-institutional-lineage.md).
+Runner: [Loco N0–N3](handoffs/citadel-native-institutional-lineage-ready.md).
+
+| Current step | Required result |
+| --- | --- |
+| N0 | Exact existing public lineage, currentness and action-specific powers, with explicit missing evidence |
+| N1 | Bounded read-only export/verification, no provider/credential access |
+| N2 | Only evidence-supported dormant native witnesses, preserving historical publication verification; unsupported authority refuses |
+| N3 | Offline proof, exact tested/final identities and complete owner/reviewer packet |
+| Later owner boundary | Resolve genuine custody/trust/appointments and B1, then separately authorize commissioning |
+
+Settled order remains Citadel reception → Castellan interview → understanding
+closes interview use → separate explicit drafting approval → numbered proposal →
+separate mission approval → legitimate child-Curia constitution/handoff → receiving
+assessment → non-executing Step 1 validation. Execution needs its own valid authority.
+Unknown outcomes retain exposure; default formation transport refuses. Source
+merge does not install code or grant institutional competence. Preserve source
+review as a separately authorized capability and historical Delegate Steps 1–69.
+
+All pending-review instructions below are preserved historical records; this
+disposition and the linked acceptance/campaign control current work.
+
+## Historical disposition — IR01 corrected locally, independent review pending
 
 **IR01_CORRECTED_LOCAL_PENDING_INDEPENDENT_REVIEW_COMMISSIONING_BLOCKED**.
 See the [IR01 correction report](citadel-ir01-correction-report.md) for source,
