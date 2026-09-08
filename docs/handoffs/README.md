@@ -1,4 +1,15 @@
-# Current campaign: reconciliation shared-exclusion remediation
+# Current campaign: Citadel native institutional lineage and authority preparation
+
+Entry: [Loco N0–N3](citadel-native-institutional-lineage-ready.md).
+Campaign: [native institutional lineage](../next-campaign-citadel-native-institutional-lineage.md).
+Baseline: [accepted integration](../citadel-readiness-integration-acceptance.md).
+
+Collect the specified existing public lineage, implement minimum read-only export
+and only supported dormant witness variants, then return offline proof and exact
+owner prerequisites. No installation change, enrollment, provider call or mission
+execution. Prior accepted campaigns and the pending-era records below are history.
+
+# Historical campaign: reconciliation shared-exclusion remediation
 
 `CANONICAL_NATIVE_EFFECT_RECONCILIATION_SHARED_EXCLUSION_REMEDIATION_SELECTED`
 `QUARANTINED_CANDIDATE_NOT_ACCEPTED`
