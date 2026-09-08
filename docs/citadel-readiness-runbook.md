@@ -1,9 +1,19 @@
 # Citadel owner commissioning preparation runbook
 
-Status: READINESS_PREPARATION_COMPLETE_WITH_EXPLICIT_BLOCKERS. Stop before live
+Status: IR01_CORRECTED_LOCAL_PENDING_INDEPENDENT_REVIEW_COMMISSIONING_BLOCKED. Stop before live
 commissioning. [Matrix and B1 decision](citadel-readiness-matrix.md) control the
 unresolved authority, credential and transport boundaries. This runbook neither
 repeats CF01/CF02 owner ceremonies nor asks for approval of unchanged prior work.
+
+## Interview completion boundary
+
+The [IR01 correction](citadel-ir01-correction-report.md) awaits independent review.
+UNDERSTOOD closes further interview use and replacement grants for that completed
+intake state. Recover the original admitted attempt idempotently; do not use
+controls or fresh grants to bypass completion. A supported signed reply explicitly
+resumes discussion but leaves completed grants fenced; obtain fresh interview
+authority afterward. Replies within an unfinished QUESTION exchange retain the
+existing session behavior. Drafting still requires its separate exact approval.
 
 ## First concrete owner action
 
@@ -49,9 +59,9 @@ worktree name. Ordinary commands accept no root, clock, transport or verifier.
 | Request submitter / installation | Real bounded objective, later authorized installation use | `php bin/console imperium:citadel:intake owner-submission-0001 request.txt` | Durable exact request and returned `intake_id` | Retain original bytes and returned identity. Reuse same submission identity only for the same bytes. No spending authority from intake. |
 | Imperator / preparation then signer | Qualified current holder; real returned intake ID; chosen B1-compliant transport terms | Formation `authorization-source` with `{intakeId, phase: "interview"}`; prepare `AUTHORIZE_INTERVIEW_SESSION` over exact terms | Exact opening exchange/holder source, evolving transcript disclosure, provider/model/destination, per-call and aggregate ceilings, expiry | Stop for missing pricing or unsupported limits. Understanding is not drafting permission. |
 | Deployment authority / installation | Independent review, actual trust/institutions/custody and B1 resolved; separately authorized commissioning | **BLOCKED: no supported live activation command exists.** Default is `UnavailableFormationTransport` | Keep `CMF034`; no network/credential activity | No env toggle, container override, caller-selected production transport or direct provider invocation is a substitute. |
-| Runtime under granted session | Exact authenticated grant and separately commissioned supported transport | Formation `grant` with `{intakeId, phase, terms, decision}`, then `call` with `{sessionId, attemptId}` | Bounded interview question/understanding, claim and exposure, sealed response | Do not retry unknown outcome. `recover-response` with original session/attempt admits retained response only. Refusal is terminal; a never-refused defer/resume preserves accounting. |
+| Runtime under granted session | Exact authenticated grant and separately commissioned supported transport | Formation `grant` with `{intakeId, phase, terms, decision}`, then `call` with `{sessionId, attemptId}` | Bounded interview question/understanding, claim and exposure, sealed response | Do not retry unknown outcome. `recover-response` with original session/attempt admits retained response only. Refusal and admitted understanding close interview use; only an unfinished, never-refused defer/resume preserves usable authority and accounting. |
 | Imperator / separate later drafting | Current attributable understanding; proportionate present-material Charter | `drafting-request` with `{intakeId, charter}`; `authorization-source` phase `drafting`; prepare/sign `AUTHORIZE_EXACT_DRAFTING`; grant/call | Distinct exact approval and Planning Authorization before any proposal | New investigation needs its competent commission. Never treat “understood” as approval. |
-| Imperator / mission review | Exact numbered dossier and genuine child candidates | `present-mission` with `{intakeId, version, appointments, expiresAt}`; prepare/sign `APPROVE_MISSION_AND_CONSTITUTION`; `review-mission` with exact terms, `APPROVE`, all line digests, rationale and decision | Separate mission review with typed mission/constitution/appointments effects | A changed dossier/intent cannot reuse approval. Retain objections and earlier versions. |
+| Imperator / mission review | Exact numbered dossier and genuine child candidates | `present-mission` with `{intakeId, version, appointments, expiresAt}`; prepare/sign `APPROVE_MISSION_AND_CONSTITUTION`; `review-mission` with exact terms, `APPROVE`, all line digests using the exact `lineDigests` argument, rationale and decision | Separate mission review with typed mission/constitution/appointments effects | A changed dossier/intent cannot reuse approval. Retain objections and earlier versions. |
 | Formation / child receiver | Exact approved mission, reserved identity | `reserve-mission` with `{reviewId}`; `deliver-handoff` with `{intakeId}`; separate `AUTHORIZE_RECEIVING_ASSESSMENT` grant/call | One legitimate child, original exchange/authority closure, receiving ACCEPTED or concrete GAP | Uncertain effect retains fence. Retry delivery with original intake; recognize only exact retained receipt provenance. No invented acceptance. |
 | Receiving owner / validation | Attributable acceptance and current source | `validate-step-one` with `{intakeId}` | Non-executing schema/reference validation | GAP stops validation. No mission execution command belongs to this package. |
 
@@ -94,6 +104,8 @@ if (Test-Path signing-packet.json) { throw 'Choose a new packet filename; preser
 php bin/console imperium:citadel:prepare decision decision-request.json > signing-packet.json
 Get-FileHash signing-packet.json -Algorithm SHA256
 ```
+
+For JSON redirection, use a UTF-8-capable PowerShell environment or explicitly write UTF-8 without BOM; PHP readers call `json_decode` directly.
 
 Keep the complete packet. It carries the canonical object, destination/model,
 disclosure, payload, exact base64 signing bytes and SHA-256. Review the object,

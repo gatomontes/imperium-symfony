@@ -1,5 +1,17 @@
 # Citadel readiness changed boundaries and proof
 
+## IR01 correction
+
+The [IR01 report](citadel-ir01-correction-report.md) records seven new command/DI
+cases for completion, stale/concurrent admission, accounting, controls, replacement
+grants, original recovery, separate drafting, and current/legacy signed replies.
+Existing assertions remain intact. The CF01 resume fixture now returns QUESTION;
+registry reassessment now supplies the supported signed reply before re-interview.
+Focused validation passed 57 tests / 399 assertions. The full suite passed 2,746
+tests / 53,196 assertions with the four documented historical warnings.
+
+## Historical readiness preparation test record
+
 No existing test assertion was removed or changed. CF01/CF02 tests and accepted
 historical packets are preserved. `CitadelFormationFixture` adds only
 `signPrepared`: it signs exact validated packet bytes using that fixture's

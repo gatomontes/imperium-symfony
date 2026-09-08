@@ -1,5 +1,26 @@
 # Citadel operational readiness: R0–R3 terminal record
 
+## Current disposition — IR01 corrected locally, independent review pending
+
+**IR01_CORRECTED_LOCAL_PENDING_INDEPENDENT_REVIEW_COMMISSIONING_BLOCKED**.
+See the [IR01 correction report](citadel-ir01-correction-report.md) for source,
+changed tests, exact identities, and fresh proof. UNDERSTOOD closes interview
+use across the intake and existing grants; stale work and controls cannot revive
+it. Original recovery and separately authorized drafting remain supported.
+Signed reply remains the explicit discussion transition; completed grants stay closed.
+
+Tested commit `41e7ef45c71b42a3d118cccfb435b240d7690466`, tree
+`3e89cd506282486dca22fa3ff96539cd44846037`: focused 57 tests / 399 assertions;
+full suite 2,746 tests / 53,196 assertions, no errors/failures/skips, four unchanged
+historical warnings. Offline handoff and non-executing Step 1 passed.
+
+Current steps: independent review of the corrected packet, then the runbook's
+public installation/custody/authority evidence and B1 decision, then separately
+authorized commissioning only when prerequisites are resolved. Default transport
+still refuses. CF01/CF02 acceptance and all historical packets are preserved.
+
+## Historical R0–R3 terminal record
+
 Disposition: **READINESS_PREPARATION_COMPLETE_WITH_EXPLICIT_BLOCKERS**.
 This package completes bounded local preparation. It does not establish an
 operational, activated or production-ready Citadel. Independent review and any
