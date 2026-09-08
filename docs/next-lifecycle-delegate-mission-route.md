@@ -1,5 +1,15 @@
 # Next lifecycle: Delegate mission route
 
+## Current native-lineage preparation
+
+Source integration and IR01 are accepted within their recorded local scope.
+The [bounded public lineage tool](citadel-native-lineage-runbook.md) collects and
+verifies original public evidence without admitting new authority. The
+[action matrix](citadel-native-lineage-authority-matrix.md) identifies missing
+Garrison powers, exact Guildhall acceptance/scope and public currentness. Final
+offline validation passed; [the report](citadel-native-lineage-report.md) records complete N0–N3 preparation with explicit owner blockers. Independent review remains pending. The historical pending-IR01
+text below is preserved history, not the current acceptance disposition.
+
 ## Current disposition — IR01 corrected locally, independent review pending
 
 **IR01_CORRECTED_LOCAL_PENDING_INDEPENDENT_REVIEW_COMMISSIONING_BLOCKED**.

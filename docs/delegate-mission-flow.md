@@ -1,5 +1,14 @@
 # Current flow — Citadel mission formation
 
+## Native lineage preparation complete — explicit owner blockers
+
+N0 collected 14 allowlisted public records with intact bounded structural links.
+N1 provides the standalone [public collector and verifier](citadel-native-lineage-runbook.md).
+N2 remains blocked on actual powers, exact acceptance and currentness; no positive
+production adapter was added. See the [action matrix](citadel-native-lineage-authority-matrix.md)
+and [changed-test map](citadel-native-lineage-changed-tests.md). N3 is complete; see the [validated report](citadel-native-lineage-report.md) for exact tests, identities and the review packet. Source publication and live activity
+remain separate. Earlier campaign-selection and acceptance history follows.
+
 ## Current disposition — source integration accepted; native lineage campaign selected
 
 **SOURCE_INTEGRATION_ACCEPTED_COMMISSIONING_BLOCKED**.
