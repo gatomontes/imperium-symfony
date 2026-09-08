@@ -2,6 +2,8 @@
 
 New `CitadelAuthorityInterfacesTest` uses `CitadelAuthorityFixture`, actual command classes and a compiled Symfony DI container, with generated private backing state labelled SYNTHETIC_ONLY. No existing tests/assertions are removed or weakened.
 
+The first full run at `2e51af29339bdf429d50e39b2a510f5bba4ab197` found two exact-inventory failures: the literal `authority_consumed` false output made `GarrisonAuthorityRequest.php` a new mechanical candidate. The existing additive Citadel runtime inventory now classifies that one path explicitly as unsigned preparation/permanent refusal, with no store or effect. Frozen snapshots, discovery predicates and assertions remain unchanged. The failed run is retained; the corrected committed inventory is covered by new focused and full gates. Adding this inventory row recognizes a source path, not institutional authority.
+
 - Export/inspect/source-compare through command/DI: exact historic predecessor/successor, source cutoff and qualified consumed commission; raw source preservation, created lock disclosure, canonical key-order independence, no private sentinels.
 - Fourteen adverse source cases: missing, failed, duplicate, wrong instance/Seat/generation/predecessor, qualification mismatch, unconsumed commission, retired/superseded, private output fields, unsupported state version and inconsistent source revision.
 - Stale source, changed projection, borrowed raw digest, positive provenance/authority flags and unsupported versions refuse. A self-sealed consistent forgery is explicitly only untrusted structural data.
