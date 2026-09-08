@@ -1,5 +1,7 @@
 # Native authority protocol: exact future owner procedures
 
+Current disposition: [P0–P3 and NA-IR01/02 accepted and merged](citadel-native-authority-protocol-acceptance.md). [CP0–CP3 commissioning preparation](next-campaign-citadel-native-authority-commissioning.md) is selected. Real policy/deployment/enrollment are separate later gates. Earlier pending-review or next-action statements below retain their historical attribution.
+
 All real commands below are future owner-only operations after source acceptance and separately authorized installation. This run exercises them only through actual command/DI in generated synthetic roots. There is no deployment command or real signer selected here. Start with [the contract](../contracts/native-institutional-authority-v1.md), [owner policy proposal](native-authority-owner-policy.template.json) and source map. Real identities/times/public key remain unknown null; the template is intentionally invalid and unapproved.
 
 The root is fixed by `%kernel.project_dir%`. No command accepts a root, keypair, verifier, clock, credential or provider override. Public input files use A0's 1 MiB/depth 48/duplicate-key/local-path restrictions and custodian-controlled parents. Neither command reads private signing material. Canonical signing takes place in the owner's separately approved signer; no nonexistent signing-tool syntax is supplied.

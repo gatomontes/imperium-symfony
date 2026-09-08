@@ -1,6 +1,25 @@
 # Next lifecycle: Delegate mission route
 
-## P0–P3 native authority protocol — current local campaign
+## Current campaign — native authority commissioning preparation CP0–CP3
+
+P0–P3 and NA-IR01/02 are [accepted and integrated through PR #774](citadel-native-authority-protocol-acceptance.md), merge `f35a0b33ddab9e8815470a697d8593984e050023`, exact accepted tree `e4140d95cbb83b3dbf9125849953cec0c7eda989`. GitHub CI passed. Earlier accepted campaigns and the exact Guildhall lookup remain closed within scope.
+
+Execute [CP0–CP3](next-campaign-citadel-native-authority-commissioning.md) using [the Loco handoff](handoffs/citadel-native-authority-commissioning-ready.md). This selects read-only installation/source assessment, an unapproved owner policy and compatibility proposal, a bounded public preparation checker, exact future commands and offline rehearsal. It does not approve deployment, signing, enrollment or real institutional acts.
+
+| Current step | Required result |
+| --- | --- |
+| CP0 | Actual read-only installation identity, tracked drift and exact proposed deployment comparison; missing runtime facts explicit |
+| CP1 | Owner policy/signing/custody proposal and concrete decision on the legacy workflow fence |
+| CP2 | Public preparation checker and exact phased commissioning runbook with explicit unresolved prerequisites |
+| CP3 | Synthetic rehearsal, adverse/preservation evidence, final source/test attribution and independent-review packet |
+| Later owner gate | Review the completed package; separately decide and authorize deployment/enrollment and genuine acts |
+| Remaining live-interview gates | Formation-specific trust/competence, other Seats, candidates/appointments and B1's exact credential/provider/model/destination/limits contract |
+
+Citadel receives; Castellan interviews; “I understand” closes interview authority. Separate explicit approval permits drafting. Separate mission approval precedes legitimate child-Curia constitution and handoff. Receiving assessment grants no execution authority. CF01/CF02/IR01 and NA-IR01/02 remain preserved; unknown provider outcomes retain exposure without retry/refund and default formation transport refuses. `live_ready`, `activation` and `execution_authority` remain false.
+
+The campaign/status entries below are retained history; this entry controls current work.
+
+## Historical P0–P3 submission — acceptance recorded above
 
 The [P0–P3 campaign](native-authority-protocol-campaign.md), [native contract](../contracts/native-institutional-authority-v1.md), [owner runbook](native-authority-protocol-runbook.md) and [source map](native-authority-protocol-source-map.md) supersede the campaign-selection text below. A0–A3 is [accepted within preparation/refusal scope](citadel-authority-interface-acceptance.md), with its admission-test qualification preserved. Independent review requires NA-IR01/02 corrections within P0–P3; see the [review and correction scope](native-authority-correction-campaign.md). Both defects were reproduced, corrected and passed final committed offline gates; see the [correction report](native-authority-protocol-report.md). Replacement independent review is next. Positive acts use separately enrolled synthetic trust only. Real policy approval, deployment, trust, attestations and institutional acts remain separately authorized. No existing installation or genuine occupant is changed; formation readiness, activation and execution remain false.
 
