@@ -12,6 +12,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class DelegateMissionProfileDerivationCommissionRequestService
 {
+    private string $nativeRoot;
+
     private const array DISPOSITIONS = ['ACCEPTED', 'REFUSED'];
 
     private string $decisions;
@@ -23,6 +25,8 @@ final readonly class DelegateMissionProfileDerivationCommissionRequestService
 
     public function __construct(#[Autowire('%kernel.project_dir%')] string $root, private StateStore $bootstrap)
     {
+        $this->nativeRoot = $root;
+
         $this->decisions = $root.'/var/imperium/imperator/delegate-mission-profile-scope-decisions';
         $this->requests = $root.'/var/imperium/curia/delegate-mission-profile-scope-authorization-requests';
         $this->reservations = $root.'/var/imperium/offices/garrison/delegate-mission-persona-reservation-dispositions';
@@ -32,6 +36,10 @@ final readonly class DelegateMissionProfileDerivationCommissionRequestService
     }
 
     public function decide(string $decisionId, string $disposition, string $rationale, \DateTimeImmutable $decidedAt): array
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeDecide($decisionId, $disposition, $rationale, $decidedAt));
+    }
+    private function legacyNativeDecide(string $decisionId, string $disposition, string $rationale, \DateTimeImmutable $decidedAt): array
     {
         if (!preg_match('/^delegate-mission-profile-scope-decision-[a-f0-9]{20}$/', $decisionId)) {
             throw new \InvalidArgumentException('R510_DELEGATE_MISSION_PROFILE_SCOPE_DECISION_ID_INVALID');

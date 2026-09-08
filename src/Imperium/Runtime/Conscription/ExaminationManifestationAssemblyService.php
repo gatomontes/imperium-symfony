@@ -4,9 +4,17 @@ namespace App\Imperium\Runtime\Conscription;
 use App\Bootstrap\BootstrapState;use App\Bootstrap\CanonicalJson;use App\Bootstrap\StateStore;use App\Imperium\Runtime\Identity\OfficerClass;use Symfony\Component\DependencyInjection\Attribute\Autowire;
 final readonly class ExaminationManifestationAssemblyService
 {
+    private string $nativeRoot;
+
  private string $authorizations;private string $candidates;private string $custody;private string $deliveries;
- public function __construct(#[Autowire('%kernel.project_dir%')] string $root,private StateStore $bootstrap){$this->authorizations=$root.'/var/imperium/offices/conscription/examination-assembly-authorization-dispositions';$this->candidates=$root.'/var/imperium/offices/laboratorium/profile-candidates';$this->custody=$root.'/var/imperium/offices/garrison/custody';$this->deliveries=$root.'/var/imperium/offices/senate/examination-manifestation-intake';}
+ public function __construct(#[Autowire('%kernel.project_dir%')] string $root,private StateStore $bootstrap){
+        $this->nativeRoot = $root;
+$this->authorizations=$root.'/var/imperium/offices/conscription/examination-assembly-authorization-dispositions';$this->candidates=$root.'/var/imperium/offices/laboratorium/profile-candidates';$this->custody=$root.'/var/imperium/offices/garrison/custody';$this->deliveries=$root.'/var/imperium/offices/senate/examination-manifestation-intake';}
  public function assemble(string $id):array
+ {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeAssemble($id));
+    }
+    private function legacyNativeAssemble(string $id):array
  {
   if(!preg_match('/^examination-assembly-authorization-disposition-[a-f0-9]{20}$/',$id))throw new \InvalidArgumentException('R100_EXAMINATION_ASSEMBLY_AUTHORIZATION_ID_INVALID');
   $a=$this->read($this->authorizations.'/'.$id.'.json','R101_EXAMINATION_ASSEMBLY_AUTHORIZATION_ABSENT');$candidateId=$a['source_profile_candidate']['id']??null;$p=is_string($candidateId)?$this->read($this->candidates.'/'.$candidateId.'.json','R102_PROFILE_CANDIDATE_ABSENT'):[];$custodyId=$a['custody_lease']['custody_id']??null;$c=is_string($custodyId)?$this->read($this->custody.'/'.$custodyId.'.json','R103_PROFILE_CANDIDATE_CUSTODY_ABSENT'):[];[$instance,$r]=$this->recruiter();$this->validate($a,$p,$c,$instance,$r);

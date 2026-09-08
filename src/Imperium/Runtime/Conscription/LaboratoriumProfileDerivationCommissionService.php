@@ -11,6 +11,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class LaboratoriumProfileDerivationCommissionService
 {
+    private string $nativeRoot;
+
     private string $dispositionDirectory;
     private string $handoffDirectory;
     private string $acceptanceDirectory;
@@ -20,6 +22,8 @@ final readonly class LaboratoriumProfileDerivationCommissionService
 
     public function __construct(#[Autowire('%kernel.project_dir%')] string $projectDir, private StateStore $bootstrap)
     {
+        $this->nativeRoot = $projectDir;
+
         $this->dispositionDirectory = $projectDir.'/var/imperium/offices/garrison/profile-derivation-handoff-dispositions';
         $this->handoffDirectory = $projectDir.'/var/imperium/offices/garrison/profile-derivation-handoff-inbox';
         $this->acceptanceDirectory = $projectDir.'/var/imperium/offices/conscription/profile-derivation-authorization-acceptances';
@@ -29,6 +33,10 @@ final readonly class LaboratoriumProfileDerivationCommissionService
     }
 
     public function commission(string $dispositionId): array
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeCommission($dispositionId));
+    }
+    private function legacyNativeCommission(string $dispositionId): array
     {
         if (!preg_match('/^profile-derivation-handoff-disposition-[a-f0-9]{20}$/', $dispositionId)) throw new \InvalidArgumentException('R83_PROFILE_DERIVATION_HANDOFF_DISPOSITION_ID_INVALID');
         $disposition = $this->read($this->dispositionDirectory.'/'.$dispositionId.'.json', 'R84_PROFILE_DERIVATION_HANDOFF_DISPOSITION_ABSENT');

@@ -12,6 +12,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class DelegateMissionOperationalProfileQualificationService
 {
+    private string $nativeRoot;
+
     private string $a;
     private string $p;
     private string $c;
@@ -20,6 +22,8 @@ final readonly class DelegateMissionOperationalProfileQualificationService
     public function __construct(#[Autowire('%kernel.project_dir%')]string $root,
     private StateStore $b,
     ?DelegateMissionOperationalTransitionCoordinator $coordinator = null) {
+        $this->nativeRoot = $root;
+
         $this->a = $root.'/var/imperium/imperator/delegate-mission-profile-approval-decisions';
         $this->p = $root.'/var/imperium/offices/laboratorium/delegate-mission-profile-candidates';
         $this->c = $root.'/var/imperium/offices/garrison/custody';
@@ -27,6 +31,10 @@ final readonly class DelegateMissionOperationalProfileQualificationService
         $this->t = $coordinator ?? new DelegateMissionOperationalTransitionCoordinator($root);
     }
     public function qualify(string $id,
+    \DateTimeImmutable $at): array {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeQualify($id, $at));
+    }
+    private function legacyNativeQualify(string $id,
     \DateTimeImmutable $at): array {
         if (!preg_match('/^delegate-mission-profile-approval-decision-[a-f0-9]{20}$/',
         $id)) throw new \InvalidArgumentException('R240_DELEGATE_MISSION_PROFILE_APPROVAL_ID_INVALID');

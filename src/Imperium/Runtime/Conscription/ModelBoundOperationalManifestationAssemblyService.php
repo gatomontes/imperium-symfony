@@ -12,14 +12,22 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class ModelBoundOperationalManifestationAssemblyService
 {
+    private string $nativeRoot;
+
     private string $q;
     private string $a;
     public function __construct(#[Autowire('%kernel.project_dir%')]string $root,
     private StateStore $b) {
+        $this->nativeRoot = $root;
+
         $this->q = $root.'/var/imperium/offices/conscription/model-bound-operational-profile-qualifications';
         $this->a = $root.'/var/imperium/offices/conscription/model-bound-operational-manifestation-assemblies';
     }
     public function assemble(string $id): array
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeAssemble($id));
+    }
+    private function legacyNativeAssemble(string $id): array
     {
         if (!preg_match('/^model-bound-operational-profile-qualification-[a-f0-9]{20}$/',
         $id)) throw new \InvalidArgumentException('R210_MODEL_BOUND_QUALIFICATION_ID_INVALID');

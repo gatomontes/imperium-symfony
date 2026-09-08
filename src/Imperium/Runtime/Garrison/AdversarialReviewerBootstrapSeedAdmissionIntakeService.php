@@ -8,6 +8,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class AdversarialReviewerBootstrapSeedAdmissionIntakeService
 {
+    private string $nativeRoot;
+
     private string $inbox;
     private string $occupancy;
     private string $returns;
@@ -15,6 +17,8 @@ final readonly class AdversarialReviewerBootstrapSeedAdmissionIntakeService
     public function __construct(
         #[Autowire("%kernel.project_dir%")] string $projectDir,
     ) {
+        $this->nativeRoot = $projectDir;
+
         $this->inbox =
             $projectDir .
             "/var/imperium/offices/garrison/inbox/adversarial-reviewer-bootstrap-seed-admissions";
@@ -26,6 +30,10 @@ final readonly class AdversarialReviewerBootstrapSeedAdmissionIntakeService
     }
 
     public function inspect(string $deliveryId): array
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeInspect($deliveryId));
+    }
+    private function legacyNativeInspect(string $deliveryId): array
     {
         if (
             !preg_match(

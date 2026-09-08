@@ -3,9 +3,17 @@ declare(strict_types=1);namespace App\Imperium\Runtime\Conscription;
 use App\Bootstrap\BootstrapState;use App\Bootstrap\CanonicalJson;use App\Bootstrap\StateStore;use Symfony\Component\DependencyInjection\Attribute\Autowire;
 final readonly class OperationalManifestationSeatBindingService
 {
+    private string $nativeRoot;
+
  private string$assemblies;private string$qualifications;private string$custody;private string$occupancy;
- public function __construct(#[Autowire('%kernel.project_dir%')]string$root,private StateStore$bootstrap){$this->assemblies=$root.'/var/imperium/offices/conscription/operational-manifestation-assemblies';$this->qualifications=$root.'/var/imperium/offices/conscription/operational-profile-qualifications';$this->custody=$root.'/var/imperium/offices/garrison/custody';$this->occupancy=$root.'/var/imperium/mission/occupancy';}
+ public function __construct(#[Autowire('%kernel.project_dir%')]string$root,private StateStore$bootstrap){
+        $this->nativeRoot = $root;
+$this->assemblies=$root.'/var/imperium/offices/conscription/operational-manifestation-assemblies';$this->qualifications=$root.'/var/imperium/offices/conscription/operational-profile-qualifications';$this->custody=$root.'/var/imperium/offices/garrison/custody';$this->occupancy=$root.'/var/imperium/mission/occupancy';}
  public function bind(string$assemblyId):array
+ {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeBind($assemblyId));
+    }
+    private function legacyNativeBind(string$assemblyId):array
  {
   if(!preg_match('/^operational-manifestation-assembly-[a-f0-9]{20}$/',$assemblyId))throw new \InvalidArgumentException('R124_OPERATIONAL_MANIFESTATION_ASSEMBLY_ID_INVALID');
   $a=$this->read($this->assemblies.'/'.$assemblyId.'.json','R125_OPERATIONAL_MANIFESTATION_ASSEMBLY_ABSENT');foreach(glob($this->occupancy.'/operational-seat-binding-*.json')?:[]as$path){$prior=$this->read($path,'R130_OPERATIONAL_SEAT_BINDING_CONFLICT');if(!$this->ok($prior))throw new \RuntimeException('R130_OPERATIONAL_SEAT_BINDING_CONFLICT');if(($prior['source_assembly']['id']??null)===$assemblyId){if(($prior['source_assembly']['digest']??null)!==($a['record_digest']??null))throw new \RuntimeException('R130_OPERATIONAL_SEAT_BINDING_CONFLICT');return$prior;}if(($prior['seat']??null)===($a['manifestation']['intended_seat']['seat']??null)&&in_array($prior['status']??null,['OPERATIONAL_MANIFESTATION_BOUND_PENDING_DEPLOYMENT_AUTHORIZATION','ACTIVE'],true))throw new \RuntimeException('R131_OPERATIONAL_SEAT_ALREADY_OCCUPIED');}

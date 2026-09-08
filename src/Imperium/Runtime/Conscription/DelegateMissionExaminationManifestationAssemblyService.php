@@ -12,6 +12,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class DelegateMissionExaminationManifestationAssemblyService
 {
+    private string $nativeRoot;
+
     private string $authorizations;
     private string $candidates;
     private string $custody;
@@ -19,6 +21,8 @@ final readonly class DelegateMissionExaminationManifestationAssemblyService
 
     public function __construct(#[Autowire('%kernel.project_dir%')] string $root, private StateStore $bootstrap)
     {
+        $this->nativeRoot = $root;
+
         $this->authorizations = $root.'/var/imperium/offices/senate/delegate-mission-examination-preparation-intake-dispositions';
         $this->candidates = $root.'/var/imperium/offices/laboratorium/delegate-mission-profile-candidates';
         $this->custody = $root.'/var/imperium/offices/garrison/custody';
@@ -26,6 +30,10 @@ final readonly class DelegateMissionExaminationManifestationAssemblyService
     }
 
     public function assemble(string $authorizationDispositionId, \DateTimeImmutable $assembledAt): array
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeAssemble($authorizationDispositionId, $assembledAt));
+    }
+    private function legacyNativeAssemble(string $authorizationDispositionId, \DateTimeImmutable $assembledAt): array
     {
         if (!preg_match('/^delegate-mission-examination-preparation-intake-disposition-[a-f0-9]{20}$/', $authorizationDispositionId)) {
             throw new \InvalidArgumentException('R540_DELEGATE_MISSION_EXAMINATION_ASSEMBLY_AUTHORIZATION_ID_INVALID');

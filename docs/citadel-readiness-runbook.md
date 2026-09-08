@@ -1,5 +1,9 @@
 # Citadel owner commissioning preparation runbook
 
+## P0–P3 native authority protocol — current local campaign
+
+The [P0–P3 campaign](native-authority-protocol-campaign.md), [native contract](../contracts/native-institutional-authority-v1.md), [owner runbook](native-authority-protocol-runbook.md) and [source map](native-authority-protocol-source-map.md) supersede the campaign-selection text below. A0–A3 is [accepted within preparation/refusal scope](citadel-authority-interface-acceptance.md), with its admission-test qualification preserved. P0–P3 implements positive synthetic enrolled-trust acts; final gates and independent review are pending. Real policy approval, deployment, trust, attestations and institutional acts remain separately authorized. No existing installation or genuine occupant is changed; formation readiness, activation and execution remain false.
+
 ## A0–A3 complete locally — explicit issuer/currentness blockers
 
 **AUTHORITY_INTERFACES_IMPLEMENTED_WITH_EXPLICIT_ISSUER_OR_CURRENTNESS_BLOCKER**. The [completed report](citadel-authority-interface-report.md), [implemented runbook](citadel-authority-interface-runbook.md) and [source/consumer map](citadel-authority-interface-source-map.md) supersede the campaign-selection instructions below. Public Recruiter projection/inspection and exact unsigned Garrison preparation/refusal are implemented and tested. No authentic native issuer/currentness source was established, so no positive revision or formation witness is admitted. Independent review is next; installation/private export and genuine owner acts remain separate. Do not repeat the accepted Guildhall lookup. Readiness, activation and execution remain false.

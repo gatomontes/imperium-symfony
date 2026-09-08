@@ -11,6 +11,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class ProfileCandidateReturnAcceptanceService
 {
+    private string $nativeRoot;
+
     private string $returnDirectory;
     private string $candidateDirectory;
     private string $custodyDirectory;
@@ -18,6 +20,8 @@ final readonly class ProfileCandidateReturnAcceptanceService
 
     public function __construct(#[Autowire('%kernel.project_dir%')] string $projectDir, private StateStore $bootstrap)
     {
+        $this->nativeRoot = $projectDir;
+
         $this->returnDirectory = $projectDir.'/var/imperium/offices/conscription/profile-candidate-return-inbox';
         $this->candidateDirectory = $projectDir.'/var/imperium/offices/laboratorium/profile-candidates';
         $this->custodyDirectory = $projectDir.'/var/imperium/offices/garrison/custody';
@@ -25,6 +29,10 @@ final readonly class ProfileCandidateReturnAcceptanceService
     }
 
     public function accept(string $returnId): array
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeAccept($returnId));
+    }
+    private function legacyNativeAccept(string $returnId): array
     {
         if (!preg_match('/^profile-candidate-return-[a-f0-9]{20}$/', $returnId)) throw new \InvalidArgumentException('R83_PROFILE_CANDIDATE_RETURN_ID_INVALID');
         $return = $this->read($this->returnDirectory.'/'.$returnId.'.json', 'R84_PROFILE_CANDIDATE_RETURN_ABSENT');

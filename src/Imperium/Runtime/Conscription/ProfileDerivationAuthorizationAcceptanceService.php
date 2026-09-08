@@ -11,6 +11,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class ProfileDerivationAuthorizationAcceptanceService
 {
+    private string $nativeRoot;
+
     private string $decisionDirectory;
     private string $requestDirectory;
     private string $reservationDirectory;
@@ -19,6 +21,8 @@ final readonly class ProfileDerivationAuthorizationAcceptanceService
 
     public function __construct(#[Autowire('%kernel.project_dir%')] string $projectDir, private StateStore $bootstrap)
     {
+        $this->nativeRoot = $projectDir;
+
         $this->decisionDirectory = $projectDir.'/var/imperium/curia/profile-derivation-authorization-decisions';
         $this->requestDirectory = $projectDir.'/var/imperium/curia/profile-derivation-authorization-requests';
         $this->reservationDirectory = $projectDir.'/var/imperium/offices/garrison/persona-reservation-dispositions';
@@ -27,6 +31,10 @@ final readonly class ProfileDerivationAuthorizationAcceptanceService
     }
 
     public function accept(string $actId): array
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeAccept($actId));
+    }
+    private function legacyNativeAccept(string $actId): array
     {
         if (!preg_match('/^profile-derivation-decision-[a-f0-9]{20}$/', $actId)) throw new \InvalidArgumentException('R72_PROFILE_DERIVATION_ACT_ID_INVALID');
         $act = $this->read($this->decisionDirectory.'/'.$actId.'.json', 'R73_PROFILE_DERIVATION_ACT_ABSENT');

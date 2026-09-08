@@ -11,6 +11,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class DelegateMissionModelBindingSealingService
 {
+    private string $nativeRoot;
+
     private string $decisions;
     private string $oracleCommissions;
     private string $commissions;
@@ -18,6 +20,8 @@ final readonly class DelegateMissionModelBindingSealingService
 
     public function __construct(#[Autowire('%kernel.project_dir%')] string $root, private StateStore $state)
     {
+        $this->nativeRoot = $root;
+
         $this->decisions = $root.'/var/imperium/offices/curia/delegate-mission-model-selection-decisions';
         $this->oracleCommissions = $root.'/var/imperium/offices/curia/model-requirement-commissions';
         $this->commissions = $root.'/var/imperium/offices/curia/delegate-mission-bounded-cognition-commissions';
@@ -25,6 +29,10 @@ final readonly class DelegateMissionModelBindingSealingService
     }
 
     public function seal(string $decisionId, string $authorityId, \DateTimeImmutable $sealedAt): array
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeSeal($decisionId, $authorityId, $sealedAt));
+    }
+    private function legacyNativeSeal(string $decisionId, string $authorityId, \DateTimeImmutable $sealedAt): array
     {
         if (!preg_match('/^delegate-mission-model-selection-decision-[a-f0-9]{20}$/', $decisionId)) {
             throw new \InvalidArgumentException('R280_DELEGATE_MODEL_SELECTION_DECISION_ID_INVALID');

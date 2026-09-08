@@ -9,6 +9,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class ProfileDerivationHandoffDispositionService
 {
+    private string $nativeRoot;
+
     private const array DISPOSITIONS = ['APPROVED', 'REFUSED'];
     private string $inbox;
     private string $acceptanceDirectory;
@@ -19,6 +21,8 @@ final readonly class ProfileDerivationHandoffDispositionService
 
     public function __construct(#[Autowire('%kernel.project_dir%')] string $projectDir)
     {
+        $this->nativeRoot = $projectDir;
+
         $this->inbox = $projectDir.'/var/imperium/offices/garrison/profile-derivation-handoff-inbox';
         $this->acceptanceDirectory = $projectDir.'/var/imperium/offices/conscription/profile-derivation-authorization-acceptances';
         $this->reservationDirectory = $projectDir.'/var/imperium/offices/garrison/persona-reservation-dispositions';
@@ -28,6 +32,10 @@ final readonly class ProfileDerivationHandoffDispositionService
     }
 
     public function decide(string $requestId, string $bindingId, string $disposition, string $rationale): array
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeDecide($requestId, $bindingId, $disposition, $rationale));
+    }
+    private function legacyNativeDecide(string $requestId, string $bindingId, string $disposition, string $rationale): array
     {
         if (!preg_match('/^profile-derivation-handoff-request-[a-f0-9]{20}$/', $requestId)) throw new \InvalidArgumentException('GA99_PROFILE_DERIVATION_HANDOFF_REQUEST_ID_INVALID');
         if ('' === trim($bindingId)) throw new \InvalidArgumentException('GA100_CONSTABLE_BINDING_ID_INVALID');

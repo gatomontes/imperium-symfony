@@ -10,6 +10,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class DelegateMissionPersonaReservationDispositionService
 {
+    private string $nativeRoot;
+
     private string $inbox;
     private string $acceptances;
     private string $decisions;
@@ -20,6 +22,8 @@ final readonly class DelegateMissionPersonaReservationDispositionService
 
     public function __construct(#[Autowire('%kernel.project_dir%')] string $root)
     {
+        $this->nativeRoot = $root;
+
         $this->inbox = $root.'/var/imperium/offices/garrison/delegate-mission-persona-reservation-inbox';
         $this->acceptances = $root.'/var/imperium/offices/guildhall/delegate-mission-personnel-use-acceptances';
         $this->decisions = $root.'/var/imperium/imperator/delegate-mission-personnel-use-decisions';
@@ -30,6 +34,10 @@ final readonly class DelegateMissionPersonaReservationDispositionService
     }
 
     public function decide(string $requestId, string $bindingId, \DateTimeImmutable $decidedAt): array
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeDecide($requestId, $bindingId, $decidedAt));
+    }
+    private function legacyNativeDecide(string $requestId, string $bindingId, \DateTimeImmutable $decidedAt): array
     {
         if (!preg_match('/^delegate-mission-persona-reservation-request-[a-f0-9]{20}$/', $requestId)) {
             throw new \InvalidArgumentException('GA510_DELEGATE_MISSION_RESERVATION_REQUEST_ID_INVALID');

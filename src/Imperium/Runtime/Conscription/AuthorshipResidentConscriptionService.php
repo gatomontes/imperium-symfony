@@ -11,10 +11,18 @@ use App\Imperium\Runtime\Authorship\CanonicalAuthorshipStaffRegistry;
 
 final readonly class AuthorshipResidentConscriptionService
 {
+    private string $nativeRoot;
+
     private string $commissionDirectory; private string $caseDirectory; private string $deliveryDirectory;
-    public function __construct(string $projectDir, private StateStore $bootstrap, private CanonicalAuthorshipStaffRegistry $staff, private GenericOfficerSubstrateRegistry $substrate) { $this->commissionDirectory = $projectDir.'/var/imperium/offices/conscription/inbox'; $this->caseDirectory = $projectDir.'/var/imperium/mastermason/activation-cases'; $this->deliveryDirectory = $projectDir.'/var/imperium/mastermason/qualified-manifestations'; }
+    public function __construct(string $projectDir, private StateStore $bootstrap, private CanonicalAuthorshipStaffRegistry $staff, private GenericOfficerSubstrateRegistry $substrate) {
+        $this->nativeRoot = $projectDir;
+ $this->commissionDirectory = $projectDir.'/var/imperium/offices/conscription/inbox'; $this->caseDirectory = $projectDir.'/var/imperium/mastermason/activation-cases'; $this->deliveryDirectory = $projectDir.'/var/imperium/mastermason/qualified-manifestations'; }
 
     public function fulfill(string $office, string $commissionId): array
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeFulfill($office, $commissionId));
+    }
+    private function legacyNativeFulfill(string $office, string $commissionId): array
     {
         [$role, $seat, $subordinate] = match ($office) { 'hagiography' => ['sanctographer', 'hagiography.sanctographer', 'Chronicler'], 'studium' => ['chancellor', 'studium.chancellor', 'Notary'], default => throw new \InvalidArgumentException('A49_AUTHORSHIP_OFFICE_INVALID') };
         if (!preg_match('/^'.$role.'-construction-[a-f0-9]{20}$/', $commissionId)) throw new \InvalidArgumentException('A50_RESIDENT_COMMISSION_INVALID');

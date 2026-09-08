@@ -12,6 +12,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class ModelBoundOperationalProfileQualificationService
 {
+    private string $nativeRoot;
+
     private string $approvals;
     private string $dispositions;
     private string $bindings;
@@ -20,6 +22,8 @@ final readonly class ModelBoundOperationalProfileQualificationService
     private string $qualifications;
     public function __construct(#[Autowire('%kernel.project_dir%')]string $root,
     private StateStore $bootstrap) {
+        $this->nativeRoot = $root;
+
         $this->approvals = $root.'/var/imperium/imperator/model-bound-profile-approval-decisions';
         $this->dispositions = $root.'/var/imperium/offices/senate/model-bound-profile-dispositions';
         $this->bindings = $root.'/var/imperium/offices/conscription/profile-model-bindings';
@@ -28,6 +32,10 @@ final readonly class ModelBoundOperationalProfileQualificationService
         $this->qualifications = $root.'/var/imperium/offices/conscription/model-bound-operational-profile-qualifications';
     }
     public function qualify(string $id,
+    \DateTimeImmutable $qualifiedAt): array {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeQualify($id, $qualifiedAt));
+    }
+    private function legacyNativeQualify(string $id,
     \DateTimeImmutable $qualifiedAt): array {
         if (!preg_match('/^model-bound-profile-approval-decision-[a-f0-9]{20}$/',
         $id)) throw new \InvalidArgumentException('R200_MODEL_BOUND_PROFILE_APPROVAL_ID_INVALID');

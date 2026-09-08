@@ -4,9 +4,17 @@ namespace App\Imperium\Runtime\Conscription;
 use App\Bootstrap\BootstrapState;use App\Bootstrap\CanonicalJson;use App\Bootstrap\StateStore;use Symfony\Component\DependencyInjection\Attribute\Autowire;
 final readonly class OperationalProfileQualificationService
 {
+    private string $nativeRoot;
+
  private string$approvals;private string$candidates;private string$custody;private string$qualifications;
- public function __construct(#[Autowire('%kernel.project_dir%')]string$root,private StateStore$bootstrap){$this->approvals=$root.'/var/imperium/imperator/profile-approval-decisions';$this->candidates=$root.'/var/imperium/offices/laboratorium/profile-candidates';$this->custody=$root.'/var/imperium/offices/garrison/custody';$this->qualifications=$root.'/var/imperium/offices/conscription/operational-profile-qualifications';}
+ public function __construct(#[Autowire('%kernel.project_dir%')]string$root,private StateStore$bootstrap){
+        $this->nativeRoot = $root;
+$this->approvals=$root.'/var/imperium/imperator/profile-approval-decisions';$this->candidates=$root.'/var/imperium/offices/laboratorium/profile-candidates';$this->custody=$root.'/var/imperium/offices/garrison/custody';$this->qualifications=$root.'/var/imperium/offices/conscription/operational-profile-qualifications';}
  public function qualify(string$approvalId):array
+ {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeQualify($approvalId));
+    }
+    private function legacyNativeQualify(string$approvalId):array
  {
   if(!preg_match('/^profile-approval-decision-[a-f0-9]{20}$/',$approvalId))throw new \InvalidArgumentException('R108_PROFILE_APPROVAL_ID_INVALID');
   $a=$this->read($this->approvals.'/'.$approvalId.'.json','R109_PROFILE_APPROVAL_ABSENT');foreach(glob($this->qualifications.'/operational-profile-qualification-*.json')?:[]as$path){$prior=$this->read($path,'R114_OPERATIONAL_PROFILE_QUALIFICATION_CONFLICT');if(!$this->ok($prior))throw new \RuntimeException('R114_OPERATIONAL_PROFILE_QUALIFICATION_CONFLICT');if(($prior['source_imperator_approval']['id']??null)===$approvalId){if(($prior['source_imperator_approval']['digest']??null)!==($a['record_digest']??null))throw new \RuntimeException('R114_OPERATIONAL_PROFILE_QUALIFICATION_CONFLICT');return$prior;}}

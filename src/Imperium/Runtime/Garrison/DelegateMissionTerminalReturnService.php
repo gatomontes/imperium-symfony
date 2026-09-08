@@ -8,6 +8,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class DelegateMissionTerminalReturnService
 {
+    private string $nativeRoot;
+
     private string$root;
     private string$a;
     private string$t;
@@ -18,6 +20,8 @@ final readonly class DelegateMissionTerminalReturnService
     private RecordReferenceValidator$validator;
     public function __construct(#[Autowire('%kernel.project_dir%')]string$root,
     ?RecordReferenceValidator$validator=null){
+        $this->nativeRoot = $root;
+
         $this->root=$root;
         $this->a=$root.'/var/imperium/offices/curia/delegate-mission-return-authorizations';
         $this->t=$root.'/var/imperium/operational/delegate-mission-bounded-cognition-turns';
@@ -29,6 +33,12 @@ final readonly class DelegateMissionTerminalReturnService
 
     }
     public function complete(string$id,
+    string$authorityId,
+    string$bindingId,
+    \DateTimeImmutable$at):array{
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeComplete($id, $authorityId, $bindingId, $at));
+    }
+    private function legacyNativeComplete(string$id,
     string$authorityId,
     string$bindingId,
     \DateTimeImmutable$at):array{

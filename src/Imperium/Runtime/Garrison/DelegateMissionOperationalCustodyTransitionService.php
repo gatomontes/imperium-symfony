@@ -12,6 +12,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class DelegateMissionOperationalCustodyTransitionService
 {
+    private string $nativeRoot;
+
     private string $a;
     private string $o;
     private string $c;
@@ -20,6 +22,8 @@ final readonly class DelegateMissionOperationalCustodyTransitionService
     public function __construct(#[Autowire('%kernel.project_dir%')]string $root,
     ?RecordReferenceValidator $v = null,
     ?DelegateMissionDeploymentCustodyTransitionCoordinator $coordinator = null) {
+        $this->nativeRoot = $root;
+
         $this->a = $root.'/var/imperium/offices/curia/delegate-mission-deployment-authorizations';
         $this->o = $root.'/var/imperium/offices/garrison/occupancy';
         $this->c = $root.'/var/imperium/offices/garrison/custody';
@@ -27,6 +31,11 @@ final readonly class DelegateMissionOperationalCustodyTransitionService
         $this->coordinator = $coordinator ?? new DelegateMissionDeploymentCustodyTransitionCoordinator($root);
     }
     public function transition(string $id,
+    string $bindingId,
+    \DateTimeImmutable $at): array {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativeTransition($id, $bindingId, $at));
+    }
+    private function legacyNativeTransition(string $id,
     string $bindingId,
     \DateTimeImmutable $at): array {
         if (!preg_match('/^delegate-mission-deployment-authorization-[a-f0-9]{20}$/',

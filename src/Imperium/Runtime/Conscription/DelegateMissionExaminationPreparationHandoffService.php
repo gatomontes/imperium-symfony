@@ -12,6 +12,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class DelegateMissionExaminationPreparationHandoffService
 {
+    private string $nativeRoot;
+
     private string $intakes;
     private string $candidates;
     private string $returns;
@@ -20,6 +22,8 @@ final readonly class DelegateMissionExaminationPreparationHandoffService
 
     public function __construct(#[Autowire('%kernel.project_dir%')] string $root, private StateStore $bootstrap)
     {
+        $this->nativeRoot = $root;
+
         $this->intakes = $root.'/var/imperium/offices/conscription/delegate-mission-profile-candidate-intake-dispositions';
         $this->candidates = $root.'/var/imperium/offices/laboratorium/delegate-mission-profile-candidates';
         $this->returns = $root.'/var/imperium/offices/conscription/delegate-mission-profile-candidate-return-inbox';
@@ -28,6 +32,10 @@ final readonly class DelegateMissionExaminationPreparationHandoffService
     }
 
     public function prepare(string $intakeDispositionId, \DateTimeImmutable $preparedAt): array
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->nativeRoot, fn () => $this->legacyNativePrepare($intakeDispositionId, $preparedAt));
+    }
+    private function legacyNativePrepare(string $intakeDispositionId, \DateTimeImmutable $preparedAt): array
     {
         if (!preg_match('/^delegate-mission-profile-candidate-intake-disposition-[a-f0-9]{20}$/', $intakeDispositionId)) {
             throw new \InvalidArgumentException('R530_DELEGATE_MISSION_PROFILE_CANDIDATE_INTAKE_ID_INVALID');
