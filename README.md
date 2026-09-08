@@ -1,9 +1,9 @@
 # imperium-symfony
 An Agentic Governance Framework built on top of Symfony AI
 
-Current local campaign: [Citadel native institutional lineage and authority preparation](docs/next-campaign-citadel-native-institutional-lineage.md).
-Start with the [Loco handoff](docs/handoffs/citadel-native-institutional-lineage-ready.md).
-The [Citadel/source integration is accepted](docs/citadel-readiness-integration-acceptance.md);
+Current local campaign: [Citadel Recruiter currentness and Garrison authority interfaces](docs/next-campaign-citadel-recruiter-garrison-authority-interfaces.md).
+Start with the [Loco A0–A3 handoff](docs/handoffs/citadel-recruiter-garrison-authority-interfaces-ready.md).
+[Native-lineage preparation is accepted and integrated](docs/citadel-native-lineage-acceptance.md);
 live commissioning remains blocked. [Current steps and flow](docs/delegate-mission-flow.md).
 
 Personnel terminology is defined in [the Officer taxonomy](docs/officer-taxonomy.md): permanent Office-bound Officers are Legates; temporary commission-bound Officers are Delegates.

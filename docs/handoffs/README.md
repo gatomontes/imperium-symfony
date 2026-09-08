@@ -1,13 +1,14 @@
-# Current campaign: Citadel native institutional lineage and authority preparation
+# Current campaign: Citadel Recruiter currentness and Garrison authority interfaces
 
-Entry: [Loco N0–N3](citadel-native-institutional-lineage-ready.md).
-Campaign: [native institutional lineage](../next-campaign-citadel-native-institutional-lineage.md).
-Baseline: [accepted integration](../citadel-readiness-integration-acceptance.md).
+Entry: [Loco A0–A3](citadel-recruiter-garrison-authority-interfaces-ready.md).
+Campaign: [authority interfaces](../next-campaign-citadel-recruiter-garrison-authority-interfaces.md).
+Baseline: [accepted native-lineage integration](../citadel-native-lineage-acceptance.md).
 
-Collect the specified existing public lineage, implement minimum read-only export
-and only supported dormant witness variants, then return offline proof and exact
-owner prerequisites. No installation change, enrollment, provider call or mission
-execution. Prior accepted campaigns and the pending-era records below are history.
+Implement bounded public Recruiter evidence and an explicit legitimate Garrison
+authority-revision path; prove commands and consumers in disposable local roots.
+No real private-state export, institutional act, installation update, enrollment,
+provider call or mission execution. N0–N3 and the exact planning acceptance check
+are accepted and closed. Prior campaign records below remain history.
 
 # Historical campaign: reconciliation shared-exclusion remediation
 

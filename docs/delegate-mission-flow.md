@@ -1,45 +1,45 @@
 # Current flow — Citadel mission formation
 
-## Native lineage preparation complete — explicit owner blockers
+## Current disposition — native lineage integrated; authority interfaces selected
 
-N0 collected 14 allowlisted public records with intact bounded structural links.
-N1 provides the standalone [public collector and verifier](citadel-native-lineage-runbook.md).
-N2 remains blocked on actual powers, exact acceptance and currentness; no positive
-production adapter was added. See the [action matrix](citadel-native-lineage-authority-matrix.md)
-and [changed-test map](citadel-native-lineage-changed-tests.md). N3 is complete; see the [validated report](citadel-native-lineage-report.md) for exact tests, identities and the review packet. Source publication and live activity
-remain separate. Earlier campaign-selection and acceptance history follows.
+**NATIVE_LINEAGE_ACCEPTED_PREPARATION_COMMISSIONING_BLOCKED**.
+[PR #771](https://github.com/gatomontes/imperium-symfony/pull/771) merged after CI
+passed, preserving reviewed tree `9e2f30eb52fe123371b1d75128a6f935a63f4aa2`.
+See [acceptance and exact evidence attribution](citadel-native-lineage-acceptance.md).
+R0–R3, N0–N3, CF01/CF02 and IR01 remain accepted within their documented scope.
+The 16-record follow-up resolves the exact Guildhall planning acceptance; it does
+not establish formation competence. No repeated lookup or correction is selected.
 
-## Current disposition — source integration accepted; native lineage campaign selected
-
-**SOURCE_INTEGRATION_ACCEPTED_COMMISSIONING_BLOCKED**.
-[PR #769](https://github.com/gatomontes/imperium-symfony/pull/769) merged the exact
-reviewed tree `47df11fa5f5a0afcb51e1066112f621bf7e911ad` after GitHub CI passed.
-See [independent acceptance](citadel-readiness-integration-acceptance.md) for the
-source identities, supplied local 2,789 tests / 53,334 assertions, four historical
-warnings and review limits. R0–R3, CF01/CF02 and IR01 are accepted within their
-documented local/preparation scope. No repeated correction campaign is selected.
-
-Current campaign: [native institutional lineage and authority preparation](next-campaign-citadel-native-institutional-lineage.md).
-Runner: [Loco N0–N3](handoffs/citadel-native-institutional-lineage-ready.md).
+Current campaign: [Recruiter currentness and Garrison authority interfaces](next-campaign-citadel-recruiter-garrison-authority-interfaces.md).
+Runner: [Loco A0–A3](handoffs/citadel-recruiter-garrison-authority-interfaces-ready.md).
 
 | Current step | Required result |
 | --- | --- |
-| N0 | Exact existing public lineage, currentness and action-specific powers, with explicit missing evidence |
-| N1 | Bounded read-only export/verification, no provider/credential access |
-| N2 | Only evidence-supported dormant native witnesses, preserving historical publication verification; unsupported authority refuses |
-| N3 | Offline proof, exact tested/final identities and complete owner/reviewer packet |
-| Later owner boundary | Resolve genuine custody/trust/appointments and B1, then separately authorize commissioning |
+| A0 | Source-bound public currentness, legitimate issuer and immutable authority-revision contracts |
+| A1 | Public Recruiter evidence producer/inspection interfaces, proved using synthetic private backing state |
+| A2 | Exact Garrison authority request/revision/resolver and admission-consumer proof without rewriting old occupancy |
+| A3 | Adverse, interruption, concurrency and disclosure proof as applicable; final offline gates and exact future owner commands |
+| Later owner boundary | Separately approve installation/private export and genuine acts; resolve remaining formation competence, custody/trust, other Seats, appointments and B1 |
+
+This is an implementation campaign against disposable roots, not authorization to
+read installed private state or perform a real institutional transition. Default
+formation transport refuses; no new positive witness follows from a planning
+acceptance or a self-sealed export. Missing issuer/currentness prerequisites remain
+explicit while implemented preparation and refusal paths are delivered.
 
 Settled order remains Citadel reception → Castellan interview → understanding
 closes interview use → separate explicit drafting approval → numbered proposal →
 separate mission approval → legitimate child-Curia constitution/handoff → receiving
 assessment → non-executing Step 1 validation. Execution needs its own valid authority.
-Unknown outcomes retain exposure; default formation transport refuses. Source
-merge does not install code or grant institutional competence. Preserve source
-review as a separately authorized capability and historical Delegate Steps 1–69.
+Unknown outcomes retain exposure without retry/refund. Source merge does not
+install code or grant institutional competence. Preserve the separately authorized
+source-review capability and historical Delegate Steps 1–69.
 
-All pending-review instructions below are preserved historical records; this
-disposition and the linked acceptance/campaign control current work.
+Prior integration [PR #769](https://github.com/gatomontes/imperium-symfony/pull/769),
+its [acceptance](citadel-readiness-integration-acceptance.md), N0–N3's
+[report](citadel-native-lineage-report.md) and all pending-era records below retain
+their historical attribution. This disposition and the linked campaign control
+current work.
 
 ## Historical disposition — IR01 corrected locally, independent review pending
 

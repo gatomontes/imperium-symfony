@@ -1,5 +1,9 @@
 # Citadel native institutional lineage and authority preparation
 
+**Historical campaign — accepted and integrated through PR #771.** See [acceptance](citadel-native-lineage-acceptance.md).
+The exact planning acceptance follow-up is complete. Current work is [Recruiter/Garrison interfaces](next-campaign-citadel-recruiter-garrison-authority-interfaces.md);
+do not restart N0–N3 from the original instructions below.
+
 Status: **SELECTED_LOCAL_PUBLIC_EVIDENCE_AND_OFFLINE_IMPLEMENTATION_AUTHORIZED**.
 Runner: [Loco handoff](handoffs/citadel-native-institutional-lineage-ready.md).
 Accepted baseline: [integration acceptance](citadel-readiness-integration-acceptance.md).
