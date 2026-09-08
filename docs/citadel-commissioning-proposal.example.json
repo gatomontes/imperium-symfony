@@ -1,0 +1,46 @@
+{
+  "schema": "imperium.commissioning-proposal/v1",
+  "label": "PUBLIC_UNAPPROVED_PROPOSAL",
+  "target": {
+    "commit": "f35a0b33ddab9e8815470a697d8593984e050023",
+    "tree": "e4140d95cbb83b3dbf9125849953cec0c7eda989"
+  },
+  "installation": {
+    "root": "E:\\htdocs\\imperium",
+    "commit": "8244afa5630b06973cc4a52dce6ed96f42a444f3",
+    "tree": "8329f745c548b0b672fc8b9dee61055774d1a24b"
+  },
+  "policy": {
+    "schema": "imperium.native-authority-enrollment/v1",
+    "domain": "IMPERIUM_NATIVE_INSTITUTIONAL_V1",
+    "instance_id": null,
+    "public_key": null,
+    "issuer_role": "NATIVE_INSTITUTIONAL_CUSTODIAN",
+    "effects": [
+      "ADOPT_ROSTER",
+      "SUPERSEDE_RECRUITER",
+      "RETIRE_ROSTER",
+      "REVISE_GARRISON",
+      "REVOKE_DECISION",
+      "REVOKE_ISSUER"
+    ],
+    "not_before": null,
+    "expires_at": null,
+    "writer_boundary": "NATIVE_REGISTRY_EXCLUSIVE_GARRISON_AND_RECRUITER_V1"
+  },
+  "public_fingerprint": null,
+  "decisions": {
+    "deployment_custodian": null,
+    "authority_custodian": null,
+    "signer_interface": null,
+    "fingerprint_confirmation": null,
+    "storage_protection": null,
+    "administrative_access": null,
+    "writer_quiescence": null,
+    "backup_restore": null,
+    "legacy_fence_acceptance": null,
+    "initial_adoption_attestation": null
+  },
+  "compatibility": "DEFER_ENROLLMENT",
+  "approved": false
+}

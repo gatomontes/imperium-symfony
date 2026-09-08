@@ -1,0 +1,239 @@
+{
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "imperium.commissioning-proposal/v1"
+    },
+    "label": {
+      "enum": [
+        "PUBLIC_UNAPPROVED_PROPOSAL",
+        "SYNTHETIC_ONLY"
+      ]
+    },
+    "target": {
+      "const": {
+        "commit": "f35a0b33ddab9e8815470a697d8593984e050023",
+        "tree": "e4140d95cbb83b3dbf9125849953cec0c7eda989"
+      }
+    },
+    "installation": {
+      "type": "object",
+      "properties": {
+        "root": {
+          "type": "string"
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "tree": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        }
+      },
+      "required": [
+        "root",
+        "commit",
+        "tree"
+      ],
+      "additionalProperties": false
+    },
+    "policy": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "const": "imperium.native-authority-enrollment/v1"
+        },
+        "domain": {
+          "const": "IMPERIUM_NATIVE_INSTITUTIONAL_V1"
+        },
+        "instance_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "public_key": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "issuer_role": {
+          "const": "NATIVE_INSTITUTIONAL_CUSTODIAN"
+        },
+        "effects": {
+          "const": [
+            "ADOPT_ROSTER",
+            "SUPERSEDE_RECRUITER",
+            "RETIRE_ROSTER",
+            "REVISE_GARRISON",
+            "REVOKE_DECISION",
+            "REVOKE_ISSUER"
+          ]
+        },
+        "not_before": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "expires_at": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "writer_boundary": {
+          "const": "NATIVE_REGISTRY_EXCLUSIVE_GARRISON_AND_RECRUITER_V1"
+        }
+      },
+      "required": [
+        "schema",
+        "domain",
+        "instance_id",
+        "public_key",
+        "issuer_role",
+        "effects",
+        "not_before",
+        "expires_at",
+        "writer_boundary"
+      ],
+      "additionalProperties": false
+    },
+    "public_fingerprint": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "decisions": {
+      "type": "object",
+      "properties": {
+        "deployment_custodian": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "authority_custodian": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "signer_interface": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "fingerprint_confirmation": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "storage_protection": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "administrative_access": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "writer_quiescence": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "backup_restore": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "legacy_fence_acceptance": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "initial_adoption_attestation": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 512
+        }
+      },
+      "required": [
+        "deployment_custodian",
+        "authority_custodian",
+        "signer_interface",
+        "fingerprint_confirmation",
+        "storage_protection",
+        "administrative_access",
+        "writer_quiescence",
+        "backup_restore",
+        "legacy_fence_acceptance",
+        "initial_adoption_attestation"
+      ],
+      "additionalProperties": false
+    },
+    "compatibility": {
+      "enum": [
+        "DEFER_ENROLLMENT",
+        "BOUNDED_NATIVE_ONLY"
+      ]
+    },
+    "approved": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema",
+    "label",
+    "target",
+    "installation",
+    "policy",
+    "public_fingerprint",
+    "decisions",
+    "compatibility",
+    "approved"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Public proposal syntax only; never authorization. Checker adds byte/freshness/path checks."
+}
