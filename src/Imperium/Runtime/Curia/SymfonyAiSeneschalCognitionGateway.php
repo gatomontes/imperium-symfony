@@ -14,45 +14,12 @@ final readonly class SymfonyAiSeneschalCognitionGateway implements SeneschalCogn
 
     public function decide(string $authorityId, string $request, array $context): array
     {
-        $prompt = implode("\n", [
-            'Imperator request: '.$request,
-            'Instance: '.($context['instance_id'] ?? 'unknown'),
-            'Proceeding: '.($context['proceeding_id'] ?? 'unknown'),
-            '',
-            'Return one JSON object with exactly these keys:',
-            'disposition: ADMITTED_FOR_PLANNING or CLARIFICATION_REQUIRED or REFUSED',
-            'decision: a concise executive disposition',
-            'question: null or exactly one question',
-            'resource_demands: an array of explicitly identified planning resource categories',
-            'authorization_required: boolean; true only when a listed resource demand requires Imperator authorization now',
-            'mission_plan: null; an opening disposition cannot contain a Mission Plan',
-            'Do not claim that any resource, mission, tool, credential, research, or execution has been authorized.',
-        ]);
-        $content = $this->invoker->invoke('curia', 'audience-opening', $authorityId, 'curia.seneschal', 'assess-imperator-request', [$request, $context], $prompt);
-        return $this->invoke($content, ['ADMITTED_FOR_PLANNING', 'CLARIFICATION_REQUIRED', 'REFUSED']);
+        throw new \RuntimeException('CMF112_NEW_REQUEST_USES_CITADEL_INTAKE');
     }
 
     public function advance(string $authorityId, array $proceeding, array $priorTurns, string $imperatorResponse, array $context): array
     {
-        $prompt = implode("\n", [
-            'Proceeding: '.($context['proceeding_id'] ?? 'unknown'),
-            'Original Imperator request: '.($proceeding['imperator_request']['content'] ?? 'unknown'),
-            'Prior Curian turns: '.json_encode($priorTurns, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR),
-            'New Imperator response: '.$imperatorResponse,
-            '',
-            'Advance this exact planning proceeding. Return one JSON object with exactly these keys:',
-            'disposition: PLANNING_CONTINUES or CLARIFICATION_REQUIRED or AUTHORIZATION_REQUIRED or MISSION_PLAN_DRAFTED or REFUSED',
-            'decision: a concise executive disposition',
-            'question: null or exactly one question',
-            'resource_demands: an array of explicitly identified resource categories',
-            'authorization_required: boolean',
-            'mission_plan: null unless disposition is MISSION_PLAN_DRAFTED; then an object containing exactly objective, scope, deliverables, constraints, required_inputs, capability_requirements, tool_requirements, data_requirements, office_participation, and stop_conditions. Every field except objective is an array of explicit strings.',
-            'capability_requirements may describe only functional skills, attributes, capabilities, constraints, and expected outcomes. Curia must not select, prescribe, or name a profession or Persona; Guildhall alone translates capability demand into professions and Persona suitability criteria.',
-            'A Mission Plan remains a draft until Imperator approval.',
-            'Do not claim that approval, authorization, research, tooling, or execution occurred.',
-        ]);
-        $content = $this->invoker->invoke('curia', 'deliberation-turn', $authorityId, 'curia.seneschal', 'advance-curian-planning', [$proceeding, $priorTurns, $imperatorResponse, $context], $prompt);
-        return $this->invoke($content, ['PLANNING_CONTINUES', 'CLARIFICATION_REQUIRED', 'AUTHORIZATION_REQUIRED', 'MISSION_PLAN_DRAFTED', 'REFUSED']);
+        throw new \RuntimeException('CMF113_NEW_PLANNING_REQUIRES_CITADEL_AUTHORITY');
     }
 
     private function invoke(string $result, array $allowedDispositions): array

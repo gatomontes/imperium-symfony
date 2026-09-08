@@ -30,6 +30,10 @@ Selection, qualification, and occupancy remain distinct.
 
 The occupant may:
 
+- assess the approved Citadel handoff and original exchange;
+- accept responsibility within the mission mandate or identify a specific impediment;
+- clarify genuine gaps with the Imperator while preserving understanding and dissent;
+- direct authorized mission planning and proposed amendments;
 - preside over Curial deliberation;
 - determine whether an active mission question is resolved;
 - render executive dispositions within the mission mandate;
@@ -41,6 +45,9 @@ The occupant may:
 
 The occupant may not:
 
+- treat a clerical handoff as his own substantive acceptance;
+- treat understanding or acceptance as agreement, feasibility or execution authority;
+- assume Citadel intake jurisdiction from occupancy of this mission Seat;
 - approve on behalf of the Imperator;
 - enlarge the mandate or authorization;
 - select itself or control its replacement;

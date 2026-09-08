@@ -1,3 +1,147 @@
+# Current flow — Citadel mission formation
+
+## Current disposition — IR01 corrected locally, independent review pending
+
+**IR01_CORRECTED_LOCAL_PENDING_INDEPENDENT_REVIEW_COMMISSIONING_BLOCKED**.
+See the [IR01 correction report](citadel-ir01-correction-report.md) for source,
+changed tests, exact identities, and fresh proof. UNDERSTOOD closes interview
+use across the intake and existing grants; stale work and controls cannot revive
+it. Original recovery and separately authorized drafting remain supported.
+Signed reply remains the explicit discussion transition; completed grants stay closed.
+
+Tested commit `41e7ef45c71b42a3d118cccfb435b240d7690466`, tree
+`3e89cd506282486dca22fa3ff96539cd44846037`: focused 57 tests / 399 assertions;
+full suite 2,746 tests / 53,196 assertions, no errors/failures/skips, four unchanged
+historical warnings. Offline handoff and non-executing Step 1 passed.
+
+Current steps: independent review of the corrected packet, then the runbook's
+public installation/custody/authority evidence and B1 decision, then separately
+authorized commissioning only when prerequisites are resolved. Default transport
+still refuses. CF01/CF02 acceptance and all historical packets are preserved.
+
+## Historical readiness disposition — preparation complete with explicit blockers
+
+**READINESS_PREPARATION_COMPLETE_WITH_EXPLICIT_BLOCKERS**.
+R0–R3 local work is complete; see the [terminal report](citadel-readiness-report.md),
+[readiness matrix](citadel-readiness-matrix.md), [owner runbook](citadel-readiness-runbook.md)
+and [changed-test map](citadel-readiness-changed-tests.md).
+
+R0 traced actual producers/consumers and missing genuine public evidence.
+R1 added read-only public witness export, public preflight, exact unsigned decision
+preparation and public signature assembly. Unsupported live transport/credential
+and unknown successor boundaries remain refusing; no authentic records were fabricated.
+R2 rehearsed actual command/DI through distinct interview, drafting, mission
+approval, child handoff, receiving acceptance and non-executing Step 1.
+R3 passed 2,739 tests / 53,138 assertions on committed executable code, with zero
+failures/errors/skips and four retained historical linked-worktree warnings.
+Tested commit: `2313b69f8f06af5064df4a0e711834f8cf90d97d`;
+tree: `da7dee9c6f467e005e123c33ffbec7f31daedcd2`.
+
+Next: independent package review → owner public installation/custody/authority
+exports and explicit B1 transport decision → separately authorized commissioning
+only after the real prerequisites and supported adapter are established.
+Default `UnavailableFormationTransport` refuses. No live interview, enrollment,
+commissioning, real-key handling, installation change or mission execution occurred.
+First owner action is the exact public evidence request in the runbook.
+
+CF01/CF02 remain [accepted within reviewed scope](citadel-formation-correction-acceptance.md).
+Prior reports, owner ceremonies, candidate branches and Delegate Steps 1–69 remain
+preserved. Historical pending-era text below is not reopened by this campaign.
+
+## Historical campaign record
+
+
+## Current disposition — local correction complete, independent review pending
+
+`LOCAL_CORRECTION_COMPLETE_PENDING_INDEPENDENT_REVIEW`
+
+C0 reproduced both findings; C1 makes refusal terminal; C2 recognizes only exact
+verifiable completed child effects; C3 passed the full repository suite on
+`1a978ae42fbeaab55437768b88818fb40ba88676`: 2,729 tests, 53,069 assertions,
+no failures/errors/skips, with four unchanged historical worktree warnings.
+CF01 and CF02 are CLOSED_LOCAL. The final record is in the
+[correction report](citadel-formation-correction-report.md) and
+[review handoff](handoffs/citadel-formation-correction-review.md).
+
+The corrected implementation commits remain local. Independent review and later
+integration are separate. Flow remains intake -> bounded interview -> separate
+drafting approval -> exact mission review -> Curia handoff -> attributable
+receiving acceptance -> non-executing Step 1 validation. Historical recognition
+confers no new authority. Delegate Steps 1–69 remain terminal and preserved.
+
+## Published correction instructions (preserved history)
+
+Stages 1–3 exist in the local candidate e0386e75ce7619fbbeaac450af078d2d606df012.
+Review found CF01 (indirect reopening of a refused session) and CF02 (completed
+child receipt cannot reconcile after approval expiry). Closure remains pending.
+
+Current campaign: [correction and proof](next-campaign-citadel-formation-correction.md).
+Current runner: [local correction prompt](handoffs/citadel-formation-correction-ready.md).
+
+Current steps: C0 reproduce both findings -> C1 terminal refusal -> C2 historical
+receipt reconciliation -> C3 committed-code audit and independent-review package.
+Preserve prior tests and artifacts; no repeat owner ceremony or live activation.
+The remote instruction update does not merge or accept the local implementation.
+
+## Preserved Citadel formation direction
+
+The owner-approved direction supersedes the Curia-first interview campaign.
+Prior local Preparation Batch 0 at 7eb2e9abee148e024d227aa7809dfd92979af43f remains
+reviewed evidence; it is not restarted or claimed as merged implementation.
+
+Campaign: [next-campaign-citadel-mission-formation.md](next-campaign-citadel-mission-formation.md).
+Local runner: [handoffs/citadel-mission-formation-implementation-ready.md](handoffs/citadel-mission-formation-implementation-ready.md).
+Contract: [citadel-mission-intake.md](../contracts/citadel-mission-intake.md).
+
+Preparation Batch 0 review is accepted. The owner provisionally accepted the
+four implementation recommendations and directed continuation on 2026-09-07.
+Castellan is Citadel's cognitive holder; qualification and activation remain
+prerequisites. Select one Citadel registry with registered child Curiae, a bounded
+interview-session grant, a separate exact drafting decision, and disclosed
+mission-specific constitution/appointment acts combined where terms are known.
+
+Decisions: [citadel-mission-formation-decisions.md](citadel-mission-formation-decisions.md).
+Historical report: [citadel-mission-formation-preparation.md](citadel-mission-formation-preparation.md).
+Stages 1–3 are locally implemented with offline evidence; the two review findings
+above prevent closure. Continue the correction through attributable handoff and
+non-executing Step 1 validation. Live activation needs later readiness review.
+
+## Required entry phase before existing Delegate Step 1
+
+1. Citadel receives and routes the request. A new inquiry creates no Curia.
+2. Castellan, its cognitive holder, discusses intent and existing mission overlap
+   with the Imperator. Registry facts inform judgment; similarity is not refusal.
+3. Attributable “I understand” closes the interview only. Dissent remains separate.
+4. Citadel discloses drafting scope/resources/limits and asks:
+   “I understand. I am ready to draft a proposal. Do you approve?”
+5. The Imperator's separate exact approval permits bounded proposal drafting.
+   Silence, understanding or readiness does not. Decline/defer preserves records.
+6. Citadel drafts and presents the numbered proposal within planning authority.
+   Additional investigation and revisions follow their applicable authorization.
+7. The Imperator separately approves the exact mission proposal. Recheck overlap
+   and competing commitments before new mission admission.
+8. The competent path constitutes the mission Curia and its officers and delivers
+   the approved plan, original exchange, rationale, dissent and authority references.
+9. The receiving Seneschal assesses the handoff and accepts responsibility within
+   the mandate or identifies a specific gap. Do not repeat the original interview
+   or reapprove unchanged terms automatically. Each Curia retains its own Isolde.
+10. Valid downstream commissions and prerequisites permit execution. Existing
+    Delegate Step 1 still needs its approved plan and competent authority records.
+
+Intake cognition needs legitimate authority before its first call. Drafting
+permission cannot authorize it retroactively. Castellan is the owner-selected
+Citadel cognitive holder. Implement one authentic bounded interview-session
+grant with aggregate reservations and per-call enforcement; do not request approval
+for each question within unchanged bounds. No actual appointment, tariff or live
+grant is created by this implementation policy. No new Secretariat or provisional Curia is selected.
+
+This is the approved order, exercised locally within the recorded limitations.
+It does not establish live readiness. Delegate Steps 1–69
+and all completed mission evidence remain intact. Runtime namespace names and
+new schema labels do not establish Citadel jurisdiction or multi-instance support.
+
+## Preserved campaign and implementation records
+
 > Campaign closed after owner-reported independent Batch 5 acceptance. Existing parent implementation, readiness and scratch/process corrections are accepted within documented bounds; GitHub integration is authorized subject to checks. See local-isolation-integration.md. No new campaign or mission starts automatically. Earlier pending dispositions below are historical.
 
 > Current disposition: existing parent Batch 5 locally complete, pending independent review. Actual-target receipt/generation and installed-package checks passed. See local-isolation-batch-5.md for bounded analytical findings, exact identities and retained custody assumptions. No new campaign starts automatically; earlier pending steps below are historical.
@@ -619,6 +763,10 @@ Earlier reproof countdowns and active handoffs below are historical stage record
 Curia states mission capabilities but never chooses a profession or Persona. Guildhall resolves profession and Persona suitability. Garrison owns custody and availability facts. Conscription assembles and qualifies but does not select personnel. Imperator decides protected personnel, Profile, deployment, resource, perimeter, and action commitments.
 
 ## Implemented terminal flow through Step 69
+
+Entry prerequisite: follow the default mission-formation phase above. The numbered
+Delegate flow begins with an approved Mission Plan and competent authorization;
+its recorded implementation does not prove the preceding production entry path.
 
 ### Demand and personnel resolution
 

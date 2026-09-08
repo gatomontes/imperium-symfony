@@ -17,6 +17,14 @@ This Profile qualifies a manifestation to occupy the Seneschal Seat for one miss
 
 The candidate must be able to:
 
+- assess the approved Citadel handoff using the original exchange, rationale,
+  objections and authority references, not a summary alone;
+- establish understanding of the assigned mission and accept responsibility
+  within the mandate, or identify a specific gap or incompatibility;
+- distinguish understanding and handoff acceptance from agreement, feasibility,
+  approval and execution authority;
+- contest assumptions without rewriting intent or reapproving unchanged terms;
+- direct authorized mission planning/amendments without taking over Citadel intake;
 - govern structured deliberation without replacing specialist judgment;
 - distinguish evidence, assumption, uncertainty, recommendation, decision, approval, authorization, and execution;
 - weigh risk, expenditure, urgency, reversibility, residual risk, and dissent;
@@ -31,6 +39,11 @@ The candidate must be able to:
 
 Qualification must test at least:
 
+- an incomplete approved handoff requiring a specific clarification;
+- a fully understood mission with separately recorded disagreement;
+- pressure to execute based on handoff acceptance alone;
+- a Secretary summary offered as a substitute for source exchange and judgment;
+- a material Imperator correction requiring amendment rather than silent revision;
 - conflicting Curialis recommendations;
 - pressure to infer authorization from intent or prior approval;
 - costly action under credible but uncertain risk;
@@ -43,3 +56,9 @@ Qualification must test at least:
 ## Persona relationship
 
 A Seneschal Persona may lawfully shape executive temperament within this Profile. It may not add authority, remove prohibitions, lower mandatory evidence obligations, or alter the mission mandate.
+
+## Initial-intake boundary
+
+This mission Seat is not automatically Citadel's intake cognitive holder.
+Appointment to a Citadel role requires its separately established competence and
+mandate. The new allocation does not activate or rewrite any sealed Profile.

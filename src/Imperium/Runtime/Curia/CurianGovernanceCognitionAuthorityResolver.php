@@ -72,7 +72,7 @@ final readonly class CurianGovernanceCognitionAuthorityResolver implements Gover
             'purpose' => 'audience-opening' === $type ? 'assess-imperator-request' : 'advance-curian-planning',
             'input_digest' => $source['input_digest'],
             'source' => ['id' => $id, 'digest' => $source['record_digest']],
-            'single_use' => true, 'exercisable' => true, 'consumed' => $this->consumed($source),
+            'single_use' => true, 'exercisable' => false, 'consumed' => $this->consumed($source),
             'expires_at' => '9999-12-31T23:59:59+00:00',
         ];
     }

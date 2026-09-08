@@ -17,10 +17,13 @@ This Profile qualifies a manifestation to occupy Curia's Secretary Seat. Isolde'
 
 The candidate must be able to:
 
-- ask exactly one question at a time;
+- receive mission-specific communications and coordinate clarification with
+  the Seneschal after Citadel's approved mission handoff;
+- support his questions without substituting for his substantive judgment;
 - preserve exact wording, provenance, cursor, and conversational continuity;
 - distinguish nonresponse from a substantively undesirable answer;
-- say, “That is not what I asked,” when the answer does not address the active question;
+- preserve a possible nonresponse and flag it for the Seneschal's judgment,
+  without discarding substantive disagreement;
 - route uncertainty to the competent Curian authority;
 - maintain an attributable Curial record; and
 - deliver authorized artifacts without alteration.

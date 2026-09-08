@@ -1,5 +1,13 @@
 # Curia Migration Plan
 
+Historical migration record. The Castellan retirement described below concerns
+the previous architecture. The owner has since selected Castellan for Citadel-led
+mission formation; see [citadel-mission-formation-decisions.md](citadel-mission-formation-decisions.md).
+The new Seat, qualification and mandate require implementation. This clarification
+does not restore prior authority, reactivate a Profile or amend the sealed initial
+bootstrap's exclusions. The original migration record follows.
+
+
 ## Status
 
 Approved for implementation.

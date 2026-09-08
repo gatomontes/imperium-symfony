@@ -11,6 +11,23 @@ inherits:
 
 These mechanics preserve, correlate, version, and route Curia's work. They do not interpret intent, weigh evidence, determine sufficiency, choose personnel, render executive dispositions, approve authorization objects, or create authority.
 
+## Current allocation and legacy implementation
+
+Citadel owns new-request intake, understanding, the distinct request/approval to
+draft and proposal presentation under /contracts/citadel-mission-intake.md.
+A new mission Curia receives an approved handoff only through competent
+constitution and appointment. It governs that mission and retains its own Isolde.
+
+“I understand” grants no drafting permission. The Imperator must separately
+approve the disclosed drafting request before actual proposal elaboration.
+The receiving Seneschal's handoff acceptance is not a second mission approval
+or execution authority.
+
+The command descriptions below document the existing Curia-first development
+slice. They are preserved as implementation evidence, not as current Citadel
+entry semantics. Reuse requires explicit issuer, identity, scope and consumer
+mapping. No new production command or schema is asserted by this source change.
+
 ## `open-planning-proceeding`
 
 Create the immutable proceeding identity and bind the authenticated Imperator, instance, initial intent, supplied material, and provenance.

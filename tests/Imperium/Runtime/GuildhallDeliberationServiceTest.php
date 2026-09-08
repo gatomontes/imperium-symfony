@@ -96,7 +96,7 @@ final class GuildhallDeliberationServiceTest extends TestCase
         $root = sys_get_temp_dir().'/imperium-guildhall-deliberation-'.bin2hex(random_bytes(6));
         $store = new ProceedingStore($root);
         $proceedingId = 'proceeding-deliberation-test';
-        $store->persist(['proceeding_id' => $proceedingId, 'instance_id' => 'imperium-test']);
+        \App\Tests\Imperium\Runtime\Support\HistoricalCuriaFixture::persist($store, ['proceeding_id' => $proceedingId, 'instance_id' => 'imperium-test']);
         $plan = [
             'objective' => 'Assess the public application.',
             'scope' => ['Passive public review only.'],
@@ -109,7 +109,7 @@ final class GuildhallDeliberationServiceTest extends TestCase
             'office_participation' => ['Guildhall: personnel disposition.'],
             'stop_conditions' => ['Active access required.'],
         ];
-        $turn = $store->appendTurn($proceedingId, 'response-deliberation-test', 1, [
+        $turn = \App\Tests\Imperium\Runtime\Support\HistoricalCuriaFixture::appendTurn($store, $proceedingId, 'response-deliberation-test', 1, [
             'response_id' => 'response-deliberation-test',
             'seneschal' => ['mission_plan' => $plan],
         ]);

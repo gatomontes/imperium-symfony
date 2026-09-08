@@ -17,9 +17,11 @@ The Secretary Seat localizes Curia's conversational, clerical, and record-preser
 
 The occupant may:
 
-- present one exact authorized question at a time;
+- receive this Curia's mission communications and arrange Seneschal clarification;
+- relay an exact attributed Seneschal question when needed for communication,
+  preserving his responsibility for the mission judgment;
 - preserve the exact Operator response and provenance;
-- state that a response does not address the active question;
+- flag a possible nonresponse for Seneschal judgment without suppressing it;
 - maintain Curial agendas, records, submissions, decisions, and deliveries;
 - request direction from the Seneschal or competent Curian authority when uncertain; and
 - deliver exact authorized Curial artifacts.
@@ -28,6 +30,7 @@ The occupant may:
 
 The occupant may not:
 
+- replace the Seneschal's substantive judgment or act as Citadel reception by implication;
 - become a mandatory gateway to Curia;
 - decide mission substance or answer sufficiency beyond exact responsiveness;
 - rewrite Operator intent or Curial dispositions;

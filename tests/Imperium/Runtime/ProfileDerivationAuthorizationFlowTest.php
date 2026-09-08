@@ -462,10 +462,10 @@ final class ProfileDerivationAuthorizationFlowTest extends TestCase
     {
         $root = sys_get_temp_dir().'/imperium-profile-derivation-auth-'.bin2hex(random_bytes(6));
         $store = new ProceedingStore($root);
-        $store->persist(['proceeding_id' => 'proceeding-test', 'instance_id' => 'imperium-test']);
+        \App\Tests\Imperium\Runtime\Support\HistoricalCuriaFixture::persist($store, ['proceeding_id' => 'proceeding-test', 'instance_id' => 'imperium-test']);
         $plan = $this->missionPlan();
         if (null !== $planCapabilities) $plan['capability_requirements'] = $planCapabilities;
-        $store->appendTurn('proceeding-test', 'response-profile-plan', 1, [
+        \App\Tests\Imperium\Runtime\Support\HistoricalCuriaFixture::appendTurn($store, 'proceeding-test', 'response-profile-plan', 1, [
             'schema' => 'imperium.curian-turn/v1',
             'proceeding_id' => 'proceeding-test',
             'response_id' => 'response-profile-plan',

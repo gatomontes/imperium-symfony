@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 
 final class CurianDeliberationTest extends TestCase
 {
-    public function testAppendsAndIdempotentlyReplaysImmutableTurn(): void
+    public function testHistoricalProceedingCannotAuthorizeFreshDeliberation(): void
     {
         $root = sys_get_temp_dir().DIRECTORY_SEPARATOR.'imperium-deliberation-'.bin2hex(random_bytes(6));
         mkdir($root, 0700, true);
@@ -43,21 +43,16 @@ final class CurianDeliberationTest extends TestCase
             ]],
         ];
         $proceeding['record_digest'] = hash('sha256', CanonicalJson::encode($proceeding));
-        $store->persist($proceeding);
+        \App\Tests\Imperium\Runtime\Support\HistoricalCuriaFixture::persist($store,$proceeding);
         $calls = (object) ['count' => 0];
         $service = new CurianDeliberation($state, $store, $this->seneschal($calls), new CurianCognitionAuthorityService($root));
 
         try {
-            $first = $service->respond('proceeding-test-0001', 'Assess the public web application first.', 'response-test-0001');
-            $replay = $service->respond('proceeding-test-0001', 'Assess the public web application first.', 'response-test-0001');
-
-            self::assertSame($first, $replay);
-            self::assertSame(1, $first['sequence']);
-            self::assertSame(1, $calls->count);
-            self::assertSame('CLARIFICATION_REQUIRED', $first['seneschal']['disposition']);
-            self::assertSame('RESPONSE_RECORDED', $first['secretary']['disposition']);
-            self::assertCount(1, $store->turns('proceeding-test-0001'));
+            $this->expectExceptionMessage('CMF113_NEW_PLANNING_REQUIRES_CITADEL_AUTHORITY');
+            $service->respond('proceeding-test-0001', 'Assess the public web application first.', 'response-test-0001');
         } finally {
+            self::assertSame(0, $calls->count);
+            self::assertSame([], $store->turns('proceeding-test-0001'));
             $this->removeTree($root);
         }
     }

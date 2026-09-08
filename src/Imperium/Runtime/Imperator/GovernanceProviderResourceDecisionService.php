@@ -32,6 +32,45 @@ final readonly class GovernanceProviderResourceDecisionService
         $this->records = $records ?? new ImmutableRecordStore($root, $this->atomic);
     }
 
+    /** Authenticated session specialization. Its v2 record is committed in the
+     * Citadel aggregate with the budget ledger, never in the legacy v1 store.
+     * The v1 development actor cannot authorize a formation session.
+     */
+    public static function formationSession(array $state, array $terms, array $envelope, string $phase,
+        \App\Imperium\Runtime\Citadel\Formation\FormationSignatures $signatures): array
+    {
+        $effect = match ($phase) {
+            'interview' => 'AUTHORIZE_INTERVIEW_SESSION', 'drafting' => 'AUTHORIZE_EXACT_DRAFTING',
+            'acceptance' => 'AUTHORIZE_RECEIVING_ASSESSMENT',
+            default => throw new \RuntimeException('GCA206_FORMATION_PHASE_INVALID'),
+        };
+        $payload = $signatures->verify($state, $envelope, $effect, $terms);
+        if (!is_string($state['parent_instance_id'] ?? null)) { throw new \RuntimeException('GCA207_PARENT_INSTITUTION_REQUIRED'); }
+        $record = ['schema' => 'imperium.imperator-governance-provider-resource-decision/v2',
+            'decision_id' => 'governance-provider-resource-decision-'.substr(hash('sha256', CanonicalJson::encode($envelope)), 0, 20),
+            'instance_id' => $state['parent_instance_id'], 'citadel_id' => $state['citadel_id'],
+            'actor' => ['kind' => 'imperator', 'public_trust_fingerprint' => $payload['trust_fingerprint']],
+            'operator_authenticity' => $envelope, 'source' => $terms['source'], 'phase' => $phase,
+            'typed_effects' => $phase === 'drafting' ? ['BOUNDED_PROVIDER_SESSION', 'EXACT_PLANNING_CHARTER'] : ['BOUNDED_PROVIDER_SESSION'],
+            'terms' => $terms, 'expires_at' => $terms['expires_at'], 'disposition' => 'AUTHORIZED',
+            'credential_use_authority' => false, 'network_access_authority' => false,
+            'provider_invocation_authority' => false, 'execution_authority' => false, 'sealed' => true];
+        if ($phase === 'drafting') {
+            $authorization = ['schema' => 'imperium.citadel-planning-authorization/v1',
+                'authorization_id' => 'planning-authorization-'.substr(hash('sha256', CanonicalJson::encode([$terms, $envelope])), 0, 32),
+                'charter' => $terms['source'], 'approval' => ['id' => $record['decision_id'], 'envelope_digest' => hash('sha256', CanonicalJson::encode($envelope))],
+                'holder' => $terms['source']['author'], 'scope' => $terms['source']['charter']['scope'],
+                'resource_bounds' => ['per_call' => $terms['per_call'], 'total' => $terms['total'], 'pricing' => $terms['pricing']],
+                'conditions' => $terms['source']['charter'], 'expires_at' => $terms['expires_at'],
+                'revocation_nonce' => $payload['nonce'], 'permitted_delegation' => 'Exact per-call planning-only authority through appointed Locksmith; no Office or external investigation commissions.',
+                'planning_only' => true, 'execution_authority' => false];
+            $authorization['record_digest'] = hash('sha256', CanonicalJson::encode($authorization));
+            $record['planning_authorization'] = $authorization;
+        }
+        $record['record_digest'] = hash('sha256', CanonicalJson::encode($record));
+        return $record;
+    }
+
     public function decide(string $requestId, string $disposition, array $modelConfiguration, array $resourceCeiling, string $rationale, \DateTimeImmutable $expiresAt, \DateTimeImmutable $decidedAt): array
     {
         if (!preg_match('/^governance-cognition-request-[a-f0-9]{20}$/', $requestId)) {
