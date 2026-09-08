@@ -10,6 +10,7 @@ No existing assertion or production authority consumer changed. New standard-lib
 - Mismatched acceptance refuses; an intact planning-only acceptance cannot provide formation competence.
 - Projection/original mismatch, positive assessment tampering, duplicate paths and unreferenced records refuse offline verification.
 - File/directory/JSON limits, duplicate keys, hard links/reparse paths and output into a checkout refuse; existing output is preserved.
+- Empty JSON object digest normalization matches PHP associative decoding while original bytes remain unchanged.
 
 Exact new-tool command:
 

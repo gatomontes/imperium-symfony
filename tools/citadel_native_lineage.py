@@ -89,8 +89,16 @@ def parse(data: bytes):
 
 
 def canonical(value) -> bytes:
+    # json_decode(..., true) turns empty JSON objects into empty PHP arrays.
+    # Preserve that native digest convention without altering retained raw bytes.
+    def native(item):
+        if isinstance(item, dict):
+            return {key: native(child) for key, child in item.items()} if item else []
+        if isinstance(item, list):
+            return [native(child) for child in item]
+        return item
     # PHP escapes U+2028/U+2029 without JSON_UNESCAPED_LINE_TERMINATORS.
-    text = json.dumps(value, sort_keys=True, ensure_ascii=False, separators=(',', ':'))
+    text = json.dumps(native(value), sort_keys=True, ensure_ascii=False, separators=(',', ':'))
     return text.replace('\u2028', '\\u2028').replace('\u2029', '\\u2029').encode('utf-8')
 
 

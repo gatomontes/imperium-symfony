@@ -242,6 +242,11 @@ class CitadelNativeLineageTest(unittest.TestCase):
         with patch.object(n, 'MAX_NAMES', 0):
             self.assertEqual('OUT_OF_SCOPE_DIRECTORY_LIMIT', self.collect()['summons_resolution'])
 
+    def test_empty_json_objects_follow_php_associative_decode_without_rewriting_originals(self):
+        raw = b'{"empty":{},"nested":[{}],"line":"\\u2028"}'
+        self.assertEqual(b'{"empty":[],"line":"\\u2028","nested":[[]]}', n.canonical(n.parse(raw)))
+        self.assertEqual(raw, base64.b64decode(base64.b64encode(raw)))
+
     def test_existing_or_in_tree_output_preserved(self):
         packet = self.collect()
         with self.assertRaises(n.Refused):
