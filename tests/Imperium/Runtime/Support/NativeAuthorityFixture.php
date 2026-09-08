@@ -16,12 +16,14 @@ final class NativeAuthorityFixture
     public string $secretKey;
     public array $policy;
     public array $projection;
+    public array $occupancy;
     public array $outputs = [];
     public const DELIVERY = 'guildhall-garrison-persona-admission-delivery-cccccccccccccccccccc';
     public const INQUIRY = 'garrison-inquiry-dddddddddddddddddddd';
-    public function __construct()
+    public function __construct(?array $occupancy = null)
     {
         $this->base = new CitadelAuthorityFixture(); $this->root = $this->base->root; $this->base->seed();
+        $this->occupancy = $occupancy ?? CitadelAuthorityFixture::occupancy();
         $this->projection = $this->base->recruiter()->export('synthetic-authority-test');
         $pair = sodium_crypto_sign_keypair(); $this->secretKey = sodium_crypto_sign_secretkey($pair);
         $this->policy = ['schema' => 'imperium.native-authority-enrollment/v1', 'domain' => NativeTrust::DOMAIN,
@@ -29,7 +31,7 @@ final class NativeAuthorityFixture
             'issuer_role' => NativeTrust::ROLE, 'effects' => NativeTrust::EFFECTS, 'not_before' => $this->base->now - 10,
             'expires_at' => $this->base->now + 7200, 'writer_boundary' => NativeTrust::BOUNDARY];
         sodium_memzero($pair);
-        $this->write('var/imperium/offices/garrison/occupancy/'.CitadelAuthorityFixture::occupancy()['binding_id'].'.json', CitadelAuthorityFixture::occupancy());
+        $this->write('var/imperium/offices/garrison/occupancy/'.$this->occupancy['binding_id'].'.json', $this->occupancy);
         $this->write('var/imperium/offices/garrison/inbox/canonical-subordinate-persona-admissions/'.self::DELIVERY.'.json', self::delivery());
         $this->write('var/imperium/offices/garrison/inbox/'.self::INQUIRY.'.json', A::seal(['inquiry_id' => self::INQUIRY,
             'status' => 'CONSTABLE_ACTIVATION_REQUIRED', 'instance_id' => 'synthetic-authority-test', 'proceeding_id' => 'synthetic-proceeding',
@@ -45,32 +47,33 @@ final class NativeAuthorityFixture
             'senate_confirmation_record_id' => 'synthetic-senate-confirmation', 'senate_confirmation_record_digest' => str_repeat('e', 64),
             'originating_guildhall_commission_id' => 'synthetic-guildhall-commission', 'originating_guildhall_commission_digest' => str_repeat('f', 64)]);
     }
-    public function protocol(?\Closure $checkpoint = null): NativeProtocol
+    public function protocol(?\Closure $checkpoint = null, ?Clock $clock = null): NativeProtocol
     {
-        return new NativeProtocol(new NativeJournal($this->root, $checkpoint), $this->base, $this->base->garrison(), $this->base->recruiter());
+        return new NativeProtocol(new NativeJournal($this->root, $checkpoint), $clock ?? $this->base, $this->base->garrison(), $this->base->recruiter());
     }
     public function fingerprint(): string { return hash('sha256', base64_decode($this->policy['public_key'])); }
     public function enroll(): array { return $this->command('enroll', $this->policy); }
     public function sign(string $effect, array $object, ?string $nonce = null): array
     {
         $payload = $this->protocol()->prepare(['effect' => $effect, 'object' => $object, 'issued_at' => $this->base->now,
-            'expires_at' => $this->base->now + 60, 'nonce' => $nonce ?? bin2hex(random_bytes(24))])['payload'];
+            'expires_at' => min($this->policy['expires_at'], $this->base->now + 60), 'nonce' => $nonce ?? bin2hex(random_bytes(24))])['payload'];
         return ['object' => $object, 'decision' => ['payload' => $payload, 'signature' => $this->signature($payload)]];
     }
     public function signature(array $payload): string { return base64_encode(sodium_crypto_sign_detached(CanonicalJson::encode($payload), $this->secretKey)); }
     public function adoption(string $seat): array
     {
-        $o = CitadelAuthorityFixture::occupancy();
+        $o = $this->occupancy;
         return ['expected_head' => $this->protocol()->snapshot()['registry_head'], 'seat' => $seat,
             'actor' => $seat === 'garrison.constable' ? $o['manifestation_id'] : $this->projection['source']['successor']['manifestation_id'],
             'occupancy_generation' => $seat === 'garrison.constable' ? 1 : 2, 'prior_roster' => null,
             'evidence' => $seat === 'garrison.constable' ? $o : $this->projection,
-            'effective_at' => $this->base->now, 'expires_at' => $this->base->now + 3600];
+            'effective_at' => $this->base->now, 'expires_at' => min($this->policy['expires_at'], $this->base->now + 3600)];
     }
     public function revision(): array
     {
         $snapshot = $this->protocol()->snapshot(); $v = $snapshot['garrison_revision']; $i = $this->base->requestInput();
-        $i['expires_at'] = $this->base->now + 1800;
+        $i['occupancy'] = $this->occupancy;
+        $i['expires_at'] = min($this->policy['expires_at'], $this->base->now + 1800);
         $i['request_nonce'] = bin2hex(random_bytes(24));
         $i['prior_revision'] = $v === null ? null : ['id' => $v['revision_id'], 'digest' => $v['record_digest']];
         return ['expected_head' => $snapshot['registry_head'], 'roster_digest' => $snapshot['roster']['garrison.constable']['record_digest'],

@@ -1,3 +1,15 @@
+# P0–P3 independent-review correction — NA-IR01/02
+
+Disposition: **CORRECTIONS_IMPLEMENTED_FINAL_GATES_PENDING**. The supplied [independent review](native-authority-correction-campaign.md) found two acceptance blockers in reviewed commit `be09c33af8f28dccfe27df3bbeaf387f9afbf97d`. This run reproduced them against unchanged production paths before correction: 13 new tests produced two duplicate-admission failures and five retained-recovery errors; six control cases passed. The corrected development suite passes 19 cases, including six additional advancing-clock cases. Final committed gates and replacement review evidence are pending.
+
+NA-IR01 uses one custody identity/conflict policy for admission and inventory under the existing shared lock. Existing legacy occupancy/custody/disposition bytes remain intact; the old Persona refuses under either delivery identity, and a distinct Persona can coexist. No migration or legacy recovery is introduced. NA-IR02 defines one locked acceptance instant for all fresh operation checks and retained timestamps; original signature, interval and revocation checks remain in completed recovery. Resolve and inventory return the same observation time used for their currentness checks. The contract and runbook state that acceptance precedes physical publication and does not claim a trusted timestamp or power-loss guarantee.
+
+Only NativeProtocol changes in production. Existing command/DI, trust enrollment/verifier, journal, legacy fences, original controls and concurrency/interruption tests remain. All trust, backing state and keys used here are generated synthetic fixtures; no real enrollment, installation change, provider or mission action is authorized. Stop at local commits for independent review. Real policy, commissioning and formation prerequisites remain unresolved.
+
+## Preserved preceding implementation report (before independent review)
+
+The report below describes the original submitted package and its historical test results. Its local-completion disposition did not mean independent acceptance; the review subsequently required the corrections above.
+
 # Native authority issuance/currentness — P0–P3
 
 Disposition: **NATIVE_AUTHORITY_PROTOCOL_COMPLETE_LOCAL_PENDING_INDEPENDENT_REVIEW**. P0–P3 implements and proves a positive offline protocol with genuine cryptographic/effect checks under separately enrolled synthetic trust. Final offline gates passed. This does not approve real policy, enroll real trust or commission an installation.

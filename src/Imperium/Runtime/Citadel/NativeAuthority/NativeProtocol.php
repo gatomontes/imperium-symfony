@@ -54,14 +54,16 @@ final readonly class NativeProtocol
                 NativeTrust::verify($s, $d, $o, $old['accepted_at'], true); A::intact($old['result']);
                 return $old['result']; // Retained completed effect, not authority renewed now.
             }
-            $p = NativeTrust::verify($s, $d, $o, $this->now());
+            // Acceptance is sampled once under the lock, before fresh authority checks.
+            $acceptedAt = $this->now();
+            $p = NativeTrust::verify($s, $d, $o, $acceptedAt);
             $this->shape($p['effect'], $o);
             A::require(array_key_exists('expected_head', $o) && $o['expected_head'] === $s['head'], 'NAT023_STALE_REGISTRY_HEAD');
             $effect = $p['effect'];
             if (in_array($effect, ['ADOPT_ROSTER', 'SUPERSEDE_RECRUITER', 'RETIRE_ROSTER'], true)) {
-                $result = $this->rosterAct($s, $effect, $o, $p);
+                $result = $this->rosterAct($s, $effect, $o, $p, $acceptedAt);
             } elseif ($effect === 'REVISE_GARRISON') {
-                $result = $this->revise($s, $o, $p);
+                $result = $this->revise($s, $o, $p, $acceptedAt);
             } else {
                 A::keys($o, ['expected_head', 'target']);
                 if ($effect === 'REVOKE_DECISION') {
@@ -76,18 +78,18 @@ final readonly class NativeProtocol
             $result = A::seal(['schema' => 'imperium.native-institutional-act/v1', 'effect' => $effect,
                 'instance_id' => $s['trust']['instance_id'], 'registry_revision' => $s['revision'] + 1, 'previous_head' => $s['head'],
                 'decision_digest' => A::digest($d), 'decision_nonce' => $nonce, 'object_digest' => A::digest($o),
-                'accepted_at' => $this->now(), 'result' => $result, 'authority_consumed' => true, ...A::flags()]);
+                'accepted_at' => $acceptedAt, 'result' => $result, 'authority_consumed' => true, ...A::flags()]);
             $s['revision']++; $s['head'] = $result['record_digest'];
             $s['acts'][$nonce] = ['input_digest' => A::digest($input), 'decision' => $d, 'object' => $o,
-                'accepted_at' => $this->now(), 'result' => $result];
+                'accepted_at' => $acceptedAt, 'result' => $result];
             return $result;
         });
     }
-    private function rosterAct(array &$s, string $effect, array $o, array $p): array
+    private function rosterAct(array &$s, string $effect, array $o, array $p, int $acceptedAt): array
     {
         A::keys($o, ['expected_head', 'seat', 'actor', 'occupancy_generation', 'prior_roster', 'evidence', 'effective_at', 'expires_at']);
         A::require(in_array($o['seat'], ['conscription.recruiter', 'garrison.constable'], true), 'NAT025_SEAT_UNSUPPORTED');
-        A::id($o['actor']); $this->interval($s, $o);
+        A::id($o['actor']); $this->interval($s, $o, $acceptedAt);
         A::require(is_int($o['occupancy_generation']) && $o['occupancy_generation'] > 0, 'NAT026_GENERATION_INVALID');
         $prior = $s['roster'][$o['seat']] ?? null;
         A::require($o['prior_roster'] === ($prior['record_digest'] ?? null), 'NAT027_STALE_ROSTER');
@@ -103,7 +105,7 @@ final readonly class NativeProtocol
             }
             $provenance = 'OWNER_ATTESTED_RETAINED_EVIDENCE_NOT_AUTHENTICATED_HISTORICAL_PRODUCER';
         } elseif ($effect === 'SUPERSEDE_RECRUITER') {
-            $this->current($s, 'conscription.recruiter');
+            $this->current($s, 'conscription.recruiter', $acceptedAt);
             A::require($o['seat'] === 'conscription.recruiter' && $o['actor'] !== $prior['actor']
                 && $o['occupancy_generation'] === $prior['occupancy_generation'] + 1, 'NAT026_GENERATION_INVALID');
             A::keys($o['evidence'], ['source_id', 'source_digest']); A::id($o['evidence']['source_id']); A::hex($o['evidence']['source_digest']);
@@ -121,10 +123,10 @@ final readonly class NativeProtocol
             'effective_at' => $o['effective_at'], 'expires_at' => $o['expires_at'], ...A::flags()]);
         $s['roster'][$o['seat']] = $record; return $record;
     }
-    private function revise(array &$s, array $o, array $p): array
+    private function revise(array &$s, array $o, array $p, int $acceptedAt): array
     {
         A::keys($o, ['expected_head', 'roster_digest', 'prior_revision', 'request', 'occupancy']);
-        $roster = $this->current($s, 'garrison.constable'); $original = $this->original($s);
+        $roster = $this->current($s, 'garrison.constable', $acceptedAt); $original = $this->original($s);
         $this->requests->inspect(['request' => $o['request'], 'occupancy' => $o['occupancy']]);
         A::require($o['roster_digest'] === $roster['record_digest'] && A::digest($o['occupancy']) === A::digest($original)
             && $o['prior_revision'] === ($s['garrison_revision']['record_digest'] ?? null), 'NAT031_STALE_AUTHORITY_REVISION');
@@ -133,7 +135,7 @@ final readonly class NativeProtocol
         $expectedPrior = $s['garrison_revision'] === null ? null : ['id' => $s['garrison_revision']['revision_id'], 'digest' => $s['garrison_revision']['record_digest']];
         A::require($terms['prior_revision'] === $expectedPrior && $terms['manifestation_id'] === $roster['actor']
             && $terms['occupancy_generation'] === $roster['occupancy_generation'], 'NAT031_STALE_AUTHORITY_REVISION');
-        $this->interval($s, $terms);
+        $this->interval($s, $terms, $acceptedAt);
         $record = A::seal(['schema' => 'imperium.native-garrison-authority-revision/v1', 'revision_id' => 'native-garrison-revision-'.$p['nonce'],
             'authority_revision' => ($s['garrison_revision']['authority_revision'] ?? 0) + 1, 'previous_digest' => $o['prior_revision'],
             'roster_digest' => $o['roster_digest'], 'binding_digest' => $original['record_digest'], 'actor' => $roster['actor'],
@@ -145,18 +147,19 @@ final readonly class NativeProtocol
     public function resolve(string $seat): array
     {
         return $this->journal->inspect(function (array $f) use ($seat): array {
-            $r = $this->current($f['state'], $seat);
+            $observedAt = $this->now();
+            $r = $this->current($f['state'], $seat, $observedAt);
             if ($seat === 'garrison.constable') { $this->original($f['state']); }
-            return ['roster' => $r, 'observed_at' => $this->now(), 'registry_head' => $f['state']['head'],
+            return ['roster' => $r, 'observed_at' => $observedAt, 'registry_head' => $f['state']['head'],
                 'frame_digest' => $f['record_digest'], 'current_at_locked_observation_only' => true, ...A::flags()];
         });
     }
-    private function current(array $s, string $seat): array
+    private function current(array $s, string $seat, int $at): array
     {
         $t = $s['trust'] ?? []; $r = $s['roster'][$seat] ?? null;
-        A::require($t !== [] && !$s['issuer_revoked'] && $this->now() >= $t['not_before'] && $this->now() < $t['expires_at']
+        A::require($t !== [] && !$s['issuer_revoked'] && $at >= $t['not_before'] && $at < $t['expires_at']
             && is_array($r) && $r['status'] === 'ACTIVE' && !isset($s['revoked'][$r['decision_nonce']])
-            && $this->now() >= $r['effective_at'] && $this->now() < $r['expires_at'], 'NAT032_CURRENT_ROSTER_REQUIRED');
+            && $at >= $r['effective_at'] && $at < $r['expires_at'], 'NAT032_CURRENT_ROSTER_REQUIRED');
         A::intact($r); return $r;
     }
     private function original(array $s): array
@@ -171,10 +174,10 @@ final readonly class NativeProtocol
         }
         return $o;
     }
-    private function interval(array $s, array $o): void
+    private function interval(array $s, array $o, int $at): void
     {
         A::require(is_int($o['effective_at']) && is_int($o['expires_at']) && $o['effective_at'] > 0
-            && $o['effective_at'] <= $this->now() && $o['expires_at'] > $this->now()
+            && $o['effective_at'] <= $at && $o['expires_at'] > $at
             && $o['expires_at'] <= $s['trust']['expires_at'], 'NAT034_EFFECT_INTERVAL_INVALID');
     }
     public function admit(string $deliveryId, string $bindingId): array
@@ -202,19 +205,20 @@ final readonly class NativeProtocol
                 }
                 A::intact($old['disposition']); A::intact($old['custody']); return $old['disposition'];
             }
-            $r = $this->current($s, 'garrison.constable'); $o = $this->original($s); $v = $s['garrison_revision'];
+            $acceptedAt = $this->now();
+            $r = $this->current($s, 'garrison.constable', $acceptedAt); $o = $this->original($s); $v = $s['garrison_revision'];
             A::require($bindingId === $o['binding_id'] && is_array($v) && $v['roster_digest'] === $r['record_digest']
                 && $v['binding_digest'] === $o['record_digest'] && !isset($s['revoked'][$v['decision_nonce']]), 'NAT036_EFFECTIVE_ADMISSION_AUTHORITY_REQUIRED');
-            $this->interval($s, $v); A::intact($v);
+            $this->interval($s, $v, $acceptedAt); A::intact($v);
             $effective = $o; unset($effective['record_digest']);
             foreach (GarrisonAuthorityRequest::EXTENSION as $power => $scope) { $effective[$power] = true; }
             $effective = A::seal($effective);
             $records = NativeAdmission::build($deliveryId, $d, $effective, $o, $r, $v);
-            foreach ($s['admissions'] as $previous) {
-                A::require($previous['custody']['persona_id'] !== $records['custody']['persona_id'], 'NAT037_CANDIDATE_ALREADY_ADMITTED');
+            foreach ($this->custody($s) as $previous) {
+                A::require($previous['persona_id'] !== $records['custody']['persona_id'], 'NAT037_CANDIDATE_ALREADY_ADMITTED');
             }
             $s['admissions'][$deliveryId] = ['delivery_digest' => $d['record_digest'], 'binding_id' => $bindingId,
-                'roster_nonce' => $r['decision_nonce'], 'authority_nonce' => $v['decision_nonce'], 'accepted_at' => $this->now(),
+                'roster_nonce' => $r['decision_nonce'], 'authority_nonce' => $v['decision_nonce'], 'accepted_at' => $acceptedAt,
                 'observed_registry_revision' => $s['revision'], ...$records];
             return $records['disposition'];
         });
@@ -223,7 +227,8 @@ final readonly class NativeProtocol
     {
         A::require(preg_match('/^garrison-inquiry-[a-f0-9]{20}$/D', $inquiryId) === 1, 'NAT038_INQUIRY_INVALID');
         return $this->journal->inspect(function (array $f) use ($inquiryId): array {
-            $s = $f['state']; $r = $this->current($s, 'garrison.constable'); $o = $this->original($s);
+            $observedAt = $this->now();
+            $s = $f['state']; $r = $this->current($s, 'garrison.constable', $observedAt); $o = $this->original($s);
             A::require(($o['inventory_response_authority'] ?? null) === true && $r['actor'] === $o['manifestation_id'], 'NAT039_INVENTORY_POWER_REQUIRED');
             $q = A::read($this->journal->root.'/var/imperium/offices/garrison/inbox/'.$inquiryId.'.json'); A::intact($q);
             A::require(($q['inquiry_id'] ?? null) === $inquiryId && ($q['instance_id'] ?? null) === $s['trust']['instance_id']
@@ -231,20 +236,30 @@ final readonly class NativeProtocol
             foreach ($q as $key => $value) {
                 if (str_ends_with((string) $key, '_authority') || in_array($key, ['authoritative_inventory_response'], true)) { A::require($value === false, 'NAT038_INQUIRY_INVALID'); }
             }
-            $custody = array_values(array_map(fn ($a) => $a['custody'], $s['admissions']));
-            foreach (glob($this->journal->root.'/var/imperium/offices/garrison/custody/*.json') ?: [] as $path) {
-                $c = A::read($path); A::intact($c);
-                A::require(($c['schema'] ?? null) === 'imperium.garrison-persona-custody/v1' && ($c['custody_state'] ?? null) === 'ADMITTED_HELD', 'NAT040_CUSTODY_INVALID');
-                $custody[] = $c;
-            }
-            $ids = array_column($custody, 'persona_id'); A::require(count($ids) === count(array_unique($ids)), 'NAT040_CUSTODY_INVALID');
-            usort($custody, fn ($a, $b) => $a['persona_id'] <=> $b['persona_id']);
+            $custody = $this->custody($s);
             return A::seal(['schema' => 'imperium.native-garrison-inventory-response/v1', 'inquiry_id' => $inquiryId,
                 'source_inquiry_digest' => $q['record_digest'], 'instance_id' => $s['trust']['instance_id'],
                 'responder' => ['occupancy_digest' => $o['record_digest'], 'roster_digest' => $r['record_digest'], 'actor' => $r['actor']],
                 'inventory_records' => $custody, 'authoritative_inventory_response' => true,
-                'registry_head' => $s['head'], 'frame_digest' => $f['record_digest'], 'observed_at' => $this->now(), ...A::flags()]);
+                'registry_head' => $s['head'], 'frame_digest' => $f['record_digest'], 'observed_at' => $observedAt, ...A::flags()]);
         });
+    }
+    /** One identity/conflict policy for both readers, called only inside the native lock. */
+    private function custody(array $s): array
+    {
+        $custody = array_values(array_map(fn ($a) => $a['custody'], $s['admissions']));
+        foreach (glob($this->journal->root.'/var/imperium/offices/garrison/custody/*.json') ?: [] as $path) {
+            $custody[] = A::read($path);
+        }
+        foreach ($custody as $c) {
+            A::intact($c);
+            A::require(($c['schema'] ?? null) === 'imperium.garrison-persona-custody/v1'
+                && ($c['custody_state'] ?? null) === 'ADMITTED_HELD' && ($c['instance_id'] ?? null) === $s['trust']['instance_id']
+                && is_string($c['persona_id'] ?? null) && $c['persona_id'] !== '', 'NAT040_CUSTODY_INVALID');
+        }
+        $ids = array_column($custody, 'persona_id'); A::require(count($ids) === count(array_unique($ids)), 'NAT040_CUSTODY_INVALID');
+        usort($custody, fn ($a, $b) => $a['persona_id'] <=> $b['persona_id']);
+        return $custody;
     }
     private function now(): int { return $this->clock->now()->getTimestamp(); }
     private function shape(string $effect, array $o): void

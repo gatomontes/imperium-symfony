@@ -2,6 +2,8 @@
 
 NativeTrust owns separate enrollment/signature checks; NativeJournal owns the one-frame commit; NativeProtocol owns roster, revocation, revision and admission effects; NativeAdmission builds complete custody/disposition evidence. NativeAuthorityCommand and NativeAuthorityEnrollmentCommand use actual Symfony DI. NativeServices is the fallback factory for direct legacy service construction. Formation adapters, their trust and CF02 retained-publication verification remain unchanged.
 
+NA-IR01/02 correction changes only NativeProtocol in production: `custody()` supplies one validated native/retained-legacy set to fresh admission and inventory; `apply`/`admit` pass one locked acceptance instant through currentness and interval checks and retained timestamps. `resolve`/`inventory` bind checks and output to one observation instant. Existing lock, command, enrollment, cryptographic verifier, journal and admission record-builder implementations remain unchanged.
+
 All paths below acquire the shared NativeBoundary lock. StateStore locked uses the same ordering before its bootstrap lock. Canonical admission and inventory response route to the native implementation when enrolled; all other listed legacy operations refuse after enrollment. Original method bodies are retained behind the wrappers. The retired ProfileElaborationSmokeService is not a supported production entry. Dynamic Formation witness readers continue to reject the native representation.
 
 | Source | Entry points | Enrolled behavior |
