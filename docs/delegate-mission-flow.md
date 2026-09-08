@@ -1,5 +1,9 @@
 # Current flow — Citadel mission formation
 
+## A0–A3 complete locally — explicit issuer/currentness blockers
+
+**AUTHORITY_INTERFACES_IMPLEMENTED_WITH_EXPLICIT_ISSUER_OR_CURRENTNESS_BLOCKER**. The [completed report](citadel-authority-interface-report.md), [implemented runbook](citadel-authority-interface-runbook.md) and [source/consumer map](citadel-authority-interface-source-map.md) supersede the campaign-selection instructions below. Public Recruiter projection/inspection and exact unsigned Garrison preparation/refusal are implemented and tested. No authentic native issuer/currentness source was established, so no positive revision or formation witness is admitted. Independent review is next; installation/private export and genuine owner acts remain separate. Do not repeat the accepted Guildhall lookup. Readiness, activation and execution remain false.
+
 ## Current disposition — native lineage integrated; authority interfaces selected
 
 **NATIVE_LINEAGE_ACCEPTED_PREPARATION_COMMISSIONING_BLOCKED**.
