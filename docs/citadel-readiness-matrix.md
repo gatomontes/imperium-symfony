@@ -1,5 +1,11 @@
 # Citadel readiness: R0 boundary and disposition
 
+Native-lineage update: bounded original-byte and structural evidence now has a
+[specific action matrix](citadel-native-lineage-authority-matrix.md). Fourteen
+public records were collected without private-state access. Actual authority,
+currentness and custody remain unverified; no production witness variant was
+admitted. The historical R0 matrix remains below.
+
 Current update (2026-09-08): [source integration and IR01 are accepted](citadel-readiness-integration-acceptance.md)
 within their local scope. The owner confirmed `E:\htdocs\imperium`; public records
 establish concrete Garrison/Guildhall schema and authority questions, while the

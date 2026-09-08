@@ -1,5 +1,15 @@
 # Current flow — Citadel mission formation
 
+## Native lineage implementation — final offline validation pending
+
+N0 collected 14 allowlisted public records with intact bounded structural links.
+N1 provides the standalone [public collector and verifier](citadel-native-lineage-runbook.md).
+N2 remains blocked on actual powers, exact acceptance and currentness; no positive
+production adapter was added. See the [action matrix](citadel-native-lineage-authority-matrix.md)
+and [changed-test map](citadel-native-lineage-changed-tests.md). N3 is the final
+committed-code verification and review packet. Source publication and live activity
+remain separate. Earlier campaign-selection and acceptance history follows.
+
 ## Current disposition — source integration accepted; native lineage campaign selected
 
 **SOURCE_INTEGRATION_ACCEPTED_COMMISSIONING_BLOCKED**.

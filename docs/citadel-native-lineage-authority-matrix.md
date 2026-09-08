@@ -1,0 +1,24 @@
+# Public lineage and exact-action authority matrix
+
+This matrix distinguishes the collected byte evidence from authority. Raw installed records stay out of Git; the private review packet contains exact originals, observed source identities, collection times and source/reference hashes. The initial N0 collection read 14 records; final-tool reproduction and verification are recorded in the packet.
+
+| Boundary | Public evidence observed | Structural/provenance qualification | Exact-action disposition |
+| --- | --- | --- | --- |
+| Garrison Constable | Retained occupancy and delivery, actual referenced construction commission and provisioning case | Digests and bounded delivery/candidate/instance/Seat/generation/qualification/commission/case references match. Historical producer execution, upstream inquiry and public ordinary-Recruiter/currentness closure are not established. | UNSUPPORTED_AUTHORITY: old ACTIVE record lacks both Persona-admission and custody-registration powers. |
+| Guildhall Guildmaster | Retained cohort, exact summons, Guildmaster delivery and referenced construction commission | Bounded structural references match; original pending cohort preserved. | UNAVAILABLE: exact separate public acceptance ID not supplied; formation suitability scope not established. |
+| Guildhall three committee actors | Each exact nested Seat, delivery and construction commission | Each actor checked distinctly; no substitution between cohort Seats. These are Guildhall committees, not the four Senate formation committees. | No formation judgment or delegation established. |
+| Laboratorium Alchemist | No exact new public identity supplied | Prior bounded occupancy observation remains historical; no wider collection performed. | UNAVAILABLE for DERIVED_PROFILE. |
+| Senate Lord Speaker | No exact new public identity supplied | Same bounded limitation. | UNAVAILABLE for EXAMINED_PROFILE reconciliation. |
+| Senate consistency/governance/practice/security | No exact new public identities supplied | Four distinct witnesses are required; Guildhall committee records cannot substitute. | UNAVAILABLE for each SENATOR_FINDING. |
+| Conscription Recruiter | Qualification records name an actor; no attributable public current successor receipt supplied | `ordinaryRecruiter` reads a T04 SUCCESS successor from private bootstrap state. That state stays closed. A qualification's embedded assertion is not independent current-incumbency proof. | UNAVAILABLE for formation QUALIFIED_MANIFESTATION. |
+| Custodian/formation owner trust | Root confirmation/source observation only | Git identity and content hashes do not prove custody or enrolled trust. | UNAVAILABLE public declaration, independent fingerprint and enrollment evidence. |
+| Castellan / formation Locksmith | No public candidate closure or exact appointment supplied | No actor identity or authentic decision can be inferred from fixtures or legacy configuration. | UNAVAILABLE; unsigned request fields remain null. |
+| B1 / credential / transport | No owner selection or policy amendment | Source collection is not pricing/usage/cancellation evidence. | Refusing default unchanged; no provider activity. |
+
+## Supported schema/action map
+
+The standalone collector supports byte/reference assessment of `imperium.garrison-constable-occupancy/v1`, `imperium.guildhall-seat-binding-cohort/v1`, `imperium.qualified-manifestation-packet/v1`, `imperium.guildhall-summons/v1`, `imperium.construction-commission/v1`, and `imperium.garrison-constable-provisioning-case/v1`. It can inspect an exactly supplied `imperium.guildhall-commission-acceptance/v1` and bound `imperium.office-inbox-envelope/v1`, retaining planning-only scope as OUT_OF_SCOPE for formation. None of these schemas is newly admitted as production authority.
+
+Existing production operator-root v2 installation/occupancy support remains byte-for-byte unchanged. `FormationInstitution::witness` still rejects unsupported active alternate lineage at CMF123; `FormationPersonnel` still requires an exact current actor and authentic role-limited owner delegation; `FormationPublicationEvidence::institution` still verifies retained operator-root publication witnesses. No eligible alternative was established, so N2 closes with an explicit authority/producer blocker rather than speculative positive code.
+
+Source trace: `Garrison/ConstableSeatBindingService::bind`, `SubordinatePersonaAdmissionIntakeService::currentConstable`, `Conscription/ConstableConscriptionService::fulfill/ordinaryRecruiter`, `Guildhall/GuildhallSeatBindingService::bind`, `Conscription/GuildhallConscriptionService::fulfill/ordinaryRecruiter`, `GuildhallCommissionAcceptanceService::accept`, and `GuildhallDeliberationService::deliberate`. The case producer is `Garrison/ConstableProvisioningService`; its upstream inquiry is outside this expansion. These source contracts establish the checks to assess, not proof they executed for retained records.

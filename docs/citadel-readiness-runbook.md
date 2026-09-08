@@ -1,5 +1,11 @@
 # Citadel owner commissioning preparation runbook
 
+The implemented next public evidence interface is the
+[native-lineage collector/verifier](citadel-native-lineage-runbook.md). Its exact
+commands and refusing dispositions supersede the earlier future-tool wording
+below. It is standalone read-only tooling, not an installation update or authority
+import. Native-lineage final offline validation is pending.
+
 Status: SOURCE_INTEGRATION_ACCEPTED_COMMISSIONING_BLOCKED. Stop before live
 commissioning. [Matrix and B1 decision](citadel-readiness-matrix.md) control the
 unresolved authority, credential and transport boundaries. This runbook neither
