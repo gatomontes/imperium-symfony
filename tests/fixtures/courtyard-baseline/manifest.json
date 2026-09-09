@@ -1,0 +1,19 @@
+{
+    "entry_commit": "b1a8378668ecd9f4e4c1502411a2713111915535",
+    "entry_tree": "eae698493f2f679774c7e91975e05bbaf4cae039",
+    "provenance": "PUBLIC_EPHEMERAL_SYNTHETIC_ONLY",
+    "fixtures": {
+        "child-publication": {
+            "sha256": "3dcc0c29249eae2952985fa23ec8b80060131ecb790a50a4aa969b5f706bd71a",
+            "bytes": 5792180,
+            "files": 102,
+            "frame_digest": "2d8aa191e778f9efe3be389dffb2f82344552cdaf9d347dd82026dfba9a6fba0"
+        },
+        "custody": {
+            "sha256": "b41a73d5b397879084025371a1b5d4a069aa92ab523bb77f67ab873e9537da82",
+            "bytes": 1081488,
+            "files": 64,
+            "frame_digest": "237b426b568c972d3aa5c0a1adc58157e71211c1f1371befda14c5f274abab79"
+        }
+    }
+}
