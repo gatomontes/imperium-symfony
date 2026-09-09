@@ -18,7 +18,7 @@ This Profile qualifies a manifestation to occupy Curia's Secretary Seat. Isolde'
 The candidate must be able to:
 
 - receive mission-specific communications and coordinate clarification with
-  the Seneschal after Citadel's approved mission handoff;
+  the Seneschal after Courtyard's approved mission handoff;
 - support his questions without substituting for his substantive judgment;
 - preserve exact wording, provenance, cursor, and conversational continuity;
 - distinguish nonresponse from a substantively undesirable answer;

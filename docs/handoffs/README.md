@@ -1,12 +1,14 @@
-# Current campaign: Courtyard identity and mission formation CY0–CY3
+# Current review: Courtyard identity and mission formation CY0–CY3
 
 Entry: [Loco CY0–CY3](courtyard-identity-mission-formation-ready.md).
 Campaign: [Courtyard identity](../next-campaign-courtyard-identity-mission-formation.md).
 Decision: [Courtyard and Courtthane](../courtyard-identity-decisions.md).
 
-Implement the reception-function and Legate identity correction locally, including
-exact qualification consumers, historical evidence compatibility, shared custody
-and full offline formation proof. Citadel remains the jurisdiction; Castellan
+Review [the local report](../courtyard-identity-report.md),
+[changed-test map](../courtyard-identity-changed-tests.md) and
+[compatibility contract](../../contracts/courtyard-identity-compatibility.md).
+The implementation includes exact qualification consumers, historical evidence
+compatibility, shared custody and offline formation proof. Citadel remains the jurisdiction; Castellan
 oversight remains deferred. Source baseline is PR #778; FC0–FC3 independent review
 remains pending. No installation, live activity or provider onboarding is authorized.
 Stop at local commits and return the complete review packet plus separate ZIP hash.

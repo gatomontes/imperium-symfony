@@ -45,7 +45,7 @@ final readonly class ChildCuriaFormationService
             $dossiers = $state['dossiers'][$intakeId] ?? [];
             if (($dossiers[count($dossiers) - 1] ?? null) !== $constitution['terms']['dossier']
                 || $prepared['packet']['intake']['intent_version'] !== $state['intakes'][$intakeId]['intent_version']
-                || $constitution['terms']['dossier']['holder_digest'] !== FormationJournal::digest($this->personnel->currentCastellan($state))) {
+                || $constitution['terms']['dossier']['holder_digest'] !== FormationJournal::digest($this->personnel->currentCourtthane($state))) {
                 throw new \RuntimeException('CMF065_DRAFTING_LINEAGE_CHANGED');
             }
             foreach ($constitution['terms']['appointments'] as $seat => $candidate) {

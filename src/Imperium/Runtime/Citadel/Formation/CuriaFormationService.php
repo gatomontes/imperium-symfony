@@ -217,7 +217,7 @@ final readonly class CuriaFormationService
         $dossier = $versions[$version - 1];
         FormationPlan::validate($dossier['response']);
         if ($dossier['intent_version'] !== $state['intakes'][$intakeId]['intent_version']) { throw new \RuntimeException('CMF065_DRAFTING_LINEAGE_CHANGED'); }
-        if ($dossier['holder_digest'] !== FormationJournal::digest($this->personnel->currentCastellan($state))) { throw new \RuntimeException('CMF065_DRAFTING_LINEAGE_CHANGED'); }
+        if ($dossier['holder_digest'] !== FormationJournal::digest($this->personnel->currentCourtthane($state))) { throw new \RuntimeException('CMF065_DRAFTING_LINEAGE_CHANGED'); }
         return $dossier;
     }
 

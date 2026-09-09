@@ -1,5 +1,14 @@
 # Citadel readiness: R0 boundary and disposition
 
+Current identity update (CY0–CY3): [Courtyard runbook](courtyard-identity-runbook.md)
+and [compatibility contract](../contracts/courtyard-identity-compatibility.md)
+control fresh reception/formation. Courtthane requires the exact new Seat and
+appointment; old Castellan evidence grants no successor or oversight authority.
+Citadel jurisdiction, Seneschal's Curia mandate, B1 and DEFER_ENROLLMENT remain.
+FC0–FC3 independent acceptance remains pending. The prior campaign entries and
+examples below retain their historical attribution; use the linked current
+runbook for implemented command names and future prerequisites.
+
 ## Current local result — formation custody implemented; independent review pending
 
 **FORMATION_CLAIM_CUSTODY_IMPLEMENTED_OFFLINE_LIVE_TRANSPORT_BLOCKED**. [FC0–FC3 report and fresh gate evidence](citadel-formation-claim-custody-report.md) and [the exact custody contract](../contracts/citadel-formation-claim-custody.md) supersede the selection status below. Genuine retained claims now bind exact prepared operations to durable one-use credential delivery and dispatch, proved with recording offline infrastructure. Default production transport still refuses. This is local software completion, not independent acceptance, deployment or commissioning.

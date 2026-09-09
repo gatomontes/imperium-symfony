@@ -9,6 +9,12 @@
 
 Every Legate is an Officer. Every Delegate is an Officer. `Officer` alone must never be interpreted as either class.
 
+Courtthane is the permanent Courtyard Legate at `courtyard.courtthane`, within
+Citadel. His formation assembly and derived holder records explicitly retain
+`officer_class: LEGATE`. This classification supplies no appointment or oversight
+power; exact qualification, approval and `APPOINT_COURTTHANE` remain required.
+See [identity compatibility](../contracts/courtyard-identity-compatibility.md).
+
 ## Record convention
 
 The canonical record vocabulary is defined separately in [the record taxonomy](record-taxonomy.md): each authoritative JSON record is a Folium, multiple records are Folia, and the instance-wide digest-bound compilation is the Codex Imperii.

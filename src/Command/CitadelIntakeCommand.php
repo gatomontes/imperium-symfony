@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'imperium:citadel:intake', description: 'Preserve an exact request before any mission formation cognition')]
+#[AsCommand(name: 'imperium:courtyard:intake', aliases: ['imperium:citadel:intake'], description: 'Receive an exact request at Courtyard before mission formation cognition')]
 final class CitadelIntakeCommand extends Command
 {
     public function __construct(private readonly CitadelIntakeService $intake) { parent::__construct(); }

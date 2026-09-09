@@ -14,7 +14,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'imperium:citadel:formation', description: 'Apply one exact mission-formation operation from a JSON request file')]
+#[AsCommand(name: 'imperium:courtyard:formation', aliases: ['imperium:citadel:formation'], description: 'Apply one exact Courtyard mission-formation operation from a JSON request file')]
 final class CitadelFormationCommand extends Command
 {
     public function __construct(
@@ -41,6 +41,7 @@ final class CitadelFormationCommand extends Command
                 'delegate-personnel-evidence' => [$this->personnel, 'delegate', ['delegation', 'decision']],
                 'record-personnel-evidence' => [$this->personnel, 'record', ['envelope']],
                 'appoint-castellan' => [$this->personnel, 'appointCastellan', ['candidate', 'decision']],
+                'appoint-courtthane' => [$this->personnel, 'appointCourtthane', ['candidate', 'decision']],
                 'appoint-locksmith' => [$this->personnel, 'appointLocksmith', ['candidate', 'decision']],
                 'revoke-decision' => [$this->signatures, 'revoke', ['envelope', 'nonce']],
                 'reply' => [$this->cognition, 'reply', ['intakeId', 'content', 'changedIntent', 'decision']],

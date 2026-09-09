@@ -1,58 +1,48 @@
 # Current flow — Courtyard mission formation
 
-## Current campaign — Courtyard identity and mission formation CY0–CY3
+## Current local implementation — Courtyard / Courtthane
 
-**COURTYARD_IDENTITY_MISSION_FORMATION_SELECTED.** The owner selected Courtyard
-for reception/mission formation and Courtthane as its Legate. Citadel remains the
-enclosing jurisdiction; Castellan is reserved for future oversight with no new
-powers. See [the owner decision](courtyard-identity-decisions.md),
-[complete local campaign](next-campaign-courtyard-identity-mission-formation.md)
-and [Loco handoff](handoffs/courtyard-identity-mission-formation-ready.md).
+CY0–CY3 implements canonical Courtyard reception/formation and Courtthane's exact
+`courtyard.courtthane` Seat, qualification, `APPOINT_COURTTHANE` and currentness
+consumers. See [the report](courtyard-identity-report.md),
+[compatibility contract](../contracts/courtyard-identity-compatibility.md),
+[changed-test map](courtyard-identity-changed-tests.md) and
+[current public runbook](courtyard-identity-runbook.md).
+Independent review is next; FC0–FC3 acceptance remains pending separately.
 
-This is preparation for local implementation, not a completed runtime rename.
-Start from main containing this selection and PR #778 merge
-`88cee012d5fae0dc8e18f25eebed167912e06230`, tree
-`3826740810f42c90e6d8b6e00686947003ab62c4`. FC0–FC3's source is integrated; its
-report still requires independent review. This selection does not claim acceptance.
-
-| Step | Required result |
+| Stage | Local deliverable |
 | --- | --- |
-| CY0 | Classify identity references and define exact compatibility/authority boundaries |
-| CY1 | Implement Courtyard interfaces and Courtthane Seat/qualification/appointment consumers |
-| CY2 | Prove actual offline formation, historical recovery, shared custody and adverse cases |
-| CY3 | Committed focused/full gates, current documentation and independent-review packet |
+| CY0 | Entry-bound reference inventory, compatibility contract and frozen original public synthetic fixtures |
+| CY1 | Canonical Courtyard commands, exact Courtthane authority chain, preserved Citadel custody domain |
+| CY2 | Complete offline route, old-byte recovery and adverse/concurrent/interrupted alias boundaries |
+| CY3 | Committed focused/full gates, current documentation and independently verifiable packet |
 
-Current target flow:
-
-1. Courtyard receives the request without creating a Curia; existing-mission lookup
-   and Courtthane's authorized discussion establish intent and relevant overlap.
+1. Courtyard receives without creating a Curia. Exact mission lookup and authorized
+   Courtthane discussion preserve intent, lawful visibility and semantic overlap.
 2. Attributable understanding closes interview authority and preserves dissent.
-3. Courtthane presents the bounded drafting request: “I understand. I am ready to
-   draft a proposal. Do you approve?” Separate exact approval permits drafting.
-4. Courtyard drafts the numbered proposal. The Imperator separately approves the
-   exact mission version; material amendments retain the applicable approval gates.
-5. Legitimate constitution and appointment effects create the mission Curia and
-   deliver the dossier, original exchange, dissent, rationale and authority lineage.
-6. The receiving Seneschal accepts responsibility or identifies a concrete gap.
-   Existing non-executing Delegate Step 1 validation and later execution gates remain.
+3. Courtthane asks: “I understand. I am ready to draft a proposal. Do you approve?”
+   Separate approval of the exact disclosed drafting request permits drafting.
+4. Courtyard presents numbered proposals. Separate exact mission approval precedes
+   legitimate constitution, three distinct child appointments and original-evidence handoff.
+5. Seneschal assesses the handoff under its own mandate; Chamberlain and Isolde
+   retain their Curia responsibilities. Step 1 validation grants no execution authority.
 
-Old Castellan evidence is historical authority for its original scope, never an
-implicit Courtthane appointment or future oversight grant. Preserve one registry,
-lock, budget and replay domain; retained old format names need explicit rationale.
-No global replacement of Citadel namespaces, IDs, signed bytes or sealed evidence.
+Citadel remains the enclosing jurisdiction. Castellan oversight is deferred;
+historical Castellan evidence cannot qualify or appoint Courtthane. Both CLI
+spellings share one registry, journal, lock, generation, budget and replay fence.
+Old admitted responses and exact published child receipts remain attributable;
+unsupported old fresh use refuses without refunding unknown exposure.
 
-Run all CY0–CY3 locally in the isolated worktree specified by the handoff; stop at
-local commits for independent review. Keep DEFER_ENROLLMENT, B1, CF01/CF02/IR01,
-NA-IR01/02 and FC one-use custody/exposure behavior. No installed/private-state
-access, live activity, dependency update, onboarding or Castellan oversight. All
-operational approval/readiness/activation/execution flags remain false. Later gates
-still require genuine formation trust/competence, Courtthane/Locksmith appointments,
-provider/B1 decisions, public preflight and separate commissioning authorization.
+No installed/private-state access, live activity, onboarding, dependency update,
+authority expansion, push or merge is part of this run. DEFER_ENROLLMENT and B1
+remain unchanged. All operational flags are false. Genuine trust, nine institutional
+witnesses/competence, qualified Courtthane/Locksmith appointments, actual provider
+bounds, public preflight and separate commissioning authorization remain future gates.
 
 ## Historical campaign entries and prior naming
 
 The remainder retains earlier source/evidence attribution, including old “current”
-headings and Citadel/Castellan interview terminology. The CY0–CY3 selection and
+headings and Citadel/Castellan interview terminology. The CY0–CY3 implementation and
 owner decision above control present work. Delegate Steps 1–69 remain intact.
 
 ## Current local result — formation custody implemented; independent review pending

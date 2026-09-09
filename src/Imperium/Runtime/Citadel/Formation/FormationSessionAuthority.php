@@ -17,14 +17,19 @@ final readonly class FormationSessionAuthority
             $this->signatures->verify($state, $handoff['constitution']['decision'], 'APPROVE_MISSION_AND_CONSTITUTION', $handoff['constitution']['signed_review']);
             $authority = ['handoff_id' => $handoff['handoff_id'], 'packet_digest' => FormationJournal::digest($handoff['packet']), 'holder_digest' => FormationJournal::digest($holder)];
         } else {
-            $holder = $this->personnel->currentCastellan($state);
+            $holder = $this->personnel->currentCourtthane($state);
             if ($phase === 'interview') {
                 if (isset($intake['understanding'])) { throw new \RuntimeException('CMF067_SESSION_CLOSED_CHANGED_OR_EXPIRED'); }
                 $authority = ['intake_id' => $intakeId, 'intent_version' => $intake['intent_version'],
                     'opening_exchange' => $intake['exchange'][0], 'holder_digest' => FormationJournal::digest($holder)];
             } elseif ($phase === 'drafting') {
                 $authority = $state['drafting_requests'][$intake['drafting_request'] ?? ''] ?? throw new \RuntimeException('CMF064_SEPARATE_DRAFTING_REQUEST_REQUIRED');
-                if ($authority['understanding_digest'] !== FormationJournal::digest($intake['understanding'] ?? null)
+                if (($authority['schema'] ?? null) !== 'imperium.citadel-drafting-request/v2'
+                    || !FormationJournal::keys($authority, ['schema', 'intake_id', 'approval_question', 'intent_version',
+                        'understanding_digest', 'holder_digest', 'charter', 'charter_version', 'status', 'author',
+                        'governing_doctrine', 'planning_only', 'execution_authority', 'request_id'])
+                    || $authority['approval_question'] !== 'I understand. I am ready to draft a proposal. Do you approve?'
+                    || $authority['understanding_digest'] !== FormationJournal::digest($intake['understanding'] ?? null)
                     || $authority['holder_digest'] !== FormationJournal::digest($holder)
                     || $authority['intent_version'] !== $intake['intent_version']) { throw new \RuntimeException('CMF065_DRAFTING_LINEAGE_CHANGED'); }
             } else { throw new \RuntimeException('CMF066_PHASE_INVALID'); }

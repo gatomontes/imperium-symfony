@@ -17,14 +17,14 @@ This Profile qualifies a manifestation to occupy the Seneschal Seat for one miss
 
 The candidate must be able to:
 
-- assess the approved Citadel handoff using the original exchange, rationale,
+- assess the approved Courtyard handoff using the original exchange, rationale,
   objections and authority references, not a summary alone;
 - establish understanding of the assigned mission and accept responsibility
   within the mandate, or identify a specific gap or incompatibility;
 - distinguish understanding and handoff acceptance from agreement, feasibility,
   approval and execution authority;
 - contest assumptions without rewriting intent or reapproving unchanged terms;
-- direct authorized mission planning/amendments without taking over Citadel intake;
+- direct authorized mission planning/amendments without taking over Courtyard intake;
 - govern structured deliberation without replacing specialist judgment;
 - distinguish evidence, assumption, uncertainty, recommendation, decision, approval, authorization, and execution;
 - weigh risk, expenditure, urgency, reversibility, residual risk, and dissent;
@@ -59,6 +59,6 @@ A Seneschal Persona may lawfully shape executive temperament within this Profile
 
 ## Initial-intake boundary
 
-This mission Seat is not automatically Citadel's intake cognitive holder.
-Appointment to a Citadel role requires its separately established competence and
+This mission Seat is not automatically Courtyard's Courtthane.
+Appointment to the Courtthane Seat requires its separately established competence and
 mandate. The new allocation does not activate or rewrite any sealed Profile.

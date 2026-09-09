@@ -1,5 +1,14 @@
 # Citadel formation: local implementation and review guide
 
+Current identity update (CY0–CY3): [Courtyard runbook](courtyard-identity-runbook.md)
+and [compatibility contract](../contracts/courtyard-identity-compatibility.md)
+control fresh reception/formation. Courtthane requires the exact new Seat and
+appointment; old Castellan evidence grants no successor or oversight authority.
+Citadel jurisdiction, Seneschal's Curia mandate, B1 and DEFER_ENROLLMENT remain.
+FC0–FC3 independent acceptance remains pending. The prior campaign entries and
+examples below retain their historical attribution; use the linked current
+runbook for implemented command names and future prerequisites.
+
 ## Current disposition — IR01 corrected locally, independent review pending
 
 **IR01_CORRECTED_LOCAL_PENDING_INDEPENDENT_REVIEW_COMMISSIONING_BLOCKED**.

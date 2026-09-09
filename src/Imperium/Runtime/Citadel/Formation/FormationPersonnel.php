@@ -165,7 +165,12 @@ final readonly class FormationPersonnel
 
     public function appointCastellan(array $candidate, array $decision): array
     {
-        return $this->appoint($candidate, $decision, 'castellan', 'citadel.castellan', 'APPOINT_CASTELLAN');
+        throw new \RuntimeException('CY001_LEGACY_CASTELLAN_FRESH_USE_REFUSED');
+    }
+
+    public function appointCourtthane(array $candidate, array $decision): array
+    {
+        return $this->appoint($candidate, $decision, 'courtthane', 'courtyard.courtthane', 'APPOINT_COURTTHANE');
     }
 
     public function appointLocksmith(array $candidate, array $decision): array
@@ -196,9 +201,24 @@ final readonly class FormationPersonnel
 
     public function currentCastellan(array $state): array
     {
-        $binding = $state['castellan'] ?? throw new \RuntimeException('CMF045_QUALIFIED_APPOINTED_CASTELLAN_REQUIRED');
-        $this->signatures->verify($state, $binding['decision'], 'APPOINT_CASTELLAN', $binding['terms']);
-        $this->candidate($state, $binding['candidate'], $state['citadel_id'], 'citadel.castellan');
+        throw new \RuntimeException('CY001_LEGACY_CASTELLAN_FRESH_USE_REFUSED');
+    }
+
+    public function currentCourtthane(array $state): array
+    {
+        $binding = $state['courtthane'] ?? throw new \RuntimeException(isset($state['castellan'])
+            ? 'CY001_LEGACY_CASTELLAN_FRESH_USE_REFUSED' : 'CY002_QUALIFIED_APPOINTED_COURTTHANE_REQUIRED');
+        $terms = ['candidate' => $binding['candidate'], 'scope' => $state['citadel_id'],
+            'seat' => 'courtyard.courtthane', 'generation' => $binding['generation']];
+        if (!is_int($binding['generation']) || $binding['generation'] < 1 || $binding['terms'] !== $terms) {
+            throw new \RuntimeException('CY003_EXACT_COURTTHANE_BINDING_REQUIRED');
+        }
+        $this->signatures->verify($state, $binding['decision'], 'APPOINT_COURTTHANE', $terms);
+        $expected = $this->candidate($state, $binding['candidate'], $state['citadel_id'], 'courtyard.courtthane')
+            + ['generation' => $binding['generation'], 'decision' => $binding['decision'], 'terms' => $terms];
+        if ($binding !== $expected || ($state['occupied_manifestations'][$binding['manifestation_id']] ?? null) !== 'courtyard.courtthane') {
+            throw new \RuntimeException('CY003_EXACT_COURTTHANE_BINDING_REQUIRED');
+        }
         return $binding;
     }
 

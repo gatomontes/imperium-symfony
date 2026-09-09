@@ -67,7 +67,7 @@ final readonly class FormationPreparation
         $fields = match ($effect) {
             'DELEGATE_PERSONNEL_EVIDENCE' => ['role', 'public_key', 'scope', 'expires_at', 'actor'],
             'APPROVE_FORMATION_PROFILE' => ['profile', 'examination', 'scope', 'seat'],
-            'APPOINT_CASTELLAN', 'APPOINT_FORMATION_LOCKSMITH' => ['candidate', 'scope', 'seat', 'generation'],
+            'APPOINT_COURTTHANE', 'APPOINT_FORMATION_LOCKSMITH' => ['candidate', 'scope', 'seat', 'generation'],
             'AUTHORIZE_INTERVIEW_SESSION', 'AUTHORIZE_EXACT_DRAFTING', 'AUTHORIZE_RECEIVING_ASSESSMENT' => ['source', 'provider', 'model', 'destination', 'pricing', 'per_call', 'total', 'visible_intakes', 'disclosure', 'expires_at'],
             'CONTROL_FORMATION_SESSION' => ['session_id', 'disposition'],
             'REVOKE_DECISION' => ['nonce'],
@@ -95,8 +95,8 @@ final readonly class FormationPreparation
                 if ($object['per_call'][$field] > $object['total'][$field]) { throw new \RuntimeException('CRP006_DISCLOSED_TERMS_REQUIRED'); }
             }
         }
-        if (in_array($effect, ['APPOINT_CASTELLAN', 'APPOINT_FORMATION_LOCKSMITH'], true)
-            && ($object['scope'] !== $request['citadel_id'] || $object['seat'] !== ($effect === 'APPOINT_CASTELLAN' ? 'citadel.castellan' : 'clavium.locksmith')
+        if (in_array($effect, ['APPOINT_COURTTHANE', 'APPOINT_FORMATION_LOCKSMITH'], true)
+            && ($object['scope'] !== $request['citadel_id'] || $object['seat'] !== ($effect === 'APPOINT_COURTTHANE' ? 'courtyard.courtthane' : 'clavium.locksmith')
                 || !is_int($object['generation']) || $object['generation'] < 1)) { throw new \RuntimeException('CRP007_APPOINTMENT_SCOPE_INVALID'); }
         $payload = ['schema' => 'imperium.citadel-owner-decision/v1', 'citadel_id' => $request['citadel_id'],
             'trust_fingerprint' => $request['trust_fingerprint'], 'effect' => $effect,

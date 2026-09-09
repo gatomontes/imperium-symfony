@@ -1,7 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://imperium.invalid/contracts/citadel-formation-command.schema.json",
-  "title": "Citadel formation command protocol v1",
+  "title": "Courtyard formation command protocol (retained Citadel envelope)",
+  "$comment": "CY0 compatibility: old appoint-castellan envelopes remain recognizable but production refuses fresh use with CY001. No signature translation.",
   "oneOf": [
     {
       "type": "object",
@@ -91,7 +92,7 @@
       ],
       "properties": {
         "operation": {
-          "const": "appoint-castellan"
+          "enum": ["appoint-courtthane", "appoint-castellan"]
         },
         "arguments": {
           "type": "object",
