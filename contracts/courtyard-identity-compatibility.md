@@ -62,7 +62,7 @@ legitimate constitution/appointments, receiving assessment and execution gates r
 
 ## Frozen evidence and bounded proof
 
-`tests/Fixtures/courtyard-baseline/manifest.json` binds two compressed public-only
+`tests/fixtures/courtyard-baseline/manifest.json` binds two compressed public-only
 fixtures generated using unchanged entry production consumers: real interrupted
 child receipt publication, and admitted v2 custody plus an unknown old v1 attempt.
 Every exported file retains original bytes and its digest; no ephemeral private

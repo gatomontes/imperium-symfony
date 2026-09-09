@@ -1,6 +1,7 @@
 # Courtyard identity — CY0–CY3 local report
 
-Status: implementation complete; committed final validation is pending.
+Disposition: **COURTYARD_IDENTITY_IMPLEMENTED_OFFLINE_REVIEW_PENDING**.
+CY0, CY1, CY2 and CY3 are complete locally.
 Independent review is required. FC0–FC3 source remains integrated with its
 independent acceptance **pending**; this campaign does not accept it.
 `deployment_approved`, `enrollment_authorized`, `live_ready`, `activation` and
@@ -92,19 +93,65 @@ registry, lock, claim, budget or child domain.
 
 ## Validation and residual names
 
-Final committed gates and exact source identities will be recorded here after
-completion. Earlier development runs are retained separately: 189 existing focused
-tests / 4,941 assertions and the first 23 Courtyard cases / 162 assertions passed.
-PHP is 8.4.14; PHPUnit is 13.3.0. Preliminary public verification checked 106
-unique synthetic signatures, exact claim/wire/custody bindings and offline flags.
-Six Python helper checks passed. These are development evidence, not final gates.
+Tested executable commit: `f524906663e6c508b849e00311802c3703ba9446`;
+tree: `dd22aaf31a2bcc1285812de6eb25249a9659c4da`. All executable source, tests, schemas and tools were
+committed before the final focused gate. The full suite then ran on the same
+commit. Both gates have zero failures, errors and skips. PHP is 8.4.14;
+PHPUnit is 13.3.0. Final evidence directory is
+`gates/final-20260909T170435235355Z` inside the packet.
 
-Symfony regenerated only config/reference.php PHPDoc during container lint. The
-raw diff was preserved and the committed file restored. The gate runner captures
-and permits restoration only of comment changes, records source status before
-and after, and stops on any executable reference drift. The four linked-worktree
-warning sites from the FC report remain unchanged; fresh warning results are
-reported separately rather than inferred from prior counts.
+| Gate | Fresh result | Native exit | UTC start → end |
+| --- | --- | --- | --- |
+| focused | 216 tests / 5,121 assertions; no warnings | 0 | 2026-09-09T17:04:36.003584+00:00 → 2026-09-09T17:16:29.340854+00:00 |
+| full-suite | 2,956 tests / 54,448 assertions; four qualified warnings | 0 | 2026-09-09T17:16:54.719910+00:00 → 2026-09-09T17:35:42.697359+00:00 |
+| container-lint | PASS | 0 | 2026-09-09T17:16:29.491850+00:00 → 2026-09-09T17:16:33.848718+00:00 |
+| formation-proof | PASS | 0 | 2026-09-09T17:16:34.055813+00:00 → 2026-09-09T17:16:52.238268+00:00 |
+| custody-proof | PASS | 0 | 2026-09-09T17:16:52.388236+00:00 → 2026-09-09T17:16:53.780007+00:00 |
+| public-verification | 106 unique synthetic signatures verified | 0 | 2026-09-09T17:16:53.926169+00:00 → 2026-09-09T17:16:54.156596+00:00 |
+| python-tools | 6 checks passed | 0 | 2026-09-09T17:16:54.303528+00:00 → 2026-09-09T17:16:54.569353+00:00 |
+
+The four full-suite warnings are the same linked-worktree `.git/HEAD` reads
+recorded by FC: DeploymentCustodyCrashDemonstration:290,
+OperationalConstructionCrashDemonstration:399,
+TerminalRetirementCrashDemonstration:183 and
+UnknownProviderOutcomeCrashDemonstration:245. `warning-comparison.json` records
+exact sites and the normalized message; the raw transcript retains every warning.
+This is a fresh comparison, not adoption of the historical FC test counts.
+
+Exact command arrays, UTC timestamps, native exits, raw stdout/stderr/JUnit,
+PHP binary SHA-256, locked dependency/autoload hashes and source status are in
+`verification.json` and the adjoining logs. Reflection again resolved this
+worktree's FormationJournal. The environment allowlists OS essentials and uses
+`APP_ENV=test`, empty `APP_SECRET`, the offline Composer flag and disabled PHP
+network entry functions. Workers accept generated roots only. Default production
+transport seams remain refusing; public preparation produces no credential or
+provider effect.
+
+Symfony regenerated only `config/reference.php` PHPDoc during container lint
+and the full suite. Both raw diffs were retained and the committed file restored.
+The gate runner permits restoration only of comment changes and stops on
+executable reference drift. Source status was clean before the final gates and
+clean again after completion; no executable source was changed during validation.
+
+Development evidence stays separate: 189 existing focused tests / 4,941 assertions,
+the initial 23 Courtyard cases / 162 assertions, and the expanded 27 cases / 180
+assertions passed. The development public-signature and six Python helper checks
+also passed. Their original logs remain under distinct gate directories.
+
+The [residual-name audit](courtyard-identity-residual-audit.tsv) records 1,950
+references from implementation commit
+`30a72308772effa7d40e6f413dfa1bf3e412ebe0`, with exact source blobs and retained
+category rationales. It was committed as the final tested candidate. Supplementary
+`preservation-audit.json` confirms the checked historical/protected paths are
+unchanged and both frozen fixture digests match. `public-field-audit.json` records
+168 public JSON inputs checked for private-key/credential field names with zero
+matches; this supplements producer review and is not a general DLP claim.
+
+The only post-test edits are this report and the fixture path casing in
+`contracts/courtyard-identity-compatibility.md`, both Markdown. The packet's exact
+`post-test.diff` and `source-identities.json` identify those edits and the final
+commit/tree without a self-referential report hash. No executable change follows
+the tested commit.
 
 Remaining Citadel names identify enclosing jurisdiction, shared native services,
 retained source/API/schema/storage/lock identities, immutable evidence or qualified
