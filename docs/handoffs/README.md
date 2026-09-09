@@ -1,3 +1,12 @@
+# Current campaign: Provider Onboarding O0
+
+Start with [the O0 local handoff](provider-onboarding-o0-ready.md) and
+[complete campaign](../next-campaign-provider-onboarding-o0.md).
+[CY/FC acceptance and integration](../courtyard-fc-acceptance.md) close the prior gate.
+Run O0 contract/prerequisite preparation only; O1–O5 and all live activity remain
+deferred. Commit locally and return for independent review. The entries below
+retain historical submission status, even where their headings say current.
+
 # Current review: Courtyard identity and mission formation CY0–CY3
 
 Entry: [Loco CY0–CY3](courtyard-identity-mission-formation-ready.md).

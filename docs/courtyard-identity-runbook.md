@@ -1,3 +1,8 @@
+> Current status: [CY/FC acceptance and integration](courtyard-fc-acceptance.md)
+> supersede pending-review wording below. [Provider onboarding O0](next-campaign-provider-onboarding-o0.md)
+> is selected for contract/prerequisite preparation only. O1–O5 and live activity
+> remain deferred. Existing commands do not grant missing authority or readiness.
+
 # Courtyard current source and future public workflow
 
 Local review only. Citadel encloses Courtyard and its mission-specific Curiae.

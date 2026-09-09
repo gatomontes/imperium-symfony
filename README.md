@@ -1,13 +1,12 @@
 # imperium-symfony
 An Agentic Governance Framework built on top of Symfony AI
 
-Current local work: [Courtyard identity report](docs/courtyard-identity-report.md),
-[compatibility contract](contracts/courtyard-identity-compatibility.md), and
-[implemented public interfaces](docs/courtyard-identity-runbook.md).
-[Owner decision](docs/courtyard-identity-decisions.md): Citadel is the jurisdiction,
-Courtyard receives and forms missions, Courtthane is its Legate; Castellan oversight is deferred.
-CY0–CY3 is submitted for independent local review. [FC0–FC3 source is integrated with independent review pending](docs/citadel-formation-claim-custody-report.md);
-live commissioning remains blocked. [Current steps and flow](docs/delegate-mission-flow.md).
+Current local campaign: [Provider Onboarding O0](docs/next-campaign-provider-onboarding-o0.md).
+Start with the [new local chat handoff](docs/handoffs/provider-onboarding-o0-ready.md).
+[Courtyard CY and formation custody FC are accepted and integrated within offline scope](docs/courtyard-fc-acceptance.md).
+Citadel is the jurisdiction; Courtyard receives/forms missions; Courtthane is its Legate.
+O0 prepares contracts and prerequisites. O1–O5, Castellan oversight and live commissioning
+remain deferred. [Current steps and flow](docs/delegate-mission-flow.md).
 
 Personnel terminology is defined in [the Officer taxonomy](docs/officer-taxonomy.md): permanent Office-bound Officers are Legates; temporary commission-bound Officers are Delegates.
 
