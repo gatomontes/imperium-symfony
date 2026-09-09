@@ -1,5 +1,7 @@
 # Citadel formation runtime, version 1
 
+FC0–FC3 adds the versioned [formation claim custody contract](citadel-formation-claim-custody.md): optional exact signed transport terms, v2 prepared claims, durable one-use custody and default-dormant adapter seams. Existing v1 evidence/recovery remains unchanged; no live authority or B1 amendment follows.
+
 This is the local implementation mapping of the provisionally accepted
 [decisions](../docs/citadel-mission-formation-decisions.md). It does not enroll a
 real operator, choose a live provider, install personnel, activate bootstrap,

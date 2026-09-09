@@ -1,5 +1,13 @@
 # Current flow — Citadel mission formation
 
+## Current local result — formation custody implemented; independent review pending
+
+**FORMATION_CLAIM_CUSTODY_IMPLEMENTED_OFFLINE_LIVE_TRANSPORT_BLOCKED**. [FC0–FC3 report and fresh gate evidence](citadel-formation-claim-custody-report.md) and [the exact custody contract](../contracts/citadel-formation-claim-custody.md) supersede the selection status below. Genuine retained claims now bind exact prepared operations to durable one-use credential delivery and dispatch, proved with recording offline infrastructure. Default production transport still refuses. This is local software completion, not independent acceptance, deployment or commissioning.
+
+Next: independent review, then genuine installed formation trust/custody, nine institutional witnesses and competence, personnel judgments and qualified Castellan/Locksmith appointments, actual B1 provider/custody/bounds policy, public preflight and separately scoped owner authorization. **DEFER_ENROLLMENT remains selected.** B1 remote cost/time guarantees are unchanged; no provider was selected. CF01/CF02/IR01 and NA-IR01/02 remain preserved. Understanding closes interview authority; drafting and mission approval stay separate; receiving grants no execution authority. Unknown outcomes retain exposure without retry/refund. All deployment/enrollment/readiness/activation/execution flags remain false.
+
+The following entries retain their historical attribution.
+
 ## Current decision — enrollment deferred; formation claim custody selected
 
 The owner chose **DEFER_ENROLLMENT** on 2026-09-09 and retained the first bounded Castellan interview as the objective. [CP0–CP3 is accepted and merged via PR #776](citadel-commissioning-preparation-acceptance.md), exact reviewed tree `91bac3df3fdf78288fbd896672aa6001206160ad`; GitHub CI passed. No corrective campaign or installation change is selected.
