@@ -1,4 +1,59 @@
-# Current flow — Citadel mission formation
+# Current flow — Courtyard mission formation
+
+## Current campaign — Courtyard identity and mission formation CY0–CY3
+
+**COURTYARD_IDENTITY_MISSION_FORMATION_SELECTED.** The owner selected Courtyard
+for reception/mission formation and Courtthane as its Legate. Citadel remains the
+enclosing jurisdiction; Castellan is reserved for future oversight with no new
+powers. See [the owner decision](courtyard-identity-decisions.md),
+[complete local campaign](next-campaign-courtyard-identity-mission-formation.md)
+and [Loco handoff](handoffs/courtyard-identity-mission-formation-ready.md).
+
+This is preparation for local implementation, not a completed runtime rename.
+Start from main containing this selection and PR #778 merge
+`88cee012d5fae0dc8e18f25eebed167912e06230`, tree
+`3826740810f42c90e6d8b6e00686947003ab62c4`. FC0–FC3's source is integrated; its
+report still requires independent review. This selection does not claim acceptance.
+
+| Step | Required result |
+| --- | --- |
+| CY0 | Classify identity references and define exact compatibility/authority boundaries |
+| CY1 | Implement Courtyard interfaces and Courtthane Seat/qualification/appointment consumers |
+| CY2 | Prove actual offline formation, historical recovery, shared custody and adverse cases |
+| CY3 | Committed focused/full gates, current documentation and independent-review packet |
+
+Current target flow:
+
+1. Courtyard receives the request without creating a Curia; existing-mission lookup
+   and Courtthane's authorized discussion establish intent and relevant overlap.
+2. Attributable understanding closes interview authority and preserves dissent.
+3. Courtthane presents the bounded drafting request: “I understand. I am ready to
+   draft a proposal. Do you approve?” Separate exact approval permits drafting.
+4. Courtyard drafts the numbered proposal. The Imperator separately approves the
+   exact mission version; material amendments retain the applicable approval gates.
+5. Legitimate constitution and appointment effects create the mission Curia and
+   deliver the dossier, original exchange, dissent, rationale and authority lineage.
+6. The receiving Seneschal accepts responsibility or identifies a concrete gap.
+   Existing non-executing Delegate Step 1 validation and later execution gates remain.
+
+Old Castellan evidence is historical authority for its original scope, never an
+implicit Courtthane appointment or future oversight grant. Preserve one registry,
+lock, budget and replay domain; retained old format names need explicit rationale.
+No global replacement of Citadel namespaces, IDs, signed bytes or sealed evidence.
+
+Run all CY0–CY3 locally in the isolated worktree specified by the handoff; stop at
+local commits for independent review. Keep DEFER_ENROLLMENT, B1, CF01/CF02/IR01,
+NA-IR01/02 and FC one-use custody/exposure behavior. No installed/private-state
+access, live activity, dependency update, onboarding or Castellan oversight. All
+operational approval/readiness/activation/execution flags remain false. Later gates
+still require genuine formation trust/competence, Courtthane/Locksmith appointments,
+provider/B1 decisions, public preflight and separate commissioning authorization.
+
+## Historical campaign entries and prior naming
+
+The remainder retains earlier source/evidence attribution, including old “current”
+headings and Citadel/Castellan interview terminology. The CY0–CY3 selection and
+owner decision above control present work. Delegate Steps 1–69 remain intact.
 
 ## Current local result — formation custody implemented; independent review pending
 
