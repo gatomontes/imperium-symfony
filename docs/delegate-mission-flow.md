@@ -1,3 +1,39 @@
+# Current flow — Provider onboarding O0 and Courtyard formation
+
+## Current campaign — Provider onboarding O0
+
+**PROVIDER_ONBOARDING_O0_SELECTED.** [CY and FC are accepted within offline scope](courtyard-fc-acceptance.md).
+CY is integrated through PR #780, commit `79282773b0c1ca93aa17303d46e784b5415cad7e`,
+reviewed tree `55b100f65ac30ed2d1ea92261de14bea8f09c831`. No live readiness follows.
+The owner has lifted onboarding deferral for O0 contract/prerequisite preparation
+only. [Campaign](next-campaign-provider-onboarding-o0.md) ·
+[New local chat handoff](handoffs/provider-onboarding-o0-ready.md).
+
+| Stage | Present disposition |
+| --- | --- |
+| CY0–CY3 / FC0–FC3 | Accepted offline; integrated; historical evidence preserved |
+| O0 | Selected: exact authority graph, provider/auth contract, base-model policy, persistent consent and CLI/runtime interface |
+| O1–O5 | Deferred pending O0 review and implementation selection |
+| Live commissioning / enrollment / execution | Not authorized; DEFER_ENROLLMENT and unresolved B1 remain |
+
+Future onboarding target: operator policy and supported provider/authentication →
+mechanical eligible base-model selection → legitimate Augur activation and bounded
+invocation → within-provider assessment → permitted persistent assignments.
+Every transition needs its actual authority; this sequence does not assert that
+all production paths already exist. No provider has been selected.
+
+Mission flow remains Courtyard reception → authorized Courtthane interview →
+understanding closes interview → separate exact drafting approval → numbered
+proposal → separate mission approval → legitimate Curia constitution/appointments
+→ handoff → Seneschal assessment → separate execution gates. Castellan oversight
+stays deferred. Original Citadel identities and one custody/budget domain remain.
+
+## Historical flow and submission status
+
+The complete earlier body below is preserved. Earlier pending-review/current or
+deferral wording is historical; the acceptance addendum and O0 selection above
+control present status. Do not rerun accepted campaigns to reconcile that wording.
+
 # Current flow — Courtyard mission formation
 
 ## Current local implementation — Courtyard / Courtthane

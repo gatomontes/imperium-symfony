@@ -1,3 +1,8 @@
+> Current status: [CY/FC acceptance and integration](courtyard-fc-acceptance.md)
+> supersede pending-review wording below. [Provider onboarding O0](next-campaign-provider-onboarding-o0.md)
+> is selected for contract/prerequisite preparation only. O1–O5 and live activity
+> remain deferred. Existing commands do not grant missing authority or readiness.
+
 # Citadel readiness: R0 boundary and disposition
 
 Current identity update (CY0–CY3): [Courtyard runbook](courtyard-identity-runbook.md)
