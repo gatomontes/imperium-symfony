@@ -92,7 +92,7 @@ final readonly class FormationCognition
     {
         return $this->journal->change(function (array &$state) use ($intakeId, $phase, $terms, $decision): string {
             $source = $this->source($state, $intakeId, $phase);
-            if (!FormationJournal::keys($terms, ['source', 'provider', 'model', 'destination', 'pricing', 'per_call', 'total', 'visible_intakes', 'disclosure', 'expires_at'])
+            if (!FormationJournal::keys($terms, array_merge(['source', 'provider', 'model', 'destination', 'pricing', 'per_call', 'total', 'visible_intakes', 'disclosure', 'expires_at'], array_key_exists('transport', $terms) ? ['transport'] : []))
                 || FormationJournal::digest($terms['source']) !== FormationJournal::digest($source['authorization_source'])
                 || !is_int($terms['expires_at']) || $terms['expires_at'] <= $this->clock->now()->getTimestamp()
                 || !is_array($terms['visible_intakes']) || !array_is_list($terms['visible_intakes'])
@@ -107,6 +107,7 @@ final readonly class FormationCognition
             foreach ($terms['visible_intakes'] as $id) {
                 if (!is_string($id) || !isset($state['intakes'][$id])) { throw new \RuntimeException('CMF053_SESSION_TERMS_INVALID'); }
             }
+            if (array_key_exists('transport', $terms)) { FormationPreparedOperation::authorization($terms['transport']); }
             SessionExposure::validate($terms['per_call']);
             SessionExposure::validate($terms['total']);
             if ($terms['per_call']['calls'] !== 1) { throw new \RuntimeException('CMF053_SESSION_TERMS_INVALID'); }
@@ -147,8 +148,12 @@ final readonly class FormationCognition
         if (isset($session['attempts'][$attemptId])) { return $this->recover($sessionId, $attemptId); }
         $source = $this->validateSession($snapshot, $session);
         $request = $this->request($snapshot, $session, $source);
-        $maximum = $this->transport->inspect($request, $session['terms']);
-        $claim = $this->journal->change(function (array &$state) use ($sessionId, $attemptId, $request, $maximum): array {
+        // The prepared path inspects once and retains that exact operation, rather
+        // than discarding its bytes and preparing a possibly different operation.
+        $operation = $this->transport instanceof PreparedFormationTransport ? $this->transport->prepareOperation($request, $session['terms']) : null;
+        $maximum = $operation === null ? $this->transport->inspect($request, $session['terms']) : $operation['maximum'];
+        if ($operation !== null) { FormationPreparedOperation::validate($operation, $request, $session['terms'], $maximum); }
+        $claim = $this->journal->change(function (array &$state) use ($sessionId, $attemptId, $request, $maximum, $operation): array {
             $session = &$state['sessions'][$sessionId];
             $source = $this->validateSession($state, $session);
             if (FormationJournal::digest($request) !== FormationJournal::digest($this->request($state, $session, $source))) {
@@ -157,8 +162,8 @@ final readonly class FormationCognition
             if (isset($session['attempts'][$attemptId])) { throw new \RuntimeException('CMF058_ATTEMPT_ALREADY_RESERVED'); }
             SessionExposure::reserve($session, $attemptId, $maximum, FormationJournal::digest($request));
             $expiresAt = min($session['terms']['expires_at'], $this->clock->now()->getTimestamp() + (int) ceil($maximum['milliseconds'] / 1000));
-            $derivation = $this->leases->derive($state, $session, $source['holder'], $request, $maximum, $expiresAt, $attemptId);
-            $claim = ['schema' => 'imperium.citadel-session-call-claim/v1',
+            $derivation = $this->leases->derive($state, $session, $source['holder'], $request, $maximum, $expiresAt, $attemptId, $operation);
+            $claim = ['schema' => $operation === null ? 'imperium.citadel-session-call-claim/v1' : 'imperium.citadel-session-call-claim/v2',
                 'claim_id' => 'governance-cognition-invocation-claim-'.substr(FormationJournal::digest([$sessionId, $attemptId, $request]), 0, 20),
                 'session_id' => $sessionId, 'attempt_id' => $attemptId,
                 'source_decision_digest' => FormationJournal::digest($session['decision']),
@@ -166,6 +171,7 @@ final readonly class FormationCognition
                 'maximum' => $maximum, 'expires_at' => $expiresAt, 'derivation' => $derivation,
                 'derived_authority_consumed' => true, 'lease_consumed' => true,
                 'automatic_retry_permitted' => false, 'execution_authority' => false];
+            if ($operation !== null) { $claim['prepared_operation'] = $operation; }
             $claim['record_digest'] = FormationJournal::digest($claim);
             $session['attempts'][$attemptId] += ['claim' => $claim, 'request' => $request];
             return $claim;
@@ -186,7 +192,12 @@ final readonly class FormationCognition
                 throw new \RuntimeException('CMF033_USAGE_UNTRUSTWORTHY');
             }
             // Existing provider envelope consumer preserves the exact raw return.
-            $envelope = $this->responses->seal($claim, $result['response'], $this->clock->now());
+            $envelope = $operation === null
+                ? $this->responses->seal($claim, $result['response'], $this->clock->now())
+                : $this->responses->read($claim['claim_id']);
+            if ($envelope['claim']['digest'] !== $claim['record_digest'] || $envelope['response'] !== $result['response']) {
+                throw new \RuntimeException('CMF060_RESPONSE_PROVENANCE_INVALID');
+            }
             if ($this->clock->now()->getTimestamp() > $claim['expires_at']) { throw new \RuntimeException('CMF068_LEASE_CHANGED_OR_EXPIRED'); }
             $this->journal->change(function (array &$state) use ($sessionId, $attemptId, $result, $envelope): void {
                 $attempt = &$state['sessions'][$sessionId]['attempts'][$attemptId];
@@ -197,7 +208,7 @@ final readonly class FormationCognition
             });
         } catch (\Throwable $error) {
             // A sealed envelope may still be recovered. Never release exposure here.
-            throw new \RuntimeException('CMF059_OUTCOME_UNKNOWN_NO_RETRY', 0, $error);
+            throw new \RuntimeException('CMF059_OUTCOME_UNKNOWN_NO_RETRY', 0, $operation === null ? $error : null);
         }
         return $this->recover($sessionId, $attemptId);
     }
@@ -211,6 +222,19 @@ final readonly class FormationCognition
             $session = &$state['sessions'][$sessionId];
             $attempt = &$session['attempts'][$attemptId];
             if (($envelope['claim']['digest'] ?? null) !== $attempt['claim']['record_digest']) { throw new \RuntimeException('CMF060_RESPONSE_PROVENANCE_INVALID'); }
+            if (($attempt['claim']['schema'] ?? null) === 'imperium.citadel-session-call-claim/v2') {
+                if (!in_array($attempt['custody']['status'] ?? null, ['RESPONSE_VALIDATED_PENDING_ENVELOPE', 'RESPONSE_RETAINED'], true)
+                    || ($attempt['custody']['claim_digest'] ?? null) !== $attempt['claim']['record_digest']
+                    || ($attempt['custody']['operation_digest'] ?? null) !== FormationJournal::digest($attempt['claim']['prepared_operation'])
+                    || ($attempt['custody']['response_identity'] ?? null) !== 'sha256:'.hash('sha256',$envelope['response'])
+                    || ($attempt['custody']['response_identity'] ?? null) !== $envelope['provider_response_identity']
+                    || !is_string($attempt['custody']['provider_response_id'] ?? null) || $attempt['custody']['provider_response_id'] === ''
+                    || ($attempt['custody']['provenance'] ?? null) !== $attempt['claim']['prepared_operation']['authorization']['adapter']
+                    || (isset($attempt['provider_response_id']) && $attempt['provider_response_id'] !== $attempt['custody']['provider_response_id'])
+                    || ($attempt['custody']['status'] === 'RESPONSE_RETAINED' && ($attempt['custody']['response_digest'] ?? null) !== $envelope['record_digest'])) {
+                    throw new \RuntimeException('FC016_RETAINED_CUSTODY_REQUIRED');
+                }
+            }
             if (isset($attempt['admitted'])) { return $attempt['admitted']; }
             $source = $this->validateSession($state, $session);
             if ((new \DateTimeImmutable($envelope['sealed_at']))->getTimestamp() > $attempt['claim']['expires_at']) { throw new \RuntimeException('CMF068_LEASE_CHANGED_OR_EXPIRED'); }
@@ -222,6 +246,11 @@ final readonly class FormationCognition
                 'holder_digest' => $session['holder_digest'], 'intent_version' => $session['intent_version'],
                 'registry_generation' => $attempt['request']['registry_generation'],
                 'response' => $response, 'execution_authority' => false];
+            if (($attempt['claim']['schema'] ?? null) === 'imperium.citadel-session-call-claim/v2') {
+                $record['provider_response_id'] = $attempt['custody']['provider_response_id'];
+                $record['provider_provenance'] = $attempt['custody']['provenance'];
+                $attempt['provider_response_id'] = $record['provider_response_id'];
+            }
             $intake = &$state['intakes'][$session['intake_id']];
             if ($session['phase'] === 'interview') {
                 if (!is_array($response) || !FormationJournal::keys($response, ['disposition', 'understood_intent', 'question', 'dissent', 'unknowns', 'overlap', 'ready_to_request_drafting'])
@@ -287,75 +316,18 @@ final readonly class FormationCognition
 
     private function source(array $state, string $intakeId, string $phase): array
     {
-        $intake = $state['intakes'][$intakeId] ?? throw new \RuntimeException('CMF012_INTAKE_ABSENT');
-        if ($phase === 'acceptance') {
-            $handoff = $state['handoffs'][$intakeId] ?? throw new \RuntimeException('CMF063_HANDOFF_REQUIRED');
-            $holder = $handoff['constitution']['occupants']['curia.seneschal'];
-            $this->personnel->candidate($state, $holder['candidate'], $handoff['mission_id'], 'curia.seneschal');
-            $this->signatures->verify($state, $handoff['constitution']['decision'], 'APPROVE_MISSION_AND_CONSTITUTION', $handoff['constitution']['signed_review']);
-            $authority = ['handoff_id' => $handoff['handoff_id'], 'packet_digest' => FormationJournal::digest($handoff['packet']), 'holder_digest' => FormationJournal::digest($holder)];
-        } else {
-            $holder = $this->personnel->currentCastellan($state);
-            if ($phase === 'interview') {
-                if (isset($intake['understanding'])) { throw new \RuntimeException('CMF067_SESSION_CLOSED_CHANGED_OR_EXPIRED'); }
-                $authority = ['intake_id' => $intakeId, 'intent_version' => $intake['intent_version'],
-                    'opening_exchange' => $intake['exchange'][0], 'holder_digest' => FormationJournal::digest($holder)];
-            } elseif ($phase === 'drafting') {
-                $authority = $state['drafting_requests'][$intake['drafting_request'] ?? ''] ?? throw new \RuntimeException('CMF064_SEPARATE_DRAFTING_REQUEST_REQUIRED');
-                if ($authority['understanding_digest'] !== FormationJournal::digest($intake['understanding'] ?? null)
-                    || $authority['holder_digest'] !== FormationJournal::digest($holder)
-                    || $authority['intent_version'] !== $intake['intent_version']) { throw new \RuntimeException('CMF065_DRAFTING_LINEAGE_CHANGED'); }
-            } else { throw new \RuntimeException('CMF066_PHASE_INVALID'); }
-        }
-        return ['intake' => $intake, 'holder' => $holder, 'authorization_source' => $authority];
+        return (new FormationSessionAuthority($this->signatures, $this->personnel, $this->clock))->source($state, $intakeId, $phase);
     }
-
     private function validateSession(array $state, array $session, bool $requireOpen = true): array
     {
-        $this->signatures->verify($state, $session['decision'], $session['effect'], $session['terms']);
-        $source = $this->source($state, $session['intake_id'], $session['phase']);
-        if ($this->wasRefused($session) || isset($session['interview_completion']) || ($requireOpen && $session['status'] !== 'OPEN')
-            || $session['terms']['expires_at'] <= $this->clock->now()->getTimestamp()
-            || $session['terms']['source'] !== $source['authorization_source']
-            || $session['holder_digest'] !== FormationJournal::digest($source['holder'])
-            || $session['intent_version'] !== $source['intake']['intent_version']) {
-            throw new \RuntimeException('CMF067_SESSION_CLOSED_CHANGED_OR_EXPIRED');
-        }
-        return $source;
+        return (new FormationSessionAuthority($this->signatures, $this->personnel, $this->clock))->validateSession($state, $session, $requireOpen);
     }
-
-    /** Retained controls also fence sessions indirectly reopened by older code. */
     private function wasRefused(array $session): bool
     {
-        if ($session['status'] === 'REFUSED') { return true; }
-        foreach ($session['controls'] ?? [] as $control) {
-            if (($control['payload']['effect'] ?? null) === 'CONTROL_FORMATION_SESSION'
-                && ($control['payload']['object_digest'] ?? null) === FormationJournal::digest([
-                    'session_id' => $session['session_id'], 'disposition' => 'REFUSED'])) { return true; }
-        }
-        return false;
+        return (new FormationSessionAuthority($this->signatures, $this->personnel, $this->clock))->wasRefused($session);
     }
-
     private function request(array $state, array $session, array $source): array
     {
-        $context = [];
-        foreach ($session['terms']['visible_intakes'] as $id) {
-            $intake = $state['intakes'][$id];
-            $context[] = ['intake_id' => $id, 'intent_version' => $intake['intent_version'],
-                'status' => $intake['status'], 'request' => $intake['exchange'][0]['content'],
-                'mission_id' => $intake['mission_id'], 'digest' => $intake['record_digest']];
-        }
-        return ['phase' => $session['phase'], 'cognitive_artifact' => $source['holder']['cognitive_artifact'],
-            'holder' => $source['holder'], 'exchange' => $source['intake']['exchange'],
-            'authority_source' => $source['authorization_source'],
-            'prior_dossiers' => $session['phase'] === 'drafting' ? ($state['dossiers'][$session['intake_id']] ?? []) : [],
-            'prior_reviews' => $session['phase'] === 'drafting' ? array_values(array_filter($state['reviews'] ?? [], static fn (array $review): bool => $review['terms']['intake_id'] === $session['intake_id'])) : [],
-            'registry_generation' => $state['registry_generation'] ?? 0, 'registry_context' => $context,
-            'handoff' => $session['phase'] === 'acceptance' ? $state['handoffs'][$session['intake_id']]['packet'] : null,
-            'response_contract' => match ($session['phase']) {
-                'interview' => 'Question or understanding with dissent only; never produce a proposal. Keys: disposition, understood_intent, question, dissent, unknowns, overlap, ready_to_request_drafting.',
-                'drafting' => 'Produce only the exact authorized FormationPlan schema under the supplied Planning Charter. No investigation or execution.',
-                'acceptance' => 'Assess the complete original exchange and mandate. Keys: disposition (ACCEPTED or GAP), rationale, gaps, dissent. Acceptance grants no execution authority.',
-            }];
+        return (new FormationSessionAuthority($this->signatures, $this->personnel, $this->clock))->request($state, $session, $source);
     }
 }

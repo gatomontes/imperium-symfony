@@ -39,7 +39,7 @@ final readonly class FormationPreparation
             'disposition' => 'READINESS_PREPARATION_COMPLETE_WITH_EXPLICIT_BLOCKERS',
             'input_digest' => FormationJournal::digest($public), 'rows' => $rows,
             'blockers' => ['OWNER_INSTALLATION_CUSTODY_AND_CURRENT_AUTHORITY_UNVERIFIED',
-                'FORMATION_CLAIM_CREDENTIAL_ADAPTER_UNSUPPORTED', 'ENFORCEABLE_TRANSPORT_AND_PRICING_UNESTABLISHED',
+                'FORMATION_CUSTODY_IMPLEMENTED_DORMANT_LIVE_ADAPTER_UNAPPROVED', 'ENFORCEABLE_TRANSPORT_AND_PRICING_UNESTABLISHED',
                 'SEPARATE_COMMISSIONING_AUTHORIZATION_REQUIRED'],
             'live_ready' => false, 'activation' => false, 'execution_authority' => false];
     }
@@ -75,6 +75,10 @@ final readonly class FormationPreparation
             'APPROVE_MISSION_AND_CONSTITUTION', 'REVIEW_MISSION_OBJECT', 'REVIEW_MISSION_REFUSE', 'REVIEW_MISSION_DEFER' => ['terms', 'line_digests', 'rationale'],
             default => throw new \RuntimeException('CRP004_EFFECT_UNSUPPORTED'),
         };
+        if (str_starts_with((string) $effect, 'AUTHORIZE_') && array_key_exists('transport', $object)) {
+            FormationPreparedOperation::authorization($object['transport']);
+            $fields[] = 'transport';
+        }
         if (!FormationJournal::keys($object, $fields)) { throw new \RuntimeException('CRP005_EXACT_OBJECT_FIELDS_REQUIRED'); }
         if (isset($object['expires_at']) && (!is_int($object['expires_at']) || $object['expires_at'] <= $now || $object['expires_at'] > $request['expires_at'])) {
             throw new \RuntimeException('CRP003_FUTURE_EXPIRY_REQUIRED');

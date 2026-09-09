@@ -13,7 +13,7 @@ final readonly class FormationSessionLeaseService
 {
     public function __construct(private FormationPersonnel $personnel) {}
 
-    public function derive(array $state, array $session, array $holder, array $request, array $maximum, int $expiresAt, string $attemptId): array
+    public function derive(array $state, array $session, array $holder, array $request, array $maximum, int $expiresAt, string $attemptId, ?array $operation = null): array
     {
         $issuer = $this->personnel->currentLocksmith($state);
         $decision = $session['provider_resource_decision'];
@@ -21,6 +21,7 @@ final readonly class FormationSessionLeaseService
             'holder_digest' => FormationJournal::digest($holder), 'input_digest' => FormationJournal::digest($request),
             'phase' => $session['phase'], 'provider' => $session['terms']['provider'], 'model' => $session['terms']['model'],
             'destination' => $session['terms']['destination'], 'maximum' => $maximum, 'expires_at' => $expiresAt];
+        if ($operation !== null) { $scope['prepared_operation_digest'] = FormationJournal::digest($operation); }
         $authority = ['authority_id' => 'citadel-call-authority-'.FormationJournal::digest($scope), 'scope' => $scope,
             'holder' => $holder, 'planning_only' => $session['phase'] === 'drafting',
             'planning_authorization' => $decision['planning_authorization']['authorization_id'] ?? null, 'single_use' => true, 'consumed' => true, 'execution_authority' => false];
