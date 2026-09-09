@@ -1,5 +1,7 @@
 # CP1 — public owner decision proposal
 
+Owner update (2026-09-09): **DEFER_ENROLLMENT selected**; [acceptance and decision](citadel-commissioning-preparation-acceptance.md). The owner continues toward the Castellan interview and has not accepted a bounded native deployment or its workflow losses. All other real identity/key/signer/validity and operational prerequisites remain unresolved. The original proposal below is retained; its deployment/enrollment commands are not authorized by this choice.
+
 Status: UNAPPROVED. Recommendation: **DEFER_ENROLLMENT** in the intended installation until the owner accepts the loss of the fenced workflows and independently establishes the operational prerequisites below. A bounded native admission/inventory installation is a possible later choice; it cannot presently serve the full legacy personnel lifecycle or a live Castellan interview.
 
 The proposed deployment target is `f35a0b33ddab9e8815470a697d8593984e050023`, tree `e4140d95cbb83b3dbf9125849953cec0c7eda989`. Preparation helper HEAD is separate and is not the deployment target. The public example is [citadel-commissioning-proposal.example.json](citadel-commissioning-proposal.example.json); [the package contract](citadel-commissioning-package-contract.md) defines every input. No example field establishes approval.

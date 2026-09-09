@@ -1,5 +1,23 @@
 # Citadel readiness: R0 boundary and disposition
 
+## Current decision — enrollment deferred; formation claim custody selected
+
+The owner chose **DEFER_ENROLLMENT** on 2026-09-09 and retained the first bounded Castellan interview as the objective. [CP0–CP3 is accepted and merged via PR #776](citadel-commissioning-preparation-acceptance.md), exact reviewed tree `91bac3df3fdf78288fbd896672aa6001206160ad`; GitHub CI passed. No corrective campaign or installation change is selected.
+
+Next local work: [Formation Claim Custody and Transport Boundary FC0–FC3](next-campaign-citadel-formation-claim-custody.md), using [the Loco handoff](handoffs/citadel-formation-claim-custody-ready.md).
+
+| Step | Result |
+| --- | --- |
+| FC0 | Exact formation authority, aggregate claim, custody and operation-binding contract |
+| FC1 | Formation-specific durable one-use credential-custody boundary |
+| FC2 | Exact offline operation/response integration; pure preparation and refusing production DI |
+| FC3 | Adverse/concurrency/interruption proof, committed offline gates and review packet |
+| Later gates | Genuine institutions and formation competence, qualified appointments, actual B1 provider/custody/bounds decision, public preflight and separate commissioning authorization |
+
+This closes a specific software prerequisite without commissioning admission/inventory. Native enrollment stays deferred; formation trust, other Seats and appointments remain unresolved. No provider is selected and no accepted cost/time guarantee is weakened. Citadel receives; Castellan interviews; understanding closes interview authority; drafting and mission approval remain separate; receiving assessment grants no execution authority. Preserve CF01/CF02/IR01, NA-IR01/02 and all scoped acceptances. Default transport refuses; unknown outcomes retain exposure without retry/refund. All operational authority/readiness flags remain false.
+
+The entries below are historical campaign records; this entry controls current work.
+
 ## Current disposition — commissioning package prepared for owner review
 
 **COMMISSIONING_PACKAGE_PREPARED_FOR_OWNER_REVIEW.** CP0–CP3 is complete locally: [report and evidence index](citadel-commissioning-preparation-report.md), [installation assessment](citadel-commissioning-installation-assessment.md), [owner decisions](citadel-commissioning-owner-decisions.md), [compatibility matrix](citadel-commissioning-compatibility.md) and [phased runbook](citadel-commissioning-owner-runbook.md). Independent package review is next. Recommendation: defer enrollment until explicit owner decisions and genuine operational prerequisites are resolved.
