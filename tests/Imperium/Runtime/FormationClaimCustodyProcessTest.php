@@ -46,7 +46,10 @@ final class FormationClaimCustodyProcessTest extends TestCase
         self::assertSame($counts,$this->c->counts()); self::assertNull($attempt['settled']);
         self::assertSame($status,$attempt['custody']['status'] ?? null);
         if ($envelope) {
-            self::assertSame('UNDERSTOOD',$this->c->cognition->recover($this->sid,'custody-attempt-0001')['response']['disposition']);
+            $record=$this->c->cognition->recover($this->sid,'custody-attempt-0001');
+            self::assertSame('UNDERSTOOD',$record['response']['disposition']);
+            self::assertSame($attempt['custody']['provider_response_id'],$record['provider_response_id']);
+            self::assertSame('synthetic-formation-wire-v1',$record['provider_provenance']);
         } else {
             try { $this->c->cognition->call($this->sid,'custody-attempt-0001'); self::fail('Automatic replay'); }
             catch(\RuntimeException $e) { self::assertStringContainsString('PST112',$e->getMessage()); }
@@ -62,7 +65,8 @@ final class FormationClaimCustodyProcessTest extends TestCase
         yield 'after issue before consume'=>['after-issue',['issue'=>1,'consume'=>0,'dispatch'=>0],'CONSUMPTION_COMMITTED_OUTCOME_UNCERTAIN',false];
         yield 'after dispatch fence before effect'=>['before-dispatch',['issue'=>1,'consume'=>1,'dispatch'=>0],'DISPATCH_COMMITTED_OUTCOME_UNCERTAIN',false];
         yield 'after possible effect'=>['after-dispatch',['issue'=>1,'consume'=>1,'dispatch'=>1],'DISPATCH_COMMITTED_OUTCOME_UNCERTAIN',false];
-        yield 'after envelope before custody receipt'=>['after-envelope',['issue'=>1,'consume'=>1,'dispatch'=>1],'DISPATCH_COMMITTED_OUTCOME_UNCERTAIN',true];
+        yield 'after response metadata before envelope'=>['before-envelope',['issue'=>1,'consume'=>1,'dispatch'=>1],'RESPONSE_VALIDATED_PENDING_ENVELOPE',false];
+        yield 'after envelope before custody receipt'=>['after-envelope',['issue'=>1,'consume'=>1,'dispatch'=>1],'RESPONSE_VALIDATED_PENDING_ENVELOPE',true];
         yield 'after custody receipt before caller settlement'=>['after-response',['issue'=>1,'consume'=>1,'dispatch'=>1],'RESPONSE_RETAINED',true];
     }
     private function start(string $stage,string $token): int

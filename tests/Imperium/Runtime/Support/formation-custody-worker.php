@@ -7,7 +7,7 @@ namespace App\Tests\Imperium\Runtime\Support {
     require_once __DIR__.'/FormationCustodyFixture.php';
     $root=$argv[1] ?? ''; FormationCustodyFixture::assertRoot($root);
     $stage=$argv[2] ?? ''; $token=$argv[3] ?? '';
-    if (!preg_match('/^[a-z0-9-]{1,40}$/D',$token) || !in_array($stage,['normal','race','before-delivery','after-delivery','after-issue','before-dispatch','after-dispatch','after-envelope','after-response'],true)) { exit(64); }
+    if (!preg_match('/^[a-z0-9-]{1,40}$/D',$token) || !in_array($stage,['normal','race','before-delivery','after-delivery','after-issue','before-dispatch','after-dispatch','before-envelope','after-envelope','after-response'],true)) { exit(64); }
     $GLOBALS['custody_synthetic_root']=$root; $GLOBALS['custody_synthetic_stage']=$stage;
     $input=json_decode((string)file_get_contents($root.'/custody-worker-input.json'),true,512,JSON_THROW_ON_ERROR);
     $clock=new SyntheticFormationClock(); $clock->at=$input['clock']; $c=new FormationCustodyFixture($root,$clock);
@@ -34,8 +34,9 @@ namespace App\Imperium\Runtime\Persistence {
     // Fault after real immutable envelope publication, before custody receipt publication.
     function rename(string $from,string $to): bool
     {
-        $result=\rename($from,$to);
         $prefix=str_replace('\\','/',$GLOBALS['custody_synthetic_root']).'/var/imperium/runtime/provider-response-envelopes/';
+        if($GLOBALS['custody_synthetic_stage']==='before-envelope' && str_starts_with(str_replace('\\','/',$to),$prefix)) { exit(73); }
+        $result=\rename($from,$to);
         if($result && $GLOBALS['custody_synthetic_stage']==='after-envelope' && str_starts_with(str_replace('\\','/',$to),$prefix)) { exit(73); }
         return $result;
     }

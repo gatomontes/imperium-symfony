@@ -223,10 +223,15 @@ final readonly class FormationCognition
             $attempt = &$session['attempts'][$attemptId];
             if (($envelope['claim']['digest'] ?? null) !== $attempt['claim']['record_digest']) { throw new \RuntimeException('CMF060_RESPONSE_PROVENANCE_INVALID'); }
             if (($attempt['claim']['schema'] ?? null) === 'imperium.citadel-session-call-claim/v2') {
-                if (!in_array($attempt['custody']['status'] ?? null, ['DISPATCH_COMMITTED_OUTCOME_UNCERTAIN', 'RESPONSE_RETAINED'], true)
+                if (!in_array($attempt['custody']['status'] ?? null, ['RESPONSE_VALIDATED_PENDING_ENVELOPE', 'RESPONSE_RETAINED'], true)
                     || ($attempt['custody']['claim_digest'] ?? null) !== $attempt['claim']['record_digest']
                     || ($attempt['custody']['operation_digest'] ?? null) !== FormationJournal::digest($attempt['claim']['prepared_operation'])
-                    || (isset($attempt['custody']['response_digest']) && $attempt['custody']['response_digest'] !== $envelope['record_digest'])) {
+                    || ($attempt['custody']['response_identity'] ?? null) !== 'sha256:'.hash('sha256',$envelope['response'])
+                    || ($attempt['custody']['response_identity'] ?? null) !== $envelope['provider_response_identity']
+                    || !is_string($attempt['custody']['provider_response_id'] ?? null) || $attempt['custody']['provider_response_id'] === ''
+                    || ($attempt['custody']['provenance'] ?? null) !== $attempt['claim']['prepared_operation']['authorization']['adapter']
+                    || (isset($attempt['provider_response_id']) && $attempt['provider_response_id'] !== $attempt['custody']['provider_response_id'])
+                    || ($attempt['custody']['status'] === 'RESPONSE_RETAINED' && ($attempt['custody']['response_digest'] ?? null) !== $envelope['record_digest'])) {
                     throw new \RuntimeException('FC016_RETAINED_CUSTODY_REQUIRED');
                 }
             }
@@ -241,6 +246,11 @@ final readonly class FormationCognition
                 'holder_digest' => $session['holder_digest'], 'intent_version' => $session['intent_version'],
                 'registry_generation' => $attempt['request']['registry_generation'],
                 'response' => $response, 'execution_authority' => false];
+            if (($attempt['claim']['schema'] ?? null) === 'imperium.citadel-session-call-claim/v2') {
+                $record['provider_response_id'] = $attempt['custody']['provider_response_id'];
+                $record['provider_provenance'] = $attempt['custody']['provenance'];
+                $attempt['provider_response_id'] = $record['provider_response_id'];
+            }
             $intake = &$state['intakes'][$session['intake_id']];
             if ($session['phase'] === 'interview') {
                 if (!is_array($response) || !FormationJournal::keys($response, ['disposition', 'understood_intent', 'question', 'dissent', 'unknowns', 'overlap', 'ready_to_request_drafting'])

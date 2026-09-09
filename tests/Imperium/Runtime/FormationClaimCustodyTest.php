@@ -143,6 +143,19 @@ final class FormationClaimCustodyTest extends TestCase
         self::assertSame(['issue'=>0,'consume'=>0,'dispatch'=>0],$this->c->counts());
     }
 
+    public function testDispatchFenceAloneCannotAuthenticateAUnvalidatedResponse(): void
+    {
+        $this->c->wire->afterDispatch=static fn()=>throw new \RuntimeException('Synthetic missing actual result');
+        $this->refusal(fn()=>$this->c->cognition->call($this->sid,'custody-attempt-0001'));
+        $attempt=$this->retainedAttempt(); self::assertSame('DISPATCH_COMMITTED_OUTCOME_UNCERTAIN',$attempt['custody']['status']);
+        $this->c->container->get(\App\Imperium\Runtime\Clavium\ProviderResponseEnvelopeService::class)
+            ->seal($attempt['claim'],json_encode(CitadelFormationFixture::understanding()),$this->f->clock->now());
+        $e=$this->refusal(fn()=>$this->c->cognition->recover($this->sid,'custody-attempt-0001'));
+        self::assertSame('FC016_RETAINED_CUSTODY_REQUIRED',$e->getMessage());
+        self::assertArrayNotHasKey('admitted',$this->retainedAttempt()); self::assertNull($this->retainedAttempt()['settled']);
+        self::assertSame(['issue'=>1,'consume'=>1,'dispatch'=>1],$this->c->counts());
+    }
+
     public function testChangedWireBetweenInspectionAndCustodyRefusesBeforeIssue(): void
     {
         $call=$this->c->pending($this->f,$this->sid); $this->c->wire->suffix='alternate';

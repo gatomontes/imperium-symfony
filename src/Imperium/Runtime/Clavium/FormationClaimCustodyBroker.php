@@ -63,14 +63,24 @@ final readonly class FormationClaimCustodyBroker
             }
             $sample = ['maximum'=>$claim['maximum'],'settled'=>null]; SessionExposure::settle($sample,$result['usage']);
             if ($this->clock->now()->getTimestamp() > $claim['expires_at']) { throw new \RuntimeException('CMF068_LEASE_CHANGED_OR_EXPIRED'); }
-            // Seal actual response bytes only after trusted-adapter accounting passes.
-            $envelope = $this->responses->seal($claim,$result['response'],$this->clock->now());
-            $this->journal->change(function (array &$state) use ($claim,$operation,$result,$envelope): void {
+            // Retain attribution before publishing the envelope, so interruption
+            // cannot leave a recoverable body with its provider ID only in memory.
+            $this->journal->change(function (array &$state) use ($claim,$operation,$result): void {
                 $attempt = &$state['sessions'][$claim['session_id']]['attempts'][$claim['attempt_id']];
                 if (($attempt['custody']['status'] ?? null) !== 'DISPATCH_COMMITTED_OUTCOME_UNCERTAIN'
-                    || ($attempt['custody']['claim_digest'] ?? null) !== $claim['record_digest']) { throw new \RuntimeException('FC016_RETAINED_CUSTODY_REQUIRED'); }
-                $attempt['custody'] += ['response_digest'=>$envelope['record_digest'], 'provider_response_id'=>$result['provider_response_id'],
+                    || ($attempt['custody']['claim_digest'] ?? null) !== $claim['record_digest']
+                    || ($attempt['custody']['operation_digest'] ?? null) !== J::digest($operation)) { throw new \RuntimeException('FC016_RETAINED_CUSTODY_REQUIRED'); }
+                $attempt['custody'] += ['response_identity'=>'sha256:'.hash('sha256',$result['response']), 'provider_response_id'=>$result['provider_response_id'],
                     'usage'=>$result['usage'], 'provenance'=>$result['provenance']];
+                $attempt['custody']['status'] = 'RESPONSE_VALIDATED_PENDING_ENVELOPE';
+            });
+            $envelope = $this->responses->seal($claim,$result['response'],$this->clock->now());
+            $this->journal->change(function (array &$state) use ($claim,$envelope): void {
+                $attempt = &$state['sessions'][$claim['session_id']]['attempts'][$claim['attempt_id']];
+                if (($attempt['custody']['status'] ?? null) !== 'RESPONSE_VALIDATED_PENDING_ENVELOPE'
+                    || $attempt['custody']['claim_digest'] !== $claim['record_digest']
+                    || $attempt['custody']['response_identity'] !== $envelope['provider_response_identity']) { throw new \RuntimeException('FC016_RETAINED_CUSTODY_REQUIRED'); }
+                $attempt['custody']['response_digest'] = $envelope['record_digest'];
                 $attempt['custody']['status'] = 'RESPONSE_RETAINED';
             });
             return $result;
