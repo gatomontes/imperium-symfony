@@ -1,4 +1,18 @@
-# Current campaign: Citadel Recruiter currentness and Garrison authority interfaces
+# Current campaign: Courtyard identity and mission formation CY0–CY3
+
+Entry: [Loco CY0–CY3](courtyard-identity-mission-formation-ready.md).
+Campaign: [Courtyard identity](../next-campaign-courtyard-identity-mission-formation.md).
+Decision: [Courtyard and Courtthane](../courtyard-identity-decisions.md).
+
+Implement the reception-function and Legate identity correction locally, including
+exact qualification consumers, historical evidence compatibility, shared custody
+and full offline formation proof. Citadel remains the jurisdiction; Castellan
+oversight remains deferred. Source baseline is PR #778; FC0–FC3 independent review
+remains pending. No installation, live activity or provider onboarding is authorized.
+Stop at local commits and return the complete review packet plus separate ZIP hash.
+The entries below are history, even where their original headings say “current.”
+
+# Historical campaign: Citadel Recruiter currentness and Garrison authority interfaces
 
 Entry: [Loco A0–A3](citadel-recruiter-garrison-authority-interfaces-ready.md).
 Campaign: [authority interfaces](../next-campaign-citadel-recruiter-garrison-authority-interfaces.md).
