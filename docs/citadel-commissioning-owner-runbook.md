@@ -1,5 +1,7 @@
 # CP2 — phased future owner commissioning runbook
 
+Owner update (2026-09-09): **DEFER_ENROLLMENT selected**; [acceptance and decision](citadel-commissioning-preparation-acceptance.md). The owner continues toward the Castellan interview and has not accepted a bounded native deployment or its workflow losses. All other real identity/key/signer/validity and operational prerequisites remain unresolved. The original proposal below is retained; its deployment/enrollment commands are not authorized by this choice.
+
 **REVIEWED PROPOSAL ONLY; NO INSTALLATION ACTION IS AUTHORIZED HERE.** First review the completed package, [owner decisions](citadel-commissioning-owner-decisions.md) and [compatibility matrix](citadel-commissioning-compatibility.md). Recommended disposition is defer enrollment until every affected workflow and custodian prerequisite is explicitly resolved. This campaign executes only generated-root rehearsal.
 
 All `E:\owner` names below are illustrative fresh external public files. Actual identities, key, signature, validity and current head/predecessors are unavailable for the installation; never substitute rehearsal artifacts. Keep original UTF-8 bytes without BOM, save stdout to a fresh output, and retain `$LASTEXITCODE` immediately. Every native operation may create transition-lock files even when called snapshot/prepare/assemble/resolve/inventory. Never run those as read-only installation probes during CP0.
