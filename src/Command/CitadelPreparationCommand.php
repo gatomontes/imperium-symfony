@@ -9,7 +9,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface};
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'imperium:citadel:prepare', description: 'Inspect supplied public evidence or prepare unsigned exact owner bytes; no runtime effects')]
+#[AsCommand(name: 'imperium:courtyard:prepare', aliases: ['imperium:citadel:prepare'], description: 'Prepare Courtyard public evidence and exact unsigned owner bytes; no runtime effects')]
 final class CitadelPreparationCommand extends Command
 {
     public function __construct(private readonly FormationPreparation $preparation) { parent::__construct(); }

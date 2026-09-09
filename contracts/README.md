@@ -4,6 +4,16 @@ This directory defines machine-readable exchange contracts shared by Offices.
 The contracts do not create cognitive authority. They make the identity,
 lineage, state, and evidence required by doctrine structurally explicit.
 
+- [Courtyard identity compatibility](courtyard-identity-compatibility.md) maps
+  reception and Courtthane's exact Seat/qualification/appointment consumers,
+  retained Citadel wire/storage names, old fresh-use refusal and historical recovery.
+- [Mission intake](citadel-mission-intake.md), [formation runtime](citadel-formation-runtime.md)
+  and [claim custody](citadel-formation-claim-custody.md) preserve separate
+  understanding, drafting, mission and execution gates. FC0–FC3 review remains pending.
+- [Command envelope](citadel-formation-command.schema.json) supports canonical
+  Courtyard commands with exact same-boundary Citadel aliases; neither schema
+  validity nor a command alias creates authority.
+
 - [`codex-imperii.md`](codex-imperii.md) defines the canonical digest-bound
   compilation of the Folia belonging to one Imperium instance.
 - [`codex-imperii.schema.json`](codex-imperii.schema.json) validates its

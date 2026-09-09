@@ -89,7 +89,9 @@ final class CitadelFormationFixture
     {
         $path = $this->root.'/command.json';
         file_put_contents($path, json_encode(['operation' => $operation, 'arguments' => $arguments], JSON_THROW_ON_ERROR));
-        $tester = new CommandTester($this->container->get(CitadelFormationCommand::class));
+        $application = new \Symfony\Component\Console\Application();
+        $application->addCommand($this->container->get(CitadelFormationCommand::class));
+        $tester = new CommandTester($application->find('imperium:courtyard:formation'));
         $status = $tester->execute(['request-file' => $path]);
         if ($status !== 0) { throw new \RuntimeException(trim($tester->getDisplay())); }
         return json_decode($tester->getDisplay(), true, 512, JSON_THROW_ON_ERROR)['result'];
@@ -110,7 +112,9 @@ final class CitadelFormationFixture
     {
         $path = $this->root.'/request.txt';
         file_put_contents($path, $text);
-        $tester = new CommandTester($this->container->get(CitadelIntakeCommand::class));
+        $application = new \Symfony\Component\Console\Application();
+        $application->addCommand($this->container->get(CitadelIntakeCommand::class));
+        $tester = new CommandTester($application->find('imperium:courtyard:intake'));
         if ($tester->execute(['submission-id' => $id, 'request-file' => $path]) !== 0) { throw new \RuntimeException($tester->getDisplay()); }
         return json_decode($tester->getDisplay(), true, 512, JSON_THROW_ON_ERROR);
     }
@@ -153,9 +157,9 @@ final class CitadelFormationFixture
             $terms = ['candidate' => $locksmith, 'scope' => $state['citadel_id'], 'seat' => 'clavium.locksmith', 'generation' => 1];
             $this->run('appoint-locksmith', ['candidate' => $locksmith, 'decision' => $this->sign('APPOINT_FORMATION_LOCKSMITH', $terms)]);
         }
-        $candidate = $this->candidate($state['citadel_id'], 'citadel.castellan', $suffix);
-        $terms = ['candidate' => $candidate, 'scope' => $state['citadel_id'], 'seat' => 'citadel.castellan', 'generation' => ($state['castellan']['generation'] ?? 0) + 1];
-        return $this->run('appoint-castellan', ['candidate' => $candidate, 'decision' => $this->sign('APPOINT_CASTELLAN', $terms)]);
+        $candidate = $this->candidate($state['citadel_id'], 'courtyard.courtthane', $suffix);
+        $terms = ['candidate' => $candidate, 'scope' => $state['citadel_id'], 'seat' => 'courtyard.courtthane', 'generation' => ($state['courtthane']['generation'] ?? 0) + 1];
+        return $this->run('appoint-courtthane', ['candidate' => $candidate, 'decision' => $this->sign('APPOINT_COURTTHANE', $terms)]);
     }
 
     public function terms(string $id, string $phase): array

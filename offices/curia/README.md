@@ -1,6 +1,6 @@
 # Curia
 
-Curia is the governing Office of one approved mission instance. Citadel owns new-request intake and proposal preparation, then hands the approved mission to a legitimately constituted Curia. Curia owns its mission dossier, executive deliberation, bounded planning/amendments and orchestration under its exact mandate. See /contracts/citadel-mission-intake.md.
+Curia is the governing Office of one approved mission instance. Courtyard receives new requests and prepares proposals within Citadel, then hands the approved mission to a legitimately constituted Curia. Courtthane's reception authority does not pass to its Seneschal. Curia owns its mission dossier, executive deliberation, bounded planning/amendments and orchestration under its exact mandate. See /contracts/citadel-mission-intake.md and /contracts/courtyard-identity-compatibility.md.
 
 ## Migration status
 

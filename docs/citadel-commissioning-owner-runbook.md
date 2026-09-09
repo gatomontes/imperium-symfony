@@ -1,5 +1,14 @@
 # CP2 — phased future owner commissioning runbook
 
+Current identity update (CY0–CY3): [Courtyard runbook](courtyard-identity-runbook.md)
+and [compatibility contract](../contracts/courtyard-identity-compatibility.md)
+control fresh reception/formation. Courtthane requires the exact new Seat and
+appointment; old Castellan evidence grants no successor or oversight authority.
+Citadel jurisdiction, Seneschal's Curia mandate, B1 and DEFER_ENROLLMENT remain.
+FC0–FC3 independent acceptance remains pending. The prior campaign entries and
+examples below retain their historical attribution; use the linked current
+runbook for implemented command names and future prerequisites.
+
 Owner update (2026-09-09): **DEFER_ENROLLMENT selected**; [acceptance and decision](citadel-commissioning-preparation-acceptance.md). The owner continues toward the Castellan interview and has not accepted a bounded native deployment or its workflow losses. All other real identity/key/signer/validity and operational prerequisites remain unresolved. The original proposal below is retained; its deployment/enrollment commands are not authorized by this choice.
 
 **REVIEWED PROPOSAL ONLY; NO INSTALLATION ACTION IS AUTHORIZED HERE.** First review the completed package, [owner decisions](citadel-commissioning-owner-decisions.md) and [compatibility matrix](citadel-commissioning-compatibility.md). Recommended disposition is defer enrollment until every affected workflow and custodian prerequisite is explicitly resolved. This campaign executes only generated-root rehearsal.

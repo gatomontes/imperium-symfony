@@ -12,7 +12,7 @@ $fixture = new CitadelFormationFixture();
 try {
     $intake = $fixture->receive();
     $id = $intake['intake_id'];
-    $castellan = $fixture->appoint();
+    $courtthane = $fixture->appoint();
     $understanding = $fixture->understand($id);
     $draft = $fixture->draft($id);
     $presentation = $fixture->present($id);
@@ -33,7 +33,7 @@ try {
         'boundary' => ['network_calls' => 0, 'real_credentials' => false, 'real_installation_changes' => false,
             'activation' => false, 'mission_execution' => false, 'semantic_competence_proven' => false],
         'native_institutional_installations' => $institutions,
-        'intake' => $intake, 'castellan' => $castellan, 'understanding' => $understanding,
+        'intake' => $intake, 'courtthane' => $courtthane, 'understanding' => $understanding,
         'draft' => $draft, 'review' => $review, 'reservation' => $reservation, 'handoff' => $handoff,
         'acceptance' => $acceptance, 'step_one_validation' => $validation,
         'provider_calls' => $fixture->transport->calls,

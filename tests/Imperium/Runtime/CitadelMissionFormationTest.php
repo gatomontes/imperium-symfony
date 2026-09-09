@@ -41,11 +41,11 @@ final class CitadelMissionFormationTest extends TestCase
     {
         $f = $this->f;
         $state = $f->journal->read()['state'];
-        $candidate = $f->candidate($state['citadel_id'], 'citadel.castellan');
+        $candidate = $f->candidate($state['citadel_id'], 'courtyard.courtthane');
         unset($candidate['examination']);
-        $terms = ['candidate' => $candidate, 'scope' => $state['citadel_id'], 'seat' => 'citadel.castellan', 'generation' => 1];
+        $terms = ['candidate' => $candidate, 'scope' => $state['citadel_id'], 'seat' => 'courtyard.courtthane', 'generation' => 1];
         try {
-            $f->run('appoint-castellan', ['candidate' => $candidate, 'decision' => $f->sign('APPOINT_CASTELLAN', $terms)]);
+            $f->run('appoint-courtthane', ['candidate' => $candidate, 'decision' => $f->sign('APPOINT_COURTTHANE', $terms)]);
             self::fail('Unexamined candidate appointed.');
         } catch (\RuntimeException $e) { self::assertStringContainsString('CMF043', $e->getMessage()); }
         $actor = $f->run('personnel-authority-source', ['role' => 'garrison']);

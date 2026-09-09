@@ -1,5 +1,9 @@
 # Formation claim custody — FC0–FC3 contract
 
+Current identity allocation is [Courtyard/Courtthane](courtyard-identity-compatibility.md).
+The enclosing Citadel, original protocol names, custody and accounting remain
+unchanged. FC0–FC3 independent acceptance remains pending.
+
 This adds an offline-testable, default-dormant consumer of genuine Citadel formation authority. It does not select a provider, amend B1, enroll native or formation trust, confer ProtectedMission competence, or authorize commissioning. Owner disposition remains DEFER_ENROLLMENT. Existing [formation semantics](citadel-formation-runtime.md) and CF01/CF02/IR01 remain controlling.
 
 ## Producer and consumer boundaries
@@ -8,7 +12,7 @@ All paths below are relative to `src/Imperium/Runtime/`.
 
 | Fact | Authoritative producer / retained source | Custody consumer |
 | --- | --- | --- |
-| Institutional actor and parent instance | `Citadel/Formation/FormationInstitution`; actual root installation and current occupancy; public-only delegated evidence | `FormationPersonnel` revalidates candidate lineage and current Castellan/Locksmith; no imported claim establishes an actor |
+| Institutional actor and parent instance | `Citadel/Formation/FormationInstitution`; actual root installation and current occupancy; public-only delegated evidence | `FormationPersonnel` revalidates candidate lineage and current Courtthane/Locksmith; no imported claim establishes an actor |
 | Owner effect, exact terms, revocation | `FormationSignatures::verify`, aggregate trust and revoked decisions | Shared `FormationSessionAuthority::validateSession`; exact signature, phase, source, currentness, refusal history and understanding closure |
 | Holder and phase source | `FormationCognition::authorizationSource`; intake/opening exchange, separate exact drafting request, or receiving handoff | `FormationSessionAuthority::source/request`; exact retained request, cognitive artifact, holder, visible context and registry generation |
 | Provider/resource and planning decision | `Imperator/GovernanceProviderResourceDecisionService::formationSession` at grant | Recomputed authentic decision equals retained session decision; drafting retains separate Planning Authorization |

@@ -1,6 +1,7 @@
-# Citadel mission intake, proposal and Curia handoff
+# Courtyard mission intake, proposal and Curia handoff within Citadel
 
-Status: approved target direction; production implementation unverified.
+Status: implemented for local offline review; live commissioning remains blocked.
+Current identity: [Courtyard compatibility](courtyard-identity-compatibility.md).
 Decision: owner-approved revision following interview Preparation Batch 0.
 Inherits: /imperium-doctrine.md.
 Related: [mission-planning.md](mission-planning.md).
@@ -9,7 +10,7 @@ Implementation decisions provisionally accepted after Citadel Batch 0:
 
 ## Purpose and ownership
 
-Citadel receives requests across its Curia instances, discusses them with the
+Courtyard receives requests across Citadel's Curia instances, discusses them with the
 Imperator, checks existing work, prepares proposals when authorized, and arranges
 handoff of approved missions to new mission-specific Curiae. Citadel coordinates
 the collection; each Curia governs its own assigned mission.
@@ -26,9 +27,9 @@ No separate Secretariat Office or additional executive approval layer is created
 by this decision. Existing direct authenticated access remains available when
 clerical support is absent.
 
-Citadel's interview, relevance judgment and proposal preparation belong to
-Castellan, its owner-selected cognitive officer. Implementation must establish
-his Seat, qualification, mandate and actual cognition binding; an orchestration
+Courtyard's interview, relevance judgment and proposal preparation belong to
+Courtthane, its permanent Legate at `courtyard.courtthane`. The runtime checks
+his exact Seat, qualification, appointment and actual cognition binding; an orchestration
 service cannot pretend to make those judgments. Assignment alone does not qualify,
 appoint or activate a manifestation. Do not
 automatically borrow a mission's Seneschal, invent a new Legate, or treat a
@@ -36,11 +37,11 @@ mechanical appointment as selection, qualification or a source of authority.
 
 ## Default sequence
 
-1. **Receive and route.** Preserve the exact request at Citadel. Identify existing
+1. **Receive and route.** Preserve the exact request at Courtyard. Identify existing
    mission inquiries without creating another mission. Ambiguity is discussed
    with the Imperator. Intake persistence is distinct from metered cognition.
-2. **Understand the request and compare existing work.** The competent Citadel
-   cognitive officer conducts the conversation directly with the Imperator.
+2. **Understand the request and compare existing work.** Courtthane
+   conducts the conversation directly with the Imperator.
    Registry facts inform comparison with pending, active and relevant completed
    work. Questions and challenges serve understanding of intent, outcome and
    constraints. Consult another Seneschal only when existing records cannot
@@ -60,7 +61,7 @@ mechanical appointment as selection, qualification or a source of authority.
    authority machinery; it is not approval of the eventual mission. Decline or
    deferral preserves the request and closes or suspends its applicable resources.
    Returning later preserves information but does not revive expired authority.
-6. **Draft and present at Citadel.** After drafting approval, Citadel prepares
+6. **Draft and present at Courtyard.** After drafting approval, Courtyard prepares
    the actual proposal and numbered dossier and presents it to the Imperator.
    Investigation, other Offices, protected data or external actions are permitted
    only where expressly covered by valid planning authority. Otherwise disclose
@@ -82,7 +83,9 @@ mechanical appointment as selection, qualification or a source of authority.
    approval; historical approval cannot authorize changed scope. Only valid
    downstream commissions and execution prerequisites permit work.
 
-These steps describe institutional order, not invented commands or schema names.
+Implemented command names and retained protocol identities are mapped in
+[the Courtyard runbook](../docs/courtyard-identity-runbook.md).
+These steps describe institutional order.
 They occur by default without requiring governance wording in the mission request.
 
 ## Overlap and concurrency

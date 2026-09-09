@@ -1,4 +1,10 @@
-# Citadel formation runtime, version 1
+# Courtyard formation runtime within Citadel
+
+CY0–CY3 identity changes are governed by
+[Courtyard compatibility](courtyard-identity-compatibility.md). The retained
+Citadel source/wire names preserve one jurisdiction and custody domain. Fresh
+Courtthane evidence is independent of historical Castellan evidence. FC0–FC3
+independent acceptance remains pending.
 
 FC0–FC3 adds the versioned [formation claim custody contract](citadel-formation-claim-custody.md): optional exact signed transport terms, v2 prepared claims, durable one-use custody and default-dormant adapter seams. Existing v1 evidence/recovery remains unchanged; no live authority or B1 amendment follows.
 
@@ -9,7 +15,7 @@ commission execution, or confer semantic competence on a fake response.
 
 ## Jurisdiction and institutional provenance
 
-`citadel.castellan` is a Citadel Seat for reception, relevance judgment, bounded
+`courtyard.courtthane` is the Courtyard LEGATE Seat for reception, relevance judgment, bounded
 interview, attributable understanding, and separately authorized proposal work.
 It is not a root principal, bootstrap Officer, replacement Seneschal, personnel
 selector, resource approver, or execution commander. This mandate supersedes the
@@ -45,7 +51,7 @@ treated as a founding incumbent. Real deployment must resolve that specific
 adapter when applicable. Synthetic proof creates its pre-existing institutions
 through the same root-installation producer in a newly generated temporary root.
 
-Castellan and the formation Locksmith have separately signed appointment terms:
+Courtthane (`APPOINT_COURTTHANE`) and the formation Locksmith have separately signed appointment terms:
 `candidate`, `scope`, `seat`, `generation`. Succession invalidates affected grants.
 Each child has separate Seneschal, Chamberlain and Secretary/Isolde manifestations.
 The mission presentation names the exact eligible candidates; it does not choose

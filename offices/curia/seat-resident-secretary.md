@@ -30,7 +30,7 @@ The occupant may:
 
 The occupant may not:
 
-- replace the Seneschal's substantive judgment or act as Citadel reception by implication;
+- replace the Seneschal's substantive judgment or act as Courtyard reception by implication;
 - become a mandatory gateway to Curia;
 - decide mission substance or answer sufficiency beyond exact responsiveness;
 - rewrite Operator intent or Curial dispositions;

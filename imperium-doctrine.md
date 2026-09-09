@@ -77,22 +77,25 @@ Delegation cannot enlarge its source. Every derived commission must cite exactly
 
 A material amendment creates a new authorization-object version. Approval of one version never floats to another object, version, or phase. Affected planning or execution pauses until the new version receives valid approval from competent authority; unaffected work may continue only when the governing Charter or Plan explicitly permits that separation.
 
-#### Citadel mission formation and mission-specific Curiae
+#### Courtyard mission formation within Citadel and mission-specific Curiae
 
 Citadel coordinates its mission-specific Curia instances. For a new request,
-Citadel owns reception, cross-mission overlap discussion, the cognitive interview
-and proposal preparation. The exact competent cognitive holder must be established;
+Courtyard owns reception, cross-mission overlap discussion, the cognitive interview
+and proposal preparation within that enclosing jurisdiction. Courtthane is its
+permanent Office-bound Legate at `courtyard.courtthane`; his exact qualification
+and appointment must be established. Castellan oversight remains deferred, with
+no implemented powers. Historical Castellan evidence cannot appoint Courtthane;
 mechanical orchestration is not cognitive judgment. A request does not require
 a provisional Curia or a separate Secretariat.
 
 The interview concludes with attributable understanding. That declaration does
-not start proposal drafting. Citadel separately requests the Imperator's approval
+not start proposal drafting. Courtthane separately requests the Imperator's approval
 to draft under disclosed scope, resources and limits; actual proposal elaboration
 requires that valid decision under applicable planning authority. Interview
 cognition itself requires its own legitimate authority before use. This canon
 creates no standing spend grant.
 
-Citadel presents the proposal for a separate exact-version mission decision.
+Courtyard presents the proposal for a separate exact-version mission decision.
 Only after mission approval may the competent path establish the new mission
 Curia and its officers and hand off the approved context and authority references.
 The receiving Seneschal assesses the handoff and governs that mission; each
@@ -103,8 +106,10 @@ Existing mission inquiries can route directly to their Curia.
 This allocation supersedes the earlier assumption that each new request begins
 inside a mission Curia. It does not reassign personnel jurisdiction, grant
 appointment authority, reopen a founding window or activate amended Profiles.
-The target sequence and pending implementation decisions are recorded in
-/contracts/citadel-mission-intake.md.
+The sequence is recorded in /contracts/citadel-mission-intake.md; exact runtime
+and historical compatibility are governed by
+/contracts/courtyard-identity-compatibility.md. Understanding, drafting approval,
+mission approval and execution remain separate gates.
 
 #### Runtime identity and governance binding
 

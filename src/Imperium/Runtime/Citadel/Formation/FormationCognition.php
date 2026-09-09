@@ -58,7 +58,7 @@ final readonly class FormationCognition
     {
         return $this->journal->change(function (array &$state) use ($intakeId, $charter): array {
             $intake = $state['intakes'][$intakeId] ?? throw new \RuntimeException('CMF012_INTAKE_ABSENT');
-            $holder = $this->personnel->currentCastellan($state);
+            $holder = $this->personnel->currentCourtthane($state);
             $understanding = $intake['understanding'] ?? [];
             if (($understanding['holder_digest'] ?? null) !== FormationJournal::digest($holder)
                 || ($understanding['intent_version'] ?? null) !== $intake['intent_version']
@@ -73,7 +73,8 @@ final readonly class FormationCognition
             foreach (['scope', 'questions', 'inputs', 'disclosure', 'expected_return', 'stop_conditions', 'amendment_triggers', 'retention'] as $field) {
                 if (!is_string($charter[$field]) || '' === trim($charter[$field])) { throw new \RuntimeException('CMF052_CHARTER_INVALID_OR_INVESTIGATION_COMMISSION_REQUIRED'); }
             }
-            $request = ['schema' => 'imperium.citadel-drafting-request/v1', 'intake_id' => $intakeId,
+            $request = ['schema' => 'imperium.citadel-drafting-request/v2', 'intake_id' => $intakeId,
+                'approval_question' => 'I understand. I am ready to draft a proposal. Do you approve?',
                 'intent_version' => $intake['intent_version'], 'understanding_digest' => FormationJournal::digest($understanding),
                 'holder_digest' => FormationJournal::digest($holder), 'charter' => $charter,
                 'charter_version' => 1, 'status' => 'DRAFTING_REQUEST_PENDING_EXACT_DECISION',
@@ -262,7 +263,7 @@ final readonly class FormationCognition
                     || ($response['disposition'] === 'QUESTION' && '' === trim($response['question']))) {
                     throw new \RuntimeException('CMF061_INTERVIEW_RESPONSE_INVALID_NO_PROPOSAL_ALLOWED');
                 }
-                $intake['exchange'][] = ['sequence' => count($intake['exchange']) + 1, 'kind' => 'castellan-response', 'attribution' => $record];
+                $intake['exchange'][] = ['sequence' => count($intake['exchange']) + 1, 'kind' => 'courtthane-response', 'attribution' => $record];
                 if ($response['disposition'] === 'UNDERSTOOD') {
                     $intake['understanding'] = $record;
                     // Admission and closure share the journal transaction. Fence every

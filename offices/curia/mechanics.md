@@ -13,7 +13,7 @@ These mechanics preserve, correlate, version, and route Curia's work. They do no
 
 ## Current allocation and legacy implementation
 
-Citadel owns new-request intake, understanding, the distinct request/approval to
+Courtyard owns new-request intake, understanding, the distinct request/approval to
 draft and proposal presentation under /contracts/citadel-mission-intake.md.
 A new mission Curia receives an approved handoff only through competent
 constitution and appointment. It governs that mission and retains its own Isolde.
@@ -24,7 +24,7 @@ The receiving Seneschal's handoff acceptance is not a second mission approval
 or execution authority.
 
 The command descriptions below document the existing Curia-first development
-slice. They are preserved as implementation evidence, not as current Citadel
+slice. They are preserved as implementation evidence, not as current Courtyard
 entry semantics. Reuse requires explicit issuer, identity, scope and consumer
 mapping. No new production command or schema is asserted by this source change.
 

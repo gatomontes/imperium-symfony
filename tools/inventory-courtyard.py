@@ -7,6 +7,21 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 ENTRY = 'b1a8378668ecd9f4e4c1502411a2713111915535'
+CHAIN = {
+ 'FormationPersonnel.php': ('FormationInstitution; FormationSignatures; Garrison/Guildhall/Laboratorium/Senate/Conscription', 'FormationSessionAuthority; FormationCognition; CuriaFormationService; ChildCuriaFormationService; FormationSessionLeaseService'),
+ 'FormationCognition.php': ('CitadelIntakeService; FormationPersonnel; exact owner decision; FormationSessionAuthority', 'GovernanceProviderResourceDecisionService; FormationSessionLeaseService; FormationClaimCustodyBroker; ReceivingFormationHandoffService'),
+ 'FormationSessionAuthority.php': ('Retained intake/drafting request/handoff; exact Courtthane or Seneschal; FormationSignatures', 'FormationCognition; FormationClaimCustodyBroker'),
+ 'FormationJournal.php': ('Immutable hash-linked aggregate frames; AtomicTransition', 'All formation commands; custody and child publication/reconciliation'),
+ 'FormationPreparation.php': ('Explicit public input and Clock; no runtime custody', 'External signing exchange; exact production appointment/grant consumers'),
+ 'FormationProfileContract.php': ('Signed Laboratorium Officer Profile with exact Persona/Seat/version', 'FormationPersonnel::candidate; FormationOfficerAssemblyService'),
+ 'FormationOfficerAssemblyService.php': ('FormationPersonnel complete authenticated qualification chain', 'Exact appointment binding; currentness; claim/lease holder'),
+ 'FormationClaimCustodyBroker.php': ('Retained exact session/claim/operation and shared current authority', 'CredentialBroker issue/consume; FormationWireAdapter dispatch; response envelope'),
+ 'FormationSessionLeaseService.php': ('Current holder/Locksmith; exact authentic session; aggregate reservation', 'FormationCognition durable start; FormationClaimCustodyBroker complete derivation comparison'),
+ 'ChildCuriaFormationService.php': ('Exact approved reservation and current Courtthane; qualified child candidates', 'Immutable child receipt; FormationPublicationEvidence; CuriaFormationService reconciliation'),
+ 'FormationPublicationEvidence.php': ('Original retained frame/fence/publication and institutional signatures', 'ChildCuriaFormationService::reconcile; no new-effect authorization'),
+ 'CuriaFormationService.php': ('Courtthane dossier; distinct exact mission approval and child qualifications', 'MasterMason publication; original handoff; Seneschal receiving; non-executing Step 1'),
+ 'ReceivingFormationHandoffService.php': ('Exact child Seneschal approved handoff and admitted assessment', 'Child receipt store; CuriaFormationService::validateStepOne'),
+}
 
 def git(*args):
     return subprocess.check_output(['git', *args], cwd=ROOT)
@@ -40,7 +55,7 @@ def produce(ref, output):
         meta, path = entry.split('\t'); mode, typ, blob = meta.split()
         end=batch.index(b'\n',offset); size=int(batch[offset:end].split()[-1]); offset=end+1
         data=batch[offset:offset+size]; offset+=size+1
-        if typ != 'blob' or path.startswith(('.env', 'runtime/')):
+        if typ != 'blob' or path.startswith('.env') or path in ('docs/courtyard-identity-inventory.tsv','docs/courtyard-identity-residual-audit.tsv'):
             continue
         if b'\0' in data:
             continue
@@ -48,8 +63,9 @@ def produce(ref, output):
             if not re.search('citadel|castellan', line, re.I):
                 continue
             cat, action, reason = category(path, line)
+            producer,consumer=CHAIN.get(path.split('/')[-1],('Author/source at Git blob '+blob,'Exact consumers and retained categories in compatibility contract'))
             rows.append([f'{path}:{number}', line.strip().replace('\t',' ')[:700], cat,
-                         'entry source '+blob, 'see exact chain in compatibility contract', action, reason,
+                         producer, consumer, action, reason,
                          'CourtyardIdentityTest; FormationClaimCustodyTest; existing formation/native/coverage gates',
                          hashlib.sha256(data).hexdigest()])
     with (ROOT/output).open('w', encoding='utf-8', newline='') as handle:

@@ -10,7 +10,7 @@ inherits:
 
 ## Constitutional purpose
 
-Curia is the government of one approved mission-specific Imperium instance. Citadel owns new-request intake, overlap discussion, understanding, drafting-permission presentation and proposal preparation. After exact mission approval and competent constitution, Curia receives the approved context and authority references, governs bounded mission planning/amendments and orchestrates authorized execution.
+Curia is the government of one approved mission-specific Imperium instance. Courtyard owns new-request intake, overlap discussion, understanding, drafting-permission presentation and proposal preparation within Citadel. Courtthane is its exact qualified and appointed Legate. After exact mission approval and competent constitution, Curia receives the approved context and authority references, governs bounded mission planning/amendments and orchestrates authorized execution.
 
 One Curia governs one mission; a containing Citadel coordinates multiple Curia instances. A new inquiry does not instantiate a provisional Curia. The target allocation is /contracts/citadel-mission-intake.md; existing runtime instance and identity mappings require explicit implementation verification.
 
@@ -38,7 +38,7 @@ The Imperator is not an ordinary Curialis.
 
 ### Seneschal
 
-The Seneschal receives the approved mission handoff from Citadel, including the original exchange, rationale, objections and unresolved questions. He assesses understanding and responsibility within the exact mandate, clarifies genuine gaps and may contest incompatibilities. Acceptance is not a second Imperator approval or permission to execute; unchanged approved terms need not be reapproved. The initial cross-mission interview belongs to Citadel's competent cognitive holder, not automatically to a mission-bound Seneschal.
+The Seneschal receives the approved mission handoff from Courtyard, including the original exchange, rationale, objections and unresolved questions. He assesses understanding and responsibility within the exact mandate, clarifies genuine gaps and may contest incompatibilities. Acceptance is not a second Imperator approval or permission to execute; unchanged approved terms need not be reapproved. The initial cross-mission interview belongs to Courtthane; no reception grant passes to a mission-bound Seneschal.
 
 The Seneschal presides over Curia and renders executive mission decisions within the exact delegated mandate. The Seneschal governs deliberation, weighs evidence and tradeoffs, determines whether the active question is resolved, and escalates protected commitments to the Imperator.
 
@@ -52,7 +52,7 @@ The Chamberlain does not render Seneschal dispositions and does not inherit exec
 
 ### Secretary
 
-Each Curia's Secretary is a cognitive secretary for that mission. Isolde receives and preserves its communications, coordinates clarification with its Seneschal and maintains the exact conversation record and provenance. Citadel receives new cross-mission requests. The Secretary neither substitutes for the competent executive nor determines understanding for him. The Secretary may relay an exact attributed question or flag a possible nonresponse for his judgment, without filtering out substantive disagreement or inventing an answer.
+Each Curia's Secretary is a cognitive secretary for that mission. Isolde receives and preserves its communications, coordinates clarification with its Seneschal and maintains the exact conversation record and provenance. Courtyard receives new cross-mission requests. The Secretary neither substitutes for the competent executive nor determines understanding for him. The Secretary may relay an exact attributed question or flag a possible nonresponse for his judgment, without filtering out substantive disagreement or inventing an answer.
 
 The Secretary is an internal Curial officer, not an institutional gateway standing outside Curia. Vacancy in the Secretary Seat cannot block direct authenticated access by the Imperator.
 
@@ -62,10 +62,11 @@ Curiales contribute bounded mission-specific judgment. Their expertise informs C
 
 ## Planning and authorization
 
-Citadel conducts initial mission formation under /contracts/citadel-mission-intake.md.
+Courtyard conducts initial mission formation under /contracts/citadel-mission-intake.md
+and /contracts/courtyard-identity-compatibility.md.
 “I understand” concludes the interview but does not begin actual drafting.
 The Imperator must separately approve the disclosed drafting request before
-Citadel elaborates a proposal; mission approval is a later exact-version decision.
+Courtyard elaborates a proposal; mission approval is a later exact-version decision.
 
 After the mission's approved handoff, Curia works within its exact mandate.
 It may clarify, recommend amendments, or prepare a bounded planning request.
