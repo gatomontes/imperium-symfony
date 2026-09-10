@@ -1,3 +1,7 @@
+> Next selected local batch: [O1-B1 response validation](next-campaign-provider-onboarding-o1-response-validation.md).
+> [Implementation roadmap](provider-onboarding-implementation-roadmap.md): two batches remain in O1; eight planned across O1–O5.
+> O1-B0 is complete. Live commissioning remains deferred.
+
 > Integration correction: [preserve pinned services.yaml with class-level exclusions](provider-onboarding-o1-ci-correction.md).
 > Original Windows validation remains historical; the corrected head requires fresh PR CI.
 
