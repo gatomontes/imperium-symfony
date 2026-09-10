@@ -177,3 +177,9 @@ Implement in `src/Imperium/Runtime/Onboarding/BaseSelection/` with focused tests
 services.yaml, dependencies, B0/B1 implementation/tests, historical evidence and
 original approved bytes unchanged. The [campaign](../docs/next-campaign-provider-onboarding-o1-base-selection.md)
 defines the required adversarial proof and local review handoff.
+# Implemented internal shape
+
+The [internal projection format](../docs/provider-onboarding-base-selection-input.md)
+specifies the O1-B2 PHP input/result boundary and supported arithmetic range.
+The [local report](../docs/handoffs/provider-onboarding-o1-b2-report.md) records
+implementation evidence; source review, full CI and integration remain pending.

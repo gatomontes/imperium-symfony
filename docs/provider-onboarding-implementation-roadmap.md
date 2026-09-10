@@ -11,7 +11,7 @@ The owner asked how much remains and then directed â€œOk. Let us press forward.â
 | O0 | Source-bound contracts, authority map, selected provider/policy and medium-capacity rule | Integrated preparation; historical review qualifications retained |
 | O1-B0 | Pure target selector, strict input projections, coupled whole-set refusal and tests | Complete; integrated |
 | O1-B1 | Complete W1/W2/W3 response parsing and frozen-context consistency validation; no admission authority | Complete; reviewed and integrated in PR #784 |
-| O1-B2 | Least-cost eligible Augur base proposal using exact comparison arithmetic, fixed workload, freshness and deterministic exclusions/ties | SELECTED_FOR_NEXT_LOCAL_IMPLEMENTATION; preparation only here |
+| O1-B2 | Least-cost eligible Augur base proposal using exact comparison arithmetic, fixed workload, freshness and deterministic exclusions/ties | Implemented and locally validated; source review, full CI and integration pending. See [implementation report](handoffs/provider-onboarding-o1-b2-report.md). O1 remains open. |
 | O2-B0 | Original policy/act/reference admission and current authority checks for the selected bootstrap route | Planned |
 | O2-B1 | Shared Citadel sequence/command/step ledger, bounded claims, atomic consumption, replay and unknown-outcome fences | Planned |
 | O3-B0 | DeepSeek API-key custody/adapter boundary, exact request/response/usage mapping and typed unknown failures, tested offline | Planned |
