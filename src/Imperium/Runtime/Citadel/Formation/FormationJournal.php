@@ -64,10 +64,20 @@ final readonly class FormationJournal
 
     public function change(callable $transition): mixed
     {
+        return $this->changeAtHead(static function (array &$state, array $head) use ($transition): mixed {
+            return $transition($state);
+        });
+    }
+
+    /** The predecessor head and mutable state are observed under the same lock.
+     * The head is an observation, never competence or an execution capability.
+     */
+    public function changeAtHead(callable $transition): mixed
+    {
         return $this->atomic->run('citadel-formation', function () use ($transition): mixed {
             $prior = $this->latest();
             $state = $prior['state'];
-            $result = $transition($state);
+            $result = $transition($state, ['generation' => $prior['generation'], 'digest' => $prior['record_digest']]);
             if (self::digest($state) === self::digest($prior['state'])) {
                 return $result;
             }
