@@ -24,7 +24,7 @@ final readonly class Resolver
                 $p=Act::verify($this->store,$s,$a['envelope'],$a['object']);
                 Rules::require($p['effect']===$effect && Rules::same(Rules::reference($a['object']),$termsRef),'EXACT_TERMS');
                 $terms=$this->store->checkSource($s,$termsRef);
-                if ($p['policy_ref']!==null) { Admission::signedTerms($this->store->checkSource($s,$p['policy_ref']),$terms,$effect); }
+                if ($p['policy_ref']!==null) { Admission::signedTerms($this->store->checkSource($s,$p['policy_ref']),$terms,$effect,$this->store->now()); }
             } else {
                 Rules::object($authority,['kind','policy_ref','policy_admission_ref','slot_id','slot_digest','terms_ref','derivation_input_refs']);
                 $a=$this->findAdmission($s,$authority['policy_admission_ref']);

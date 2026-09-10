@@ -26,6 +26,11 @@ final class Act
         Rules::require(!isset($s['revocations']['act:'.$p['nonce']]),'ACT_REVOKED');
         Rules::require($p['object_digest']===Rules::hash($object),'ACT_OBJECT');
         Rules::require(sodium_crypto_sign_verify_detached(Rules::bytes($e['signature'],64),CanonicalJson::encode($p),Rules::bytes($t['public_key'],32)),'SIGNATURE');
+        // A longer-lived signature cannot keep its expired policy (or sources
+        // whose first admission is that policy) current. Historical replay skips verify.
+        if ($object['schema']==='imperium.operator-bootstrap-policy/v1') {
+            Rules::require($object['created_at']<=$now && $now<Rules::time($object['body']['expires_at']),'POLICY_CURRENT');
+        }
         if ($p['policy_ref']!==null) {
             $h=$store->lookup($s,$p['policy_ref']); Rules::require($h['schema']==='imperium.operator-bootstrap-policy/v1','POLICY_SOURCE');
             Rules::require(!isset($s['revocations']['policy:'.$h['id']]) && $now<$h['body']['expires_at'] && $p['expires_at']<=$h['body']['expires_at'],'POLICY_CURRENT');

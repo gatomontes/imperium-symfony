@@ -130,3 +130,25 @@ Missing/unsupported/already revoked targets refuse. Originals remain retained.
 Enrollment alone sets the fixed Citadel identity and onboarding subtree while
 preserving prior aggregate data. Protected storage remains the custody boundary
 against wholesale frame-chain replacement, as in FormationJournal.
+
+## O2-B0 correction currentness boundary
+
+New admission and current resolution check the unique matching signed-act slot
+against the trusted clock under the owning journal lock. Validity is half-open:
+policy.created_at <= now < slot.expires_at. Multiple matching slots refuse as
+O2_AMBIGUOUS_SIGNED_SLOT; the envelope has no selector, so another live slot cannot
+conceal an expired match. Historical recognition remains immutable and grants no
+current authority.
+
+Incoming exact records already retained must first pass currentness checks against
+their original retained admission and source graph under that same lock. The first
+provenance entry is preserved; resupply cannot bypass revocation or expiration,
+and refusal publishes no frame. Current signed policy originals and policy-origin
+sources additionally require policy.created_at <= now < policy.expires_at, even
+when their signing act remains valid. Before/at/after boundaries and coordinated
+revocation/admission orderings are covered through real producers at temporary roots.
+
+The two runtime inventory rows use the existing additive classification mechanism
+for dormant static admission/observation paths. They confer no operational approval,
+consumption, reservation or effect. See the
+[correction report](handoffs/provider-onboarding-o2-b0-correction-report.md).

@@ -34,8 +34,13 @@ final readonly class Admission
                 Rules::require(++$visits<=8192,'SOURCE_VISIT_LIMIT');
                 Rules::require($depth<=16,'SOURCE_DEPTH'); $k=Rules::key($ref);
                 Rules::require(!isset($visiting[$k]),'SOURCE_CYCLE');
-                if (!isset($bundle[$k])) { return $this->store->checkSource($s,$ref); }
+                if (!isset($bundle[$k])) { return $this->store->checkSource($s,$ref,$visiting,$depth,$visits); }
                 $r=$bundle[$k];
+                // Resupply cannot erase the first admission's expiry/revocation lineage.
+                if (isset($s['evidence'][$k]) || isset($s['policies'][$k])) {
+                    $retained=$this->store->checkSource($s,$ref,$visiting,$depth,$visits);
+                    Rules::require(Rules::same($retained,$r),'SOURCE_IDENTITY');
+                }
                 $visiting[$k]=true; Rules::require($r['created_at']<=$this->store->now(),'FUTURE_SOURCE');
                 foreach ($r['sources'] as $source) { $visit($source,$depth+1); }
                 unset($visiting[$k]); $seen[$k]=true; return $r;
@@ -68,7 +73,7 @@ final readonly class Admission
                 self::terms($h,$p['effect']);
                 $policy=$this->store->checkSource($s,$p['policy_ref']);
                 Rules::require(in_array($p['effect'],$policy['body']['allowed_effects'],true),'POLICY_EFFECT');
-                self::signedTerms($policy,$h,$p['effect']);
+                self::signedTerms($policy,$h,$p['effect'],$this->store->now());
                 $visit($h['body']['terms']);
                 // Retention preserves prerequisites, but does not claim they have completed.
                 foreach ($h['body']['required_completed_refs'] as $ref) { $visit($ref); }
@@ -102,14 +107,20 @@ final readonly class Admission
         $sources=array_map(Rules::key(...),$h['sources']);
         foreach ([$b['terms'],...$b['required_completed_refs']] as $ref) { Rules::require(in_array(Rules::key($ref),$sources,true),'TERMS_SOURCE_LINK'); }
     }
-    public static function signedTerms(array $policy,array $object,string $effect): void {
+    public static function signedTerms(array $policy,array $object,string $effect,int $now): void {
+        $matches=[];
         foreach ($policy['body']['effect_slots'] as $slot) {
             if ($slot['effect']!==$effect || $slot['authority_mode']!=='signed_act') { continue; }
             $rule=$slot['terms_rule'];
-            if ($rule['kind']==='exact' && Rules::same($rule['object_ref'],Rules::reference($object))) { return; }
-            if ($rule['kind']==='eligible_binding' && in_array(Rules::key(Rules::reference($object)),array_map(Rules::key(...),$rule['permitted_object_refs']),true)) { return; }
+            if (($rule['kind']==='exact' && Rules::same($rule['object_ref'],Rules::reference($object)))
+                || ($rule['kind']==='eligible_binding' && in_array(Rules::key(Rules::reference($object)),array_map(Rules::key(...),$rule['permitted_object_refs']),true))) {
+                $matches[]=$slot;
+            }
         }
-        throw new \RuntimeException('O2_SIGNED_TERMS_OUTSIDE_POLICY');
+        Rules::require($matches!==[],'SIGNED_TERMS_OUTSIDE_POLICY');
+        // The envelope has no slot selector; never substitute another matching/live slot.
+        Rules::require(count($matches)===1,'AMBIGUOUS_SIGNED_SLOT');
+        Rules::require($policy['created_at']<=Rules::time($now) && $now<Rules::time($matches[0]['expires_at']),'SIGNED_SLOT_CURRENT');
     }
     public static function retained(array $s,string $key): array {
         $a=$s['acts'][$key]??null; $receipt=$s['admissions'][$key]??null;
