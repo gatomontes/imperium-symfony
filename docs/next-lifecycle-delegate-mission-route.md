@@ -1,3 +1,7 @@
+> Current next implementation: [O2-B0 authority admission](next-campaign-provider-onboarding-o2-authority-admission.md).
+> O1 is complete within offline scope; six implementation batches remain across O2–O5.
+> Earlier campaign/status notices below are historical. Later stages and live commissioning remain unselected.
+
 > Next selected local implementation: [O1-B2 base selection](next-campaign-provider-onboarding-o1-base-selection.md).
 > [Roadmap](provider-onboarding-implementation-roadmap.md): B0/B1 are integrated; one O1 batch and seven across O1–O5 remain.
 > This is B2 preparation only. Earlier next-batch notices below are historical; live commissioning remains deferred.

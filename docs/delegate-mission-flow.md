@@ -1,3 +1,33 @@
+# Current flow — O1 closeout and O2-B0 preparation
+
+O1's target selector, response validator and least-cost base proposal are reviewed
+and integrated, ending with PR #786. [Review](reviews/provider-onboarding-o1-b2-source-evidence-review.md)
+· [Current status](provider-onboarding-o1-current-status.md)
+· [Roadmap](provider-onboarding-implementation-roadmap.md).
+
+| Stage | Current disposition |
+| --- | --- |
+| CY / FC | Accepted and integrated offline; genuine live prerequisites remain |
+| O0 / O1 | Preparation and all three offline implementation batches complete |
+| O2-B0 | Prepared/selected next: original admission and current authority checks |
+| O2-B1 | Unselected: shared ledger, consumption, resource and custody enforcement |
+| O3-B0 / O3-B1 | Unselected: adapter and legitimate FRESH founding/assessment bridge |
+| O4-B0 / O5-B0 | Unselected: atomic persistent application and offline CLI |
+| Live commissioning | Deferred; DEFER_ENROLLMENT and unresolved B1 remain |
+
+No O1 implementation batch remains; six remain across O2–O5. Start with the
+[O2-B0 campaign](next-campaign-provider-onboarding-o2-authority-admission.md) and
+[local launch](handoffs/provider-onboarding-o2-authority-admission-ready.md).
+This pass prepares documents only. Authority admission must not treat an O1
+projection or synthetic signature as genuine installed competence. Citadel remains
+jurisdiction, courtyard.courtthane the LEGATE and oracle.augur separate. Settled
+DeepSeek/API-key/FRESH/D2-A choices and persistent operator settings remain.
+
+Earlier flow snapshots below are historical, including their formerly current
+campaign/deferral/selection language. They do not supersede this current route.
+
+---
+
 > Current continuation: [O1-B2 base-selection campaign](next-campaign-provider-onboarding-o1-base-selection.md)
 > and [local launch](handoffs/provider-onboarding-o1-base-selection-ready.md).
 > O1-B0/B1 are integrated; this pass prepares/selects B2 only. One O1 batch and seven
