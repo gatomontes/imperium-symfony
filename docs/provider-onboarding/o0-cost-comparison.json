@@ -1,0 +1,52 @@
+{
+  "artifact_kind": "CONDITIONAL_PUBLIC_TARIFF_ARITHMETIC",
+  "assumptions": [
+    "Proposed token bounds actually hold, including request overhead and every billable generated token.",
+    "No unmodelled fixed/minimum/account/tax/conversion charges.",
+    "Retained peak tariff applies throughout future policy interval.",
+    "Access charge is independently established zero."
+  ],
+  "cache_discount_used": false,
+  "disposition": "NO_ELIGIBLE_BASE_PROVEN; no paid probe, winner or runnable budget guarantee.",
+  "formula": "ceil(input_tokens * peak_cache_miss_rate_micro_usd / 1000000) + ceil(output_tokens * peak_output_rate_micro_usd / 1000000)",
+  "rounding_rule": "Engineering conservative ceil per meter to micro-USD, not a verified provider settlement rounding rule.",
+  "rows": [
+    {
+      "attempt_micro_usd": 12616,
+      "base_selected": false,
+      "currency": "USD",
+      "eligibility": "UNKNOWN",
+      "input_micro_usd_ceiled": 7209,
+      "input_quantity_proposed": 16384,
+      "model_id": "deepseek-v4-flash",
+      "nominal_arithmetic_under_selected_caps": true,
+      "output_micro_usd_ceiled": 5407,
+      "output_quantity_proposed": 4096,
+      "peak_cache_miss_rate_micro_usd": 440000,
+      "peak_output_rate_micro_usd": 1320000,
+      "rate_unit_tokens": 1000000,
+      "three_success_baseline_micro_usd": 37848,
+      "twelve_attempt_max_micro_usd": 151392
+    },
+    {
+      "attempt_micro_usd": 37848,
+      "base_selected": false,
+      "currency": "USD",
+      "eligibility": "UNKNOWN",
+      "input_micro_usd_ceiled": 21627,
+      "input_quantity_proposed": 16384,
+      "model_id": "deepseek-v4-pro",
+      "nominal_arithmetic_under_selected_caps": true,
+      "output_micro_usd_ceiled": 16221,
+      "output_quantity_proposed": 4096,
+      "peak_cache_miss_rate_micro_usd": 1320000,
+      "peak_output_rate_micro_usd": 3960000,
+      "rate_unit_tokens": 1000000,
+      "three_success_baseline_micro_usd": 113544,
+      "twelve_attempt_max_micro_usd": 454176
+    }
+  ],
+  "runnable": false,
+  "source_id": "pricing",
+  "source_sha256": "cf2c6fb2dd8a32a538f12a8176175b8809a3516326a5cb30dfe52d63c490a968"
+}

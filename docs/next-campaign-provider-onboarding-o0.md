@@ -1,3 +1,33 @@
+> Current onboarding status: [validated O1 offline selector and owner-authorized integration](provider-onboarding-o1-current-status.md).
+> Earlier PHP-validation-pending and local-only instructions below are historical for this batch.
+> Author-review provenance and all live deferrals remain explicit.
+
+> Current continuation: owner selected the bounded [O1 offline selection core](next-campaign-provider-onboarding-o1-offline-core.md).
+> O0 independent-review qualification remains; this selection grants no live authority.
+> Earlier O1 deferral below is historical only for this explicitly selected first batch.
+
+> Current selection decision: [medium capacity](provider-onboarding-medium-capacity-decision.md) supersedes the earlier
+> unspecified target-assignment choice. All other approved P1–P9 values remain.
+
+> Current owner decision: [P1–P9 approval](provider-onboarding-policy-approval.md) is recorded.
+> Earlier pending-value language is historical for those exact choices. Genuine
+> evidence and final O0 review remain open; O1–O5 and live work remain deferred.
+
+> Current O0 correction: [report](handoffs/provider-onboarding-o0-correction-report.md) and [decision/evidence card](provider-onboarding-current-decision-evidence-card.md).
+> The preceding provider/retry design is independently accepted as preparation with
+> a validator qualification. Its correction now awaits review; final O0 freeze remains
+> pending policy/evidence. Earlier status wording below is historical where superseded.
+> Settled DeepSeek/API-key/FRESH/D2-A/count/dollar choices remain; O1–O5 and live work stay deferred.
+
+> Current continuation: [selected-decision closure](handoffs/provider-onboarding-o0-selected-decisions-ready.md).
+
+> Current O0 provider closure: [report](handoffs/provider-onboarding-o0-provider-report.md). Selected choices are retained;
+> v1.3.1 and public templates await independent review and remaining evidence.
+> O0 only: no runnable policy, live onboarding or O1–O5 selection.
+> Owner selections: DeepSeek/API key, FRESH, D2-A, and three retries per assessment
+> call, at most twelve cognition attempts and $1.20 total. O0 remains pending exact
+> evidence/policy and review of the v1.3 retry amendment. O1–O5 remain deferred.
+
 # Provider Onboarding and Bootstrap Cognition — O0 contract preparation
 
 Status: **PROVIDER_ONBOARDING_O0_SELECTED**. The owner requested documentation
@@ -138,6 +168,25 @@ diff, referenced source identities, verification commands/results and payload
 SHA-256 manifest. Provide an outer archive hash separately. Record any post-check
 changes. Commit locally and stop for independent review; no push or merge is part
 of the local O0 runner. Never include private runtime material or credentials.
+
+## Single-file delivery requirement
+
+For this run and every subsequent Imperium handoff, collect all produced public
+handoff files into one top-level `<campaign>-all-deliverables.zip`. Include every
+report and independent review, created or revised document/contract/policy/decision
+sheet, run instructions, and the review evidence package with its existing
+checksum file. Preserve useful relative paths inside the ZIP and add a short
+`README.md` listing the contents and the first file to read. The owner must not
+have to collect files from multiple folders or upload separate documents manually.
+
+For local runs, write the convenience ZIP at the isolated worktree root and print
+its exact absolute path plus the one-file upload instruction. Keep the ZIP out of
+Git. For chat-produced deliverables, provide one download link to the convenience
+ZIP. Verify that the archive opens and contains the complete intended file set.
+No SHA-256 or separate checksum is required for this convenience ZIP; existing
+review-package hashes and manifests remain required and unchanged. Include only
+public handoff artifacts, preserving the existing private-material exclusion.
+Carry this requirement into every subsequent campaign and local launch prompt.
 
 All operational flags remain false. `DEFER_ENROLLMENT` remains selected. B1 remote
 cost/time/cancellation guarantees remain unresolved; O0 does not relax them.

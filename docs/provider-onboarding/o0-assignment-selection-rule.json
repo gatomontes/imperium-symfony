@@ -1,0 +1,23 @@
+{
+  "artifact_kind": "PUBLIC_PREPARATION_TEMPLATE",
+  "runnable": false,
+  "record_schema": "imperium.bootstrap-assignment-selection-rule/v1",
+  "runtime_body": {
+    "algorithm": "role_capacity_middle_tier_v1",
+    "capacity_basis": "augur_profile_specific_evidence_assessment",
+    "even_rule": "lower_middle",
+    "same_tier_tie_break": [
+      "provider",
+      "model_id",
+      "model_version",
+      "configuration_digest",
+      "profile_digest",
+      "binding_digest"
+    ],
+    "unknown_behavior": "refuse_when_multiple_eligible_candidates",
+    "group_roles": {
+      "W2": "courtyard.courtthane",
+      "W3": "clavium.locksmith"
+    }
+  }
+}
