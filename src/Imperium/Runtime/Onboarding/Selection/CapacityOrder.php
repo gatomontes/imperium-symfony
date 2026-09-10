@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Onboarding\Selection;
 
 /** Decodes only the capacity_order field of v2, not the full assessment. */
+#[\Symfony\Component\DependencyInjection\Attribute\Exclude]
 final readonly class CapacityOrder
 {
     private function __construct(public string $kind, public array $tiers, public ?string $reason, public array $evidenceRefs) {}

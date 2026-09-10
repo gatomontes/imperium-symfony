@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Onboarding\Selection;
 
 /** Pure calculation data. Not an act, receipt, assignment or permission. */
+#[\Symfony\Component\DependencyInjection\Attribute\Exclude]
 final readonly class SelectionResult
 {
     private function __construct(public string $role, public string $status, public ?Candidate $selected, public ?int $tierIndex, public array $eligible) {}

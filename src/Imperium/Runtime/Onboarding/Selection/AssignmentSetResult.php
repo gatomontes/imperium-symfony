@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Onboarding\Selection;
 
 /** Pure pair result; a refused result never exposes a partial selection. */
+#[\Symfony\Component\DependencyInjection\Attribute\Exclude]
 final readonly class AssignmentSetResult
 {
     public function __construct(public string $status, public ?SelectionResult $courtthane, public ?SelectionResult $locksmith)

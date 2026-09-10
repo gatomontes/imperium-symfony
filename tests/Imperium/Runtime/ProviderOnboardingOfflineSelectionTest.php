@@ -236,7 +236,11 @@ final class ProviderOnboardingOfflineSelectionTest extends TestCase
         $result = (new AssignmentSelector())->select(SelectionRule::decode(self::ruleBody()), self::input(['a'], ['a'], null));
         self::assertSame(['role', 'status', 'selected', 'tierIndex', 'eligible'], array_keys(get_object_vars($result)));
         $root = dirname(__DIR__, 3);
-        self::assertStringContainsString("- '../src/Imperium/Runtime/Onboarding/Selection/'", file_get_contents($root.'/config/services.yaml'));
+        foreach (glob($root.'/src/Imperium/Runtime/Onboarding/Selection/*.php') as $source) {
+            $class = 'App\\Imperium\\Runtime\\Onboarding\\Selection\\'.basename($source, '.php');
+            self::assertCount(1, (new \ReflectionClass($class))->getAttributes(\Symfony\Component\DependencyInjection\Attribute\Exclude::class), $class);
+        }
+        self::assertSame('ce13733ba4f5581517bcb42b0c752837616eb270981f3c95d4a89674660fe824', hash_file('sha256', $root.'/config/services.yaml'));
         $body = json_decode(file_get_contents($root.'/docs/provider-onboarding/o0-assignment-selection-rule.json'), true, 512, JSON_THROW_ON_ERROR)['runtime_body'];
         self::assertEquals(SelectionRule::decode($body), SelectionRule::decode(self::ruleBody()));
     }

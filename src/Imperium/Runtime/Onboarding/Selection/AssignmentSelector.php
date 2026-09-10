@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Onboarding\Selection;
 
 /** Offline pure core; never registered as a Symfony service in this batch. */
+#[\Symfony\Component\DependencyInjection\Attribute\Exclude]
 final class AssignmentSelector
 {
     public function select(SelectionRule $rule, RoleInput $input): SelectionResult

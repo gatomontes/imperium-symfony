@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Onboarding\Selection;
 
 /** Internal projection of an exact binding. Fitness is supplied, not established here. */
+#[\Symfony\Component\DependencyInjection\Attribute\Exclude]
 final readonly class Candidate
 {
     private function __construct(public RecordRef $ref, public array $identity) {}

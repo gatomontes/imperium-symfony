@@ -1,3 +1,6 @@
+> Integration correction: [preserve pinned services.yaml with class-level exclusions](provider-onboarding-o1-ci-correction.md).
+> Original Windows validation remains historical; the corrected head requires fresh PR CI.
+
 # Provider onboarding — current offline implementation status
 
 O0 contracts and the first O1 offline selection batch are complete as local preparation/implementation. The owner has authorized publication and integration: “push, merge, if you must. Proceed”. This supersedes earlier local-only/no-push instructions for these source changes. It does not authorize live activity or claim an independent review that did not occur.

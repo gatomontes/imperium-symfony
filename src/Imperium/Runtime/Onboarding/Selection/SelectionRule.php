@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Onboarding\Selection;
 
 /** Exact v1 runtime body. The public preparation wrapper is not accepted. */
+#[\Symfony\Component\DependencyInjection\Attribute\Exclude]
 final readonly class SelectionRule
 {
     public const IDENTITY_FIELDS = ['provider', 'model_id', 'model_version', 'configuration_digest', 'profile_digest', 'binding_digest'];

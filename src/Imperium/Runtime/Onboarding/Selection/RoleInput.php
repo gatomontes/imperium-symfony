@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Onboarding\Selection;
 
 /** Internal, already-validated input projection; not an authority/admission API. */
+#[\Symfony\Component\DependencyInjection\Attribute\Exclude]
 final readonly class RoleInput
 {
     private function __construct(public string $role, public array $fitting, public array $permitted, public CapacityOrder $order) {}

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Onboarding\Selection;
 
 /** Structural validation only: never authenticates or admits evidence. */
+#[\Symfony\Component\DependencyInjection\Attribute\Exclude]
 final class Shape
 {
     public static function object(mixed $value, array $keys): array

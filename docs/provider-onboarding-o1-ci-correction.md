@@ -1,0 +1,9 @@
+# O1 integration correction — preserve pinned service configuration
+
+The first PR #782 full CI run, 34461764698, tested remote head e5e17354c2507193d01e952a94d7f8d5f6bbdae0. It completed 3,015 tests with 54,421 assertions, three failures and four platform skips. The failures were historical source-integrity checks for config/services.yaml in CanonicalConsumerCorrectionBatch4Test, NativeInspectionSnapshotConsistencyBatch5TerminalAuditTest and NativeInspectionSnapshotConsistencyPreparationBatch0Test. The new selector tests were not among the failures.
+
+The namespace exclusion added to services.yaml had changed a source file pinned by those existing audit ledgers. This correction restores its exact campaign-selection bytes (SHA-256 ce13733ba4f5581517bcb42b0c752837616eb270981f3c95d4a89674660fe824). Every new selector class instead uses Symfony's DependencyInjection Attribute Exclude, a mechanism already used by ProtectedMission AuthorityOwner/Ceremony in the repository. Existing ledgers, accepted source evidence and their tests are not changed.
+
+The focused selector test now checks the Exclude attribute on each of the nine classes and the preserved services.yaml hash. Selection algorithms, input validation, role/pair behavior and authority boundaries are unchanged. This adds class metadata and updates one test, so the prior Windows hashes are historical; fresh remote CI must verify the corrected head before merge. No full-suite failure is reclassified as a pass.
+
+The existing workflow installs the locked dependencies and clears the Symfony cache before running the complete PHPUnit suite. A successful corrected run therefore also checks that discovery does not try to autowire the excluded input/value classes. No workflow gate is removed, no provider is called, and no live flag changes.
