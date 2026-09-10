@@ -43,3 +43,36 @@ All malformed or inconsistent input returns a typed refusal or a narrowly docume
 W1's raw schema name intentionally differs from the stored H assessment-result body's meaning: do not confuse the raw response with a genuine institutional record. W2/W3 retain the v2 extension; no new authority-bearing schema is introduced. No fake signed act, hard-coded genuine holder, forced FIT candidate or default provider Profile.
 
 Use class-level Symfony Exclude attributes, as established by the merged O1 correction. config/services.yaml and historical ledgers remain byte-for-byte unchanged. The existing selector's raw-array projection API is not widened or relabeled as authenticated. This batch has no operational consumer, automatic selection, CLI, provider SDK dependency, persistence or live I/O.
+
+## O1-B1 local implementation
+
+`ExpectedContext::fromInputs` accepts the group/digest and closed PHP reference arrays,
+with list-valued candidate/evidence collections. It copies these into immutable parsed
+references. The context is supplied expectation data, not an admission certificate.
+`ParsedResponse::parse($originalBytes, $context)` is the sole complete raw-response
+entrypoint. Its private constructor and immutable nested claim objects retain the
+original bytes, prefixed SHA-256 digest, identities, claims and optional CapacityOrder.
+There is no RoleInput conversion or operational consumer.
+
+`RawJsonDecoder` recognizes the response subset of JSON: strings, arrays and objects.
+Numbers (including huge integers/exponents), booleans and null are rejected at the raw
+boundary because no field in this contract permits them. The scanner checks decoded
+member names before assignment, preserves objects in a distinct JsonObject wrapper,
+and delegates string escape/UTF-8/surrogate validation to PHP's JSON string decoder.
+It accepts legal JSON whitespace and arbitrary member order. The root container is
+one; each nested object/array adds one, while strings add none. Exactly 32 containers
+and 1,048,576 bytes are accepted by the raw decoder, subject to the declared shapes.
+No canonicalized bytes replace the original response attribution.
+
+Malformed bytes or inconsistent shapes throw InvalidArgumentException with fixed
+reason messages; a JSON string error may retain its JsonException cause. Programming
+errors (including wrong PHP argument types) are not caught or relabeled. The parser
+performs no file/network/clock lookup and creates no institutional records. Capacity
+objects are projected into the existing CapacityOrder parser only after strict raw
+object/list, reference, frozen membership and full FIT coverage checks. Ascending
+order remains the provider's declared order, not independently proven capability.
+
+A later admission/fitness verifier must authenticate the actual context and original
+evidence, evaluate substantive contradictions/unknowns and all mandatory predicates,
+and only then explicitly construct trusted selector projections. Parsing cannot
+satisfy that obligation. This implementation remains pending source/integration review.
