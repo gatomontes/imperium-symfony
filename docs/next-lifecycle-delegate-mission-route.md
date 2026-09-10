@@ -1,3 +1,5 @@
+> Current next action: [O2-B1 preparation review](next-campaign-provider-onboarding-o2-ledger-custody.md). Corrected O2-B0 is integrated; five implementation batches remain. Earlier notices below are historical. No runtime implementation or live commissioning in this pass.
+
 > Current next implementation: [O2-B0 authority admission](next-campaign-provider-onboarding-o2-authority-admission.md).
 > O1 is complete within offline scope; six implementation batches remain across O2–O5.
 > Earlier campaign/status notices below are historical. Later stages and live commissioning remain unselected.

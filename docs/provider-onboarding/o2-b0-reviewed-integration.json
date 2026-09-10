@@ -1,0 +1,34 @@
+{
+  "verdict": "PASS_O2_B0_CORRECTED_AND_INTEGRATED",
+  "merge_commit": "cafa93f9665f0e5734f26491a092b28995e1cf14",
+  "tree": "e2070c7a2184c7481882f27297c976d248b2c2be",
+  "parents": [
+    "bf8e60d7b6bfc28cbb781e8615c2e3a90a48f36a",
+    "4001f08d343d289cecb913633961bd90b7797fcf"
+  ],
+  "merged_at": "2026-09-10T15:58:34-04:00",
+  "pr": 788,
+  "published_commit": "4001f08d343d289cecb913633961bd90b7797fcf",
+  "ci_temporary_merge": "ce8b41bed35dbc3ee097f3a9d010314ff6fac784",
+  "ci_run": 34522234611,
+  "ci_job": 103022324183,
+  "ci_conclusion": "success",
+  "php": "8.4.25",
+  "phpunit": "13.3.0",
+  "tests": 3463,
+  "assertions": 55572,
+  "skips": 4,
+  "duration": "07:03.371",
+  "ci_log_sha256": "efa5ffdc452cbe39a236d9a621ad90d71ca9542ba4e0db14a44434bd2d3e9c3d",
+  "findings_resolved": [
+    "R1",
+    "R2",
+    "R3",
+    "R4"
+  ],
+  "post_ci_source_changes": false,
+  "O2_B0": "accepted within offline scope",
+  "remaining_O2_O5_implementation_batches": 5,
+  "next": "O2-B1 preparation",
+  "live_commissioning": "deferred"
+}
