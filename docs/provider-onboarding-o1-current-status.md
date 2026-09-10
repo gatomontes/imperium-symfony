@@ -1,3 +1,36 @@
+# Current continuation — O1 complete; O2-B0 prepared and selected
+
+O1-B0, B1 and B2 are reviewed and integrated within offline scope. PR #786 merged
+as `b60f16a8af003408e84b68d1ac3462fb06a9479d`, tree
+`34a51ba57463419dbf1eb8165756f00d46e121c1`. The retained
+[B2 review](reviews/provider-onboarding-o1-b2-source-evidence-review.md) and
+[integration identities](provider-onboarding/o1-b2-reviewed-integration.json) record
+fresh full CI of 3,321 tests / 55,231 assertions / four platform skips. This pass
+verified packet integrity, matching Git/source identities and the supplied CI-log
+hash; it did not rerun PHP or remote CI. Reviewer design provenance is preserved.
+
+The next selected implementation is [O2-B0 authority admission](next-campaign-provider-onboarding-o2-authority-admission.md).
+Read its [contract](../contracts/provider-onboarding-authority-admission.md),
+[launch](handoffs/provider-onboarding-o2-authority-admission-ready.md) and
+[roadmap](provider-onboarding-implementation-roadmap.md). No O1 batch remains;
+six implementation batches remain across O2–O5. This is O2-B0 preparation only.
+O2-B1 owns execution ledger/custody; adapters, founding, application and CLI remain
+later unselected work. No O1 correction batch is implied without a concrete defect.
+
+O1 projections do not authenticate original policy, trust, evidence or authority.
+O2-B0 must resolve genuine original chains and refuse absent or incompatible sources.
+DeepSeek/API-key/FRESH/D2-A/P1–P9 remain settled; base selection minimizes eligible
+cost and target selection uses medium capacity. CY/FC acceptance, explicit operator
+settings, DEFER_ENROLLMENT, unresolved B1 remote guarantees and empty safe-retry
+allowlist remain. deployment_approved, enrollment_authorized, live_ready, activation
+and execution_authority remain false. No live commissioning is selected.
+
+The complete earlier status text below is retained history, including superseded
+next-batch instructions and historical publication permission. It does not select
+current publication, another implementation batch or live work.
+
+---
+
 # Current continuation — O1-B2 prepared and selected
 
 O1-B0 and O1-B1 are integrated. The [B1 review](reviews/provider-onboarding-o1-b1-source-evidence-review.md)

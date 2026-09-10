@@ -1,0 +1,24 @@
+{
+  "verdict": "PASS_O1_B2_INTEGRATED_O1_OFFLINE_COMPLETE",
+  "merge_commit": "b60f16a8af003408e84b68d1ac3462fb06a9479d",
+  "tree": "34a51ba57463419dbf1eb8165756f00d46e121c1",
+  "parents": [
+    "32ae2e0634066f8f0b772bbcb24eef788abd2065",
+    "79df44bc9be8a66110830162b644c505385dcffe"
+  ],
+  "merged_at": "2026-09-10T12:26:03-04:00",
+  "pr": 786,
+  "ci_run": 34501076384,
+  "ci_job": 102951714672,
+  "ci_conclusion": "success",
+  "php": "8.4.25",
+  "phpunit": "13.3.0",
+  "tests": 3321,
+  "assertions": 55231,
+  "skips": 4,
+  "ci_log_sha256": "98cc580b3ea4cac5a7cb7ae72db7cdd952b7b45ee2333fae5e7d183ec6311c9a",
+  "post_ci_source_changes": false,
+  "remaining_O1_implementation_batches": 0,
+  "remaining_O2_O5_batches": 6,
+  "live_commissioning": "deferred"
+}
