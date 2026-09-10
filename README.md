@@ -1,3 +1,7 @@
+> Current onboarding status: [validated O1 offline selector and owner-authorized integration](docs/provider-onboarding-o1-current-status.md).
+> Earlier PHP-validation-pending and local-only instructions below are historical for this batch.
+> Author-review provenance and all live deferrals remain explicit.
+
 # imperium-symfony
 An Agentic Governance Framework built on top of Symfony AI
 

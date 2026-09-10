@@ -1,0 +1,57 @@
+{
+  "verdict": "UPLOADED_LOCAL_VALIDATION_VERIFIED",
+  "commit": "6c2fddc3241b4f61349530657221a4013d19e38d",
+  "tree": "cf5376810999578f3a5248541dfc6b07d375bede",
+  "manifest_entries": 33,
+  "inner_archive_sha256": "cce5a25506b10e9c5049e2b8b966fc917c86a8c107ce94a9e6917bf06ec4b115",
+  "outer_inner_duplicate_files_identical": true,
+  "checked_php_sources": [
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Selection/AssignmentSelector.php",
+      "match": "EXACT_GIT_BYTES"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Selection/AssignmentSetResult.php",
+      "match": "EXACT_GIT_BYTES"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Selection/Candidate.php",
+      "match": "EXACT_GIT_BYTES"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Selection/CapacityOrder.php",
+      "match": "EXACT_GIT_BYTES"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Selection/RecordRef.php",
+      "match": "EXACT_GIT_BYTES"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Selection/RoleInput.php",
+      "match": "EXACT_GIT_BYTES"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Selection/SelectionResult.php",
+      "match": "EXACT_GIT_BYTES"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Selection/SelectionRule.php",
+      "match": "EXACT_GIT_BYTES"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Selection/Shape.php",
+      "match": "EXACT_GIT_BYTES"
+    },
+    {
+      "path": "tests/Imperium/Runtime/ProviderOnboardingOfflineSelectionTest.php",
+      "match": "EXACT_GIT_BYTES"
+    }
+  ],
+  "reported_phpunit": "59 tests, 113 assertions; PASS",
+  "reported_specification_checks": 86,
+  "lint_files": 10,
+  "check_exit_codes": "ALL_ZERO",
+  "post_check_changes": "NONE_REPORTED; clean tracked-source log inspected",
+  "runner_and_bundle": "EXACT_AUTHORED_BYTES",
+  "scope": "PHP execution is uploaded evidence, not rerun in reviewer environment"
+}

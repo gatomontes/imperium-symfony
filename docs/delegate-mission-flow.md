@@ -1,3 +1,26 @@
+> Current onboarding status: [validated O1 offline selector and owner-authorized integration](provider-onboarding-o1-current-status.md).
+> Earlier PHP-validation-pending and local-only instructions below are historical for this batch.
+> Author-review provenance and all live deferrals remain explicit.
+
+> Current owner decision: [P1–P9 approval](provider-onboarding-policy-approval.md) is recorded.
+> Earlier pending-value language is historical for those exact choices. Genuine
+> evidence and final O0 review remain open; O1–O5 and live work remain deferred.
+
+> Current O0 correction: [report](handoffs/provider-onboarding-o0-correction-report.md) and [decision/evidence card](provider-onboarding-current-decision-evidence-card.md).
+> The preceding provider/retry design is independently accepted as preparation with
+> a validator qualification. Its correction now awaits review; final O0 freeze remains
+> pending policy/evidence. Earlier status wording below is historical where superseded.
+> Settled DeepSeek/API-key/FRESH/D2-A/count/dollar choices remain; O1–O5 and live work stay deferred.
+
+> Current continuation: [selected-decision closure](handoffs/provider-onboarding-o0-selected-decisions-ready.md).
+
+> Current O0 provider closure: [report](handoffs/provider-onboarding-o0-provider-report.md). Selected choices are retained;
+> v1.3.1 and public templates await independent review and remaining evidence.
+> O0 only: no runnable policy, live onboarding or O1–O5 selection.
+> Owner selections: DeepSeek/API key, FRESH, D2-A, and three retries per assessment
+> call, at most twelve cognition attempts and $1.20 total. O0 remains pending exact
+> evidence/policy and review of the v1.3 retry amendment. O1–O5 remain deferred.
+
 # Current flow — Provider onboarding O0 and Courtyard formation
 
 ## Current campaign — Provider onboarding O0

@@ -1,0 +1,177 @@
+{
+  "artifact_kind": "OWNER_POLICY_DECISION_RECORD",
+  "runnable": false,
+  "recorded_at": "2026-09-10T01:28:31.327991+00:00",
+  "source_commit": "d3391413f69cb11b01871c91cbc6725245b1a5da",
+  "conversation_provenance": {
+    "owner_reply": "proceed",
+    "preceding_request": "Next: approve or amend P1\u2013P9 in the decision card.",
+    "interpretation": "Approve the presented P1\u2013P9 policy/design values, including the stated unpinnable alias limitation; no implementation or live authorization."
+  },
+  "approved_rows": [
+    "P1",
+    "P2",
+    "P3",
+    "P4",
+    "P5",
+    "P6",
+    "P7",
+    "P8",
+    "P9"
+  ],
+  "source_documents": {
+    "docs/provider-onboarding-current-decision-evidence-card.md": {
+      "source_commit": "d3391413f69cb11b01871c91cbc6725245b1a5da",
+      "sha256": "a7bf7460f2a049b9f33b8240264af6211343e2a983266d2f86d4e0499fba3e38"
+    },
+    "docs/provider-onboarding/o0-public-preparation.json": {
+      "source_commit": "d3391413f69cb11b01871c91cbc6725245b1a5da",
+      "sha256": "e6f952f4db7155261638adf316c14ab3496cb68dc0243f3a096d11a4927bf9a5"
+    },
+    "docs/provider-onboarding/o0-workloads.json": {
+      "source_commit": "d3391413f69cb11b01871c91cbc6725245b1a5da",
+      "sha256": "b8260d894396373ff3068567601e807167a9dcb8e469892528b3fbec99018a28"
+    }
+  },
+  "settled_choices": {
+    "application_mode": "A",
+    "authentication": "api-key",
+    "installation": "FRESH",
+    "limits": {
+      "attempt_micro_usd": 100000,
+      "cognition_attempts": 12,
+      "max_retries_per_group": 3,
+      "total_micro_usd": 1200000
+    },
+    "provider": "deepseek"
+  },
+  "approved_technical_values": {
+    "access_calls": 1,
+    "access_local_deadline_ms": 10000,
+    "access_micro_usd": 0,
+    "aggregate_cognition_ms": 720000,
+    "aggregate_request_ms": 730000,
+    "attempt_local_deadline_ms": 60000,
+    "concurrency": 1,
+    "context_reserve": 4096,
+    "freshness_ms": {
+      "access": 900000,
+      "capability": 604800000,
+      "catalogue": 604800000,
+      "tariff": 86400000
+    },
+    "generated_tokens_per_attempt": 4096,
+    "input_tokens_per_attempt": 16384,
+    "minimum_context": 32768,
+    "policy_lifetime_ms": 1800000,
+    "response_bytes": 1048576,
+    "total_external_requests": 13
+  },
+  "approved_candidate_values": [
+    {
+      "model_id": "deepseek-v4-flash",
+      "observed_version_label": "DeepSeek-V4-Flash-0731",
+      "request_config": {
+        "max_tokens": 4096,
+        "response_format": {
+          "type": "json_object"
+        },
+        "stream": false,
+        "temperature": 0,
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "omitted_request_fields": [
+        "tools",
+        "tool_choice",
+        "top_p",
+        "reasoning_effort",
+        "stop",
+        "user_id",
+        "stream_options"
+      ]
+    },
+    {
+      "model_id": "deepseek-v4-pro",
+      "observed_version_label": "DeepSeek-V4-Pro-0813",
+      "request_config": {
+        "max_tokens": 4096,
+        "response_format": {
+          "type": "json_object"
+        },
+        "stream": false,
+        "temperature": 0,
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "omitted_request_fields": [
+        "tools",
+        "tool_choice",
+        "top_p",
+        "reasoning_effort",
+        "stop",
+        "user_id",
+        "stream_options"
+      ]
+    }
+  ],
+  "alias_decision": "ACCEPT_NAMED_ALIAS_REVISION_PINNING_LIMITATION",
+  "targets": [
+    "courtyard.courtthane",
+    "clavium.locksmith"
+  ],
+  "retryable_failure_allowlist": [],
+  "data_scope": "Public repository doctrine/Profile content and admitted public provider facts only; no installed/private data, credentials in prompts or external research tools.",
+  "unresolved_evidence_inventory": {
+    "access_evidence": "Genuine scoped invoke entitlement and data admissibility; model listing alone cannot prove it.",
+    "access_terms": "Exact complete future terms object for this step, bounded by original policy, public inputs and genuine authority; no act manufactured.",
+    "access_zero_fee": "Provider evidence of zero charge for exact GET /models under the proposed zero-cost access cap.",
+    "admit-evidence_terms": "Exact complete future terms object for this step, bounded by original policy, public inputs and genuine authority; no act manufactured.",
+    "alias_acceptance": "Explicit acceptance of named unpinnable alias limitation or evidence of a supported immutable request revision.",
+    "approved_freshness": "Owner-approved separate catalogue/capability/tariff/access ages and actual effective interval.",
+    "approved_requirements": "Owner-approved token/capability/rubric/target/candidate thresholds, bound to genuine Profiles.",
+    "augur_holder": "Future genuine founding Augur holder/binding, exact currentness and constitutional provenance.",
+    "augur_profile": "Genuine approved Augur Persona/Profile chain; exact qualification/designation where standing route applies.",
+    "budget": "Future public shared budget identity and current head; no synthetic journal generation.",
+    "candidate_bindings": "Reviewed finite model/revision/configuration/adapter/runtime mapping refs; no winner yet.",
+    "courtthane_profile": "Genuine approved exact courtyard.courtthane Persona/Profile, target fit predicates; no appointment inferred.",
+    "credential_binding": "Public opaque custody binding and approved infrastructure/deployment custody; no secret requested.",
+    "evidence_admission": "Genuine admitted catalogue/capability/tariff/access/Profile snapshots under approved evidence policy.",
+    "expected_assignments": "Genuine current public prior assignment generations, not fabricated zeroes.",
+    "founding_window": "Genuine open-window public evidence and original fresh root artifacts; empty journal/FRESH choice insufficient.",
+    "instance_identity": "Future public FRESH instance identity; no instance created.",
+    "issue_expiry": "Future exact signed issue/expiry UTC instants; proposed lifetime 30 minutes.",
+    "locksmith_profile": "Genuine approved exact clavium.locksmith formation Persona/Profile and fit predicates.",
+    "map-base_terms": "Exact complete future terms object for this step, bounded by original policy, public inputs and genuine authority; no act manufactured.",
+    "operator_trust": "Public bootstrap-competent root, issuer identity/key fingerprint, scope, validity and revocation source; not fixture/dev trust.",
+    "permitted_assignment_tuples": "Complete finite Courtthane/Locksmith model/config/Profile tuples; settings only.",
+    "permitted_founding_objects": "Finite complete approved fresh founding objects binding actual root/window/Profile and eligible base tuple, not independent fragments.",
+    "policy_admission": "Future genuinely authorized exact policy and admission receipt; selected chat choices are not this act.",
+    "runtime_map": "Approved public mapping from advertised IDs to exact dispatcher/configuration; no alias substitution.",
+    "usage_and_remote_bounds": "B1-compatible remote bounds, complete settlement/rounding/fees and response provenance protocol.",
+    "w1.attempt.0_terms": "Exact complete future terms object for this step, bounded by original policy, public inputs and genuine authority; no act manufactured.",
+    "w1.attempt.1_terms": "Exact complete future terms object for this step, bounded by original policy, public inputs and genuine authority; no act manufactured.",
+    "w1.attempt.2_terms": "Exact complete future terms object for this step, bounded by original policy, public inputs and genuine authority; no act manufactured.",
+    "w1.attempt.3_terms": "Exact complete future terms object for this step, bounded by original policy, public inputs and genuine authority; no act manufactured.",
+    "w2.attempt.0_terms": "Exact complete future terms object for this step, bounded by original policy, public inputs and genuine authority; no act manufactured.",
+    "w2.attempt.1_terms": "Exact complete future terms object for this step, bounded by original policy, public inputs and genuine authority; no act manufactured.",
+    "w2.attempt.2_terms": "Exact complete future terms object for this step, bounded by original policy, public inputs and genuine authority; no act manufactured.",
+    "w2.attempt.3_terms": "Exact complete future terms object for this step, bounded by original policy, public inputs and genuine authority; no act manufactured.",
+    "w3.attempt.0_terms": "Exact complete future terms object for this step, bounded by original policy, public inputs and genuine authority; no act manufactured.",
+    "w3.attempt.1_terms": "Exact complete future terms object for this step, bounded by original policy, public inputs and genuine authority; no act manufactured.",
+    "w3.attempt.2_terms": "Exact complete future terms object for this step, bounded by original policy, public inputs and genuine authority; no act manufactured.",
+    "w3.attempt.3_terms": "Exact complete future terms object for this step, bounded by original policy, public inputs and genuine authority; no act manufactured.",
+    "wire_and_tokenizer": "Approved exact tokenizer revision/chat overhead and bound prompt bytes/configuration; proposed JSON is not prepared wire."
+  },
+  "boundary": "Approval of concrete policy values and workload text; no approval of unspecified Profile predicates/tuple bytes, fabricated evidence, runtime policy admission or expanded authority. Original non-runnable templates retain their historical preparation labels.",
+  "operational_flags": {
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "live_ready": false,
+    "activation": false,
+    "execution_authority": false
+  },
+  "inventory_status_interpretation": "P1\u2013P9 value choices are now approved. Descriptor refs still require genuine materialization; their retained earlier wording does not reopen those choices."
+}
