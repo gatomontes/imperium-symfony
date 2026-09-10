@@ -1,3 +1,25 @@
+# Current continuation — O1-B2 prepared and selected
+
+O1-B0 and O1-B1 are integrated. The [B1 review](reviews/provider-onboarding-o1-b1-source-evidence-review.md)
+records PR #784, merge `cc9a1882e88de55412d1428e2a01e5ac85bb92c5`, and the matching
+reviewed/full-CI tree. This preparation verified those Git objects and the supplied
+review packet; it did not rerun PHP or remote CI. Earlier incomplete Windows evidence
+is preserved. The source/evidence review retains its author's design provenance.
+
+The next selected local implementation is [O1-B2 base selection](next-campaign-provider-onboarding-o1-base-selection.md).
+Read the [contract](../contracts/provider-onboarding-base-selection.md),
+[launch](handoffs/provider-onboarding-o1-base-selection-ready.md) and
+[roadmap](provider-onboarding-implementation-roadmap.md). One O1 implementation
+batch and seven across O1–O5 remain. This pass prepares/selects B2 only, with no
+runtime implementation, publication or live activity. Initial Augur minimizes exact
+conservative cost among eligible supplied projections; target roles retain medium
+capacity. Genuine evidence/admission, founding and application remain separate.
+
+The text below is historical submission/integration context, including its former
+next-batch instructions. It does not reopen B0/B1 or supersede this continuation.
+
+---
+
 > Next selected local batch: [O1-B1 response validation](next-campaign-provider-onboarding-o1-response-validation.md).
 > [Implementation roadmap](provider-onboarding-implementation-roadmap.md): two batches remain in O1; eight planned across O1–O5.
 > O1-B0 is complete. Live commissioning remains deferred.

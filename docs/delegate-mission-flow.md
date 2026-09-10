@@ -1,3 +1,10 @@
+> Current continuation: [O1-B2 base-selection campaign](next-campaign-provider-onboarding-o1-base-selection.md)
+> and [local launch](handoffs/provider-onboarding-o1-base-selection-ready.md).
+> O1-B0/B1 are integrated; this pass prepares/selects B2 only. One O1 batch and seven
+> across O1–O5 remain. [Current status](provider-onboarding-o1-current-status.md).
+> Earlier next-campaign/status notices below are retained historical context.
+> No later stage or live activity is selected.
+
 > Next selected local batch: [O1-B1 response validation](next-campaign-provider-onboarding-o1-response-validation.md).
 > [Implementation roadmap](provider-onboarding-implementation-roadmap.md): two batches remain in O1; eight planned across O1–O5.
 > O1-B0 is complete. Live commissioning remains deferred.

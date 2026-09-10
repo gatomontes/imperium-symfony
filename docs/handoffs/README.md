@@ -1,3 +1,12 @@
+# Current prepared campaign: Provider Onboarding O1-B2
+
+Start with [the B2 local launch](provider-onboarding-o1-base-selection-ready.md),
+[complete campaign](../next-campaign-provider-onboarding-o1-base-selection.md) and
+[preparation report](provider-onboarding-o1-b2-preparation-report.md).
+B0/B1 are integrated; B2 is prepared/selected for the next isolated implementation.
+This preparation does not implement B2. All entries below retain historical status,
+including older headings that say current. Later stages and live activity remain unselected.
+
 # Current campaign: Provider Onboarding O0
 
 Start with [the O0 local handoff](provider-onboarding-o0-ready.md) and
