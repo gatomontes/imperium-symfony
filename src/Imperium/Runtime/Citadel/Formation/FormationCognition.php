@@ -161,6 +161,7 @@ final readonly class FormationCognition
                 throw new \RuntimeException('CMF057_CONTEXT_CHANGED_REASSESS');
             }
             if (isset($session['attempts'][$attemptId])) { throw new \RuntimeException('CMF058_ATTEMPT_ALREADY_RESERVED'); }
+            SharedExposure::formation($state, $sessionId, $maximum, null, $this->journal, $this->clock);
             SessionExposure::reserve($session, $attemptId, $maximum, FormationJournal::digest($request));
             $expiresAt = min($session['terms']['expires_at'], $this->clock->now()->getTimestamp() + (int) ceil($maximum['milliseconds'] / 1000));
             $derivation = $this->leases->derive($state, $session, $source['holder'], $request, $maximum, $expiresAt, $attemptId, $operation);

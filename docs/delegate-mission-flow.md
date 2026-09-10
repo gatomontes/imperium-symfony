@@ -1,3 +1,13 @@
+# Current steps and flow — O2-B1 source review
+
+O2-B1 preparation is integrated through PR #789; its dormant implementation is now local and pending source review, full CI and integration. [Current status](provider-onboarding-o1-current-status.md), [implementation report](handoffs/provider-onboarding-o2-b1-report.md), [roadmap](provider-onboarding-implementation-roadmap.md).
+
+The local path is migration → original-policy registration → exact ready-step consumption → shared FC/onboarding reservation → currentness-checked custody → retained evidence-only recovery. These records do not supply missing O3 authority/adapters or an O4 application. Five implementation batches remain unaccepted across O2-O5. No later batch, real enrollment or live commissioning is selected.
+
+The complete prior flow below is retained history.
+
+---
+
 # Current steps and flow — O2-B1 preparation
 
 | Step | Current state |

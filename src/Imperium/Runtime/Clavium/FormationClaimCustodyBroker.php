@@ -124,6 +124,7 @@ final readonly class FormationClaimCustodyBroker
                 $state,$terms,$session['decision'],$session['phase'],new \App\Imperium\Runtime\Citadel\Formation\FormationSignatures($this->journal,$this->clock))) {
             throw new \RuntimeException('FC008_AUTHORITY_BINDING_MISMATCH');
         }
+        \App\Imperium\Runtime\Citadel\Formation\SharedExposure::formation($state,$claim['session_id'],$claim['maximum'],$claim['attempt_id'],$this->journal,$this->clock);
         $accounting = $session;
         unset($accounting['attempts'][$claim['attempt_id']]);
         SessionExposure::reserve($accounting,$claim['attempt_id'],$claim['maximum'],$attempt['fingerprint']);

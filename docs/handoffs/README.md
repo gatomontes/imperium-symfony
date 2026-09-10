@@ -1,3 +1,5 @@
+> Current next action: [review local O2-B1 implementation](../handoffs/provider-onboarding-o2-b1-report.md). Five batches remain unaccepted across O2-O5. No later implementation or live action is selected. Earlier notices are historical.
+
 > Current next action: [O2-B1 preparation review](../next-campaign-provider-onboarding-o2-ledger-custody.md). Corrected O2-B0 is integrated; five implementation batches remain. Earlier notices below are historical. No runtime implementation or live commissioning in this pass.
 
 > Current next implementation: [O2-B0 authority admission](../next-campaign-provider-onboarding-o2-authority-admission.md).
