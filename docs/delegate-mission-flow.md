@@ -1,3 +1,7 @@
+> Next selected local batch: [O1-B1 response validation](next-campaign-provider-onboarding-o1-response-validation.md).
+> [Implementation roadmap](provider-onboarding-implementation-roadmap.md): two batches remain in O1; eight planned across O1–O5.
+> O1-B0 is complete. Live commissioning remains deferred.
+
 > Current onboarding status: [validated O1 offline selector and owner-authorized integration](provider-onboarding-o1-current-status.md).
 > Earlier PHP-validation-pending and local-only instructions below are historical for this batch.
 > Author-review provenance and all live deferrals remain explicit.
