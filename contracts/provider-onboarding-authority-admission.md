@@ -220,3 +220,10 @@ These are required future implementation tests, not results of this preparation.
 The campaign specifies validation commands and delivery. Genuine installed trust
 and all live prerequisites remain separate commissioning work; their absence must
 not block writing this offline software or be hidden by synthetic acceptance.
+
+## Local implementation evidence
+
+The [implemented shapes](../docs/provider-onboarding-authority-admission-input.md)
+and [implementation report](../docs/handoffs/provider-onboarding-o2-b0-report.md)
+describe the local O2-B0 code and validation. Source review, full CI and integration
+remain pending; the preparation status above retains its original provenance.

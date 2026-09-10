@@ -12,7 +12,7 @@ The owner asked how much remains and then directed â€œOk. Let us press forward.â
 | O1-B0 | Pure target selector, strict input projections, coupled whole-set refusal and tests | Complete; integrated |
 | O1-B1 | Complete W1/W2/W3 response parsing and frozen-context consistency validation; no admission authority | Complete; reviewed and integrated in PR #784 |
 | O1-B2 | Least-cost eligible Augur base proposal using exact comparison arithmetic, fixed workload, freshness and deterministic exclusions/ties | Complete; reviewed and integrated in PR #786. [Review](reviews/provider-onboarding-o1-b2-source-evidence-review.md); original [implementation report](handoffs/provider-onboarding-o1-b2-report.md) preserved. |
-| O2-B0 | Original policy/act/reference admission and current authority checks for the selected bootstrap route | SELECTED_FOR_NEXT_LOCAL_IMPLEMENTATION; [preparation contract](../contracts/provider-onboarding-authority-admission.md), no O2 runtime here |
+| O2-B0 | Original policy/act/reference admission and current authority checks for the selected bootstrap route | Implemented and locally validated; source review/full CI/integration pending. [Implementation report](handoffs/provider-onboarding-o2-b0-report.md). O2 remains open. |
 | O2-B1 | Shared Citadel sequence/command/step ledger, bounded claims, atomic consumption, replay and unknown-outcome fences | Planned |
 | O3-B0 | DeepSeek API-key custody/adapter boundary, exact request/response/usage mapping and typed unknown failures, tested offline | Planned |
 | O3-B1 | Legitimate Augur binding and bounded cognition bridge, selected FRESH route with explicit refusal of unsupported existing-installation transitions | Planned |
