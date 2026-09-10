@@ -1,3 +1,7 @@
+> Next selected local implementation: [O1-B2 base selection](docs/next-campaign-provider-onboarding-o1-base-selection.md).
+> [Roadmap](docs/provider-onboarding-implementation-roadmap.md): B0/B1 are integrated; one O1 batch and seven across O1–O5 remain.
+> This is B2 preparation only. Earlier next-batch notices below are historical; live commissioning remains deferred.
+
 > Next selected local batch: [O1-B1 response validation](docs/next-campaign-provider-onboarding-o1-response-validation.md).
 > [Implementation roadmap](docs/provider-onboarding-implementation-roadmap.md): two batches remain in O1; eight planned across O1–O5.
 > O1-B0 is complete. Live commissioning remains deferred.
