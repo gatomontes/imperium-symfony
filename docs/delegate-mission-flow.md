@@ -1,3 +1,20 @@
+# Current steps and flow — O2-B1 preparation
+
+| Step | Current state |
+| --- | --- |
+| CY/FC and O0/O1 | Accepted/integrated within their existing offline scope |
+| O2-B0 | Corrected, reviewed and integrated in PR #788 |
+| O2-B1 | Contract and implementation handoff prepared; source review before runtime work |
+| O3-B0 / O3-B1 | Later adapter and FRESH founding/assessment bridge batches |
+| O4-B0 / O5-B0 | Later atomic assignment and CLI batches |
+| Live commissioning | Deferred; no operational flags enabled |
+
+Five implementation batches remain across O2-O5; O2 is open. Follow [current status](provider-onboarding-o1-current-status.md), [roadmap](provider-onboarding-implementation-roadmap.md), [B1 contract](../contracts/provider-onboarding-ledger-custody.md) and [launch](handoffs/provider-onboarding-o2-ledger-custody-ready.md). This pass prepares documents only and stops for review. Original admission is not F2 completion; the next code must atomically consume exact rights and shared resources. No later runtime, provider calls or installed state.
+
+The complete prior flow below is retained history, including superseded next-step language.
+
+---
+
 # Current flow — O1 closeout and O2-B0 preparation
 
 O1's target selector, response validator and least-cost base proposal are reviewed

@@ -1,3 +1,17 @@
+# Current continuation — O2-B0 integrated; O2-B1 preparation
+
+O1 is complete and O2-B0 is accepted within its offline admission/current-resolution scope. PR #788 merged as `cafa93f9665f0e5734f26491a092b28995e1cf14`, tree `e2070c7a2184c7481882f27297c976d248b2c2be`. The [attributed correction review](reviews/provider-onboarding-o2-b0-correction-source-evidence-review.md) and [integration identity](provider-onboarding/o2-b0-reviewed-integration.json) record hosted CI: 3,463 tests / 55,572 assertions / four skips. This preparation verified the supplied manifest/CI-log and fetched Git identities; it did not rerun that PHP CI. Original author and HOLD reports remain historical, including their original pending status.
+
+Five implementation batches remain: O2-B1, O3-B0, O3-B1, O4-B0, O5-B0. O2 remains open. Only O2-B1 preparation is performed now: [contract](../contracts/provider-onboarding-ledger-custody.md), [campaign](next-campaign-provider-onboarding-o2-ledger-custody.md), [local launch](handoffs/provider-onboarding-o2-ledger-custody-ready.md), [surface/test matrix](provider-onboarding-ledger-custody-surfaces.md). Stop for preparation/source review before runtime implementation.
+
+The next implementation must connect exact retained authority to atomic progression, shared FC/onboarding budgets and one-use custody. B0 receipts are historical original-admission evidence; they neither consume a progressing F2 effect nor grant transferable authority. O1 projections remain pure. Later adapters/founding/application/CLI are separate batches.
+
+DeepSeek/API-key, FRESH, D2-A, P1-P9, medium target capacity, least-cost eligible initial base, persistent operator control and empty actual retry allowlist remain fixed. CY/FC offline acceptance remains. DEFER_ENROLLMENT and unresolved remote guarantees persist; deployment_approved, enrollment_authorized, live_ready, activation and execution_authority remain false.
+
+The complete earlier status below is historical and does not select current work.
+
+---
+
 # Current continuation — O1 complete; O2-B0 prepared and selected
 
 O1-B0, B1 and B2 are reviewed and integrated within offline scope. PR #786 merged
