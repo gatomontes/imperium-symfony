@@ -1,3 +1,13 @@
+# Current continuation — O2-B1 correction
+
+The attributed O2-B1 review held the implementation for recovered-response attribution, strict v2 decoding and resume predecessor presentation. Draft PR #790 was not merged. The correction is implemented and locally validated for source review; O2 remains open. See [correction report](handoffs/provider-onboarding-o2-b1-correction-report.md) and the preserved [HOLD review](reviews/provider-onboarding-o2-b1-source-evidence-review.md).
+
+O1, corrected O2-B0 and earlier CY/FC offline acceptance remain intact. O3–O5 and live commissioning remain deferred. DeepSeek/API key, FRESH, D2-A, P1–P9, medium target capacity, least-cost eligible initial Augur base, persistent operator-controlled assignment, DEFER_ENROLLMENT and the actual empty safe-retry allowlist are unchanged. deployment_approved, enrollment_authorized, live_ready, activation and execution_authority remain false.
+
+Earlier status below is historical.
+
+---
+
 # Current continuation — O2-B1 local implementation
 
 O1 and corrected O2-B0 remain accepted in their offline scopes. O2-B1 preparation was reviewed and integrated in PR #789, merge `0399b581e8e61b5306813479df6a8af363c35c0a`, tree `bc010341a934706e2c75b8d8b6e203882473bedf`. The [attributed preparation review](reviews/provider-onboarding-o2-b1-preparation-source-evidence-review.md) and [integration identity](provider-onboarding/o2-b1-preparation-reviewed-integration.json) retain its source and hosted CI provenance: 3,463 tests / 55,570 assertions / four skips. That preparation CI is inherited evidence, not B1 runtime proof.

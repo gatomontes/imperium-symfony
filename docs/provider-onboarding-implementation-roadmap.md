@@ -1,3 +1,5 @@
+Current provider-onboarding work: [O2-B1 correction](handoffs/provider-onboarding-o2-b1-correction-report.md), following the attributed HOLD review. Local correction passed the required local gates; source review, fresh full CI and integration are pending. O2 remains open.
+
 # Provider onboarding — bounded implementation roadmap
 
 Baseline: integration `086eb363ef43e58a29a50e7dfdecba34306c44c3`, tree `9d0ff3afeddab544a65ab1b56be05f306928d087`. O0 contracts and O1-B0 offline target selection are integrated through PR #782. Its corrected full CI passed 3,015 tests / 54,564 assertions with four skips. Author-review provenance remains explicit; integration was owner-directed, not fabricated independent acceptance. CY/FC acceptance stays intact.

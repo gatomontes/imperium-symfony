@@ -1,3 +1,13 @@
+# Current continuation — O2-B1 correction
+
+The attributed O2-B1 review held the implementation for recovered-response attribution, strict v2 decoding and resume predecessor presentation. Draft PR #790 was not merged. The correction is implemented and locally validated for source review; O2 remains open. See [correction report](handoffs/provider-onboarding-o2-b1-correction-report.md) and the preserved [HOLD review](reviews/provider-onboarding-o2-b1-source-evidence-review.md).
+
+O1, corrected O2-B0 and earlier CY/FC offline acceptance remain intact. O3–O5 and live commissioning remain deferred. DeepSeek/API key, FRESH, D2-A, P1–P9, medium target capacity, least-cost eligible initial Augur base, persistent operator-controlled assignment, DEFER_ENROLLMENT and the actual empty safe-retry allowlist are unchanged. deployment_approved, enrollment_authorized, live_ready, activation and execution_authority remain false.
+
+Earlier status below is historical.
+
+---
+
 > Current next action: [review local O2-B1 implementation](handoffs/provider-onboarding-o2-b1-report.md). Five batches remain unaccepted across O2-O5. No later implementation or live action is selected. Earlier notices are historical.
 
 > Current next action: [O2-B1 preparation review](next-campaign-provider-onboarding-o2-ledger-custody.md). Corrected O2-B0 is integrated; five implementation batches remain. Earlier notices below are historical. No runtime implementation or live commissioning in this pass.

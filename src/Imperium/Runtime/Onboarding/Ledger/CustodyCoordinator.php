@@ -61,9 +61,10 @@ final readonly class CustodyCoordinator
         return $store->journal->changeAtHead(function(array &$state,array $head)use($id,$index,$metadata,$envelope,$store):array {
             $c=$this->check($state,$id);R::require(count($c['custody'])===$index,'CUSTODY_ALREADY_CONSUMED');
             $prior=$index===0?null:R::reference($c['custody'][$index-1]);
-            if($index===4){$old=$c['custody'][3]['body']['response_metadata'];R::require(R::same($metadata,$old) && R::same($envelope['metadata'],$old) && R::same($envelope['claim_ref'],R::reference($c['record'])) && R::hash($envelope['response'])===$old['response_digest'],'RESPONSE_ORIGINAL_MISSING');}
-            $record=$store->make('imperium.bootstrap-custody-checkpoint/v1','custody-'.substr(R::hash([$id,$index]),7,24),['claim_ref'=>R::reference($c['record']),'operation_digest'=>R::hash($c['operation']),'stage'=>self::STAGES[$index],'previous_ref'=>$prior,'response_metadata'=>$metadata,'response_envelope'=>$envelope],$prior===null?[R::reference($c['record'])]:[R::reference($c['record']),$prior]);
-            $state['onboarding']['claims'][$id]['custody'][]=$record;return $state['onboarding']['claims'][$id];
+            if($index===3){ResponseEvidence::metadata($metadata,$c);}
+            if($index===4){ResponseEvidence::envelope($envelope,$c,$c['custody'][3]['body']['response_metadata']);$old=$c['custody'][3]['body']['response_metadata'];R::require(R::same($metadata,$old) && R::same($envelope['metadata'],$old) && R::same($envelope['claim_ref'],R::reference($c['record'])) && R::hash($envelope['response'])===$old['response_digest'],'RESPONSE_ORIGINAL_MISSING');}
+            $record=$store->make('imperium.bootstrap-custody-checkpoint/v1','custody-'.substr(R::hash([$id,$index]),7,24),['claim_ref'=>R::reference($c['record']),'operation_digest'=>R::hash($c['operation']['prepared']),'stage'=>self::STAGES[$index],'previous_ref'=>$prior,'response_metadata'=>$metadata,'response_envelope'=>$envelope],$prior===null?[R::reference($c['record'])]:[R::reference($c['record']),$prior]);
+            $state['onboarding']['claims'][$id]['custody'][]=$record;LedgerState::validate($state['onboarding']);return $state['onboarding']['claims'][$id];
         });
     }
     public function finish(string $id):array {
@@ -75,11 +76,12 @@ final readonly class CustodyCoordinator
             if($s['steps'][$stepKey]['completion']!==null){return $s['steps'][$stepKey]['completion'];}
             $this->check($state,$id);R::require(count($c['custody'])===5,'OUTCOME_UNKNOWN');$last=$c['custody'][4];$envelope=$last['body']['response_envelope'];
             R::require(is_array($envelope) && R::hash($envelope['response'])===$last['body']['response_metadata']['response_digest'],'RESPONSE_ORIGINAL_MISSING');
+            ResponseEvidence::envelope($envelope,$c,$c['custody'][3]['body']['response_metadata']);
             $classification=$this->ledger->validateResponse($state,$c,$envelope);
             if($c['record']['body']['authority_source']['kind']==='assessment'){$outcome=AssessmentGroups::recordOutcome($store,$s,$c,$classification);$state['onboarding']['attempt_outcomes'][$id]=$outcome;}else{R::require($classification==='SUCCEEDED','ACCESS_RESPONSE_INVALID');}
             $completion=$this->ledger->complete($cmd['ref'],$s['steps'][$stepKey]['consumption'],$c['record']['body']['authority_source']['kind']==='access'?'AUTHORIZE_BOOTSTRAP_ACCESS':'AUTHORIZE_BOOTSTRAP_ASSESSMENT',[R::reference($last)]);
             $state['onboarding']['claims'][$id]['settled']=$envelope['metadata']['usage'];$state['onboarding']['steps'][$stepKey]['completion']=$classification==='SUCCEEDED'?$completion:null;
-            unset($state['onboarding']['source_fences'][$id]);return $completion;
+            unset($state['onboarding']['source_fences'][$id]);LedgerState::validate($state['onboarding']);return $completion;
         });
     }
     /** Metadata proves attribution; an external caller body can never recover a result. */

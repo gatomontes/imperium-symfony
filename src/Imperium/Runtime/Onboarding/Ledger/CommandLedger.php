@@ -90,8 +90,8 @@ final readonly class CommandLedger
                 }
                 $s['sequences'][$sk]['head']=$command['ref'];
             }
-            $s['commands'][$key]=$command;LedgerState::validate($s);
-            if($q['mode']==='advance'){$state['onboarding']=$s;}
+            $s['commands'][$key]=$command;
+            if($q['mode']==='advance'){LedgerState::validate($s);$state['onboarding']=$s;}
             return self::presentation($command,$head,false,$q['mode']==='preview');
         });
     }

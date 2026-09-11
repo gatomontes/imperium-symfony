@@ -18,7 +18,7 @@ final readonly class StateMigration
                 'from_schema'=>$s['schema'],'to_schema'=>'imperium.onboarding-authority-state/v2','predecessor_head'=>$head,
                 'prior_subtree_digest'=>R::hash($s),'preserved_maps_digest'=>R::hash($preserved)],[$trust['enrollment_receipt_ref']]);
             $s['schema']='imperium.onboarding-authority-state/v2';$s['migration']=$record;
-            foreach(self::MAPS as $map){$s[$map]=[];} $state['onboarding']=$s;return $record;
+            foreach(self::MAPS as $map){$s[$map]=[];} LedgerState::validate($s);$state['onboarding']=$s;return $record;
         });
     }
 }

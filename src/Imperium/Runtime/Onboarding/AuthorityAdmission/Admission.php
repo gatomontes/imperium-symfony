@@ -90,7 +90,7 @@ final readonly class Admission
             }
             $s['acts'][$key]=['record'=>$act,'envelope'=>$e,'object'=>$h,'raw_envelope'=>$envelopeJson,'raw_object'=>$objectJson,'fingerprint'=>$fingerprint];
             Rules::require(count($s['evidence'])+count($s['policies'])<=8192,'SOURCE_STORE_LIMIT');
-            $s['admissions'][$key]=$receipt; $state['onboarding']=$s;
+            $s['admissions'][$key]=$receipt; if($s['schema']==='imperium.onboarding-authority-state/v2'){\App\Imperium\Runtime\Onboarding\Ledger\LedgerState::validate($s);} $state['onboarding']=$s;
             return ['status'=>'ORIGINAL_ADMITTED','admission'=>$receipt,'current_authority'=>false,'effect_completed'=>false,'authority_consumed'=>false];
         });
     }

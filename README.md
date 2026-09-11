@@ -1,3 +1,5 @@
+Current provider-onboarding work: [O2-B1 correction](docs/handoffs/provider-onboarding-o2-b1-correction-report.md), following the attributed HOLD review. Local correction passed the required local gates; source review, fresh full CI and integration are pending. O2 remains open.
+
 > Current onboarding: [O2-B1 implemented locally; review pending](docs/provider-onboarding-o1-current-status.md).
 > [Roadmap](docs/provider-onboarding-implementation-roadmap.md) · [B0 correction review](docs/reviews/provider-onboarding-o2-b0-correction-source-evidence-review.md).
 > Local runtime changes are pending source review/full CI; no authority enrollment or live activity.
