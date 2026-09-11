@@ -1,0 +1,13 @@
+# O2-B1 correction acceptance and integration
+
+O2-B1 is accepted and integrated within its dormant offline engineering scope through [PR #790](https://github.com/gatomontes/imperium-symfony/pull/790), merge `9b50d53362e44af1d628034ad6153985b9a24d1c`. O2's planned authority and ledger/custody implementation batches are complete. [Integration identities](../provider-onboarding/o2-b1-reviewed-integration.json) bind the exact tree, source and test evidence. Live commissioning remains deferred.
+
+The original [HOLD review](provider-onboarding-o2-b1-source-evidence-review.md) remains history. R1 now binds recovery metadata, envelope, claim and both operation digests to original prepared bytes; recovery and settlement share the check. R2 closes populated v2 shapes and their original identity/cross-links, validates migration history without substituting evolved maps, and validates before publication. R3 returns the retained advancing sequence head for fresh and duplicate resume while preserving the recognition result's separate identity. All four original reviewer requirements remain unchanged.
+
+Fresh [full CI 34597464021](https://github.com/gatomontes/imperium-symfony/actions/runs/34597464021), job 103256479078, passed **3,536 tests / 56,244 assertions / four skips** on PHP 8.4.25 / PHPUnit 13.3.0 in 13:36.254. The tested temporary merge, published correction and final integration all have tree `2c9a41d0e7b3794757839ebb4f6ba105cd1aa486`. This is exact-tree PR CI evidence, not a new post-merge execution or coverage of skipped cases.
+
+Review verified 102 payload hashes, inner archive integrity/equality, 20 canonical changed files and exact patch, 1,800 tested PHP byte streams, 3,303 protected originals, unchanged regression requirements and final log identities. All 86 static specification checks passed. Author local selected results were 751 tests / 7,237 assertions; these are separately attributed and are not full CI. PHP was unavailable in the review workspace.
+
+This is attributed source/evidence review, not disjoint authorship: the assistant contributed earlier preparation and reviewer requirements. Original reports, approval bytes, historical source pins and failed runs remain unchanged.
+
+The next selected local implementation is [O3-B0](../next-campaign-provider-onboarding-o3-deepseek-adapter.md). Four implementation batches remain: O3-B0, O3-B1, O4-B0 and O5-B0. Accepted CY/FC/O1/B0 scope persists. All five operational flags remain false; the actual retry allowlist stays empty. No provider call, credential use, enrollment, appointment, assignment or activation was performed by this integration.

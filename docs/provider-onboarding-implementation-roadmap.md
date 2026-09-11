@@ -1,3 +1,26 @@
+# Current implementation roadmap — O2 integrated
+
+O2 is accepted and integrated through PR #790, merge `9b50d53362e44af1d628034ad6153985b9a24d1c`. Its exact tree passed fresh full CI: 3,536 tests / 56,244 assertions / four skips.
+
+[O2 acceptance](reviews/provider-onboarding-o2-b1-correction-acceptance.md) and [integration identities](provider-onboarding/o2-b1-reviewed-integration.json) close O2's planned offline engineering scope. **Four implementation batches remain.** Preparation and concrete defect corrections are not silently counted as extra planned batches.
+
+| Batch | Finish line | State |
+| --- | --- | --- |
+| O0 | Source-bound contracts and selected policy | Integrated preparation |
+| O1-B0/B1/B2 | Offline target selection, response validation and least-cost base proposal | Complete and integrated |
+| O2-B0/B1 | Original authority admission, shared ledger/custody, replay and recovery | Complete and integrated |
+| O3-B0 | DeepSeek API-key custody, exact wire/response/usage mapping and bounded failures, tested offline | Selected; [campaign](next-campaign-provider-onboarding-o3-deepseek-adapter.md) |
+| O3-B1 | Legitimate Augur binding and bounded cognition bridge on FRESH route | Planned |
+| O4-B0 | Atomic persistent whole-set assignments and explicit operator changes | Planned |
+| O5-B0 | CLI preview/status/resume and full offline journey | Planned |
+| Live commissioning | Genuine installed authority/access/provider evidence and residual-risk disposition | Deferred, outside these four implementation batches |
+
+Sequence: **O3-B0 → O3-B1 → O4-B0 → O5-B0**. Use the [local prompt and pull commands](handoffs/provider-onboarding-o3-deepseek-adapter-ready.md). No new planning-only run is needed before O3-B0 implementation. This preparation adds no runtime, live authority or provider evidence. All five operational flags remain false.
+
+---
+
+## Historical roadmap snapshots (prior counts/status are superseded above)
+
 Current provider-onboarding work: [O2-B1 correction](handoffs/provider-onboarding-o2-b1-correction-report.md), following the attributed HOLD review. Local correction passed the required local gates; source review, fresh full CI and integration are pending. O2 remains open.
 
 # Provider onboarding — bounded implementation roadmap

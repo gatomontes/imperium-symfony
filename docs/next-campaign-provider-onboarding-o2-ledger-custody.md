@@ -1,3 +1,11 @@
+# Completed campaign — O2-B1
+
+O2 is accepted and integrated through PR #790, merge `9b50d53362e44af1d628034ad6153985b9a24d1c`. Its exact tree passed fresh full CI: 3,536 tests / 56,244 assertions / four skips.
+
+The O2 correction is closed in offline scope. Proceed to [O3-B0](next-campaign-provider-onboarding-o3-deepseek-adapter.md) using its [handoff](handoffs/provider-onboarding-o3-deepseek-adapter-ready.md). The following original campaign is retained history, not the next local task.
+
+---
+
 # O2-B1 — ledger and custody implementation campaign
 
 Status: PREPARED_FOR_SOURCE_REVIEW; implementation must wait for disposition of this preparation. Five implementation batches remain across O2-O5. O2-B0 is accepted offline via PR #788, merge cafa93f9665f0e5734f26491a092b28995e1cf14, tree e2070c7a2184c7481882f27297c976d248b2c2be. See [integration identity](provider-onboarding/o2-b0-reviewed-integration.json) and [attributed review](reviews/provider-onboarding-o2-b0-correction-source-evidence-review.md). Original author/HOLD reports remain unchanged history.

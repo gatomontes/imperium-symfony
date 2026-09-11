@@ -1,3 +1,24 @@
+# Current steps and flow — O2 complete; O3-B0 selected
+
+O2 is accepted and integrated through PR #790, merge `9b50d53362e44af1d628034ad6153985b9a24d1c`. Its exact tree passed fresh full CI: 3,536 tests / 56,244 assertions / four skips.
+
+| Step | Current disposition |
+| --- | --- |
+| O1 offline selection/validation | Complete and integrated |
+| O2-B0 authority admission | Complete and integrated |
+| O2-B1 ledger/custody correction | Accepted and integrated; [record](provider-onboarding/o2-b1-reviewed-integration.json) |
+| O3-B0 DeepSeek adapter/API-key custody | Selected for one local offline implementation run; [campaign](next-campaign-provider-onboarding-o3-deepseek-adapter.md) |
+| O3-B1 Augur binding/cognition | Planned; follows O3-B0 acceptance |
+| O4-B0 whole-set assignment | Planned |
+| O5-B0 CLI/offline journey | Planned |
+| Live commissioning | Deferred and separately selected |
+
+Read the [handoff](handoffs/provider-onboarding-o3-deepseek-adapter-ready.md) and [O2 acceptance](reviews/provider-onboarding-o2-b1-correction-acceptance.md). O3-B0 prepares exact wire → one-use custody → bounded response/usage → retained evidence through accepted O2 gates; actual Augur founding and binding remain O3-B1. Four implementation batches remain. DeepSeek/API-key, FRESH, D2-A, approved P1–P9, medium target capacity, persistent operator-controlled settings and the empty retry allowlist remain. All five operational flags remain false.
+
+---
+
+## Historical steps and status (preserved; current continuation above controls)
+
 # Current continuation — O2-B1 correction
 
 The attributed O2-B1 review held the implementation for recovered-response attribution, strict v2 decoding and resume predecessor presentation. Draft PR #790 was not merged. The correction is implemented and locally validated for source review; O2 remains open. See [correction report](handoffs/provider-onboarding-o2-b1-correction-report.md) and the preserved [HOLD review](reviews/provider-onboarding-o2-b1-source-evidence-review.md).
