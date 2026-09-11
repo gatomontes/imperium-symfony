@@ -10,11 +10,11 @@ use App\Imperium\Runtime\Clock;
 final readonly class AuthorityStore
 {
     public FormationJournal $journal;
-    public function __construct(string $root, public Clock $clock, public string $instance, public string $citadel, public string $operator, public string $sourceCommit) {
+    public function __construct(string|FormationJournal $root, public Clock $clock, public string $instance, public string $citadel, public string $operator, public string $sourceCommit) {
         foreach ([$instance,$citadel,$operator] as $id) { Rules::id($id); }
-        Rules::require(is_dir($root) && realpath($root)!==false,'FIXED_ROOT');
+        if(is_string($root)){Rules::require(is_dir($root) && realpath($root)!==false,'FIXED_ROOT');}
         Rules::require(preg_match('/\A[0-9a-f]{40}\z/',$sourceCommit)===1,'SOURCE_COMMIT');
-        $this->journal=new FormationJournal((string) realpath($root));
+        $this->journal=$root instanceof FormationJournal?$root:new FormationJournal((string) realpath($root));
     }
     public function now(): int { return Rules::time($this->clock->now()->getTimestamp()); }
     public function identity(array $h): void { Rules::require($h['instance_id']===$this->instance && $h['citadel_id']===$this->citadel,'FOREIGN_RECORD'); }
@@ -23,8 +23,14 @@ final readonly class AuthorityStore
             'producer'=>['service'=>'onboarding.authority-admission','source_commit'=>$this->sourceCommit], 'sources'=>Rules::refs($sources),'body'=>$body]);
     }
     public function state(array $state): array {
-        Rules::require(isset($state['onboarding']),'TRUST_ABSENT'); $s=Rules::object($state['onboarding'],['schema','trust','acts','policies','evidence','revocations','admissions']);
-        Rules::require($s['schema']==='imperium.onboarding-authority-state/v1','STATE_VERSION');
+        Rules::require(isset($state['onboarding']),'TRUST_ABSENT'); $s=$state['onboarding'];
+        Rules::require(in_array($s['schema']??null,['imperium.onboarding-authority-state/v1','imperium.onboarding-authority-state/v2'],true),'STATE_VERSION');
+        $keys=['schema','trust','acts','policies','evidence','revocations','admissions'];
+        if ($s['schema']==='imperium.onboarding-authority-state/v2') {
+            $keys=[...$keys,'migration',...\App\Imperium\Runtime\Onboarding\Ledger\StateMigration::MAPS];
+            \App\Imperium\Runtime\Onboarding\Ledger\LedgerState::validate($s);
+        }
+        Rules::object($s,$keys);
         foreach (['acts','policies','evidence','revocations','admissions'] as $map) { Rules::require(is_array($s[$map]),'STATE_MAP'); }
         $trust=Rules::record($s['trust']); $this->identity($trust); Rules::require($trust['schema']==='imperium.bootstrap-trust/v1','TRUST_SCHEMA');
         return $s;

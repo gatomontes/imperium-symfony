@@ -1,0 +1,29 @@
+{
+  "verdict": "PASS_O2_B1_PREPARATION_INTEGRATED",
+  "merge_commit": "0399b581e8e61b5306813479df6a8af363c35c0a",
+  "tree": "bc010341a934706e2c75b8d8b6e203882473bedf",
+  "parents": [
+    "cafa93f9665f0e5734f26491a092b28995e1cf14",
+    "770dfddb07ee221a58c24d8ebf927470d1db61f2"
+  ],
+  "merged_at": "2026-09-10T16:32:07-04:00",
+  "pr": 789,
+  "published_commit": "770dfddb07ee221a58c24d8ebf927470d1db61f2",
+  "ci_temporary_merge": "f7314a3cf0ea7bdc3e8c0095666108993f972da8",
+  "ci_run": 34525838331,
+  "ci_job": 103034390826,
+  "ci_conclusion": "success",
+  "php": "8.4.25",
+  "phpunit": "13.3.0",
+  "tests": 3463,
+  "assertions": 55570,
+  "skips": 4,
+  "duration": "09:31.060",
+  "ci_log_sha256": "3f0328d19cac9ed99edc8605e2da8a3b07224d41021f727744135dacab6356f7",
+  "post_ci_source_changes": false,
+  "runtime_tests_config_unchanged": true,
+  "O2_B1": "preparation accepted; runtime not implemented",
+  "remaining_O2_O5_implementation_batches": 5,
+  "next": "implement O2-B1 locally",
+  "live_commissioning": "deferred"
+}

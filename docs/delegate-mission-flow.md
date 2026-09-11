@@ -1,3 +1,23 @@
+# Current continuation — O2-B1 correction
+
+The attributed O2-B1 review held the implementation for recovered-response attribution, strict v2 decoding and resume predecessor presentation. Draft PR #790 was not merged. The correction is implemented and locally validated for source review; O2 remains open. See [correction report](handoffs/provider-onboarding-o2-b1-correction-report.md) and the preserved [HOLD review](reviews/provider-onboarding-o2-b1-source-evidence-review.md).
+
+O1, corrected O2-B0 and earlier CY/FC offline acceptance remain intact. O3–O5 and live commissioning remain deferred. DeepSeek/API key, FRESH, D2-A, P1–P9, medium target capacity, least-cost eligible initial Augur base, persistent operator-controlled assignment, DEFER_ENROLLMENT and the actual empty safe-retry allowlist are unchanged. deployment_approved, enrollment_authorized, live_ready, activation and execution_authority remain false.
+
+Earlier status below is historical.
+
+---
+
+# Current steps and flow — O2-B1 source review
+
+O2-B1 preparation is integrated through PR #789; its dormant implementation is now local and pending source review, full CI and integration. [Current status](provider-onboarding-o1-current-status.md), [implementation report](handoffs/provider-onboarding-o2-b1-report.md), [roadmap](provider-onboarding-implementation-roadmap.md).
+
+The local path is migration → original-policy registration → exact ready-step consumption → shared FC/onboarding reservation → currentness-checked custody → retained evidence-only recovery. These records do not supply missing O3 authority/adapters or an O4 application. Five implementation batches remain unaccepted across O2-O5. No later batch, real enrollment or live commissioning is selected.
+
+The complete prior flow below is retained history.
+
+---
+
 # Current steps and flow — O2-B1 preparation
 
 | Step | Current state |

@@ -1,3 +1,25 @@
+# Current continuation — O2-B1 correction
+
+The attributed O2-B1 review held the implementation for recovered-response attribution, strict v2 decoding and resume predecessor presentation. Draft PR #790 was not merged. The correction is implemented and locally validated for source review; O2 remains open. See [correction report](handoffs/provider-onboarding-o2-b1-correction-report.md) and the preserved [HOLD review](reviews/provider-onboarding-o2-b1-source-evidence-review.md).
+
+O1, corrected O2-B0 and earlier CY/FC offline acceptance remain intact. O3–O5 and live commissioning remain deferred. DeepSeek/API key, FRESH, D2-A, P1–P9, medium target capacity, least-cost eligible initial Augur base, persistent operator-controlled assignment, DEFER_ENROLLMENT and the actual empty safe-retry allowlist are unchanged. deployment_approved, enrollment_authorized, live_ready, activation and execution_authority remain false.
+
+Earlier status below is historical.
+
+---
+
+# Current continuation — O2-B1 local implementation
+
+O1 and corrected O2-B0 remain accepted in their offline scopes. O2-B1 preparation was reviewed and integrated in PR #789, merge `0399b581e8e61b5306813479df6a8af363c35c0a`, tree `bc010341a934706e2c75b8d8b6e203882473bedf`. The [attributed preparation review](reviews/provider-onboarding-o2-b1-preparation-source-evidence-review.md) and [integration identity](provider-onboarding/o2-b1-preparation-reviewed-integration.json) retain its source and hosted CI provenance: 3,463 tests / 55,570 assertions / four skips. That preparation CI is inherited evidence, not B1 runtime proof.
+
+O2-B1 is implemented locally for source/integration review: explicit v2 migration, atomic sequence/command/step and S/P consumption, shared FC/onboarding exposure, fixed custody ports, durable checkpoints and evidence-only recovery. See [implemented shapes](provider-onboarding-ledger-custody-input.md) and [implementation report](handoffs/provider-onboarding-o2-b1-report.md). Production defaults refuse missing genuine source/holder/adapter/custody evidence. No source review, full CI or integration acceptance is claimed for this local code.
+
+Five implementation batches remain unaccepted across O2-O5 until B1 is reviewed/integrated; O2 remains open. O3 adapters/founding, O4 assignment and O5 CLI remain unselected. DeepSeek/API-key, FRESH, D2-A, P1-P9, medium target capacity, least-cost eligible initial base, empty actual retry allowlist and persistent operator control are unchanged. DEFER_ENROLLMENT and unresolved remote guarantees persist. deployment_approved, enrollment_authorized, live_ready, activation and execution_authority remain false.
+
+Earlier current-status text below is historical and does not override this disposition.
+
+---
+
 # Current continuation — O2-B0 integrated; O2-B1 preparation
 
 O1 is complete and O2-B0 is accepted within its offline admission/current-resolution scope. PR #788 merged as `cafa93f9665f0e5734f26491a092b28995e1cf14`, tree `e2070c7a2184c7481882f27297c976d248b2c2be`. The [attributed correction review](reviews/provider-onboarding-o2-b0-correction-source-evidence-review.md) and [integration identity](provider-onboarding/o2-b0-reviewed-integration.json) record hosted CI: 3,463 tests / 55,572 assertions / four skips. This preparation verified the supplied manifest/CI-log and fetched Git identities; it did not rerun that PHP CI. Original author and HOLD reports remain historical, including their original pending status.

@@ -1,0 +1,62 @@
+{
+  "pr_number": 790,
+  "pr_url": "https://github.com/gatomontes/imperium-symfony/pull/790",
+  "verdict": "HOLD",
+  "main_unchanged": "0399b581e8e61b5306813479df6a8af363c35c0a",
+  "author_tested": "547a95ddca457faeb0834fd197803e20ba6f8c0b",
+  "author_final": "c7b1576490996f83f97445f1c7f0eddd53d4260f",
+  "published_author": "74416e9266de8191127490d632059bd658b9b9b1",
+  "author_tree": "c987e25871e5003efd5aed6e358a534f219bbff0",
+  "local_reviewer": "2470a9cffbfbd144940bbabce804429e5a04b37d",
+  "published_reviewer": "441fc9bb7003b62cb77bf61d82cc78485d55bf38",
+  "reviewer_tree": "f56c019688777745ae0b5a2e5d29f18dbcee432d",
+  "pr_test_merge": "4d7fc59b7aca4d9db5d0f1ebc06a3d83970bf22e",
+  "pr_test_merge_parents": [
+    "0399b581e8e61b5306813479df6a8af363c35c0a",
+    "441fc9bb7003b62cb77bf61d82cc78485d55bf38"
+  ],
+  "merge_performed": false,
+  "live_work_performed": false,
+  "php_local_rerun": false,
+  "ci": {
+    "author_only": {
+      "run_id": 34540121387,
+      "job_id": 103080668467,
+      "tested_pr_merge": "6ab4e594b5ace1d6c627d309b60359e83d474b04",
+      "head": "74416e9266de8191127490d632059bd658b9b9b1",
+      "tree": "c987e25871e5003efd5aed6e358a534f219bbff0",
+      "conclusion": "success",
+      "tests": 3526,
+      "assertions": 55885,
+      "skips": 4,
+      "duration": "11:24.552",
+      "php": "8.4.25",
+      "phpunit": "13.3.0",
+      "log": "ci-author.log",
+      "log_sha256": "c1343fcc1d768e0588cdfcd23848e3bc8507cdf0dce77a3c3866b652f678ff4f",
+      "fetched_merge_tree_and_parents_verified": true
+    },
+    "reviewer_added": {
+      "run_id": 34540347005,
+      "job_id": 103081363869,
+      "tested_pr_merge": "4d7fc59b7aca4d9db5d0f1ebc06a3d83970bf22e",
+      "head": "441fc9bb7003b62cb77bf61d82cc78485d55bf38",
+      "tree": "f56c019688777745ae0b5a2e5d29f18dbcee432d",
+      "conclusion": "failure",
+      "tests": 3530,
+      "assertions": 55890,
+      "failures": 4,
+      "skips": 4,
+      "exit_code": 1,
+      "duration": "12:13.707",
+      "php": "8.4.25",
+      "phpunit": "13.3.0",
+      "log": "ci-reviewer.log",
+      "log_sha256": "dc30be6c646bbb0572a84d01b4482e11bc4eb535caa6688da2d2bbc17006d284",
+      "fetched_merge_tree_and_parents_verified": true,
+      "failure_scope": "Exactly the four new reviewer regression cases"
+    }
+  },
+  "main_verified_after_publication": "0399b581e8e61b5306813479df6a8af363c35c0a",
+  "post_ci_source_changes": []
+}

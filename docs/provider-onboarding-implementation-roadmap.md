@@ -1,3 +1,5 @@
+Current provider-onboarding work: [O2-B1 correction](handoffs/provider-onboarding-o2-b1-correction-report.md), following the attributed HOLD review. Local correction passed the required local gates; source review, fresh full CI and integration are pending. O2 remains open.
+
 # Provider onboarding — bounded implementation roadmap
 
 Baseline: integration `086eb363ef43e58a29a50e7dfdecba34306c44c3`, tree `9d0ff3afeddab544a65ab1b56be05f306928d087`. O0 contracts and O1-B0 offline target selection are integrated through PR #782. Its corrected full CI passed 3,015 tests / 54,564 assertions with four skips. Author-review provenance remains explicit; integration was owner-directed, not fabricated independent acceptance. CY/FC acceptance stays intact.
@@ -13,7 +15,7 @@ The owner asked how much remains and then directed “Ok. Let us press forward.�
 | O1-B1 | Complete W1/W2/W3 response parsing and frozen-context consistency validation; no admission authority | Complete; reviewed and integrated in PR #784 |
 | O1-B2 | Least-cost eligible Augur base proposal using exact comparison arithmetic, fixed workload, freshness and deterministic exclusions/ties | Complete; reviewed and integrated in PR #786. [Review](reviews/provider-onboarding-o1-b2-source-evidence-review.md); original [implementation report](handoffs/provider-onboarding-o1-b2-report.md) preserved. |
 | O2-B0 | Original policy/act/reference admission and current authority checks for the selected bootstrap route | Complete; corrected, reviewed and integrated in PR #788. [Review](reviews/provider-onboarding-o2-b0-correction-source-evidence-review.md), [integration identity](provider-onboarding/o2-b0-reviewed-integration.json). O2 remains open for B1. |
-| O2-B1 | Shared Citadel sequence/command/step ledger, bounded claims, atomic consumption, replay and unknown-outcome fences | Preparation complete locally; source review before implementation. [Contract](../contracts/provider-onboarding-ledger-custody.md) |
+| O2-B1 | Shared Citadel sequence/command/step ledger, bounded claims, atomic consumption, replay and unknown-outcome fences | Implemented locally after reviewed/integrated preparation; source review/full CI/integration pending. [Report](handoffs/provider-onboarding-o2-b1-report.md) |
 | O3-B0 | DeepSeek API-key custody/adapter boundary, exact request/response/usage mapping and typed unknown failures, tested offline | Planned |
 | O3-B1 | Legitimate Augur binding and bounded cognition bridge, selected FRESH route with explicit refusal of unsupported existing-installation transitions | Planned |
 | O4-B0 | Atomic whole-set assignment application, persistent resolver and explicit operator change/revalidation, with crash/replay proof | Planned |
@@ -32,6 +34,8 @@ O1-B2 is [reviewed and integrated](reviews/provider-onboarding-o1-b2-source-evid
 
 O2-B0 is accepted offline after R1-R4 correction, hosted CI and PR #788 integration: merge `cafa93f9665f0e5734f26491a092b28995e1cf14`, tree `e2070c7a2184c7481882f27297c976d248b2c2be`. Supplied CI records 3,463 tests / 55,572 assertions / four skips. This preparation verified its evidence/Git identity, not a new PHP run. Original author/HOLD reports remain unchanged.
 
-Only [O2-B1 preparation](next-campaign-provider-onboarding-o2-ledger-custody.md) is performed now, producing its contract and [local launch](handoffs/provider-onboarding-o2-ledger-custody-ready.md). Stop for preparation/source review before implementation. Later rows remain unselected. Settled DeepSeek/API-key/FRESH/D2-A/P1-P9/medium-capacity/retry choices remain; neither O1 nor B0 acceptance grants live eligibility or enrollment.
+O2-B1 preparation was accepted and integrated in PR #789, merge `0399b581e8e61b5306813479df6a8af363c35c0a`, tree `bc010341a934706e2c75b8d8b6e203882473bedf`. Its [attributed review](reviews/provider-onboarding-o2-b1-preparation-source-evidence-review.md) and [integration metadata](provider-onboarding/o2-b1-preparation-reviewed-integration.json) preserve source/CI provenance.
+
+Only O2-B1 has been implemented locally in this pass. Its [report](handoffs/provider-onboarding-o2-b1-report.md) distinguishes runtime checks from inherited preparation CI. Stop for source/integration review; do not start another batch. Five implementation batches remain unaccepted across O2-O5 until this code passes its review/full-CI gate. Settled decisions and all live deferrals remain unchanged.
 
 Every handoff contains all produced public files in one all-deliverables ZIP, including README and the inner review packet/checksum. No outer checksum; also provide individual report/instructions. Record fixes as fixes and preserve prior evidence. No private runtime material.
