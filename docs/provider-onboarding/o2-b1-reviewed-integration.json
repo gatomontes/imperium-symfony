@@ -1,0 +1,51 @@
+{
+  "schema": "imperium.provider-onboarding-reviewed-integration/v1",
+  "stage": "O2-B1",
+  "disposition": "ACCEPTED_OFFLINE_AND_INTEGRATED",
+  "date": "2026-09-11",
+  "author_final_commit": "5ffbd908ab249c9dc9da632201a2b639641b2d4f",
+  "author_tested_php_commit": "c0765666775df8db659ff6a64bbf5d01ce6624e3",
+  "reviewed_head": "a66f19f2b96b2a5b2e1b4accc2458d4f482d7389",
+  "integration_commit": "9b50d53362e44af1d628034ad6153985b9a24d1c",
+  "integration_tree": "2c9a41d0e7b3794757839ebb4f6ba105cd1aa486",
+  "pr": 790,
+  "ci": {
+    "run": 34597464021,
+    "job": 103256479078,
+    "tested_merge": "0c73158d9e2600358c7c11f4b41ade7441b172e8",
+    "tree": "2c9a41d0e7b3794757839ebb4f6ba105cd1aa486",
+    "conclusion": "success",
+    "tests": 3536,
+    "assertions": 56244,
+    "skips": 4,
+    "duration": "13:36.254",
+    "php": "8.4.25",
+    "phpunit": "13.3.0",
+    "scope": "Fresh full PR CI on exact integrated tree; not a claimed post-merge rerun"
+  },
+  "verification": {
+    "payloads": 102,
+    "canonical_changed_files": 20,
+    "tested_php_files": 1800,
+    "protected_original_files": 3303,
+    "static_specification_checks": 86,
+    "author_local_tests": 751,
+    "author_local_assertions": 7237,
+    "reviewer_local_php_run": false
+  },
+  "provenance": "Attributed source/evidence review; earlier assistant preparation and reviewer contributions are disclosed. Owner directed integration.",
+  "remaining_batches": [
+    "O3-B0",
+    "O3-B1",
+    "O4-B0",
+    "O5-B0"
+  ],
+  "next_batch": "O3-B0",
+  "operational_flags": {
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "live_ready": false,
+    "activation": false,
+    "execution_authority": false
+  }
+}

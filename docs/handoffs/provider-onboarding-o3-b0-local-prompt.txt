@@ -1,0 +1,30 @@
+Implement the selected O3-B0 DeepSeek adapter/API-key custody batch in this isolated worktree. Ad Imperium.
+
+Read these first:
+- docs/next-campaign-provider-onboarding-o3-deepseek-adapter.md
+- contracts/provider-onboarding-deepseek-adapter.md
+- docs/reviews/provider-onboarding-o2-b1-correction-acceptance.md
+- docs/provider-onboarding/o2-b1-reviewed-integration.json
+- docs/provider-onboarding-policy-approval.md
+- docs/provider-onboarding-current-decision-evidence-card.md
+- docs/provider-onboarding-deepseek-appendix.md
+- contracts/provider-onboarding-ledger-custody.md
+- docs/provider-onboarding-ledger-custody-input.md
+- contracts/provider-onboarding-response-validation.md
+- contracts/provider-onboarding-retries.md
+
+O2 is accepted/integrated at 9b50d53362e44af1d628034ad6153985b9a24d1c. Entry must include the O3-B0 preparation; record actual clean entry commit/tree. Do not reset or reuse another dirty worktree.
+
+Execute implementation now, not another preparation-only pass. Inspect the real PreparedOperation, SourceAuthority, CredentialCustody and ResponseCustody interfaces and existing custody infrastructure. Write a short internal-shape/design note, implement dormant adapters/storage and meaningful tests, then update documentation once after implementation.
+
+Implement the exact approved DeepSeek GET/POST path, fixed API-key custody, no retries/redirects, bounded total deadline/response reads, strict provider response/usage mapping, trustworthy operation attribution and immutable response retention. Exercise the new access adapter through actual O2 and B0 synthetic authority with a mock HTTP client. Cognition serializer/parser tests are in scope; real Augur binding and the positive cognition bridge are O3-B1 and remain absent.
+
+Preserve R1-R3 fixes, all original reviewer cases, existing tests/fixtures, approved originals, sole journal/locks, source pins, legacy adapters, service configuration and dependency locks. Narrow O2 seam edits require explicit necessity and compatibility proof. Do not replace authentic verification with supplied claims, booleans or generic fixture references. Missing production evidence refuses; public snapshots and synthetic evidence do not grant account/authority access.
+
+No real provider requests, credentials, installed-state reads/writes, enrollment, appointment, assignment, activation, OAuth, CLI work or O3-B1/O4/O5 implementation. Default construction remains dormant and all five operational flags false. The actual retry allowlist is empty. No subagents. Do not ask again for DeepSeek, FRESH, D2-A or P1-P9 decisions.
+
+Run the campaign proof matrix and existing O1/O2/FC/reviewer/inventory selections, changed PHP lint, kernel smoke and tools/check_provider_onboarding_spec.py. Use PHP >=8.4 with locked dependencies. Capture final commands, exits, full public logs and all exact tested PHP byte streams. Preserve failed development evidence separately; never label inherited or targeted runs fresh full CI. Fix concrete in-scope failures; do not weaken assertions or widen authorization to pass.
+
+Commit the bounded implementation and record entry/tested/final identities. Return provider-onboarding-o3-b0-all-deliverables.zip plus individual report/instructions, with canonical changed files, patch, incremental bundle, tested-source snapshot/hashes, protected-original comparison, logs/exits and payload manifest. Include an inner review ZIP with SHA-256; no outer checksum and no recursive historical archives. Do not commit raw private evidence or runtime state.
+
+Stop for source review and fresh full hosted CI within O3-B0. Do not push/merge the implementation or start a later batch as part of this local handoff. Report any concrete blocker accurately alongside completed deliverables.

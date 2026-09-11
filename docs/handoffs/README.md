@@ -1,3 +1,13 @@
+# Current local handoff — O3-B0
+
+O2 is accepted and integrated through PR #790, merge `9b50d53362e44af1d628034ad6153985b9a24d1c`. Its exact tree passed fresh full CI: 3,536 tests / 56,244 assertions / four skips.
+
+Run [O3-B0 DeepSeek adapter/API-key custody](provider-onboarding-o3-deepseek-adapter-ready.md). The handoff contains the prompt and PowerShell worktree/pull commands. Four planned implementation batches remain. O2 correction and acceptance are complete; no further O2 local run is needed.
+
+---
+
+## Historical handoffs (current handoff above controls)
+
 Current local continuation: [O2-B1 correction report](provider-onboarding-o2-b1-correction-report.md). The original implementation is held for R1–R3; review/full CI/integration remain pending.
 
 > Current next action: [review local O2-B1 implementation](../handoffs/provider-onboarding-o2-b1-report.md). Five batches remain unaccepted across O2-O5. No later implementation or live action is selected. Earlier notices are historical.
