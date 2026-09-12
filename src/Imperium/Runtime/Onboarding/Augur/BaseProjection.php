@@ -44,7 +44,7 @@ final readonly class BaseProjection
             'evaluated_at'=>($evaluatedAt??$store->now())*1000,'expires_at'=>$policy['body']['expires_at']*1000,'universe_coverage'=>'COMPLETE',
             'workload'=>array_map(static fn(string $g):array=>['group_id'=>$g,'input_tokens'=>16384,'generated_tokens'=>4096,'baseline_calls'=>1,'maximum_calls'=>4],['W1','W2','W3']),
             'limits'=>BaseInput::LIMITS,'retryable_failure_allowlist'=>$policy['body']['evidence_policy']['retryable_failure_allowlist']];
-        $refs=array_intersect_key($context,array_flip(BaseInput::REFS));$approved=[];$rows=[];
+        $refs=array_intersect_key($context,array_flip(BaseInput::REFS));$approved=[];$rows=[];$mappingSupport=[];
         R::require(is_array($manifest['rows']) && array_is_list($manifest['rows']) && count($manifest['rows'])===count($policy['body']['candidate_bindings']),'BASE_CANDIDATE_COVERAGE');
         $facts=[];
         foreach($manifest['rows'] as $row){R::object($row,['binding_ref','facts_ref']);$key=R::key($row['binding_ref']);R::require(!isset($facts[$key]),'BASE_DUPLICATE_FACTS');
@@ -54,21 +54,8 @@ final readonly class BaseProjection
             foreach(['binding_ref','configuration_ref','adapter_ref','mapping_ref'] as $key){$load($candidate[$key]);}
             $config=Policy::content($load($candidate['configuration_ref']),'request-configuration');R::require(R::same($config,Wire::CONFIGURATION),'BASE_CONFIGURATION');
             $mapping=Policy::content($load($candidate['mapping_ref']),'runtime-binding-map');
-            R::object($mapping,['snapshot_ref','provider','mappings','adapter_ref','expires_at']);
-            R::require($mapping['provider']===$candidate['provider'] && R::same($mapping['adapter_ref'],$candidate['adapter_ref'])
-                && $store->now()<R::time($mapping['expires_at']) && $mapping['expires_at']<=$policy['body']['expires_at'],'BASE_MAPPING_SCOPE');
-            $load(R::ref($mapping['snapshot_ref']));
-            R::require(is_array($mapping['mappings']) && array_is_list($mapping['mappings']) && count($mapping['mappings'])>0 && count($mapping['mappings'])<=256,'BASE_MAPPING_SCOPE');
-            $matches=[];$seen=[];
-            foreach($mapping['mappings'] as $m){
-                R::object($m,['model_ref','dispatch_id','configuration_schema_digest','supported_limits','revision_pin_limitation']);
-                $load(R::ref($m['model_ref']));$mk=R::key($m['model_ref']);R::require(!isset($seen[$mk]),'BASE_MAPPING_SCOPE');$seen[$mk]=true;
-                \App\Imperium\Runtime\Citadel\Formation\SharedExposure::meters($m['supported_limits'],false);
-                if(R::same($m['model_ref'],$candidate['binding_ref'])){$matches[]=$m;}
-            }
-            R::require(count($matches)===1 && $matches[0]['dispatch_id']===$candidate['model_id']
-                && $matches[0]['configuration_schema_digest']===R::hash($config)
-                && $matches[0]['revision_pin_limitation']===$candidate['revision_pin'],'BASE_MAPPING_SCOPE');
+            $supported=MappingLimits::resolve($mapping,$candidate,$config,$load,$store->now(),$policy['body']['expires_at']);
+            $mappingSupport[R::key($candidate['binding_ref'])]=MappingLimits::supports($supported);
             $binding=$candidate+['advertised_id'=>$candidate['model_id'],'dispatch_id'=>$candidate['model_id'],'request_config'=>$config];$approved[]=$binding;
             $key=R::key($candidate['binding_ref']);R::require(isset($facts[$key]),'BASE_CANDIDATE_COVERAGE');$f=$facts[$key];unset($facts[$key],$f['binding_ref']);
             $rows[]=['binding'=>$binding,'context_refs'=>$refs]+$f;
@@ -83,6 +70,12 @@ final readonly class BaseProjection
         $parsed=BaseInput::fromArray($input);
         // The verifier receives every exact original consulted, including complete numeric facts and evidence bytes.
         $this->evidence->verify($policy,$input,$originals);
+        // Authenticate the supplied factual projection first. Mapping incompatibility can only
+        // demote adapter support; it cannot promote or rewrite any provider finding.
+        foreach($input['candidates'] as &$row){
+            if(!$mappingSupport[R::key($row['binding']['binding_ref'])]){$row['bounds']['adapter_support']='FAIL';}
+        }unset($row);
+        $parsed=BaseInput::fromArray($input);
         $snapshot=$input;
         return (new BaseSelector())->propose($parsed);
     }

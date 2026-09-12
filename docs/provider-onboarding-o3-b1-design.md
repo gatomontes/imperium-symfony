@@ -31,3 +31,11 @@ The former native/aggregate publication gap is closed by the common owner descri
 The projection additionally checks the existing `runtime-binding-map` source shape against each exact candidate binding: provider, adapter, model reference, dispatch ID, canonical request-configuration digest, accepted revision limitation and effective interval. Its snapshot and all row model references resolve as originals. The existing map-base effect remains the only mapping completion owner; a matching candidate-map row is not completed approval or founding. No mapping schema or O2 consumer is changed.
 
 Final validation captures the complete tracked PHP source set. The exact-wire token evidence also bounds accepted POST usage; a provider response above that authenticated bound remains an unknown outcome, even below the global reservation ceiling. Holder snapshots are bounded to 1 MiB, and their mapping must equal the actual map-base completion.
+
+## R1 correction: exact mapping support
+
+The fixed per-cognition envelope is 1 call / 16,384 input / 4,096 output / 100,000 micro-USD / 60,000 ms. MappingLimits resolves the exact current original row and compares every supported meter with this envelope. Smaller mapped values exclude the configuration; no approved setting is lowered and no mapped limit inherits a global maximum. Larger supported values do not raise the operation or shared budgets.
+
+BaseProjection first authenticates the original factual input, then demotes adapter_support to FAIL for each unsupported row before invoking the unchanged O1 selector. This preserves deterministic least-cost eligibility, existing adverse facts, exact tariffs and a reproducible snapshot. FreshProducer's publication and current-holder reconstruction consume that same result. AugurAdapter independently reloads the selected map and checks the prepared maximum at context reconstruction, including custody and dispatch/response boundaries. No new record version, source owner, locking boundary or delivery port is introduced.
+
+The correction report/proof matrix identifies fresh corrected-source runs, including all five strict/zero meters, exact-bound success, supported-alternative selection, mapping expiry during credential callback and the unchanged reviewer and W1/W2/W3 tests. Source review and fresh complete hosted CI remain pending.

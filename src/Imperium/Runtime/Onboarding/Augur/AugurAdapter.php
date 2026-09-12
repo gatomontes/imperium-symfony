@@ -47,6 +47,8 @@ final readonly class AugurAdapter implements ContextualPreparedOperation,SourceA
         R::require(R::same($binding,['authentication'=>'api-key','provider'=>'deepseek','opaque_binding'=>$this->keys->generation()]),'DEEPSEEK_KEY_CURRENT');
         R::require(R::same($b['binding']['adapter_ref'],$policy['body']['adapter_ref']) && R::same(Policy::content($load($policy['body']['adapter_ref']),'adapter-description'),['schema'=>'imperium.deepseek-adapter/v1','adapter'=>Wire::ADAPTER]),'COMMISSION_ADAPTER');
         $config=Policy::content($load($b['binding']['configuration_ref']),'request-configuration');
+        $supported=MappingLimits::resolve(Policy::content($load($b['binding']['mapping_ref']),'runtime-binding-map'),
+            $b['binding'],$config,$load,$store->now(),$policy['body']['expires_at']);
         $evidence=R::refs($c['evidence_refs']);R::require($evidence!==[] && count($evidence)<=256 && R::same($evidence,$c['evidence_refs']),'COMMISSION_EVIDENCE');
         $public=[];foreach($evidence as $ref){$public[]=$load($ref);}
         $inputs=[];foreach($step['input_refs'] as $selector){
@@ -68,8 +70,9 @@ final readonly class AugurAdapter implements ContextualPreparedOperation,SourceA
         R::require($resources->tariff->account===$c['account_scope'],'COMMISSION_ACCOUNT');Wire::preflight($wire,$b['binding']['model_id'],$resources->tokens,$resources->tariff,$store->now(),$expiry);
         $op=['schema'=>'imperium.bootstrap-prepared-operation/v1','wire'=>$wire,'destination'=>'https://api.deepseek.com:443/chat/completions','method'=>'POST','provider'=>'deepseek',
             'model'=>$b['binding']['model_id'],'configuration_ref'=>$b['binding']['configuration_ref'],'credential_operation'=>'deepseek.augur.'.$c['group_id'],
-            'adapter'=>Wire::ADAPTER,'maximum'=>['calls'=>1,'input_tokens'=>16384,'output_tokens'=>4096,'cost_microusd'=>100000,'milliseconds'=>60000],
+            'adapter'=>Wire::ADAPTER,'maximum'=>MappingLimits::MAXIMUM,
             'expires_at'=>$expiry,'authority_source'=>['kind'=>'assessment','commission_ref'=>R::reference($source),'holder_ref'=>R::reference($holder)]];
+        R::require(MappingLimits::supports($supported,$op['maximum']),'MAPPING_OPERATION_LIMIT');
         return ['operation'=>$op,'resources'=>$resources,'expected'=>$expected,'commission'=>$c,'originals'=>$originals];
     }
     public function verify(AuthorityStore $store,array $state,array $policy,string $effect,array $terms,array $operation):void
