@@ -1,0 +1,21 @@
+{
+  "status": "ACCEPTED_AND_INTEGRATED_OFFLINE",
+  "local_final_commit": "efd95bab68b5c3ed02c49d29f56072c854a0f4cd",
+  "published_head": "1bc72f43fa952afda6ccef9452c8b1f5bb38255a",
+  "accepted_tree": "36cf88119bde960250a0bb2fe5831b66c9d94d3e",
+  "ci_checkout": "c67ce8f7dabe129e2aa58bfd9857bc438e41c94a",
+  "ci_run": 34665178640,
+  "ci_job": 103475509898,
+  "ci_result": {
+    "tests": 3612,
+    "assertions": 56618,
+    "skipped": 4,
+    "duration": "17:16.006",
+    "php": "8.4.25",
+    "phpunit": "13.3.0"
+  },
+  "merge_pr": 792,
+  "merge_commit": "32bb8d76424d6b7447cc423cb7932af35b1f074e",
+  "merge_tree": "36cf88119bde960250a0bb2fe5831b66c9d94d3e",
+  "scope": "Offline software acceptance; no live provider or installed-state authority."
+}
