@@ -24,10 +24,11 @@ final readonly class AuthorityStore
     }
     public function state(array $state): array {
         Rules::require(isset($state['onboarding']),'TRUST_ABSENT'); $s=$state['onboarding'];
-        Rules::require(in_array($s['schema']??null,['imperium.onboarding-authority-state/v1','imperium.onboarding-authority-state/v2'],true),'STATE_VERSION');
+        Rules::require(in_array($s['schema']??null,['imperium.onboarding-authority-state/v1','imperium.onboarding-authority-state/v2','imperium.onboarding-authority-state/v3'],true),'STATE_VERSION');
         $keys=['schema','trust','acts','policies','evidence','revocations','admissions'];
-        if ($s['schema']==='imperium.onboarding-authority-state/v2') {
+        if ($s['schema']!=='imperium.onboarding-authority-state/v1') {
             $keys=[...$keys,'migration',...\App\Imperium\Runtime\Onboarding\Ledger\StateMigration::MAPS];
+            if($s['schema']==='imperium.onboarding-authority-state/v3'){$keys[]='augur_migration';}
             \App\Imperium\Runtime\Onboarding\Ledger\LedgerState::validate($s);
         }
         Rules::object($s,$keys);

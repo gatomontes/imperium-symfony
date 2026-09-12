@@ -1,0 +1,52 @@
+[
+  {
+    "area": "Base projection and mapping",
+    "status": "PARTIAL",
+    "evidence": "new-o3-b1-base.log: real signed admission, O1 selection, O2 SELECT_BASE and map-base; no-fit, stale, missing verifier, altered token/tariff/account originals, Profile/version, mapping substitution, admitting-act revocation. Does not prove a persisted typed proposal/current FRESH derivation or every configuration/alias mutation."
+  },
+  {
+    "area": "Dynamic founding authority",
+    "status": "BLOCKED",
+    "evidence": "CommandLedger::authority and CurrentAuthority::verify still require exact terms. eligible_binding is not resolved; new positive test proves founding refuses without head change."
+  },
+  {
+    "area": "Constitutional FRESH producer",
+    "status": "BLOCKED",
+    "evidence": "root-owner-diagnostic.log exit 3; native installer publishes outside the owning aggregate. No FRESH holder producer implemented."
+  },
+  {
+    "area": "One-use founding",
+    "status": "NOT_PROVEN",
+    "evidence": "No common-owner consumption/publication protocol; no claimed contender, crash/restart or changed-ID FRESH tests."
+  },
+  {
+    "area": "Current holder and commission",
+    "status": "BLOCKED",
+    "evidence": "No holder/commission resolver or bounded new state version. Existing v2 rejects bindings and assessment_views."
+  },
+  {
+    "area": "Actual custody POST",
+    "status": "BLOCKED",
+    "evidence": "Runtime::dispatch remains GET-only. New positive test uses real public Runtime entry and exact MockHttpClient for access; this is not a POST bridge proof."
+  },
+  {
+    "area": "Assessment groups",
+    "status": "NOT_IMPLEMENTED",
+    "evidence": "Existing O1/O2 regression selections run; real FRESH-to-W1/W2/W3 semantic bridge is absent. Existing component reflection tests are not positive bridge evidence."
+  },
+  {
+    "area": "Bounds and unknown outcomes",
+    "status": "PRESERVED_REGRESSION_ONLY",
+    "evidence": "Existing O2/O3/FC selections; empty retry list and flags preserved. No claim of new FRESH/POST coverage."
+  },
+  {
+    "area": "Storage and recovery",
+    "status": "PRESERVED_REGRESSION_ONLY",
+    "evidence": "Existing immutable-envelope and custody recovery tests. No new founding recovery mechanism or proof."
+  },
+  {
+    "area": "Preservation",
+    "status": "PASS_LOCAL_SELECTIONS",
+    "evidence": "Original tests and fixtures unchanged, selected native/inventory/kernel/spec/lint pass; all entry originals except the declared AccessAdapter seam compared during packaging."
+  }
+]

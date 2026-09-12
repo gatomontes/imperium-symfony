@@ -9,14 +9,21 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 final readonly class OperatorRootOperationalizationService
 {
     private string $root;
+    private OperatorRootOwnership $ownership;
 
     public function __construct(
         #[Autowire("%kernel.project_dir%")] string $projectDir,
     ) {
         $this->root = $projectDir . "/var/imperium/operator-root";
+        $this->ownership = new OperatorRootOwnership($projectDir);
     }
 
     public function seal(string $instanceId): array
+    {
+        return $this->ownership->native(fn(): array => $this->sealOwned($instanceId));
+    }
+
+    private function sealOwned(string $instanceId): array
     {
         if ("" === trim($instanceId)) {
             throw new \InvalidArgumentException("B220_INSTANCE_ID_INVALID");
@@ -136,7 +143,6 @@ final readonly class OperatorRootOperationalizationService
                             JSON_UNESCAPED_SLASHES |
                             JSON_THROW_ON_ERROR,
                     ) . "\n",
-                    LOCK_EX,
                 ) ||
             !rename($tmp, $path)
         ) {

@@ -19,7 +19,7 @@ final class Runtime
     private \Closure $milliseconds;
 
     public function __construct(private readonly AuthorityStore $store,
-        private readonly AccessAdapter $adapter = new AccessAdapter(),
+        private readonly AccessAdapter|\App\Imperium\Runtime\Onboarding\Augur\AugurAdapter $adapter = new AccessAdapter(),
         private readonly ?KeySource $keys = null, private readonly ?EnvelopeStore $envelopes = null,
         ?HttpClientInterface $mock = null, ?\Closure $monotonicMilliseconds = null)
     {
@@ -41,7 +41,7 @@ final class Runtime
             public function retain(array $envelope): void { ($this->retain)($envelope); }
             public function read(array $claimRef): array { return ($this->read)($claimRef); }
         };
-        $ledger=new CommandLedger($store,$adapter,$adapter);
+        $ledger=new CommandLedger($store,$adapter,$adapter,$adapter instanceof \App\Imperium\Runtime\Onboarding\Augur\AugurAdapter?$adapter->founding:null);
         $this->coordinator=new CustodyCoordinator($ledger,$adapter,$credentials,$responses);
     }
     public function advance(string $request): array { return $this->coordinator->advance($request); }
@@ -90,8 +90,13 @@ final class Runtime
         R::require($this->active !== null && !$this->active[3] && R::same($operation,$this->active[1])
             && $this->keys->generation() === $this->active[2] && is_string($authentication),'DISPATCH_CAPABILITY');
         $this->active[3]=true; $this->current($this->active[0],$operation,3);
-        // B0 connects only the access source. No public entry exposes the lower-level exchange.
-        R::require($operation['method'] === 'GET','O3_B1_PRODUCER_MISSING');
+        if($operation['method']==='POST'){
+            R::require($this->adapter instanceof \App\Imperium\Runtime\Onboarding\Augur\AugurAdapter,'O3_B1_PRODUCER_MISSING');
+            $resources=$this->store->journal->inspect(fn(array $frame)=>$this->adapter->dispatchResources($this->store,$frame['state'],$operation));
+            R::require($this->keys->generation()===$this->active[2],'DEEPSEEK_KEY_CURRENT');
+            return $this->exchange($operation,$authentication,$resources->tokens,$resources->tariff);
+        }
+        R::require($operation['method']==='GET','O3_B1_PRODUCER_MISSING');
         return $this->exchange($operation,$authentication);
     }
     private function exchange(array $operation,#[\SensitiveParameter] string $authentication,
@@ -128,6 +133,7 @@ final class Runtime
             R::require(!$contains(\App\Imperium\Runtime\Onboarding\AuthorityAdmission\StrictJson::decode($bytes)),'RESPONSE_SCOPE');
             $mapped=$operation['method'] === 'GET' ? ProviderResponse::listing($bytes,$elapsed)
                 : ProviderResponse::cognition($bytes,$operation['model'],$tariff,$elapsed);
+            if($operation['method']==='POST'){R::require($mapped['usage']['input_tokens']<=$tokens->inputMaximum && $mapped['usage']['output_tokens']<=$tokens->generatedMaximum,'RESPONSE_EXCEEDS_TOKEN_EVIDENCE');}
             foreach ($mapped['usage'] as $meter=>$n) { R::require($n <= $operation['maximum'][$meter],'RESPONSE_EXCEEDS_RESERVATION'); }
             return ['response'=>$bytes,'provider_response_id'=>$mapped['identity'], 'operation_digest'=>R::hash($operation),
                 'usage'=>$mapped['usage'],'provenance'=>Wire::ADAPTER];

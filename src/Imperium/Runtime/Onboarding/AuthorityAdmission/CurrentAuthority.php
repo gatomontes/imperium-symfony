@@ -27,8 +27,8 @@ final class CurrentAuthority
                 Rules::require($slot['effect']===$effect && $slot['authority_mode']==='policy_effect' && Rules::hash($slot)===$authority['slot_digest'] && $store->now()<$slot['expires_at'],'SLOT_SCOPE');
                 Rules::require(Rules::same($authority['terms_ref'],$termsRef),'TERMS_REF');
                 Rules::refs($authority['derivation_input_refs']);
-                Rules::require($slot['terms_rule']['kind']==='exact','DYNAMIC_PREREQUISITES_MISSING');
-                Rules::require($authority['derivation_input_refs']===[] && Rules::same($slot['terms_rule']['object_ref'],$termsRef),'EXACT_DERIVATION');
+                 $derived=$slot['terms_rule']['kind']==='exact'?['terms_ref'=>$slot['terms_rule']['object_ref'],'derivation_input_refs'=>[]]:\App\Imperium\Runtime\Onboarding\Augur\FoundingRule::derive($s,$policy,$slot,fn(array $ref):array=>$store->checkSource($s,$ref));
+                Rules::require(Rules::same($authority['derivation_input_refs'],$derived['derivation_input_refs']) && Rules::same($derived['terms_ref'],$termsRef),'EXACT_DERIVATION');
                 $terms=$store->checkSource($s,$termsRef);
                 // Even ordinary dependencies require future completed progression receipts.
                 foreach ($slot['depends_on'] as $step) { $obligations[]=['kind'=>'completed_step','step_id'=>$step]; }

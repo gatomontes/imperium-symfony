@@ -16,11 +16,19 @@ final readonly class FormationJournal
 {
     private string $directory;
     private AtomicTransition $atomic;
+    private string $owner;
 
     public function __construct(#[Autowire('%kernel.project_dir%')] string $root)
     {
+        $this->owner = str_replace('\\', '/', realpath($root) ?: $root);
         $this->directory = $root.'/var/imperium/citadel/formation';
         $this->atomic = new AtomicTransition($root);
+    }
+
+    /** Fixed construction identity; no store read or lock acquisition. */
+    public function sameOwner(self $other): bool
+    {
+        return PHP_OS_FAMILY === 'Windows' ? strcasecmp($this->owner, $other->owner) === 0 : $this->owner === $other->owner;
     }
 
     public static function digest(mixed $value): string

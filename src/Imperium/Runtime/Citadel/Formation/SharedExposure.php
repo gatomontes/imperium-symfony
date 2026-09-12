@@ -13,7 +13,7 @@ final class SharedExposure
         R::require(!$call || $m['calls']===1,'RESOURCE_CALL');
     }
     public static function formation(array $state,string $sessionId,array $maximum,?string $ownAttempt,FormationJournal $journal,\App\Imperium\Runtime\Clock $clock): void {
-        if(($state['onboarding']['schema']??null)!=='imperium.onboarding-authority-state/v2'){return;}
+        if(!in_array($state['onboarding']['schema']??null,['imperium.onboarding-authority-state/v2','imperium.onboarding-authority-state/v3'],true)){return;}
         LedgerState::validate($state['onboarding']);$found=[];
         foreach($state['onboarding']['budget_bindings'] as $v){foreach($v['record']['body']['source_bindings'] as $binding){
             if($binding['kind']==='formation' && $binding['session_id']===$sessionId){

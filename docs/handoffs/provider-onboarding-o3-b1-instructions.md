@@ -1,0 +1,11 @@
+# O3-B1 review instructions
+
+1. Start with the report, `identities.json`, `campaign-proof-matrix.json` and `final-commands.json`. Tested source is `22072aa1936d3f4fc0d97cbdd484dc322a4b421c` / `db9194c29575ac320e7d8344ae8482575e0fb64b`. The supplied review and earlier development results are not fresh final proof.
+2. Verify the inner review ZIP's supplied SHA-256 and both manifests. Verify `implementation.bundle` from the preparation prerequisite and `continuation.bundle` from `8ebee96cbdcd43e5e89e8b1d222d83cd285b2e2d`. The two patches independently reconstruct the final tree. Use a separate clean reviewer checkout; do not reset a dirty worktree.
+3. Review common-root ownership, v2/v3 preservation, constitutional/finite founding provenance, snapshot/mapping cross-links, exact holder/commission/current credential checks, private POST dispatch, token/tariff/usage bounds and semantic completion. Compare each documented seam against the protected-original reports. The native/FRESH mixed route is deliberately refused; original native schemas are preserved.
+4. Reproduce with PHP >=8.4 and the locked dependencies. Run the exact captured selections, changed PHP lint, kernel smoke and `python tools/check_provider_onboarding_spec.py`. Do not label these selections full CI. The supplied runtime-source ZIP includes all 1846 tracked PHP byte streams tested locally.
+5. After source review, require fresh full hosted CI using the unchanged PHP 8.4 workflow: `vendor/bin/phpunit tests`, with its existing 30-minute allowance. This local task has not pushed or merged anything. Do not integrate before both review and fresh full CI pass.
+
+All five operational flags remain false. Missing genuine production evidence refuses; synthetic/public material grants no account authority. Do not use this packet for real provider requests, credential access, installed-state operations, enrollment, activation, standing cutover, O4 assignment or O5 CLI. No new decision is requested for FRESH/DeepSeek/D2-A/P1-P9.
+
+The outer ZIP intentionally has no checksum. Its manifest covers all other outer members, including the checksummed inner review ZIP. Historical delivery archives and private/runtime state are excluded; contemporaneous failed/superseded test evidence is separate.

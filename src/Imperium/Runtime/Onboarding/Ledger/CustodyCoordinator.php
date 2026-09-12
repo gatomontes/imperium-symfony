@@ -51,7 +51,7 @@ final readonly class CustodyCoordinator
         R::require(R::same($cons['body']['command_ref'],$command['ref']) && R::same($cons['body']['authority_consumption'],$claim['record']['body']['authority_consumption']),'CLAIM_CONSUMPTION');
         $slotRecord=$s['slots'][LedgerState::key('slot',[$store->instance,$policy['record_digest'],$slot['slot_id']])]??null;
         R::require(is_array($slotRecord) && R::same($slotRecord['command_ref'],$command['ref']),'CLAIM_CONSUMPTION');
-        $op=$this->preparer->prepare($facts['terms']);R::require(R::same($op,$claim['operation']['prepared']),'PREPARED_OPERATION_CHANGED');
+        $op=$this->preparer instanceof ContextualPreparedOperation?$this->preparer->prepareCurrent($store,$state,$policy,$step,$facts['terms']):$this->preparer->prepare($facts['terms']);R::require(R::same($op,$claim['operation']['prepared']),'PREPARED_OPERATION_CHANGED');
         $this->ledger->operation($state,$policy,$slot['effect'],$facts['terms'],$op);
         R::require($claim['settled']===null && $store->now()<$slot['expires_at'],'CLAIM_CURRENT');
         $budget=BudgetAssociation::resolve($store,$state,$policy);SharedExposure::check($state,$budget['identity'],$budget['limits'],$claim['maximum'],['onboarding',$id]);return $claim;
