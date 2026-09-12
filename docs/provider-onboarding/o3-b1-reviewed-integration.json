@@ -1,0 +1,42 @@
+{
+  "stage": "O3-B1",
+  "status": "accepted_integrated_closed",
+  "pr": 794,
+  "repository": "gatomontes/imperium-symfony",
+  "merge_commit": "61d3f555d4bc903437687d454f05f4484ff538c4",
+  "verified_merge_tree": "f7e10635a7d6992ea50de4a47ef2654e943e1ff7",
+  "reviewed_head": "c15c8e37802cefd5fec07a106f4626a7ce17d8ab",
+  "uploaded_final": "8045884d62391cfa6ce55180bd439ac2104384cd",
+  "local_tested_commit": "e913a83dc1073be8e7fa236acafb2d05fa993c27",
+  "ci_checkout": "1fb168aadb30f6048602353bfd0609af765331b9",
+  "ci_tree": "f7e10635a7d6992ea50de4a47ef2654e943e1ff7",
+  "full_ci": {
+    "run_id": 34703567912,
+    "job_id": 103579460829,
+    "conclusion": "success",
+    "command": "vendor/bin/phpunit tests",
+    "tests": 3664,
+    "assertions": 57357,
+    "skips": 4,
+    "duration": "22:39.689",
+    "timeout_minutes": 30,
+    "php": "8.4.25",
+    "phpunit": "13.3.0"
+  },
+  "acceptance_evidence_commit": "29b794bc252848ef3099d8ee52fc54dc0d0ee91e",
+  "diagnostics_closed_unmerged": [
+    795,
+    796
+  ],
+  "local_full_run": "Timed out at 1800 seconds; acceptance relies on complete hosted CI, not a local full pass.",
+  "owner_instruction": "merge and close, and proceed with o4",
+  "next_batch": "O4-B0",
+  "operational_flags": {
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "live_ready": false,
+    "activation": false,
+    "execution_authority": false
+  },
+  "actual_retry_allowlist": []
+}

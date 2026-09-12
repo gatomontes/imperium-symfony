@@ -1,3 +1,5 @@
+> Current status: O3 is accepted, integrated and closed. See [O3 closure](provider-onboarding-o3-complete.md). O4-B0 is selected. The source snapshot and instructions below are historical; original approval and evidence qualifications remain intact.
+
 # O3-B1 ready for one local implementation run
 
 O3-B0 is integrated at `32bb8d76424d6b7447cc423cb7932af35b1f074e`. [Acceptance](../reviews/provider-onboarding-o3-b0-correction-acceptance.md), [campaign](../next-campaign-provider-onboarding-o3-augur-cognition.md), [contract](../../contracts/provider-onboarding-augur-cognition.md), [full local prompt](provider-onboarding-o3-b1-local-prompt.txt).

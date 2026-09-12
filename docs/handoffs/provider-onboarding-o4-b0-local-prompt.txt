@@ -1,0 +1,39 @@
+Implement O4-B0: atomic persistent Courtthane/formation Locksmith model settings. Ad Imperium.
+
+Read first:
+- docs/next-campaign-provider-onboarding-o4-assignment-application.md
+- contracts/provider-onboarding-assignment-application.md
+- contracts/provider-onboarding-assignment-selection.md
+- contracts/provider-onboarding.md
+- contracts/provider-onboarding-continuation.md
+- contracts/provider-onboarding-ledger-custody.md
+- contracts/provider-onboarding-authority-admission.md
+- contracts/provider-onboarding-response-validation.md
+- contracts/provider-onboarding-retries.md
+- docs/provider-onboarding-current-decision-evidence-card.md
+- docs/provider-onboarding-policy-approval.md
+- docs/handoffs/provider-onboarding-o3-complete.md
+- docs/reviews/provider-onboarding-o3-b1-acceptance.md
+- docs/provider-onboarding/o3-b1-reviewed-integration.json
+
+Entry must include this preparation and O3 merge 61d3f555d4bc903437687d454f05f4484ff538c4 (accepted tree f7e10635a7d6992ea50de4a47ef2654e943e1ff7). Record actual clean entry commit/tree. Use an isolated new worktree; do not reset/reuse another dirty worktree. No subagents.
+
+Execute one bounded implementation run, not another preparation pass. Inspect actual CommandLedger, AssessmentGroups, CurrentAuthority, AuthorityStore, StateValidation/migration, AssignmentSelector, FormationJournal and the real model-settings consumer boundary. Declare closed internal schemas, bounds, ownership and migration in a short design note before coding. Then implement the contract and its entire meaningful proof matrix.
+
+Build assessment views from real retained W1/W2/W3 claims, custody, original response envelopes, frozen inputs, semantic validation and trustworthy usage. Use the existing pure target selector and exact immutable capacity rule. Preserve complete FIT coverage, lower-middle tier and deterministic tie-break semantics, coupled whole-set refusal and no extra cognition call. A response, checksum, selected tuple or view is never assignment authority.
+
+Implement exact assessed_assignment_set derivation and current competent application authority under the existing aggregate lock. Preserve mode A policy-effect versus mode B signed-act distinctions. Atomically publish both exact model/configuration/Profile settings, generation transition, original-backed view, application receipt, command/completion and one-use consumption in one FormationJournal commit. Refusal consumes nothing. Historical command replay precedes fresh head/currentness checks and never reselects/reapplies.
+
+Implement persistent resolution through the production consumer boundary, plus explicit operator change/revalidation of the whole pair. Preserve settings and history on unavailability/currentness failure; refuse affected use without automatic fallback. New change needs current exact authority and expected pair/head/generations. No silent reranking, erased history, new assessment right, or alternate writer bypass. Model settings do not appoint personnel or authorize invocation. Preserve FormationPersonnel and session/lease authority requirements; no operational DI activation.
+
+Positive offline integration must use real production O1/O2/O3/O4 producers/resolvers with synthetic temporary-root authority and exact mock transport. Do not hand-seed completed claims/outcomes/slots/receipts or use reflection to manufacture positive prerequisites. Negative tamper/fault tests may target internal boundaries. Prove exact pair/source identity, malformed/unknown/zero-fit refusal, currentness and scope failures, whole-set contention, before/after-publication interruption, restart, replay after expiry/revocation/replacement, explicit change, migration and no additional POST on application.
+
+Preserve approved DeepSeek/API-key, FRESH, D2-A, P1-P9 and finite candidates. Keep retry allowlist empty and all five operational flags false. No real provider requests, credentials, installed-state reads/writes, live enrollment/appointment/activation, OAuth, Augur replacement, existing-installation cutover or O5 CLI. Do not request settled choices again.
+
+Preserve original signed/approved bytes, tests/fixtures, R1 mapping limits and reviewer additions, R2 bounded pure-parse behavior, source pins, frozen inventories, dependencies and service configuration. Narrow indispensable runtime seams are allowed only with explicit compatibility/atomicity proof. Version state extensions explicitly and preserve retained raw bytes and consumption. No second journal, nested lock, supplied-state bypass, widened allowlist or weakened gate.
+
+Run the contract proof matrix, new and original O1/O2/O3/FC/native/reviewer selections, changed PHP lint, non-debug kernel smoke and tools/check_provider_onboarding_spec.py. Use PHP >=8.4 with locked dependencies. Run vendor/bin/phpunit tests; preserve the workflow's 30-minute allowance. Capture full commands/exits/logs and final tested project PHP snapshot/hashes. Disclose timeout/failure honestly; inherited O3 CI and selected tests are not fresh full O4 CI. Fix concrete in-scope failures without weakening assertions.
+
+Commit the bounded implementation and update documentation once after implementation. Return provider-onboarding-o4-b0-all-deliverables.zip plus individual report/instructions: README, canonical files, exact patch, incremental Git bundle, entry/tested/final identities, tested PHP snapshots/hashes, protected-original comparison and all logs/manifests. Include inner review ZIP with SHA-256, no outer checksum or recursive archives. Exclude private/runtime material. When publishing, provide a working PowerShell download command as well as a file link.
+
+Stop for source review and fresh full hosted CI before integration. Do not push/merge this local implementation or start O5. If a required seam cannot be closed, report the exact blocker with completed code/evidence; do not fabricate authority or substitute another planning document.
