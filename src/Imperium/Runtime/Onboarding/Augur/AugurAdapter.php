@@ -31,6 +31,10 @@ final readonly class AugurAdapter implements ContextualPreparedOperation,SourceA
     }
     private function context(AuthorityStore $store,array $state,array $policy,array $step,array $terms):array
     {
+        return \App\Imperium\Runtime\Onboarding\AuthorityAdmission\StrictJson::within(fn():array=>$this->resolveContext($store,$state,$policy,$step,$terms));
+    }
+    private function resolveContext(AuthorityStore $store,array $state,array $policy,array $step,array $terms):array
+    {
         $s=$store->state($state);R::require($s['schema']==='imperium.onboarding-authority-state/v3' && $terms['body']['effect']==='AUTHORIZE_BOOTSTRAP_ASSESSMENT'
             && R::same($this->step($policy,$terms),$step),'COMMISSION_STEP');
         $originals=[];$load=function(array $ref)use($store,$s,&$originals):array{$key=R::key($ref);if(isset($originals[$key])){return $originals[$key];}$h=$store->checkSource($s,$ref);$originals[$key]=$h;return $h;};

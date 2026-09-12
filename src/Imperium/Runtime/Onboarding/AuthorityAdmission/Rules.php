@@ -18,8 +18,8 @@ final class Rules
     public static function integer(mixed $v): int { self::require(is_int($v) && $v >= 0 && PHP_INT_SIZE === 8, 'INTEGER'); return $v; }
     public static function time(mixed $v): int { $v = self::integer($v); self::require($v > 0 && $v <= 253402300799, 'TIME_SECONDS'); return $v; }
     public static function digest(mixed $v): string { return Shape::digest($v); }
-    public static function hash(mixed $v): string { return 'sha256:'.hash('sha256', CanonicalJson::encode($v)); }
-    public static function same(mixed $a, mixed $b): bool { return CanonicalJson::encode($a) === CanonicalJson::encode($b); }
+    public static function hash(mixed $v): string { return 'sha256:'.hash('sha256', StrictJson::canonical($v)); }
+    public static function same(mixed $a, mixed $b): bool { return StrictJson::canonical($a) === StrictJson::canonical($b); }
     public static function ref(mixed $v): array {
         $v = self::object($v, ['schema','id','digest']); self::text($v['schema']); self::id($v['id']); self::digest($v['digest']);
         return ['schema'=>$v['schema'],'id'=>$v['id'],'digest'=>$v['digest']];

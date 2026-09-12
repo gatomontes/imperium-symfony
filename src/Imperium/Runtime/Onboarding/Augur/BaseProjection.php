@@ -15,6 +15,12 @@ final readonly class BaseProjection
 
     public function propose(AuthorityStore $store, array $state, array $policy, array $step,?int $evaluatedAt=null,?array &$snapshot=null): BaseProposal
     {
+        return \App\Imperium\Runtime\Onboarding\AuthorityAdmission\StrictJson::within(function()use($store,$state,$policy,$step,$evaluatedAt,&$snapshot):BaseProposal{
+            return $this->project($store,$state,$policy,$step,$evaluatedAt,$snapshot);
+        });
+    }
+    private function project(AuthorityStore $store,array $state,array $policy,array $step,?int $evaluatedAt,?array &$snapshot):BaseProposal
+    {
         $s=$store->state($state);R::require($evaluatedAt===null || ($policy['created_at']<=R::time($evaluatedAt) && $evaluatedAt<=$store->now()),'BASE_EVALUATION_TIME'); $originals=[];
         $load=function(array $ref)use($store,$s,&$originals):array {
             $key=R::key($ref);
