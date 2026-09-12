@@ -23,6 +23,8 @@ final class Runtime
         private readonly ?KeySource $keys = null, private readonly ?EnvelopeStore $envelopes = null,
         ?HttpClientInterface $mock = null, ?\Closure $monotonicMilliseconds = null)
     {
+        // Verification and delivery must observe the same fixed source, even when two sources advertise identical generations.
+        $adapter->requireDeliverySource($keys);
         // Injection is for an exact mock only; production always creates an undecorated client with no inherited defaults.
         R::require($mock === null || get_class($mock) === MockHttpClient::class,'HTTP_DECORATOR_FORBIDDEN');
         $this->http=$mock ?? new NativeHttpClient();

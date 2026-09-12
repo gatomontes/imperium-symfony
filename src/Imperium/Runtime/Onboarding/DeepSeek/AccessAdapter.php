@@ -10,6 +10,12 @@ final readonly class AccessAdapter implements PreparedOperation, SourceAuthority
     public function __construct(private ?array $grant = null,
         private EvidenceVerifier $evidence = new MissingEvidence(), private ?KeySource $keys = null) {}
 
+    /** Infrastructure identity only; authority still comes from verify() and retained originals. */
+    public function requireDeliverySource(?KeySource $source): void
+    {
+        R::require($source === $this->keys, 'DEEPSEEK_DELIVERY_SOURCE_MISMATCH');
+    }
+
     private function terms(): array
     {
         R::require($this->grant !== null, 'DEEPSEEK_GRANT_MISSING'); R::record($this->grant);
