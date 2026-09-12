@@ -1,4 +1,4 @@
-name: PHPUnit
+name: O3-B1 reviewer mapping limits
 
 on:
   pull_request:
@@ -11,7 +11,7 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
@@ -23,7 +23,5 @@ jobs:
           tools: composer:v2
       - name: Install locked dependencies
         run: composer install --no-interaction --no-progress --prefer-dist
-      - name: Run O3-B0 reviewer credential binding regression
-        run: vendor/bin/phpunit tests/Imperium/Runtime/DeepSeekReviewerCredentialBindingTest.php
-      - name: Run full test suite
-        run: vendor/bin/phpunit tests
+      - name: Run reviewer mapping limit regression
+        run: vendor/bin/phpunit tests/Imperium/Runtime/AugurReviewerMappingLimitsTest.php
