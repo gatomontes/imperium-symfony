@@ -1,0 +1,40 @@
+{
+  "sha": "1fb168aadb30f6048602353bfd0609af765331b9",
+  "node_id": "C_kwDOTysZq9oAKDFmYjE2OGFhZGIzMGY2MDQ4NjAyMzUzYmZkMDYwOWFmNzY1MzMxYjk",
+  "url": "https://api.github.com/repos/gatomontes/imperium-symfony/git/commits/1fb168aadb30f6048602353bfd0609af765331b9",
+  "html_url": "https://github.com/gatomontes/imperium-symfony/commit/1fb168aadb30f6048602353bfd0609af765331b9",
+  "author": {
+    "name": "pulga",
+    "email": "34066936+gatomontes@users.noreply.github.com",
+    "date": "2026-09-12T15:53:02Z"
+  },
+  "committer": {
+    "name": "GitHub",
+    "email": "noreply@github.com",
+    "date": "2026-09-12T15:53:02Z"
+  },
+  "tree": {
+    "sha": "f7e10635a7d6992ea50de4a47ef2654e943e1ff7",
+    "url": "https://api.github.com/repos/gatomontes/imperium-symfony/git/trees/f7e10635a7d6992ea50de4a47ef2654e943e1ff7"
+  },
+  "message": "Merge c15c8e37802cefd5fec07a106f4626a7ce17d8ab into 02ce09621c63822eaff9ffd23151d5d3aed593a4",
+  "parents": [
+    {
+      "sha": "02ce09621c63822eaff9ffd23151d5d3aed593a4",
+      "url": "https://api.github.com/repos/gatomontes/imperium-symfony/git/commits/02ce09621c63822eaff9ffd23151d5d3aed593a4",
+      "html_url": "https://github.com/gatomontes/imperium-symfony/commit/02ce09621c63822eaff9ffd23151d5d3aed593a4"
+    },
+    {
+      "sha": "c15c8e37802cefd5fec07a106f4626a7ce17d8ab",
+      "url": "https://api.github.com/repos/gatomontes/imperium-symfony/git/commits/c15c8e37802cefd5fec07a106f4626a7ce17d8ab",
+      "html_url": "https://github.com/gatomontes/imperium-symfony/commit/c15c8e37802cefd5fec07a106f4626a7ce17d8ab"
+    }
+  ],
+  "verification": {
+    "verified": true,
+    "reason": "valid",
+    "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqpXVeCRC1aQ7uu5UhlAAA5l0QAIEI8ZTV0fr+9GFFkhXtGTmL\n2PEpGyTTML+/GnVl1240cPzZKt5RKmG1PKOjPucDYb74hnMDcVQgv60if3/LVT8Z\nQ+UjjMlSqUhB1Ej3FtTUo4VTlpkCDocUrIo5/En52BiNgIZiPv850v9GR+bGzph/\n6ocjJITxO06Q3MhBiE34zygsmOJmM9bh80g0l9be6NSePUZcmhPiHgwgLX5x3vOm\nEdsfJnqIrXcbLAnnjRPxm1qrx8m4FivOsL7waKaSJppDEJmZ0G5K2TYkRTCfIe+r\naeGDjuKbxyQt3242sQtXhm7RZaXzPHQMIEIf9TwyPuVk76SQ8MZ1T7F50E0vN/Yz\nve6FuQif+tuUFBDK9bTByKqYgSqS603fDjch5PruYZJoiArt1NWqsS6LKSphpcds\nPTTPscyOfpJ88eJpXnig9pb5/ltDQPhzaeWqYdy1Fm4HUfDbcZqVFxpdx/yYFeH7\nfhrtod3PA8N4vGTdeHad1/T+gmq38tOfkWyNmpJQu7DWI+YEPz89WYgJP2Vaq6GO\nkUnJ8C42ns9tYJyXm5SGmQTD/qowKrTE+Up9+g+5QAMGLdqEbPQOe9vm7beh6gpI\nLCqLQkFITkClmUC+dTkTneOet7NfflUsaYDN8As51oirfrugyZzr30f0vik1g5j0\ncW4w7qcCaOw6lj6r3CqD\n=QaHJ\n-----END PGP SIGNATURE-----\n",
+    "payload": "tree f7e10635a7d6992ea50de4a47ef2654e943e1ff7\nparent 02ce09621c63822eaff9ffd23151d5d3aed593a4\nparent c15c8e37802cefd5fec07a106f4626a7ce17d8ab\nauthor pulga <34066936+gatomontes@users.noreply.github.com> 1789228382 +0000\ncommitter GitHub <noreply@github.com> 1789228382 +0000\n\nMerge c15c8e37802cefd5fec07a106f4626a7ce17d8ab into 02ce09621c63822eaff9ffd23151d5d3aed593a4\n",
+    "verified_at": "2026-09-12T15:53:03Z"
+  }
+}

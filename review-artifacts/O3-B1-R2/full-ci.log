@@ -1,0 +1,1248 @@
+﻿2026-09-12T15:53:07.5332566Z Current runner version: '2.337.0'
+2026-09-12T15:53:07.5359539Z ##[group]Runner Image Provisioner
+2026-09-12T15:53:07.5360730Z Hosted Compute Agent
+2026-09-12T15:53:07.5361697Z Version: 20260828.587
+2026-09-12T15:53:07.5362431Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+2026-09-12T15:53:07.5363230Z Build Date: 2026-08-28T16:44:25Z
+2026-09-12T15:53:07.5364001Z Worker ID: {e95cdb14-2fbf-43c9-a95f-b38aacb67055}
+2026-09-12T15:53:07.5364731Z Azure Region: westus
+2026-09-12T15:53:07.5365391Z ##[endgroup]
+2026-09-12T15:53:07.5367005Z ##[group]Operating System
+2026-09-12T15:53:07.5367725Z Ubuntu
+2026-09-12T15:53:07.5368316Z 24.04.5
+2026-09-12T15:53:07.5368833Z LTS
+2026-09-12T15:53:07.5369400Z ##[endgroup]
+2026-09-12T15:53:07.5369973Z ##[group]Runner Image
+2026-09-12T15:53:07.5370564Z Image: ubuntu-24.04
+2026-09-12T15:53:07.5371489Z Version: 20260907.300.1
+2026-09-12T15:53:07.5372777Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260907.300/images/ubuntu/Ubuntu2404-Readme.md
+2026-09-12T15:53:07.5374438Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260907.300
+2026-09-12T15:53:07.5375391Z ##[endgroup]
+2026-09-12T15:53:07.5376621Z ##[group]GITHUB_TOKEN Permissions
+2026-09-12T15:53:07.5378774Z Contents: read
+2026-09-12T15:53:07.5379527Z Metadata: read
+2026-09-12T15:53:07.5380137Z ##[endgroup]
+2026-09-12T15:53:07.5382925Z Secret source: Actions
+2026-09-12T15:53:07.5384012Z Cache mode: write
+2026-09-12T15:53:07.5384787Z Prepare workflow directory
+2026-09-12T15:53:07.5741710Z Prepare all required actions
+2026-09-12T15:53:07.5793008Z Getting action download info
+2026-09-12T15:53:07.9225612Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-09-12T15:53:08.0536525Z Download action repository 'shivammathur/setup-php@v2' (SHA:f3e473d116dcccaddc5834248c87452386958240)
+2026-09-12T15:53:08.4554717Z Complete job name: test
+2026-09-12T15:53:08.5348196Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-12T15:53:08.5357769Z ##[group]Run actions/checkout@v4
+2026-09-12T15:53:08.5358542Z with:
+2026-09-12T15:53:08.5358989Z   fetch-depth: 0
+2026-09-12T15:53:08.5359482Z   repository: gatomontes/imperium-symfony
+2026-09-12T15:53:08.5363736Z   token: ***
+2026-09-12T15:53:08.5364200Z   ssh-strict: true
+2026-09-12T15:53:08.5364677Z   ssh-user: git
+2026-09-12T15:53:08.5365122Z   persist-credentials: true
+2026-09-12T15:53:08.5365605Z   clean: true
+2026-09-12T15:53:08.5366055Z   sparse-checkout-cone-mode: true
+2026-09-12T15:53:08.5366579Z   fetch-tags: false
+2026-09-12T15:53:08.5367020Z   show-progress: true
+2026-09-12T15:53:08.5367452Z   lfs: false
+2026-09-12T15:53:08.5367921Z   submodules: false
+2026-09-12T15:53:08.5368368Z   set-safe-directory: true
+2026-09-12T15:53:08.5368885Z   allow-unsafe-pr-checkout: false
+2026-09-12T15:53:08.5369713Z ##[endgroup]
+2026-09-12T15:53:08.6474618Z Syncing repository: gatomontes/imperium-symfony
+2026-09-12T15:53:08.6479245Z ##[group]Getting Git version info
+2026-09-12T15:53:08.6480839Z Working directory is '/home/runner/work/imperium-symfony/imperium-symfony'
+2026-09-12T15:53:08.6493851Z [command]/usr/bin/git version
+2026-09-12T15:53:08.6629949Z git version 2.55.0
+2026-09-12T15:53:08.6684002Z ##[endgroup]
+2026-09-12T15:53:08.6692188Z Temporarily overriding HOME='/home/runner/work/_temp/184b64f5-fed4-4064-9788-67ae4ba4f9be' before making global git config changes
+2026-09-12T15:53:08.6694583Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-12T15:53:08.6696578Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/imperium-symfony/imperium-symfony
+2026-09-12T15:53:08.6738733Z Deleting the contents of '/home/runner/work/imperium-symfony/imperium-symfony'
+2026-09-12T15:53:08.6741369Z ##[group]Initializing the repository
+2026-09-12T15:53:08.6744384Z [command]/usr/bin/git init /home/runner/work/imperium-symfony/imperium-symfony
+2026-09-12T15:53:08.6863834Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-09-12T15:53:08.6865717Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-09-12T15:53:08.6867297Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-09-12T15:53:08.6868605Z hint: call:
+2026-09-12T15:53:08.6869347Z hint:
+2026-09-12T15:53:08.6870299Z hint: 	git config --global init.defaultBranch <name>
+2026-09-12T15:53:08.6871633Z hint:
+2026-09-12T15:53:08.6872740Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-09-12T15:53:08.6874460Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-09-12T15:53:08.6875812Z hint:
+2026-09-12T15:53:08.6876619Z hint: 	git branch -m <name>
+2026-09-12T15:53:08.6877496Z hint:
+2026-09-12T15:53:08.6879349Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-09-12T15:53:08.6881986Z Initialized empty Git repository in /home/runner/work/imperium-symfony/imperium-symfony/.git/
+2026-09-12T15:53:08.6885572Z [command]/usr/bin/git remote add origin https://github.com/gatomontes/imperium-symfony
+2026-09-12T15:53:08.6936306Z ##[endgroup]
+2026-09-12T15:53:08.6937691Z ##[group]Disabling automatic garbage collection
+2026-09-12T15:53:08.6942060Z [command]/usr/bin/git config --local gc.auto 0
+2026-09-12T15:53:08.6975314Z ##[endgroup]
+2026-09-12T15:53:08.6976664Z ##[group]Setting up auth
+2026-09-12T15:53:08.6983434Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-12T15:53:08.7025624Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-12T15:53:08.7412725Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-12T15:53:08.7452979Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-12T15:53:08.7684548Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-12T15:53:08.7721512Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-12T15:53:08.7955244Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-09-12T15:53:08.7995373Z ##[endgroup]
+2026-09-12T15:53:08.7996243Z ##[group]Fetching the repository
+2026-09-12T15:53:08.8006507Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/* +1fb168aadb30f6048602353bfd0609af765331b9:refs/remotes/pull/794/merge
+2026-09-12T15:53:10.4836829Z From https://github.com/gatomontes/imperium-symfony
+2026-09-12T15:53:10.4842435Z  * [new branch]        agent/accept-adversarial-reviewer-construction -> origin/agent/accept-adversarial-reviewer-construction
+2026-09-12T15:53:10.4847514Z  * [new branch]        agent/accept-blackquill-production-authorization -> origin/agent/accept-blackquill-production-authorization
+2026-09-12T15:53:10.4853400Z  * [new branch]        agent/accept-foundry-authorization       -> origin/agent/accept-foundry-authorization
+2026-09-12T15:53:10.4872418Z  * [new branch]        agent/accept-guildhall-planning-commission -> origin/agent/accept-guildhall-planning-commission
+2026-09-12T15:53:10.4877382Z  * [new branch]        agent/accept-reviewer-bootstrap-seed     -> origin/agent/accept-reviewer-bootstrap-seed
+2026-09-12T15:53:10.4886418Z  * [new branch]        agent/accept-revised-subordinate-authorship -> origin/agent/accept-revised-subordinate-authorship
+2026-09-12T15:53:10.4892739Z  * [new branch]        agent/accept-senate-case-request-examination-assembly -> origin/agent/accept-senate-case-request-examination-assembly
+2026-09-12T15:53:10.4898958Z  * [new branch]        agent/accept-specialized-authorship-commissions -> origin/agent/accept-specialized-authorship-commissions
+2026-09-12T15:53:10.4904164Z  * [new branch]        agent/accept-subordinate-authorship      -> origin/agent/accept-subordinate-authorship
+2026-09-12T15:53:10.4908048Z  * [new branch]        agent/accept-subordinate-construction-authority -> origin/agent/accept-subordinate-construction-authority
+2026-09-12T15:53:10.4912389Z  * [new branch]        agent/allow-draft-authorization-demand   -> origin/agent/allow-draft-authorization-demand
+2026-09-12T15:53:10.4917884Z  * [new branch]        agent/answer-adversarial-reviewer-availability -> origin/agent/answer-adversarial-reviewer-availability
+2026-09-12T15:53:10.4922558Z  * [new branch]        agent/approve-reviewer-bootstrap-seed-production -> origin/agent/approve-reviewer-bootstrap-seed-production
+2026-09-12T15:53:10.4926384Z  * [new branch]        agent/assemble-subordinate-personas      -> origin/agent/assemble-subordinate-personas
+2026-09-12T15:53:10.4929720Z  * [new branch]        agent/author-revised-subordinate-packets -> origin/agent/author-revised-subordinate-packets
+2026-09-12T15:53:10.4933284Z  * [new branch]        agent/author-subordinate-sections        -> origin/agent/author-subordinate-sections
+2026-09-12T15:53:10.4936880Z  * [new branch]        agent/authorize-adversarial-reviewer-construction -> origin/agent/authorize-adversarial-reviewer-construction
+2026-09-12T15:53:10.4940512Z  * [new branch]        agent/authorize-blackquill-production    -> origin/agent/authorize-blackquill-production
+2026-09-12T15:53:10.4943984Z  * [new branch]        agent/authorize-foundry-construction     -> origin/agent/authorize-foundry-construction
+2026-09-12T15:53:10.4947522Z  * [new branch]        agent/authorize-subordinate-construction -> origin/agent/authorize-subordinate-construction
+2026-09-12T15:53:10.4950699Z  * [new branch]        agent/bind-canonical-artificer           -> origin/agent/bind-canonical-artificer
+2026-09-12T15:53:10.4954315Z  * [new branch]        agent/bind-canonical-authorship-residents -> origin/agent/bind-canonical-authorship-residents
+2026-09-12T15:53:10.4957666Z  * [new branch]        agent/bind-canonical-constable           -> origin/agent/bind-canonical-constable
+2026-09-12T15:53:10.4960902Z  * [new branch]        agent/bind-guildhall-seats-atomically    -> origin/agent/bind-guildhall-seats-atomically
+2026-09-12T15:53:10.4964912Z  * [new branch]        agent/canonicalize-persona-flow-to-senate -> origin/agent/canonicalize-persona-flow-to-senate
+2026-09-12T15:53:10.4968923Z  * [new branch]        agent/carry-revised-specification-lineage -> origin/agent/carry-revised-specification-lineage
+2026-09-12T15:53:10.4973392Z  * [new branch]        agent/carry-revision-into-persona-candidate -> origin/agent/carry-revision-into-persona-candidate
+2026-09-12T15:53:10.4978199Z  * [new branch]        agent/cli-bootstrap                      -> origin/agent/cli-bootstrap
+2026-09-12T15:53:10.4982549Z  * [new branch]        agent/commission-canonical-artificer     -> origin/agent/commission-canonical-artificer
+2026-09-12T15:53:10.4988034Z  * [new branch]        agent/commission-canonical-authorship-residents -> origin/agent/commission-canonical-authorship-residents
+2026-09-12T15:53:10.4994371Z  * [new branch]        agent/commission-canonical-constable     -> origin/agent/commission-canonical-constable
+2026-09-12T15:53:10.5000246Z  * [new branch]        agent/complete-adversarial-review-disposition-boundary -> origin/agent/complete-adversarial-review-disposition-boundary
+2026-09-12T15:53:10.5006151Z  * [new branch]        agent/complete-revised-subordinate-foundry-flow -> origin/agent/complete-revised-subordinate-foundry-flow
+2026-09-12T15:53:10.5011848Z  * [new branch]        agent/complete-subordinate-persona-admission-intake -> origin/agent/complete-subordinate-persona-admission-intake
+2026-09-12T15:53:10.5018869Z  * [new branch]        agent/complete-v0-adversarial-review-acceptance -> origin/agent/complete-v0-adversarial-review-acceptance
+2026-09-12T15:53:10.5023744Z  * [new branch]        agent/constitute-curia                   -> origin/agent/constitute-curia
+2026-09-12T15:53:10.5027523Z  * [new branch]        agent/construct-adversarial-reviewer-persona -> origin/agent/construct-adversarial-reviewer-persona
+2026-09-12T15:53:10.5032066Z  * [new branch]        agent/construct-candidate-bound-adversarial-reviewer -> origin/agent/construct-candidate-bound-adversarial-reviewer
+2026-09-12T15:53:10.5036024Z  * [new branch]        agent/continue-curian-proceeding         -> origin/agent/continue-curian-proceeding
+2026-09-12T15:53:10.5040159Z  * [new branch]        agent/convene-guildhall-deliberation     -> origin/agent/convene-guildhall-deliberation
+2026-09-12T15:53:10.5045938Z  * [new branch]        agent/correct-blackquill-design-basis    -> origin/agent/correct-blackquill-design-basis
+2026-09-12T15:53:10.5051478Z  * [new branch]        agent/curian-bootstrap-cutover           -> origin/agent/curian-bootstrap-cutover
+2026-09-12T15:53:10.5057255Z  * [new branch]        agent/deliver-foundry-construction-authorization -> origin/agent/deliver-foundry-construction-authorization
+2026-09-12T15:53:10.5062693Z  * [new branch]        agent/deliver-planning-commissions       -> origin/agent/deliver-planning-commissions
+2026-09-12T15:53:10.5066488Z  * [new branch]        agent/deliver-reviewer-bootstrap-seed-to-garrison -> origin/agent/deliver-reviewer-bootstrap-seed-to-garrison
+2026-09-12T15:53:10.5072101Z  * [new branch]        agent/deliver-subordinate-construction-authority -> origin/agent/deliver-subordinate-construction-authority
+2026-09-12T15:53:10.5076600Z  * [new branch]        agent/demand-adversarial-reviewer        -> origin/agent/demand-adversarial-reviewer
+2026-09-12T15:53:10.5081648Z  * [new branch]        agent/demand-foundry-activation          -> origin/agent/demand-foundry-activation
+2026-09-12T15:53:10.5086952Z  * [new branch]        agent/demand-resident-authorship-officers -> origin/agent/demand-resident-authorship-officers
+2026-09-12T15:53:10.5091470Z  * [new branch]        agent/demand-senate-resident-activation  -> origin/agent/demand-senate-resident-activation
+2026-09-12T15:53:10.5094842Z  * [new branch]        agent/deterministic-outbound-adapter     -> origin/agent/deterministic-outbound-adapter
+2026-09-12T15:53:10.5098323Z  * [new branch]        agent/deterministic-outbound-adapter-review -> origin/agent/deterministic-outbound-adapter-review
+2026-09-12T15:53:10.5102188Z  * [new branch]        agent/dispatch-specialized-authorship    -> origin/agent/dispatch-specialized-authorship
+2026-09-12T15:53:10.5105758Z  * [new branch]        agent/dispatch-subordinate-persona-authorship -> origin/agent/dispatch-subordinate-persona-authorship
+2026-09-12T15:53:10.5109444Z  * [new branch]        agent/enforce-current-persona-specification -> origin/agent/enforce-current-persona-specification
+2026-09-12T15:53:10.5113065Z  * [new branch]        agent/enforce-lf-artifacts               -> origin/agent/enforce-lf-artifacts
+2026-09-12T15:53:10.5117193Z  * [new branch]        agent/establish-adversarial-reviewer-bootstrap-seed -> origin/agent/establish-adversarial-reviewer-bootstrap-seed
+2026-09-12T15:53:10.5123263Z  * [new branch]        agent/establish-canonical-constable      -> origin/agent/establish-canonical-constable
+2026-09-12T15:53:10.5127064Z  * [new branch]        agent/evaluate-blackquill-admission      -> origin/agent/evaluate-blackquill-admission
+2026-09-12T15:53:10.5130058Z  * [new branch]        agent/first-curian-audience              -> origin/agent/first-curian-audience
+2026-09-12T15:53:10.5134303Z  * [new branch]        agent/fix-curian-audience-fixture        -> origin/agent/fix-curian-audience-fixture
+2026-09-12T15:53:10.5138261Z  * [new branch]        agent/fix-guildhall-callable-syntax      -> origin/agent/fix-guildhall-callable-syntax
+2026-09-12T15:53:10.5142158Z  * [new branch]        agent/fix-profile-definition-reference-order -> origin/agent/fix-profile-definition-reference-order
+2026-09-12T15:53:10.5145981Z  * [new branch]        agent/fix-windows-artifact-resolution    -> origin/agent/fix-windows-artifact-resolution
+2026-09-12T15:53:10.5149255Z  * [new branch]        agent/generalize-operator-root-doctrine  -> origin/agent/generalize-operator-root-doctrine
+2026-09-12T15:53:10.5152796Z  * [new branch]        agent/govern-causal-composition          -> origin/agent/govern-causal-composition
+2026-09-12T15:53:10.5156161Z  * [new branch]        agent/governed-sortie-tool-registry      -> origin/agent/governed-sortie-tool-registry
+2026-09-12T15:53:10.5161290Z  * [new branch]        agent/guildhall-activation-demand        -> origin/agent/guildhall-activation-demand
+2026-09-12T15:53:10.5165798Z  * [new branch]        agent/initiate-blackquill-persona-review -> origin/agent/initiate-blackquill-persona-review
+2026-09-12T15:53:10.5169115Z  * [new branch]        agent/initiate-reviewer-persona-review   -> origin/agent/initiate-reviewer-persona-review
+2026-09-12T15:53:10.5172852Z  * [new branch]        agent/inquire-adversarial-reviewer-availability -> origin/agent/inquire-adversarial-reviewer-availability
+2026-09-12T15:53:10.5176602Z  * [new branch]        agent/install-operator-root-founding-personnel -> origin/agent/install-operator-root-founding-personnel
+2026-09-12T15:53:10.5179956Z  * [new branch]        agent/install-required-v0-occupants      -> origin/agent/install-required-v0-occupants
+2026-09-12T15:53:10.5183536Z  * [new branch]        agent/intake-blackquill-external-reviewer -> origin/agent/intake-blackquill-external-reviewer
+2026-09-12T15:53:10.5188530Z  * [new branch]        agent/iron-gate-sortie-launcher          -> origin/agent/iron-gate-sortie-launcher
+2026-09-12T15:53:10.5193124Z  * [new branch]        agent/issue-foundry-personnel-demands    -> origin/agent/issue-foundry-personnel-demands
+2026-09-12T15:53:10.5196135Z  * [new branch]        agent/issue-guildhall-summons            -> origin/agent/issue-guildhall-summons
+2026-09-12T15:53:10.5198986Z  * [new branch]        agent/issue-planning-commissions         -> origin/agent/issue-planning-commissions
+2026-09-12T15:53:10.5201964Z  * [new branch]        agent/la-cortine-runtime                 -> origin/agent/la-cortine-runtime
+2026-09-12T15:53:10.5204638Z  * [new branch]        agent/migrate-curia-ownership            -> origin/agent/migrate-curia-ownership
+2026-09-12T15:53:10.5207571Z  * [new branch]        agent/mission-planning-authorization     -> origin/agent/mission-planning-authorization
+2026-09-12T15:53:10.5210808Z  * [new branch]        agent/normalize-curia-commission-verbiage -> origin/agent/normalize-curia-commission-verbiage
+2026-09-12T15:53:10.5216422Z  * [new branch]        agent/normalize-demand-reference-validation -> origin/agent/normalize-demand-reference-validation
+2026-09-12T15:53:10.5221571Z  * [new branch]        agent/open-blackquill-production-remediation -> origin/agent/open-blackquill-production-remediation
+2026-09-12T15:53:10.5224938Z  * [new branch]        agent/open-persona-production-cases      -> origin/agent/open-persona-production-cases
+2026-09-12T15:53:10.5228103Z  * [new branch]        agent/open-subordinate-construction-cases -> origin/agent/open-subordinate-construction-cases
+2026-09-12T15:53:10.5231818Z  * [new branch]        agent/open-subordinate-senate-confirmation-case -> origin/agent/open-subordinate-senate-confirmation-case
+2026-09-12T15:53:10.5235584Z  * [new branch]        agent/personnel-disposition-senate-hearings -> origin/agent/personnel-disposition-senate-hearings
+2026-09-12T15:53:10.5240782Z  * [new branch]        agent/prepare-adversarial-reviewer       -> origin/agent/prepare-adversarial-reviewer
+2026-09-12T15:53:10.5245098Z  * [new branch]        agent/prepare-canonical-artificer        -> origin/agent/prepare-canonical-artificer
+2026-09-12T15:53:10.5248328Z  * [new branch]        agent/prepare-canonical-authorship-residents -> origin/agent/prepare-canonical-authorship-residents
+2026-09-12T15:53:10.5252052Z  * [new branch]        agent/prepare-senate-resident-cases      -> origin/agent/prepare-senate-resident-cases
+2026-09-12T15:53:10.5255021Z  * [new branch]        agent/preserve-reviewer-senate-case      -> origin/agent/preserve-reviewer-senate-case
+2026-09-12T15:53:10.5257923Z  * [new branch]        agent/qualify-canonical-artificer        -> origin/agent/qualify-canonical-artificer
+2026-09-12T15:53:10.5261387Z  * [new branch]        agent/qualify-canonical-authorship-residents -> origin/agent/qualify-canonical-authorship-residents
+2026-09-12T15:53:10.5265789Z  * [new branch]        agent/qualify-canonical-constable        -> origin/agent/qualify-canonical-constable
+2026-09-12T15:53:10.5270672Z  * [new branch]        agent/qualify-guildhall-manifestations   -> origin/agent/qualify-guildhall-manifestations
+2026-09-12T15:53:10.5274975Z  * [new branch]        agent/reach-senate-resident-boundary     -> origin/agent/reach-senate-resident-boundary
+2026-09-12T15:53:10.5277739Z  * [new branch]        agent/redefine-curia-seats               -> origin/agent/redefine-curia-seats
+2026-09-12T15:53:10.5280786Z  * [new branch]        agent/redispatch-revised-subordinate-authorship -> origin/agent/redispatch-revised-subordinate-authorship
+2026-09-12T15:53:10.5284305Z  * [new branch]        agent/refuse-stale-authorship-work       -> origin/agent/refuse-stale-authorship-work
+2026-09-12T15:53:10.5287093Z  * [new branch]        agent/register-core-model-catalog        -> origin/agent/register-core-model-catalog
+2026-09-12T15:53:10.5289875Z  * [new branch]        agent/remove-seneschal-test-notice       -> origin/agent/remove-seneschal-test-notice
+2026-09-12T15:53:10.5293528Z  * [new branch]        agent/request-adversarial-reviewer-bootstrap-review -> origin/agent/request-adversarial-reviewer-bootstrap-review
+2026-09-12T15:53:10.5298798Z  * [new branch]        agent/request-blackquill-production-authorization -> origin/agent/request-blackquill-production-authorization
+2026-09-12T15:53:10.5304901Z  * [new branch]        agent/request-blackquill-review-resolution -> origin/agent/request-blackquill-review-resolution
+2026-09-12T15:53:10.5308502Z  * [new branch]        agent/request-imperator-construction-authorization -> origin/agent/request-imperator-construction-authorization
+2026-09-12T15:53:10.5312602Z  * [new branch]        agent/request-reviewer-bootstrap-seed-confirmation -> origin/agent/request-reviewer-bootstrap-seed-confirmation
+2026-09-12T15:53:10.5315989Z  * [new branch]        agent/request-subordinate-construction   -> origin/agent/request-subordinate-construction
+2026-09-12T15:53:10.5318957Z  * [new branch]        agent/require-structured-mission-plan    -> origin/agent/require-structured-mission-plan
+2026-09-12T15:53:10.5322136Z  * [new branch]        agent/resolve-authorship-subordinates    -> origin/agent/resolve-authorship-subordinates
+2026-09-12T15:53:10.5326408Z  * [new branch]        agent/restore-mastermason-runtime        -> origin/agent/restore-mastermason-runtime
+2026-09-12T15:53:10.5330952Z  * [new branch]        agent/resume-guildhall-cognition         -> origin/agent/resume-guildhall-cognition
+2026-09-12T15:53:10.5334183Z  * [new branch]        agent/return-garrison-inventory-facts    -> origin/agent/return-garrison-inventory-facts
+2026-09-12T15:53:10.5337240Z  * [new branch]        agent/return-incomplete-reviewer-admission -> origin/agent/return-incomplete-reviewer-admission
+2026-09-12T15:53:10.5340162Z  * [new branch]        agent/review-subordinate-persona         -> origin/agent/review-subordinate-persona
+2026-09-12T15:53:10.5343523Z  * [new branch]        agent/revise-clarified-persona-specification -> origin/agent/revise-clarified-persona-specification
+2026-09-12T15:53:10.5346667Z  * [new branch]        agent/route-garrison-inventory-inquiry   -> origin/agent/route-garrison-inventory-inquiry
+2026-09-12T15:53:10.5349592Z  * [new branch]        agent/runtime-owned-provenance-tools     -> origin/agent/runtime-owned-provenance-tools
+2026-09-12T15:53:10.5353257Z  * [new branch]        agent/seal-blackquill-persona-candidate  -> origin/agent/seal-blackquill-persona-candidate
+2026-09-12T15:53:10.5357041Z  * [new branch]        agent/seneschal-contracts                -> origin/agent/seneschal-contracts
+2026-09-12T15:53:10.5360712Z  * [new branch]        agent/seneschal-summons-guildhall        -> origin/agent/seneschal-summons-guildhall
+2026-09-12T15:53:10.5365383Z  * [new branch]        agent/separate-plan-approval-authorization -> origin/agent/separate-plan-approval-authorization
+2026-09-12T15:53:10.5368768Z  * [new branch]        agent/sortie-ai-provider                 -> origin/agent/sortie-ai-provider
+2026-09-12T15:53:10.5371486Z  * [new branch]        agent/sortie-deepseek-provider           -> origin/agent/sortie-deepseek-provider
+2026-09-12T15:53:10.5375609Z  * [new branch]        agent/sortie-process-boundary            -> origin/agent/sortie-process-boundary
+2026-09-12T15:53:10.5378698Z  * [new branch]        agent/specify-subordinate-personas       -> origin/agent/specify-subordinate-personas
+2026-09-12T15:53:10.5381671Z  * [new branch]        agent/t04-recruiter-succession           -> origin/agent/t04-recruiter-succession
+2026-09-12T15:53:10.5384124Z  * [new branch]        agent/t05-triad-assembly                 -> origin/agent/t05-triad-assembly
+2026-09-12T15:53:10.5386475Z  * [new branch]        agent/t06-office-activation              -> origin/agent/t06-office-activation
+2026-09-12T15:53:10.5388842Z  * [new branch]        agent/t07-officer-binding                -> origin/agent/t07-officer-binding
+2026-09-12T15:53:10.5391526Z  * [new branch]        agent/t08-route-verification             -> origin/agent/t08-route-verification
+2026-09-12T15:53:10.5394078Z  * [new branch]        agent/t09-readiness-activation           -> origin/agent/t09-readiness-activation
+2026-09-12T15:53:10.5474212Z  * [new branch]        agent/tool-bearing-sortie-http-get       -> origin/agent/tool-bearing-sortie-http-get
+2026-09-12T15:53:10.5478828Z  * [new branch]        agent/unify-v0-activation                -> origin/agent/unify-v0-activation
+2026-09-12T15:53:10.5497408Z  * [new branch]        agent/version-guildhall-profile-definitions -> origin/agent/version-guildhall-profile-definitions
+2026-09-12T15:53:10.5500718Z  * [new branch]        agent/widen-deepseek-cognition-window    -> origin/agent/widen-deepseek-cognition-window
+2026-09-12T15:53:10.5505739Z  * [new branch]        audit/blackquill-runtime-source-review   -> origin/audit/blackquill-runtime-source-review
+2026-09-12T15:53:10.5510238Z  * [new branch]        audit/runtime-source-closeout            -> origin/audit/runtime-source-closeout
+2026-09-12T15:53:10.5513522Z  * [new branch]        batch-16-broker-sortie-cognition         -> origin/batch-16-broker-sortie-cognition
+2026-09-12T15:53:10.5516392Z  * [new branch]        batch-16-fix-phpunit-mock-expectations   -> origin/batch-16-fix-phpunit-mock-expectations
+2026-09-12T15:53:10.5519648Z  * [new branch]        batch-17-close-credential-platform-gate  -> origin/batch-17-close-credential-platform-gate
+2026-09-12T15:53:10.5526181Z  * [new branch]        campaign/activation-disposition-vocabulary-tripwire-correction -> origin/campaign/activation-disposition-vocabulary-tripwire-correction
+2026-09-12T15:53:10.5531425Z  * [new branch]        campaign/canonical-native-effect-corridor-activation -> origin/campaign/canonical-native-effect-corridor-activation
+2026-09-12T15:53:10.5534781Z  * [new branch]        campaign/continuous-governance-batch-1   -> origin/campaign/continuous-governance-batch-1
+2026-09-12T15:53:10.5537639Z  * [new branch]        campaign/continuous-governance-batch-2   -> origin/campaign/continuous-governance-batch-2
+2026-09-12T15:53:10.5540485Z  * [new branch]        campaign/continuous-governance-batch-3   -> origin/campaign/continuous-governance-batch-3
+2026-09-12T15:53:10.5543660Z  * [new branch]        campaign/continuous-governance-batch-4   -> origin/campaign/continuous-governance-batch-4
+2026-09-12T15:53:10.5546541Z  * [new branch]        campaign/continuous-governance-batch-5   -> origin/campaign/continuous-governance-batch-5
+2026-09-12T15:53:10.5549666Z  * [new branch]        campaign/continuous-governance-batch-6   -> origin/campaign/continuous-governance-batch-6
+2026-09-12T15:53:10.5552813Z  * [new branch]        campaign/executable-atomic-transition    -> origin/campaign/executable-atomic-transition
+2026-09-12T15:53:10.5556302Z  * [new branch]        campaign/native-effect-continuation-exclusivity-remediation -> origin/campaign/native-effect-continuation-exclusivity-remediation
+2026-09-12T15:53:10.5560689Z  * [new branch]        campaign/native-effect-process-custody-formal-closure-remediation -> origin/campaign/native-effect-process-custody-formal-closure-remediation
+2026-09-12T15:53:10.5565789Z  * [new branch]        campaign/native-effect-reconciliation-authority-provenance-remediation -> origin/campaign/native-effect-reconciliation-authority-provenance-remediation
+2026-09-12T15:53:10.5571473Z  * [new branch]        campaign/native-effect-reconciliation-issuance-authority-revocation-remediation -> origin/campaign/native-effect-reconciliation-issuance-authority-revocation-remediation
+2026-09-12T15:53:10.5576047Z  * [new branch]        campaign/native-inspection-snapshot-consistency -> origin/campaign/native-inspection-snapshot-consistency
+2026-09-12T15:53:10.5579523Z  * [new branch]        campaign/native-transition-integration-remediation -> origin/campaign/native-transition-integration-remediation
+2026-09-12T15:53:10.5583641Z  * [new branch]        campaign/provider-activation-consumption-remediation-batch-1 -> origin/campaign/provider-activation-consumption-remediation-batch-1
+2026-09-12T15:53:10.5587869Z  * [new branch]        campaign/provider-activation-consumption-remediation-batch-2 -> origin/campaign/provider-activation-consumption-remediation-batch-2
+2026-09-12T15:53:10.5592454Z  * [new branch]        campaign/provider-activation-consumption-remediation-batch-3 -> origin/campaign/provider-activation-consumption-remediation-batch-3
+2026-09-12T15:53:10.5596731Z  * [new branch]        campaign/provider-activation-consumption-remediation-batch-4 -> origin/campaign/provider-activation-consumption-remediation-batch-4
+2026-09-12T15:53:10.5600935Z  * [new branch]        campaign/provider-activation-consumption-remediation-batch-5 -> origin/campaign/provider-activation-consumption-remediation-batch-5
+2026-09-12T15:53:10.5605529Z  * [new branch]        campaign/provider-activation-consumption-remediation-batch-6 -> origin/campaign/provider-activation-consumption-remediation-batch-6
+2026-09-12T15:53:10.5610087Z  * [new branch]        campaign/provider-activation-consumption-remediation-batch-7-terminal -> origin/campaign/provider-activation-consumption-remediation-batch-7-terminal
+2026-09-12T15:53:10.5615058Z  * [new branch]        campaign/provider-activation-consumption-remediation-preparation-0 -> origin/campaign/provider-activation-consumption-remediation-preparation-0
+2026-09-12T15:53:10.5619266Z  * [new branch]        campaign/provider-execution-boundary-redesign-batch-1 -> origin/campaign/provider-execution-boundary-redesign-batch-1
+2026-09-12T15:53:10.5623698Z  * [new branch]        campaign/provider-execution-boundary-redesign-batch-10-terminal-audit -> origin/campaign/provider-execution-boundary-redesign-batch-10-terminal-audit
+2026-09-12T15:53:10.5627999Z  * [new branch]        campaign/provider-execution-boundary-redesign-batch-2 -> origin/campaign/provider-execution-boundary-redesign-batch-2
+2026-09-12T15:53:10.5631934Z  * [new branch]        campaign/provider-execution-boundary-redesign-batch-3 -> origin/campaign/provider-execution-boundary-redesign-batch-3
+2026-09-12T15:53:10.5635686Z  * [new branch]        campaign/provider-execution-boundary-redesign-batch-4 -> origin/campaign/provider-execution-boundary-redesign-batch-4
+2026-09-12T15:53:10.5639445Z  * [new branch]        campaign/provider-execution-boundary-redesign-batch-5 -> origin/campaign/provider-execution-boundary-redesign-batch-5
+2026-09-12T15:53:10.5643325Z  * [new branch]        campaign/provider-execution-boundary-redesign-batch-6 -> origin/campaign/provider-execution-boundary-redesign-batch-6
+2026-09-12T15:53:10.5647231Z  * [new branch]        campaign/provider-execution-boundary-redesign-batch-7 -> origin/campaign/provider-execution-boundary-redesign-batch-7
+2026-09-12T15:53:10.5650951Z  * [new branch]        campaign/provider-execution-boundary-redesign-batch-8 -> origin/campaign/provider-execution-boundary-redesign-batch-8
+2026-09-12T15:53:10.5654913Z  * [new branch]        campaign/provider-execution-boundary-redesign-batch-9 -> origin/campaign/provider-execution-boundary-redesign-batch-9
+2026-09-12T15:53:10.5658634Z  * [new branch]        campaign/provider-execution-boundary-redesign-prep-0 -> origin/campaign/provider-execution-boundary-redesign-prep-0
+2026-09-12T15:53:10.5662583Z  * [new branch]        campaign/provider-execution-effect-readiness-batch-0 -> origin/campaign/provider-execution-effect-readiness-batch-0
+2026-09-12T15:53:10.5666278Z  * [new branch]        campaign/provider-execution-effect-readiness-batch-1 -> origin/campaign/provider-execution-effect-readiness-batch-1
+2026-09-12T15:53:10.5669952Z  * [new branch]        campaign/provider-execution-effect-readiness-batch-2 -> origin/campaign/provider-execution-effect-readiness-batch-2
+2026-09-12T15:53:10.5673753Z  * [new branch]        campaign/provider-execution-effect-readiness-batch-3 -> origin/campaign/provider-execution-effect-readiness-batch-3
+2026-09-12T15:53:10.5677417Z  * [new branch]        campaign/provider-execution-effect-readiness-batch-4 -> origin/campaign/provider-execution-effect-readiness-batch-4
+2026-09-12T15:53:10.5681338Z  * [new branch]        campaign/provider-execution-effect-readiness-preparation -> origin/campaign/provider-execution-effect-readiness-preparation
+2026-09-12T15:53:10.5684919Z  * [new branch]        cleanup/runtime-batch-a-control-plane    -> origin/cleanup/runtime-batch-a-control-plane
+2026-09-12T15:53:10.5687713Z  * [new branch]        cleanup/runtime-batch-b-final-severe     -> origin/cleanup/runtime-batch-b-final-severe
+2026-09-12T15:53:10.5690474Z  * [new branch]        cleanup/runtime-severe-gate-closeout     -> origin/cleanup/runtime-severe-gate-closeout
+2026-09-12T15:53:10.5693608Z  * [new branch]        codex/accept-and-open-model-profile-testimony -> origin/codex/accept-and-open-model-profile-testimony
+2026-09-12T15:53:10.5696598Z  * [new branch]        codex/activation-vocabulary-batch-1      -> origin/codex/activation-vocabulary-batch-1
+2026-09-12T15:53:10.5699435Z  * [new branch]        codex/activation-vocabulary-batch-2-audit -> origin/codex/activation-vocabulary-batch-2-audit
+2026-09-12T15:53:10.5702745Z  * [new branch]        codex/activation-vocabulary-preparation-batch-0 -> origin/codex/activation-vocabulary-preparation-batch-0
+2026-09-12T15:53:10.5705918Z  * [new branch]        codex/assemble-operational-manifestation -> origin/codex/assemble-operational-manifestation
+2026-09-12T15:53:10.5709078Z  * [new branch]        codex/atomic-transition-disposable-proof-runner -> origin/codex/atomic-transition-disposable-proof-runner
+2026-09-12T15:53:10.5713096Z  * [new branch]        codex/atomic-transition-evidence-derivation-remediation-batch-1 -> origin/codex/atomic-transition-evidence-derivation-remediation-batch-1
+2026-09-12T15:53:10.5717481Z  * [new branch]        codex/atomic-transition-evidence-derivation-remediation-batch-2 -> origin/codex/atomic-transition-evidence-derivation-remediation-batch-2
+2026-09-12T15:53:10.5721956Z  * [new branch]        codex/atomic-transition-evidence-derivation-remediation-batch-3 -> origin/codex/atomic-transition-evidence-derivation-remediation-batch-3
+2026-09-12T15:53:10.5726753Z  * [new branch]        codex/atomic-transition-evidence-derivation-remediation-batch-3-phpunit-fix -> origin/codex/atomic-transition-evidence-derivation-remediation-batch-3-phpunit-fix
+2026-09-12T15:53:10.5731706Z  * [new branch]        codex/atomic-transition-evidence-derivation-remediation-batch-4 -> origin/codex/atomic-transition-evidence-derivation-remediation-batch-4
+2026-09-12T15:53:10.5736234Z  * [new branch]        codex/atomic-transition-evidence-derivation-remediation-batch-5 -> origin/codex/atomic-transition-evidence-derivation-remediation-batch-5
+2026-09-12T15:53:10.5740806Z  * [new branch]        codex/atomic-transition-evidence-derivation-remediation-preparation-0 -> origin/codex/atomic-transition-evidence-derivation-remediation-preparation-0
+2026-09-12T15:53:10.5745493Z  * [new branch]        codex/atomic-transition-evidence-derivation-remediation-ready -> origin/codex/atomic-transition-evidence-derivation-remediation-ready
+2026-09-12T15:53:10.5749986Z  * [new branch]        codex/atomic-transition-evidence-provenance-operational-proof-batch-1 -> origin/codex/atomic-transition-evidence-provenance-operational-proof-batch-1
+2026-09-12T15:53:10.5754949Z  * [new branch]        codex/atomic-transition-evidence-provenance-operational-proof-batch-2 -> origin/codex/atomic-transition-evidence-provenance-operational-proof-batch-2
+2026-09-12T15:53:10.5759710Z  * [new branch]        codex/atomic-transition-evidence-provenance-operational-proof-batch-3 -> origin/codex/atomic-transition-evidence-provenance-operational-proof-batch-3
+2026-09-12T15:53:10.5764658Z  * [new branch]        codex/atomic-transition-evidence-provenance-operational-proof-batch-4 -> origin/codex/atomic-transition-evidence-provenance-operational-proof-batch-4
+2026-09-12T15:53:10.5769733Z  * [new branch]        codex/atomic-transition-evidence-provenance-operational-proof-batch-5-closeout -> origin/codex/atomic-transition-evidence-provenance-operational-proof-batch-5-closeout
+2026-09-12T15:53:10.5774911Z  * [new branch]        codex/atomic-transition-evidence-provenance-operational-proof-batch-6 -> origin/codex/atomic-transition-evidence-provenance-operational-proof-batch-6
+2026-09-12T15:53:10.5779798Z  * [new branch]        codex/atomic-transition-evidence-provenance-operational-proof-batch-7 -> origin/codex/atomic-transition-evidence-provenance-operational-proof-batch-7
+2026-09-12T15:53:10.5785115Z  * [new branch]        codex/atomic-transition-evidence-provenance-operational-proof-campaign-selection -> origin/codex/atomic-transition-evidence-provenance-operational-proof-campaign-selection
+2026-09-12T15:53:10.5790464Z  * [new branch]        codex/atomic-transition-evidence-provenance-operational-proof-preparation-0 -> origin/codex/atomic-transition-evidence-provenance-operational-proof-preparation-0
+2026-09-12T15:53:10.5795394Z  * [new branch]        codex/atomic-transition-independent-verification-campaign-ready -> origin/codex/atomic-transition-independent-verification-campaign-ready
+2026-09-12T15:53:10.5799659Z  * [new branch]        codex/atomic-transition-independently-verifiable-reproof-ready -> origin/codex/atomic-transition-independently-verifiable-reproof-ready
+2026-09-12T15:53:10.5803797Z  * [new branch]        codex/atomic-transition-integrated-disposable-harness -> origin/codex/atomic-transition-integrated-disposable-harness
+2026-09-12T15:53:10.5807146Z  * [new branch]        codex/batch-4-exception-secret-boundary-fix -> origin/codex/batch-4-exception-secret-boundary-fix
+2026-09-12T15:53:10.5810198Z  * [new branch]        codex/batch-5a-phpunit-compatibility-repair -> origin/codex/batch-5a-phpunit-compatibility-repair
+2026-09-12T15:53:10.5813215Z  * [new branch]        codex/batch-6-contention-test-gate       -> origin/codex/batch-6-contention-test-gate
+2026-09-12T15:53:10.5815863Z  * [new branch]        codex/batch-7-document-helper-repair     -> origin/codex/batch-7-document-helper-repair
+2026-09-12T15:53:10.5818604Z  * [new branch]        codex/bind-operational-manifestation     -> origin/codex/bind-operational-manifestation
+2026-09-12T15:53:10.5821382Z  * [new branch]        codex/blackquill-review-todos            -> origin/codex/blackquill-review-todos
+2026-09-12T15:53:10.5824016Z  * [new branch]        codex/bounded-operational-deployment     -> origin/codex/bounded-operational-deployment
+2026-09-12T15:53:10.5826716Z  * [new branch]        codex/bounded-operational-execution      -> origin/codex/bounded-operational-execution
+2026-09-12T15:53:10.5829583Z  * [new branch]        codex/broker-citadel-legate-provider     -> origin/codex/broker-citadel-legate-provider
+2026-09-12T15:53:10.5832326Z  * [new branch]        codex/cag-closeout-wrap-fix              -> origin/codex/cag-closeout-wrap-fix
+2026-09-12T15:53:10.5835152Z  * [new branch]        codex/canonical-consumer-integration-correction -> origin/codex/canonical-consumer-integration-correction
+2026-09-12T15:53:10.5838772Z  * [new branch]        codex/canonical-mission-authenticity-entrypoint-correction -> origin/codex/canonical-mission-authenticity-entrypoint-correction
+2026-09-12T15:53:10.5842906Z  * [new branch]        codex/canonical-mission-authenticity-real-snapshot-campaign -> origin/codex/canonical-mission-authenticity-real-snapshot-campaign
+2026-09-12T15:53:10.5847022Z  * [new branch]        codex/canonical-mission-authenticity-real-snapshot-remediation -> origin/codex/canonical-mission-authenticity-real-snapshot-remediation
+2026-09-12T15:53:10.5850877Z  * [new branch]        codex/canonical-mission-thread-authority-provenance -> origin/codex/canonical-mission-thread-authority-provenance
+2026-09-12T15:53:10.5855023Z  * [new branch]        codex/canonical-native-effect-continuation-exclusivity-remediation -> origin/codex/canonical-native-effect-continuation-exclusivity-remediation
+2026-09-12T15:53:10.5858723Z  * [new branch]        codex/canonical-reconciliation-batches-2-5 -> origin/codex/canonical-reconciliation-batches-2-5
+2026-09-12T15:53:10.5861941Z  * [new branch]        codex/citadel-accepted-integration-and-readiness -> origin/codex/citadel-accepted-integration-and-readiness
+2026-09-12T15:53:10.5865081Z  * [new branch]        codex/citadel-authority-interface-campaign -> origin/codex/citadel-authority-interface-campaign
+2026-09-12T15:53:10.5868083Z  * [new branch]        codex/citadel-commissioning-campaign     -> origin/codex/citadel-commissioning-campaign
+2026-09-12T15:53:10.5870812Z  * [new branch]        codex/citadel-formation-claim-custody    -> origin/codex/citadel-formation-claim-custody
+2026-09-12T15:53:10.5873876Z  * [new branch]        codex/citadel-formation-correction-campaign -> origin/codex/citadel-formation-correction-campaign
+2026-09-12T15:53:10.5876797Z  * [new branch]        codex/citadel-formation-custody-campaign -> origin/codex/citadel-formation-custody-campaign
+2026-09-12T15:53:10.5879761Z  * [new branch]        codex/citadel-formation-implementation-ready -> origin/codex/citadel-formation-implementation-ready
+2026-09-12T15:53:10.5882857Z  * [new branch]        codex/citadel-mission-formation-campaign -> origin/codex/citadel-mission-formation-campaign
+2026-09-12T15:53:10.5885831Z  * [new branch]        codex/citadel-native-authority-commissioning -> origin/codex/citadel-native-authority-commissioning
+2026-09-12T15:53:10.5888780Z  * [new branch]        codex/citadel-native-authority-protocol  -> origin/codex/citadel-native-authority-protocol
+2026-09-12T15:53:10.5891834Z  * [new branch]        codex/citadel-native-institutional-lineage -> origin/codex/citadel-native-institutional-lineage
+2026-09-12T15:53:10.5894694Z  * [new branch]        codex/citadel-native-lineage-campaign    -> origin/codex/citadel-native-lineage-campaign
+2026-09-12T15:53:10.5897862Z  * [new branch]        codex/citadel-recruiter-garrison-authority-interfaces -> origin/codex/citadel-recruiter-garrison-authority-interfaces
+2026-09-12T15:53:10.5901190Z  * [new branch]        codex/citadel-source-review-integration  -> origin/codex/citadel-source-review-integration
+2026-09-12T15:53:10.5903973Z  * [new branch]        codex/claim-bound-credential-issuance    -> origin/codex/claim-bound-credential-issuance
+2026-09-12T15:53:10.5906960Z  * [new branch]        codex/complete-chain-encoded-payload-marker-fix -> origin/codex/complete-chain-encoded-payload-marker-fix
+2026-09-12T15:53:10.5910141Z  * [new branch]        codex/complete-chain-identifier-base64url-fix -> origin/codex/complete-chain-identifier-base64url-fix
+2026-09-12T15:53:10.5913460Z  * [new branch]        codex/complete-chain-structural-digest-scan-fix -> origin/codex/complete-chain-structural-digest-scan-fix
+2026-09-12T15:53:10.5916612Z  * [new branch]        codex/complete-delegate-mission-route    -> origin/codex/complete-delegate-mission-route
+2026-09-12T15:53:10.5919329Z  * [new branch]        codex/continuous-agent-governance-todo   -> origin/codex/continuous-agent-governance-todo
+2026-09-12T15:53:10.5922159Z  * [new branch]        codex/continuous-governance-batch-10     -> origin/codex/continuous-governance-batch-10
+2026-09-12T15:53:10.5924833Z  * [new branch]        codex/continuous-governance-batch-11     -> origin/codex/continuous-governance-batch-11
+2026-09-12T15:53:10.5927488Z  * [new branch]        codex/continuous-governance-batch-12     -> origin/codex/continuous-governance-batch-12
+2026-09-12T15:53:10.5930128Z  * [new branch]        codex/continuous-governance-batch-13     -> origin/codex/continuous-governance-batch-13
+2026-09-12T15:53:10.5933025Z  * [new branch]        codex/continuous-governance-batch-14     -> origin/codex/continuous-governance-batch-14
+2026-09-12T15:53:10.5935685Z  * [new branch]        codex/continuous-governance-batch-15     -> origin/codex/continuous-governance-batch-15
+2026-09-12T15:53:10.5938330Z  * [new branch]        codex/continuous-governance-batch-16     -> origin/codex/continuous-governance-batch-16
+2026-09-12T15:53:10.5940944Z  * [new branch]        codex/continuous-governance-batch-7      -> origin/codex/continuous-governance-batch-7
+2026-09-12T15:53:10.5943817Z  * [new branch]        codex/continuous-governance-batch-8      -> origin/codex/continuous-governance-batch-8
+2026-09-12T15:53:10.5946421Z  * [new branch]        codex/continuous-governance-batch-9      -> origin/codex/continuous-governance-batch-9
+2026-09-12T15:53:10.5949403Z  * [new branch]        codex/continuous-governance-campaign-handoff -> origin/codex/continuous-governance-campaign-handoff
+2026-09-12T15:53:10.5953344Z  * [new branch]        codex/corridor-disposition-principal-authority-remediation-batch-1 -> origin/codex/corridor-disposition-principal-authority-remediation-batch-1
+2026-09-12T15:53:10.5957787Z  * [new branch]        codex/corridor-disposition-principal-authority-remediation-batch-2 -> origin/codex/corridor-disposition-principal-authority-remediation-batch-2
+2026-09-12T15:53:10.5962342Z  * [new branch]        codex/corridor-disposition-principal-authority-remediation-batch-3 -> origin/codex/corridor-disposition-principal-authority-remediation-batch-3
+2026-09-12T15:53:10.5966776Z  * [new branch]        codex/corridor-disposition-principal-authority-remediation-batch-4 -> origin/codex/corridor-disposition-principal-authority-remediation-batch-4
+2026-09-12T15:53:10.5971351Z  * [new branch]        codex/corridor-disposition-principal-authority-remediation-batch-5 -> origin/codex/corridor-disposition-principal-authority-remediation-batch-5
+2026-09-12T15:53:10.5975977Z  * [new branch]        codex/corridor-disposition-principal-authority-remediation-preparation -> origin/codex/corridor-disposition-principal-authority-remediation-preparation
+2026-09-12T15:53:10.5980814Z  * [new branch]        codex/corridor-disposition-principal-authority-remediation-terminal-audit -> origin/codex/corridor-disposition-principal-authority-remediation-terminal-audit
+2026-09-12T15:53:10.5984786Z  * [new branch]        codex/courtyard-campaign-preparation     -> origin/codex/courtyard-campaign-preparation
+2026-09-12T15:53:10.5987604Z  * [new branch]        codex/courtyard-identity-mission-formation -> origin/codex/courtyard-identity-mission-formation
+2026-09-12T15:53:10.5990227Z  * [new branch]        codex/crash-demonstration-1              -> origin/codex/crash-demonstration-1
+2026-09-12T15:53:10.5992926Z  * [new branch]        codex/crash-demonstration-1-phpunit-fix  -> origin/codex/crash-demonstration-1-phpunit-fix
+2026-09-12T15:53:10.5995694Z  * [new branch]        codex/crash-demonstration-1-replay-fix   -> origin/codex/crash-demonstration-1-replay-fix
+2026-09-12T15:53:10.5998204Z  * [new branch]        codex/crash-demonstration-2              -> origin/codex/crash-demonstration-2
+2026-09-12T15:53:10.6000705Z  * [new branch]        codex/crash-demonstration-3              -> origin/codex/crash-demonstration-3
+2026-09-12T15:53:10.6003183Z  * [new branch]        codex/crash-demonstration-4              -> origin/codex/crash-demonstration-4
+2026-09-12T15:53:10.6005522Z  * [new branch]        codex/crash-program-closeout             -> origin/codex/crash-program-closeout
+2026-09-12T15:53:10.6007977Z  * [new branch]        codex/credential-boundary-batch-10       -> origin/codex/credential-boundary-batch-10
+2026-09-12T15:53:10.6010530Z  * [new branch]        codex/credential-boundary-batch-11       -> origin/codex/credential-boundary-batch-11
+2026-09-12T15:53:10.6013271Z  * [new branch]        codex/credential-boundary-batch-12       -> origin/codex/credential-boundary-batch-12
+2026-09-12T15:53:10.6015856Z  * [new branch]        codex/credential-boundary-batch-13a      -> origin/codex/credential-boundary-batch-13a
+2026-09-12T15:53:10.6018505Z  * [new branch]        codex/credential-boundary-batch-13aa     -> origin/codex/credential-boundary-batch-13aa
+2026-09-12T15:53:10.6021267Z  * [new branch]        codex/credential-boundary-batch-13b      -> origin/codex/credential-boundary-batch-13b
+2026-09-12T15:53:10.6023885Z  * [new branch]        codex/credential-boundary-batch-13c      -> origin/codex/credential-boundary-batch-13c
+2026-09-12T15:53:10.6026468Z  * [new branch]        codex/credential-boundary-batch-13d      -> origin/codex/credential-boundary-batch-13d
+2026-09-12T15:53:10.6029058Z  * [new branch]        codex/credential-boundary-batch-13e      -> origin/codex/credential-boundary-batch-13e
+2026-09-12T15:53:10.6031825Z  * [new branch]        codex/credential-boundary-batch-13f      -> origin/codex/credential-boundary-batch-13f
+2026-09-12T15:53:10.6034584Z  * [new branch]        codex/credential-boundary-batch-13g      -> origin/codex/credential-boundary-batch-13g
+2026-09-12T15:53:10.6037206Z  * [new branch]        codex/credential-boundary-batch-13h      -> origin/codex/credential-boundary-batch-13h
+2026-09-12T15:53:10.6039831Z  * [new branch]        codex/credential-boundary-batch-13i      -> origin/codex/credential-boundary-batch-13i
+2026-09-12T15:53:10.6042625Z  * [new branch]        codex/credential-boundary-batch-13j      -> origin/codex/credential-boundary-batch-13j
+2026-09-12T15:53:10.6045222Z  * [new branch]        codex/credential-boundary-batch-13k      -> origin/codex/credential-boundary-batch-13k
+2026-09-12T15:53:10.6048020Z  * [new branch]        codex/credential-boundary-batch-13k-test-fix -> origin/codex/credential-boundary-batch-13k-test-fix
+2026-09-12T15:53:10.6050814Z  * [new branch]        codex/credential-boundary-batch-13l      -> origin/codex/credential-boundary-batch-13l
+2026-09-12T15:53:10.6053695Z  * [new branch]        codex/credential-boundary-batch-13m      -> origin/codex/credential-boundary-batch-13m
+2026-09-12T15:53:10.6056307Z  * [new branch]        codex/credential-boundary-batch-13n      -> origin/codex/credential-boundary-batch-13n
+2026-09-12T15:53:10.6058922Z  * [new branch]        codex/credential-boundary-batch-13o      -> origin/codex/credential-boundary-batch-13o
+2026-09-12T15:53:10.6061681Z  * [new branch]        codex/credential-boundary-batch-13p      -> origin/codex/credential-boundary-batch-13p
+2026-09-12T15:53:10.6064320Z  * [new branch]        codex/credential-boundary-batch-13q      -> origin/codex/credential-boundary-batch-13q
+2026-09-12T15:53:10.6066917Z  * [new branch]        codex/credential-boundary-batch-13r      -> origin/codex/credential-boundary-batch-13r
+2026-09-12T15:53:10.6069521Z  * [new branch]        codex/credential-boundary-batch-13s      -> origin/codex/credential-boundary-batch-13s
+2026-09-12T15:53:10.6072292Z  * [new branch]        codex/credential-boundary-batch-13t      -> origin/codex/credential-boundary-batch-13t
+2026-09-12T15:53:10.6074905Z  * [new branch]        codex/credential-boundary-batch-13u      -> origin/codex/credential-boundary-batch-13u
+2026-09-12T15:53:10.6077694Z  * [new branch]        codex/credential-boundary-batch-13v      -> origin/codex/credential-boundary-batch-13v
+2026-09-12T15:53:10.6080308Z  * [new branch]        codex/credential-boundary-batch-13w      -> origin/codex/credential-boundary-batch-13w
+2026-09-12T15:53:10.6083073Z  * [new branch]        codex/credential-boundary-batch-13x      -> origin/codex/credential-boundary-batch-13x
+2026-09-12T15:53:10.6085667Z  * [new branch]        codex/credential-boundary-batch-13y      -> origin/codex/credential-boundary-batch-13y
+2026-09-12T15:53:10.6088250Z  * [new branch]        codex/credential-boundary-batch-13z      -> origin/codex/credential-boundary-batch-13z
+2026-09-12T15:53:10.6091196Z  * [new branch]        codex/credential-boundary-batch-14-guildhall -> origin/codex/credential-boundary-batch-14-guildhall
+2026-09-12T15:53:10.6094193Z  * [new branch]        codex/credential-boundary-batch-14-handoff -> origin/codex/credential-boundary-batch-14-handoff
+2026-09-12T15:53:10.6097496Z  * [new branch]        codex/credential-boundary-batch-14a-guildhall-inventory -> origin/codex/credential-boundary-batch-14a-guildhall-inventory
+2026-09-12T15:53:10.6100757Z  * [new branch]        codex/credential-boundary-batch-15-curia -> origin/codex/credential-boundary-batch-15-curia
+2026-09-12T15:53:10.6103559Z  * [new branch]        codex/credential-boundary-batch-6        -> origin/codex/credential-boundary-batch-6
+2026-09-12T15:53:10.6106079Z  * [new branch]        codex/credential-boundary-batch-7        -> origin/codex/credential-boundary-batch-7
+2026-09-12T15:53:10.6108601Z  * [new branch]        codex/credential-boundary-batch-8        -> origin/codex/credential-boundary-batch-8
+2026-09-12T15:53:10.6111269Z  * [new branch]        codex/credential-boundary-batch-9        -> origin/codex/credential-boundary-batch-9
+2026-09-12T15:53:10.6114146Z  * [new branch]        codex/credential-capability-authenticity -> origin/codex/credential-capability-authenticity
+2026-09-12T15:53:10.6116953Z  * [new branch]        codex/defensible-decision-record-todo    -> origin/codex/defensible-decision-record-todo
+2026-09-12T15:53:10.6119602Z  * [new branch]        codex/define-codex-imperii-taxonomy      -> origin/codex/define-codex-imperii-taxonomy
+2026-09-12T15:53:10.6122706Z  * [new branch]        codex/delegate-access-authorization-steps-63-64 -> origin/codex/delegate-access-authorization-steps-63-64
+2026-09-12T15:53:10.6126120Z  * [new branch]        codex/delegate-mission-cognition-readiness-steps-51-52 -> origin/codex/delegate-mission-cognition-readiness-steps-51-52
+2026-09-12T15:53:10.6129486Z  * [new branch]        codex/delegate-mission-control-intake-step-50 -> origin/codex/delegate-mission-control-intake-step-50
+2026-09-12T15:53:10.6133045Z  * [new branch]        codex/delegate-mission-deliberation-reconciliation-leg -> origin/codex/delegate-mission-deliberation-reconciliation-leg
+2026-09-12T15:53:10.6136243Z  * [new branch]        codex/delegate-mission-deployment-leg    -> origin/codex/delegate-mission-deployment-leg
+2026-09-12T15:53:10.6139233Z  * [new branch]        codex/delegate-mission-independent-findings-leg -> origin/codex/delegate-mission-independent-findings-leg
+2026-09-12T15:53:10.6142830Z  * [new branch]        codex/delegate-mission-operational-construction-leg -> origin/codex/delegate-mission-operational-construction-leg
+2026-09-12T15:53:10.6146474Z  * [new branch]        codex/delegate-mission-profile-approval-leg -> origin/codex/delegate-mission-profile-approval-leg
+2026-09-12T15:53:10.6149644Z  * [new branch]        codex/delegate-mission-runtime-activation-step-49 -> origin/codex/delegate-mission-runtime-activation-step-49
+2026-09-12T15:53:10.6153070Z  * [new branch]        codex/delegate-mission-senate-disposition-leg -> origin/codex/delegate-mission-senate-disposition-leg
+2026-09-12T15:53:10.6155841Z  * [new branch]        codex/delegate-mission-step-1            -> origin/codex/delegate-mission-step-1
+2026-09-12T15:53:10.6158310Z  * [new branch]        codex/delegate-mission-steps-19-30       -> origin/codex/delegate-mission-steps-19-30
+2026-09-12T15:53:10.6161503Z  * [new branch]        codex/delegate-mission-usability-question-leg -> origin/codex/delegate-mission-usability-question-leg
+2026-09-12T15:53:10.6164411Z  * [new branch]        codex/delegate-model-binding-step-62     -> origin/codex/delegate-model-binding-step-62
+2026-09-12T15:53:10.6167097Z  * [new branch]        codex/delegate-model-selection-step-61   -> origin/codex/delegate-model-selection-step-61
+2026-09-12T15:53:10.6169905Z  * [new branch]        codex/delegate-oracle-criteria-steps-53-55 -> origin/codex/delegate-oracle-criteria-steps-53-55
+2026-09-12T15:53:10.6172899Z  * [new branch]        codex/delegate-oracle-intake-steps-56-57 -> origin/codex/delegate-oracle-intake-steps-56-57
+2026-09-12T15:53:10.6175745Z  * [new branch]        codex/delegate-oracle-judgment-steps-58-60 -> origin/codex/delegate-oracle-judgment-steps-58-60
+2026-09-12T15:53:10.6178641Z  * [new branch]        codex/delegate-provider-activation-step-65 -> origin/codex/delegate-provider-activation-step-65
+2026-09-12T15:53:10.6181645Z  * [new branch]        codex/delegate-symfony-cognition-step-66 -> origin/codex/delegate-symfony-cognition-step-66
+2026-09-12T15:53:10.6184247Z  * [new branch]        codex/delegate-terminal-audit            -> origin/codex/delegate-terminal-audit
+2026-09-12T15:53:10.6186828Z  * [new branch]        codex/expose-profile-evidence-to-senate  -> origin/codex/expose-profile-evidence-to-senate
+2026-09-12T15:53:10.6189502Z  * [new branch]        codex/fix-batch-10-status-assertion      -> origin/codex/fix-batch-10-status-assertion
+2026-09-12T15:53:10.6192232Z  * [new branch]        codex/fix-batch-13b-inventory-count      -> origin/codex/fix-batch-13b-inventory-count
+2026-09-12T15:53:10.6195077Z  * [new branch]        codex/fix-batch-13d-dynamic-testimony-assertion -> origin/codex/fix-batch-13d-dynamic-testimony-assertion
+2026-09-12T15:53:10.6198073Z  * [new branch]        codex/fix-batch-14-inventory-count       -> origin/codex/fix-batch-14-inventory-count
+2026-09-12T15:53:10.6200549Z  * [new branch]        codex/fix-batch-2-flow-sentinel          -> origin/codex/fix-batch-2-flow-sentinel
+2026-09-12T15:53:10.6203294Z  * [new branch]        codex/fix-batch-3-documentation-tripwire -> origin/codex/fix-batch-3-documentation-tripwire
+2026-09-12T15:53:10.6205898Z  * [new branch]        codex/fix-batch-5-data-provider          -> origin/codex/fix-batch-5-data-provider
+2026-09-12T15:53:10.6208252Z  * [new branch]        codex/fix-batch-5-flow-marker            -> origin/codex/fix-batch-5-flow-marker
+2026-09-12T15:53:10.6210709Z  * [new branch]        codex/fix-batch-8-design-status-test     -> origin/codex/fix-batch-8-design-status-test
+2026-09-12T15:53:10.6213904Z  * [new branch]        codex/fix-batch12-coverage-after-iron-gate-contracts -> origin/codex/fix-batch12-coverage-after-iron-gate-contracts
+2026-09-12T15:53:10.6217114Z  * [new branch]        codex/fix-batch2-closeout-frontier-assertion -> origin/codex/fix-batch2-closeout-frontier-assertion
+2026-09-12T15:53:10.6219869Z  * [new branch]        codex/fix-batch4-proof-assertions        -> origin/codex/fix-batch4-proof-assertions
+2026-09-12T15:53:10.6222686Z  * [new branch]        codex/fix-batch6-documentation-assertion -> origin/codex/fix-batch6-documentation-assertion
+2026-09-12T15:53:10.6225516Z  * [new branch]        codex/fix-boundary-redesign-trusted-writer -> origin/codex/fix-boundary-redesign-trusted-writer
+2026-09-12T15:53:10.6228371Z  * [new branch]        codex/fix-campaign-closeout-doc-assertion -> origin/codex/fix-campaign-closeout-doc-assertion
+2026-09-12T15:53:10.6231573Z  * [new branch]        codex/fix-corridor-remediation-batch-2-boundaries -> origin/codex/fix-corridor-remediation-batch-2-boundaries
+2026-09-12T15:53:10.6235016Z  * [new branch]        codex/fix-corridor-remediation-batch-2-documentation -> origin/codex/fix-corridor-remediation-batch-2-documentation
+2026-09-12T15:53:10.6238443Z  * [new branch]        codex/fix-corridor-remediation-batch-5-test-fixture -> origin/codex/fix-corridor-remediation-batch-5-test-fixture
+2026-09-12T15:53:10.6241844Z  * [new branch]        codex/fix-delegate-access-constructors   -> origin/codex/fix-delegate-access-constructors
+2026-09-12T15:53:10.6244590Z  * [new branch]        codex/fix-delegate-activation-exceptions -> origin/codex/fix-delegate-activation-exceptions
+2026-09-12T15:53:10.6247364Z  * [new branch]        codex/fix-delegate-model-binding-lineage -> origin/codex/fix-delegate-model-binding-lineage
+2026-09-12T15:53:10.6250283Z  * [new branch]        codex/fix-delegate-terminal-audit-runtime-path -> origin/codex/fix-delegate-terminal-audit-runtime-path
+2026-09-12T15:53:10.6253368Z  * [new branch]        codex/fix-fresh-consistency-seam-warning -> origin/codex/fix-fresh-consistency-seam-warning
+2026-09-12T15:53:10.6256324Z  * [new branch]        codex/fix-iron-gate-preparation-doc-assertion -> origin/codex/fix-iron-gate-preparation-doc-assertion
+2026-09-12T15:53:10.6259727Z  * [new branch]        codex/fix-provenance-preparation-documentary-assertions -> origin/codex/fix-provenance-preparation-documentary-assertions
+2026-09-12T15:53:10.6263372Z  * [new branch]        codex/fix-provider-activation-batch-1-test-gate -> origin/codex/fix-provider-activation-batch-1-test-gate
+2026-09-12T15:53:10.6266678Z  * [new branch]        codex/fix-provider-activation-preparation-sentinels -> origin/codex/fix-provider-activation-preparation-sentinels
+2026-09-12T15:53:10.6269591Z  * [new branch]        codex/fix-runtime-source-guard           -> origin/codex/fix-runtime-source-guard
+2026-09-12T15:53:10.6272094Z  * [new branch]        codex/fix-step-26-data-provider          -> origin/codex/fix-step-26-data-provider
+2026-09-12T15:53:10.6274483Z  * [new branch]        codex/fix-step-66-test-fixtures          -> origin/codex/fix-step-66-test-fixtures
+2026-09-12T15:53:10.6277240Z  * [new branch]        codex/fix-usability-proceeding-security  -> origin/codex/fix-usability-proceeding-security
+2026-09-12T15:53:10.6280089Z  * [new branch]        codex/fix-windows-transition-directory-race -> origin/codex/fix-windows-transition-directory-race
+2026-09-12T15:53:10.6283377Z  * [new branch]        codex/frozen-runtime-coverage-tripwire-restoration -> origin/codex/frozen-runtime-coverage-tripwire-restoration
+2026-09-12T15:53:10.6287361Z  * [new branch]        codex/frozen-runtime-coverage-tripwire-restoration-preparation-batch-0 -> origin/codex/frozen-runtime-coverage-tripwire-restoration-preparation-batch-0
+2026-09-12T15:53:10.6290916Z  * [new branch]        codex/governed-operational-return        -> origin/codex/governed-operational-return
+2026-09-12T15:53:10.6294146Z  * [new branch]        codex/governed-tool-provider-separation-batch-1-test-fix -> origin/codex/governed-tool-provider-separation-batch-1-test-fix
+2026-09-12T15:53:10.6297597Z  * [new branch]        codex/governed-tool-provider-separation-batch-2 -> origin/codex/governed-tool-provider-separation-batch-2
+2026-09-12T15:53:10.6300745Z  * [new branch]        codex/governed-tool-provider-separation-batch-3 -> origin/codex/governed-tool-provider-separation-batch-3
+2026-09-12T15:53:10.6304062Z  * [new branch]        codex/governed-tool-provider-separation-batch-4 -> origin/codex/governed-tool-provider-separation-batch-4
+2026-09-12T15:53:10.6307204Z  * [new branch]        codex/governed-tool-provider-separation-batch-5 -> origin/codex/governed-tool-provider-separation-batch-5
+2026-09-12T15:53:10.6310357Z  * [new branch]        codex/governed-tool-provider-separation-batch-6 -> origin/codex/governed-tool-provider-separation-batch-6
+2026-09-12T15:53:10.6313676Z  * [new branch]        codex/governed-tool-provider-separation-batch-7 -> origin/codex/governed-tool-provider-separation-batch-7
+2026-09-12T15:53:10.6316837Z  * [new branch]        codex/governed-tool-provider-separation-batch-8 -> origin/codex/governed-tool-provider-separation-batch-8
+2026-09-12T15:53:10.6320064Z  * [new branch]        codex/governed-tool-provider-separation-batch-9 -> origin/codex/governed-tool-provider-separation-batch-9
+2026-09-12T15:53:10.6324020Z  * [new branch]        codex/governed-tool-provider-separation-preparation-batch-0 -> origin/codex/governed-tool-provider-separation-preparation-batch-0
+2026-09-12T15:53:10.6327292Z  * [new branch]        codex/handle-live-senate-verdicts        -> origin/codex/handle-live-senate-verdicts
+2026-09-12T15:53:10.6329968Z  * [new branch]        codex/handoff-model-bound-senate-complete -> origin/codex/handoff-model-bound-senate-complete
+2026-09-12T15:53:10.6333016Z  * [new branch]        codex/imperator-intent-default-planning  -> origin/codex/imperator-intent-default-planning
+2026-09-12T15:53:10.6335707Z  * [new branch]        codex/imperator-profile-approval         -> origin/codex/imperator-profile-approval
+2026-09-12T15:53:10.6338499Z  * [new branch]        codex/institutional-decision-integrity-batch-1 -> origin/codex/institutional-decision-integrity-batch-1
+2026-09-12T15:53:10.6341761Z  * [new branch]        codex/institutional-decision-integrity-batch-2 -> origin/codex/institutional-decision-integrity-batch-2
+2026-09-12T15:53:10.6344849Z  * [new branch]        codex/institutional-decision-integrity-batch-3 -> origin/codex/institutional-decision-integrity-batch-3
+2026-09-12T15:53:10.6347928Z  * [new branch]        codex/institutional-decision-integrity-batch-4 -> origin/codex/institutional-decision-integrity-batch-4
+2026-09-12T15:53:10.6351167Z  * [new branch]        codex/institutional-decision-integrity-batch-5 -> origin/codex/institutional-decision-integrity-batch-5
+2026-09-12T15:53:10.6354383Z  * [new branch]        codex/institutional-decision-integrity-batch-5-fix -> origin/codex/institutional-decision-integrity-batch-5-fix
+2026-09-12T15:53:10.6357586Z  * [new branch]        codex/institutional-decision-integrity-batch-6 -> origin/codex/institutional-decision-integrity-batch-6
+2026-09-12T15:53:10.6360540Z  * [new branch]        codex/iron-gate-authenticity-batch-1     -> origin/codex/iron-gate-authenticity-batch-1
+2026-09-12T15:53:10.6363298Z  * [new branch]        codex/iron-gate-authenticity-batch-10    -> origin/codex/iron-gate-authenticity-batch-10
+2026-09-12T15:53:10.6365928Z  * [new branch]        codex/iron-gate-authenticity-batch-11    -> origin/codex/iron-gate-authenticity-batch-11
+2026-09-12T15:53:10.6368520Z  * [new branch]        codex/iron-gate-authenticity-batch-2     -> origin/codex/iron-gate-authenticity-batch-2
+2026-09-12T15:53:10.6371219Z  * [new branch]        codex/iron-gate-authenticity-batch-3     -> origin/codex/iron-gate-authenticity-batch-3
+2026-09-12T15:53:10.6373807Z  * [new branch]        codex/iron-gate-authenticity-batch-4     -> origin/codex/iron-gate-authenticity-batch-4
+2026-09-12T15:53:10.6376364Z  * [new branch]        codex/iron-gate-authenticity-batch-5     -> origin/codex/iron-gate-authenticity-batch-5
+2026-09-12T15:53:10.6378915Z  * [new branch]        codex/iron-gate-authenticity-batch-6     -> origin/codex/iron-gate-authenticity-batch-6
+2026-09-12T15:53:10.6381669Z  * [new branch]        codex/iron-gate-authenticity-batch-7     -> origin/codex/iron-gate-authenticity-batch-7
+2026-09-12T15:53:10.6384267Z  * [new branch]        codex/iron-gate-authenticity-batch-8     -> origin/codex/iron-gate-authenticity-batch-8
+2026-09-12T15:53:10.6387138Z  * [new branch]        codex/iron-gate-authenticity-batch-8-test-repair -> origin/codex/iron-gate-authenticity-batch-8-test-repair
+2026-09-12T15:53:10.6390362Z  * [new branch]        codex/iron-gate-authenticity-batch-8-test-repair-2 -> origin/codex/iron-gate-authenticity-batch-8-test-repair-2
+2026-09-12T15:53:10.6393456Z  * [new branch]        codex/iron-gate-authenticity-batch-9     -> origin/codex/iron-gate-authenticity-batch-9
+2026-09-12T15:53:10.6396298Z  * [new branch]        codex/iron-gate-authenticity-batch-9-test-repair -> origin/codex/iron-gate-authenticity-batch-9-test-repair
+2026-09-12T15:53:10.6399535Z  * [new branch]        codex/iron-gate-evidence-authenticity-preparation -> origin/codex/iron-gate-evidence-authenticity-preparation
+2026-09-12T15:53:10.6402653Z  * [new branch]        codex/iron-gate-receipt-binding-batch-1  -> origin/codex/iron-gate-receipt-binding-batch-1
+2026-09-12T15:53:10.6405548Z  * [new branch]        codex/iron-gate-receipt-binding-batch-10 -> origin/codex/iron-gate-receipt-binding-batch-10
+2026-09-12T15:53:10.6408260Z  * [new branch]        codex/iron-gate-receipt-binding-batch-11 -> origin/codex/iron-gate-receipt-binding-batch-11
+2026-09-12T15:53:10.6410963Z  * [new branch]        codex/iron-gate-receipt-binding-batch-2  -> origin/codex/iron-gate-receipt-binding-batch-2
+2026-09-12T15:53:10.6413818Z  * [new branch]        codex/iron-gate-receipt-binding-batch-3  -> origin/codex/iron-gate-receipt-binding-batch-3
+2026-09-12T15:53:10.6416488Z  * [new branch]        codex/iron-gate-receipt-binding-batch-4  -> origin/codex/iron-gate-receipt-binding-batch-4
+2026-09-12T15:53:10.6419178Z  * [new branch]        codex/iron-gate-receipt-binding-batch-5  -> origin/codex/iron-gate-receipt-binding-batch-5
+2026-09-12T15:53:10.6421972Z  * [new branch]        codex/iron-gate-receipt-binding-batch-6  -> origin/codex/iron-gate-receipt-binding-batch-6
+2026-09-12T15:53:10.6424661Z  * [new branch]        codex/iron-gate-receipt-binding-batch-7  -> origin/codex/iron-gate-receipt-binding-batch-7
+2026-09-12T15:53:10.6427359Z  * [new branch]        codex/iron-gate-receipt-binding-batch-8  -> origin/codex/iron-gate-receipt-binding-batch-8
+2026-09-12T15:53:10.6430035Z  * [new branch]        codex/iron-gate-receipt-binding-batch-9  -> origin/codex/iron-gate-receipt-binding-batch-9
+2026-09-12T15:53:10.6433235Z  * [new branch]        codex/iron-gate-receipt-binding-preparation-batch-0 -> origin/codex/iron-gate-receipt-binding-preparation-batch-0
+2026-09-12T15:53:10.6436328Z  * [new branch]        codex/iron-gate-terminal-assertion-repair -> origin/codex/iron-gate-terminal-assertion-repair
+2026-09-12T15:53:10.6439270Z  * [new branch]        codex/local-isolation-scratch-correction -> origin/codex/local-isolation-scratch-correction
+2026-09-12T15:53:10.6442557Z  * [new branch]        codex/mission-amendment-authority-evidence-correction -> origin/codex/mission-amendment-authority-evidence-correction
+2026-09-12T15:53:10.6445556Z  * [new branch]        codex/o3-b1-ci-correction-download       -> origin/codex/o3-b1-ci-correction-download
+2026-09-12T15:53:10.6447878Z  * [new branch]        codex/o3-b1-review-download              -> origin/codex/o3-b1-review-download
+2026-09-12T15:53:10.6450186Z  * [new branch]        codex/onboarding-o0-preparation          -> origin/codex/onboarding-o0-preparation
+2026-09-12T15:53:10.6453059Z  * [new branch]        codex/open-model-bound-profile-examination -> origin/codex/open-model-bound-profile-examination
+2026-09-12T15:53:10.6455832Z  * [new branch]        codex/open-model-profile-deliberation    -> origin/codex/open-model-profile-deliberation
+2026-09-12T15:53:10.6458587Z  * [new branch]        codex/operational-cognition-access-batch-1 -> origin/codex/operational-cognition-access-batch-1
+2026-09-12T15:53:10.6461652Z  * [new branch]        codex/operational-cognition-access-batch-2 -> origin/codex/operational-cognition-access-batch-2
+2026-09-12T15:53:10.6464533Z  * [new branch]        codex/operational-cognition-access-batch-3 -> origin/codex/operational-cognition-access-batch-3
+2026-09-12T15:53:10.6467381Z  * [new branch]        codex/operational-cognition-access-batch-4 -> origin/codex/operational-cognition-access-batch-4
+2026-09-12T15:53:10.6470340Z  * [new branch]        codex/operational-cognition-access-batch-4-fix -> origin/codex/operational-cognition-access-batch-4-fix
+2026-09-12T15:53:10.6473447Z  * [new branch]        codex/operational-cognition-access-batch-5 -> origin/codex/operational-cognition-access-batch-5
+2026-09-12T15:53:10.6476313Z  * [new branch]        codex/operational-cognition-access-handoff -> origin/codex/operational-cognition-access-handoff
+2026-09-12T15:53:10.6479367Z  * [new branch]        codex/operational-cognition-interruption-batch-0 -> origin/codex/operational-cognition-interruption-batch-0
+2026-09-12T15:53:10.6482694Z  * [new branch]        codex/operational-cognition-interruption-batch-1 -> origin/codex/operational-cognition-interruption-batch-1
+2026-09-12T15:53:10.6486074Z  * [new branch]        codex/operational-cognition-interruption-batch-2 -> origin/codex/operational-cognition-interruption-batch-2
+2026-09-12T15:53:10.6489281Z  * [new branch]        codex/operational-cognition-interruption-batch-3 -> origin/codex/operational-cognition-interruption-batch-3
+2026-09-12T15:53:10.6492651Z  * [new branch]        codex/operational-cognition-interruption-batch-4 -> origin/codex/operational-cognition-interruption-batch-4
+2026-09-12T15:53:10.6496122Z  * [new branch]        codex/operational-cognition-interruption-batch-5-closeout -> origin/codex/operational-cognition-interruption-batch-5-closeout
+2026-09-12T15:53:10.6499982Z  * [new branch]        codex/operational-cognition-interruption-batch-6-remediation -> origin/codex/operational-cognition-interruption-batch-6-remediation
+2026-09-12T15:53:10.6503905Z  * [new branch]        codex/operational-lease-interruption-campaign-selection -> origin/codex/operational-lease-interruption-campaign-selection
+2026-09-12T15:53:10.6507139Z  * [new branch]        codex/operational-profile-qualification  -> origin/codex/operational-profile-qualification
+2026-09-12T15:53:10.6509910Z  * [new branch]        codex/prepare-iron-gate-campaign-handoff -> origin/codex/prepare-iron-gate-campaign-handoff
+2026-09-12T15:53:10.6513207Z  * [new branch]        codex/prepare-operational-lease-interruption-campaign -> origin/codex/prepare-operational-lease-interruption-campaign
+2026-09-12T15:53:10.6516761Z  * [new branch]        codex/prepare-reconciliation-remaining-local-campaign -> origin/codex/prepare-reconciliation-remaining-local-campaign
+2026-09-12T15:53:10.6519994Z  * [new branch]        codex/preserve-profile-finding-disagreement -> origin/codex/preserve-profile-finding-disagreement
+2026-09-12T15:53:10.6523670Z  * [new branch]        codex/principal-decision-provenance-batch-2-doc-repair -> origin/codex/principal-decision-provenance-batch-2-doc-repair
+2026-09-12T15:53:10.6527285Z  * [new branch]        codex/principal-decision-provenance-batch-3-doc-repair -> origin/codex/principal-decision-provenance-batch-3-doc-repair
+2026-09-12T15:53:10.6530888Z  * [new branch]        codex/principal-decision-provenance-remediation-batch-1 -> origin/codex/principal-decision-provenance-remediation-batch-1
+2026-09-12T15:53:10.6534718Z  * [new branch]        codex/principal-decision-provenance-remediation-batch-2 -> origin/codex/principal-decision-provenance-remediation-batch-2
+2026-09-12T15:53:10.6538333Z  * [new branch]        codex/principal-decision-provenance-remediation-batch-3 -> origin/codex/principal-decision-provenance-remediation-batch-3
+2026-09-12T15:53:10.6542128Z  * [new branch]        codex/principal-decision-provenance-remediation-batch-4 -> origin/codex/principal-decision-provenance-remediation-batch-4
+2026-09-12T15:53:10.6546026Z  * [new branch]        codex/principal-decision-provenance-remediation-batch-5-refusal -> origin/codex/principal-decision-provenance-remediation-batch-5-refusal
+2026-09-12T15:53:10.6549963Z  * [new branch]        codex/principal-decision-provenance-remediation-batch-5a -> origin/codex/principal-decision-provenance-remediation-batch-5a
+2026-09-12T15:53:10.6553795Z  * [new branch]        codex/principal-decision-provenance-remediation-batch-5b -> origin/codex/principal-decision-provenance-remediation-batch-5b
+2026-09-12T15:53:10.6557485Z  * [new branch]        codex/principal-decision-provenance-remediation-batch-5c -> origin/codex/principal-decision-provenance-remediation-batch-5c
+2026-09-12T15:53:10.6561259Z  * [new branch]        codex/principal-decision-provenance-remediation-batch-6 -> origin/codex/principal-decision-provenance-remediation-batch-6
+2026-09-12T15:53:10.6564919Z  * [new branch]        codex/principal-decision-provenance-remediation-batch-7 -> origin/codex/principal-decision-provenance-remediation-batch-7
+2026-09-12T15:53:10.6568517Z  * [new branch]        codex/principal-decision-provenance-remediation-prep-0 -> origin/codex/principal-decision-provenance-remediation-prep-0
+2026-09-12T15:53:10.6572294Z  * [new branch]        codex/principal-production-batch-2-audit-refusal -> origin/codex/principal-production-batch-2-audit-refusal
+2026-09-12T15:53:10.6575244Z  * [new branch]        codex/profile-model-access-attestation   -> origin/codex/profile-model-access-attestation
+2026-09-12T15:53:10.6578255Z  * [new branch]        codex/protected-mission-authority-operator-ceremony -> origin/codex/protected-mission-authority-operator-ceremony
+2026-09-12T15:53:10.6581700Z  * [new branch]        codex/provider-assurance-preserved-perimeter-fix -> origin/codex/provider-assurance-preserved-perimeter-fix
+2026-09-12T15:53:10.6585276Z  * [new branch]        codex/provider-binding-activation-capability-custody-batch-1 -> origin/codex/provider-binding-activation-capability-custody-batch-1
+2026-09-12T15:53:10.6589193Z  * [new branch]        codex/provider-binding-activation-capability-custody-batch-2 -> origin/codex/provider-binding-activation-capability-custody-batch-2
+2026-09-12T15:53:10.6593279Z  * [new branch]        codex/provider-binding-activation-capability-custody-batch-3 -> origin/codex/provider-binding-activation-capability-custody-batch-3
+2026-09-12T15:53:10.6597447Z  * [new branch]        codex/provider-binding-activation-capability-custody-batch-4-refusal -> origin/codex/provider-binding-activation-capability-custody-batch-4-refusal
+2026-09-12T15:53:10.6602127Z  * [new branch]        codex/provider-binding-activation-capability-custody-preparation-batch-0 -> origin/codex/provider-binding-activation-capability-custody-preparation-batch-0
+2026-09-12T15:53:10.6606528Z  * [new branch]        codex/provider-binding-activation-capability-custody-selection -> origin/codex/provider-binding-activation-capability-custody-selection
+2026-09-12T15:53:10.6611240Z  * [new branch]        codex/provider-binding-activation-corridor-disposition-batch-1-test-fix -> origin/codex/provider-binding-activation-corridor-disposition-batch-1-test-fix
+2026-09-12T15:53:10.6616215Z  * [new branch]        codex/provider-binding-activation-corridor-disposition-reconsideration-batch-1 -> origin/codex/provider-binding-activation-corridor-disposition-reconsideration-batch-1
+2026-09-12T15:53:10.6621443Z  * [new branch]        codex/provider-binding-activation-corridor-disposition-reconsideration-batch-2 -> origin/codex/provider-binding-activation-corridor-disposition-reconsideration-batch-2
+2026-09-12T15:53:10.6626536Z  * [new branch]        codex/provider-binding-activation-corridor-disposition-reconsideration-batch-3 -> origin/codex/provider-binding-activation-corridor-disposition-reconsideration-batch-3
+2026-09-12T15:53:10.6631773Z  * [new branch]        codex/provider-binding-activation-corridor-disposition-reconsideration-batch-4 -> origin/codex/provider-binding-activation-corridor-disposition-reconsideration-batch-4
+2026-09-12T15:53:10.6636886Z  * [new branch]        codex/provider-binding-activation-corridor-disposition-reconsideration-batch-5 -> origin/codex/provider-binding-activation-corridor-disposition-reconsideration-batch-5
+2026-09-12T15:53:10.6642088Z  * [new branch]        codex/provider-binding-activation-corridor-disposition-reconsideration-prep-0 -> origin/codex/provider-binding-activation-corridor-disposition-reconsideration-prep-0
+2026-09-12T15:53:10.6647785Z  * [new branch]        codex/provider-binding-activation-corridor-disposition-reconsideration-terminal-audit -> origin/codex/provider-binding-activation-corridor-disposition-reconsideration-terminal-audit
+2026-09-12T15:53:10.6653304Z  * [new branch]        codex/provider-binding-activation-integrity-remediation-batch-1 -> origin/codex/provider-binding-activation-integrity-remediation-batch-1
+2026-09-12T15:53:10.6657421Z  * [new branch]        codex/provider-binding-activation-integrity-remediation-batch-2 -> origin/codex/provider-binding-activation-integrity-remediation-batch-2
+2026-09-12T15:53:10.6662461Z  * [new branch]        codex/provider-binding-activation-integrity-remediation-batch-3 -> origin/codex/provider-binding-activation-integrity-remediation-batch-3
+2026-09-12T15:53:10.6666927Z  * [new branch]        codex/provider-binding-activation-integrity-remediation-batch-4 -> origin/codex/provider-binding-activation-integrity-remediation-batch-4
+2026-09-12T15:53:10.6671759Z  * [new branch]        codex/provider-binding-activation-integrity-remediation-batch-4-test-repair -> origin/codex/provider-binding-activation-integrity-remediation-batch-4-test-repair
+2026-09-12T15:53:10.6676260Z  * [new branch]        codex/provider-binding-activation-integrity-remediation-batch-5 -> origin/codex/provider-binding-activation-integrity-remediation-batch-5
+2026-09-12T15:53:10.6680371Z  * [new branch]        codex/provider-binding-activation-integrity-remediation-batch-6 -> origin/codex/provider-binding-activation-integrity-remediation-batch-6
+2026-09-12T15:53:10.6685145Z  * [new branch]        codex/provider-binding-activation-integrity-remediation-campaign-ready -> origin/codex/provider-binding-activation-integrity-remediation-campaign-ready
+2026-09-12T15:53:10.6689884Z  * [new branch]        codex/provider-binding-activation-integrity-remediation-preparation-batch-0 -> origin/codex/provider-binding-activation-integrity-remediation-preparation-batch-0
+2026-09-12T15:53:10.6694686Z  * [new branch]        codex/provider-binding-activation-integrity-terminal-sentinel-repair -> origin/codex/provider-binding-activation-integrity-terminal-sentinel-repair
+2026-09-12T15:53:10.6699060Z  * [new branch]        codex/provider-binding-activation-principal-batch-1-sentinel-repair -> origin/codex/provider-binding-activation-principal-batch-1-sentinel-repair
+2026-09-12T15:53:10.6703443Z  * [new branch]        codex/provider-binding-activation-principal-batch-2-risky-repair -> origin/codex/provider-binding-activation-principal-batch-2-risky-repair
+2026-09-12T15:53:10.6708076Z  * [new branch]        codex/provider-binding-activation-principal-preparation-sentinel-repair -> origin/codex/provider-binding-activation-principal-preparation-sentinel-repair
+2026-09-12T15:53:10.6712631Z  * [new branch]        codex/provider-binding-activation-principal-provenance-batch-1 -> origin/codex/provider-binding-activation-principal-provenance-batch-1
+2026-09-12T15:53:10.6716697Z  * [new branch]        codex/provider-binding-activation-principal-provenance-batch-2 -> origin/codex/provider-binding-activation-principal-provenance-batch-2
+2026-09-12T15:53:10.6720752Z  * [new branch]        codex/provider-binding-activation-principal-provenance-batch-3 -> origin/codex/provider-binding-activation-principal-provenance-batch-3
+2026-09-12T15:53:10.6724928Z  * [new branch]        codex/provider-binding-activation-principal-provenance-batch-4 -> origin/codex/provider-binding-activation-principal-provenance-batch-4
+2026-09-12T15:53:10.6728982Z  * [new branch]        codex/provider-binding-activation-principal-provenance-batch-5 -> origin/codex/provider-binding-activation-principal-provenance-batch-5
+2026-09-12T15:53:10.6733266Z  * [new branch]        codex/provider-binding-activation-principal-provenance-batch-6 -> origin/codex/provider-binding-activation-principal-provenance-batch-6
+2026-09-12T15:53:10.6737376Z  * [new branch]        codex/provider-binding-activation-principal-provenance-batch-7 -> origin/codex/provider-binding-activation-principal-provenance-batch-7
+2026-09-12T15:53:10.6741916Z  * [new branch]        codex/provider-binding-activation-principal-provenance-campaign-selection -> origin/codex/provider-binding-activation-principal-provenance-campaign-selection
+2026-09-12T15:53:10.6747009Z  * [new branch]        codex/provider-binding-activation-principal-provenance-preparation-batch-0 -> origin/codex/provider-binding-activation-principal-provenance-preparation-batch-0
+2026-09-12T15:53:10.6751597Z  * [new branch]        codex/provider-binding-activation-state-reconciliation-batch-1 -> origin/codex/provider-binding-activation-state-reconciliation-batch-1
+2026-09-12T15:53:10.6755630Z  * [new branch]        codex/provider-binding-activation-state-reconciliation-batch-2 -> origin/codex/provider-binding-activation-state-reconciliation-batch-2
+2026-09-12T15:53:10.6759822Z  * [new branch]        codex/provider-binding-activation-state-reconciliation-batch-3 -> origin/codex/provider-binding-activation-state-reconciliation-batch-3
+2026-09-12T15:53:10.6764385Z  * [new branch]        codex/provider-binding-activation-state-reconciliation-batch-3-root-repair -> origin/codex/provider-binding-activation-state-reconciliation-batch-3-root-repair
+2026-09-12T15:53:10.6768776Z  * [new branch]        codex/provider-binding-activation-state-reconciliation-batch-4 -> origin/codex/provider-binding-activation-state-reconciliation-batch-4
+2026-09-12T15:53:10.6772964Z  * [new branch]        codex/provider-binding-activation-state-reconciliation-batch-5 -> origin/codex/provider-binding-activation-state-reconciliation-batch-5
+2026-09-12T15:53:10.6777284Z  * [new branch]        codex/provider-binding-activation-state-reconciliation-batch-6-terminal -> origin/codex/provider-binding-activation-state-reconciliation-batch-6-terminal
+2026-09-12T15:53:10.6781748Z  * [new branch]        codex/provider-binding-activation-state-reconciliation-prep-0 -> origin/codex/provider-binding-activation-state-reconciliation-prep-0
+2026-09-12T15:53:10.6785730Z  * [new branch]        codex/provider-binding-activation-state-reconciliation-ready -> origin/codex/provider-binding-activation-state-reconciliation-ready
+2026-09-12T15:53:10.6789858Z  * [new branch]        codex/provider-binding-activation-state-reconciliation-ready-repair -> origin/codex/provider-binding-activation-state-reconciliation-ready-repair
+2026-09-12T15:53:10.6794227Z  * [new branch]        codex/provider-binding-successor-atomic-live-transition-batch-1 -> origin/codex/provider-binding-successor-atomic-live-transition-batch-1
+2026-09-12T15:53:10.6798450Z  * [new branch]        codex/provider-binding-successor-atomic-live-transition-batch-2 -> origin/codex/provider-binding-successor-atomic-live-transition-batch-2
+2026-09-12T15:53:10.6802779Z  * [new branch]        codex/provider-binding-successor-atomic-live-transition-batch-3 -> origin/codex/provider-binding-successor-atomic-live-transition-batch-3
+2026-09-12T15:53:10.6806837Z  * [new branch]        codex/provider-binding-successor-atomic-live-transition-batch-4 -> origin/codex/provider-binding-successor-atomic-live-transition-batch-4
+2026-09-12T15:53:10.6810892Z  * [new branch]        codex/provider-binding-successor-atomic-live-transition-batch-5 -> origin/codex/provider-binding-successor-atomic-live-transition-batch-5
+2026-09-12T15:53:10.6815162Z  * [new branch]        codex/provider-binding-successor-atomic-live-transition-batch-6 -> origin/codex/provider-binding-successor-atomic-live-transition-batch-6
+2026-09-12T15:53:10.6819229Z  * [new branch]        codex/provider-binding-successor-atomic-live-transition-batch-7 -> origin/codex/provider-binding-successor-atomic-live-transition-batch-7
+2026-09-12T15:53:10.6823664Z  * [new branch]        codex/provider-binding-successor-atomic-live-transition-campaign-ready -> origin/codex/provider-binding-successor-atomic-live-transition-campaign-ready
+2026-09-12T15:53:10.6828179Z  * [new branch]        codex/provider-binding-successor-atomic-live-transition-preparation-0 -> origin/codex/provider-binding-successor-atomic-live-transition-preparation-0
+2026-09-12T15:53:10.6832342Z  * [new branch]        codex/provider-binding-successor-live-adoption-batch-1 -> origin/codex/provider-binding-successor-live-adoption-batch-1
+2026-09-12T15:53:10.6835861Z  * [new branch]        codex/provider-binding-successor-live-adoption-batch-2 -> origin/codex/provider-binding-successor-live-adoption-batch-2
+2026-09-12T15:53:10.6839391Z  * [new branch]        codex/provider-binding-successor-live-adoption-batch-3 -> origin/codex/provider-binding-successor-live-adoption-batch-3
+2026-09-12T15:53:10.6843067Z  * [new branch]        codex/provider-binding-successor-live-adoption-batch-4 -> origin/codex/provider-binding-successor-live-adoption-batch-4
+2026-09-12T15:53:10.6846569Z  * [new branch]        codex/provider-binding-successor-live-adoption-batch-5 -> origin/codex/provider-binding-successor-live-adoption-batch-5
+2026-09-12T15:53:10.6850246Z  * [new branch]        codex/provider-binding-successor-live-adoption-batch-6 -> origin/codex/provider-binding-successor-live-adoption-batch-6
+2026-09-12T15:53:10.6854225Z  * [new branch]        codex/provider-binding-successor-live-adoption-batch-7-terminal -> origin/codex/provider-binding-successor-live-adoption-batch-7-terminal
+2026-09-12T15:53:10.6858245Z  * [new branch]        codex/provider-binding-successor-live-adoption-campaign-ready -> origin/codex/provider-binding-successor-live-adoption-campaign-ready
+2026-09-12T15:53:10.6862491Z  * [new branch]        codex/provider-binding-successor-live-adoption-preparation-batch-0 -> origin/codex/provider-binding-successor-live-adoption-preparation-batch-0
+2026-09-12T15:53:10.6866598Z  * [new branch]        codex/provider-binding-successor-production-adoption-batch-1 -> origin/codex/provider-binding-successor-production-adoption-batch-1
+2026-09-12T15:53:10.6870526Z  * [new branch]        codex/provider-binding-successor-production-adoption-batch-1a -> origin/codex/provider-binding-successor-production-adoption-batch-1a
+2026-09-12T15:53:10.6875071Z  * [new branch]        codex/provider-binding-successor-production-adoption-batch-1a-doc-repair -> origin/codex/provider-binding-successor-production-adoption-batch-1a-doc-repair
+2026-09-12T15:53:10.6879353Z  * [new branch]        codex/provider-binding-successor-production-adoption-batch-2 -> origin/codex/provider-binding-successor-production-adoption-batch-2
+2026-09-12T15:53:10.6883744Z  * [new branch]        codex/provider-binding-successor-production-adoption-batch-2-doc-repair -> origin/codex/provider-binding-successor-production-adoption-batch-2-doc-repair
+2026-09-12T15:53:10.6888234Z  * [new branch]        codex/provider-binding-successor-production-adoption-batch-2a -> origin/codex/provider-binding-successor-production-adoption-batch-2a
+2026-09-12T15:53:10.6892363Z  * [new branch]        codex/provider-binding-successor-production-adoption-batch-3 -> origin/codex/provider-binding-successor-production-adoption-batch-3
+2026-09-12T15:53:10.6896628Z  * [new branch]        codex/provider-binding-successor-production-adoption-batch-3-doc-repair -> origin/codex/provider-binding-successor-production-adoption-batch-3-doc-repair
+2026-09-12T15:53:10.6900879Z  * [new branch]        codex/provider-binding-successor-production-adoption-batch-4 -> origin/codex/provider-binding-successor-production-adoption-batch-4
+2026-09-12T15:53:10.6904904Z  * [new branch]        codex/provider-binding-successor-production-adoption-batch-5 -> origin/codex/provider-binding-successor-production-adoption-batch-5
+2026-09-12T15:53:10.6909083Z  * [new branch]        codex/provider-binding-successor-production-adoption-batch-6-terminal -> origin/codex/provider-binding-successor-production-adoption-batch-6-terminal
+2026-09-12T15:53:10.6913703Z  * [new branch]        codex/provider-binding-successor-production-adoption-prep0-doc-repair -> origin/codex/provider-binding-successor-production-adoption-prep0-doc-repair
+2026-09-12T15:53:10.6918315Z  * [new branch]        codex/provider-binding-successor-production-adoption-preparation-batch-0 -> origin/codex/provider-binding-successor-production-adoption-preparation-batch-0
+2026-09-12T15:53:10.6922838Z  * [new branch]        codex/provider-binding-successor-production-realization-batch-1 -> origin/codex/provider-binding-successor-production-realization-batch-1
+2026-09-12T15:53:10.6926944Z  * [new branch]        codex/provider-binding-successor-production-realization-batch-2 -> origin/codex/provider-binding-successor-production-realization-batch-2
+2026-09-12T15:53:10.6931232Z  * [new branch]        codex/provider-binding-successor-production-realization-batch-3 -> origin/codex/provider-binding-successor-production-realization-batch-3
+2026-09-12T15:53:10.6935410Z  * [new branch]        codex/provider-binding-successor-production-realization-batch-4 -> origin/codex/provider-binding-successor-production-realization-batch-4
+2026-09-12T15:53:10.6939651Z  * [new branch]        codex/provider-binding-successor-production-realization-batch-5 -> origin/codex/provider-binding-successor-production-realization-batch-5
+2026-09-12T15:53:10.6943906Z  * [new branch]        codex/provider-binding-successor-production-realization-batch-6 -> origin/codex/provider-binding-successor-production-realization-batch-6
+2026-09-12T15:53:10.6948478Z  * [new branch]        codex/provider-binding-successor-production-realization-batch-6-handoff-repair -> origin/codex/provider-binding-successor-production-realization-batch-6-handoff-repair
+2026-09-12T15:53:10.6953190Z  * [new branch]        codex/provider-binding-successor-production-realization-batch-7 -> origin/codex/provider-binding-successor-production-realization-batch-7
+2026-09-12T15:53:10.6957264Z  * [new branch]        codex/provider-binding-successor-production-realization-prep-0 -> origin/codex/provider-binding-successor-production-realization-prep-0
+2026-09-12T15:53:10.6961388Z  * [new branch]        codex/provider-binding-successor-production-realization-ready -> origin/codex/provider-binding-successor-production-realization-ready
+2026-09-12T15:53:10.6965152Z  * [new branch]        codex/provider-effect-readiness-batch-10-terminal-audit -> origin/codex/provider-effect-readiness-batch-10-terminal-audit
+2026-09-12T15:53:10.6968532Z  * [new branch]        codex/provider-execution-assurance-campaign-ready -> origin/codex/provider-execution-assurance-campaign-ready
+2026-09-12T15:53:10.6972548Z  * [new branch]        codex/provider-execution-assurance-reconsideration-preparation-batch-0 -> origin/codex/provider-execution-assurance-reconsideration-preparation-batch-0
+2026-09-12T15:53:10.6976679Z  * [new branch]        codex/provider-execution-boundary-redesign-campaign-ready -> origin/codex/provider-execution-boundary-redesign-campaign-ready
+2026-09-12T15:53:10.6980107Z  * [new branch]        codex/provider-onboarding-o1-b1-reviewed -> origin/codex/provider-onboarding-o1-b1-reviewed
+2026-09-12T15:53:10.6983418Z  * [new branch]        codex/provider-onboarding-o1-b2-preparation-reviewed -> origin/codex/provider-onboarding-o1-b2-preparation-reviewed
+2026-09-12T15:53:10.6986460Z  * [new branch]        codex/provider-onboarding-o1-b2-reviewed -> origin/codex/provider-onboarding-o1-b2-reviewed
+2026-09-12T15:53:10.6989179Z  * [new branch]        codex/provider-onboarding-o1-integration -> origin/codex/provider-onboarding-o1-integration
+2026-09-12T15:53:10.6992418Z  * [new branch]        codex/provider-onboarding-o2-b0-preparation-reviewed -> origin/codex/provider-onboarding-o2-b0-preparation-reviewed
+2026-09-12T15:53:10.6995408Z  * [new branch]        codex/provider-onboarding-o2-b0-review   -> origin/codex/provider-onboarding-o2-b0-review
+2026-09-12T15:53:10.6998422Z  * [new branch]        codex/provider-onboarding-o2-b1-preparation-reviewed -> origin/codex/provider-onboarding-o2-b1-preparation-reviewed
+2026-09-12T15:53:10.7001557Z  * [new branch]        codex/provider-onboarding-o2-b1-review   -> origin/codex/provider-onboarding-o2-b1-review
+2026-09-12T15:53:10.7004325Z  * [new branch]        codex/provider-onboarding-o3-b0-preparation -> origin/codex/provider-onboarding-o3-b0-preparation
+2026-09-12T15:53:10.7007122Z  * [new branch]        codex/provider-onboarding-o3-b0-review   -> origin/codex/provider-onboarding-o3-b0-review
+2026-09-12T15:53:10.7010213Z  * [new branch]        codex/provider-onboarding-o3-b1-correction-verification -> origin/codex/provider-onboarding-o3-b1-correction-verification
+2026-09-12T15:53:10.7013623Z  * [new branch]        codex/provider-onboarding-o3-b1-mapping-probe -> origin/codex/provider-onboarding-o3-b1-mapping-probe
+2026-09-12T15:53:10.7016554Z  * [new branch]        codex/provider-onboarding-o3-b1-preparation -> origin/codex/provider-onboarding-o3-b1-preparation
+2026-09-12T15:53:10.7019304Z  * [new branch]        codex/provider-onboarding-o3-b1-review   -> origin/codex/provider-onboarding-o3-b1-review
+2026-09-12T15:53:10.7022714Z  * [new branch]        codex/provider-onboarding-roadmap-response-validation -> origin/codex/provider-onboarding-roadmap-response-validation
+2026-09-12T15:53:10.7025918Z  * [new branch]        codex/provider-principal-activation-batch-1 -> origin/codex/provider-principal-activation-batch-1
+2026-09-12T15:53:10.7029041Z  * [new branch]        codex/provider-principal-binding-activation-prep-0 -> origin/codex/provider-principal-binding-activation-prep-0
+2026-09-12T15:53:10.7032566Z  * [new branch]        codex/provider-principal-binding-resumption-batch-1 -> origin/codex/provider-principal-binding-resumption-batch-1
+2026-09-12T15:53:10.7035931Z  * [new branch]        codex/provider-principal-binding-resumption-batch-2 -> origin/codex/provider-principal-binding-resumption-batch-2
+2026-09-12T15:53:10.7039509Z  * [new branch]        codex/provider-principal-binding-resumption-batch-2-repair -> origin/codex/provider-principal-binding-resumption-batch-2-repair
+2026-09-12T15:53:10.7043238Z  * [new branch]        codex/provider-principal-binding-resumption-batch-3 -> origin/codex/provider-principal-binding-resumption-batch-3
+2026-09-12T15:53:10.7046827Z  * [new branch]        codex/provider-principal-binding-resumption-batch-3-repair -> origin/codex/provider-principal-binding-resumption-batch-3-repair
+2026-09-12T15:53:10.7050376Z  * [new branch]        codex/provider-principal-binding-resumption-batch-4 -> origin/codex/provider-principal-binding-resumption-batch-4
+2026-09-12T15:53:10.7054087Z  * [new branch]        codex/provider-principal-binding-resumption-batch-4-repair -> origin/codex/provider-principal-binding-resumption-batch-4-repair
+2026-09-12T15:53:10.7057654Z  * [new branch]        codex/provider-principal-binding-resumption-batch-5 -> origin/codex/provider-principal-binding-resumption-batch-5
+2026-09-12T15:53:10.7062038Z  * [new branch]        codex/provider-principal-binding-resumption-batch-5-boundary-repair -> origin/codex/provider-principal-binding-resumption-batch-5-boundary-repair
+2026-09-12T15:53:10.7066247Z  * [new branch]        codex/provider-principal-binding-resumption-batch-5-repair -> origin/codex/provider-principal-binding-resumption-batch-5-repair
+2026-09-12T15:53:10.7069832Z  * [new branch]        codex/provider-principal-binding-resumption-batch-6 -> origin/codex/provider-principal-binding-resumption-batch-6
+2026-09-12T15:53:10.7073788Z  * [new branch]        codex/provider-principal-binding-resumption-preparation-batch-0 -> origin/codex/provider-principal-binding-resumption-preparation-batch-0
+2026-09-12T15:53:10.7077304Z  * [new branch]        codex/provider-separation-batch-9-proof-fix -> origin/codex/provider-separation-batch-9-proof-fix
+2026-09-12T15:53:10.7080376Z  * [new branch]        codex/reconcile-and-open-model-profile-disposition -> origin/codex/reconcile-and-open-model-profile-disposition
+2026-09-12T15:53:10.7083763Z  * [new branch]        codex/reconciliation-issuance-batch-1-local-ready -> origin/codex/reconciliation-issuance-batch-1-local-ready
+2026-09-12T15:53:10.7086987Z  * [new branch]        codex/reconciliation-preparation-review-amendment -> origin/codex/reconciliation-preparation-review-amendment
+2026-09-12T15:53:10.7090227Z  * [new branch]        codex/repair-activation-interruption-windows-path -> origin/codex/repair-activation-interruption-windows-path
+2026-09-12T15:53:10.7093664Z  * [new branch]        codex/repair-atomic-live-transition-batch-2-phpunit -> origin/codex/repair-atomic-live-transition-batch-2-phpunit
+2026-09-12T15:53:10.7097272Z  * [new branch]        codex/repair-atomic-live-transition-batch-3-boundaries -> origin/codex/repair-atomic-live-transition-batch-3-boundaries
+2026-09-12T15:53:10.7100565Z  * [new branch]        codex/repair-atomic-live-transition-batch-3-doc -> origin/codex/repair-atomic-live-transition-batch-3-doc
+2026-09-12T15:53:10.7104080Z  * [new branch]        codex/repair-evidence-remediation-preparation-0-handoff -> origin/codex/repair-evidence-remediation-preparation-0-handoff
+2026-09-12T15:53:10.7107392Z  * [new branch]        codex/repair-iron-gate-frontier-doc-assertions -> origin/codex/repair-iron-gate-frontier-doc-assertions
+2026-09-12T15:53:10.7110468Z  * [new branch]        codex/repair-principal-provenance-batch-3 -> origin/codex/repair-principal-provenance-batch-3
+2026-09-12T15:53:10.7113699Z  * [new branch]        codex/repair-principal-provenance-batch-3-sentinel -> origin/codex/repair-principal-provenance-batch-3-sentinel
+2026-09-12T15:53:10.7116989Z  * [new branch]        codex/repair-principal-provenance-batch-4-sentinel -> origin/codex/repair-principal-provenance-batch-4-sentinel
+2026-09-12T15:53:10.7120243Z  * [new branch]        codex/repair-principal-provenance-batch-6-fixture -> origin/codex/repair-principal-provenance-batch-6-fixture
+2026-09-12T15:53:10.7123530Z  * [new branch]        codex/repair-principal-provenance-test-horizon -> origin/codex/repair-principal-provenance-test-horizon
+2026-09-12T15:53:10.7126629Z  * [new branch]        codex/repair-production-realization-batch-2-doc -> origin/codex/repair-production-realization-batch-2-doc
+2026-09-12T15:53:10.7129977Z  * [new branch]        codex/repair-production-realization-batch-2-prohibition -> origin/codex/repair-production-realization-batch-2-prohibition
+2026-09-12T15:53:10.7133553Z  * [new branch]        codex/repair-production-realization-batch-4-doc -> origin/codex/repair-production-realization-batch-4-doc
+2026-09-12T15:53:10.7136670Z  * [new branch]        codex/repair-production-realization-prep-0-test -> origin/codex/repair-production-realization-prep-0-test
+2026-09-12T15:53:10.7139752Z  * [new branch]        codex/repair-provider-binding-batch-2-test-gate -> origin/codex/repair-provider-binding-batch-2-test-gate
+2026-09-12T15:53:10.7143148Z  * [new branch]        codex/repair-provider-binding-batch-3-admission-gate -> origin/codex/repair-provider-binding-batch-3-admission-gate
+2026-09-12T15:53:10.7158472Z  * [new branch]        codex/repair-provider-binding-batch-3-io-gate -> origin/codex/repair-provider-binding-batch-3-io-gate
+2026-09-12T15:53:10.7164268Z  * [new branch]        codex/repair-provider-binding-batch-3-test-gate -> origin/codex/repair-provider-binding-batch-3-test-gate
+2026-09-12T15:53:10.7169573Z  * [new branch]        codex/retry-transient-senate-witness     -> origin/codex/retry-transient-senate-witness
+2026-09-12T15:53:10.7175411Z  * [new branch]        codex/revert-and-prepare-reconciliation-shared-exclusion -> origin/codex/revert-and-prepare-reconciliation-shared-exclusion
+2026-09-12T15:53:10.7181907Z  * [new branch]        codex/revert-unauthorized-reconciliation-campaign -> origin/codex/revert-unauthorized-reconciliation-campaign
+2026-09-12T15:53:10.7186906Z  * [new branch]        codex/runtime-cleanup-batch-1            -> origin/codex/runtime-cleanup-batch-1
+2026-09-12T15:53:10.7190952Z  * [new branch]        codex/runtime-cleanup-batch-2            -> origin/codex/runtime-cleanup-batch-2
+2026-09-12T15:53:10.7195439Z  * [new branch]        codex/runtime-cleanup-batch-3            -> origin/codex/runtime-cleanup-batch-3
+2026-09-12T15:53:10.7199947Z  * [new branch]        codex/runtime-integrity-hardening-step-10 -> origin/codex/runtime-integrity-hardening-step-10
+2026-09-12T15:53:10.7205139Z  * [new branch]        codex/runtime-integrity-hardening-step-11 -> origin/codex/runtime-integrity-hardening-step-11
+2026-09-12T15:53:10.7210096Z  * [new branch]        codex/runtime-integrity-hardening-step-12 -> origin/codex/runtime-integrity-hardening-step-12
+2026-09-12T15:53:10.7215401Z  * [new branch]        codex/runtime-integrity-hardening-step-13 -> origin/codex/runtime-integrity-hardening-step-13
+2026-09-12T15:53:10.7220405Z  * [new branch]        codex/runtime-integrity-hardening-step-14 -> origin/codex/runtime-integrity-hardening-step-14
+2026-09-12T15:53:10.7225663Z  * [new branch]        codex/runtime-integrity-hardening-step-15 -> origin/codex/runtime-integrity-hardening-step-15
+2026-09-12T15:53:10.7230543Z  * [new branch]        codex/runtime-integrity-hardening-step-16 -> origin/codex/runtime-integrity-hardening-step-16
+2026-09-12T15:53:10.7236031Z  * [new branch]        codex/runtime-integrity-hardening-step-17 -> origin/codex/runtime-integrity-hardening-step-17
+2026-09-12T15:53:10.7240822Z  * [new branch]        codex/runtime-integrity-hardening-step-18 -> origin/codex/runtime-integrity-hardening-step-18
+2026-09-12T15:53:10.7245912Z  * [new branch]        codex/runtime-integrity-hardening-step-19 -> origin/codex/runtime-integrity-hardening-step-19
+2026-09-12T15:53:10.7250809Z  * [new branch]        codex/runtime-integrity-hardening-step-2 -> origin/codex/runtime-integrity-hardening-step-2
+2026-09-12T15:53:10.7255886Z  * [new branch]        codex/runtime-integrity-hardening-step-20 -> origin/codex/runtime-integrity-hardening-step-20
+2026-09-12T15:53:10.7260751Z  * [new branch]        codex/runtime-integrity-hardening-step-21 -> origin/codex/runtime-integrity-hardening-step-21
+2026-09-12T15:53:10.7265794Z  * [new branch]        codex/runtime-integrity-hardening-step-22 -> origin/codex/runtime-integrity-hardening-step-22
+2026-09-12T15:53:10.7270697Z  * [new branch]        codex/runtime-integrity-hardening-step-23 -> origin/codex/runtime-integrity-hardening-step-23
+2026-09-12T15:53:10.7276248Z  * [new branch]        codex/runtime-integrity-hardening-step-24 -> origin/codex/runtime-integrity-hardening-step-24
+2026-09-12T15:53:10.7281346Z  * [new branch]        codex/runtime-integrity-hardening-step-25 -> origin/codex/runtime-integrity-hardening-step-25
+2026-09-12T15:53:10.7286232Z  * [new branch]        codex/runtime-integrity-hardening-step-26 -> origin/codex/runtime-integrity-hardening-step-26
+2026-09-12T15:53:10.7290621Z  * [new branch]        codex/runtime-integrity-hardening-step-27 -> origin/codex/runtime-integrity-hardening-step-27
+2026-09-12T15:53:10.7295326Z  * [new branch]        codex/runtime-integrity-hardening-step-28 -> origin/codex/runtime-integrity-hardening-step-28
+2026-09-12T15:53:10.7300090Z  * [new branch]        codex/runtime-integrity-hardening-step-29 -> origin/codex/runtime-integrity-hardening-step-29
+2026-09-12T15:53:10.7304687Z  * [new branch]        codex/runtime-integrity-hardening-step-3 -> origin/codex/runtime-integrity-hardening-step-3
+2026-09-12T15:53:10.7309079Z  * [new branch]        codex/runtime-integrity-hardening-step-30 -> origin/codex/runtime-integrity-hardening-step-30
+2026-09-12T15:53:10.7313722Z  * [new branch]        codex/runtime-integrity-hardening-step-31 -> origin/codex/runtime-integrity-hardening-step-31
+2026-09-12T15:53:10.7318090Z  * [new branch]        codex/runtime-integrity-hardening-step-32 -> origin/codex/runtime-integrity-hardening-step-32
+2026-09-12T15:53:10.7322650Z  * [new branch]        codex/runtime-integrity-hardening-step-33 -> origin/codex/runtime-integrity-hardening-step-33
+2026-09-12T15:53:10.7326755Z  * [new branch]        codex/runtime-integrity-hardening-step-34 -> origin/codex/runtime-integrity-hardening-step-34
+2026-09-12T15:53:10.7331325Z  * [new branch]        codex/runtime-integrity-hardening-step-35 -> origin/codex/runtime-integrity-hardening-step-35
+2026-09-12T15:53:10.7335699Z  * [new branch]        codex/runtime-integrity-hardening-step-4 -> origin/codex/runtime-integrity-hardening-step-4
+2026-09-12T15:53:10.7339944Z  * [new branch]        codex/runtime-integrity-hardening-step-5 -> origin/codex/runtime-integrity-hardening-step-5
+2026-09-12T15:53:10.7344583Z  * [new branch]        codex/runtime-integrity-hardening-step-6 -> origin/codex/runtime-integrity-hardening-step-6
+2026-09-12T15:53:10.7348837Z  * [new branch]        codex/runtime-integrity-hardening-step-7 -> origin/codex/runtime-integrity-hardening-step-7
+2026-09-12T15:53:10.7353241Z  * [new branch]        codex/runtime-integrity-hardening-step-8 -> origin/codex/runtime-integrity-hardening-step-8
+2026-09-12T15:53:10.7357472Z  * [new branch]        codex/runtime-integrity-hardening-step-9 -> origin/codex/runtime-integrity-hardening-step-9
+2026-09-12T15:53:10.7361634Z  * [new branch]        codex/scope-runtime-source-guard         -> origin/codex/scope-runtime-source-guard
+2026-09-12T15:53:10.7365827Z  * [new branch]        codex/seal-model-profile-senate-disposition -> origin/codex/seal-model-profile-senate-disposition
+2026-09-12T15:53:10.7370478Z  * [new branch]        codex/seal-model-profile-senator-findings -> origin/codex/seal-model-profile-senator-findings
+2026-09-12T15:53:10.7375495Z  * [new branch]        codex/seal-model-profile-testimony-and-open-findings -> origin/codex/seal-model-profile-testimony-and-open-findings
+2026-09-12T15:53:10.7380786Z  * [new branch]        codex/select-activation-corridor-disposition-review -> origin/codex/select-activation-corridor-disposition-review
+2026-09-12T15:53:10.7386931Z  * [new branch]        codex/select-local-isolation-measurement-readiness -> origin/codex/select-local-isolation-measurement-readiness
+2026-09-12T15:53:10.7392018Z  * [new branch]        codex/select-local-isolation-scratch-correction -> origin/codex/select-local-isolation-scratch-correction
+2026-09-12T15:53:10.7396689Z  * [new branch]        codex/select-local-isolation-useful-mission -> origin/codex/select-local-isolation-useful-mission
+2026-09-12T15:53:10.7401374Z  * [new branch]        codex/select-mission-amendment-correction -> origin/codex/select-mission-amendment-correction
+2026-09-12T15:53:10.7405734Z  * [new branch]        codex/select-protected-mission-authority-campaign -> origin/codex/select-protected-mission-authority-campaign
+2026-09-12T15:53:10.7408619Z  * [new branch]        codex/shared-profile-cognition-retries   -> origin/codex/shared-profile-cognition-retries
+2026-09-12T15:53:10.7411540Z  * [new branch]        codex/stabilize-delegate-flow-discovery  -> origin/codex/stabilize-delegate-flow-discovery
+2026-09-12T15:53:10.7414225Z  * [new branch]        codex/strengthen-transient-cognition-retries -> origin/codex/strengthen-transient-cognition-retries
+2026-09-12T15:53:10.7416750Z  * [new branch]        codex/transactional-authority-batch-10   -> origin/codex/transactional-authority-batch-10
+2026-09-12T15:53:10.7419602Z  * [new branch]        codex/transactional-authority-batch-11   -> origin/codex/transactional-authority-batch-11
+2026-09-12T15:53:10.7422493Z  * [new branch]        codex/transactional-authority-batch-12   -> origin/codex/transactional-authority-batch-12
+2026-09-12T15:53:10.7424754Z  * [new branch]        codex/transactional-authority-batch-13   -> origin/codex/transactional-authority-batch-13
+2026-09-12T15:53:10.7426913Z  * [new branch]        codex/transactional-authority-batch-8    -> origin/codex/transactional-authority-batch-8
+2026-09-12T15:53:10.7428974Z  * [new branch]        codex/transactional-authority-batch-9    -> origin/codex/transactional-authority-batch-9
+2026-09-12T15:53:10.7431460Z  * [new branch]        codex/transactional-authority-consumption-batch-0 -> origin/codex/transactional-authority-consumption-batch-0
+2026-09-12T15:53:10.7434034Z  * [new branch]        codex/transactional-authority-consumption-batch-1 -> origin/codex/transactional-authority-consumption-batch-1
+2026-09-12T15:53:10.7436660Z  * [new branch]        codex/transactional-authority-consumption-batch-1-test-fix -> origin/codex/transactional-authority-consumption-batch-1-test-fix
+2026-09-12T15:53:10.7439128Z  * [new branch]        codex/transactional-authority-consumption-batch-2 -> origin/codex/transactional-authority-consumption-batch-2
+2026-09-12T15:53:10.7441689Z  * [new branch]        codex/transactional-authority-consumption-batch-3 -> origin/codex/transactional-authority-consumption-batch-3
+2026-09-12T15:53:10.7444008Z  * [new branch]        codex/transactional-authority-consumption-batch-4 -> origin/codex/transactional-authority-consumption-batch-4
+2026-09-12T15:53:10.7446261Z  * [new branch]        codex/transactional-authority-consumption-batch-5 -> origin/codex/transactional-authority-consumption-batch-5
+2026-09-12T15:53:10.7448524Z  * [new branch]        codex/transactional-authority-consumption-batch-6 -> origin/codex/transactional-authority-consumption-batch-6
+2026-09-12T15:53:10.7450671Z  * [new branch]        codex/transactional-authority-consumption-batch-7 -> origin/codex/transactional-authority-consumption-batch-7
+2026-09-12T15:53:10.7453599Z  * [new branch]        codex/transactional-authority-consumption-campaign-selection -> origin/codex/transactional-authority-consumption-campaign-selection
+2026-09-12T15:53:10.7455759Z  * [new branch]        codex/update-institutional-namings-todo  -> origin/codex/update-institutional-namings-todo
+2026-09-12T15:53:10.7457455Z  * [new branch]        credential-boundary-closeout-sync        -> origin/credential-boundary-closeout-sync
+2026-09-12T15:53:10.7459347Z  * [new branch]        docs/close-persona-production-lifecycle  -> origin/docs/close-persona-production-lifecycle
+2026-09-12T15:53:10.7461631Z  * [new branch]        docs/institutional-decision-integrity-campaign -> origin/docs/institutional-decision-integrity-campaign
+2026-09-12T15:53:10.7463508Z  * [new branch]        docs/model-bound-step-43-handoff         -> origin/docs/model-bound-step-43-handoff
+2026-09-12T15:53:10.7465225Z  * [new branch]        docs/prepare-crash-demonstration-program -> origin/docs/prepare-crash-demonstration-program
+2026-09-12T15:53:10.7467059Z  * [new branch]        docs/profile-derivation-flow-checkpoint  -> origin/docs/profile-derivation-flow-checkpoint
+2026-09-12T15:53:10.7468839Z  * [new branch]        docs/profile-wing-completion-batches     -> origin/docs/profile-wing-completion-batches
+2026-09-12T15:53:10.7470794Z  * [new branch]        document-operational-adoption-and-delegate-handoff -> origin/document-operational-adoption-and-delegate-handoff
+2026-09-12T15:53:10.7473141Z  * [new branch]        evidence/atomic-transition-disposable-proof-1 -> origin/evidence/atomic-transition-disposable-proof-1
+2026-09-12T15:53:10.7475374Z  * [new branch]        evidence/atomic-transition-integrated-disposable-proof-1 -> origin/evidence/atomic-transition-integrated-disposable-proof-1
+2026-09-12T15:53:10.7477814Z  * [new branch]        feat/effect-readiness-batch-5-terminal-audit -> origin/feat/effect-readiness-batch-5-terminal-audit
+2026-09-12T15:53:10.7480045Z  * [new branch]        feat/effect-readiness-batch-6-principal-activation-contracts -> origin/feat/effect-readiness-batch-6-principal-activation-contracts
+2026-09-12T15:53:10.7482701Z  * [new branch]        feat/effect-readiness-batch-7-principal-validation -> origin/feat/effect-readiness-batch-7-principal-validation
+2026-09-12T15:53:10.7485063Z  * [new branch]        feat/effect-readiness-batch-8-principal-interruption-proof -> origin/feat/effect-readiness-batch-8-principal-interruption-proof
+2026-09-12T15:53:10.7487459Z  * [new branch]        feat/effect-readiness-batch-9-principal-reconstruction -> origin/feat/effect-readiness-batch-9-principal-reconstruction
+2026-09-12T15:53:10.7489499Z  * [new branch]        feature/accept-profile-examination-panel -> origin/feature/accept-profile-examination-panel
+2026-09-12T15:53:10.7491462Z  * [new branch]        feature/agentmail-email-transport        -> origin/feature/agentmail-email-transport
+2026-09-12T15:53:10.7493026Z  * [new branch]        feature/agentmail-inbound-lazaretto      -> origin/feature/agentmail-inbound-lazaretto
+2026-09-12T15:53:10.7494604Z  * [new branch]        feature/agentmail-inbound-webhook        -> origin/feature/agentmail-inbound-webhook
+2026-09-12T15:53:10.7496389Z  * [new branch]        feature/alchemist-profile-derivation-acceptance -> origin/feature/alchemist-profile-derivation-acceptance
+2026-09-12T15:53:10.7498190Z  * [new branch]        feature/assemble-examination-manifestation -> origin/feature/assemble-examination-manifestation
+2026-09-12T15:53:10.7499905Z  * [new branch]        feature/bailiff-examination-stand-admission -> origin/feature/bailiff-examination-stand-admission
+2026-09-12T15:53:10.7502027Z  * [new branch]        feature/canonical-guildhall-garrison-fulfillment -> origin/feature/canonical-guildhall-garrison-fulfillment
+2026-09-12T15:53:10.7503864Z  * [new branch]        feature/capability-profession-boundary   -> origin/feature/capability-profession-boundary
+2026-09-12T15:53:10.7505548Z  * [new branch]        feature/clavium-provider-access-assertions -> origin/feature/clavium-provider-access-assertions
+2026-09-12T15:53:10.7507676Z  * [new branch]        feature/commissioner-cognition-result-review -> origin/feature/commissioner-cognition-result-review
+2026-09-12T15:53:10.7509551Z  * [new branch]        feature/conscription-accept-examination-assembly -> origin/feature/conscription-accept-examination-assembly
+2026-09-12T15:53:10.7511772Z  * [new branch]        feature/conscription-accept-profile-candidate-return -> origin/feature/conscription-accept-profile-candidate-return
+2026-09-12T15:53:10.7513867Z  * [new branch]        feature/conscription-laboratorium-profile-commission -> origin/feature/conscription-laboratorium-profile-commission
+2026-09-12T15:53:10.7515787Z  * [new branch]        feature/conscription-model-binding-sealing -> origin/feature/conscription-model-binding-sealing
+2026-09-12T15:53:10.7517742Z  * [new branch]        feature/conscription-profile-derivation-acceptance -> origin/feature/conscription-profile-derivation-acceptance
+2026-09-12T15:53:10.7519638Z  * [new branch]        feature/constable-profile-derivation-handoff -> origin/feature/constable-profile-derivation-handoff
+2026-09-12T15:53:10.7521676Z  * [new branch]        feature/curia-model-requirement-commission -> origin/feature/curia-model-requirement-commission
+2026-09-12T15:53:10.7523386Z  * [new branch]        feature/curia-proposed-model-binding     -> origin/feature/curia-proposed-model-binding
+2026-09-12T15:53:10.7524888Z  * [new branch]        feature/deterministic-execution-lane     -> origin/feature/deterministic-execution-lane
+2026-09-12T15:53:10.7526362Z  * [new branch]        feature/deterministic-live-smoke         -> origin/feature/deterministic-live-smoke
+2026-09-12T15:53:10.7527860Z  * [new branch]        feature/foundry-senate-record-acceptance -> origin/feature/foundry-senate-record-acceptance
+2026-09-12T15:53:10.7529844Z  * [new branch]        feature/guildhall-garrison-personnel-reservation -> origin/feature/guildhall-garrison-personnel-reservation
+2026-09-12T15:53:10.7532058Z  * [new branch]        feature/guildhall-provenance-foundry-review -> origin/feature/guildhall-provenance-foundry-review
+2026-09-12T15:53:10.7533793Z  * [new branch]        feature/guildhall-provenance-senate-lineage -> origin/feature/guildhall-provenance-senate-lineage
+2026-09-12T15:53:10.7535622Z  * [new branch]        feature/guildhall-subordinate-construction-route -> origin/feature/guildhall-subordinate-construction-route
+2026-09-12T15:53:10.7537315Z  * [new branch]        feature/imperator-dossier-review         -> origin/feature/imperator-dossier-review
+2026-09-12T15:53:10.7538997Z  * [new branch]        feature/imperator-profile-approval-step-31 -> origin/feature/imperator-profile-approval-step-31
+2026-09-12T15:53:10.7541319Z  * [new branch]        feature/laboratorium-derive-profile-candidate -> origin/feature/laboratorium-derive-profile-candidate
+2026-09-12T15:53:10.7543196Z  * [new branch]        feature/legate-cognition-result-delivery -> origin/feature/legate-cognition-result-delivery
+2026-09-12T15:53:10.7544914Z  * [new branch]        feature/mission-authorization-derivation -> origin/feature/mission-authorization-derivation
+2026-09-12T15:53:10.7546776Z  * [new branch]        feature/model-bound-citadel-activation-authorization -> origin/feature/model-bound-citadel-activation-authorization
+2026-09-12T15:53:10.7548800Z  * [new branch]        feature/model-bound-citadel-runtime-activation -> origin/feature/model-bound-citadel-runtime-activation
+2026-09-12T15:53:10.7550683Z  * [new branch]        feature/model-bound-cognition-turn-authorization -> origin/feature/model-bound-cognition-turn-authorization
+2026-09-12T15:53:10.7552933Z  * [new branch]        feature/model-bound-governed-commission-issuance -> origin/feature/model-bound-governed-commission-issuance
+2026-09-12T15:53:10.7555149Z  * [new branch]        feature/model-bound-operational-qualification-assembly-binding -> origin/feature/model-bound-operational-qualification-assembly-binding
+2026-09-12T15:53:10.7557080Z  * [new branch]        feature/open-profile-examination         -> origin/feature/open-profile-examination
+2026-09-12T15:53:10.7558966Z  * [new branch]        feature/open-profile-examination-testimony -> origin/feature/open-profile-examination-testimony
+2026-09-12T15:53:10.7560573Z  * [new branch]        feature/oracle-augur-activation          -> origin/feature/oracle-augur-activation
+2026-09-12T15:53:10.7562382Z  * [new branch]        feature/oracle-augur-eligibility-findings -> origin/feature/oracle-augur-eligibility-findings
+2026-09-12T15:53:10.7564105Z  * [new branch]        feature/oracle-canonical-catalogue-snapshot -> origin/feature/oracle-canonical-catalogue-snapshot
+2026-09-12T15:53:10.7565756Z  * [new branch]        feature/oracle-comparative-assessment    -> origin/feature/oracle-comparative-assessment
+2026-09-12T15:53:10.7567294Z  * [new branch]        feature/oracle-governed-research         -> origin/feature/oracle-governed-research
+2026-09-12T15:53:10.7568889Z  * [new branch]        feature/oracle-model-evaluation-case     -> origin/feature/oracle-model-evaluation-case
+2026-09-12T15:53:10.7570460Z  * [new branch]        feature/oracle-model-intelligence        -> origin/feature/oracle-model-intelligence
+2026-09-12T15:53:10.7572205Z  * [new branch]        feature/oracle-model-recommendation      -> origin/feature/oracle-model-recommendation
+2026-09-12T15:53:10.7574137Z  * [new branch]        feature/personnel-use-authorization-dialogue -> origin/feature/personnel-use-authorization-dialogue
+2026-09-12T15:53:10.7575912Z  * [new branch]        feature/planning-dossier-assembly        -> origin/feature/planning-dossier-assembly
+2026-09-12T15:53:10.7577509Z  * [new branch]        feature/profile-derivation-authorization -> origin/feature/profile-derivation-authorization
+2026-09-12T15:53:10.7579517Z  * [new branch]        feature/profile-elaboration-smoke-driver -> origin/feature/profile-elaboration-smoke-driver
+2026-09-12T15:53:10.7581697Z  * [new branch]        feature/profile-examination-deliberation-opening -> origin/feature/profile-examination-deliberation-opening
+2026-09-12T15:53:10.7583532Z  * [new branch]        feature/profile-examination-disposition  -> origin/feature/profile-examination-disposition
+2026-09-12T15:53:10.7585468Z  * [new branch]        feature/profile-examination-disposition-authority-opening -> origin/feature/profile-examination-disposition-authority-opening
+2026-09-12T15:53:10.7587644Z  * [new branch]        feature/profile-examination-finding-authority-opening -> origin/feature/profile-examination-finding-authority-opening
+2026-09-12T15:53:10.7589613Z  * [new branch]        feature/profile-examination-reconciliation -> origin/feature/profile-examination-reconciliation
+2026-09-12T15:53:10.7591723Z  * [new branch]        feature/profile-examination-senator-findings -> origin/feature/profile-examination-senator-findings
+2026-09-12T15:53:10.7593660Z  * [new branch]        feature/profile-examination-testimony-baseline -> origin/feature/profile-examination-testimony-baseline
+2026-09-12T15:53:10.7595542Z  * [new branch]        feature/propagate-guildhall-commission-lineage -> origin/feature/propagate-guildhall-commission-lineage
+2026-09-12T15:53:10.7597471Z  * [new branch]        feature/request-examination-assembly-authorization -> origin/feature/request-examination-assembly-authorization
+2026-09-12T15:53:10.7599479Z  * [new branch]        feature/return-profile-candidate-to-conscription -> origin/feature/return-profile-candidate-to-conscription
+2026-09-12T15:53:10.7601643Z  * [new branch]        feature/senate-confirmation-record-issuance -> origin/feature/senate-confirmation-record-issuance
+2026-09-12T15:53:10.7603485Z  * [new branch]        feature/senate-examination-assembly-intake -> origin/feature/senate-examination-assembly-intake
+2026-09-12T15:53:10.7624468Z  * [new branch]        feature/senate-first-persona-testimony   -> origin/feature/senate-first-persona-testimony
+2026-09-12T15:53:10.7626089Z  * [new branch]        feature/senate-fresh-consistency-trial   -> origin/feature/senate-fresh-consistency-trial
+2026-09-12T15:53:10.7627466Z  * [new branch]        feature/senate-jurisdiction-baseline     -> origin/feature/senate-jurisdiction-baseline
+2026-09-12T15:53:10.7628315Z  * [new branch]        feature/senate-lord-speaker-disposition  -> origin/feature/senate-lord-speaker-disposition
+2026-09-12T15:53:10.7629197Z  * [new branch]        feature/senate-open-persona-deposition   -> origin/feature/senate-open-persona-deposition
+2026-09-12T15:53:10.7629990Z  * [new branch]        feature/senate-pressure-trials           -> origin/feature/senate-pressure-trials
+2026-09-12T15:53:10.7630730Z  * [new branch]        feature/senate-senator-findings          -> origin/feature/senate-senator-findings
+2026-09-12T15:53:10.7631964Z  * [new branch]        feature/senate-witness-retirement        -> origin/feature/senate-witness-retirement
+2026-09-12T15:53:10.7632830Z  * [new branch]        fix/adversarial-demand-guildhall-provenance -> origin/fix/adversarial-demand-guildhall-provenance
+2026-09-12T15:53:10.7633720Z  * [new branch]        fix/corrective-admission-whitespace-test -> origin/fix/corrective-admission-whitespace-test
+2026-09-12T15:53:10.7634514Z  * [new branch]        fix/disclose-personnel-identity          -> origin/fix/disclose-personnel-identity
+2026-09-12T15:53:10.7635395Z  * [new branch]        fix/effect-readiness-batch-0-windows-line-endings -> origin/fix/effect-readiness-batch-0-windows-line-endings
+2026-09-12T15:53:10.7636398Z  * [new branch]        fix/effect-readiness-batch-4-classification-order -> origin/fix/effect-readiness-batch-4-classification-order
+2026-09-12T15:53:10.7637361Z  * [new branch]        fix/effect-readiness-batch-8-test-inheritance -> origin/fix/effect-readiness-batch-8-test-inheritance
+2026-09-12T15:53:10.7638207Z  * [new branch]        fix/guildhall-provenance-fixtures        -> origin/fix/guildhall-provenance-fixtures
+2026-09-12T15:53:10.7639154Z  * [new branch]        fix/live-profile-testimony-contract      -> origin/fix/live-profile-testimony-contract
+2026-09-12T15:53:10.7639973Z  * [new branch]        fix/model-bound-examination-spaceship    -> origin/fix/model-bound-examination-spaceship
+2026-09-12T15:53:10.7640800Z  * [new branch]        fix/profile-examination-finding-contract -> origin/fix/profile-examination-finding-contract
+2026-09-12T15:53:10.7642088Z  * [new branch]        fix/provider-activation-terminal-test-expectations -> origin/fix/provider-activation-terminal-test-expectations
+2026-09-12T15:53:10.7643114Z  * [new branch]        fix/provider-execution-boundary-batch-1-doc-test -> origin/fix/provider-execution-boundary-batch-1-doc-test
+2026-09-12T15:53:10.7644173Z  * [new branch]        fix/provider-execution-boundary-batch-10-audit-whitespace -> origin/fix/provider-execution-boundary-batch-10-audit-whitespace
+2026-09-12T15:53:10.7645538Z  * [new branch]        fix/provider-execution-boundary-batch-8-tamper-assertion -> origin/fix/provider-execution-boundary-batch-8-tamper-assertion
+2026-09-12T15:53:10.7647357Z  * [new branch]        fix/require-alchemist-profile-elaboration -> origin/fix/require-alchemist-profile-elaboration
+2026-09-12T15:53:10.7649079Z  * [new branch]        fix/senate-disposition-guildhall-provenance -> origin/fix/senate-disposition-guildhall-provenance
+2026-09-12T15:53:10.7650547Z  * [new branch]        fix/senate-persona-witness-boundary      -> origin/fix/senate-persona-witness-boundary
+2026-09-12T15:53:10.7652401Z  * [new branch]        fix/transactional-campaign-selection-doc-assertion -> origin/fix/transactional-campaign-selection-doc-assertion
+2026-09-12T15:53:10.7654637Z  * [new branch]        handoff/activation-disposition-vocabulary-tripwire-preparation-batch-0 -> origin/handoff/activation-disposition-vocabulary-tripwire-preparation-batch-0
+2026-09-12T15:53:10.7656575Z  * [new branch]        hotfix/deterministic-smoke-digest        -> origin/hotfix/deterministic-smoke-digest
+2026-09-12T15:53:10.7658018Z  * [new branch]        hotfix/phpunit-clean-baseline            -> origin/hotfix/phpunit-clean-baseline
+2026-09-12T15:53:10.7659632Z  * [new branch]        hotfix/sortie-native-process             -> origin/hotfix/sortie-native-process
+2026-09-12T15:53:10.7660899Z  * [new branch]        hotfix/sortie-tool-di-binding            -> origin/hotfix/sortie-tool-di-binding
+2026-09-12T15:53:10.7662461Z  * [new branch]        ideas/agentic-blast-radius-assessment    -> origin/ideas/agentic-blast-radius-assessment
+2026-09-12T15:53:10.7663867Z  * [new branch]        ideas/enterprise-ai-operations-offices   -> origin/ideas/enterprise-ai-operations-offices
+2026-09-12T15:53:10.7665328Z  * [new branch]        ideas/governed-internal-software-factory -> origin/ideas/governed-internal-software-factory
+2026-09-12T15:53:10.7666701Z  * [new branch]        leg/la-cortine-sortie-boundary           -> origin/leg/la-cortine-sortie-boundary
+2026-09-12T15:53:10.7667716Z  * [new branch]        main                                     -> origin/main
+2026-09-12T15:53:10.7669147Z  * [new branch]        normalize-office-officer-identities      -> origin/normalize-office-officer-identities
+2026-09-12T15:53:10.7670021Z  * [new branch]        operational-adoption-step-1              -> origin/operational-adoption-step-1
+2026-09-12T15:53:10.7670722Z  * [new branch]        operational-adoption-step-2              -> origin/operational-adoption-step-2
+2026-09-12T15:53:10.7671818Z  * [new branch]        operational-adoption-step-3              -> origin/operational-adoption-step-3
+2026-09-12T15:53:10.7672623Z  * [new branch]        remediation/native-inspection-authority-chain -> origin/remediation/native-inspection-authority-chain
+2026-09-12T15:53:10.7673520Z  * [new branch]        todo/citadel-officer-model-assignments   -> origin/todo/citadel-officer-model-assignments
+2026-09-12T15:53:10.7674331Z  * [new branch]        todo/oracle-model-selection-criteria     -> origin/todo/oracle-model-selection-criteria
+2026-09-12T15:53:10.7675432Z  * [new branch]        todo/semantic-failure-recurrence-retry-governance -> origin/todo/semantic-failure-recurrence-retry-governance
+2026-09-12T15:53:10.7676228Z  * [new ref]           1fb168aadb30f6048602353bfd0609af765331b9 -> pull/794/merge
+2026-09-12T15:53:10.7677523Z ##[endgroup]
+2026-09-12T15:53:10.7678004Z ##[group]Determining the checkout info
+2026-09-12T15:53:10.7678506Z ##[endgroup]
+2026-09-12T15:53:10.7678806Z [command]/usr/bin/git sparse-checkout disable
+2026-09-12T15:53:10.7679623Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-09-12T15:53:10.7680610Z ##[group]Checking out the ref
+2026-09-12T15:53:10.7681301Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/794/merge
+2026-09-12T15:53:10.7682162Z Note: switching to 'refs/remotes/pull/794/merge'.
+2026-09-12T15:53:10.7682604Z 
+2026-09-12T15:53:10.7683010Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-09-12T15:53:10.7683934Z changes and commit them, and you can discard any commits you make in this
+2026-09-12T15:53:10.7684862Z state without impacting any branches by switching back to a branch.
+2026-09-12T15:53:10.7685401Z 
+2026-09-12T15:53:10.7685746Z If you want to create a new branch to retain commits you create, you may
+2026-09-12T15:53:10.7686596Z do so (now or later) by using -c with the switch command. Example:
+2026-09-12T15:53:10.7687097Z 
+2026-09-12T15:53:10.7687334Z   git switch -c <new-branch-name>
+2026-09-12T15:53:10.7687757Z 
+2026-09-12T15:53:10.7687986Z Or undo this operation with:
+2026-09-12T15:53:10.7688334Z 
+2026-09-12T15:53:10.7688535Z   git switch -
+2026-09-12T15:53:10.7688824Z 
+2026-09-12T15:53:10.7689097Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-09-12T15:53:10.7689451Z 
+2026-09-12T15:53:10.7689881Z HEAD is now at 1fb168aa Merge c15c8e37802cefd5fec07a106f4626a7ce17d8ab into 02ce09621c63822eaff9ffd23151d5d3aed593a4
+2026-09-12T15:53:10.7691480Z ##[endgroup]
+2026-09-12T15:53:10.7718411Z [command]/usr/bin/git log -1 --format=%H
+2026-09-12T15:53:10.7749636Z 1fb168aadb30f6048602353bfd0609af765331b9
+2026-09-12T15:53:10.7988052Z ##[group]Run shivammathur/setup-php@v2
+2026-09-12T15:53:10.7988649Z with:
+2026-09-12T15:53:10.7988902Z   php-version: 8.4
+2026-09-12T15:53:10.7989167Z   coverage: none
+2026-09-12T15:53:10.7989415Z   tools: composer:v2
+2026-09-12T15:53:10.7989687Z   ini-file: production
+2026-09-12T15:53:10.7992762Z   github-token: ***
+2026-09-12T15:53:10.7993051Z ##[endgroup]
+2026-09-12T15:53:10.8400909Z [command]/usr/bin/bash /home/runner/work/_actions/shivammathur/setup-php/v2/src/scripts/run.sh
+2026-09-12T15:53:10.8825682Z 
+2026-09-12T15:53:10.8826845Z [90;1m==> [0m[37;1mSetup PHP[0m
+2026-09-12T15:53:14.3409093Z [32;1m✓ [0m[34;1mPHP [0m[90;1mInstalled PHP 8.4.25[0m
+2026-09-12T15:53:14.3409780Z 
+2026-09-12T15:53:14.3410312Z [90;1m==> [0m[37;1mSetup Tools[0m
+2026-09-12T15:53:14.8574800Z [32;1m✓ [0m[34;1mcomposer [0m[90;1mAdded composer 2.10.3[0m
+2026-09-12T15:53:14.8577869Z 
+2026-09-12T15:53:14.8578264Z [90;1m==> [0m[37;1mSetup Coverage[0m
+2026-09-12T15:53:15.1454901Z [32;1m✓ [0m[34;1mnone [0m[90;1mDisabled Xdebug and PCOV[0m
+2026-09-12T15:53:15.1455998Z 
+2026-09-12T15:53:15.1456801Z [90;1m==> [0m[37;1mSponsor setup-php[0m
+2026-09-12T15:53:15.1458022Z [32;1m✓ [0m[34;1msetup-php [0m[90;1mhttps://setup-php.com/sponsor[0m
+2026-09-12T15:53:15.1668442Z ##[group]Run composer install --no-interaction --no-progress --prefer-dist
+2026-09-12T15:53:15.1669421Z [36;1mcomposer install --no-interaction --no-progress --prefer-dist[0m
+2026-09-12T15:53:15.1713328Z shell: /usr/bin/bash -e {0}
+2026-09-12T15:53:15.1713665Z env:
+2026-09-12T15:53:15.1713940Z   COMPOSER_PROCESS_TIMEOUT: 0
+2026-09-12T15:53:15.1714265Z   COMPOSER_NO_INTERACTION: 1
+2026-09-12T15:53:15.1714554Z   COMPOSER_NO_AUDIT: 1
+2026-09-12T15:53:15.1714820Z ##[endgroup]
+2026-09-12T15:53:15.3464598Z Installing dependencies from lock file (including require-dev)
+2026-09-12T15:53:15.3490648Z Verifying lock file contents can be installed on current platform.
+2026-09-12T15:53:15.5906558Z Package operations: 82 installs, 0 updates, 0 removals
+2026-09-12T15:53:15.5925292Z   - Downloading symfony/flex (v2.11.0)
+2026-09-12T15:53:15.5926173Z   - Downloading symfony/runtime (v8.1.0)
+2026-09-12T15:53:15.5926724Z   - Downloading phpstan/phpdoc-parser (2.3.3)
+2026-09-12T15:53:15.5927456Z   - Downloading phpdocumentor/reflection-common (2.2.0)
+2026-09-12T15:53:15.5928209Z   - Downloading doctrine/deprecations (1.1.6)
+2026-09-12T15:53:15.5931739Z   - Downloading phpdocumentor/type-resolver (2.0.0)
+2026-09-12T15:53:15.5934490Z   - Downloading staabm/side-effects-detector (1.0.5)
+2026-09-12T15:53:15.5938117Z   - Downloading sebastian/version (7.0.0)
+2026-09-12T15:53:15.5969882Z   - Downloading sebastian/type (7.0.2)
+2026-09-12T15:53:15.5970491Z   - Downloading sebastian/recursion-context (8.0.1)
+2026-09-12T15:53:15.5971505Z   - Downloading sebastian/object-reflector (6.0.0)
+2026-09-12T15:53:15.5972083Z   - Downloading sebastian/object-enumerator (8.0.0)
+2026-09-12T15:53:15.5972640Z   - Downloading sebastian/global-state (9.0.1)
+2026-09-12T15:53:15.5973144Z   - Downloading sebastian/git-state (1.0.0)
+2026-09-12T15:53:15.5973662Z   - Downloading sebastian/file-filter (1.0.0)
+2026-09-12T15:53:15.5974217Z   - Downloading symfony/polyfill-mbstring (v1.38.2)
+2026-09-12T15:53:15.5974853Z   - Downloading sebastian/exporter (8.2.1)
+2026-09-12T15:53:15.5975394Z   - Downloading sebastian/environment (9.3.2)
+2026-09-12T15:53:15.5975913Z   - Downloading sebastian/diff (9.0.0)
+2026-09-12T15:53:15.5976410Z   - Downloading sebastian/comparator (8.4.0)
+2026-09-12T15:53:15.5976940Z   - Downloading sebastian/cli-parser (5.0.1)
+2026-09-12T15:53:15.5977460Z   - Downloading phpunit/php-timer (9.0.0)
+2026-09-12T15:53:15.5978002Z   - Downloading phpunit/php-text-template (6.0.0)
+2026-09-12T15:53:15.5978598Z   - Downloading phpunit/php-invoker (7.0.0)
+2026-09-12T15:53:15.5979148Z   - Downloading phpunit/php-file-iterator (7.0.1)
+2026-09-12T15:53:15.5979694Z   - Downloading theseer/tokenizer (2.0.1)
+2026-09-12T15:53:15.5980192Z   - Downloading nikic/php-parser (v5.8.0)
+2026-09-12T15:53:15.5980727Z   - Downloading sebastian/lines-of-code (5.0.2)
+2026-09-12T15:53:15.5981912Z   - Downloading sebastian/complexity (6.0.0)
+2026-09-12T15:53:15.5983312Z   - Downloading phpunit/php-code-coverage (14.3.0)
+2026-09-12T15:53:15.5985997Z   - Downloading phar-io/version (3.2.1)
+2026-09-12T15:53:15.5987659Z   - Downloading phar-io/manifest (2.0.4)
+2026-09-12T15:53:15.5990000Z   - Downloading myclabs/deep-copy (1.13.4)
+2026-09-12T15:53:15.6002205Z   - Downloading phpunit/phpunit (13.3.0)
+2026-09-12T15:53:15.6011969Z   - Downloading psr/container (2.0.2)
+2026-09-12T15:53:15.6012934Z   - Downloading symfony/type-info (v8.1.0)
+2026-09-12T15:53:15.6014056Z   - Downloading symfony/deprecation-contracts (v3.7.1)
+2026-09-12T15:53:15.6015115Z   - Downloading symfony/serializer (v8.1.4)
+2026-09-12T15:53:15.6016117Z   - Downloading symfony/polyfill-intl-normalizer (v1.38.0)
+2026-09-12T15:53:15.6017192Z   - Downloading symfony/polyfill-intl-grapheme (v1.41.0)
+2026-09-12T15:53:15.6018240Z   - Downloading symfony/string (v8.1.2)
+2026-09-12T15:53:15.6019172Z   - Downloading symfony/property-info (v8.1.4)
+2026-09-12T15:53:15.6020128Z   - Downloading symfony/property-access (v8.1.4)
+2026-09-12T15:53:15.6021340Z   - Downloading symfony/polyfill-php85 (v1.41.0)
+2026-09-12T15:53:15.6022620Z   - Downloading symfony/service-contracts (v3.7.1)
+2026-09-12T15:53:15.6023708Z   - Downloading symfony/http-client-contracts (v3.7.1)
+2026-09-12T15:53:15.6024661Z   - Downloading psr/log (3.0.2)
+2026-09-12T15:53:15.6025526Z   - Downloading symfony/http-client (v8.1.4)
+2026-09-12T15:53:15.6026445Z   - Downloading psr/clock (1.0.0)
+2026-09-12T15:53:15.6027286Z   - Downloading symfony/clock (v8.1.0)
+2026-09-12T15:53:15.6028167Z   - Downloading symfony/polyfill-uuid (v1.37.0)
+2026-09-12T15:53:15.6029120Z   - Downloading symfony/uid (v8.1.4)
+2026-09-12T15:53:15.6029991Z   - Downloading psr/event-dispatcher (1.0.0)
+2026-09-12T15:53:15.6030998Z   - Downloading symfony/event-dispatcher-contracts (v3.7.1)
+2026-09-12T15:53:15.6032328Z   - Downloading symfony/event-dispatcher (v8.1.2)
+2026-09-12T15:53:15.6033305Z   - Downloading webmozart/assert (2.4.1)
+2026-09-12T15:53:15.6034303Z   - Downloading phpdocumentor/reflection-docblock (6.0.3)
+2026-09-12T15:53:15.6035351Z   - Downloading oskarstark/enum-helper (1.8.4)
+2026-09-12T15:53:15.6036274Z   - Downloading symfony/ai-platform (v0.12.0)
+2026-09-12T15:53:15.6037225Z   - Downloading symfony/ai-agent (v0.12.0)
+2026-09-12T15:53:15.6038152Z   - Downloading symfony/polyfill-deepclone (v1.40.0)
+2026-09-12T15:53:15.6039180Z   - Downloading symfony/var-exporter (v8.1.4)
+2026-09-12T15:53:15.6040528Z   - Downloading symfony/routing (v8.1.2)
+2026-09-12T15:53:15.6042583Z   - Downloading symfony/http-foundation (v8.1.4)
+2026-09-12T15:53:15.6044265Z   - Downloading symfony/var-dumper (v8.1.2)
+2026-09-12T15:53:15.6045992Z   - Downloading symfony/error-handler (v8.1.2)
+2026-09-12T15:53:15.6047849Z   - Downloading symfony/http-kernel (v8.1.4)
+2026-09-12T15:53:15.6049788Z   - Downloading symfony/finder (v8.1.1)
+2026-09-12T15:53:15.6051751Z   - Downloading symfony/filesystem (v8.1.2)
+2026-09-12T15:53:15.6053668Z   - Downloading symfony/dependency-injection (v8.1.4)
+2026-09-12T15:53:15.6055315Z   - Downloading symfony/config (v8.1.4)
+2026-09-12T15:53:15.6057067Z   - Downloading psr/cache (3.0.0)
+2026-09-12T15:53:15.6058892Z   - Downloading symfony/cache-contracts (v3.7.1)
+2026-09-12T15:53:15.6060610Z   - Downloading symfony/cache (v8.1.4)
+2026-09-12T15:53:15.6062883Z   - Downloading symfony/framework-bundle (v8.1.4)
+2026-09-12T15:53:15.6064615Z   - Downloading symfony/console (v8.1.4)
+2026-09-12T15:53:15.6066333Z   - Downloading symfony/ai-bundle (v0.12.0)
+2026-09-12T15:53:15.6068221Z   - Downloading symfony/ai-generic-platform (v0.12.0)
+2026-09-12T15:53:15.6069989Z   - Downloading symfony/ai-open-responses-platform (v0.12.0)
+2026-09-12T15:53:15.6071920Z   - Downloading symfony/ai-open-ai-platform (v0.12.0)
+2026-09-12T15:53:15.6073594Z   - Downloading symfony/dotenv (v8.1.2)
+2026-09-12T15:53:15.6075276Z   - Downloading symfony/yaml (v8.1.2)
+2026-09-12T15:53:18.3755078Z   - Installing symfony/flex (v2.11.0): Extracting archive
+2026-09-12T15:53:18.4050603Z   - Installing symfony/runtime (v8.1.0): Extracting archive
+2026-09-12T15:53:18.4226097Z   - Installing phpstan/phpdoc-parser (2.3.3): Extracting archive
+2026-09-12T15:53:18.4232371Z   - Installing phpdocumentor/reflection-common (2.2.0): Extracting archive
+2026-09-12T15:53:18.4282452Z   - Installing doctrine/deprecations (1.1.6): Extracting archive
+2026-09-12T15:53:18.4312121Z   - Installing phpdocumentor/type-resolver (2.0.0): Extracting archive
+2026-09-12T15:53:18.4356952Z   - Installing staabm/side-effects-detector (1.0.5): Extracting archive
+2026-09-12T15:53:18.4398237Z   - Installing sebastian/version (7.0.0): Extracting archive
+2026-09-12T15:53:18.4409105Z   - Installing sebastian/type (7.0.2): Extracting archive
+2026-09-12T15:53:18.4424651Z   - Installing sebastian/recursion-context (8.0.1): Extracting archive
+2026-09-12T15:53:18.4425318Z   - Installing sebastian/object-reflector (6.0.0): Extracting archive
+2026-09-12T15:53:18.4425944Z   - Installing sebastian/object-enumerator (8.0.0): Extracting archive
+2026-09-12T15:53:18.4426855Z   - Installing sebastian/global-state (9.0.1): Extracting archive
+2026-09-12T15:53:18.4427914Z   - Installing sebastian/git-state (1.0.0): Extracting archive
+2026-09-12T15:53:18.4428686Z   - Installing sebastian/file-filter (1.0.0): Extracting archive
+2026-09-12T15:53:18.4429541Z   - Installing symfony/polyfill-mbstring (v1.38.2): Extracting archive
+2026-09-12T15:53:18.4430376Z   - Installing sebastian/exporter (8.2.1): Extracting archive
+2026-09-12T15:53:18.4431348Z   - Installing sebastian/environment (9.3.2): Extracting archive
+2026-09-12T15:53:18.4432094Z   - Installing sebastian/diff (9.0.0): Extracting archive
+2026-09-12T15:53:18.4432807Z   - Installing sebastian/comparator (8.4.0): Extracting archive
+2026-09-12T15:53:18.4433556Z   - Installing sebastian/cli-parser (5.0.1): Extracting archive
+2026-09-12T15:53:18.4434270Z   - Installing phpunit/php-timer (9.0.0): Extracting archive
+2026-09-12T15:53:18.4435108Z   - Installing phpunit/php-text-template (6.0.0): Extracting archive
+2026-09-12T15:53:18.4442785Z   - Installing phpunit/php-invoker (7.0.0): Extracting archive
+2026-09-12T15:53:18.4445473Z   - Installing phpunit/php-file-iterator (7.0.1): Extracting archive
+2026-09-12T15:53:18.4447853Z   - Installing theseer/tokenizer (2.0.1): Extracting archive
+2026-09-12T15:53:18.4450457Z   - Installing nikic/php-parser (v5.8.0): Extracting archive
+2026-09-12T15:53:18.4453440Z   - Installing sebastian/lines-of-code (5.0.2): Extracting archive
+2026-09-12T15:53:18.4455535Z   - Installing sebastian/complexity (6.0.0): Extracting archive
+2026-09-12T15:53:18.4457727Z   - Installing phpunit/php-code-coverage (14.3.0): Extracting archive
+2026-09-12T15:53:18.4459789Z   - Installing phar-io/version (3.2.1): Extracting archive
+2026-09-12T15:53:18.4462351Z   - Installing phar-io/manifest (2.0.4): Extracting archive
+2026-09-12T15:53:18.4464491Z   - Installing myclabs/deep-copy (1.13.4): Extracting archive
+2026-09-12T15:53:18.4467093Z   - Installing phpunit/phpunit (13.3.0): Extracting archive
+2026-09-12T15:53:18.4469880Z   - Installing psr/container (2.0.2): Extracting archive
+2026-09-12T15:53:18.4473036Z   - Installing symfony/type-info (v8.1.0): Extracting archive
+2026-09-12T15:53:18.4475503Z   - Installing symfony/deprecation-contracts (v3.7.1): Extracting archive
+2026-09-12T15:53:18.4477841Z   - Installing symfony/serializer (v8.1.4): Extracting archive
+2026-09-12T15:53:18.4480196Z   - Installing symfony/polyfill-intl-normalizer (v1.38.0): Extracting archive
+2026-09-12T15:53:18.4493118Z   - Installing symfony/polyfill-intl-grapheme (v1.41.0): Extracting archive
+2026-09-12T15:53:18.4494001Z   - Installing symfony/string (v8.1.2): Extracting archive
+2026-09-12T15:53:18.4494806Z   - Installing symfony/property-info (v8.1.4): Extracting archive
+2026-09-12T15:53:18.4495658Z   - Installing symfony/property-access (v8.1.4): Extracting archive
+2026-09-12T15:53:18.4496494Z   - Installing symfony/polyfill-php85 (v1.41.0): Extracting archive
+2026-09-12T15:53:18.4497864Z   - Installing symfony/service-contracts (v3.7.1): Extracting archive
+2026-09-12T15:53:18.4521970Z   - Installing symfony/http-client-contracts (v3.7.1): Extracting archive
+2026-09-12T15:53:18.4522829Z   - Installing psr/log (3.0.2): Extracting archive
+2026-09-12T15:53:18.4523535Z   - Installing symfony/http-client (v8.1.4): Extracting archive
+2026-09-12T15:53:18.4524281Z   - Installing psr/clock (1.0.0): Extracting archive
+2026-09-12T15:53:18.4524953Z   - Installing symfony/clock (v8.1.0): Extracting archive
+2026-09-12T15:53:18.4525696Z   - Installing symfony/polyfill-uuid (v1.37.0): Extracting archive
+2026-09-12T15:53:18.4526439Z   - Installing symfony/uid (v8.1.4): Extracting archive
+2026-09-12T15:53:18.4527179Z   - Installing psr/event-dispatcher (1.0.0): Extracting archive
+2026-09-12T15:53:18.4528282Z   - Installing symfony/event-dispatcher-contracts (v3.7.1): Extracting archive
+2026-09-12T15:53:18.4529261Z   - Installing symfony/event-dispatcher (v8.1.2): Extracting archive
+2026-09-12T15:53:18.4581884Z   - Installing webmozart/assert (2.4.1): Extracting archive
+2026-09-12T15:53:18.4583073Z   - Installing phpdocumentor/reflection-docblock (6.0.3): Extracting archive
+2026-09-12T15:53:18.4584030Z   - Installing oskarstark/enum-helper (1.8.4): Extracting archive
+2026-09-12T15:53:18.4584873Z   - Installing symfony/ai-platform (v0.12.0): Extracting archive
+2026-09-12T15:53:18.4585668Z   - Installing symfony/ai-agent (v0.12.0): Extracting archive
+2026-09-12T15:53:18.4586529Z   - Installing symfony/polyfill-deepclone (v1.40.0): Extracting archive
+2026-09-12T15:53:18.4587397Z   - Installing symfony/var-exporter (v8.1.4): Extracting archive
+2026-09-12T15:53:18.4588163Z   - Installing symfony/routing (v8.1.2): Extracting archive
+2026-09-12T15:53:18.4588957Z   - Installing symfony/http-foundation (v8.1.4): Extracting archive
+2026-09-12T15:53:18.4589768Z   - Installing symfony/var-dumper (v8.1.2): Extracting archive
+2026-09-12T15:53:18.4590564Z   - Installing symfony/error-handler (v8.1.2): Extracting archive
+2026-09-12T15:53:18.4591652Z   - Installing symfony/http-kernel (v8.1.4): Extracting archive
+2026-09-12T15:53:18.4592415Z   - Installing symfony/finder (v8.1.1): Extracting archive
+2026-09-12T15:53:18.4593145Z   - Installing symfony/filesystem (v8.1.2): Extracting archive
+2026-09-12T15:53:18.4594002Z   - Installing symfony/dependency-injection (v8.1.4): Extracting archive
+2026-09-12T15:53:18.4594828Z   - Installing symfony/config (v8.1.4): Extracting archive
+2026-09-12T15:53:18.4595482Z   - Installing psr/cache (3.0.0): Extracting archive
+2026-09-12T15:53:18.4596220Z   - Installing symfony/cache-contracts (v3.7.1): Extracting archive
+2026-09-12T15:53:18.4596991Z   - Installing symfony/cache (v8.1.4): Extracting archive
+2026-09-12T15:53:18.4597774Z   - Installing symfony/framework-bundle (v8.1.4): Extracting archive
+2026-09-12T15:53:18.4598570Z   - Installing symfony/console (v8.1.4): Extracting archive
+2026-09-12T15:53:18.4599317Z   - Installing symfony/ai-bundle (v0.12.0): Extracting archive
+2026-09-12T15:53:18.4600152Z   - Installing symfony/ai-generic-platform (v0.12.0): Extracting archive
+2026-09-12T15:53:18.4601393Z   - Installing symfony/ai-open-responses-platform (v0.12.0): Extracting archive
+2026-09-12T15:53:18.4602408Z   - Installing symfony/ai-open-ai-platform (v0.12.0): Extracting archive
+2026-09-12T15:53:18.4603277Z   - Installing symfony/dotenv (v8.1.2): Extracting archive
+2026-09-12T15:53:18.4604304Z   - Installing symfony/yaml (v8.1.2): Extracting archive
+2026-09-12T15:53:19.0991221Z Generating autoload files
+2026-09-12T15:53:19.3994124Z 68 packages you are using are looking for funding.
+2026-09-12T15:53:19.3994861Z Use the `composer fund` command to find out more!
+2026-09-12T15:53:19.3995254Z 
+2026-09-12T15:53:19.3995623Z Run composer recipes at any time to see the status of your Symfony recipes.
+2026-09-12T15:53:19.3996107Z 
+2026-09-12T15:53:20.3078856Z Executing script cache:clear [OK]
+2026-09-12T15:53:20.4316035Z Executing script assets:install public [OK]
+2026-09-12T15:53:20.4317026Z 
+2026-09-12T15:53:20.4592416Z ##[group]Run vendor/bin/phpunit tests/Imperium/Runtime/DeepSeekReviewerCredentialBindingTest.php
+2026-09-12T15:53:20.4593181Z [36;1mvendor/bin/phpunit tests/Imperium/Runtime/DeepSeekReviewerCredentialBindingTest.php[0m
+2026-09-12T15:53:20.4632386Z shell: /usr/bin/bash -e {0}
+2026-09-12T15:53:20.4632630Z env:
+2026-09-12T15:53:20.4632933Z   COMPOSER_PROCESS_TIMEOUT: 0
+2026-09-12T15:53:20.4633281Z   COMPOSER_NO_INTERACTION: 1
+2026-09-12T15:53:20.4633519Z   COMPOSER_NO_AUDIT: 1
+2026-09-12T15:53:20.4633815Z ##[endgroup]
+2026-09-12T15:53:20.5999524Z PHPUnit 13.3.0 by Sebastian Bergmann and contributors.
+2026-09-12T15:53:20.5999926Z 
+2026-09-12T15:53:20.6000049Z Runtime:       PHP 8.4.25
+2026-09-12T15:53:20.6000248Z 
+2026-09-12T15:53:21.0122555Z .                                                                   1 / 1 (100%)
+2026-09-12T15:53:21.0123271Z 
+2026-09-12T15:53:21.0123544Z Time: 00:00.412, Memory: 26.00 MB
+2026-09-12T15:53:21.0123838Z 
+2026-09-12T15:53:21.0124075Z OK (1 test, 1 assertion)
+2026-09-12T15:53:21.0242346Z ##[group]Run vendor/bin/phpunit tests
+2026-09-12T15:53:21.0242682Z [36;1mvendor/bin/phpunit tests[0m
+2026-09-12T15:53:21.0278925Z shell: /usr/bin/bash -e {0}
+2026-09-12T15:53:21.0279165Z env:
+2026-09-12T15:53:21.0279358Z   COMPOSER_PROCESS_TIMEOUT: 0
+2026-09-12T15:53:21.0279613Z   COMPOSER_NO_INTERACTION: 1
+2026-09-12T15:53:21.0279838Z   COMPOSER_NO_AUDIT: 1
+2026-09-12T15:53:21.0280044Z ##[endgroup]
+2026-09-12T15:53:21.5056416Z PHPUnit 13.3.0 by Sebastian Bergmann and contributors.
+2026-09-12T15:53:21.5056860Z 
+2026-09-12T15:53:21.5057017Z Runtime:       PHP 8.4.25
+2026-09-12T15:53:21.5057276Z 
+2026-09-12T15:53:27.8017735Z .............................................................   61 / 3664 (  1%)
+2026-09-12T15:53:27.8265506Z .............................................................  122 / 3664 (  3%)
+2026-09-12T15:53:28.4843520Z .............................................................  183 / 3664 (  4%)
+2026-09-12T15:54:30.8063754Z .............................................................  244 / 3664 (  6%)
+2026-09-12T15:54:50.3147095Z O3-B1 W1 start
+2026-09-12T15:55:20.4575800Z O3-B1 W1 validated
+2026-09-12T15:55:20.4578414Z O3-B1 W2 start
+2026-09-12T15:55:51.9267225Z O3-B1 W2 validated
+2026-09-12T15:55:51.9268180Z O3-B1 W3 start
+2026-09-12T15:56:25.1728066Z O3-B1 W3 validated
+2026-09-12T16:05:09.4743003Z {"mapping_output_limit":0,"post_count":0,"refusal":"O2_BASE_NOT_ELIGIBLE","reserved_output_tokens":null,"actual_output_tokens":null,"outcome":null}
+2026-09-12T16:05:09.5403909Z .............................................................  305 / 3664 (  8%)
+2026-09-12T16:05:13.5015260Z .............................................................  366 / 3664 (  9%)
+2026-09-12T16:05:16.4356607Z .............................................................  427 / 3664 ( 11%)
+2026-09-12T16:05:19.8058487Z .............................................................  488 / 3664 ( 13%)
+2026-09-12T16:05:23.3647792Z .............................................................  549 / 3664 ( 14%)
+2026-09-12T16:05:25.3928900Z .............................................................  610 / 3664 ( 16%)
+2026-09-12T16:05:28.1327982Z .............................................................  671 / 3664 ( 18%)
+2026-09-12T16:05:30.7471918Z .............................................................  732 / 3664 ( 19%)
+2026-09-12T16:05:31.4669202Z .............................................................  793 / 3664 ( 21%)
+2026-09-12T16:05:35.2785406Z .............................................................  854 / 3664 ( 23%)
+2026-09-12T16:05:37.6783637Z .............................................................  915 / 3664 ( 24%)
+2026-09-12T16:09:03.0978333Z .............................................................  976 / 3664 ( 26%)
+2026-09-12T16:09:13.2883345Z ............................................................. 1037 / 3664 ( 28%)
+2026-09-12T16:11:58.6662936Z ............................................................. 1098 / 3664 ( 29%)
+2026-09-12T16:12:35.6560273Z ............................................................. 1159 / 3664 ( 31%)
+2026-09-12T16:12:43.3365004Z ............................................................. 1220 / 3664 ( 33%)
+2026-09-12T16:12:45.2451189Z ............................................................. 1281 / 3664 ( 34%)
+2026-09-12T16:12:45.5222182Z ............................................................. 1342 / 3664 ( 36%)
+2026-09-12T16:12:54.4290638Z ............................................................. 1403 / 3664 ( 38%)
+2026-09-12T16:13:42.5347872Z ............................................................. 1464 / 3664 ( 39%)
+2026-09-12T16:13:42.6719122Z ............................................................. 1525 / 3664 ( 41%)
+2026-09-12T16:13:42.8305947Z ............................................................. 1586 / 3664 ( 43%)
+2026-09-12T16:13:43.0461468Z ............................................................. 1647 / 3664 ( 44%)
+2026-09-12T16:13:43.5358564Z ............................................................S 1708 / 3664 ( 46%)
+2026-09-12T16:13:50.0359881Z SS...S....................................................... 1769 / 3664 ( 48%)
+2026-09-12T16:13:52.6784404Z ............................................................. 1830 / 3664 ( 49%)
+2026-09-12T16:13:58.3077973Z ............................................................. 1891 / 3664 ( 51%)
+2026-09-12T16:14:02.4546241Z ............................................................. 1952 / 3664 ( 53%)
+2026-09-12T16:14:06.2765385Z ............................................................. 2013 / 3664 ( 54%)
+2026-09-12T16:14:06.6764519Z ............................................................. 2074 / 3664 ( 56%)
+2026-09-12T16:14:06.7606520Z ............................................................. 2135 / 3664 ( 58%)
+2026-09-12T16:14:14.0790481Z ............................................................. 2196 / 3664 ( 59%)
+2026-09-12T16:14:14.1605893Z ............................................................. 2257 / 3664 ( 61%)
+2026-09-12T16:14:14.4184711Z ............................................................. 2318 / 3664 ( 63%)
+2026-09-12T16:14:14.5093620Z ............................................................. 2379 / 3664 ( 64%)
+2026-09-12T16:14:14.5530484Z ............................................................. 2440 / 3664 ( 66%)
+2026-09-12T16:14:14.5703382Z ............................................................. 2501 / 3664 ( 68%)
+2026-09-12T16:14:14.6280795Z ............................................................. 2562 / 3664 ( 69%)
+2026-09-12T16:14:14.6963131Z ............................................................. 2623 / 3664 ( 71%)
+2026-09-12T16:14:14.7400033Z ............................................................. 2684 / 3664 ( 73%)
+2026-09-12T16:14:14.8285199Z ............................................................. 2745 / 3664 ( 74%)
+2026-09-12T16:14:14.9095832Z ............................................................. 2806 / 3664 ( 76%)
+2026-09-12T16:14:14.9634828Z ............................................................. 2867 / 3664 ( 78%)
+2026-09-12T16:14:15.3155085Z ............................................................. 2928 / 3664 ( 79%)
+2026-09-12T16:14:15.9620062Z ............................................................. 2989 / 3664 ( 81%)
+2026-09-12T16:14:19.9349577Z ............................................................. 3050 / 3664 ( 83%)
+2026-09-12T16:14:19.9962197Z ............................................................. 3111 / 3664 ( 84%)
+2026-09-12T16:14:20.0262721Z ............................................................. 3172 / 3664 ( 86%)
+2026-09-12T16:15:10.1423838Z ............................................................. 3233 / 3664 ( 88%)
+2026-09-12T16:15:46.3495125Z ............................................................. 3294 / 3664 ( 89%)
+2026-09-12T16:15:46.3742233Z ............................................................. 3355 / 3664 ( 91%)
+2026-09-12T16:15:46.4104714Z ............................................................. 3416 / 3664 ( 93%)
+2026-09-12T16:15:47.4720753Z ............................................................. 3477 / 3664 ( 94%)
+2026-09-12T16:15:59.9977790Z ............................................................. 3538 / 3664 ( 96%)
+2026-09-12T16:16:00.2180939Z ............................................................. 3599 / 3664 ( 98%)
+2026-09-12T16:16:00.5893584Z ............................................................. 3660 / 3664 ( 99%)
+2026-09-12T16:16:01.1950008Z ....                                                          3664 / 3664 (100%)
+2026-09-12T16:16:01.1950583Z 
+2026-09-12T16:16:01.1950784Z Time: 22:39.689, Memory: 265.00 MB
+2026-09-12T16:16:01.1951437Z 
+2026-09-12T16:16:01.1951688Z OK, but some tests were skipped!
+2026-09-12T16:16:01.1952311Z Tests: 3664, Assertions: 57357, Skipped: 4.
+2026-09-12T16:16:01.2208930Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-12T16:16:01.2210211Z Post job cleanup.
+2026-09-12T16:16:01.3055622Z [command]/usr/bin/git version
+2026-09-12T16:16:01.3099887Z git version 2.55.0
+2026-09-12T16:16:01.3137292Z Temporarily overriding HOME='/home/runner/work/_temp/2f5f7846-546e-4560-9bcd-032c091977a8' before making global git config changes
+2026-09-12T16:16:01.3138717Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-12T16:16:01.3157143Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/imperium-symfony/imperium-symfony
+2026-09-12T16:16:01.3181878Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-12T16:16:01.3217277Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-12T16:16:01.3468890Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-12T16:16:01.3499153Z http.https://github.com/.extraheader
+2026-09-12T16:16:01.3511628Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-09-12T16:16:01.3545791Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-12T16:16:01.3822136Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-12T16:16:01.3861406Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-12T16:16:01.4247451Z Cleaning up orphan processes
+2026-09-12T16:16:01.4673461Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+

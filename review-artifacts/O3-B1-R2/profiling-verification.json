@@ -1,0 +1,33 @@
+{
+  "instrumented_sources_match_git": true,
+  "phases": [
+    {
+      "phase": "fixture",
+      "before_seconds": 0.3086044,
+      "after_seconds": 0.2684802,
+      "speedup": 1.1494493821145841,
+      "authority_and_traversal_counts": "unchanged",
+      "frames": 4,
+      "journal_bytes": 2102607
+    },
+    {
+      "phase": "ready",
+      "before_seconds": 78.1279932,
+      "after_seconds": 17.9657932,
+      "speedup": 4.348708255196882,
+      "authority_and_traversal_counts": "unchanged",
+      "frames": 17,
+      "journal_bytes": 16189941
+    },
+    {
+      "phase": "W1",
+      "before_seconds": 252.4654816,
+      "after_seconds": 41.5745369,
+      "speedup": 6.072598768983522,
+      "authority_and_traversal_counts": "unchanged",
+      "frames": 24,
+      "journal_bytes": 24755803
+    }
+  ],
+  "R1_and_gate_preservation": "PASS"
+}

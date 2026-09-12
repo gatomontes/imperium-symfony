@@ -1,0 +1,27 @@
+{
+  "verdict": "ACCEPTED_FOR_INTEGRATION_PENDING_USER_AUTHORIZATION",
+  "source_review": "PASS",
+  "R1": "RESOLVED",
+  "R2_hosted_full_ci": "RESOLVED",
+  "uploaded_final": "8045884d62391cfa6ce55180bd439ac2104384cd",
+  "tested_local": "e913a83dc1073be8e7fa236acafb2d05fa993c27",
+  "published_head": "c15c8e37802cefd5fec07a106f4626a7ce17d8ab",
+  "actual_ci_checkout": "1fb168aadb30f6048602353bfd0609af765331b9",
+  "accepted_tree": "f7e10635a7d6992ea50de4a47ef2654e943e1ff7",
+  "full_ci": {
+    "run": 34703567912,
+    "job": 103579460829,
+    "tests": 3664,
+    "assertions": 57357,
+    "skipped": 4,
+    "phpunit_elapsed": "22:39.689",
+    "command": "vendor/bin/phpunit tests",
+    "workflow_timeout_minutes": 30,
+    "conclusion": "success"
+  },
+  "pr": 794,
+  "draft": true,
+  "merged": false,
+  "main": "02ce09621c63822eaff9ffd23151d5d3aed593a4",
+  "local_full_suite_limitation": "Windows run timed out at 1800 seconds; not a local full pass"
+}

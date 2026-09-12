@@ -1,0 +1,101 @@
+{
+  "scope": "Inspected supplied local evidence, not independent PHP execution",
+  "selected_tests": 883,
+  "selected_assertions": 8615,
+  "selections": [
+    {
+      "file": "native-root-legacy.log",
+      "tests": 4,
+      "assertions": 291
+    },
+    {
+      "file": "o1-pins.log",
+      "tests": 380,
+      "assertions": 1519
+    },
+    {
+      "file": "new-o3-b1-base.log",
+      "tests": 11,
+      "assertions": 53
+    },
+    {
+      "file": "o2-b1-b0.log",
+      "tests": 211,
+      "assertions": 952
+    },
+    {
+      "file": "fc.log",
+      "tests": 140,
+      "assertions": 760
+    },
+    {
+      "file": "correction-reviewer.log",
+      "tests": 1,
+      "assertions": 2
+    },
+    {
+      "file": "o3-b0.log",
+      "tests": 68,
+      "assertions": 304
+    },
+    {
+      "file": "correction-mapping.log",
+      "tests": 16,
+      "assertions": 130
+    },
+    {
+      "file": "credential-correction.log",
+      "tests": 8,
+      "assertions": 60
+    },
+    {
+      "file": "reviewer.log",
+      "tests": 4,
+      "assertions": 10
+    },
+    {
+      "file": "inventory.log",
+      "tests": 16,
+      "assertions": 4002
+    },
+    {
+      "file": "parse-scope.log",
+      "tests": 6,
+      "assertions": 338
+    },
+    {
+      "file": "new-o3-b1-owner.log",
+      "tests": 7,
+      "assertions": 106
+    },
+    {
+      "file": "new-o3-b1-refusals.log",
+      "tests": 10,
+      "assertions": 57
+    },
+    {
+      "file": "new-o3-b1-bridge.log",
+      "tests": 1,
+      "assertions": 31
+    }
+  ],
+  "full_suite": {
+    "name": "full-suite",
+    "argv": [
+      "php",
+      "-d",
+      "allow_url_fopen=0",
+      "-d",
+      "disable_functions=curl_exec,curl_multi_exec,fsockopen,pfsockopen,stream_socket_client,socket_connect",
+      "vendor/bin/phpunit",
+      "tests"
+    ],
+    "cwd": "E:\\htdocs\\imperium-onboarding-o3-b1-implementation",
+    "exit": 124,
+    "started_unix": 1789224894.8450854,
+    "elapsed_seconds": 1800.309,
+    "external_ceiling_seconds": 1800,
+    "timed_out": true,
+    "scope": "Fresh complete local suite; not hosted CI"
+  }
+}

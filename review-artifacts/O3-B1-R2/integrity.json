@@ -1,0 +1,73 @@
+{
+  "identities": {
+    "preparation": {
+      "commit": "02ce09621c63822eaff9ffd23151d5d3aed593a4",
+      "tree": "2fc0e9075ce199312797533d237652fa15b82865"
+    },
+    "correction_entry": {
+      "commit": "9c1e953b9d580010ed4bbf684b7fc215de770f27",
+      "tree": "7389ad3901e79ace26882e9c37e8eedbfc9f9155",
+      "status": "?? provider-onboarding-o3-b1-correction-instructions.md\n?? provider-onboarding-o3-b1-correction-report.md\n?? provider-onboarding-o3-b1-instructions.md\n?? provider-onboarding-o3-b1-report.md",
+      "worktree": "E:\\htdocs\\imperium-onboarding-o3-b1-implementation"
+    },
+    "tested": {
+      "commit": "e913a83dc1073be8e7fa236acafb2d05fa993c27",
+      "tree": "4c830a0163a4378c3af903de01e151c2d6fe7fa4",
+      "php_files": 1853,
+      "captured_at_unix": 1789224833
+    },
+    "final": {
+      "commit": "8045884d62391cfa6ce55180bd439ac2104384cd",
+      "tree": "f7e10635a7d6992ea50de4a47ef2654e943e1ff7"
+    },
+    "post_test_changes": [
+      "docs/handoffs/provider-onboarding-o3-b1-ci-correction-instructions.md",
+      "docs/handoffs/provider-onboarding-o3-b1-ci-correction-report.md",
+      "docs/provider-onboarding-o3-b1-design.md"
+    ],
+    "scope": "O3-B1 local handoff; independent source review and fresh full hosted CI pending; no push or merge."
+  },
+  "manifest_entries": 318,
+  "canonical_files": 63,
+  "tested_php_files": 1853,
+  "patches": "both PASS",
+  "protected": {
+    "preparation-protected-original-comparison.json": {
+      "files": 3359,
+      "changed": [
+        "docs/citadel-mission-formation-runtime-inventory-v1.tsv",
+        "src/Imperium/Runtime/Bootstrap/OperatorRootOperationalizationService.php",
+        "src/Imperium/Runtime/Bootstrap/OperatorRootPersonnelInstallationService.php",
+        "src/Imperium/Runtime/Citadel/Formation/FormationJournal.php",
+        "src/Imperium/Runtime/Citadel/Formation/SharedExposure.php",
+        "src/Imperium/Runtime/Conscription/AugurResidentActivationService.php",
+        "src/Imperium/Runtime/Imperator/FoundingAugurModelAssignmentService.php",
+        "src/Imperium/Runtime/Onboarding/AuthorityAdmission/Admission.php",
+        "src/Imperium/Runtime/Onboarding/AuthorityAdmission/AuthorityStore.php",
+        "src/Imperium/Runtime/Onboarding/AuthorityAdmission/CurrentAuthority.php",
+        "src/Imperium/Runtime/Onboarding/AuthorityAdmission/Rules.php",
+        "src/Imperium/Runtime/Onboarding/AuthorityAdmission/StrictJson.php",
+        "src/Imperium/Runtime/Onboarding/DeepSeek/AccessAdapter.php",
+        "src/Imperium/Runtime/Onboarding/DeepSeek/Runtime.php",
+        "src/Imperium/Runtime/Onboarding/Ledger/CommandLedger.php",
+        "src/Imperium/Runtime/Onboarding/Ledger/CompletionResolver.php",
+        "src/Imperium/Runtime/Onboarding/Ledger/CustodyCoordinator.php",
+        "src/Imperium/Runtime/Onboarding/Ledger/LedgerState.php",
+        "src/Imperium/Runtime/Onboarding/Ledger/StateMigration.php",
+        "src/Imperium/Runtime/Onboarding/Ledger/StateValidation.php"
+      ]
+    },
+    "correction-protected-original-comparison.json": {
+      "files": 3399,
+      "changed": [
+        "docs/provider-onboarding-o3-b1-design.md",
+        "src/Imperium/Runtime/Onboarding/Augur/AugurAdapter.php",
+        "src/Imperium/Runtime/Onboarding/Augur/BaseProjection.php",
+        "src/Imperium/Runtime/Onboarding/AuthorityAdmission/AuthorityStore.php",
+        "src/Imperium/Runtime/Onboarding/AuthorityAdmission/Rules.php",
+        "src/Imperium/Runtime/Onboarding/AuthorityAdmission/StrictJson.php",
+        "src/Imperium/Runtime/Onboarding/Ledger/LedgerState.php"
+      ]
+    }
+  }
+}
