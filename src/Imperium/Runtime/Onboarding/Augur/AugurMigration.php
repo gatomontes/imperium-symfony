@@ -14,7 +14,7 @@ final readonly class AugurMigration
         R::head($expectedHead);
         return $this->store->journal->changeAtHead(function(array &$state,array $head)use($expectedHead):array{
             $s=$this->store->state($state);
-            if($s['schema']==='imperium.onboarding-authority-state/v3'){return $s['augur_migration'];}
+            if(in_array($s['schema'],['imperium.onboarding-authority-state/v3','imperium.onboarding-authority-state/v4'],true)){return $s['augur_migration'];}
             R::require($s['schema']==='imperium.onboarding-authority-state/v2' && R::same($head,$expectedHead),'AUGUR_MIGRATION_HEAD');
             $trust=$this->store->currentTrust($s);self::quiescent($s);
             R::require(strlen(CanonicalJson::encode($s))<=4194304,'AUGUR_MIGRATION_LIMIT');
@@ -36,7 +36,8 @@ final readonly class AugurMigration
         $h=R::record($s['augur_migration']);$b=R::object($h['body'],['from_schema','to_schema','predecessor_head','prior_state','prior_digest']);
         R::require($h['schema']==='imperium.bootstrap-augur-migration/v1' && $h['producer']['service']==='onboarding.authority-admission'
             && $h['instance_id']===$s['trust']['instance_id'] && $h['citadel_id']===$s['trust']['citadel_id']
-            && $b['from_schema']==='imperium.onboarding-authority-state/v2' && $b['to_schema']===$s['schema'],'AUGUR_MIGRATION_SCHEMA');
+            && $b['from_schema']==='imperium.onboarding-authority-state/v2' && $b['to_schema']==='imperium.onboarding-authority-state/v3'
+            && in_array($s['schema'],['imperium.onboarding-authority-state/v3','imperium.onboarding-authority-state/v4'],true),'AUGUR_MIGRATION_SCHEMA');
         R::head($b['predecessor_head']);R::require($b['prior_digest']===R::hash($b['prior_state']) && strlen(CanonicalJson::encode($b['prior_state']))<=4194304,'AUGUR_MIGRATION_DIGEST');
         $prior=$b['prior_state'];R::require($prior['schema']===$b['from_schema'],'AUGUR_MIGRATION_SCHEMA');LedgerState::validate($prior);self::quiescent($prior);
         R::require(R::same($h['sources'],[$prior['trust']['body']['enrollment_receipt_ref']]) && R::same($s['trust'],$prior['trust']) && R::same($s['migration'],$prior['migration']),'AUGUR_MIGRATION_ORIGINAL');
