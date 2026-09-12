@@ -1,0 +1,60 @@
+{
+  "disposition": "HOLD_INCOMPLETE_O4",
+  "identities": {
+    "entry": {
+      "commit": "f544b696a0ebdf8c25a71f3a369e5a93738074e9",
+      "tree": "862fbfbf51294ad4a175381ded7a6f7b64dad09c",
+      "status": "",
+      "worktree": "E:\\htdocs\\imperium-onboarding-o4-b0",
+      "o3_merge": "61d3f555d4bc903437687d454f05f4484ff538c4",
+      "o3_tree": "f7e10635a7d6992ea50de4a47ef2654e943e1ff7",
+      "canonical_files_matched": [
+        "contracts/provider-onboarding-assignment-application.md",
+        "docs/next-campaign-provider-onboarding-o3-augur-cognition.md",
+        "docs/next-campaign-provider-onboarding-o4-assignment-application.md",
+        "docs/provider-onboarding-implementation-roadmap.md",
+        "docs/provider-onboarding-prerequisites.md",
+        "docs/handoffs/provider-onboarding-o3-augur-cognition-ready.md",
+        "docs/handoffs/provider-onboarding-o3-complete.md",
+        "docs/handoffs/provider-onboarding-o4-assignment-application-ready.md",
+        "docs/handoffs/provider-onboarding-o4-b0-local-prompt.txt",
+        "docs/provider-onboarding/o3-b1-reviewed-integration.json",
+        "docs/reviews/provider-onboarding-o3-b1-acceptance.md",
+        "docs/reviews/provider-onboarding-o4-b0-preparation-review.md"
+      ]
+    },
+    "tested": {
+      "commit": "4b2f1f897f7fbc57fa16d58fbbb6727e25e73be1",
+      "tree": "8bf189d79458ff8cd0c5bb796b6a51578e5d4593",
+      "php_files": 1855,
+      "captured_unix": 1789243863
+    },
+    "final": {
+      "commit": "4711ea5def32148335069f396fc86ab6abc82df4",
+      "tree": "68ec1d4f305d8a66a280680c0cdf358d33b54934",
+      "branch": "codex/provider-onboarding-o4-b0",
+      "status": ""
+    },
+    "patch_reconstructed_tree": "68ec1d4f305d8a66a280680c0cdf358d33b54934",
+    "final_php_matches_tested": true,
+    "php_files": 1855,
+    "pushed": false,
+    "merged": false,
+    "fresh_full_hosted_ci": "NOT_RUN",
+    "o4_implementation_complete": false
+  },
+  "outer_manifest_entries": 108,
+  "inner_payload_entries": 105,
+  "canonical_files": 7,
+  "verified_php_files": 1855,
+  "protected_originals": 3410,
+  "unchanged_originals": 3409,
+  "changed_existing_files": [
+    "src/Imperium/Runtime/Onboarding/Augur/AugurAdapter.php"
+  ],
+  "patch_reconstructed_tree": "68ec1d4f305d8a66a280680c0cdf358d33b54934",
+  "static_checks": 86,
+  "independent_php_execution": false,
+  "hosted_ci_requested": false,
+  "reason_no_full_ci": "Missing implementation and proof are conclusive acceptance blockers; complete O4 before running acceptance CI."
+}

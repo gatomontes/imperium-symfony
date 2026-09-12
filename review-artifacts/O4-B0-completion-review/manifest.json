@@ -1,0 +1,42 @@
+[
+  {
+    "path": "O4-B0-completion-review.sha256",
+    "bytes": 94,
+    "sha256": "3d5b86356b220102668bc8fd9dbea49487e3b9859018207c9a5aee3b944d31dd"
+  },
+  {
+    "path": "O4-B0-completion-review.zip",
+    "bytes": 10343,
+    "sha256": "c0f05363f8063b334133b09d4dd224eca335d843c2b98f768929fa263b2e6589"
+  },
+  {
+    "path": "README.md",
+    "bytes": 973,
+    "sha256": "01c2f651b0b60d1ced6932118fcb48591e29a69b93550068ad9f7e42db031f77"
+  },
+  {
+    "path": "completion-prompt.txt",
+    "bytes": 7566,
+    "sha256": "7c49a8248858d56ebf715267dd000e43ef841b173a6699330aecd09fbecb71eb"
+  },
+  {
+    "path": "instructions.md",
+    "bytes": 1793,
+    "sha256": "7e941333846e1eabedcd87c7a27016ea3887533a0e4a2bad770473cf3418e9bb"
+  },
+  {
+    "path": "review-report.md",
+    "bytes": 5384,
+    "sha256": "8663e4d48585a67f0cabdff722d9183faf82447f9739dbb34967f4ed08c6a4db"
+  },
+  {
+    "path": "static-specification.json",
+    "bytes": 4140,
+    "sha256": "6a921a1b9086d0013bbb5ea3d4a450a9b03b88784ebc000480483cd9572c8d06"
+  },
+  {
+    "path": "verification.json",
+    "bytes": 2516,
+    "sha256": "db027c8f70f158e1a9f704e643be1c7389d87379af0990a49b74020571a2a858"
+  }
+]
