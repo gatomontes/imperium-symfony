@@ -1,0 +1,9 @@
+# O3-B1 R1 correction review instructions
+
+1. Read the correction report, identities.json, campaign-proof-matrix.json and final-commands.json. Tested source is `17a23127fb349572cd4f8b357d679111ce312d7d` / `ddc10059ca0b508ab62f9ca77d6b13c5447299bd`. Final PHP bytes are identical; later changes are documentation only.
+2. Verify both manifests and the inner review ZIP SHA-256. Use implementation.patch/bundle with preparation `02ce09621c63822eaff9ffd23151d5d3aed593a4`; use correction.patch/bundle with correction entry `18ff81299c42dc9fb60d49b419be8b7cfc38d1e3`. Both patches reconstruct the final tree. Work in a clean separate checkout without resetting another worktree.
+3. Review exact-map resolution, all five per-call bounds, O1 demotion after factual authentication, deterministic alternative selection, founding/current-holder reconstruction and actual prepared-operation checks through dispatch/response. Verify both reviewer PHP files against review-input and all protected-original comparisons. The diagnostic probe workflow is evidence only.
+4. Reproduce the captured selections using PHP >=8.4 and locked dependencies, changed PHP lint, non-debug kernel smoke and all 86 static checks. The tested snapshot contains all 1852 project PHP byte streams. Prior submitted results and original-candidate hosted CI do not prove this correction.
+5. Require independent source review and a fresh complete hosted run on corrected source using the unchanged workflow (`vendor/bin/phpunit tests`, 30-minute allowance). This local run has not pushed, merged or updated a PR. Do not merge the diagnostic PR.
+
+All operational flags remain false and actual retries remain empty. Missing authentic production evidence refuses. No real provider request, credential access, installed-state operation, live commissioning, O4 or O5 action is authorized by this handoff. No outer checksum or recursive historical archives are included.

@@ -6,7 +6,7 @@ use App\Imperium\Runtime\Citadel\Formation\SharedExposure;
 #[\Symfony\Component\DependencyInjection\Attribute\Exclude]
 final readonly class CommandLedger
 {
-    public function __construct(public AuthorityStore $store,private PreparedOperation $preparer=new RefusingPorts(),private SourceAuthority $sources=new RefusingPorts()) {}
+    public function __construct(public AuthorityStore $store,private PreparedOperation $preparer=new RefusingPorts(),private SourceAuthority $sources=new RefusingPorts(),private ?\App\Imperium\Runtime\Onboarding\Augur\FreshProducer $founding=null) {}
     public static function request(string $raw): array {
         R::require(strlen($raw)<=1048576,'REQUEST_LIMIT');$q=StrictJson::decode($raw);
         R::object($q,['schema','sequence_id','command_id','mode','instance_id','policy_ref','expected_head','predecessor_ref','step_id','evidence_refs']);
@@ -21,7 +21,7 @@ final readonly class CommandLedger
     public function advance(string $raw): array {
         $q=self::request($raw);R::require($q['instance_id']===$this->store->instance,'FOREIGN_RECORD');
         return $this->store->journal->changeAtHead(function(array &$state,array $head)use($q,$raw):array {
-            $s=$this->store->state($state);R::require($s['schema']==='imperium.onboarding-authority-state/v2','STATE_MIGRATION_REQUIRED');
+            $s=$this->store->state($state);R::require(in_array($s['schema'],['imperium.onboarding-authority-state/v2','imperium.onboarding-authority-state/v3'],true),'STATE_MIGRATION_REQUIRED');
             $tuple=[$this->store->instance,$q['sequence_id'],$q['command_id']];$key=LedgerState::key('command',$tuple);
             if(isset($s['commands'][$key])){R::require(R::same($s['commands'][$key]['request'],$q),'COMMAND_CONFLICT');return self::presentation($s['commands'][$key],$head,true);}
             R::require(R::same(self::head($q['expected_head']),$head),'STALE_HEAD');$policy=$this->policy($s,$q['policy_ref']);
@@ -49,15 +49,15 @@ final readonly class CommandLedger
                 $authority=null;$ak=null;$op=null;$facts=null;$slot=null;$results=[];
                 if($step['effect_slot_id']!==null){
                     [$authority,$slot,$facts]=$this->authority($s,$policy,$step);CompletionResolver::resolve($this->store,$s,$policy,$facts['obligations']);
-                    R::require(in_array($slot['effect'],['ADMIT_BOOTSTRAP_EVIDENCE','APPROVE_RUNTIME_BINDING_MAP','AUTHORIZE_BOOTSTRAP_ACCESS','AUTHORIZE_BOOTSTRAP_ASSESSMENT'],true),'DYNAMIC_PREREQUISITES_MISSING');
+                    R::require(($slot['effect']==='CONSTITUTE_FOUNDING_AUGUR' && $s['schema']==='imperium.onboarding-authority-state/v3' && $this->founding!==null) || in_array($slot['effect'],['ADMIT_BOOTSTRAP_EVIDENCE','APPROVE_RUNTIME_BINDING_MAP','AUTHORIZE_BOOTSTRAP_ACCESS','AUTHORIZE_BOOTSTRAP_ASSESSMENT'],true),'DYNAMIC_PREREQUISITES_MISSING');
                     $ak=$authority['kind']==='signed_act'?[$this->store->instance,$facts['admission']['envelope']['payload']['trust_fingerprint'],$facts['admission']['envelope']['payload']['nonce']]:[$this->store->instance,$policy['record_digest'],$slot['slot_id']];
                     $slotKey=LedgerState::key('slot',[$this->store->instance,$policy['record_digest'],$slot['slot_id']]);R::require(!isset($s['slots'][$slotKey]),'SLOT_ALREADY_CONSUMED');
                     foreach($s['slots'] as $v){R::require(!R::same($v['authority_key'],$ak),'AUTHORITY_ALREADY_CONSUMED');}
                     if(in_array($slot['effect'],['AUTHORIZE_BOOTSTRAP_ACCESS','AUTHORIZE_BOOTSTRAP_ASSESSMENT'],true)){
-                        $op=$this->preparer->prepare($facts['terms']);R::require($op['expires_at']<=min($slot['expires_at'],$facts['admission']['envelope']['payload']['expires_at']),'LEASE_SCOPE');$this->operation($state,$policy,$slot['effect'],$facts['terms'],$op);
+                        $op=$this->preparer instanceof ContextualPreparedOperation?$this->preparer->prepareCurrent($this->store,$state,$policy,$step,$facts['terms']):$this->preparer->prepare($facts['terms']);R::require($op['expires_at']<=min($slot['expires_at'],$facts['admission']['envelope']['payload']['expires_at']),'LEASE_SCOPE');$this->operation($state,$policy,$slot['effect'],$facts['terms'],$op);
                         if($slot['effect']==='AUTHORIZE_BOOTSTRAP_ASSESSMENT'){AssessmentGroups::freeze($this->store,$s,$policy,$step,$op);}
                         $budget=BudgetAssociation::resolve($this->store,$state,$policy);SharedExposure::check($state,$budget['identity'],$budget['limits'],$op['maximum']);
-                    }else{
+                    }elseif($slot['effect']!=='CONSTITUTE_FOUNDING_AUGUR'){
                         $source=$this->store->checkSource($s,$facts['terms']['body']['terms']);
                         R::require($source['schema']==='imperium.bootstrap-source/v1','EFFECT_SOURCE');
                         if($slot['effect']==='APPROVE_RUNTIME_BINDING_MAP'){
@@ -77,6 +77,7 @@ final readonly class CommandLedger
                 $cons=$ak===null?null:['key'=>$ak,'consumed' => true,'commit_head'=>$head];
                 $operationRecord=$op===null?null:$this->store->make('imperium.bootstrap-prepared-operation-record/v1','operation-'.substr(R::hash($op),7,24),['operation'=>$op]);
                 $consumption=$this->store->make('imperium.bootstrap-step-consumption/v1','step-'.substr($stepKey,7,24),['sequence_ref'=>['instance_id'=>$this->store->instance,'sequence_id'=>$q['sequence_id'],'policy_digest'=>$policy['record_digest']],'command_ref'=>$command['ref'],'policy_ref'=>R::reference($policy),'step_id'=>$step['step_id'],'slot_id'=>$step['effect_slot_id'],'authority_consumption'=>$cons,'prepared_operation_ref'=>$operationRecord===null?null:R::reference($operationRecord),'predecessor_head'=>$head]);
+                if(($slot['effect']??null)==='CONSTITUTE_FOUNDING_AUGUR'){$results=$this->founding->publish($this->store,$s,$policy,$slot,$facts['terms'],$command['ref'],$head);}
                 $completion=$op===null?$this->complete($command['ref'],$consumption,$slot['effect']??null,$results):null;
                 $s['steps'][$stepKey]=['key'=>$st,'consumption'=>$consumption,'completion'=>$completion];
                 if($slot!==null){$s['slots'][$slotKey]=['key'=>[$this->store->instance,$policy['record_digest'],$slot['slot_id']],'command_ref'=>$command['ref'],'authority_key'=>$ak];}
@@ -101,9 +102,9 @@ final readonly class CommandLedger
     }
     public function authority(array $s,array $policy,array $step): array {
         $slots=array_values(array_filter($policy['body']['effect_slots'],static fn(array $v):bool=>$v['slot_id']===$step['effect_slot_id']));R::require(count($slots)===1,'SLOT_MISSING');$slot=$slots[0];
-        R::require($slot['terms_rule']['kind']==='exact','DYNAMIC_PREREQUISITES_MISSING');$terms=$slot['terms_rule']['object_ref'];$found=[];
+         $derived=$slot['terms_rule']['kind']==='exact'?['terms_ref'=>$slot['terms_rule']['object_ref'],'derivation_input_refs'=>[]]:\App\Imperium\Runtime\Onboarding\Augur\FoundingRule::derive($s,$policy,$slot,fn(array $ref):array=>$this->store->checkSource($s,$ref));$terms=$derived['terms_ref'];$found=[];
         foreach($s['admissions'] as $key=>$receipt){$a=Admission::retained($s,$key);$p=$a['envelope']['payload'];
-            if($slot['authority_mode']==='policy_effect' && $p['effect']==='AUTHORIZE_BOOTSTRAP_POLICY' && R::same(R::reference($a['object']),R::reference($policy))){$found[]=['kind'=>'policy_effect','policy_ref'=>R::reference($policy),'policy_admission_ref'=>R::reference($receipt),'slot_id'=>$slot['slot_id'],'slot_digest'=>R::hash($slot),'terms_ref'=>$terms,'derivation_input_refs'=>[]];}
+            if($slot['authority_mode']==='policy_effect' && $p['effect']==='AUTHORIZE_BOOTSTRAP_POLICY' && R::same(R::reference($a['object']),R::reference($policy))){$found[]=['kind'=>'policy_effect','policy_ref'=>R::reference($policy),'policy_admission_ref'=>R::reference($receipt),'slot_id'=>$slot['slot_id'],'slot_digest'=>R::hash($slot),'terms_ref'=>$terms,'derivation_input_refs'=>$derived['derivation_input_refs']];}
             elseif($slot['authority_mode']==='signed_act' && $p['effect']===$slot['effect'] && R::same($p['policy_ref'],R::reference($policy)) && R::same(R::reference($a['object']),$terms)){$found[]=['kind'=>'signed_act','act_ref'=>R::reference($a['record']),'admission_ref'=>R::reference($receipt)];}
         }
         R::require(count($found)===1,'AUTHORITY_ORIGINAL_MISSING');return [$found[0],$slot,CurrentAuthority::verify($this->store,$s,$found[0],$slot['effect'],$terms)];

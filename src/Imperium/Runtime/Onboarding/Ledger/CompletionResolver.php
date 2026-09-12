@@ -22,6 +22,7 @@ final class CompletionResolver
         if($step['effect_slot_id']!==null){
             [,,$facts]=(new CommandLedger($store))->authority($s,$policy,$step);
             foreach($facts['terms']['sources'] as $ref){$store->checkSource($s,$ref);}
+            if($facts['terms']['body']['effect']==='CONSTITUTE_FOUNDING_AUGUR'){\App\Imperium\Runtime\Onboarding\Augur\Holder::current($store,$s,$entry['completion']['body']['result_refs'][0]);}
         }
         return $entry;
     }

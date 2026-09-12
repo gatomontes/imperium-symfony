@@ -8,11 +8,16 @@ use App\Bootstrap\CanonicalJson;
 
 final readonly class AugurResidentActivationService
 {
+    private \App\Imperium\Runtime\Bootstrap\OperatorRootOwnership $ownership;
     private string $assignments; private string $directory;
     public function __construct(string $projectDir, private GenericOfficerSubstrateRegistry $substrate)
-    { $this->assignments=$projectDir.'/var/imperium/imperator/founding-augur-model-assignments';$this->directory=$projectDir.'/var/imperium/offices/oracle/occupancy'; }
+    { $this->ownership=new \App\Imperium\Runtime\Bootstrap\OperatorRootOwnership($projectDir);$this->assignments=$projectDir.'/var/imperium/imperator/founding-augur-model-assignments';$this->directory=$projectDir.'/var/imperium/offices/oracle/occupancy'; }
 
     public function activate(string $assignmentId, array $custody, array $profileApproval, array $recruiterBinding): array
+    {
+        return $this->ownership->native(fn():array=>$this->activateOwned($assignmentId,$custody,$profileApproval,$recruiterBinding));
+    }
+    private function activateOwned(string $assignmentId, array $custody, array $profileApproval, array $recruiterBinding): array
     {
         if(!preg_match('/^founding-augur-model-assignment-[a-f0-9]{20}$/',$assignmentId))throw new \InvalidArgumentException('R220_FOUNDING_ASSIGNMENT_ID_INVALID');
         $assignment=$this->read($this->assignments.'/'.$assignmentId.'.json','R221_FOUNDING_ASSIGNMENT_ABSENT');$this->validate($assignmentId,$assignment,$custody,$profileApproval,$recruiterBinding);
@@ -37,5 +42,5 @@ final readonly class AugurResidentActivationService
     private function valid(array$r):bool{$d=$r['record_digest']??null;unset($r['record_digest']);return is_string($d)&&hash_equals($d,hash('sha256',CanonicalJson::encode($r)));}
     private function validPrefixed(array$r):bool{$d=$r['record_digest']??null;unset($r['record_digest']);return is_string($d)&&hash_equals($d,'sha256:'.hash('sha256',CanonicalJson::encode($r)));}
     private function read(string$p,string$e):array{if(!is_file($p))throw new \RuntimeException($e);return json_decode((string)file_get_contents($p),true,512,JSON_THROW_ON_ERROR);}
-    private function persist(string$id,array$r):array{if(!is_dir($this->directory)&&!mkdir($this->directory,0770,true)&&!is_dir($this->directory))throw new \RuntimeException('R223_AUGUR_BINDING_FAILED');$r['record_digest']=hash('sha256',CanonicalJson::encode($r));$p=$this->directory.'/'.$id.'.json';if(is_file($p)){$x=$this->read($p,'R224_AUGUR_BINDING_CONFLICT');if(CanonicalJson::encode($x)!==CanonicalJson::encode($r))throw new \RuntimeException('R224_AUGUR_BINDING_CONFLICT');return$x;}if([]!==(glob($this->directory.'/oracle-augur-binding-*.json')?:[]))throw new \RuntimeException('R225_AUGUR_ALREADY_BOUND');if(false===file_put_contents($p,json_encode($r,JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_THROW_ON_ERROR)."\n",LOCK_EX))throw new \RuntimeException('R223_AUGUR_BINDING_FAILED');return$r;}
+    private function persist(string$id,array$r):array{if(!is_dir($this->directory)&&!mkdir($this->directory,0770,true)&&!is_dir($this->directory))throw new \RuntimeException('R223_AUGUR_BINDING_FAILED');$r['record_digest']=hash('sha256',CanonicalJson::encode($r));$p=$this->directory.'/'.$id.'.json';if(is_file($p)){$x=$this->read($p,'R224_AUGUR_BINDING_CONFLICT');if(CanonicalJson::encode($x)!==CanonicalJson::encode($r))throw new \RuntimeException('R224_AUGUR_BINDING_CONFLICT');return$x;}if([]!==(glob($this->directory.'/oracle-augur-binding-*.json')?:[]))throw new \RuntimeException('R225_AUGUR_ALREADY_BOUND');if(false===file_put_contents($p,json_encode($r,JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_THROW_ON_ERROR)."\n"))throw new \RuntimeException('R223_AUGUR_BINDING_FAILED');return$r;}
 }

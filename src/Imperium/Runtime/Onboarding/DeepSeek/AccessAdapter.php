@@ -8,7 +8,8 @@ use App\Imperium\Runtime\Onboarding\Ledger\{PreparedOperation,SourceAuthority};
 final readonly class AccessAdapter implements PreparedOperation, SourceAuthority
 {
     public function __construct(private ?array $grant = null,
-        private EvidenceVerifier $evidence = new MissingEvidence(), private ?KeySource $keys = null) {}
+        private EvidenceVerifier $evidence = new MissingEvidence(), private ?KeySource $keys = null,
+        private ?\App\Imperium\Runtime\Onboarding\Augur\BaseProjection $base = null) {}
 
     /** Infrastructure identity only; authority still comes from verify() and retained originals. */
     public function requireDeliverySource(?KeySource $source): void
@@ -84,6 +85,7 @@ final readonly class AccessAdapter implements PreparedOperation, SourceAuthority
     }
     public function select(AuthorityStore $store,array $state,array $policy,array $step): array
     {
+        if ($this->base !== null) { return $this->base->select($store,$state,$policy,$step); }
         throw new \RuntimeException('O3_AUTHENTIC_SELECTION_PROJECTION_MISSING');
     }
 }

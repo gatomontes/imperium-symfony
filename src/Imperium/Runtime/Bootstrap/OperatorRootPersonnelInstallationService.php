@@ -10,15 +10,22 @@ final readonly class OperatorRootPersonnelInstallationService
 {
     private string $root;
     private string $officeRoot;
+    private OperatorRootOwnership $ownership;
 
     public function __construct(
         #[Autowire("%kernel.project_dir%")] string $projectDir,
     ) {
         $this->root = $projectDir . "/var/imperium/operator-root";
         $this->officeRoot = $projectDir . "/var/imperium/offices";
+        $this->ownership = new OperatorRootOwnership($projectDir);
     }
 
     public function install(array $package): array
+    {
+        return $this->ownership->native(fn(): array => $this->installOwned($package));
+    }
+
+    private function installOwned(array $package): array
     {
         if (is_file($this->root . "/operationalization-seal.json")) {
             throw new \RuntimeException("B212_OPERATOR_ROOT_WINDOW_CLOSED");
@@ -575,7 +582,6 @@ final readonly class OperatorRootPersonnelInstallationService
                             JSON_UNESCAPED_SLASHES |
                             JSON_THROW_ON_ERROR,
                     ) . "\n",
-                    LOCK_EX,
                 ) ||
             !rename($tmp, $path)
         ) {

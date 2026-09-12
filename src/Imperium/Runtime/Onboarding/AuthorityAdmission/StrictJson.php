@@ -13,10 +13,64 @@ final class StrictJson
     public const MAX_BYTES = 1048576;
     public const MAX_DEPTH = 32;
     private int $offset = 0;
+    private static ?array $decoded=null;
+    private static int $decodedBytes=0;
+    private static array $recordIndex=[];
+    private static int $encodedBytes=0;
+
+    /** Bounded, synchronous call lifetime; only pure parsing and exact-value encoding are reused. */
+    public static function within(callable $validation):mixed
+    {
+        if(self::$decoded!==null){return $validation();}
+        self::$decoded=[];self::$decodedBytes=0;self::$recordIndex=[];self::$encodedBytes=0;
+        try{return $validation();}finally{self::$decoded=null;self::$decodedBytes=0;self::$recordIndex=[];self::$encodedBytes=0;}
+    }
 
     private function __construct(private readonly string $bytes) {}
 
     public static function decode(string $bytes): mixed
+    {
+        if(strlen($bytes)>self::MAX_BYTES){throw new \InvalidArgumentException('RESPONSE_BYTE_LIMIT');}
+        if(self::$decoded===null){return self::parse($bytes);}
+        $key=hash('sha256',$bytes);
+        // Index by digest, but compare every original byte before reusing a parse.
+        if(isset(self::$decoded[$key]) && self::$decoded[$key]['raw']===$bytes){return self::$decoded[$key]['value'];}
+        $value=self::parse($bytes);$length=strlen($bytes);
+        if(count(self::$decoded)<128 && self::$decodedBytes+$length<=2097152 && !isset(self::$decoded[$key])){
+            self::$decoded[$key]=['raw'=>$bytes,'value'=>$value];self::$decodedBytes+=$length;
+            if(is_array($value) && is_string($value['schema']??null) && is_string($value['id']??null) && is_string($value['record_digest']??null)){
+                self::$recordIndex[$value['schema']."\0".$value['id']]??=$key;
+            }
+        }
+        return $value;
+    }
+
+    /** Reuse only encoding of an exact, privately retained parsed record value.
+     * Identity fields select a candidate; full strict value equality decides reuse.
+     * No record validity, signature or currentness result is retained.
+     */
+    public static function canonical(mixed $value):string
+    {
+        if(self::$decoded!==null && is_array($value) && is_string($value['schema']??null) && is_string($value['id']??null)){
+            $key=self::$recordIndex[$value['schema']."\0".$value['id']]??null;
+            if($key!==null){
+                $original=self::$decoded[$key]['value'];
+                $form=array_key_exists('record_digest',$value)?'complete':'unsigned';
+                if($form==='unsigned'){unset($original['record_digest']);}
+                // Parsed values contain no objects/references. This private snapshot cannot
+                // be changed by a caller mutating a returned value or reusing an ID/digest.
+                if($value===$original){
+                    if(isset(self::$decoded[$key][$form])){return self::$decoded[$key][$form];}
+                    $encoded=\App\Bootstrap\CanonicalJson::encode($value);
+                    if(self::$encodedBytes+strlen($encoded)<=2097152){self::$decoded[$key][$form]=$encoded;self::$encodedBytes+=strlen($encoded);}
+                    return $encoded;
+                }
+            }
+        }
+        return \App\Bootstrap\CanonicalJson::encode($value);
+    }
+
+    private static function parse(string $bytes): mixed
     {
         if (strlen($bytes) > self::MAX_BYTES) { throw new \InvalidArgumentException('RESPONSE_BYTE_LIMIT'); }
         if (str_starts_with($bytes, "\xEF\xBB\xBF") || preg_match('//u', $bytes) !== 1) {

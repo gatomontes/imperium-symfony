@@ -9,13 +9,19 @@ use App\Bootstrap\CanonicalJson;
 final readonly class FoundingAugurModelAssignmentService
 {
     private string $directory;
+    private \App\Imperium\Runtime\Bootstrap\OperatorRootOwnership $ownership;
 
     public function __construct(string $projectDir)
     {
+        $this->ownership=new \App\Imperium\Runtime\Bootstrap\OperatorRootOwnership($projectDir);
         $this->directory = $projectDir.'/var/imperium/imperator/founding-augur-model-assignments';
     }
 
     public function authorize(string $instanceId, array $request, array $imperatorAct): array
+    {
+        return $this->ownership->native(fn():array=>$this->authorizeOwned($instanceId,$request,$imperatorAct));
+    }
+    private function authorizeOwned(string $instanceId, array $request, array $imperatorAct): array
     {
         if (array_keys($request) !== ['target_seat', 'provider', 'model_id', 'model_version', 'configuration', 'clavium_access_assertion']
             || 'oracle.augur' !== $request['target_seat'] || !$this->identifier($request['provider'])
@@ -75,5 +81,5 @@ final readonly class FoundingAugurModelAssignmentService
     private function digestMatches(array $record): bool { $digest=$record['record_digest']??null;unset($record['record_digest']);return is_string($digest)&&hash_equals($digest,hash('sha256',CanonicalJson::encode($record))); }
     private function digestMatchesPrefixed(array $record): bool { $digest=$record['record_digest']??null;unset($record['record_digest']);return is_string($digest)&&hash_equals($digest,'sha256:'.hash('sha256',CanonicalJson::encode($record))); }
     private function read(string $path, string $error): array { if(!is_file($path))throw new \RuntimeException($error);return json_decode((string)file_get_contents($path),true,512,JSON_THROW_ON_ERROR); }
-    private function persist(string $id,array $record):array{$record['record_digest']=hash('sha256',CanonicalJson::encode($record));if(!is_dir($this->directory)&&!mkdir($this->directory,0770,true)&&!is_dir($this->directory))throw new \RuntimeException('I222_FOUNDING_AUGUR_ASSIGNMENT_FAILED');$path=$this->directory.'/'.$id.'.json';if(is_file($path)){$existing=$this->read($path,'I223_FOUNDING_AUGUR_ASSIGNMENT_CONFLICT');if(CanonicalJson::encode($existing)!==CanonicalJson::encode($record))throw new \RuntimeException('I223_FOUNDING_AUGUR_ASSIGNMENT_CONFLICT');return$existing;}if(false===file_put_contents($path,json_encode($record,JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_THROW_ON_ERROR)."\n",LOCK_EX))throw new \RuntimeException('I222_FOUNDING_AUGUR_ASSIGNMENT_FAILED');return$record;}
+    private function persist(string $id,array $record):array{$record['record_digest']=hash('sha256',CanonicalJson::encode($record));if(!is_dir($this->directory)&&!mkdir($this->directory,0770,true)&&!is_dir($this->directory))throw new \RuntimeException('I222_FOUNDING_AUGUR_ASSIGNMENT_FAILED');$path=$this->directory.'/'.$id.'.json';if(is_file($path)){$existing=$this->read($path,'I223_FOUNDING_AUGUR_ASSIGNMENT_CONFLICT');if(CanonicalJson::encode($existing)!==CanonicalJson::encode($record))throw new \RuntimeException('I223_FOUNDING_AUGUR_ASSIGNMENT_CONFLICT');return$existing;}if(false===file_put_contents($path,json_encode($record,JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_THROW_ON_ERROR)."\n"))throw new \RuntimeException('I222_FOUNDING_AUGUR_ASSIGNMENT_FAILED');return$record;}
 }

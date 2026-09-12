@@ -24,10 +24,11 @@ final readonly class AuthorityStore
     }
     public function state(array $state): array {
         Rules::require(isset($state['onboarding']),'TRUST_ABSENT'); $s=$state['onboarding'];
-        Rules::require(in_array($s['schema']??null,['imperium.onboarding-authority-state/v1','imperium.onboarding-authority-state/v2'],true),'STATE_VERSION');
+        Rules::require(in_array($s['schema']??null,['imperium.onboarding-authority-state/v1','imperium.onboarding-authority-state/v2','imperium.onboarding-authority-state/v3'],true),'STATE_VERSION');
         $keys=['schema','trust','acts','policies','evidence','revocations','admissions'];
-        if ($s['schema']==='imperium.onboarding-authority-state/v2') {
+        if ($s['schema']!=='imperium.onboarding-authority-state/v1') {
             $keys=[...$keys,'migration',...\App\Imperium\Runtime\Onboarding\Ledger\StateMigration::MAPS];
+            if($s['schema']==='imperium.onboarding-authority-state/v3'){$keys[]='augur_migration';}
             \App\Imperium\Runtime\Onboarding\Ledger\LedgerState::validate($s);
         }
         Rules::object($s,$keys);
@@ -56,6 +57,9 @@ final readonly class AuthorityStore
         return $h;
     }
     public function checkSource(array $s,mixed $ref,array $path=[],int $depth=0,?int &$visits=null): array {
+        return StrictJson::within(function()use($s,$ref,$path,$depth,&$visits):array{return $this->checkSourceOriginal($s,$ref,$path,$depth,$visits);});
+    }
+    private function checkSourceOriginal(array $s,mixed $ref,array $path,int $depth,?int &$visits):array {
         $visits??=0; Rules::require(++$visits<=8192,'SOURCE_VISIT_LIMIT');
         Rules::require($depth<=16,'SOURCE_DEPTH'); $k=Rules::key($ref); Rules::require(!isset($path[$k]),'SOURCE_CYCLE'); $path[$k]=true;
         $h=$this->lookup($s,$ref); Rules::require($h['created_at']<=$this->now(),'FUTURE_SOURCE');
