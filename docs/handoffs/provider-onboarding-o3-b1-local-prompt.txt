@@ -1,0 +1,35 @@
+Implement O3-B1: the selected FRESH Augur binding and governed cognition bridge. Ad Imperium.
+
+Read first:
+- docs/next-campaign-provider-onboarding-o3-augur-cognition.md
+- contracts/provider-onboarding-augur-cognition.md
+- docs/reviews/provider-onboarding-o3-b0-correction-acceptance.md
+- docs/provider-onboarding/o3-b0-reviewed-integration.json
+- docs/provider-onboarding-policy-approval.md
+- docs/provider-onboarding-current-decision-evidence-card.md
+- docs/provider-onboarding-prerequisites.md
+- contracts/provider-onboarding-authority-admission.md
+- contracts/provider-onboarding-continuation.md
+- contracts/provider-onboarding-ledger-custody.md
+- contracts/provider-onboarding-base-selection.md
+- contracts/provider-onboarding-response-validation.md
+- contracts/provider-onboarding-retries.md
+- docs/provider-onboarding-o3-b0-correction-design.md
+
+Entry must include this preparation and integrated O3-B0 (merge 32bb8d76424d6b7447cc423cb7932af35b1f074e). Record the actual clean entry commit/tree. Work in an isolated new worktree; do not reset or reuse another dirty worktree.
+
+Execute one bounded implementation run, not another preparation-only pass. Inspect the actual source owners. Declare internal schemas/ownership before coding in a short design note, implement the missing source projections and FRESH holder/cognition bridge, add meaningful tests, then update the documentation once after implementation.
+
+Use the real O1 base selector on authentic retained input projections. Resolve the existing approved eligible_binding founding rule from completed base evidence and permitted exact originals. Implement legitimate constitutional FRESH founding and holder binding with serialized root/window consumption and original producer-backed completion. FRESH is distinct from legacy standing ceremonies; preserve refusal of unsupported standing/existing-installation cutover. Do not invent occupancy, approval, window, commission, source-effect or completion facts to make the graph advance.
+
+Connect actual W1/W2/W3 preparation and semantic validation through the O2 coordinator and corrected DeepSeek Runtime. Keep one exact readonly-bound KeySource for verification and delivery, private custody ports, authentic holder/commission currentness at every boundary, exact approved wire, trustworthy tokenizer/tariff/account evidence, shared FC/onboarding budgets, immutable envelopes, one-use claims and evidence-only recovery. Positive offline integration must use real production producers/resolvers with synthetic temporary-root authority/evidence and an exact mock transport. Reflection is for negative boundary/fault tests only, not the positive dispatch path.
+
+Preserve approved DeepSeek/API-key, FRESH, D2-A and P1-P9 decisions. Do not ask for them again. Keep the actual retry allowlist empty and all five operational flags false. Missing genuine production evidence remains refusal. No real provider requests, credentials, installed-state reads/writes, live enrollment/founding/appointment/activation, OAuth, target-assignment application or CLI work. The provisional founding base binding is within O3-B1; persistent whole-set Courtthane/Locksmith application is O4-B0. No subagents.
+
+Preserve old signed/approved bytes, original tests/fixtures, O2/O3 reviewer regressions, source pins, frozen inventory snapshots, legacy consumer semantics, service configuration and dependency locks. Narrow source-owner/O2/DeepSeek seams are allowed only when indispensable and accompanied by explicit compatibility/atomicity proof. Do not relabel legacy authority, add a second consumption journal or widen an allowlist to bypass missing producers. Any state extension needs explicit bounded versioning and preservation tests.
+
+Execute the campaign proof matrix, all new tests and existing O1/O2/O3/FC/native/reviewer/inventory selections, changed PHP lint, non-debug kernel smoke and tools/check_provider_onboarding_spec.py. Use PHP >=8.4 and locked dependencies. Capture complete commands/exits/logs and final tested project PHP snapshot/hashes. Keep development failures separate from final proof; inherited or targeted results are not fresh full CI. Fix concrete in-scope failures without weakening assertions.
+
+Commit the bounded implementation. Return provider-onboarding-o3-b1-all-deliverables.zip plus individual report/instructions, including canonical files, exact patch, incremental Git bundle, entry/tested/final identities, tested-source snapshot/hashes, protected-original comparison and all logs/manifests. Include an inner review ZIP with SHA-256; no outer checksum and no recursive historical archives. Never commit raw private evidence or runtime state.
+
+Stop for source review and fresh complete hosted CI before integration. Do not push/merge this local implementation or start O4/O5. If a required source seam cannot be closed, report the exact blocker with completed code/evidence; do not fabricate authority or stop at a replacement planning document.

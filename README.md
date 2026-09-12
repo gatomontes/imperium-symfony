@@ -1,3 +1,24 @@
+# Current campaign and flow — O3-B0 integrated; O3-B1 selected
+
+O3-B0 is accepted and integrated through PR #792 at `32bb8d76424d6b7447cc423cb7932af35b1f074e`. The accepted tree passed fresh full CI: 3,612 tests / 56,618 assertions / four skips in 17:16.006. [Acceptance](docs/reviews/provider-onboarding-o3-b0-correction-acceptance.md).
+
+Next: [O3-B1 FRESH Augur binding and governed cognition](docs/next-campaign-provider-onboarding-o3-augur-cognition.md). [Prompt and pull commands](docs/handoffs/provider-onboarding-o3-augur-cognition-ready.md).
+
+| Stage | Current state |
+| --- | --- |
+| O0, O1 and O2 | Integrated within their approved offline scope |
+| O3-B0 adapter and custody | Complete, corrected and integrated |
+| O3-B1 FRESH Augur binding/cognition | Selected for one local implementation run |
+| O4-B0 atomic target assignments | Follows O3-B1 acceptance/integration |
+| O5-B0 offline CLI journey | Follows O4-B0 |
+| Live commissioning and existing-installation cutover | Separately deferred |
+
+Current flow: admitted originals → eligible least-cost base proposal → exact approved runtime map → legitimate constitutional FRESH holder → separately authorized W1 → validated W2 → validated W3 → **stop before O4 application**. The bridge preserves O2/O3 one-use custody, same-source credential binding, shared exposure, frozen inputs and evidence-only recovery. No provider request or installation is performed by this preparation. Three planned implementation batches remain; all five operational flags stay false and actual retries remain disabled.
+
+---
+
+## Historical content (prior statuses/counts below are superseded above)
+
 # Current campaign — O3-B0 DeepSeek adapter
 
 O2 is accepted and integrated through PR #790, merge `9b50d53362e44af1d628034ad6153985b9a24d1c`. Its exact tree passed fresh full CI: 3,536 tests / 56,244 assertions / four skips.
