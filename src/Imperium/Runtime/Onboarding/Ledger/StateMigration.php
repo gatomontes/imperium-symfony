@@ -11,7 +11,7 @@ final readonly class StateMigration
         R::head($expectedHead);
         return $this->store->journal->changeAtHead(function(array &$state,array $head)use($expectedHead):array {
             $s=$this->store->state($state);
-            if (in_array($s['schema'],['imperium.onboarding-authority-state/v2','imperium.onboarding-authority-state/v3'],true)) { return $s['migration']; }
+            if (in_array($s['schema'],['imperium.onboarding-authority-state/v2','imperium.onboarding-authority-state/v3','imperium.onboarding-authority-state/v4'],true)) { return $s['migration']; }
             R::require(R::same($head,$expectedHead),'STALE_HEAD');$trust=$this->store->currentTrust($s);
             $preserved=$s;unset($preserved['schema']);
             $record=$this->store->make('imperium.bootstrap-state-migration/v1','migration-'.substr(R::hash($s),7,24),[

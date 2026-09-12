@@ -9,7 +9,9 @@ final class Policy
 {
     public static function validate(array $h,callable $source): void {
         $b=Rules::object($h['body'],['policy_version','installation_mode','provider','adapter_ref','credential_ref','candidate_bindings','targets','workload_ref','requirements_ref','evidence_policy','limits','allowed_effects','budget_ref','steps','effect_slots','assessment_groups','application_mode','expected_assignments','expires_at']);
-        Rules::require($h['schema']==='imperium.operator-bootstrap-policy/v1' && $b['policy_version']==='o2-fresh-v1' && $b['installation_mode']==='FRESH' && $b['provider']==='deepseek' && $b['application_mode']==='A','POLICY_ROUTE');
+        Rules::require($h['schema']==='imperium.operator-bootstrap-policy/v1' && $b['policy_version']==='o2-fresh-v1' && $b['installation_mode']==='FRESH' && $b['provider']==='deepseek' && in_array($b['application_mode'],['A','B'],true),'POLICY_ROUTE');
+        $applicationSlots=array_values(array_filter(Shape::list($b['effect_slots']),static fn(mixed $slot):bool=>is_array($slot) && ($slot['effect']??null)==='APPLY_BOOTSTRAP_ASSIGNMENTS'));
+        Rules::require(count($applicationSlots)===1 && $applicationSlots[0]['authority_mode']===($b['application_mode']==='A'?'policy_effect':'signed_act'),'POLICY_ROUTE');
         Rules::time($b['expires_at']); Rules::require($b['expires_at']>$h['created_at'] && $b['expires_at']-$h['created_at']<=1800,'POLICY_LIFETIME');
         Rules::require(Rules::same($b['limits'],json_decode(SelectedPolicy::LIMITS,true,512,JSON_THROW_ON_ERROR)),'APPROVED_LIMITS');
         Rules::require(Rules::same($b['evidence_policy'],['freshness_ms'=>json_decode(SelectedPolicy::FRESHNESS,true,512,JSON_THROW_ON_ERROR),'data_scope'=>'PUBLIC_ONLY','retryable_failure_allowlist'=>[]]),'EVIDENCE_POLICY');

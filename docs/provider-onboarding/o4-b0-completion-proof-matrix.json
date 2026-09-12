@@ -1,0 +1,122 @@
+{
+  "stage": "O4-B0",
+  "status": "IMPLEMENTED_OFFLINE_PROOFS_COMPLETE_REVIEW_REQUIRED",
+  "implementation_complete": true,
+  "resumption_entry_commit": "4098f5a2cf1ebfdba952b2c6ac37e2f9a7eb1e5f",
+  "tested_commit": "cbeb218fbdd02254816517b44fd6e87398be0616",
+  "required_pass_labels": [
+    "owners-final",
+    "signed-boundary-final",
+    "selection-final",
+    "compatibility-final",
+    "migration-legacy-final",
+    "inventories-final",
+    "settings-rotation",
+    "lint-final",
+    "kernel-smoke",
+    "dependencies"
+  ],
+  "operational_flags": {
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "live_ready": false,
+    "activation": false,
+    "execution_authority": false
+  },
+  "actual_retry_allowlist": [],
+  "full_local_suite": {
+    "command": [
+      "C:/php/php-8.4/php.exe",
+      "vendor/bin/phpunit",
+      "tests"
+    ],
+    "cwd": "E:\\htdocs\\imperium-onboarding-o4-b0-completion",
+    "exit": 124,
+    "seconds": 1800.607,
+    "timeout_seconds": 1800,
+    "timed_out": true,
+    "php_unchanged_during_run": true
+  },
+  "fresh_full_hosted_ci": "NOT_RUN",
+  "contract_proofs": [
+    {
+      "id": 1,
+      "title": "Producer-backed application and restart",
+      "status": "PROVED_OFFLINE",
+      "evidence_labels": [
+        "owners-final",
+        "settings-rotation"
+      ],
+      "proved": "Actual O1/O2/O3 producers create W1/W2/W3 claims, custody, frozen originals and semantic evidence; O4 derives the contract view and applies exact tuples/Profile/configuration identities. A separate PHP process resolves the committed pair."
+    },
+    {
+      "id": 2,
+      "title": "Exact selection and whole-pair refusal",
+      "status": "PROVED_OFFLINE",
+      "evidence_labels": [
+        "selection-final",
+        "compatibility-final",
+        "owners-final"
+      ],
+      "proved": "Producer-backed zero, sole, multiple tied, ranked two-tier lower-middle, unknown-order and coupled-pair boundaries. Original typed selector/parser cases cover odd/even tiers, equivalent identities, permutations, entire FIT coverage, malformed/duplicate/extra ranks and role/Profile scope. No fallback or application consumption on refusal."
+    },
+    {
+      "id": 3,
+      "title": "Authority and fresh-use refusal",
+      "status": "PROVED_OFFLINE",
+      "evidence_labels": [
+        "signed-boundary-final",
+        "compatibility-final",
+        "settings-rotation"
+      ],
+      "proved": "A policy-derived application and B distinct signed act. Missing/wrong-scope act, stale head/predecessor, same-ID conflict, expired policy/trust, revoked act/policy/issuer, Profile/binding generation changes, unavailable model, missing semantic port/originals, corrupt response/raw original/fence/alternate application entry refuse without writes or HTTP. Settings consumer checks exact model/generation and preserves prepared transport."
+    },
+    {
+      "id": 4,
+      "title": "Replay and competing whole-pair writers",
+      "status": "PROVED_OFFLINE",
+      "evidence_labels": [
+        "owners-final",
+        "signed-boundary-final",
+        "settings-rotation"
+      ],
+      "proved": "Same-ID replay and conflict; cross-ID duplicate, cross-policy/sequence ID refusal; concurrent initial writers and concurrent independently signed replacements against one predecessor produce one winner. Consumed initial authority is not reopened."
+    },
+    {
+      "id": 5,
+      "title": "Publication interruption and recovery",
+      "status": "PROVED_OFFLINE",
+      "evidence_labels": [
+        "owners-final",
+        "signed-boundary-final"
+      ],
+      "proved": "Real process exit before the fsynced-file rename leaves zero application; exit immediately after successful rename retains one complete pair. Fresh-process snapshot/resolve, response-loss replay and evidence-only Recovery.resume preserve application history. This is a process-interruption proof, not arbitrary machine power-loss durability."
+    },
+    {
+      "id": 6,
+      "title": "Persistent settings and explicit replacement",
+      "status": "PROVED_OFFLINE",
+      "evidence_labels": [
+        "owners-final",
+        "signed-boundary-final",
+        "settings-rotation"
+      ],
+      "proved": "Exact settings survive process restart, unavailability, credential rotation, replacement, expiry and revocation. New use fails on currentness/generation failure with no substitute. Fresh signed whole-pair replacement advances both generations; stale/unauthorized changes refuse. Revalidation does not write, spend a right or fetch a catalogue. Catalogue state has no input path into historical snapshot/replay; no catalogue polling/reassignment is implemented or claimed."
+    },
+    {
+      "id": 7,
+      "title": "Migration, preservation and regression gates",
+      "status": "PROVED_OFFLINE",
+      "evidence_labels": [
+        "migration-legacy-final",
+        "compatibility-final",
+        "inventories-final",
+        "lint-final",
+        "kernel-smoke",
+        "dependencies"
+      ],
+      "proved": "Explicit bounded v4 migration preserves signed/raw original maps and prior consumption and refuses malformed versions. Original O1/O2/O3, FC/native/reviewer/R1/R2 and frozen-inventory checks are exercised; protected originals and test fixtures are byte-compared in the package. The unchanged full local suite was run with its 1800-second allowance; its exact result is separate. Fresh complete hosted O4 CI remains required before integration."
+    }
+  ],
+  "integration_disposition": "SOURCE_REVIEW_AND_FRESH_COMPLETE_HOSTED_O4_CI_REQUIRED; NO_PUSH_OR_MERGE"
+}

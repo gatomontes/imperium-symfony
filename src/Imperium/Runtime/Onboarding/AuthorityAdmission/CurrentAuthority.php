@@ -15,7 +15,7 @@ final class CurrentAuthority
                 $p=Act::verify($store,$s,$a['envelope'],$a['object']);
                 Rules::require($p['effect']===$effect && Rules::same(Rules::reference($a['object']),$termsRef),'EXACT_TERMS');
                 $terms=$store->checkSource($s,$termsRef);
-                if ($p['policy_ref']!==null) { Admission::signedTerms($store->checkSource($s,$p['policy_ref']),$terms,$effect,$store->now()); }
+                if ($p['policy_ref']!==null) { Admission::signedTerms($store->checkSource($s,$p['policy_ref']),$terms,$effect,$store->now(),fn(array $ref):array=>$store->checkSource($s,$ref)); }
             } else {
                 Rules::object($authority,['kind','policy_ref','policy_admission_ref','slot_id','slot_digest','terms_ref','derivation_input_refs']);
                 $a=self::findAdmission($s,$authority['policy_admission_ref']);
@@ -27,7 +27,7 @@ final class CurrentAuthority
                 Rules::require($slot['effect']===$effect && $slot['authority_mode']==='policy_effect' && Rules::hash($slot)===$authority['slot_digest'] && $store->now()<$slot['expires_at'],'SLOT_SCOPE');
                 Rules::require(Rules::same($authority['terms_ref'],$termsRef),'TERMS_REF');
                 Rules::refs($authority['derivation_input_refs']);
-                 $derived=$slot['terms_rule']['kind']==='exact'?['terms_ref'=>$slot['terms_rule']['object_ref'],'derivation_input_refs'=>[]]:\App\Imperium\Runtime\Onboarding\Augur\FoundingRule::derive($s,$policy,$slot,fn(array $ref):array=>$store->checkSource($s,$ref));
+                 $derived=\App\Imperium\Runtime\Onboarding\Assignment\TermsDerivation::derive($s,$policy,$slot,fn(array $ref):array=>$store->checkSource($s,$ref));
                 Rules::require(Rules::same($authority['derivation_input_refs'],$derived['derivation_input_refs']) && Rules::same($derived['terms_ref'],$termsRef),'EXACT_DERIVATION');
                 $terms=$store->checkSource($s,$termsRef);
                 // Even ordinary dependencies require future completed progression receipts.

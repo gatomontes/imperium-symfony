@@ -93,7 +93,7 @@ final readonly class FormationCognition
     {
         return $this->journal->change(function (array &$state) use ($intakeId, $phase, $terms, $decision): string {
             $source = $this->source($state, $intakeId, $phase);
-            if (!FormationJournal::keys($terms, array_merge(['source', 'provider', 'model', 'destination', 'pricing', 'per_call', 'total', 'visible_intakes', 'disclosure', 'expires_at'], array_key_exists('transport', $terms) ? ['transport'] : []))
+            if (!FormationJournal::keys($terms, array_merge(['source', 'provider', 'model', 'destination', 'pricing', 'per_call', 'total', 'visible_intakes', 'disclosure', 'expires_at'], array_key_exists('transport', $terms) ? ['transport'] : [], array_key_exists('model_settings', $terms) ? ['model_settings'] : []))
                 || FormationJournal::digest($terms['source']) !== FormationJournal::digest($source['authorization_source'])
                 || !is_int($terms['expires_at']) || $terms['expires_at'] <= $this->clock->now()->getTimestamp()
                 || !is_array($terms['visible_intakes']) || !array_is_list($terms['visible_intakes'])
@@ -109,6 +109,7 @@ final readonly class FormationCognition
                 if (!is_string($id) || !isset($state['intakes'][$id])) { throw new \RuntimeException('CMF053_SESSION_TERMS_INVALID'); }
             }
             if (array_key_exists('transport', $terms)) { FormationPreparedOperation::authorization($terms['transport']); }
+            if (array_key_exists('model_settings', $terms)) { \App\Imperium\Runtime\Onboarding\Assignment\AssignmentRule::settingShape($terms['model_settings']); }
             SessionExposure::validate($terms['per_call']);
             SessionExposure::validate($terms['total']);
             if ($terms['per_call']['calls'] !== 1) { throw new \RuntimeException('CMF053_SESSION_TERMS_INVALID'); }

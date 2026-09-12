@@ -73,7 +73,7 @@ final readonly class Admission
                 self::terms($h,$p['effect']);
                 $policy=$this->store->checkSource($s,$p['policy_ref']);
                 Rules::require(in_array($p['effect'],$policy['body']['allowed_effects'],true),'POLICY_EFFECT');
-                self::signedTerms($policy,$h,$p['effect'],$this->store->now());
+                self::signedTerms($policy,$h,$p['effect'],$this->store->now(),$visit);
                 $visit($h['body']['terms']);
                 // Retention preserves prerequisites, but does not claim they have completed.
                 foreach ($h['body']['required_completed_refs'] as $ref) { $visit($ref); }
@@ -90,11 +90,12 @@ final readonly class Admission
             }
             $s['acts'][$key]=['record'=>$act,'envelope'=>$e,'object'=>$h,'raw_envelope'=>$envelopeJson,'raw_object'=>$objectJson,'fingerprint'=>$fingerprint];
             Rules::require(count($s['evidence'])+count($s['policies'])<=8192,'SOURCE_STORE_LIMIT');
-            $s['admissions'][$key]=$receipt; if(in_array($s['schema'],['imperium.onboarding-authority-state/v2','imperium.onboarding-authority-state/v3'],true)){\App\Imperium\Runtime\Onboarding\Ledger\LedgerState::validate($s);} $state['onboarding']=$s;
+            $s['admissions'][$key]=$receipt; if(in_array($s['schema'],['imperium.onboarding-authority-state/v2','imperium.onboarding-authority-state/v3','imperium.onboarding-authority-state/v4'],true)){\App\Imperium\Runtime\Onboarding\Ledger\LedgerState::validate($s);} $state['onboarding']=$s;
             return ['status'=>'ORIGINAL_ADMITTED','admission'=>$receipt,'current_authority'=>false,'effect_completed'=>false,'authority_consumed'=>false];
         });
     }
     public static function support(array $h): void {
+        if($h['schema']==='imperium.bootstrap-assignment-selection-rule/v1'){\App\Imperium\Runtime\Onboarding\Selection\SelectionRule::decode($h['body']);return;}
         if ($h['schema']==='imperium.bootstrap-proposed-terms/v1') { self::terms($h,$h['body']['effect']??''); return; }
         Rules::require($h['schema']==='imperium.bootstrap-source/v1','UNSUPPORTED_SOURCE_SCHEMA');
         $b=Rules::object($h['body'],['kind','content','content_digest','limitations']); Rules::text($b['kind']); Rules::text($b['content']); Rules::text($b['limitations']);
@@ -107,15 +108,19 @@ final readonly class Admission
         $sources=array_map(Rules::key(...),$h['sources']);
         foreach ([$b['terms'],...$b['required_completed_refs']] as $ref) { Rules::require(in_array(Rules::key($ref),$sources,true),'TERMS_SOURCE_LINK'); }
     }
-    public static function signedTerms(array $policy,array $object,string $effect,int $now): void {
+    public static function signedTerms(array $policy,array $object,string $effect,int $now,?callable $load=null): void {
         $matches=[];
         foreach ($policy['body']['effect_slots'] as $slot) {
             if ($slot['effect']!==$effect || $slot['authority_mode']!=='signed_act') { continue; }
             $rule=$slot['terms_rule'];
             if (($rule['kind']==='exact' && Rules::same($rule['object_ref'],Rules::reference($object)))
+                || ($rule['kind']==='assessed_assignment_set' && $load!==null && \App\Imperium\Runtime\Onboarding\Assignment\ChangeAuthority::initialTerms($policy,$object,$load))
                 || ($rule['kind']==='eligible_binding' && in_array(Rules::key(Rules::reference($object)),array_map(Rules::key(...),$rule['permitted_object_refs']),true))) {
                 $matches[]=$slot;
             }
+        }
+        if($matches===[] && $effect==='APPLY_BOOTSTRAP_ASSIGNMENTS' && $load!==null){
+            \App\Imperium\Runtime\Onboarding\Assignment\ChangeAuthority::scope($policy,$object,$load);return;
         }
         Rules::require($matches!==[],'SIGNED_TERMS_OUTSIDE_POLICY');
         // The envelope has no slot selector; never substitute another matching/live slot.
