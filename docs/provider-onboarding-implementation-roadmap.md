@@ -1,3 +1,26 @@
+# Current campaign and flow — O3 integrated; O4-B0 selected
+
+O3 is closed within its offline engineering scope. O3-B1 was accepted and merged through PR #794 at `61d3f555d4bc903437687d454f05f4484ff538c4`, tree `f7e10635a7d6992ea50de4a47ef2654e943e1ff7`. Fresh full hosted CI passed 3,664 tests / 57,357 assertions / four skips in 22:39.689. R1 and R2 are resolved; diagnostic PRs #795/#796 are closed without merging. [O3 closure](handoffs/provider-onboarding-o3-complete.md), [acceptance](reviews/provider-onboarding-o3-b1-acceptance.md), [integration identities](provider-onboarding/o3-b1-reviewed-integration.json).
+
+Next: [O4-B0 atomic persistent Courtthane/Locksmith model settings](next-campaign-provider-onboarding-o4-assignment-application.md). [Full prompt and pull commands](handoffs/provider-onboarding-o4-assignment-application-ready.md).
+
+| Stage | Current state |
+| --- | --- |
+| O0, O1 and O2 | Integrated within their approved offline scope |
+| O3-B0 adapter and custody | Complete, corrected and integrated through PR #792 |
+| O3-B1 FRESH Augur binding/cognition | Complete, corrected and integrated through PR #794 |
+| O4-B0 atomic target assignments | Selected for one local implementation run |
+| O5-B0 offline CLI journey | Follows accepted O4-B0 integration |
+| Live commissioning and existing-installation cutover | Separately deferred |
+
+Integrated flow: admitted originals → eligible least-cost base → exact approved runtime map → constitutional FRESH holder → separately authorized and validated W1/W2/W3. O4 adds original-backed target selection → one authorized atomic whole-set settings application → persistent resolution and explicit operator change/revalidation. These settings do not appoint personnel or authorize invocation.
+
+Two planned implementation batches remain: O4-B0 and O5-B0. Preparation and defect corrections are not extra planned batches. This preparation changes documentation only; all five operational flags stay false and actual retries remain disabled.
+
+---
+
+## Historical content (prior statuses/counts below are superseded above)
+
 # Current campaign and flow — O3-B0 integrated; O3-B1 selected
 
 O3-B0 is accepted and integrated through PR #792 at `32bb8d76424d6b7447cc423cb7932af35b1f074e`. The accepted tree passed fresh full CI: 3,612 tests / 56,618 assertions / four skips in 17:16.006. [Acceptance](reviews/provider-onboarding-o3-b0-correction-acceptance.md).

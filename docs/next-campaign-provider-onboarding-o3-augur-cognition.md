@@ -1,3 +1,5 @@
+> Current status: O3 is accepted, integrated and closed. See [O3 closure](handoffs/provider-onboarding-o3-complete.md). O4-B0 is selected. The source snapshot and instructions below are historical; original approval and evidence qualifications remain intact.
+
 # Next local campaign — O3-B1 FRESH Augur binding and cognition
 
 Ad Imperium.

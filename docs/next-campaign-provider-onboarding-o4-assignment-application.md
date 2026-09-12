@@ -1,0 +1,15 @@
+# Next campaign — O4-B0 atomic assignment application
+
+O3 is complete and integrated. PR #794 merged at `61d3f555d4bc903437687d454f05f4484ff538c4`, exactly the accepted tree `f7e10635a7d6992ea50de4a47ef2654e943e1ff7`. Its fresh full hosted CI passed 3,664 tests / 57,357 assertions / four skips. [O3 closure](handoffs/provider-onboarding-o3-complete.md).
+
+Execute one local implementation run for [the O4 contract](../contracts/provider-onboarding-assignment-application.md). [Pull commands](handoffs/provider-onboarding-o4-assignment-application-ready.md) and [full prompt](handoffs/provider-onboarding-o4-b0-local-prompt.txt) are ready. This document selects implementation; it is not a claim that O4 runtime exists.
+
+The missing boundary is original-backed W1/W2/W3 assessment admission into the existing target selector, followed by one authorized atomic publication of both Courtthane and formation Locksmith model settings. Include persistent resolution, explicit operator change/revalidation, exact replay, contention, migration and process-interruption proof. Preserve separate personnel and invocation authority. No O5 CLI or live commissioning.
+
+Start from this preparation on top of integrated O3. Record actual clean entry commit/tree, inspect the source owners named in the contract, declare schemas and ownership in a short design note, then implement directly. Do not spend another run replacing the preparation. Preserve old approved/signed contracts and submission evidence; update current documentation after implementation with measured results and remaining blockers.
+
+Validate new tests plus original onboarding/FC/native/reviewer selections, changed PHP lint, non-debug kernel smoke and `tools/check_provider_onboarding_spec.py`; run the complete suite with PHP >=8.4 and locked dependencies. Preserve `.github/workflows/phpunit.yml`, its full command and timeout, original tests/fixtures, service configuration, dependency locks, frozen inventories and R1/R2 regressions. Record complete commands/exits/logs and all tested PHP hashes. Narrow runtime seam changes require explicit compatibility and atomicity proof.
+
+Return `provider-onboarding-o4-b0-all-deliverables.zip`, individual report and instructions. Include README, canonical changed files, exact entry-to-final patch, incremental Git bundle, clean entry/tested/final identities, tested project PHP snapshot/hashes, protected-original comparison, proof logs and manifest. Include an inner review ZIP and its SHA-256; no outer checksum or recursive historical archives. Exclude private evidence, credentials, installed state, dependencies and generated caches. Provide a direct PowerShell download command when publishing the packet; do not rely solely on an in-chat link.
+
+The local implementation stops before push/merge for source review and fresh full hosted CI. O4 is complete only after accepted integration; then O5-B0 completes the offline CLI journey. Two planned implementation batches remain at this preparation. All operational flags remain false and actual retries remain disabled.
