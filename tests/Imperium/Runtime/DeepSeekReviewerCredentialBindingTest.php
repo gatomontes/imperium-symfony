@@ -32,15 +32,15 @@ final class DeepSeekReviewerCredentialBindingTest extends TestCase
                 return new MockResponse(DeepSeekFixture::listing());
             });
             $tick = 100;
-            $runtime = new Runtime(
+            try {
+                $runtime = new Runtime(
                 $fixture->f->store,
                 $fixture->adapter, // Validates synthetic-generation in the signed original.
                 $foreign,          // Delivers a different, unapproved generation.
                 $fixture->envelopes,
                 $http,
                 static function () use (&$tick): int { return $tick++; },
-            );
-            try {
+                );
                 $runtime->advance($fixture->f::json($fixture->request('access')));
             } catch (\RuntimeException) {
                 // Refusal is allowed; the effect and settlement must still be absent.
