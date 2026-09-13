@@ -1,0 +1,28 @@
+{
+  "input_archive_sha256": "706da5499ebe843e2fdf14bbdeee1538673553ad855232288a43305a215b5caa",
+  "verified_payloads": 69,
+  "source_files_matching_github": 3456,
+  "github_commit": "730674d642e250edf0c489158de0c793559ecb3f",
+  "github_tree": "892afbd68ad62bdc2eba9bc14927dff2e72827d2",
+  "owner_manifest_files": 1859,
+  "owner_instrumented_files": [
+    "src/Imperium/Runtime/Persistence/AtomicTransition.php",
+    "src/Imperium/Runtime/Onboarding/AuthorityAdmission/Act.php"
+  ],
+  "owner_boundaries": 113,
+  "owner_groups": 30,
+  "outside_acts": 0,
+  "owner_act_verifications": 152095,
+  "caller_totals": {
+    "FormationJournal::latest": 113,
+    "Act::verify": 152095,
+    "StateValidation::run": 722
+  },
+  "leading_custody_boundaries": 20,
+  "leading_custody_acts": 58625,
+  "leading_custody_seconds": 47.8875405,
+  "all_callback_seconds": 147.1162842,
+  "php_executed_in_this_review": false,
+  "full_ci_repeated": false,
+  "disposition": "HOLD: valid diagnostic checkpoint; no production correction or full passing gate"
+}
