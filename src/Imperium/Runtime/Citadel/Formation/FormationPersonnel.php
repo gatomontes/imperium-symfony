@@ -39,7 +39,18 @@ final readonly class FormationPersonnel
 
     public function record(array $envelope): string
     {
-        return $this->journal->change(function (array &$state) use ($envelope): string {
+        return $this->recordOwned($envelope, false);
+    }
+
+    /** New ingress; old record() never accepts this versioned envelope. */
+    public function recordModelBoundProfile(array $envelope): string
+    {
+        return $this->recordOwned($envelope, true);
+    }
+
+    private function recordOwned(array $envelope, bool $modelBound): string
+    {
+        return $this->journal->change(function (array &$state) use ($envelope, $modelBound): string {
             $payload = $envelope['payload'] ?? [];
             $delegation = $state['personnel_delegations'][$payload['delegation'] ?? ''] ?? null;
             if (!is_array($delegation)) { throw new \RuntimeException('CMF041_PERSONNEL_EVIDENCE_INVALID'); }
@@ -48,7 +59,7 @@ final readonly class FormationPersonnel
             if ($terms['actor'] !== $this->institution->actor($terms['role'])) { throw new \RuntimeException('CMF122_INSTITUTION_CHAIN_INVALID'); }
             $sig = base64_decode($envelope['signature'] ?? '', true);
             if (!FormationJournal::keys($envelope, ['payload', 'signature'])
-                || !FormationJournal::keys($payload, ['delegation', 'scope', 'kind', 'subject', 'sources', 'content', 'expires_at'])
+                || !FormationJournal::keys($payload, [...($modelBound ? ['schema'] : []), 'delegation', 'scope', 'kind', 'subject', 'sources', 'content', 'expires_at'])
                 || !is_string($sig) || strlen($sig) !== 64
                 || !sodium_crypto_sign_verify_detached($sig, CanonicalJson::encode($payload), base64_decode($terms['public_key'], true))
                 || $payload['scope'] !== $terms['scope'] || !is_int($payload['expires_at'])
@@ -67,6 +78,16 @@ final readonly class FormationPersonnel
                     throw new \RuntimeException('CMF042_PERSONNEL_SOURCE_ABSENT');
                 }
             }
+            if ($modelBound) {
+                if (($payload['schema'] ?? null) !== FormationModelBoundProfileContract::SCHEMA
+                    || $terms['role'] !== 'laboratorium' || $payload['kind'] !== 'DERIVED_PROFILE'
+                    || count($payload['sources']) !== 2
+                    || !FormationJournal::keys($payload['content'], ['seat', 'artifact'])) {
+                    throw new \RuntimeException('PPC201_MODEL_BOUND_PROFILE_INVALID');
+                }
+                $persona = $state['personnel_evidence'][$payload['sources'][0]]['payload']['content']['identity'] ?? [];
+                FormationModelBoundProfileContract::validate($payload['content']['artifact'], $persona, $payload['content']['seat']);
+            }
             $id = FormationJournal::digest($envelope);
             $state['personnel_evidence'][$id] = $envelope;
             return $id;
@@ -84,6 +105,11 @@ final readonly class FormationPersonnel
         $chain = [];
         foreach (['persona' => 'ADMITTED_PERSONA', 'suitability' => 'SUITABLE_CANDIDATE', 'profile' => 'DERIVED_PROFILE', 'examination' => 'EXAMINED_PROFILE', 'qualification' => 'QUALIFIED_MANIFESTATION'] as $field => $kind) {
             $envelope = $state['personnel_evidence'][$candidate[$field]] ?? [];
+            // Authenticate retained identity before selecting a schema validator.
+            // A corrupted new envelope must not fall back to historical rules.
+            if (FormationJournal::digest($envelope) !== $candidate[$field]) {
+                throw new \RuntimeException('PPC202_ORIGINAL_EVIDENCE_INVALID');
+            }
             $p = $envelope['payload'] ?? [];
             $d = $state['personnel_delegations'][$p['delegation'] ?? ''] ?? [];
             if (($p['kind'] ?? null) !== $kind || ($p['scope'] ?? null) !== $scope
@@ -110,12 +136,21 @@ final readonly class FormationPersonnel
         }
         $profile = $chain['profile']['content']['artifact'] ?? [];
         $persona = $chain['persona']['content']['identity'] ?? [];
-        FormationProfileContract::validate($profile, $persona, $seat);
+        $modelBound = ($chain['profile']['schema'] ?? null) === FormationModelBoundProfileContract::SCHEMA;
+        if ($modelBound) {
+            FormationModelBoundProfileContract::validate($profile, $persona, $seat);
+            foreach (['persona', 'suitability', 'profile', 'examination', 'qualification'] as $field) {
+                $this->verifyOriginal($state, $candidate[$field]);
+            }
+        } else {
+            FormationProfileContract::validate($profile, $persona, $seat);
+        }
         $findings = $chain['examination']['content']['findings'] ?? [];
         if (!FormationJournal::keys($findings, ['consistency', 'governance', 'practice', 'security'])) {
             throw new \RuntimeException('CMF125_COMPLETE_EXAMINATION_REQUIRED');
         }
         foreach ($findings as $criterion => $findingId) {
+            if ($modelBound) { $this->verifyOriginal($state, $findingId); }
             $finding = $state['personnel_evidence'][$findingId]['payload'] ?? [];
             $delegation = $state['personnel_delegations'][$finding['delegation'] ?? ''] ?? [];
             if (($finding['kind'] ?? null) !== 'SENATOR_FINDING' || ($finding['scope'] ?? null) !== $scope
@@ -161,6 +196,42 @@ final readonly class FormationPersonnel
         }
         $qualifier = $state['personnel_delegations'][$chain['qualification']['delegation']]['terms']['actor'];
         return \App\Imperium\Runtime\Conscription\FormationOfficerAssemblyService::assemble($profile, $candidate, $qualifier, $scope, $seat, $lifecycle);
+    }
+
+    /** Exact retained signed evidence, with current original delegation and actor. */
+    private function verifyOriginal(array $state, string $id): void
+    {
+        $envelope = $state['personnel_evidence'][$id] ?? [];
+        $p = $envelope['payload'] ?? [];
+        $d = $state['personnel_delegations'][$p['delegation'] ?? ''] ?? [];
+        $terms = $d['terms'] ?? [];
+        $signature = base64_decode($envelope['signature'] ?? '', true);
+        $key = base64_decode($terms['public_key'] ?? '', true);
+        $versioned = ($p['schema'] ?? null) === FormationModelBoundProfileContract::SCHEMA;
+        if (!FormationJournal::keys($envelope, ['payload', 'signature'])
+            || !FormationJournal::keys($p, [...($versioned ? ['schema'] : []), 'delegation', 'scope', 'kind', 'subject', 'sources', 'content', 'expires_at'])
+            || FormationJournal::digest($envelope) !== $id
+            || FormationJournal::digest($terms) !== ($p['delegation'] ?? null)
+            || !is_string($key) || strlen($key) !== 32 || !is_string($signature) || strlen($signature) !== 64
+            || !sodium_crypto_sign_verify_detached($signature, CanonicalJson::encode($p), $key)
+            || ($p['scope'] ?? null) !== ($terms['scope'] ?? null)
+            || !is_int($p['expires_at'] ?? null) || $p['expires_at'] <= $this->clock->now()->getTimestamp()
+            || $p['expires_at'] > ($terms['expires_at'] ?? 0)
+            || ($versioned && (($terms['role'] ?? null) !== 'laboratorium' || $p['kind'] !== 'DERIVED_PROFILE'))
+            || ($p['kind'] ?? null) !== match ($terms['role'] ?? null) {
+                'garrison' => 'ADMITTED_PERSONA', 'guildhall' => 'SUITABLE_CANDIDATE',
+                'laboratorium' => 'DERIVED_PROFILE', 'senate' => 'EXAMINED_PROFILE',
+                'conscription' => 'QUALIFIED_MANIFESTATION',
+                'senate-consistency', 'senate-governance', 'senate-practice', 'senate-security' => 'SENATOR_FINDING',
+                default => null,
+            }) {
+            throw new \RuntimeException('PPC202_ORIGINAL_EVIDENCE_INVALID');
+        }
+        $this->signatures->verify($state, $d['decision'], 'DELEGATE_PERSONNEL_EVIDENCE', $terms);
+        if ($terms['actor'] !== $this->institution->actor($terms['role'])
+            || $terms['actor']['instance_id'] !== ($state['parent_instance_id'] ?? null)) {
+            throw new \RuntimeException('CMF122_INSTITUTION_CHAIN_INVALID');
+        }
     }
 
     public function appointCastellan(array $candidate, array $decision): array

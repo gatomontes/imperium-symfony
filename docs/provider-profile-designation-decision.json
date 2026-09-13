@@ -1,0 +1,36 @@
+{
+  "schema": "imperium.profile-designation-amendment-proposal/v1",
+  "proposal_id": "PPC2-AF",
+  "status": "PROPOSED_NOT_APPROVED",
+  "baseline_commit": "88e0b5d50b07443468785750de6107c1fb2dc0dc",
+  "baseline_tree": "edd17a3b5c5133fadecd1c293d70cf9c3409cd13",
+  "proposal": "docs/provider-profile-designation-amendment.md",
+  "approval_reference": null,
+  "approved_clauses": [],
+  "requested_scope": "Approve clauses A-F for offline contract and implementation work subject to their refusal boundaries and complete acceptance gate.",
+  "targets": [
+    "courtyard.courtthane",
+    "clavium.locksmith"
+  ],
+  "steward": "laboratorium",
+  "steward_seat": "laboratorium.alchemist",
+  "new_effects_proposed": [
+    "DESIGNATE_FORMATION_PROFILE",
+    "REVOKE_FORMATION_PROFILE_DESIGNATION"
+  ],
+  "synchronization_status": "PROPOSED_IMPLEMENTATION_REQUIRED",
+  "runtime_changed": false,
+  "contracts_changed": false,
+  "implementation_handoff_conditional": true,
+  "assignment_evidence_complete": false,
+  "operational_flags": {
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "live_ready": false,
+    "activation": false,
+    "execution_authority": false
+  },
+  "native_enrollment_disposition": "DEFER_ENROLLMENT",
+  "actual_retry_allowlist": [],
+  "proposal_sha256": "c24939fd808cd5917c8057efe518787cc2448d3da60be089511e7abd6dee2984"
+}
