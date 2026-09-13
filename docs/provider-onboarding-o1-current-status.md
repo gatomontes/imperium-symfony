@@ -1,3 +1,19 @@
+# Current campaign — PPC3 native tenure synchronization; countdown 5–7
+
+The owner selected continuation with an explicit countdown. **Working estimate: 5–7 more batches to the first live Courtyard interview.** [Countdown, outcome ledger and counting rule](provider-first-interview-countdown.md); [machine record](provider-first-interview-countdown.json). Full mission execution is a later milestone.
+
+**PPC3 is selected for local offline implementation**, targeting R2 native tenure synchronization under already approved PPC2 A–F. [Campaign and acceptance tests](next-campaign-provider-native-tenure.md); [PowerShell setup and full local prompt](handoffs/provider-native-tenure-ready.md). The run must cover actual native writers, indirect lock order, registry changes and a real current Formation consumer.
+
+Preparation does not reduce the countdown. Accepted R2 closure with no new scope would move the estimate to **4–6**; a partial result earns no decrement. Every subsequent report/review must show the previous range, outcome accepted, revised range and evidence.
+
+PPC2's model-bound Profile evidence/empty initialization remains accepted. Current assignment evidence remains unavailable. Binding correspondence still needs a competent source decision; designation/application/use, combined FRESH establishment and the three provider-dependent ports remain open. This campaign grants no new model-approval jurisdiction. Root installation already takes Formation indirectly; the corrected writer inventory controls further synchronization work.
+
+Flow: accepted PPC2 component → PPC3 synchronized native tenure → competent binding correspondence and designation/application/use completion → combined FRESH establishment plus remaining provider evidence → separately authorized bounded commissioning and first interview. R4 may be combined with a compatible internal batch but cannot be omitted. All five operational flags remain false; DEFER_ENROLLMENT and the empty actual retry allowlist remain.
+
+---
+
+## Historical campaign states (current selection and countdown above control)
+
 # Current campaign and flow — PPC2 component integrated; assignment remains unavailable
 
 The model-bound Profile evidence and empty designation-initialization component is accepted and integrated through [PR #815](https://github.com/gatomontes/imperium-symfony/pull/815), merge `a601d3005080e6803717692e030d51652d50c933`, exact reviewed/tested tree `fef30e051bc18e39797248f8a9fc645557be32da`. [Receiving review](reviews/provider-profile-designation-review.md), [integration record](provider-profile-designation-reviewed-integration.json).

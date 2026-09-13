@@ -1,0 +1,96 @@
+{
+  "schema": "imperium.first-courtyard-interview-countdown/v1",
+  "milestone": "FIRST_SEPARATELY_AUTHORIZED_BOUNDED_LIVE_COURTYARD_INTERVIEW",
+  "full_mission_execution_included": false,
+  "baseline_commit": "cd3a46ba45d0b89208c68e39225a0f8e08ca6de6",
+  "baseline_tree": "451140919d570d196384b5e0802ac076c67ba579",
+  "owner_instruction": "proceed. remember countdown",
+  "remaining_batches": {
+    "minimum": 5,
+    "maximum": 7,
+    "kind": "WORKING_ESTIMATE"
+  },
+  "selected_campaign": "PPC3",
+  "selected_outcome": "R2_NATIVE_TENURE_SYNCHRONIZATION",
+  "outcomes": [
+    {
+      "id": "R1",
+      "name": "Competent native-to-O4 binding correspondence",
+      "status": "OPEN",
+      "additional_batches_min": 1,
+      "additional_batches_max": 1
+    },
+    {
+      "id": "R2",
+      "name": "Native tenure synchronization",
+      "status": "SELECTED_NOT_ACCEPTED",
+      "additional_batches_min": 1,
+      "additional_batches_max": 1
+    },
+    {
+      "id": "R3",
+      "name": "Designation lifecycle and shared assignment/use verifier",
+      "status": "OPEN",
+      "additional_batches_min": 1,
+      "additional_batches_max": 1
+    },
+    {
+      "id": "R4",
+      "name": "Combined FRESH institutional establishment",
+      "status": "OPEN_REQUIRED",
+      "additional_batches_min": 0,
+      "additional_batches_max": 1,
+      "zero_means": "Closed within another accepted internal batch, never omitted"
+    },
+    {
+      "id": "R5",
+      "name": "Account/access, base and cognition evidence",
+      "status": "OPEN",
+      "additional_batches_min": 1,
+      "additional_batches_max": 2
+    },
+    {
+      "id": "R6",
+      "name": "Separately authorized commissioning and first live interview",
+      "status": "DEFERRED",
+      "additional_batches_min": 1,
+      "additional_batches_max": 1
+    }
+  ],
+  "counting_rule": "Decrement only after receiving acceptance of a named required outcome with exact integration/validation evidence; preparation, submission and components leaving the outcome open earn no decrement. Re-estimate explicitly for new scope.",
+  "accepted_countdown_outcomes": [],
+  "potential_after_accepted_ppc3": {
+    "minimum": 4,
+    "maximum": 6,
+    "applied": false,
+    "condition": "R2 fully accepted with no new scope"
+  },
+  "ledger": [
+    {
+      "event": "BASELINE_AFTER_PPC2",
+      "range": [
+        5,
+        7
+      ],
+      "evidence": "docs/reviews/provider-profile-designation-review.md"
+    },
+    {
+      "event": "PPC3_PREPARED",
+      "range": [
+        5,
+        7
+      ],
+      "decrement": 0,
+      "evidence": "docs/next-campaign-provider-native-tenure.md"
+    }
+  ],
+  "operational_flags": {
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "live_ready": false,
+    "activation": false,
+    "execution_authority": false
+  },
+  "native_enrollment_disposition": "DEFER_ENROLLMENT",
+  "actual_retry_allowlist": []
+}
