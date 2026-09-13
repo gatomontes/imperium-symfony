@@ -31,10 +31,12 @@ final class StateValidation
     public function run():void
     {
         $s=$this->s;
-        $v3=($s['schema']??null)==='imperium.onboarding-authority-state/v3';
-        R::object($s,['schema','trust','acts','policies','evidence','revocations','admissions','migration',...StateMigration::MAPS,...($v3?['augur_migration']:[])]);
+        $v4=($s['schema']??null)==='imperium.onboarding-authority-state/v4';
+        $v3=$v4 || ($s['schema']??null)==='imperium.onboarding-authority-state/v3';
+        R::object($s,['schema','trust','acts','policies','evidence','revocations','admissions','migration',...StateMigration::MAPS,...($v3?['augur_migration']:[]),...($v4?['assignment_migration']:[])]);
         R::require($v3 || $s['schema']==='imperium.onboarding-authority-state/v2','STATE_VERSION');R::record($s['trust']);
         if($v3){\App\Imperium\Runtime\Onboarding\Augur\AugurMigration::validate($s);}
+        if($v4){\App\Imperium\Runtime\Onboarding\Assignment\AssignmentMigration::validate($s);}
         $count=0;
         foreach(['acts','policies','evidence','revocations','admissions',...StateMigration::MAPS] as $map){
             R::require(is_array($s[$map]) && ($s[$map]===[] || !array_is_list($s[$map])) && count($s[$map])<=8192,'STATE_MAP');
@@ -42,7 +44,8 @@ final class StateValidation
             if(in_array($map,StateMigration::MAPS,true)){$count+=count($s[$map]);}
         }
         R::require($count<=8192 && count($s['commands'])<=4096 && count($s['sequences'])<=256 && count($s['admissions'])<=4096 && count($s['policies'])+count($s['evidence'])<=8192,'LIMIT_EXCEEDED');
-        foreach($v3?['applications','assessment_views']:['bindings','applications','assessment_views'] as $map){R::require($s[$map]===[],'UNSUPPORTED_STATE_PRODUCER');}
+        foreach($s['applications'] as $application){R::object($application,\App\Imperium\Runtime\Onboarding\Assignment\ApplicationHistory::FIELDS);}
+        foreach($v4?[]:($v3?['applications','assessment_views']:['bindings','applications','assessment_views']) as $map){R::require($s[$map]===[],'UNSUPPORTED_STATE_PRODUCER');}
         foreach(['commands'=>['key','request','raw_digest','result','ref'],'sequences'=>['key','registration','head'],'steps'=>['key','consumption','completion'],'slots'=>['key','command_ref','authority_key'],'claims'=>['key','record','operation','maximum','settled','custody'],'budget_bindings'=>['key','record']] as $map=>$fields){foreach($s[$map] as $entry){R::object($entry,$fields);}}
         foreach(['sequences'=>'registration','steps'=>'consumption','claims'=>'record','budget_bindings'=>'record'] as $map=>$field){foreach($s[$map] as $entry){R::record($entry[$field]);}}
         foreach($s['commands'] as $entry){R::object($entry['result'],['sequence_id','command_id','request_digest','step_id','predecessor_ref','policy_ref','budget_ref','observed_head','admission_status']);LedgerState::commandRef($entry['ref']);}
@@ -63,6 +66,8 @@ final class StateValidation
                     'imperium.bootstrap-budget-binding/v1'=>['budget_ref','budget_identity','limit_ref','source_bindings','predecessor_head'],
                     'imperium.bootstrap-source-fence/v1'=>['budget_identity','source_identity','command_ref','claim_ref','reason','predecessor_head'],
                     'imperium.bootstrap-group-input/v1'=>['policy_ref','group_id','holder_ref','configuration_ref','workload_ref','resolved_input_refs','semantic_input_digest'],
+                    'imperium.bootstrap-assessment-view/v1'=>\App\Imperium\Runtime\Onboarding\Assignment\AssignmentRule::VIEW_FIELDS,
+                    'imperium.bootstrap-assignment-application/v1'=>\App\Imperium\Runtime\Onboarding\Assignment\AssignmentRule::RECEIPT_FIELDS,
                     'imperium.bootstrap-augur-holder/v1'=>\App\Imperium\Runtime\Onboarding\Augur\Holder::FIELDS,
                     default=>throw new \RuntimeException('O2_LEDGER_SCHEMA'),
                 };
@@ -74,6 +79,7 @@ final class StateValidation
         foreach($s['attempt_outcomes'] as $outcome){R::require(is_array($outcome),'OUTCOME_SHAPE');$plain=$outcome;unset($plain['record_digest']);R::require(($outcome['schema']??null)==='imperium.bootstrap-attempt-outcome/v1' && ($outcome['record_digest']??null)===R::hash($plain),'OUTCOME_SCHEMA');$this->retainRecord($outcome);}
         foreach($s['policies'] as $v){$p=$v['record'];Policy::validate($p,fn(array $ref):array=>$this->original($ref));foreach($p['body']['steps'] as $step){$this->policySteps[$p['record_digest']][$step['step_id']]=$step;}foreach($p['body']['effect_slots'] as $slot){$this->policySlots[$p['record_digest']][$slot['slot_id']]=$slot;}}
         $this->commandsAndSequences();$this->stepsAndSlots();$this->budgets();$this->claimsAndFences();$this->groupsAndOutcomes();
+        if($v4){\App\Imperium\Runtime\Onboarding\Assignment\ApplicationHistory::validate($s,fn(array $ref):array=>$this->original($ref));}
         if($v3){\App\Imperium\Runtime\Onboarding\Augur\Holder::validate($s,fn(array $ref):array=>$this->original($ref));}
     }
 
@@ -84,7 +90,7 @@ final class StateValidation
         $issuer=R::object($t['issuer'],['kind','id']);R::id($issuer['id']);R::require($issuer['kind']==='operator' && $t['competence']==='OPERATOR_BOOTSTRAP_POLICY','ENROLLMENT_COMPETENCE');
         R::require($t['fingerprint']==='sha256:'.hash('sha256',R::bytes($t['public_key'],32)),'TRUST_FINGERPRINT');R::time($t['not_before']);R::time($t['expires_at']);R::require($t['not_before']<$t['expires_at'],'TRUST_TIME');
         $effects=$this->list($t['effects']);R::require(count($effects)===count(array_unique($effects)),'ENROLLMENT_EFFECTS');foreach($effects as $effect){R::effect($effect,'signed_act');}
-        foreach(['evidence','policies'] as $map){foreach($s[$map] as $key=>$v){
+        foreach(['policies','evidence'] as $map){foreach($s[$map] as $key=>$v){
             R::object($v,['record','raw','admission_key']);$h=R::record($v['record']);$this->identity($h);R::require($key===R::key(R::reference($h)) && is_string($v['raw']) && strlen($v['raw'])<=4194304,'SOURCE_KEY');$this->equal(StrictJson::decode($v['raw']),$h,'SOURCE_BYTES');
             if($v['admission_key']===null){R::require($h['schema']==='imperium.bootstrap-enrollment/v1','UNSIGNED_SOURCE');}else{R::digest($v['admission_key']);R::require(isset($s['admissions'][$v['admission_key']]),'ADMISSION_MISSING');}
             R::require(($h['schema']==='imperium.operator-bootstrap-policy/v1')===($map==='policies'),'SOURCE_MAP');$this->retainRecord($h);
@@ -118,7 +124,7 @@ final class StateValidation
         foreach($s['commands'] as $key=>$c){
             R::object($c,['key','request','raw_digest','result','ref']);$this->tuple($c['key'],3);R::digest($c['raw_digest']);LedgerState::commandRef($c['ref']);
             $q=$c['request'];R::require(is_array($q),'COMMAND_REQUEST');
-            if(($q['schema']??null)==='imperium.provider-onboarding-resume/v2'){Recovery::request(json_encode($q,JSON_THROW_ON_ERROR));}else{CommandLedger::request(json_encode($q,JSON_THROW_ON_ERROR));R::require($q['mode']==='advance' && $q['instance_id']===$instance,'COMMAND_MODE');}
+            if(($q['schema']??null)==='imperium.provider-onboarding-resume/v2'){Recovery::request(json_encode($q,JSON_THROW_ON_ERROR));}elseif(($q['schema']??null)==='imperium.assignment-change/v1'){CommandLedger::changeRequest(json_encode($q,JSON_THROW_ON_ERROR));R::require($q['instance_id']===$instance,'COMMAND_MODE');}else{CommandLedger::request(json_encode($q,JSON_THROW_ON_ERROR));R::require($q['mode']==='advance' && $q['instance_id']===$instance,'COMMAND_MODE');}
             $this->equal($c['key'],[$instance,$q['sequence_id'],$q['command_id']],'COMMAND_KEY');R::require($key===LedgerState::key('command',$c['key']),'COMMAND_KEY');
             $result=R::object($c['result'],['sequence_id','command_id','request_digest','step_id','predecessor_ref','policy_ref','budget_ref','observed_head','admission_status']);
             $policy=$this->policy($result['policy_ref']);$this->equal($result['budget_ref'],$policy['body']['budget_ref']);R::head($result['observed_head']);$this->equal($result['observed_head'],CommandLedger::head($q['expected_head']),'COMMAND_HEAD');
@@ -130,7 +136,7 @@ final class StateValidation
                 $expected=$original['result'];$expected['command_id']=$q['command_id'];$expected['request_digest']=R::hash($q);$expected['observed_head']=CommandLedger::head($q['expected_head']);$expected['admission_status']='EVIDENCE_RECOGNITION';$this->equal($result,$expected,'RESUME_RESULT');
             }else{
                 $this->equal($q['policy_ref'],['id'=>$policy['id'],'version'=>$policy['body']['policy_version'],'digest'=>$policy['record_digest']],'COMMAND_POLICY');
-                $this->equal([$result['step_id'],$result['predecessor_ref'],$result['admission_status']],[$q['step_id'],$q['predecessor_ref'],$q['step_id']===null?'REGISTERED':'STEP_ADMITTED'],'COMMAND_RESULT');
+                $this->equal([$result['step_id'],$result['predecessor_ref'],$result['admission_status']],[$q['step_id'],$q['predecessor_ref'],$q['schema']==='imperium.assignment-change/v1'?'ASSIGNMENTS_CHANGED':($q['step_id']===null?'REGISTERED':'STEP_ADMITTED')],'COMMAND_RESULT');
             }
             R::require(isset($s['sequences'][LedgerState::key('sequence',[$instance,$q['sequence_id']])]),'COMMAND_SEQUENCE');
         }
@@ -148,7 +154,7 @@ final class StateValidation
 
     private function authority(array $policy,array $slot):array
     {
-        $derived=$slot['terms_rule']['kind']==='exact'?['terms_ref'=>$slot['terms_rule']['object_ref'],'derivation_input_refs'=>[]]:\App\Imperium\Runtime\Onboarding\Augur\FoundingRule::derive($this->s,$policy,$slot,fn(array $ref):array=>$this->original($ref));
+        $derived=\App\Imperium\Runtime\Onboarding\Assignment\TermsDerivation::derive($this->s,$policy,$slot,fn(array $ref):array=>$this->original($ref));
         $found=[];
         foreach($this->s['admissions'] as $key=>$receipt){$a=$this->s['acts'][$key];$p=$a['envelope']['payload'];
             if($slot['authority_mode']==='policy_effect' && $p['effect']==='AUTHORIZE_BOOTSTRAP_POLICY' && R::same(R::reference($a['object']),R::reference($policy))){$found[]=[['kind'=>'policy_effect','policy_ref'=>R::reference($policy),'policy_admission_ref'=>R::reference($receipt),'slot_id'=>$slot['slot_id'],'slot_digest'=>R::hash($slot),'terms_ref'=>$derived['terms_ref'],'derivation_input_refs'=>$derived['derivation_input_refs']],[$policy['instance_id'],$policy['record_digest'],$slot['slot_id']],$p];}
@@ -174,10 +180,12 @@ final class StateValidation
             if($v['completion']!==null && !$io){
                 if($step['action']==='RECORD_CONFIGURATION'){$refs=[];foreach($p['body']['candidate_bindings'] as $binding){$refs[R::key($binding['configuration_ref'])]=$binding['configuration_ref'];}$this->equal($v['completion']['body']['result_refs'],R::refs(array_values($refs)),'CONFIGURATION_COMPLETION');}
                 elseif(in_array($effect,['ADMIT_BOOTSTRAP_EVIDENCE','APPROVE_RUNTIME_BINDING_MAP'],true)){$terms=$this->original($slot['terms_rule']['object_ref']);$this->equal($v['completion']['body']['result_refs'],[$terms['body']['terms']],'EFFECT_COMPLETION');}
-                elseif($effect==='CONSTITUTE_FOUNDING_AUGUR'){R::require($s['schema']==='imperium.onboarding-authority-state/v3' && count($v['completion']['body']['result_refs'])===1,'FOUNDING_COMPLETION');$holder=$this->original($v['completion']['body']['result_refs'][0]);R::require($holder['schema']==='imperium.bootstrap-augur-holder/v1','FOUNDING_COMPLETION');$this->equal($holder['body']['command_ref'],$c['ref'],'FOUNDING_COMMAND');}
+                elseif($effect==='CONSTITUTE_FOUNDING_AUGUR'){R::require(in_array($s['schema'],['imperium.onboarding-authority-state/v3','imperium.onboarding-authority-state/v4'],true) && count($v['completion']['body']['result_refs'])===1,'FOUNDING_COMPLETION');$holder=$this->original($v['completion']['body']['result_refs'][0]);R::require($holder['schema']==='imperium.bootstrap-augur-holder/v1','FOUNDING_COMPLETION');$this->equal($holder['body']['command_ref'],$c['ref'],'FOUNDING_COMMAND');}
+                elseif($effect==='APPLY_BOOTSTRAP_ASSIGNMENTS'){R::require($s['schema']==='imperium.onboarding-authority-state/v4' && count($v['completion']['body']['result_refs'])===1,'APPLICATION_COMPLETION');$receipt=$this->original($v['completion']['body']['result_refs'][0]);$application=$s['applications'][R::key(R::reference($receipt))]??null;R::require($application!==null && R::same($application['command_ref'],$c['ref']),'APPLICATION_COMPLETION');}
                 else{R::require($step['action']==='SELECT_BASE' && $v['completion']['body']['result_refs']!==[],'UNSUPPORTED_COMPLETION');}
             }
         }
+        foreach(\App\Imperium\Runtime\Onboarding\Assignment\ApplicationHistory::replacementSlots($s) as $key=>$slot){R::require(!isset($expectedSlots[$key]) && !isset($used[R::hash($slot['authority_key'])]),'AUTHORITY_ALREADY_CONSUMED');$expectedSlots[$key]=$slot;$used[R::hash($slot['authority_key'])]=true;}
         $this->equal($s['slots'],$expectedSlots,'SLOT_LINKS');
     }
 

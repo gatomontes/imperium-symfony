@@ -35,7 +35,7 @@ final readonly class AugurAdapter implements ContextualPreparedOperation,SourceA
     }
     private function resolveContext(AuthorityStore $store,array $state,array $policy,array $step,array $terms):array
     {
-        $s=$store->state($state);R::require($s['schema']==='imperium.onboarding-authority-state/v3' && $terms['body']['effect']==='AUTHORIZE_BOOTSTRAP_ASSESSMENT'
+        $s=$store->state($state);R::require(in_array($s['schema'],['imperium.onboarding-authority-state/v3','imperium.onboarding-authority-state/v4'],true) && $terms['body']['effect']==='AUTHORIZE_BOOTSTRAP_ASSESSMENT'
             && R::same($this->step($policy,$terms),$step),'COMMISSION_STEP');
         $originals=[];$load=function(array $ref)use($store,$s,&$originals):array{$key=R::key($ref);if(isset($originals[$key])){return $originals[$key];}$h=$store->checkSource($s,$ref);$originals[$key]=$h;return $h;};
         $load(R::reference($policy));$load(R::reference($terms));$source=$load($terms['body']['terms']);$c=Policy::content($source,'augur-assessment-commission');
@@ -95,6 +95,26 @@ final readonly class AugurAdapter implements ContextualPreparedOperation,SourceA
     public function validateResponse(AuthorityStore $store,array $state,array $policy,string $effect,array $operation,array $envelope):string
     {
         if($effect==='AUTHORIZE_BOOTSTRAP_ACCESS'){return $this->access->validateResponse($store,$state,$policy,$effect,$operation,$envelope);}
+        [$context,$mapped]=$this->responseContext($store,$state,$policy,$operation,$envelope);
+        if($mapped['finish_reason']!=='stop'){return 'TERMINAL_FAILURE';}
+        try{$this->parseAssessment($context,$mapped);}
+        catch(\InvalidArgumentException|\RuntimeException){return 'TERMINAL_FAILURE';}return 'SUCCEEDED';
+    }
+    /** Internal locked-owner port. Rechecks current evidence; its return is not authority. */
+    public function verifiedAssessment(AuthorityStore $store,array $state,array $policy,array $operation,array $envelope):ParsedResponse
+    {
+        [$context,$mapped]=$this->responseContext($store,$state,$policy,$operation,$envelope);
+        R::require($mapped['finish_reason']==='stop','ASSESSMENT_INCOMPLETE');
+        return $this->parseAssessment($context,$mapped);
+    }
+    private function parseAssessment(array $context,array $mapped):ParsedResponse
+    {
+        $parsed=ParsedResponse::parse($mapped['content'],$context['expected']);
+        $this->evidence->response($parsed,$context['commission'],$context['originals']);
+        return $parsed;
+    }
+    private function responseContext(AuthorityStore $store,array $state,array $policy,array $operation,array $envelope):array
+    {
         $s=$store->state($state);$terms=[];foreach($policy['body']['effect_slots'] as $slot){if($slot['effect']==='AUTHORIZE_BOOTSTRAP_ASSESSMENT' && $slot['terms_rule']['kind']==='exact'){
             $h=$store->checkSource($s,$slot['terms_rule']['object_ref']);if(R::same($h['body']['terms'],$operation['authority_source']['commission_ref'])){$terms[]=$h;}
         }}R::require(count($terms)===1,'COMMISSION_RESPONSE');$context=$this->context($store,$state,$policy,$this->step($policy,$terms[0]),$terms[0]);
@@ -103,9 +123,7 @@ final readonly class AugurAdapter implements ContextualPreparedOperation,SourceA
         R::require($mapped['usage']['input_tokens']<=$context['resources']->tokens->inputMaximum && $mapped['usage']['output_tokens']<=$context['resources']->tokens->generatedMaximum,'RESPONSE_EXCEEDS_TOKEN_EVIDENCE');
         R::require($mapped['identity']===$envelope['metadata']['provider_response_id'] && R::same($mapped['usage'],$envelope['metadata']['usage'])
             && $envelope['operation_digest']===R::hash($operation) && $envelope['metadata']['provenance']===Wire::ADAPTER,'DEEPSEEK_RESPONSE_ATTRIBUTION');
-        if($mapped['finish_reason']!=='stop'){return 'TERMINAL_FAILURE';}
-        try{$parsed=ParsedResponse::parse($mapped['content'],$context['expected']);$this->evidence->response($parsed,$context['commission'],$context['originals']);}
-        catch(\InvalidArgumentException|\RuntimeException){return 'TERMINAL_FAILURE';}return 'SUCCEEDED';
+        return [$context,$mapped];
     }
     public function select(AuthorityStore $store,array $state,array $policy,array $step):array{return $this->access->select($store,$state,$policy,$step);}
 }

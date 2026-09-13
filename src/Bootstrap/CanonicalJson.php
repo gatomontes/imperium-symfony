@@ -22,7 +22,9 @@ final class CanonicalJson
         }
 
         foreach ($value as $key => $item) {
-            $value[$key] = self::sort($item);
+            if (is_array($item)) {
+                $value[$key] = self::sort($item);
+            }
         }
 
         return $value;

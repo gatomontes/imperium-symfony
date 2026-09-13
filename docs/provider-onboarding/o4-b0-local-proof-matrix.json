@@ -1,0 +1,191 @@
+{
+  "stage": "O4-B0",
+  "status": "INCOMPLETE_IMPLEMENTATION",
+  "implementation_complete": false,
+  "entry_commit": "f544b696a0ebdf8c25a71f3a369e5a93738074e9",
+  "tested_commit": "4b2f1f897f7fbc57fa16d58fbbb6727e25e73be1",
+  "operational_flags": {
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "live_ready": false,
+    "activation": false,
+    "execution_authority": false
+  },
+  "actual_retry_allowlist": [],
+  "full_local_suite": {
+    "name": "full-suite",
+    "argv": [
+      "C:/php/php-8.4/php.exe",
+      "-d",
+      "allow_url_fopen=0",
+      "-d",
+      "disable_functions=curl_exec,curl_multi_exec,fsockopen,pfsockopen,stream_socket_client,socket_connect",
+      "vendor/bin/phpunit",
+      "tests"
+    ],
+    "cwd": "E:\\htdocs\\imperium-onboarding-o4-b0",
+    "exit": 124,
+    "started_unix": 1789243908.2664278,
+    "elapsed_seconds": 1800.506,
+    "timeout_seconds": 1800,
+    "timed_out": true
+  },
+  "fresh_full_hosted_ci": "NOT_RUN",
+  "selections": [
+    {
+      "selection": "parse-scope",
+      "exit": 0,
+      "tests": 6,
+      "assertions": 338,
+      "log": "evidence/final/parse-scope.log"
+    },
+    {
+      "selection": "correction-reviewer",
+      "exit": 0,
+      "tests": 1,
+      "assertions": 2,
+      "log": "evidence/final/correction-reviewer.log"
+    },
+    {
+      "selection": "o4-assessment",
+      "exit": 0,
+      "tests": 1,
+      "assertions": 55,
+      "log": "evidence/final/o4-assessment.log"
+    },
+    {
+      "selection": "correction-mapping",
+      "exit": 0,
+      "tests": 16,
+      "assertions": 130,
+      "log": "evidence/final/correction-mapping.log"
+    },
+    {
+      "selection": "o3-b1-bridge",
+      "exit": 0,
+      "tests": 1,
+      "assertions": 31,
+      "log": "evidence/final/o3-b1-bridge.log"
+    },
+    {
+      "selection": "o3-b1-owner",
+      "exit": 0,
+      "tests": 7,
+      "assertions": 106,
+      "log": "evidence/final/o3-b1-owner.log"
+    },
+    {
+      "selection": "o3-b1-base",
+      "exit": 0,
+      "tests": 11,
+      "assertions": 53,
+      "log": "evidence/final/o3-b1-base.log"
+    },
+    {
+      "selection": "credential-correction",
+      "exit": 0,
+      "tests": 8,
+      "assertions": 60,
+      "log": "evidence/final/credential-correction.log"
+    },
+    {
+      "selection": "reviewer",
+      "exit": 0,
+      "tests": 4,
+      "assertions": 10,
+      "log": "evidence/final/reviewer.log"
+    },
+    {
+      "selection": "native-root-legacy",
+      "exit": 0,
+      "tests": 4,
+      "assertions": 291,
+      "log": "evidence/final/native-root-legacy.log"
+    },
+    {
+      "selection": "o3-b0",
+      "exit": 0,
+      "tests": 68,
+      "assertions": 304,
+      "log": "evidence/final/o3-b0.log"
+    },
+    {
+      "selection": "o3-b1-refusals",
+      "exit": 0,
+      "tests": 10,
+      "assertions": 57,
+      "log": "evidence/final/o3-b1-refusals.log"
+    },
+    {
+      "selection": "o2-b1-b0",
+      "exit": 0,
+      "tests": 211,
+      "assertions": 952,
+      "log": "evidence/final/o2-b1-b0.log"
+    },
+    {
+      "selection": "o1-pins",
+      "exit": 0,
+      "tests": 380,
+      "assertions": 1519,
+      "log": "evidence/final/o1-pins.log"
+    },
+    {
+      "selection": "inventory",
+      "exit": 0,
+      "tests": 16,
+      "assertions": 4002,
+      "log": "evidence/final/inventory.log"
+    },
+    {
+      "selection": "fc",
+      "exit": 0,
+      "tests": 140,
+      "assertions": 760,
+      "log": "evidence/final/fc.log"
+    }
+  ],
+  "contract_proofs": [
+    {
+      "id": 1,
+      "status": "PARTIAL",
+      "proved": "Real O2/O3 W1/W2/W3 history, exact original custody/response/Profile/candidate refs, current semantic verification, new-store reconstruction and no additional HTTP.",
+      "missing": "Assessment-view construction, selection, authority, atomic settings publication and fresh-process settings resolver."
+    },
+    {
+      "id": 2,
+      "status": "NOT_IMPLEMENTED_IN_APPLICATION",
+      "proved": "Unchanged original O1 selector/parser regressions rerun.",
+      "missing": "Selection cases and whole-pair refusal through a working O4 application."
+    },
+    {
+      "id": 3,
+      "status": "PARTIAL",
+      "proved": "Missing semantic verifier, revoked/expired policy, missing original response, unsettled usage, changed frozen digest and changed operation refuse resolution without writes/calls.",
+      "missing": "A/B application authority, target generations, assignment predecessor and application consumption."
+    },
+    {
+      "id": 4,
+      "status": "NOT_IMPLEMENTED",
+      "missing": "Application replay, duplicate/conflicting application and whole-pair compare-and-swap contention."
+    },
+    {
+      "id": 5,
+      "status": "NOT_IMPLEMENTED",
+      "missing": "Application publication interruption, fresh-process recovery and settings durability."
+    },
+    {
+      "id": 6,
+      "status": "NOT_IMPLEMENTED",
+      "missing": "Persistent production settings consumer, explicit whole-pair change/revalidation and historical replay after replacement."
+    },
+    {
+      "id": 7,
+      "status": "PARTIAL",
+      "proved": "Original tests/fixtures and protected files preserved; existing regression selections rerun; no existing state format changed.",
+      "missing": "Explicit v4 migration and application history validation/preservation."
+    }
+  ],
+  "remaining_work_is_engineering": true,
+  "integration_disposition": "DO_NOT_MERGE_AS_COMPLETED_O4; finish required owner/authority/consumer seams and obtain source review plus fresh full hosted CI."
+}

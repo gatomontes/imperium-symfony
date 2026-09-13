@@ -23,7 +23,7 @@ final readonly class FreshProducer
     }
     public function publish(AuthorityStore $store,array &$s,array $policy,array $slot,array $terms,array $command,array $head):array
     {
-        R::require($s['schema']==='imperium.onboarding-authority-state/v3' && $s['bindings']===[],'ROOT_ALREADY_CONSUMED');
+        R::require(in_array($s['schema'],['imperium.onboarding-authority-state/v3','imperium.onboarding-authority-state/v4'],true) && $s['bindings']===[],'ROOT_ALREADY_CONSUMED');
         $this->owner->vacant($store);
         $originals=[];$load=function(array $ref)use($store,$s,&$originals):array{$h=$store->checkSource($s,$ref);$originals[R::key($ref)]=$h;return $h;};
         $derived=FoundingRule::derive($s,$policy,$slot,$load);R::require(R::same(R::reference($terms),$derived['terms_ref']),'FOUNDING_TERMS');

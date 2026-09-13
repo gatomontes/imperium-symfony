@@ -93,7 +93,7 @@ final readonly class FormationCognition
     {
         return $this->journal->change(function (array &$state) use ($intakeId, $phase, $terms, $decision): string {
             $source = $this->source($state, $intakeId, $phase);
-            if (!FormationJournal::keys($terms, array_merge(['source', 'provider', 'model', 'destination', 'pricing', 'per_call', 'total', 'visible_intakes', 'disclosure', 'expires_at'], array_key_exists('transport', $terms) ? ['transport'] : []))
+            if (!FormationJournal::keys($terms, array_merge(['source', 'provider', 'model', 'destination', 'pricing', 'per_call', 'total', 'visible_intakes', 'disclosure', 'expires_at'], array_key_exists('transport', $terms) ? ['transport'] : [], array_key_exists('model_settings', $terms) ? ['model_settings'] : []))
                 || FormationJournal::digest($terms['source']) !== FormationJournal::digest($source['authorization_source'])
                 || !is_int($terms['expires_at']) || $terms['expires_at'] <= $this->clock->now()->getTimestamp()
                 || !is_array($terms['visible_intakes']) || !array_is_list($terms['visible_intakes'])
@@ -109,6 +109,7 @@ final readonly class FormationCognition
                 if (!is_string($id) || !isset($state['intakes'][$id])) { throw new \RuntimeException('CMF053_SESSION_TERMS_INVALID'); }
             }
             if (array_key_exists('transport', $terms)) { FormationPreparedOperation::authorization($terms['transport']); }
+            if (array_key_exists('model_settings', $terms)) { \App\Imperium\Runtime\Onboarding\Assignment\AssignmentRule::settingShape($terms['model_settings']); }
             SessionExposure::validate($terms['per_call']);
             SessionExposure::validate($terms['total']);
             if ($terms['per_call']['calls'] !== 1) { throw new \RuntimeException('CMF053_SESSION_TERMS_INVALID'); }
@@ -149,6 +150,7 @@ final readonly class FormationCognition
         if (isset($session['attempts'][$attemptId])) { return $this->recover($sessionId, $attemptId); }
         $source = $this->validateSession($snapshot, $session);
         $request = $this->request($snapshot, $session, $source);
+        $this->verifyModelSettings($snapshot,$request,$session['terms']);
         // The prepared path inspects once and retains that exact operation, rather
         // than discarding its bytes and preparing a possibly different operation.
         $operation = $this->transport instanceof PreparedFormationTransport ? $this->transport->prepareOperation($request, $session['terms']) : null;
@@ -157,6 +159,7 @@ final readonly class FormationCognition
         $claim = $this->journal->change(function (array &$state) use ($sessionId, $attemptId, $request, $maximum, $operation): array {
             $session = &$state['sessions'][$sessionId];
             $source = $this->validateSession($state, $session);
+            $this->verifyModelSettings($state,$request,$session['terms'],$operation);
             if (FormationJournal::digest($request) !== FormationJournal::digest($this->request($state, $session, $source))) {
                 throw new \RuntimeException('CMF057_CONTEXT_CHANGED_REASSESS');
             }
@@ -182,13 +185,16 @@ final readonly class FormationCognition
         $this->journal->change(function (array &$state) use ($sessionId, $attemptId): void {
             $session = &$state['sessions'][$sessionId];
             $this->validateSession($state, $session);
+            $this->verifyModelSettings($state,$session['attempts'][$attemptId]['request'],$session['terms'],$session['attempts'][$attemptId]['claim']['prepared_operation']??null);
             if ($session['attempts'][$attemptId]['status'] !== 'RESERVED') { throw new \RuntimeException('CMF058_ATTEMPT_ALREADY_RESERVED'); }
             if (FormationJournal::digest($this->personnel->currentLocksmith($state)) !== FormationJournal::digest($session['attempts'][$attemptId]['claim']['derivation']['lease']['issuer'])
                 || $session['attempts'][$attemptId]['claim']['expires_at'] <= $this->clock->now()->getTimestamp()) { throw new \RuntimeException('CMF068_LEASE_CHANGED_OR_EXPIRED'); }
             $session['attempts'][$attemptId]['status'] = 'STARTED_OUTCOME_UNCERTAIN';
         });
         try {
-            $result = $this->transport->invoke($claim, $request, $session['terms']);
+            $result = $this->transport instanceof \App\Imperium\Runtime\Onboarding\Assignment\SettingsBoundTransport
+                ? $this->transport->invokeForFormation($this->journal,$claim,$request,$session['terms'])
+                : $this->transport->invoke($claim, $request, $session['terms']);
             if (!is_string($result['response'] ?? null) || !is_string($result['provider_response_id'] ?? null)
                 || '' === $result['provider_response_id'] || !is_array($result['usage'] ?? null)) {
                 throw new \RuntimeException('CMF033_USAGE_UNTRUSTWORTHY');
@@ -213,6 +219,15 @@ final readonly class FormationCognition
             throw new \RuntimeException('CMF059_OUTCOME_UNKNOWN_NO_RETRY', 0, $operation === null ? $error : null);
         }
         return $this->recover($sessionId, $attemptId);
+    }
+
+    private function verifyModelSettings(array $state,array $request,array $terms,?array $operation=null):void
+    {
+        if (!array_key_exists('model_settings',$terms)) { return; }
+        if (!$this->transport instanceof \App\Imperium\Runtime\Onboarding\Assignment\SettingsBoundTransport) {
+            throw new \RuntimeException('SETTINGS_EXECUTION_BINDING_REQUIRED');
+        }
+        $this->transport->verifyExecution($this->journal,$state,$request,$terms,$operation);
     }
 
     public function recover(string $sessionId, string $attemptId): array

@@ -10,7 +10,7 @@ final class FoundingRule
 {
     public static function derive(array $s,array $policy,array $slot,callable $load):array
     {
-        R::require($s['schema']==='imperium.onboarding-authority-state/v3'
+        R::require(in_array($s['schema'],['imperium.onboarding-authority-state/v3','imperium.onboarding-authority-state/v4'],true)
             && $slot['effect']==='CONSTITUTE_FOUNDING_AUGUR' && $slot['slot_id']==='slot.found-augur'
             && $slot['terms_rule']['kind']==='eligible_binding' && $slot['terms_rule']['base_step_id']==='select-base','DYNAMIC_PREREQUISITES_MISSING');
         $base=LedgerState::step($s,$policy,'select-base');
