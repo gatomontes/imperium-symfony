@@ -18,9 +18,16 @@ $constitution=new class($input['constitution'],$input['artifacts']) implements C
         $grant=Policy::content($constitution,'augur-constitution');R::require(R::same(Policy::content($originals[R::key($grant['charter_ref'])],'synthetic-augur-charter'),['route'=>'FRESH','seat'=>'oracle.augur']),'SYNTHETIC_CONSTITUTION_CHARTER');
     }
 };
+if($input['native_constitution']??false){$constitution=new App\Imperium\Runtime\Onboarding\Augur\NativeConstitutionEvidence();}
 $base=new BaseProjection(new SyntheticAugurBaseEvidence($input['base_pins'],$mode==='before-publication'?static function():void{exit(73);}:null));
 $producer=new FreshProducer(new OperatorRootOwnership($root),$base,$constitution);$ledger=new CommandLedger($store,founding:$producer);
 file_put_contents($root.'/fresh-ready-'.$mode,'ready');$deadline=microtime(true)+120;
 while(!is_file($root.'/fresh-go')){if(microtime(true)>$deadline){exit(92);}usleep(10000);}
-try{$result=$ledger->advance(json_encode($input['request'],JSON_THROW_ON_ERROR));if($mode==='after-publication'){exit(74);}echo $result['status']."\n";exit(0);}
+try{
+    if($mode==='current'){
+        $store->journal->inspect(fn(array $frame):array=>$producer->current($store,$frame['state']['onboarding'],$input['holder_ref']));
+        echo "CURRENT\n";exit(0);
+    }
+    $result=$ledger->advance(json_encode($input['request'],JSON_THROW_ON_ERROR));if($mode==='after-publication'){exit(74);}echo $result['status']."\n";exit(0);
+}
 catch(RuntimeException $e){echo $e->getMessage()."\n";exit(23);}

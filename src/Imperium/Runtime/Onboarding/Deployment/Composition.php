@@ -4,7 +4,7 @@ namespace App\Imperium\Runtime\Onboarding\Deployment;
 
 use App\Imperium\Runtime\Bootstrap\OperatorRootOwnership;
 use App\Imperium\Runtime\Onboarding\AuthorityAdmission\AuthorityStore;
-use App\Imperium\Runtime\Onboarding\Augur\{AugurAdapter,BaseProjection,BaseEvidence,MissingBaseEvidence,FreshProducer,ConstitutionEvidence,MissingConstitutionEvidence,CognitionEvidence,MissingCognitionEvidence};
+use App\Imperium\Runtime\Onboarding\Augur\{AugurAdapter,BaseProjection,BaseEvidence,MissingBaseEvidence,FreshProducer,ConstitutionEvidence,NativeConstitutionEvidence,CognitionEvidence,MissingCognitionEvidence};
 use App\Imperium\Runtime\Onboarding\Assignment\{AssignmentEvidence,MissingAssignmentEvidence,PersistentSettings};
 use App\Imperium\Runtime\Onboarding\Console\{Gateway,FixedGateway};
 use App\Imperium\Runtime\Onboarding\DeepSeek\{AccessAdapter,EvidenceVerifier,MissingEvidence,Runtime,EnvelopeStore};
@@ -26,7 +26,7 @@ final class Composition implements Gateway
         private readonly string $responseDirectory,
         private readonly EvidenceVerifier $access = new MissingEvidence(),
         private readonly BaseEvidence $base = new MissingBaseEvidence(),
-        private readonly ConstitutionEvidence $constitution = new MissingConstitutionEvidence(),
+        private readonly ConstitutionEvidence $constitution = new NativeConstitutionEvidence(),
         private readonly CognitionEvidence $cognition = new MissingCognitionEvidence(),
         private readonly AssignmentEvidence $assignment = new MissingAssignmentEvidence(),
         private readonly ?MockHttpClient $mock = null,

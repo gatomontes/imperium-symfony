@@ -16,8 +16,9 @@ final readonly class FreshProducer
         $holder=Holder::current($store,$s,$ref);$b=$holder['body'];
         R::require($b['root_identity']===$this->owner->identity(),'ROOT_OWNER_MISMATCH');
         $originals=[];foreach($holder['sources'] as $source){$originals[R::key($source)]=$store->checkSource($s,$source);}
-        $this->evidence->verify($originals[R::key($b['constitution_ref'])],$originals);
-        $policy=$store->checkSource($s,$b['policy_ref']);$step=array_values(array_filter($policy['body']['steps'],static fn(array $v):bool=>$v['step_id']==='select-base'))[0];
+        $policy=$store->checkSource($s,$b['policy_ref']);
+        $this->verifyEvidence($store,$s,$policy,$originals[R::key($b['constitution_ref'])],$originals,$holder);
+        $step=array_values(array_filter($policy['body']['steps'],static fn(array $v):bool=>$v['step_id']==='select-base'))[0];
         $proposal=$this->base->propose($store,['onboarding'=>$s],$policy,$step);
         R::require($proposal->status==='PROPOSED_BASE' && R::same($proposal->proposedBinding,$b['binding']),'HOLDER_BASE_CURRENT');return $holder;
     }
@@ -32,7 +33,7 @@ final readonly class FreshProducer
         R::object($grant,['schema','instance_id','operator_id','root_identity','seat','charter_ref','persona_ref','profile_ref','not_before','expires_at']);
         R::require($grant['schema']==='imperium.augur-constitution/v1' && $grant['instance_id']===$store->instance && $grant['operator_id']===$store->operator
             && $grant['root_identity']===$this->owner->identity() && $grant['seat']==='oracle.augur' && R::time($grant['not_before'])<=$store->now() && $store->now()<R::time($grant['expires_at']),'CONSTITUTION_SCOPE');
-        foreach(['charter_ref','persona_ref','profile_ref'] as $k){$load(R::ref($grant[$k]));}$this->evidence->verify($constitution,$originals);
+        foreach(['charter_ref','persona_ref','profile_ref'] as $k){$load(R::ref($grant[$k]));}$this->verifyEvidence($store,$s,$policy,$constitution,$originals,null);
         $base=LedgerState::step($s,$policy,'select-base');$step=array_values(array_filter($policy['body']['steps'],static fn(array $v):bool=>$v['step_id']==='select-base'))[0];
         $current=$this->base->propose($store,['onboarding'=>$s],$policy,$step);
         $snapshot=null;$frozen=$this->base->propose($store,['onboarding'=>$s],$policy,$step,$base['completion']['body']['completed_at'],$snapshot);
@@ -45,5 +46,11 @@ final readonly class FreshProducer
             'base_proposal'=>$snapshot,'expires_at'=>min($grant['expires_at'],$policy['body']['expires_at'],$slot['expires_at'])];
         $holder=$store->make('imperium.bootstrap-augur-holder/v1','augur-'.substr(R::hash($body),7,24),$body,Holder::sources($body,$terms));
         $key=[$body['root_identity']];$s['bindings'][LedgerState::key('binding',$key)]=['key'=>$key,'record'=>$holder];return [R::reference($holder)];
+    }
+    private function verifyEvidence(AuthorityStore $store,array $s,array $policy,array $constitution,array $originals,?array $holder):void
+    {
+        if($this->evidence instanceof OwnerConstitutionEvidence){
+            $this->evidence->verifyInFrame($store,$this->owner,$s,$policy,$constitution,$originals,$holder);
+        }else{$this->evidence->verify($constitution,$originals);}
     }
 }

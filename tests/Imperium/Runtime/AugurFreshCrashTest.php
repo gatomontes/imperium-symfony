@@ -10,11 +10,11 @@ final class AugurFreshCrashTest extends TestCase
 {
     private function wait(callable $ready):void{$end=microtime(true)+120;while(!$ready()){if(microtime(true)>$end){self::fail('FRESH worker timeout');}usleep(10000);}}
     #[DataProvider('modes')]
-    public function testOriginalPublicationSurvivesProcessBoundary(string $mode):void
+    public function testOriginalPublicationSurvivesProcessBoundary(string $mode,bool $native=false):void
     {
-        $f=new F();$workers=[];try{$d=$f->d;$root=$d->f->root;$store=$d->f->store;(new AugurMigration($store))->migrate($d->f->head());$f->ready();$d->advance('select-base');$d->advance('map-base');$head=$d->f->head();$q=$d->request('found-augur');
+        $f=new F(nativeConstitution:$native);$workers=[];try{$d=$f->d;$root=$d->f->root;$store=$d->f->store;(new AugurMigration($store))->migrate($d->f->head());$f->ready();$d->advance('select-base');$d->advance('map-base');$head=$d->f->head();$q=$d->request('found-augur');
             $pins=[];foreach($d->f->sources as $key=>$h){if(in_array($h['body']['kind']??'', ['augur-base-facts','augur-base-observation','synthetic-provider-bytes'],true)){$pins[$key]=$h;}}
-            file_put_contents($root.'/fresh-worker-input.json',$d->f::json(['now'=>$d->f->now,'request'=>$q,'constitution'=>$f->constitution,'artifacts'=>$f->constitutionalOriginals,'base_pins'=>$pins]));
+            file_put_contents($root.'/fresh-worker-input.json',$d->f::json(['now'=>$d->f->now,'request'=>$q,'constitution'=>$f->constitution,'artifacts'=>$f->constitutionalOriginals,'base_pins'=>$pins,'native_constitution'=>$native]));
             $modes=$mode==='race'?['contender-one','contender-two']:[$mode];
             foreach($modes as $m){$p=proc_open([PHP_BINARY,'-d','allow_url_fopen=0','-d','disable_functions=curl_exec,curl_multi_exec,fsockopen,pfsockopen,stream_socket_client,socket_connect',__DIR__.'/Support/augur-fresh-worker.php',$root,$m],[0=>['pipe','r'],1=>['file',$root.'/fresh-output-'.$m,'w'],2=>['file',$root.'/fresh-error-'.$m,'w']],$pipes);self::assertIsResource($p);fclose($pipes[0]);$workers[$m]=$p;}
             foreach($modes as $m){$this->wait(static fn():bool=>is_file($root.'/fresh-ready-'.$m));}file_put_contents($root.'/fresh-go','go');$codes=[];
@@ -26,5 +26,5 @@ final class AugurFreshCrashTest extends TestCase
             }
         }finally{foreach($workers as $p){if(is_resource($p)){if(proc_get_status($p)['running']){proc_terminate($p);}proc_close($p);}}$f->close();}
     }
-    public static function modes():iterable{yield ['before-publication'];yield ['after-publication'];yield ['race'];}
+    public static function modes():iterable{foreach([false,true] as $native){foreach(['before-publication','after-publication','race'] as $mode){yield ($native?'native-':'synthetic-').$mode=>[$mode,$native];}}}
 }

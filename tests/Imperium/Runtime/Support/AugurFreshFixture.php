@@ -18,7 +18,7 @@ final class AugurFreshFixture
     public array $constitution;
     public array $constitutionalOriginals;
     public ?\Closure $baseHook=null;
-    public function __construct(string $case='valid',?\Closure $configure=null,int $constitutionLifetime=1800)
+    public function __construct(string $case='valid',?\Closure $configure=null,int $constitutionLifetime=1800,private bool $nativeConstitution=false)
     {
         $pinned=[];
         $this->d=new DeepSeekFixture(change:function(array &$policy,OnboardingAuthorityFixture $f)use($case,&$pinned,$configure,$constitutionLifetime):void {
@@ -91,7 +91,14 @@ final class AugurFreshFixture
                 'charter_ref'=>$f->source('synthetic-augur-charter',['seat'=>'oracle.augur','route'=>'FRESH']),
                 'persona_ref'=>$f->source('synthetic-augur-persona',['seat'=>'oracle.augur','version'=>'synthetic-v1']),
                 'profile_ref'=>$profile,'not_before'=>$f->now-1,'expires_at'=>$f->now+$constitutionLifetime];
-            $constitution=$f->source('augur-constitution',$grant);$this->constitution=$f->sources[R::key($constitution)];
+            if($this->nativeConstitution){
+                $prepared=\App\Imperium\Runtime\Onboarding\Augur\ConstitutionSource::prepare($f->store,
+                    new \App\Imperium\Runtime\Bootstrap\OperatorRootOwnership($f->root),
+                    $f->sources[R::key($grant['charter_ref'])],$f->sources[R::key($grant['persona_ref'])],$f->sources[R::key($profile)],
+                    $grant['not_before'],$grant['expires_at']);
+                $constitution=R::reference($prepared);$f->sources[R::key($constitution)]=$prepared;
+            }else{$constitution=$f->source('augur-constitution',$grant);}
+            $this->constitution=$f->sources[R::key($constitution)];
             $this->constitutionalOriginals=[];foreach(['charter_ref','persona_ref','profile_ref'] as $field){$ref=$grant[$field];$this->constitutionalOriginals[R::key($ref)]=$f->sources[R::key($ref)];}
             $permitted=[];
             foreach(array_slice($policy['body']['candidate_bindings'],0,1) as $i=>$binding){
@@ -133,6 +140,9 @@ final class AugurFreshFixture
 
     public function founding():\App\Imperium\Runtime\Onboarding\Augur\FreshProducer
     {
+        if($this->nativeConstitution){return new \App\Imperium\Runtime\Onboarding\Augur\FreshProducer(
+            new \App\Imperium\Runtime\Bootstrap\OperatorRootOwnership($this->d->f->root),$this->base,
+            new \App\Imperium\Runtime\Onboarding\Augur\NativeConstitutionEvidence());}
         $verifier=new class($this->constitution,$this->constitutionalOriginals) implements \App\Imperium\Runtime\Onboarding\Augur\ConstitutionEvidence {
             public function __construct(private array $constitution,private array $pins){}
             public function verify(array $constitution,array $originals):void {
