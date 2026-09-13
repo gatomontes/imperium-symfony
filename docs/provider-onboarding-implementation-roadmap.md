@@ -1,3 +1,20 @@
+# Current selection — O4 deferred; O5 CLI preparation complete
+
+The operator has deferred O4 performance work to avoid another extended profiling/CI cycle. O4 remains unaccepted, and PR #798 stays draft and unmerged. Its reviewed V2 source is preserved on `codex/provider-onboarding-o4-b0-ci-v2-checkpoint`; this pause does not waive its full-suite gate.
+
+O5 documentation preparation is complete: [command specification and flow](provider-onboarding-o5-cli-preparation.md), [illustrative terminal sessions](provider-onboarding-o5-cli-examples.md), and [future implementation checklist](handoffs/provider-onboarding-o5-cli-checklist.md). No implementation, profiling or CI run is selected. O5 implementation and end-to-end acceptance wait for accepted O4 integration and a later explicit selection. Live commissioning stays separately deferred.
+
+| Stage | Current disposition |
+| --- | --- |
+| O0–O3 | Existing offline acceptance unchanged |
+| O4-B0 | Reviewed incomplete V2 checkpoint; performance work deferred; acceptance pending |
+| O5-B0 | CLI documentation prepared; implementation blocked on accepted O4 |
+| Live commissioning | Separately deferred |
+
+Flow: preserve O4 checkpoint → prepare O5 operator journey (done) → pause; when selected later, complete and accept O4 → implement and accept O5. Earlier instructions to continue repeated O4 profiling/full runs are paused. The earlier roadmap below remains historical evidence, not current authorization. This notice is published on a preparation branch; it does not merge O4 or modify main.
+
+---
+
 # Current campaign and flow — O3 integrated; O4-B0 selected
 
 O3 is closed within its offline engineering scope. O3-B1 was accepted and merged through PR #794 at `61d3f555d4bc903437687d454f05f4484ff538c4`, tree `f7e10635a7d6992ea50de4a47ef2654e943e1ff7`. Fresh full hosted CI passed 3,664 tests / 57,357 assertions / four skips in 22:39.689. R1 and R2 are resolved; diagnostic PRs #795/#796 are closed without merging. [O3 closure](handoffs/provider-onboarding-o3-complete.md), [acceptance](reviews/provider-onboarding-o3-b1-acceptance.md), [integration identities](provider-onboarding/o3-b1-reviewed-integration.json).
