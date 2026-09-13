@@ -19,7 +19,7 @@ final class AssignmentFixture
     public bool $available=true;
     public int $profileGeneration=1;
     public int $bindingGeneration=1;
-    public function __construct(public string $mode='valid',public string $applicationMode='A')
+    public function __construct(public string $mode='valid',public string $applicationMode='A',bool $consoleComposition=false)
     {
         $pins=[];
         $this->fresh=new AugurFreshFixture(configure:function(array &$p,OnboardingAuthorityFixture $f,array $profile)use(&$pins):void{
@@ -72,7 +72,7 @@ final class AssignmentFixture
             if($this->mode==='token-contradiction'){$chat['usage']['prompt_tokens']++;$chat['usage']['prompt_cache_miss_tokens']++;$chat['usage']['total_tokens']++;}
             if($this->mode==='revoked-after-dispatch'){$this->fresh->d->f->revoke('policy',$this->fresh->d->policy['id']);}
             return new MockResponse(OnboardingAuthorityFixture::json($chat));
-        }),fn():int=>$d->tick++);
+        }),fn():int=>$d->tick++,$consoleComposition?$this->evidence():new \App\Imperium\Runtime\Onboarding\Assignment\MissingAssignmentEvidence());
         (new AugurMigration($d->f->store))->migrate($d->f->head());
     }
     private function configureAssignments(array &$p,OnboardingAuthorityFixture $f):void

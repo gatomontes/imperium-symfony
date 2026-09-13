@@ -102,7 +102,11 @@ final class DeepSeekAccessIntegrationTest extends TestCase
     public function testNoPublicDeliveryPortsAndRetryDecoratorRefuses(): void
     {
         $methods=array_filter((new \ReflectionClass(Runtime::class))->getMethods(\ReflectionMethod::IS_PUBLIC),static fn($m)=>!$m->isConstructor());
-        self::assertSame(['advance','reconcile'],array_values(array_map(static fn($m)=>$m->getName(),$methods)));
+        // O5 adds evidence-only recognition and a construction-identity assertion;
+        // no public issue, consume, dispatch, retain, read or capability entry exists.
+        self::assertSame(['advance','reconcile','resume','assertOwner'],array_values(array_map(static fn($m)=>$m->getName(),$methods)));
+        self::assertSame('string',(string)(new \ReflectionMethod(Runtime::class,'resume'))->getParameters()[0]->getType());
+        self::assertSame(\App\Imperium\Runtime\Onboarding\AuthorityAdmission\AuthorityStore::class,(string)(new \ReflectionMethod(Runtime::class,'assertOwner'))->getParameters()[0]->getType());
         $f=new F(); try {
             $this->expectException(\RuntimeException::class);
             new Runtime($f->f->store,$f->adapter,$f->keys,$f->envelopes,new RetryableHttpClient(new MockHttpClient()));

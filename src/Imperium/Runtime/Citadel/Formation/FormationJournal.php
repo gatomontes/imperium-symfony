@@ -17,12 +17,14 @@ final readonly class FormationJournal
     private string $directory;
     private AtomicTransition $atomic;
     private string $owner;
+    private string $observationLock;
 
     public function __construct(#[Autowire('%kernel.project_dir%')] string $root)
     {
         $this->owner = str_replace('\\', '/', realpath($root) ?: $root);
         $this->directory = $root.'/var/imperium/citadel/formation';
         $this->atomic = new AtomicTransition($root);
+        $this->observationLock = $root.'/var/imperium/runtime/transition-locks/'.hash('sha256','citadel-formation').'.lock';
     }
 
     /** Fixed construction identity; no store read or lock acquisition. */
@@ -51,6 +53,27 @@ final readonly class FormationJournal
     public function inspect(callable $inspection): mixed
     {
         return $this->atomic->run('citadel-formation', fn () => $inspection($this->latest()));
+    }
+
+    /** Pure observation under the existing writer fence; never initializes custody. */
+    public function inspectExisting(callable $inspection): mixed
+    {
+        // Use the established AtomicTransition fence without changing that pinned
+        // shared writer implementation or invoking its creating run() path.
+        if (!is_file($this->observationLock)) { throw new \RuntimeException('O5_EXISTING_OWNER_REQUIRED'); }
+        $handle = @fopen($this->observationLock,'rb');
+        if ($handle === false) { throw new \RuntimeException('O5_EXISTING_OWNER_REQUIRED'); }
+        try {
+            if (!flock($handle,LOCK_SH)) { throw new \RuntimeException('PST102_ATOMIC_TRANSITION_LOCK_FAILED'); }
+            $frame = $this->latest();
+            if ($frame['generation'] === 0) {
+                throw new \RuntimeException('O5_EXISTING_OWNER_REQUIRED');
+            }
+            return $inspection($frame);
+        } finally {
+            flock($handle,LOCK_UN);
+            fclose($handle);
+        }
     }
 
     /** Resolve only a retained frame in the verified trusted-custody chain. */

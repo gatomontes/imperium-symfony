@@ -12,6 +12,7 @@ final class Runtime
 {
     public const CUSTODY='imperium.deepseek-fixed-key/v1';
     private CustodyCoordinator $coordinator;
+    private CommandLedger $ledger;
     private \WeakMap $capabilities;
     private array $issued=[];
     private ?array $active=null;
@@ -21,7 +22,8 @@ final class Runtime
     public function __construct(private readonly AuthorityStore $store,
         private readonly AccessAdapter|\App\Imperium\Runtime\Onboarding\Augur\AugurAdapter $adapter = new AccessAdapter(),
         private readonly ?KeySource $keys = null, private readonly ?EnvelopeStore $envelopes = null,
-        ?HttpClientInterface $mock = null, ?\Closure $monotonicMilliseconds = null)
+        ?HttpClientInterface $mock = null, ?\Closure $monotonicMilliseconds = null,
+        \App\Imperium\Runtime\Onboarding\Assignment\AssignmentEvidence $assignmentEvidence = new \App\Imperium\Runtime\Onboarding\Assignment\MissingAssignmentEvidence())
     {
         // Verification and delivery must observe the same fixed source, even when two sources advertise identical generations.
         $adapter->requireDeliverySource($keys);
@@ -41,11 +43,17 @@ final class Runtime
             public function retain(array $envelope): void { ($this->retain)($envelope); }
             public function read(array $claimRef): array { return ($this->read)($claimRef); }
         };
-        $ledger=new CommandLedger($store,$adapter,$adapter,$adapter instanceof \App\Imperium\Runtime\Onboarding\Augur\AugurAdapter?$adapter->founding:null);
+        $ledger=new CommandLedger($store,$adapter,$adapter,$adapter instanceof \App\Imperium\Runtime\Onboarding\Augur\AugurAdapter?$adapter->founding:null,$assignmentEvidence);
+        $this->ledger=$ledger;
         $this->coordinator=new CustodyCoordinator($ledger,$adapter,$credentials,$responses);
     }
     public function advance(string $request): array { return $this->coordinator->advance($request); }
     public function reconcile(string $claimId): array { return $this->coordinator->reconcile($claimId); }
+    public function resume(string $request): array { return (new \App\Imperium\Runtime\Onboarding\Ledger\Recovery($this->ledger,$this->coordinator))->resume($request); }
+    public function assertOwner(AuthorityStore $store): void
+    {
+        R::require($this->store === $store, 'CONSOLE_OWNER_MISMATCH');
+    }
 
     private function current(array $claim,array $operation,int $stage): void
     {
