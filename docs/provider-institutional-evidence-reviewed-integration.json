@@ -1,0 +1,148 @@
+{
+  "schema": "imperium.provider-institutional-evidence-reviewed-integration/v1",
+  "review_date": "2026-09-13",
+  "engineering_disposition": "CONSTITUTION_SUBSET_ACCEPTED_AND_INTEGRATED",
+  "campaign_disposition": "PARTIAL",
+  "two_internal_ports_complete": false,
+  "assignment_amendment_status": "PROPOSED_NOT_APPROVED",
+  "packet": {
+    "filename": "imperium-ppc1-public-review.zip",
+    "sha256": "25535d106b8013ca54ec9fc30dd5a1c3fa3745b6132a2be54f3874cdd2c9932c",
+    "verified_payloads": 13,
+    "verified_source_files": 3512,
+    "verified_evidence_files": 88
+  },
+  "producer": {
+    "base_commit": "3137d06bb2c1b0cd6d3cb2459d4e5783535a73f5",
+    "tested_commit": "29f8373df1edf27f703d062730f18d3eb8af4346",
+    "tested_tree": "80999d380d9f03247c21d84b9215415e9a2eb20f",
+    "final_commit": "2d4be451bca91ea7fcddf99bd9f42ece2744ed24",
+    "final_tree": "5dc5fd741235295b433b000b83710db753adf936"
+  },
+  "integration": {
+    "pr": 812,
+    "accepted_head": "b38d8c18c822ce726da756e0c46cb977700f1110",
+    "merge": "40c5ba4b499bd33a6017ef3dce55b87675f87cdd",
+    "tested_and_verified_merge_tree": "5dc5fd741235295b433b000b83710db753adf936"
+  },
+  "linux_ci": {
+    "run": 34780497665,
+    "url": "https://github.com/gatomontes/imperium-symfony/actions/runs/34780497665",
+    "conclusion": "success",
+    "checkout": "7ea061c3f1a047afcf32fff722e7ffa831b2001d",
+    "aggregate_job": 103788784230,
+    "php": "8.4.25",
+    "phpunit": "13.3.0",
+    "started_at": "2026-09-13T20:21:12Z",
+    "completed_at": "2026-09-13T20:37:27Z",
+    "guards_passed": 11,
+    "guards_skipped": 0,
+    "assertions": 64073,
+    "exact_case_coverage": true,
+    "files": 611,
+    "longest_partition_seconds": 938.004101,
+    "partitions": [
+      {
+        "assertions": 9033,
+        "index": 0,
+        "seconds": 180.291286,
+        "skipped": 0,
+        "tests": 433
+      },
+      {
+        "assertions": 7719,
+        "index": 1,
+        "seconds": 181.61079,
+        "skipped": 1,
+        "tests": 381
+      },
+      {
+        "assertions": 9952,
+        "index": 2,
+        "seconds": 938.004101,
+        "skipped": 2,
+        "tests": 564
+      },
+      {
+        "assertions": 22243,
+        "index": 3,
+        "seconds": 138.129064,
+        "skipped": 1,
+        "tests": 428
+      },
+      {
+        "assertions": 3137,
+        "index": 4,
+        "seconds": 66.037115,
+        "skipped": 0,
+        "tests": 304
+      },
+      {
+        "assertions": 3909,
+        "index": 5,
+        "seconds": 264.273689,
+        "skipped": 0,
+        "tests": 503
+      },
+      {
+        "assertions": 4842,
+        "index": 6,
+        "seconds": 428.356561,
+        "skipped": 0,
+        "tests": 746
+      },
+      {
+        "assertions": 3238,
+        "index": 7,
+        "seconds": 790.997876,
+        "skipped": 0,
+        "tests": 374
+      }
+    ],
+    "skipped": 4,
+    "source_digest": "2fe92a6aa4ef940f6876c0930b3eac3a2cb35cf22975ab05c426588fd032a40f",
+    "summed_test_seconds": 2987.700482,
+    "tests": 3733,
+    "tree": "5dc5fd741235295b433b000b83710db753adf936"
+  },
+  "windows_evidence": {
+    "attribution": "Producer supplied; reviewer reran aggregate consistency verification only",
+    "tests": 3733,
+    "assertions": 64089,
+    "skipped": 0,
+    "files": 611,
+    "source_digest": "80dda4c679318b4bbbb1c7bd342f1f66a7ee9a50db1e1ecedacc2bc61bf83355",
+    "longest_partition_seconds": 1945.274873,
+    "guard_passes": 10,
+    "guard_errors": 1,
+    "guard_error": "Windows symlink privilege WinError 1314",
+    "not_relabelled_as_full_gate": true
+  },
+  "review": {
+    "blocking_source_findings_for_constitution_subset": [],
+    "assignment_gap": "Source-inspected destination-steward designation/supersession gap; the executable standing-Augur refusal witness is a separate boundary.",
+    "local_php_executed": false,
+    "local_python_guards": {
+      "passed": 9,
+      "skipped": 2,
+      "reason": "PHP absent"
+    },
+    "human_or_separate_agent_review_claimed": false
+  },
+  "remaining_producer_gaps": [
+    "assignment designation/supersession and current Profile/binding evidence",
+    "account/access evidence",
+    "base eligibility evidence",
+    "cognition resources/substantive evidence"
+  ],
+  "operational_flags": {
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "live_ready": false,
+    "activation": false,
+    "execution_authority": false
+  },
+  "native_enrollment_disposition": "DEFER_ENROLLMENT",
+  "actual_retry_allowlist": [],
+  "documentation_is_post_test": true
+}

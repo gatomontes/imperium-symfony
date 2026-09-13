@@ -1,3 +1,28 @@
+# Current campaign and flow — PPC1 constitution integrated; assignment amendment open
+
+PPC1's native FRESH constitution producer/verifier is accepted and integrated through [PR #812](https://github.com/gatomontes/imperium-symfony/pull/812), merge `40c5ba4b499bd33a6017ef3dce55b87675f87cdd`, exactly the tested tree `5dc5fd741235295b433b000b83710db753adf936`. [Source/evidence review](reviews/provider-institutional-evidence-review.md), [integration record](provider-institutional-evidence-reviewed-integration.json).
+
+Fresh complete Linux CI passed **3,733 tests / 64,073 assertions / four explicit skips**: all 611 files and every enumerated case exactly once, all eight workers and all 11 guards. The Windows warnings/guard error remain historical; no gate was weakened.
+
+| Stage | Current state |
+| --- | --- |
+| O0–O5 | Closed within their accepted offline scopes |
+| PPC0 composition and custody | Accepted and integrated within the documented contract |
+| PPC1 constitution evidence | Implemented, reviewed and integrated offline through actual owner paths |
+| PPC1 assignment evidence | Blocked by current designation/supersession owner-contract gap; proposed amendment is not approved |
+| Account/access, base and cognition evidence | Three other producer gaps remain unresolved |
+| Live commissioning and existing-installation cutover | Separately deferred; DEFER_ENROLLMENT retained |
+
+PPC1 remains partially complete; two-port success is not claimed. The remaining internal gap requires an exact charter-assigned destination steward, governed originals and synchronized designation/supersession/current-generation semantics at application and use. Approval or personnel appointment cannot substitute for that fact. See the [amendment proposal and source evidence](provider-institutional-evidence-matrix.md).
+
+Flow: accepted CLI/composition and constitution path → reviewed designation/supersession amendment and implementation → resolve remaining provider evidence and actual deployment inputs → separately authorized bounded commissioning → first bounded Courtyard interview when its own prerequisites are met. This acceptance selects no new campaign, authority domain or operational action. All five operational flags remain false and actual retries remain disabled.
+
+These status/review files are post-test documentation with no executable changes. Original producer reports and earlier campaign states remain below as historical evidence.
+
+---
+
+## Historical campaign states (current disposition above controls)
+
 # Current campaign and flow — PPC1 internal evidence producers selected
 
 The owner requested “continue” after PPC0's reviewed integration. [PPC1](next-campaign-provider-institutional-evidence.md) is selected for one local implementation run: implement Augur constitutional provenance and current Profile/model-binding evidence under the existing institutional competence. [Full prompt and PowerShell setup](handoffs/provider-institutional-evidence-ready.md).
