@@ -14,4 +14,4 @@ Reviewed boundaries:
 - JSON and human output share one status result and exit mapping; arbitrary exception payloads do not leave the command boundary.
 - Contracts, the pinned service configuration, budget limits, retry policy, workflows and operational flags are preserved. The default alias uses a service attribute. The existing exact runtime-method boundary assertion is explicitly extended to include evidence-only `resume(string)` and construction-only `assertOwner(AuthorityStore)`; it still prohibits every public delivery/capability entry and now checks those new parameter types. Fixture extensions retain their prior defaults.
 
-Validation is in progress. This file does not declare O5 accepted or merged. The unchanged complete parallel gate must verify every enumerated test exactly once and the exact implementation tree before closure.
+Validation completed: all 3,705 tests / 63,941 assertions / four skips and 11 guard tests passed on the exact accepted tree. PR #806 is merged; [accepted evidence and closure](provider-onboarding-o5-complete.md) records the source identity, corrections and limits. This final review paragraph is post-test documentation.
