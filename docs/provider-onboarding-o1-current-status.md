@@ -1,3 +1,26 @@
+# Current campaign and flow — PPC0 code integrated; production evidence blocked
+
+PPC0's dormant composition and bounded file custody are accepted and integrated through [PR #809](https://github.com/gatomontes/imperium-symfony/pull/809), merge `5e3c076dba3a147f1a1272641b40db740d7f393c`, exactly the tested tree `fcc17865be3eefbca0c43eb3c88a3c5acc075651`. [Source/evidence review](reviews/provider-production-composition-review.md), [integration record](provider-production-composition-reviewed-integration.json).
+
+Fresh complete Linux CI passed **3,712 tests / 63,983 assertions / four explicit skips**: all 609 files and every enumerated case exactly once, all eight workers and all 11 guards. The earlier Windows guard privilege error remains historical; this fresh hosted gate satisfies integration validation.
+
+| Stage | Current state |
+| --- | --- |
+| O0–O5 | Closed within accepted offline scope; zero remaining planned onboarding batches |
+| PPC0 dormant composition and file custody | Reviewed and integrated within the documented trusted-custodian/local-filesystem contract |
+| PPC0 production capability | PARTIAL_BLOCKED: five factual evidence producers remain missing |
+| Live commissioning and existing-installation cutover | Separately deferred; DEFER_ENROLLMENT retained |
+
+The missing producers cover account/access, base eligibility, constitutional/resident artifacts, cognition resources/substantive claims, and current assignment/Profile facts. All five default verifiers still refuse. Production wiring remains dormant; the canonical reader and public CLI are unchanged. See the [evidence matrix](provider-production-composition-evidence-matrix.md) and [future operator runbook](provider-production-custody.md).
+
+Flow: accepted CLI and dormant composition → resolve competent evidence sources and exact deployment inputs → separately review/authorize bounded commissioning → first bounded Courtyard interview when its own prerequisites are met. This acceptance selects no further implementation campaign and grants no mission authority. All five operational flags remain false; actual retries remain disabled.
+
+This status and review record are post-test documentation; they add no executable changes or new runtime claims beyond the accepted CI evidence.
+
+---
+
+## Historical campaign states (current disposition above controls)
+
 # Current campaign and flow — PPC0 selected after O5 closure
 
 O0–O5 remain accepted and closed within their offline engineering scope. The owner requested “next” after O5. The newly selected work is [PPC0 provider production composition](next-campaign-provider-production-composition.md), with a [source assessment](provider-production-composition-source-map.md) and [local prompt/pull commands](handoffs/provider-production-composition-ready.md).

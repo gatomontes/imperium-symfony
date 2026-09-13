@@ -1,0 +1,145 @@
+{
+  "schema": "imperium.provider-production-composition-reviewed-integration/v1",
+  "engineering_disposition": "ACCEPTED_LIMITED_COMPOSITION_AND_CUSTODY",
+  "production_disposition": "PARTIAL_BLOCKED",
+  "review_date": "2026-09-13",
+  "packet": {
+    "filename": "imperium-ppc0-public-review.zip",
+    "sha256": "6360ca7237ddaf7f3985da19f5543371d8f0492fd09b189eaa4ec8d4460f3896",
+    "verified_manifest_payloads": 11,
+    "verified_source_files": 3497
+  },
+  "producer": {
+    "base_commit": "111844a2820888eb4baaddd4c4169a18ac7289a2",
+    "tested_commit": "fcf4c2fb02f1ee610bece7389949cbbdbf61beb0",
+    "tested_tree": "9dd8b20609d661b8ffea6814e408622e8fd189a0",
+    "final_commit": "c3f339b36649c8a77ed6d1516f353f3738f634b2",
+    "final_tree": "fcc17865be3eefbca0c43eb3c88a3c5acc075651"
+  },
+  "integration": {
+    "pr": 809,
+    "accepted_head": "c58daf1e5d6e1d67f02928597f35b10e80a07fa6",
+    "merge": "5e3c076dba3a147f1a1272641b40db740d7f393c",
+    "tested_and_verified_merge_tree": "fcc17865be3eefbca0c43eb3c88a3c5acc075651"
+  },
+  "linux_ci": {
+    "run": 34776082266,
+    "url": "https://github.com/gatomontes/imperium-symfony/actions/runs/34776082266",
+    "conclusion": "success",
+    "checkout": "909ad9874e2c79e699b9caad5138d328b87e3fac",
+    "aggregate_job": 103776490252,
+    "php": "8.4.25",
+    "phpunit": "13.3.0",
+    "started_at": "2026-09-13T18:54:54Z",
+    "completed_at": "2026-09-13T19:10:41Z",
+    "guards_passed": 11,
+    "guards_skipped": 0,
+    "assertions": 63983,
+    "exact_case_coverage": true,
+    "files": 609,
+    "longest_partition_seconds": 916.889285,
+    "partitions": [
+      {
+        "assertions": 14951,
+        "index": 0,
+        "seconds": 191.310045,
+        "skipped": 1,
+        "tests": 573
+      },
+      {
+        "assertions": 6899,
+        "index": 1,
+        "seconds": 170.060716,
+        "skipped": 2,
+        "tests": 369
+      },
+      {
+        "assertions": 3759,
+        "index": 2,
+        "seconds": 916.889285,
+        "skipped": 1,
+        "tests": 360
+      },
+      {
+        "assertions": 21446,
+        "index": 3,
+        "seconds": 128.185421,
+        "skipped": 0,
+        "tests": 480
+      },
+      {
+        "assertions": 4682,
+        "index": 4,
+        "seconds": 55.63195,
+        "skipped": 0,
+        "tests": 637
+      },
+      {
+        "assertions": 3828,
+        "index": 5,
+        "seconds": 513.492469,
+        "skipped": 0,
+        "tests": 434
+      },
+      {
+        "assertions": 3495,
+        "index": 6,
+        "seconds": 373.670332,
+        "skipped": 0,
+        "tests": 472
+      },
+      {
+        "assertions": 4923,
+        "index": 7,
+        "seconds": 563.888343,
+        "skipped": 0,
+        "tests": 387
+      }
+    ],
+    "skipped": 4,
+    "source_digest": "2c1a98f6078e1d27280cadea65ebf19c6d408001e82b9e9301da7230763ab8cc",
+    "summed_test_seconds": 2913.128561,
+    "tests": 3712,
+    "tree": "fcc17865be3eefbca0c43eb3c88a3c5acc075651"
+  },
+  "windows_evidence": {
+    "attribution": "Producer supplied; reviewer reran aggregate verification only",
+    "tests": 3712,
+    "assertions": 63995,
+    "skipped": 0,
+    "files": 609,
+    "source_digest": "57c24024af9b863c733b6e6d7a5d241883c02911071ff877b5881b3c1f02662c",
+    "guard_passes": 10,
+    "guard_errors": 1,
+    "guard_error": "Windows symlink privilege WinError 1314",
+    "not_relabelled_as_complete_gate": true
+  },
+  "review": {
+    "blocking_source_findings": [],
+    "scope": "Documented trusted-custodian and local-filesystem contract",
+    "local_php_executed": false,
+    "local_python_guards": {
+      "passed": 9,
+      "skipped": 2,
+      "reason": "PHP unavailable in review container"
+    },
+    "independent_human_review_claimed": false
+  },
+  "remaining_evidence_ports": [
+    "account/access",
+    "base eligibility",
+    "constitution and resident artifacts",
+    "cognition resources and substantive claims",
+    "current assignment/Profile facts"
+  ],
+  "operational_flags": {
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "live_ready": false,
+    "activation": false,
+    "execution_authority": false
+  },
+  "native_enrollment_disposition": "DEFER_ENROLLMENT",
+  "actual_retry_allowlist": [],
+  "documentation_is_post_test": true
+}
