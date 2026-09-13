@@ -1,3 +1,11 @@
+# O4 accepted and closed — current disposition
+
+The operator approved the complete parallel acceptance gate and integration on 2026-09-13. PR #804 is merged at `64bceee351fe8cabdd1847ed4cb938a53c2874fa`; the merge tree exactly matches the source that passed fresh complete CI. [Current closure](provider-onboarding-o4-complete.md) supersedes the approval-pending, serial-only and unimplemented statuses below. O5 remains the next implementation batch.
+
+---
+
+## Historical document (retained unchanged below)
+
 # O4 complete-suite CI proposal — approval pending
 
 O4 remains incomplete and integration PR #798 remains draft. This proposal changes
