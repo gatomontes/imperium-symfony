@@ -1,0 +1,14 @@
+# PPC1 future public-input runbook
+
+This is a preparation description, not authorization to commission, enroll, appoint, activate or run missions. `DEFER_ENROLLMENT` and all five operational flags remain false. Never obtain installed private files or real credentials to test this code.
+
+1. In an independently authorized future campaign, identify exact public charter, persona and Profile originals for `oracle.augur`. Preserve their original bytes, H records, content digests, limitations and provenance. Resolve the root/instance/operator and validity window explicitly.
+2. Call `ConstitutionSource::prepare` with those three original H records and the coherent `AuthorityStore` / `OperatorRootOwnership`. It returns a prepared existing source envelope; it writes nothing and grants no authority. Include its exact artifact source closure in the proposed public evidence package.
+3. Bind its reference into `augur-founding-intent` alongside each already-permitted finite candidate binding; retain exact proposed founding terms in the existing policy. Obtain the independently authorized original Human Operator policy/act through the existing admission workflow. A generic signed evidence package is insufficient.
+4. Preserve the original signed envelope, exact source bytes, policy, finite terms, base/mapping completion lineage and their windows/revocation status. The unchanged owner path verifies these facts before actual atomic FRESH publication; do not pre-create a holder to satisfy verification. `NativeConstitutionEvidence` must be invoked by `FreshProducer` within the current owner frame, not with a copied state captured at construction.
+5. Post-publication, resolve the retained exact holder and resident artifact references through the owner. A prepared source and an admission receipt are never completion evidence. Expiry/revocation refuses new dependent use while historical command recognition remains historical.
+6. Stop at unresolved sources: production account/access, base and cognition still refuse. Assignment evidence also refuses pending the narrowly specified designation/supersession amendment in the matrix. Do not use fixture validators, synthetic parent institutions, native non-current seals, or operator signatures to fill those gaps.
+
+The dormant `Composition` defaults to the native constitution verifier, while preserving its reader alias, custody, other refusing ports and shared assignment verifier for application and settings. No service configuration or installed application was changed. Windows local results do not prove Ubuntu installation or hosted CI state.
+
+For source review, verify the packet ZIP SHA-256 first, then its complete manifest (Git file modes, byte sizes and SHA-256), bounded bundle prerequisites and exact implementation/post-test diffs using the packet instructions. No publication/integration is authorized by this runbook.
