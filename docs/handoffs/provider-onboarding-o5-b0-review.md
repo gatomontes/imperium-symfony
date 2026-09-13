@@ -10,6 +10,6 @@ Reviewed boundaries:
 - Status/preview inspect retained public originals, with no key, generation, adapter or provider calls. Historical receipts remain visible separately from current prerequisites.
 - Exceptions following publication are re-observed to retain command identity, reservations and unknown outcomes. Resume recognizes evidence and cannot re-dispatch.
 - JSON and human output share one status result and exit mapping; arbitrary exception payloads do not leave the command boundary.
-- Existing tests, contracts, budget limits, retry policy, workflows and operational flags are preserved. Fixture extensions retain their prior defaults.
+- Contracts, the pinned service configuration, budget limits, retry policy, workflows and operational flags are preserved. The default alias uses a service attribute. The existing exact runtime-method boundary assertion is explicitly extended to include evidence-only `resume(string)` and construction-only `assertOwner(AuthorityStore)`; it still prohibits every public delivery/capability entry and now checks those new parameter types. Fixture extensions retain their prior defaults.
 
 Validation is in progress. This file does not declare O5 accepted or merged. The unchanged complete parallel gate must verify every enumerated test exactly once and the exact implementation tree before closure.

@@ -31,6 +31,28 @@ final class ProviderOnboardingConsoleTest extends TestCase
         return [$exit,$format === 'json'?json_decode($tester->getDisplay(),true,32,JSON_THROW_ON_ERROR):$tester->getDisplay(),$tester->getErrorOutput()];
     }
 
+    private static function freshStatus(string $root,int $now): array
+    {
+        $process = proc_open([PHP_BINARY,__DIR__.'/Support/provider-console-worker.php',$root,(string)$now],
+            [1=>['pipe','w'],2=>['pipe','w']],$pipes);
+        self::assertIsResource($process);
+        $stdout = stream_get_contents($pipes[1]); $stderr = stream_get_contents($pipes[2]);
+        fclose($pipes[1]); fclose($pipes[2]);
+        return [proc_close($process),$stdout,$stderr];
+    }
+
+    public function testFreshProcessReaderHasNoCredentialOrAdapterDependency(): void
+    {
+        $f = new DeepSeekFixture();
+        try {
+            $f->ready(); $before = self::tree($f->f->root);
+            [$exit,$stdout,$stderr] = self::freshStatus($f->f->root,$f->f->now);
+            self::assertSame(2,$exit,$stderr.$stdout);
+            self::assertSame((new FixedGateway($f->f->store))->status('sequence-test'),json_decode($stdout,true,32,JSON_THROW_ON_ERROR));
+            self::assertSame($before,self::tree($f->f->root));
+        } finally { $f->close(); }
+    }
+
     public function testMissingOwnerDoesNotCreateLockDirectoryOrState(): void
     {
         $root = sys_get_temp_dir().'/o5-absent-'.bin2hex(random_bytes(8)); mkdir($root);
@@ -171,10 +193,9 @@ final class ProviderOnboardingConsoleTest extends TestCase
             $status = (new FixedGateway($d->f->store))->status('sequence-test');
             self::assertCount(2,$status['effects']['assignment_receipt_refs']); self::assertFalse($status['effects']['new_effects_this_command']);
             $before = self::tree($d->f->root);
-            $process = new \Symfony\Component\Process\Process([PHP_BINARY,__DIR__.'/Support/provider-console-worker.php',$d->f->root,(string)$d->f->now]);
-            $process->setTimeout(120); $process->run();
-            self::assertSame(0,$process->getExitCode(),$process->getErrorOutput().$process->getOutput());
-            self::assertSame($status,json_decode($process->getOutput(),true,32,JSON_THROW_ON_ERROR));
+            [$childExit,$stdout,$stderr] = self::freshStatus($d->f->root,$d->f->now);
+            self::assertSame(0,$childExit,$stderr.$stdout);
+            self::assertSame($status,json_decode($stdout,true,32,JSON_THROW_ON_ERROR));
             self::assertSame($before,self::tree($d->f->root));
             $d->f->now += 1801;
             [$exit,$historical] = $this->runRequest($gateway,$d->f->root,$q);

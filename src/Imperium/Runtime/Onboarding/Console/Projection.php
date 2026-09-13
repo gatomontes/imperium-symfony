@@ -13,16 +13,22 @@ final readonly class Projection
 {
     public function __construct(private CommandLedger $ledger) {}
 
-    public function status(string $sequence, ?array $operation = null): array
+    public function status(string $sequence, ?array $operation = null, ?array $recognizeRequest = null): array
     {
         R::id($sequence);
-        return $this->ledger->store->journal->inspectExisting(function(array $frame) use ($sequence,$operation): array {
-            return StrictJson::within(function() use ($frame,$sequence,$operation): array {
+        return $this->ledger->store->journal->inspectExisting(function(array $frame) use ($sequence,$operation,$recognizeRequest): array {
+            return StrictJson::within(function() use ($frame,$sequence,$operation,$recognizeRequest): array {
                 $s = $this->ledger->store->state($frame['state']);
                 $seq = $s['sequences'][LedgerState::key('sequence',[$this->ledger->store->instance,$sequence])] ?? null;
                 if ($seq === null) { throw new \RuntimeException('SEQUENCE_NOT_FOUND'); }
                 $policy = $this->ledger->store->lookup($s,$seq['registration']['body']['policy_ref']);
                 $out = $this->project($frame,$s,$policy,$sequence,$seq);
+                if ($recognizeRequest !== null) {
+                    $key = LedgerState::key('command',[$this->ledger->store->instance,$sequence,$recognizeRequest['command_id']]);
+                    $command = $s['commands'][$key] ?? null;
+                    $out['command_id'] = $recognizeRequest['command_id']; $out['mode'] = $recognizeRequest['mode'] ?? 'resume';
+                    $out['result_ref'] = $command !== null && R::same($command['request'],$recognizeRequest)?$command['ref']:null;
+                }
                 if ($operation !== null) {
                     foreach (['command_id','mode','result_ref'] as $field) { $out[$field] = $operation[$field]; }
                     $out['effects']['new_effects_this_command'] = $operation['effects']['new_effects_this_command'];

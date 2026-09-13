@@ -56,16 +56,8 @@ final readonly class FixedGateway implements Gateway
     {
         // A delivery failure can follow a committed claim. Recover its public identity
         // and exposure from custody before classifying the command's outcome.
-        $out = $this->projection->status($q['sequence_id']);
-        $out['command_id'] = $q['command_id']; $out['mode'] = $q['mode'] ?? 'resume';
-        $command = $this->store->journal->inspectExisting(function(array $frame) use ($q): ?array {
-            $s = $this->store->state($frame['state']);
-            $key = \App\Imperium\Runtime\Onboarding\Ledger\LedgerState::key('command',[$this->store->instance,$q['sequence_id'],$q['command_id']]);
-            $command = $s['commands'][$key] ?? null;
-            return $command !== null && R::same($command['request'],$q)?$command:null;
-        });
-        if ($command !== null) { $out['result_ref'] = $command['ref']; }
-        if ($error->getMessage() === 'O2_CUSTODY_REFUSED_OR_OUTCOME_UNKNOWN' && $command !== null) {
+        $out = $this->projection->status($q['sequence_id'],recognizeRequest:$q);
+        if ($error->getMessage() === 'O2_CUSTODY_REFUSED_OR_OUTCOME_UNKNOWN' && $out['result_ref'] !== null) {
             $out['effects']['new_effects_this_command'] = true;
             $out['reason_codes'] = [ReasonCodes::public($error)];
             return $out;

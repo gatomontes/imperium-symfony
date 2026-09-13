@@ -8,6 +8,7 @@ use App\Imperium\Runtime\Onboarding\AuthorityAdmission\{AuthorityStore,Rules as 
 use App\Imperium\Runtime\Onboarding\Ledger\{CommandLedger,Recovery};
 
 /** Default deployment observes its existing root. Live producer composition is separately commissioned. */
+#[\Symfony\Component\DependencyInjection\Attribute\AsAlias(Gateway::class)]
 final readonly class DeploymentGateway implements Gateway
 {
     public function __construct(private FormationJournal $journal,private Clock $clock) {}
