@@ -1,3 +1,32 @@
+# Current campaign and flow — PPC2 component integrated; assignment remains unavailable
+
+The model-bound Profile evidence and empty designation-initialization component is accepted and integrated through [PR #815](https://github.com/gatomontes/imperium-symfony/pull/815), merge `a601d3005080e6803717692e030d51652d50c933`, exact reviewed/tested tree `fef30e051bc18e39797248f8a9fc645557be32da`. [Receiving review](reviews/provider-profile-designation-review.md), [integration record](provider-profile-designation-reviewed-integration.json).
+
+Fresh complete Linux CI passed **3,750 tests / 64,133 assertions / four explicit skips**, all 613 files and every enumerated case exactly once, all eight workers and all 11 guards. The original Windows guard error remains retained. No gate, pinned writer, service configuration or onboarding executable source was changed.
+
+| Stage | Current state |
+| --- | --- |
+| O0–O5, PPC0, PPC1 constitution | Earlier accepted offline scopes retained |
+| PPC2 amendment A–F | Approved for offline implementation; original proposal/decision bytes retained as history |
+| Model-bound Profile evidence and empty initialization | Accepted component; exact full Profile chain and separate appointment, no current designation |
+| Designation/revocation/supersession mechanics | Not implemented |
+| Native tenure synchronization | Unresolved alternate writers/native registry and indirect lock order |
+| Native model seal to O4 binding/configuration/generation correspondence | Missing competent original; admitted tuple/counter cannot substitute |
+| Current assignment publication/use | MissingAssignmentEvidence remains; no production verifier promoted |
+| Combined FRESH institutional establishment | Unproven; vacancy and later native-publication fences retained |
+| Account/access, base and cognition | Three separate missing production ports |
+| Live commissioning and cutover | Separately deferred; all five operational flags false |
+
+PPC2 remains **PARTIAL**. `ASSIGNMENT_EVIDENCE_IMPLEMENTED_OFFLINE` is not claimed. The synthetic model specification in component tests is not authenticated model-authorization evidence.
+
+Source correction: root installation already enters the Formation fence through OperatorRootOwnership::native; the preparation missed this indirect call. That correction does not resolve the alternate/native-registry writers or global lock order. See the [writer inventory](provider-profile-designation-writers.md) and receiving review. The original approved proposal hash is preserved.
+
+Flow: accepted evidence component → competent binding correspondence plus synchronized native tenure → designation lifecycle and shared application/use verifier → resolve combined FRESH establishment and remaining provider evidence → separately authorized commissioning when all prerequisites exist. This review selects no new general approval authority or campaign. DEFER_ENROLLMENT and the empty actual retry allowlist remain.
+
+---
+
+## Historical campaign states (current disposition above controls)
+
 # Current campaign and flow — PPC1 constitution integrated; assignment amendment open
 
 PPC1's native FRESH constitution producer/verifier is accepted and integrated through [PR #812](https://github.com/gatomontes/imperium-symfony/pull/812), merge `40c5ba4b499bd33a6017ef3dce55b87675f87cdd`, exactly the tested tree `5dc5fd741235295b433b000b83710db753adf936`. [Source/evidence review](reviews/provider-institutional-evidence-review.md), [integration record](provider-institutional-evidence-reviewed-integration.json).

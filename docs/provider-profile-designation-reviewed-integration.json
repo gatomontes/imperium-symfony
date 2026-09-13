@@ -1,0 +1,154 @@
+{
+  "actual_retry_allowlist": [],
+  "amendment_approval_source": "Owner statement in receiving conversation and retained local approval record",
+  "amendment_status": "APPROVED_FOR_OFFLINE_IMPLEMENTATION",
+  "assignment_evidence_complete": false,
+  "campaign_disposition": "PARTIAL",
+  "documentation_is_post_test": true,
+  "engineering_disposition": "MODEL_BOUND_PROFILE_COMPONENT_ACCEPTED_AND_INTEGRATED",
+  "integration": {
+    "accepted_head": "57b4e4007983f65289d0b960eea6bb838233bd8a",
+    "candidate_head": "57b4e4007983f65289d0b960eea6bb838233bd8a",
+    "merge": "a601d3005080e6803717692e030d51652d50c933",
+    "pr": 815,
+    "tested_and_verified_merge_tree": "fef30e051bc18e39797248f8a9fc645557be32da"
+  },
+  "linux_ci": {
+    "aggregate_job": 103811296975,
+    "assertions": 64133,
+    "checkout": "260032f4fd668772a663630ac9fdade444a79e8e",
+    "completed_at": "2026-09-13T23:24:58Z",
+    "conclusion": "success",
+    "exact_case_coverage": true,
+    "files": 613,
+    "guards_passed": 11,
+    "guards_skipped": 0,
+    "longest_partition_seconds": 874.503748,
+    "partitions": [
+      {
+        "assertions": 10279,
+        "index": 0,
+        "seconds": 162.593451,
+        "skipped": 0,
+        "tests": 707
+      },
+      {
+        "assertions": 6086,
+        "index": 1,
+        "seconds": 372.813553,
+        "skipped": 0,
+        "tests": 353
+      },
+      {
+        "assertions": 3940,
+        "index": 2,
+        "seconds": 874.503748,
+        "skipped": 0,
+        "tests": 414
+      },
+      {
+        "assertions": 20865,
+        "index": 3,
+        "seconds": 136.980182,
+        "skipped": 1,
+        "tests": 455
+      },
+      {
+        "assertions": 9293,
+        "index": 4,
+        "seconds": 83.331664,
+        "skipped": 2,
+        "tests": 503
+      },
+      {
+        "assertions": 6947,
+        "index": 5,
+        "seconds": 387.938643,
+        "skipped": 1,
+        "tests": 454
+      },
+      {
+        "assertions": 3496,
+        "index": 6,
+        "seconds": 338.748369,
+        "skipped": 0,
+        "tests": 437
+      },
+      {
+        "assertions": 3227,
+        "index": 7,
+        "seconds": 436.242059,
+        "skipped": 0,
+        "tests": 427
+      }
+    ],
+    "php": "8.4.25",
+    "phpunit": "13.3.0",
+    "run": 34788886485,
+    "skipped": 4,
+    "source_digest": "7f8699cc59d0326e9801bb20f8596f5cbdab0db4df65b8e1f009b0906b50d235",
+    "started_at": "2026-09-13T23:09:37Z",
+    "summed_test_seconds": 2793.151669,
+    "tests": 3750,
+    "tree": "fef30e051bc18e39797248f8a9fc645557be32da",
+    "url": "https://github.com/gatomontes/imperium-symfony/actions/runs/34788886485"
+  },
+  "native_enrollment_disposition": "DEFER_ENROLLMENT",
+  "operational_flags": {
+    "activation": false,
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "execution_authority": false,
+    "live_ready": false
+  },
+  "packet": {
+    "filename": "imperium-ppc2-public-review.zip",
+    "sha256": "bf7ae7e496d5e50b78704305d6b626ecac0234abf1489ddc1787fb92cf61abd6",
+    "verified_evidence_files": 111,
+    "verified_payloads": 13,
+    "verified_source_files": 3531
+  },
+  "producer": {
+    "base_commit": "efe7cb1c9a84944e470d4b53287fc08c059834de",
+    "final_commit": "37428fd7994071dd01e289859b0a94280571097a",
+    "final_tree": "fef30e051bc18e39797248f8a9fc645557be32da",
+    "tested_commit": "c1a98ef9320d92077fcc3fac9d0f69a79244f2fe",
+    "tested_tree": "35514042ad3af29ba3cc34fca6a020cf8ffdda7d"
+  },
+  "proposal_sha256": "c24939fd808cd5917c8057efe518787cc2448d3da60be089511e7abd6dee2984",
+  "remaining_gaps": [
+    "competent native-to-O4 binding/configuration/generation correspondence",
+    "native tenure synchronization and indirect lock order",
+    "designation/revocation events and lifecycle mechanics",
+    "current assignment application/use verifier",
+    "combined FRESH institutional establishment",
+    "account/access evidence",
+    "base eligibility evidence",
+    "cognition evidence"
+  ],
+  "review": {
+    "blocking_component_source_findings": [],
+    "local_php_executed": false,
+    "local_python_guards": {
+      "passed": 9,
+      "reason": "PHP absent",
+      "skipped": 2
+    },
+    "preparation_correction": "Root installer already holds Formation indirectly through OperatorRootOwnership::native; alternate/native registry and indirect lock order remain unresolved",
+    "separate_agent_or_human_review_claimed": false
+  },
+  "schema": "imperium.provider-profile-designation-reviewed-integration/v1",
+  "windows_evidence": {
+    "assertions": 64147,
+    "attribution": "Producer supplied; reviewer reran unchanged aggregate verification",
+    "files": 613,
+    "guard_error": "Windows symlink privilege WinError 1314",
+    "guards_errored": 1,
+    "guards_passed": 10,
+    "longest_partition_seconds": 1608.433272,
+    "not_relabelled_as_complete_gate": true,
+    "skipped": 0,
+    "source_digest": "a34c8ea97b55a9828af70d2c32b26be124eb8145627e8e4824147a50447c5cee",
+    "tests": 3750
+  }
+}

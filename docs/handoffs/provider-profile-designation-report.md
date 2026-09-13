@@ -1,3 +1,11 @@
+# Receiving acceptance of the PPC2 component
+
+The bounded model-bound Profile evidence/empty initialization component passed receiving source review and fresh complete Linux CI, and is integrated through [PR #815](https://github.com/gatomontes/imperium-symfony/pull/815), merge `a601d3005080e6803717692e030d51652d50c933`. Linux: 3,750 tests / 64,133 assertions / four skips; 613 files, exact case coverage and all 11 guards passed. [Receiving review](../reviews/provider-profile-designation-review.md), [integration record](../provider-profile-designation-reviewed-integration.json).
+
+The original report below remains evidence of the producer's source, Windows results and limitations. Its partial disposition remains: current assignment evidence, designation mechanics, synchronization, binding correspondence and combined FRESH establishment are not accepted as complete. The original Windows guard error is not relabelled.
+
+---
+
 # PPC2 local implementation report
 
 Disposition: **PARTIAL_MODEL_BOUND_PROFILE_EVIDENCE; CURRENT_ASSIGNMENT_EVIDENCE_UNAVAILABLE**. Clauses A–F were approved by the owner in this task; the [approval record](provider-profile-designation-approval.md) retains the exact conversational reference and original proposal hash. Approval is not implementation acceptance. `ASSIGNMENT_EVIDENCE_IMPLEMENTED_OFFLINE` is not claimed.
