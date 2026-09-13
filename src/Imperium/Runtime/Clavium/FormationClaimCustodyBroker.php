@@ -14,7 +14,8 @@ final readonly class FormationClaimCustodyBroker
     public function __construct(private J $journal, private FormationSessionAuthority $authority,
         private FormationSessionLeaseService $leases,
         private CredentialBroker $credentials, private FormationWireAdapter $adapter,
-        private ProviderResponseEnvelopeService $responses, private Clock $clock) {}
+        private ProviderResponseEnvelopeService $responses, private Clock $clock,
+        private ?\App\Imperium\Runtime\Onboarding\Assignment\FormationSettingsBinding $settings = null) {}
 
     public function invoke(array $claim, array $request, array $terms): array
     {
@@ -115,6 +116,10 @@ final readonly class FormationClaimCustodyBroker
             || $session['terms'] !== $terms || ($claim['prepared_operation'] ?? null) !== $operation
             || $claim['expires_at'] <= $this->clock->now()->getTimestamp()) { throw new \RuntimeException('FC004_RETAINED_CLAIM_REQUIRED'); }
         $source = $this->authority->validateSession($state,$session);
+        if (array_key_exists('model_settings',$terms)) {
+            if ($this->settings===null) { throw new \RuntimeException('SETTINGS_EXECUTION_BINDING_REQUIRED'); }
+            $this->settings->verify($this->journal,$state,$request,$terms,$this->adapter,$operation);
+        }
         $effect = match($session['phase']) { 'interview'=>'AUTHORIZE_INTERVIEW_SESSION','drafting'=>'AUTHORIZE_EXACT_DRAFTING','acceptance'=>'AUTHORIZE_RECEIVING_ASSESSMENT',default=>'' };
         if ($effect !== $session['effect'] || $session['session_id'] !== 'session-'.J::digest([$session['intake_id'],$session['phase'],$terms,$session['decision']])
             || $request !== $this->authority->request($state,$session,$source) || $attempt['fingerprint'] !== J::digest($request)

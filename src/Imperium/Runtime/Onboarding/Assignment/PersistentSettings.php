@@ -29,6 +29,48 @@ final readonly class PersistentSettings
         R::require(in_array($role,AssignmentRule::ROLES,true),'SETTINGS_ROLE');
         return $this->store->journal->inspect(fn(array $frame):array=>\App\Imperium\Runtime\Onboarding\AuthorityAdmission\StrictJson::within(fn():array=>$this->current($frame['state'],null,$role)));
     }
+    public function assertFormationOwner(\App\Imperium\Runtime\Citadel\Formation\FormationJournal $journal, array $state):void
+    {
+        R::require($this->store->journal->sameOwner($journal),'SETTINGS_FOREIGN_AGGREGATE');
+        R::require(($state['parent_instance_id']??null)===$this->store->instance,'SETTINGS_FOREIGN_INSTANCE');
+    }
+    /** Internal owner-frame validation: no nested journal acquisition. The native
+     * Profile envelope digest and O4 H reference belong to different schemas;
+     * the policy-admitted mapping explicitly joins them, including original bytes.
+     */
+    public function verifyFormation(\App\Imperium\Runtime\Citadel\Formation\FormationJournal $journal,
+        array $state,string $role,array $request,array $terms,array $configuration):void
+    {
+        $this->assertFormationOwner($journal,$state);
+        \App\Imperium\Runtime\Onboarding\AuthorityAdmission\StrictJson::within(function()use($state,$role,$request,$terms,$configuration):void{
+            R::require(in_array($role,AssignmentRule::ROLES,true),'SETTINGS_ROLE');
+            $tuple=$this->current($state,null,$role);
+            R::require(R::same($terms['model_settings']??null,$tuple),'SETTINGS_TRANSPORT_GENERATION');
+            R::require(($terms['provider']??null)===$tuple['provider'] && ($terms['model']??null)===$tuple['model_id'],'SETTINGS_TRANSPORT_IDENTITY');
+            $s=$this->store->state($state);
+            $profile=$this->store->checkSource($s,$tuple['profile_ref']);
+            $mapping=\App\Imperium\Runtime\Onboarding\AuthorityAdmission\Policy::content($profile,'formation-profile-mapping');
+            R::object($mapping,['schema','instance_id','formation_citadel_id','seat','holder_generation','profile_evidence_digest','profile_artifact']);
+            R::require($mapping['schema']==='imperium.formation-profile-mapping/v1'
+                && $mapping['instance_id']===$this->store->instance && $mapping['formation_citadel_id']===($state['citadel_id']??null)
+                && $mapping['seat']===$role,'SETTINGS_PROFILE_SCOPE');
+            $holder=$request['holder']??[];
+            $original=$state['personnel_evidence'][$mapping['profile_evidence_digest']]??null;
+            R::require(is_array($original) && \App\Imperium\Runtime\Citadel\Formation\FormationJournal::digest($original)===$mapping['profile_evidence_digest']
+                && ($original['payload']['kind']??null)==='DERIVED_PROFILE'
+                && ($original['payload']['scope']??null)===$mapping['formation_citadel_id']
+                && ($original['payload']['content']['seat']??null)===$role
+                && R::same($original['payload']['content']['artifact']??null,$mapping['profile_artifact'])
+                && ($holder['candidate']['profile']??null)===$mapping['profile_evidence_digest']
+                && ($holder['terms']['seat']??null)===$role
+                && ($holder['generation']??null)===$mapping['holder_generation']
+                && $mapping['holder_generation']===$tuple['profile_generation']
+                && R::same($holder,$state[$role==='courtyard.courtthane'?'courtthane':'locksmith']??null)
+                && R::same($holder['profile_artifact']??null,$mapping['profile_artifact']),'SETTINGS_EXECUTING_PROFILE');
+            $originalConfiguration=$this->store->checkSource($s,$tuple['configuration_ref']);
+            R::require(R::same($configuration,\App\Imperium\Runtime\Onboarding\AuthorityAdmission\Policy::content($originalConfiguration,'request-configuration')),'SETTINGS_EFFECTIVE_CONFIGURATION');
+        });
+    }
     private function current(array $state,?array $expectedApplication,?string $role):array
     {
         $s=$this->store->state($state);$a=ApplicationHistory::latest($s);R::require($a!==null,'MODEL_SETTINGS_ABSENT');$receipt=$a['receipt'];

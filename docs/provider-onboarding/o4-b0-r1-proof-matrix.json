@@ -1,0 +1,115 @@
+{
+  "stage": "O4-B0-R1",
+  "status": "LOCAL_CORRECTION_PROVED_SOURCE_REVIEW_AND_FRESH_HOSTED_CI_REQUIRED",
+  "correction_implemented": true,
+  "local_binding_proofs_complete": true,
+  "campaign_complete": false,
+  "integration_accepted": false,
+  "entry_commit": "d3fe18700188970bf41117d4cbc6d9a00d802e1d",
+  "tested_commit": "8a05b25a702407f0ba0dd4dd6b9b6b059bd0afff",
+  "tested_tree": "f0eaaf2fd5472a304c3fc98a634ffdabba7cfc97",
+  "required_pass_labels": [
+    "binding-final",
+    "assignment-compatibility-final",
+    "signed-settings-final",
+    "formation-compatibility-final",
+    "inventories-final",
+    "lint-final",
+    "static-final",
+    "kernel-final",
+    "dependencies-final"
+  ],
+  "project_php_files": 1882,
+  "before_after_php_unchanged": true,
+  "operational_flags": {
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "live_ready": false,
+    "activation": false,
+    "execution_authority": false
+  },
+  "actual_retry_allowlist": [],
+  "clean_reviewer_baseline": {
+    "command": [
+      "C:/php/php-8.4/php.exe",
+      "-d",
+      "auto_prepend_file=E:/htdocs/imperium-onboarding-o4-b0-completion/work/r1/baseline-prelude.php",
+      "E:/htdocs/imperium-onboarding-o4-b0-completion/vendor/bin/phpunit",
+      "tests/Imperium/Runtime/AssignmentReviewerConsumerBindingTest.php"
+    ],
+    "cwd": "E:\\htdocs\\imperium-onboarding-o4-b0-completion\\work\\r1\\baseline-source",
+    "exit": 1,
+    "seconds": 238.431,
+    "timeout_seconds": 1800,
+    "timed_out": false,
+    "php_unchanged_during_run": true
+  },
+  "proofs": [
+    {
+      "case": "Unchanged combined reviewer probe",
+      "result": "PROVED_OFFLINE",
+      "evidence": "binding-final",
+      "baseline_dispatches": 1,
+      "corrected_dispatches": 0
+    },
+    {
+      "case": "Same-aggregate actual ordinary and prepared/custodied execution, exact effective configuration and governed Profile",
+      "result": "PROVED_OFFLINE",
+      "evidence": "binding-final"
+    },
+    {
+      "case": "Recomposed owner recovery without another dispatch or credential",
+      "result": "PROVED_OFFLINE",
+      "evidence": "binding-final"
+    },
+    {
+      "case": "Separate foreign aggregate and foreign instance refusals on both routes",
+      "result": "PROVED_OFFLINE",
+      "evidence": "binding-final"
+    },
+    {
+      "case": "Wrong executing Profile, altered effective options, actual replacement leaving stale settings, both routes",
+      "result": "PROVED_OFFLINE",
+      "evidence": "binding-final"
+    },
+    {
+      "case": "v4 unmapped shared-budget refusal and current evidence loss during credential consumption",
+      "result": "PROVED_OFFLINE",
+      "evidence": "binding-final"
+    },
+    {
+      "case": "Existing atomic assignment, process interruption/restart, signed settings and revocation history",
+      "result": "PROVED_OFFLINE",
+      "evidence": [
+        "assignment-compatibility-final",
+        "signed-settings-final"
+      ]
+    },
+    {
+      "case": "Existing formation, custody, process, native session and shared exposure compatibility",
+      "result": "PROVED_OFFLINE",
+      "evidence": "formation-compatibility-final"
+    }
+  ],
+  "full_local_gate": {
+    "started_at_utc": "2026-09-13T00:32:54.478337+00:00",
+    "finished_at_utc": "2026-09-13T01:02:55.282685+00:00",
+    "source_commit": "8a05b25a702407f0ba0dd4dd6b9b6b059bd0afff",
+    "source_tree": "f0eaaf2fd5472a304c3fc98a634ffdabba7cfc97",
+    "command": [
+      "C:/php/php-8.4/php.exe",
+      "vendor/bin/phpunit",
+      "tests"
+    ],
+    "cwd": "E:\\htdocs\\imperium-onboarding-o4-b0-completion",
+    "exit": 124,
+    "seconds": 1800.804,
+    "timeout_seconds": 1800,
+    "timed_out": true,
+    "php_unchanged_during_run": true
+  },
+  "fresh_hosted_ci": "NOT_RUN",
+  "merged": false,
+  "post_test_php_changes": [],
+  "development_evidence": "Retained separately. Development logs, including newline-only source drift and the corrected canonical-array-order assertion, are not acceptance proofs."
+}
