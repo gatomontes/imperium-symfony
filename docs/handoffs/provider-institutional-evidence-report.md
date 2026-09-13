@@ -1,3 +1,5 @@
+> Subsequent review: the constitution subset is accepted and integrated through PR #812 after fresh complete Linux CI. Assignment remains blocked and its amendment is not approved. See the [review and exact results](../reviews/provider-institutional-evidence-review.md). The producer report below is preserved as historical supplied evidence.
+
 # PPC1 local implementation report
 
 Disposition: **CONSTITUTION_IMPLEMENTED_OFFLINE; ASSIGNMENT_CONTRACT_AMENDMENT_REQUIRED**. Two-port engineering success is not claimed. The source changes implement the compatible FRESH producer/verifier path and leave assignment evidence refusing for the concrete owner-contract incompatibility documented below.
