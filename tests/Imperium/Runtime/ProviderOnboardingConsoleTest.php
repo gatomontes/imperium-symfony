@@ -130,6 +130,12 @@ final class ProviderOnboardingConsoleTest extends TestCase
             $resume['expected_head'] = $recognized['head'];
             [$exit,$conflict] = $this->runRequest($gateway,$f->f->root,$resume,true);
             self::assertSame(1,$exit); self::assertSame(['O2_COMMAND_CONFLICT'],$conflict['reason_codes']); self::assertCount(1,$f->requests);
+            $f->f->now += 1801;
+            [$exit,$expiredReplay] = $this->runRequest($gateway,$f->f->root,$q);
+            self::assertSame(3,$exit,json_encode($expiredReplay)); self::assertSame('OUTCOME_UNKNOWN',$expiredReplay['status']);
+            self::assertSame($out['effects']['exposure'],$expiredReplay['effects']['exposure']);
+            self::assertSame($out['result_ref'],$expiredReplay['result_ref']); self::assertFalse($expiredReplay['effects']['new_effects_this_command']);
+            self::assertCount(1,$f->requests);
         } finally { $f->close(); }
     }
 

@@ -153,14 +153,31 @@ final readonly class Projection
             $ref = R::reference($application['receipt']); $effects['assignment_receipt_refs'][] = PublicResult::ref($ref);
             $facts['assignment'] = PublicResult::fact('applied',[$ref]);
         }
+        // Prove retained signatures independently of current time/revocation checks.
+        // An expired act must neither conceal invalid bytes nor erase an uncertain effect.
+        foreach ($s['acts'] as $key=>$entry) {
+            $original = \App\Imperium\Runtime\Onboarding\AuthorityAdmission\Admission::retained($s,$key);
+            $envelope = \App\Imperium\Runtime\Onboarding\AuthorityAdmission\Act::shape($original['envelope']);
+            R::require($envelope['payload']['object_digest'] === R::hash($original['object']),'ACT_OBJECT');
+            R::require(sodium_crypto_sign_verify_detached(R::bytes($envelope['signature'],64),
+                \App\Bootstrap\CanonicalJson::encode($envelope['payload']),R::bytes($s['trust']['body']['public_key'],32)),'SIGNATURE');
+        }
         // Historical receipt facts survive expiry. Current usability remains separately checked.
+        $currentFailure = null;
         try { $store->checkSource($s,R::reference($policy)); }
-        catch (\Throwable $error) { return PublicResult::refusal($error,$out); }
+        catch (\Throwable $error) {
+            if (!in_array($error->getMessage(),['O2_ACT_TIME','O2_TRUST_TIME','O2_POLICY_CURRENT','O2_POLICY_REVOKED','O2_ACT_REVOKED','O2_ISSUER_REVOKED'],true)) {
+                return PublicResult::refusal($error,$out);
+            }
+            $currentFailure = $error;
+        }
         if ($terminal) { return PublicResult::refusal(new \RuntimeException('FINAL_NONCONFORMING_RESULT'),$out); }
         if ($unknown) {
             $out['status'] = 'OUTCOME_UNKNOWN'; $out['reason_codes'] = ['OUTCOME_UNKNOWN'];
+            if ($currentFailure !== null) { $out['reason_codes'][] = ReasonCodes::public($currentFailure); }
             $out['next_action'] = self::next('RECOGNIZE_EVIDENCE',null,'Recognize retained evidence; do not dispatch again.'); return $out;
         }
+        if ($currentFailure !== null) { return PublicResult::refusal($currentFailure,$out); }
         if ($facts['augur_authority']['state'] === 'stale') {
             $out['status'] = 'MISSING_AUGUR_AUTHORITY';
             $out['next_action'] = self::next('RESOLVE_AUGUR_AUTHORITY',null,'Retained assignments remain historical; resolve stale Augur prerequisites through their owner.'); return $out;
