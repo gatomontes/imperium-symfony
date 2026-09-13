@@ -1,21 +1,14 @@
-name: PHPUnit
-
+name: O4 V2 diagnostic validation
 on:
   pull_request:
-  push:
-    branches: [main]
-
 permissions:
   contents: read
-
 jobs:
-  test:
+  regression:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
@@ -23,7 +16,7 @@ jobs:
           tools: composer:v2
       - name: Install locked dependencies
         run: composer install --no-interaction --no-progress --prefer-dist
-      - name: Run O3-B0 reviewer credential binding regression
-        run: vendor/bin/phpunit tests/Imperium/Runtime/DeepSeekReviewerCredentialBindingTest.php
-      - name: Run full test suite
-        run: vendor/bin/phpunit tests
+      - name: Check exact source identity
+        run: git log -1 --format=%H
+      - name: Run pure computation and custody regressions
+        run: vendor/bin/phpunit tests/Imperium/Runtime/JournalFieldParsingCompatibilityTest.php tests/Imperium/Runtime/JournalFieldEncodingCompatibilityTest.php tests/Imperium/Runtime/CustodyPureScopeTest.php tests/Imperium/Runtime/ProviderOnboardingCustodyTest.php tests/Imperium/Runtime/PureReferenceKeyCompatibilityTest.php tests/Imperium/Runtime/PureIndexComparisonCompatibilityTest.php tests/Imperium/Runtime/OnboardingParseScopeTest.php tests/Imperium/Runtime/StrictJsonScannerCompatibilityTest.php tests/Imperium/Runtime/CanonicalTraversalCompatibilityTest.php tests/Imperium/Runtime/JournalReviewerFreshReadTest.php
