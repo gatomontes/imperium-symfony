@@ -74,7 +74,7 @@ final readonly class Projection
                         if ($previous['result']['step_id'] !== null) { LedgerState::step($s,$policy,$previous['result']['step_id']); }
                         R::require($q['step_id'] !== null,'STEP_REQUIRED');
                         R::require($s['source_fences'] === [],'OUTCOME_UNKNOWN');
-                        $this->ready($s,$policy,$q['step_id']);
+                        $this->ready($frame['state'],$s,$policy,$q['step_id']);
                         if (!in_array($out['status'],['REFUSED','OUTCOME_UNKNOWN'],true)) {
                             $out['next_action'] = self::next('ADVANCE_STEP',$q['step_id'],'Public prerequisites are present. An explicit advance rechecks current producer, custody and resource prerequisites.');
                             $this->proposal($s,$policy,$out);
@@ -170,7 +170,7 @@ final readonly class Projection
             $allGroups => 'RESULT_PENDING',
             $facts['augur_authority']['state'] === 'current' => 'ASSESSMENT_AUTHORIZED',
             $facts['base_selection']['state'] === 'selected' => 'MISSING_AUGUR_AUTHORITY',
-            $facts['authentication']['state'] === 'verified' => 'AUTHENTICATION_PENDING',
+            $facts['credential']['state'] === 'present' && $facts['authentication']['state'] !== 'verified' => 'AUTHENTICATION_PENDING',
             default => 'CONFIGURED',
         };
         if (!$allGroups && !$assessmentPending && $facts['augur_authority']['state'] === 'current') {
@@ -181,7 +181,7 @@ final readonly class Projection
             foreach ($policy['body']['steps'] as $step) {
                 if (isset($steps[$step['step_id']])) { continue; }
                 try {
-                    $this->ready($s,$policy,$step['step_id']);
+                    $this->ready($frame['state'],$s,$policy,$step['step_id']);
                     $out['next_action'] = self::next('ADVANCE_STEP',$step['step_id'],'Submit one explicit advance; its owner rechecks dynamic prerequisites.');
                     if (in_array($step['run_condition']['kind'],['initial_assessment','retry_after_confirmed_failure'],true)) { $facts['assessment'] = PublicResult::fact('authorized',[R::reference($policy)]); $out['status'] = 'ASSESSMENT_AUTHORIZED'; }
                     break;
@@ -195,7 +195,7 @@ final readonly class Projection
         return $out;
     }
 
-    private function ready(array $s,array $policy,string $id): void
+    private function ready(array $state,array $s,array $policy,string $id): void
     {
         R::require($s['source_fences'] === [],'OUTCOME_UNKNOWN');
         $step = StepReadiness::ready($this->ledger->store,$s,$policy,$id);
@@ -208,6 +208,15 @@ final readonly class Projection
                 ? [$this->ledger->store->instance,$facts['admission']['envelope']['payload']['trust_fingerprint'],$facts['admission']['envelope']['payload']['nonce']]
                 : [$this->ledger->store->instance,$policy['record_digest'],$slot['slot_id']];
             foreach ($s['slots'] as $used) { R::require(!R::same($used['authority_key'],$ak),'AUTHORITY_ALREADY_CONSUMED'); }
+            if (in_array($slot['effect'],['AUTHORIZE_BOOTSTRAP_ACCESS','AUTHORIZE_BOOTSTRAP_ASSESSMENT'],true)) {
+                $budget = BudgetAssociation::resolve($this->ledger->store,$state,$policy);
+                if ($slot['effect'] === 'AUTHORIZE_BOOTSTRAP_ACCESS') {
+                    $grant = $this->ledger->store->checkSource($s,$facts['terms']['body']['terms']);
+                    // prepare() is the existing pure fixed-wire validator; it has no key or I/O port.
+                    $maximum = (new \App\Imperium\Runtime\Onboarding\DeepSeek\AccessAdapter($grant))->prepare($facts['terms'])['maximum'];
+                } else { $maximum = \App\Imperium\Runtime\Onboarding\Augur\MappingLimits::MAXIMUM; }
+                \App\Imperium\Runtime\Citadel\Formation\SharedExposure::check($state,$budget['identity'],$budget['limits'],$maximum);
+            }
         }
     }
 

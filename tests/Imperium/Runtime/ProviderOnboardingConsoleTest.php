@@ -111,6 +111,23 @@ final class ProviderOnboardingConsoleTest extends TestCase
         } finally { $f->close(); }
     }
 
+    public function testPreviewCannotSuggestSpendingAnExhaustedSharedBudget(): void
+    {
+        $f = new DeepSeekFixture(change:static function(array &$policy,\App\Tests\Imperium\Runtime\Support\OnboardingAuthorityFixture $owner): void {
+            $limits = ['calls'=>0,'input_tokens'=>0,'output_tokens'=>0,'cost_microusd'=>0,'milliseconds'=>0];
+            $root = $owner->source('budget-root',['schema'=>'imperium.bootstrap-budget-root/v1','limits'=>$limits]);
+            $policy['body']['budget_ref'] = $owner->source('shared-budget',['schema'=>'imperium.bootstrap-budget-association/v1','lineage_ref'=>$root,'limits'=>$limits,'formation_sources'=>[]]);
+        });
+        try {
+            $f->ready(); $gateway = new FixedGateway($f->f->store,$f->runtime);
+            $q = $f->request('access'); $q['mode'] = 'preview'; $before = $f->f->store->journal->read();
+            [$exit,$out] = $this->runRequest($gateway,$f->f->root,$q);
+            self::assertSame(1,$exit,json_encode($out)); self::assertSame(['O2_SHARED_BUDGET_EXHAUSTED'],$out['reason_codes']);
+            self::assertNull($out['next_action']['step_id']); self::assertFalse($out['effects']['new_effects_this_command']);
+            self::assertSame($before,$f->f->store->journal->read()); self::assertSame([],$f->requests);
+        } finally { $f->close(); }
+    }
+
     public function testFullOfflineJourneyAppliesPersistsRecognizesAndReplacesWholeSet(): void
     {
         $f = new AssignmentFixture(consoleComposition:true); $d = $f->fresh->d;
