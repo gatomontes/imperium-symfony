@@ -1,5 +1,11 @@
 # Provider production composition — source assessment
 
+PPC0 implementation follow-up: see the [component/evidence/blocker matrix](provider-production-composition-evidence-matrix.md),
+[custody contract/runbook](provider-production-custody.md) and [local report](handoffs/provider-production-composition-report.md).
+These distinguish the new dormant composition from five missing factual producers
+and actual Windows validation from unperformed Linux CI. The preparation assessment
+below remains historical.
+
 Source-inspected on 2026-09-13 at O5 closure tree `456b25ef205a96b3793ea9a00920714af5bf86ec`, GitHub main `427aa850237dfe5caac1b887c194be1484e07773`. This assessment used committed source and prior accepted evidence. No installation, private state, credential, account or live provider was inspected. No new runtime tests were executed for this documentation preparation.
 
 ## Observed composition and missing ports
