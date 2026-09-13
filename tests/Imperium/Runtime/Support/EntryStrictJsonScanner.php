@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Imperium\Runtime\Onboarding\AuthorityAdmission;
+namespace App\Tests\Imperium\Runtime\Support;
 
 /** Bounded admission JSON: closed objects/lists and strictly typed scalar values.
  * Invalid bytes/shapes throw InvalidArgumentException with a fixed, non-payload message.
  */
 #[\Symfony\Component\DependencyInjection\Attribute\Exclude]
-final class StrictJson
+final class EntryStrictJsonScanner
 {
     public const MAX_BYTES = 1048576;
     public const MAX_DEPTH = 32;
@@ -139,10 +139,6 @@ final class StrictJson
         $this->consume('"');
         $length = strlen($this->bytes);
         while ($this->offset < $length) {
-            // Scan ordinary bytes in native code; escapes and closing quotes retain
-            // the original offset and json_decode validation behavior.
-            $this->offset += strcspn($this->bytes, '\\"', $this->offset);
-            if ($this->offset >= $length) { break; }
             $char = $this->bytes[$this->offset++];
             if ($char === '\\') { ++$this->offset; continue; }
             if ($char === '"') {

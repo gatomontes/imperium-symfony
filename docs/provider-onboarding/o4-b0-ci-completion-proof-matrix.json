@@ -1,0 +1,200 @@
+{
+  "entry_commit": "eba7efd6a97c2c2e05f88056b8d1d56c1a86661e",
+  "tested_commit": "ac8c80c97161a95e6a9f84de6012149dbcc8a544",
+  "tested_tree": "62273699d6277264fdc226e2f7031ddb5e3dc512",
+  "required_pass_labels": [
+    "pure-final",
+    "initial-prefix-final",
+    "binding-final",
+    "compatibility-final",
+    "static-final",
+    "lint-final",
+    "kernel-final"
+  ],
+  "local_full_gate_complete": false,
+  "campaign_complete": false,
+  "integration_accepted": false,
+  "fresh_hosted_ci": "NOT_RUN",
+  "source_review": "REQUIRED_FOR_THIS_CORRECTION",
+  "accepted_r1_source_preserved": true,
+  "reviewer_probe_unchanged": true,
+  "original_tests_and_fixtures_unchanged": true,
+  "operational_flags": {
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "live_ready": false,
+    "activation": false,
+    "execution_authority": false
+  },
+  "actual_retry_allowlist": [],
+  "cohorts": [
+    {
+      "label": "pure-final",
+      "tests": 9,
+      "assertions": 2095,
+      "seconds": 1.32,
+      "exit": 0
+    },
+    {
+      "label": "initial-prefix-final",
+      "tests": 40,
+      "assertions": 6919,
+      "seconds": 44.27,
+      "exit": 0
+    },
+    {
+      "label": "binding-final",
+      "tests": 4,
+      "assertions": 62,
+      "seconds": 980.194,
+      "exit": 0
+    },
+    {
+      "label": "compatibility-final",
+      "tests": 221,
+      "assertions": 668,
+      "seconds": 661.406,
+      "exit": 0
+    },
+    {
+      "label": "static-final",
+      "tests": null,
+      "assertions": null,
+      "seconds": 0.561,
+      "exit": 0
+    },
+    {
+      "label": "lint-final",
+      "tests": null,
+      "assertions": null,
+      "seconds": 4.682,
+      "exit": 0
+    },
+    {
+      "label": "kernel-final",
+      "tests": null,
+      "assertions": null,
+      "seconds": 0.589,
+      "exit": 0
+    }
+  ],
+  "full": {
+    "started_at_utc": "2026-09-13T02:41:56.496990+00:00",
+    "finished_at_utc": "2026-09-13T03:11:57.218917+00:00",
+    "source_commit": "ac8c80c97161a95e6a9f84de6012149dbcc8a544",
+    "source_tree": "62273699d6277264fdc226e2f7031ddb5e3dc512",
+    "command": [
+      "C:/php/php-8.4/php.exe",
+      "vendor/bin/phpunit",
+      "tests"
+    ],
+    "cwd": "E:\\htdocs\\imperium-onboarding-o4-b0-completion",
+    "exit": 124,
+    "seconds": 1800.722,
+    "timeout_seconds": 1800,
+    "timed_out": true,
+    "php_unchanged_during_run": true
+  },
+  "diagnosis": {
+    "baseline_seconds": 171.213876247406,
+    "scanner_only_seconds": 157.4214916229248,
+    "rejected_reference_cache_seconds": 164.83230423927307,
+    "final_seconds": 145.4610755443573,
+    "method_timings_are_inclusive_and_instrumented": true,
+    "serial_native_phase_run": {
+      "command": [
+        "C:/php/php-8.4/php.exe",
+        "-d",
+        "auto_prepend_file=E:\\htdocs\\imperium-onboarding-o4-b0-completion\\work\\ci-completion\\profile-phases-prelude.php",
+        "vendor/bin/phpunit",
+        "work/ci-completion/profile-source/tests/Imperium/Runtime/AssignmentAssessmentResolverTest.php",
+        "--debug"
+      ],
+      "started_at_utc": "2026-09-13T03:12:37.359381+00:00",
+      "seconds": 137.8441243171692,
+      "exit": 0,
+      "process_user_cpu_seconds": 135.21875,
+      "process_kernel_cpu_seconds": 2.0,
+      "instrumented_diagnostic_only": true
+    },
+    "native_phase_costs": {
+      "src/Bootstrap/CanonicalJson.php::encode": {
+        "calls": 10019483,
+        "nanoseconds": 33271036200
+      },
+      "src/Imperium/Runtime/Onboarding/AuthorityAdmission/StrictJson.php::canonical": {
+        "calls": 9454297,
+        "nanoseconds": 35173522300
+      },
+      "src/Imperium/Runtime/Onboarding/AuthorityAdmission/Rules.php::hash": {
+        "calls": 1095551,
+        "nanoseconds": 20689928900
+      },
+      "src/Imperium/Runtime/Onboarding/AuthorityAdmission/Rules.php::same": {
+        "calls": 4179373,
+        "nanoseconds": 22390598600
+      },
+      "src/Imperium/Runtime/Onboarding/AuthorityAdmission/Rules.php::record": {
+        "calls": 885468,
+        "nanoseconds": 23909388100
+      },
+      "atomic.fopen": {
+        "calls": 113,
+        "nanoseconds": 16832800
+      },
+      "atomic.flock.2": {
+        "calls": 113,
+        "nanoseconds": 1018800
+      },
+      "journal.glob": {
+        "calls": 113,
+        "nanoseconds": 98963400
+      },
+      "src/Imperium/Runtime/Citadel/Formation/FormationJournal.php::latest": {
+        "calls": 113,
+        "nanoseconds": 32661977800
+      },
+      "atomic.flock.3": {
+        "calls": 113,
+        "nanoseconds": 2200000
+      },
+      "src/Imperium/Runtime/Persistence/AtomicTransition.php::run": {
+        "calls": 113,
+        "nanoseconds": 137174467700
+      },
+      "src/Imperium/Runtime/Onboarding/AuthorityAdmission/StrictJson.php::parse": {
+        "calls": 104865,
+        "nanoseconds": 11471147500
+      },
+      "src/Imperium/Runtime/Onboarding/AuthorityAdmission/StrictJson.php::decode": {
+        "calls": 711737,
+        "nanoseconds": 16003014400
+      },
+      "src/Imperium/Runtime/Onboarding/AuthorityAdmission/Rules.php::key": {
+        "calls": 1825193,
+        "nanoseconds": 6109609900
+      },
+      "src/Imperium/Runtime/Citadel/Formation/FormationJournal.php::digest": {
+        "calls": 2949,
+        "nanoseconds": 13793155300
+      },
+      "journal.file_get_contents": {
+        "calls": 2808,
+        "nanoseconds": 1062209700
+      },
+      "journal.json_decode": {
+        "calls": 2808,
+        "nanoseconds": 14001411400
+      },
+      "src/Imperium/Runtime/Onboarding/AuthorityAdmission/Act.php::verify": {
+        "calls": 152095,
+        "nanoseconds": 38524154600
+      },
+      "src/Imperium/Runtime/Onboarding/Ledger/StateValidation.php::run": {
+        "calls": 722,
+        "nanoseconds": 23532636600
+      }
+    }
+  },
+  "comparison_generator": "Exact entry/final Git blob bytes; corrected historical comparison equals independently reconstructed 3440-row review"
+}
