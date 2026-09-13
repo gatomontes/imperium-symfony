@@ -39,29 +39,4 @@ final readonly class AtomicTransition
             fclose($handle);
         }
     }
-
-    /** Observe an already commissioned owner without creating directories or a lock. */
-    public function observe(string $scope, callable $inspection): mixed
-    {
-        if (!preg_match('/^[a-z0-9][a-z0-9._:-]{2,180}$/', $scope)) {
-            throw new \InvalidArgumentException('PST100_ATOMIC_TRANSITION_SCOPE_INVALID');
-        }
-        $path = $this->locks.'/'.hash('sha256', $scope).'.lock';
-        if (!is_file($path)) {
-            throw new \RuntimeException('O5_EXISTING_OWNER_REQUIRED');
-        }
-        $handle = @fopen($path, 'rb');
-        if (false === $handle) {
-            throw new \RuntimeException('O5_EXISTING_OWNER_REQUIRED');
-        }
-        try {
-            if (!flock($handle, LOCK_SH)) {
-                throw new \RuntimeException('PST102_ATOMIC_TRANSITION_LOCK_FAILED');
-            }
-            return $inspection();
-        } finally {
-            flock($handle, LOCK_UN);
-            fclose($handle);
-        }
-    }
 }

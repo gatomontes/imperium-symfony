@@ -6,6 +6,7 @@ Reviewed boundaries:
 
 - Public ingress retains the exact existing schemas and domain validators. Presentation never enters command identity.
 - Read-only observations use a non-creating lock path under the same formation writer fence. Missing custody refuses; there is no read-triggered migration or enrollment.
+- The shared `AtomicTransition.php` remains byte-for-byte pinned to its historical reviewed source. The new observation path belongs to `FormationJournal`, which opens its established `citadel-formation` lock read-only; no successor-review ledger is rewritten to authorize a shared writer change.
 - Advances use the existing runtime/ledger/application owners. The new optional assignment evidence dependency preserves prior constructor behavior.
 - Status/preview inspect retained public originals, with no key, generation, adapter or provider calls. Historical receipts remain visible separately from current prerequisites.
 - Exceptions following publication are re-observed to retain command identity, reservations and unknown outcomes. Resume recognizes evidence and cannot re-dispatch.
