@@ -1,15 +1,14 @@
-name: PHPUnit
-
+name: O4 diagnostic suite timing
 on:
   pull_request:
-  push:
-    branches: [main]
-
 permissions:
   contents: read
-
 jobs:
-  test:
+  diagnostic:
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -21,9 +20,47 @@ jobs:
           php-version: '8.4'
           coverage: none
           tools: composer:v2
-      - name: Install locked dependencies
-        run: composer install --no-interaction --no-progress --prefer-dist
-      - name: Run O3-B0 reviewer credential binding regression
-        run: vendor/bin/phpunit tests/Imperium/Runtime/DeepSeekReviewerCredentialBindingTest.php
-      - name: Run full test suite
-        run: vendor/bin/phpunit tests
+      - run: composer install --no-interaction --no-progress --prefer-dist
+      - name: Enumerate original test files
+        env:
+          SHARD: ${{ matrix.shard }}
+        run: |
+          mkdir -p /tmp/o4-timing
+          python3 - <<'PY'
+          import pathlib, os, json, hashlib
+          files=sorted(p.as_posix() for p in pathlib.Path('tests').rglob('*Test.php'))
+          selected=files[int(os.environ['SHARD'])::8]
+          pathlib.Path('/tmp/o4-timing/selection.json').write_text(json.dumps({'all_files':files,'selected':selected},indent=2))
+          pathlib.Path('/tmp/o4-timing/args').write_bytes(b'\0'.join(p.encode() for p in selected)+b'\0')
+          print('Original files:',len(files),'Selected:',len(selected))
+          print('PHP:',os.popen('php -v').read())
+          print('Tree:',os.popen('git rev-parse HEAD^{tree}').read())
+          PY
+          vendor/bin/phpunit --list-tests-xml /tmp/o4-timing/complete-test-list.xml tests
+      - name: Time diagnostic partition
+        shell: bash
+        run: |
+          mapfile -d '' files < /tmp/o4-timing/args
+          set -o pipefail
+          /usr/bin/time -v vendor/bin/phpunit "${files[@]}" --log-junit /tmp/o4-timing/results.xml 2>&1 | tee /tmp/o4-timing/output.log
+      - name: Summarize test durations
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import pathlib,xml.etree.ElementTree as E,json
+          p=pathlib.Path('/tmp/o4-timing/results.xml')
+          if p.exists():
+            r=E.parse(p).getroot()
+            tests=list(r.iter('testcase'))
+            print('TESTCASE_COUNT',len(tests))
+            print('TEST_SECONDS_SUM',sum(float(t.get('time','0')) for t in tests))
+            for t in sorted(tests,key=lambda t:float(t.get('time','0')),reverse=True)[:25]:
+              print('SLOW',t.get('time'),t.get('class'),t.get('name'))
+          else:
+            print('INCOMPLETE: no terminal JUnit result')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: o4-timing-${{ matrix.shard }}
+          path: /tmp/o4-timing/
