@@ -1,3 +1,26 @@
+# Current campaign and flow — PPC1 internal evidence producers selected
+
+The owner requested “continue” after PPC0's reviewed integration. [PPC1](next-campaign-provider-institutional-evidence.md) is selected for one local implementation run: implement Augur constitutional provenance and current Profile/model-binding evidence under the existing institutional competence. [Full prompt and PowerShell setup](handoffs/provider-institutional-evidence-ready.md).
+
+| Stage | Current state |
+| --- | --- |
+| O0–O5 | Closed within their accepted offline scopes |
+| PPC0 composition and file custody | Accepted/integrated through PR #809; [review](reviews/provider-production-composition-review.md) |
+| PPC1 constitution and assignment evidence | Selected for offline producer implementation; two of the five open ports targeted |
+| Account/access, base and cognition evidence | Three provider-dependent ports remain outside PPC1 |
+| Production readiness | PARTIAL_BLOCKED; all five evidence gaps remain open until their implementations/evidence are accepted |
+| Live commissioning and existing-installation cutover | Separately deferred; DEFER_ENROLLMENT retained |
+
+Flow: accepted CLI/composition → native constitution and current Profile/binding producers → source review and complete CI → separately resolve provider evidence and exact deployment inputs → separately authorized bounded commissioning → first bounded Courtyard interview when its own prerequisites are met. No new native authority domain, enrollment or automatic activation is selected.
+
+[Public provider observations](provider-production-provider-followup.md) identify an alias-example mismatch and the unresolved zero-fee evidence requirement. They do not change approved P1–P9, model aliases, prices or grants. PPC1 can be implemented with synthetic provider dependencies while those real inputs remain unavailable. All five operational flags remain false and actual retries remain disabled.
+
+This preparation changes documentation only. PPC0's accepted Linux CI (3,712 tests / 63,983 assertions / four skips, 609 files and 11 guards) is historical baseline evidence, not a PPC1 test claim.
+
+---
+
+## Historical campaign states (current selection above controls)
+
 # Current campaign and flow — PPC0 code integrated; production evidence blocked
 
 PPC0's dormant composition and bounded file custody are accepted and integrated through [PR #809](https://github.com/gatomontes/imperium-symfony/pull/809), merge `5e3c076dba3a147f1a1272641b40db740d7f393c`, exactly the tested tree `fcc17865be3eefbca0c43eb3c88a3c5acc075651`. [Source/evidence review](reviews/provider-production-composition-review.md), [integration record](provider-production-composition-reviewed-integration.json).
