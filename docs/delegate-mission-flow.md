@@ -1,3 +1,24 @@
+# Current campaign and flow — PPC0 selected after O5 closure
+
+O0–O5 remain accepted and closed within their offline engineering scope. The owner requested “next” after O5. The newly selected work is [PPC0 provider production composition](next-campaign-provider-production-composition.md), with a [source assessment](provider-production-composition-source-map.md) and [local prompt/pull commands](handoffs/provider-production-composition-ready.md).
+
+The concrete gap is the dormant production object graph and its credential/evidence sources: the default O5 gateway has no runtime, key custody has no production implementation in this composition, and the five evidence ports default to refusal. PPC0 implements a fixed composition and supported substantive verifiers offline; unsupported source predicates remain explicitly blocked.
+
+| Stage | Current state |
+| --- | --- |
+| O0–O5 | Closed within accepted offline scope; zero remaining planned onboarding batches |
+| PPC0 production composition | One newly selected local implementation run; source review and fresh complete CI precede integration |
+| Genuine deployment/evidence inputs | Unresolved where identified in the source assessment |
+| Live commissioning and existing-installation cutover | Separately deferred; DEFER_ENROLLMENT retained |
+
+Flow: accepted O5 CLI → dormant production composition and supported evidence verification → source review/complete CI → accepted integration → exact deployment/evidence inputs → separately authorized bounded commissioning → first bounded Castellan interview when its own prerequisites are met. All five operational flags remain false and the actual retry allowlist is empty.
+
+This selection is documentation only. O5's [accepted complete CI](handoffs/provider-onboarding-o5-complete.md) remains historical evidence for its runtime tree; no fresh PPC0 runtime pass is claimed.
+
+---
+
+## Historical campaign states (current selection above controls)
+
 # Current campaign and flow — O5 accepted and integrated
 
 O5-B0 is accepted, integrated and closed within its offline engineering scope. [PR #806](https://github.com/gatomontes/imperium-symfony/pull/806) merged at `2fd239f7c174f896f2229c2ecdbccc977e65fdc4`, exactly the tested tree `cea21ff41ea7b74ff08a1901b104c523c013fe5a`.
