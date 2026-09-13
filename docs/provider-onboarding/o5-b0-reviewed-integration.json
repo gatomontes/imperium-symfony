@@ -1,0 +1,127 @@
+{
+  "stage": "O5-B0",
+  "status": "accepted_integrated_closed",
+  "repository": "gatomontes/imperium-symfony",
+  "pr": 806,
+  "merge_commit": "2fd239f7c174f896f2229c2ecdbccc977e65fdc4",
+  "verified_merge_tree": "cea21ff41ea7b74ff08a1901b104c523c013fe5a",
+  "accepted_head": "0a4d3bb5604054eac89996286ef28a16ae1b0183",
+  "ci_checkout": "041926b9d56ac54025e019f9eef39e3f1b6ceac7",
+  "o4_base": "b4e6e8c57f729c1e1e49284207f34f8909276e0b",
+  "operator_instruction": {
+    "date": "2026-09-13",
+    "request": "proceed with o5",
+    "scope": "Continue the planned offline CLI implementation after accepted O4 integration, using the current complete CI gate."
+  },
+  "full_ci": {
+    "run_id": 34771816826,
+    "aggregate_job_id": 103764780289,
+    "conclusion": "success",
+    "method": "eight disjoint file partitions with exact complete-case coverage and source verification",
+    "tests": 3705,
+    "assertions": 63941,
+    "skips": 4,
+    "files": 608,
+    "guard_tests": 11,
+    "longest_partition_seconds": 909.85363,
+    "worker_timeout_minutes": 30,
+    "php": "8.4.25",
+    "phpunit": "13.3.0",
+    "source_digest": "64ffb0cbee49c1c395115c773b029ab18503a6ca56b9f6f3d8f8a4b8342efe41",
+    "started_at": "2026-09-13T17:30:50Z",
+    "completed_at": "2026-09-13T17:46:33Z",
+    "partitions": [
+      {
+        "assertions": 9505,
+        "index": 0,
+        "seconds": 183.77705,
+        "skipped": 1,
+        "tests": 564
+      },
+      {
+        "assertions": 6894,
+        "index": 1,
+        "seconds": 172.602949,
+        "skipped": 2,
+        "tests": 368
+      },
+      {
+        "assertions": 3580,
+        "index": 2,
+        "seconds": 909.85363,
+        "skipped": 1,
+        "tests": 357
+      },
+      {
+        "assertions": 21687,
+        "index": 3,
+        "seconds": 125.008108,
+        "skipped": 0,
+        "tests": 473
+      },
+      {
+        "assertions": 4431,
+        "index": 4,
+        "seconds": 57.486781,
+        "skipped": 0,
+        "tests": 641
+      },
+      {
+        "assertions": 3805,
+        "index": 5,
+        "seconds": 495.244917,
+        "skipped": 0,
+        "tests": 427
+      },
+      {
+        "assertions": 5266,
+        "index": 6,
+        "seconds": 450.26148,
+        "skipped": 0,
+        "tests": 503
+      },
+      {
+        "assertions": 8773,
+        "index": 7,
+        "seconds": 453.6342,
+        "skipped": 0,
+        "tests": 372
+      }
+    ]
+  },
+  "diagnostic_runs_not_accepted": [
+    34770813067,
+    34770968542,
+    34771154847,
+    34771487661
+  ],
+  "review": "Implementing-agent review with boundary tests and fresh hosted execution; no separate reviewer is claimed.",
+  "public_commands": [
+    "imperium:provider:onboard",
+    "imperium:provider:status",
+    "imperium:provider:resume"
+  ],
+  "protected_inputs_preserved": [
+    "config/services.yaml",
+    "src/Imperium/Runtime/Persistence/AtomicTransition.php",
+    ".github/workflows/phpunit.yml",
+    "composer.json",
+    "composer.lock",
+    "contracts/provider-onboarding.md",
+    "contracts/provider-onboarding-continuation.md"
+  ],
+  "remaining_planned_implementation_batches": 0,
+  "deferred_work": [
+    "live commissioning",
+    "existing-installation cutover"
+  ],
+  "operational_flags": {
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "live_ready": false,
+    "activation": false,
+    "execution_authority": false
+  },
+  "actual_retry_allowlist": [],
+  "documentation_provenance": "Post-test closure only; no executable, test, dependency, contract or workflow changes."
+}

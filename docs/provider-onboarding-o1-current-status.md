@@ -1,3 +1,24 @@
+# Current campaign and flow — O5 accepted and integrated
+
+O5-B0 is accepted, integrated and closed within its offline engineering scope. [PR #806](https://github.com/gatomontes/imperium-symfony/pull/806) merged at `2fd239f7c174f896f2229c2ecdbccc977e65fdc4`, exactly the tested tree `cea21ff41ea7b74ff08a1901b104c523c013fe5a`.
+
+Fresh complete CI passed **3,705 tests / 63,941 assertions / four skips**, covering every enumerated case across all 608 files exactly once. All eight workers, aggregate verification and 11 guard tests passed. [O5 closure](handoffs/provider-onboarding-o5-complete.md), [integration identity](provider-onboarding/o5-b0-reviewed-integration.json), [CLI usage](provider-onboarding-o5-cli.md).
+
+| Stage | Current state |
+| --- | --- |
+| O0, O1 and O2 | Integrated within their accepted offline scope |
+| O3-B0 and O3-B1 | Adapter/custody and FRESH Augur cognition integrated |
+| O4-B0 | Atomic persistent Courtthane/formation Locksmith settings integrated |
+| O5-B0 | Offline CLI journey accepted, integrated and closed |
+| Live commissioning and existing-installation cutover | Separately deferred |
+
+Integrated flow: admitted originals → explicit preview/registration → authorized access → eligible base and runtime map → constitutional FRESH Augur → validated W1/W2/W3 → whole-set proposal and atomic settings → persistent resolution, exact replay, evidence-only resume and explicit authorized replacement. Status preserves historical facts and unknown exposure without creating state or touching credentials.
+
+**Zero planned offline implementation batches remain.** The CLI commands are `imperium:provider:onboard`, `imperium:provider:status` and `imperium:provider:resume`. The default reader does not commission a live producer. All five operational flags remain false and the actual retry allowlist is empty.
+
+---
+
+## Historical campaign states (superseded above)
 # Current campaign and flow — O4 accepted and integrated
 
 O4-B0 is closed within its offline engineering scope. The operator approved replacing the 1,800-second serial acceptance requirement with the verified complete parallel gate and merging/closing O4 on 2026-09-13. PR #804 merged at `64bceee351fe8cabdd1847ed4cb938a53c2874fa`, exactly the tested tree `4fa24be49f638f34fd5111b421239f0c645b81a8`.
