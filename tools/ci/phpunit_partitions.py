@@ -49,6 +49,16 @@ def result_identity(case):
     return case.attrib['class'] + '::' + name
 
 
+def reference_tokens(data):
+    # Symfony regenerates this one IDE reference's PHPDoc during cache:clear.
+    # Tokenize without executing it; executable PHP must remain identical.
+    code = '''$out=[]; foreach(token_get_all(stream_get_contents(STDIN)) as $t) {
+        if (is_array($t)) { if (in_array($t[0], [T_COMMENT,T_DOC_COMMENT,T_WHITESPACE], true)) continue;
+            $out[]=[$t[0],$t[1]]; } else { $out[]=$t; }
+    } echo json_encode($out, JSON_THROW_ON_ERROR);'''
+    return subprocess.check_output(['php', '-r', code], input=data)
+
+
 def source_digest():
     entries = subprocess.check_output(['git', 'ls-tree', '-rz', 'HEAD']).split(b'\0')
     digest = hashlib.sha256()
@@ -62,6 +72,10 @@ def source_digest():
         require(path.is_symlink() == (mode == b'120000'), 'Tracked file type changed')
         data = os.fsencode(os.readlink(path)) if path.is_symlink() else path.read_bytes()
         actual_blob = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest().encode()
+        if path.as_posix() == 'config/reference.php' and actual_blob != blob:
+            original = subprocess.check_output(['git', 'cat-file', 'blob', blob.decode()])
+            require(reference_tokens(data) == reference_tokens(original), 'Generated reference executable PHP changed')
+            data, actual_blob = original, blob
         require(actual_blob == blob, 'Working source bytes differ from committed Git tree: ' + path.as_posix())
         digest.update(raw + b'\0')
         digest.update(hashlib.sha256(data).digest())
@@ -71,6 +85,10 @@ def source_digest():
     for name in ('phpunit.xml', 'phpunit.xml.dist'):
         require(not pathlib.Path(name).exists() or name in tracked, 'Untracked PHPUnit configuration')
     return digest.hexdigest()
+
+
+def generated_reference_digest():
+    return hashlib.sha256(pathlib.Path('config/reference.php').read_bytes()).hexdigest()
 
 
 def run(index, count, output):
@@ -85,12 +103,13 @@ def run(index, count, output):
     require(selected, 'Empty partition')
     metadata = {'index': index, 'count': count, 'commit': git('rev-parse', 'HEAD'),
                 'tree': git('rev-parse', 'HEAD^{tree}'), 'all_files': files, 'selected': selected,
-                'source_before': before, 'exit': None}
+                'source_before': before, 'generated_reference_before': generated_reference_digest(), 'exit': None}
     require(source_digest() == before, 'Source changed during test enumeration')
     (output / 'selection.json').write_text(json.dumps(metadata, indent=2))
     start = time.monotonic()
     result = subprocess.run(['vendor/bin/phpunit', *selected, '--log-junit', str(output / 'results.xml')])
-    metadata.update(exit=result.returncode, seconds=time.monotonic()-start, source_after=source_digest())
+    metadata.update(exit=result.returncode, seconds=time.monotonic()-start, source_after=source_digest(),
+                    generated_reference_after=generated_reference_digest())
     (output / 'selection.json').write_text(json.dumps(metadata, indent=2))
     require(metadata['source_before'] == metadata['source_after'], 'Tracked test/source/configuration bytes changed during tests')
     return result.returncode

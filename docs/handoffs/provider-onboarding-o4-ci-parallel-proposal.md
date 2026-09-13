@@ -42,11 +42,17 @@ Missing artifacts, duplicate or absent cases, differing inventories, failures,
 source changes and incorrect partitions fail the gate. Skips remain explicit.
 
 The coverage algorithm passed against all eight original diagnostic artifacts.
-Nine local guard tests cover synthetic success and injected failures. The guard also rejects source that was changed identically before every worker,
+Eleven local guard tests cover synthetic success and injected failures. The guard also rejects source that was changed identically before every worker,
 untracked executable files/configuration, changed file types and misleading skip counts.
 Those fixtures validate the new metadata checks; the historical diagnostic run did
-not collect the new source-hash and exit metadata. A fresh hosted run of this
-exact proposed workflow is still required.
+not collect the new source-hash and exit metadata. The first fresh run correctly stopped before suite execution because Symfony
+regenerated PHPDoc in `config/reference.php` during dependency installation.
+The corrected guard records that generated file's raw hashes separately and
+requires identical executable PHP tokens to the committed file, ignoring only
+comments and whitespace for that exact path. Every other tracked file still
+requires exact Git bytes. Tokenization never executes the reference file.
+Dedicated checks accept changed documentation and reject executable mutations.
+A fresh hosted run of this corrected workflow is required.
 
 The proposal adds the independently requested `JournalReviewerFreshReadTest.php`.
 It passed locally: one test / ten assertions on PHP 8.4.14. It was not included

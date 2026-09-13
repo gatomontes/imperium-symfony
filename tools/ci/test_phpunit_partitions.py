@@ -5,6 +5,7 @@ import hashlib
 import io
 import json
 import pathlib
+import shutil
 import tempfile
 import unittest
 from unittest import mock
@@ -125,6 +126,19 @@ class SourceBindingTest(unittest.TestCase):
         self.path.symlink_to('Missing.php')
         with self.assertRaisesRegex(RuntimeError, 'file type'):
             self.digest()
+
+
+@unittest.skipUnless(shutil.which('php'), 'PHP tokenizer is checked on PHP workers')
+class GeneratedReferenceTest(unittest.TestCase):
+    def test_only_documentation_and_whitespace_may_change(self):
+        original = b'<?php /** old */ final class App { public static function config(array $config):array { return $config; } }'
+        changed = original.replace(b'/** old */', b'/** regenerated array shapes */\n')
+        self.assertEqual(guard.reference_tokens(original), guard.reference_tokens(changed))
+
+    def test_executable_mutation_is_detected(self):
+        original = b'<?php final class App { public static function config(array $config):array { return $config; } }'
+        changed = original.replace(b'return $config;', b'return [];')
+        self.assertNotEqual(guard.reference_tokens(original), guard.reference_tokens(changed))
 
 
 if __name__ == '__main__':
