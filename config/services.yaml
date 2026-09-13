@@ -11,6 +11,9 @@ services:
         autowire: true
         autoconfigure: true
 
+    App\Imperium\Runtime\Onboarding\Console\Gateway:
+        alias: App\Imperium\Runtime\Onboarding\Console\DeploymentGateway
+
     Symfony\AI\Platform\Bridge\Generic\ModelCatalog:
         arguments:
             $models:

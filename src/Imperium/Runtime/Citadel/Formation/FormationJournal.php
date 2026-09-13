@@ -53,6 +53,18 @@ final readonly class FormationJournal
         return $this->atomic->run('citadel-formation', fn () => $inspection($this->latest()));
     }
 
+    /** Pure observation under the existing writer fence; never initializes custody. */
+    public function inspectExisting(callable $inspection): mixed
+    {
+        return $this->atomic->observe('citadel-formation', function () use ($inspection): mixed {
+            $frame = $this->latest();
+            if ($frame['generation'] === 0) {
+                throw new \RuntimeException('O5_EXISTING_OWNER_REQUIRED');
+            }
+            return $inspection($frame);
+        });
+    }
+
     /** Resolve only a retained frame in the verified trusted-custody chain. */
     public function historical(int $generation, string $digest): array
     {

@@ -20,6 +20,7 @@ final class DeepSeekFixture
     public ?array $last=null;
     public int $tick=100;
     public ?\Closure $keyHook=null;
+    public ?\Closure $generationHook=null;
     private int $serial=0;
     public function __construct(?\Closure $respond=null,bool $missingEvidence=false,?\Closure $change=null,?\Closure $storageHook=null)
     {
@@ -55,7 +56,7 @@ final class DeepSeekFixture
         $this->keys=new class($this) implements KeySource {
             public string $version='synthetic-generation'; public bool $repeat=false; public bool $omit=false;
             public function __construct(private DeepSeekFixture $f) {}
-            public function generation(): string { return $this->version; }
+            public function generation(): string { if ($this->f->generationHook !== null) { ($this->f->generationHook)(); } return $this->version; }
             public function withKey(callable $delivery): void {
                 if ($this->f->keyHook !== null) { ($this->f->keyHook)(); }
                 if ($this->omit) { return; }
