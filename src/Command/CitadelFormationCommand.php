@@ -40,6 +40,7 @@ final class CitadelFormationCommand extends Command
                 'personnel-authority-source' => [$this->personnel, 'authoritySource', ['role']],
                 'delegate-personnel-evidence' => [$this->personnel, 'delegate', ['delegation', 'decision']],
                 'record-personnel-evidence' => [$this->personnel, 'record', ['envelope']],
+                'record-model-bound-profile-evidence' => [$this->personnel, 'recordModelBoundProfile', ['envelope']],
                 'appoint-castellan' => [$this->personnel, 'appointCastellan', ['candidate', 'decision']],
                 'appoint-courtthane' => [$this->personnel, 'appointCourtthane', ['candidate', 'decision']],
                 'appoint-locksmith' => [$this->personnel, 'appointLocksmith', ['candidate', 'decision']],

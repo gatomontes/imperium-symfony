@@ -13,6 +13,8 @@ Fresh complete Linux CI passed **3,733 tests / 64,073 assertions / four explicit
 | Account/access, base and cognition evidence | Three other producer gaps remain unresolved |
 | Live commissioning and existing-installation cutover | Separately deferred; DEFER_ENROLLMENT retained |
 
+The concrete [PPC2 amendment proposal](provider-profile-designation-amendment.md) and [conditional PowerShell/prompt handoff](handoffs/provider-profile-designation-ready.md) are prepared for review. Clauses A–F remain **PROPOSED_NOT_APPROVED**; no runtime or contract change is included in this preparation.
+
 PPC1 remains partially complete; two-port success is not claimed. The remaining internal gap requires an exact charter-assigned destination steward, governed originals and synchronized designation/supersession/current-generation semantics at application and use. Approval or personnel appointment cannot substitute for that fact. See the [amendment proposal and source evidence](provider-institutional-evidence-matrix.md).
 
 Flow: accepted CLI/composition and constitution path → reviewed designation/supersession amendment and implementation → resolve remaining provider evidence and actual deployment inputs → separately authorized bounded commissioning → first bounded Courtyard interview when its own prerequisites are met. This acceptance selects no new campaign, authority domain or operational action. All five operational flags remain false and actual retries remain disabled.
