@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 namespace App\Imperium\Runtime\Onboarding\Ledger;
-use App\Imperium\Runtime\Onboarding\AuthorityAdmission\{Rules as R,Policy};
+use App\Imperium\Runtime\Onboarding\AuthorityAdmission\{Rules as R,Policy,StrictJson};
 use App\Imperium\Runtime\Citadel\Formation\SharedExposure;
 /** The only delivery entry admits a new command in this process. History never dispatches. */
 #[\Symfony\Component\DependencyInjection\Attribute\Exclude]
@@ -59,17 +59,21 @@ final readonly class CustodyCoordinator
     private function checkpoint(string $id,int $index,?array $metadata=null,?array $envelope=null):array{
         $store=$this->ledger->store;
         return $store->journal->changeAtHead(function(array &$state,array $head)use($id,$index,$metadata,$envelope,$store):array {
+            // Share only exact pure computation within this local locked checkpoint.
+            return StrictJson::within(function()use(&$state,$head,$id,$index,$metadata,$envelope,$store):array {
             $c=$this->check($state,$id);R::require(count($c['custody'])===$index,'CUSTODY_ALREADY_CONSUMED');
             $prior=$index===0?null:R::reference($c['custody'][$index-1]);
             if($index===3){ResponseEvidence::metadata($metadata,$c);}
             if($index===4){ResponseEvidence::envelope($envelope,$c,$c['custody'][3]['body']['response_metadata']);$old=$c['custody'][3]['body']['response_metadata'];R::require(R::same($metadata,$old) && R::same($envelope['metadata'],$old) && R::same($envelope['claim_ref'],R::reference($c['record'])) && R::hash($envelope['response'])===$old['response_digest'],'RESPONSE_ORIGINAL_MISSING');}
             $record=$store->make('imperium.bootstrap-custody-checkpoint/v1','custody-'.substr(R::hash([$id,$index]),7,24),['claim_ref'=>R::reference($c['record']),'operation_digest'=>R::hash($c['operation']['prepared']),'stage'=>self::STAGES[$index],'previous_ref'=>$prior,'response_metadata'=>$metadata,'response_envelope'=>$envelope],$prior===null?[R::reference($c['record'])]:[R::reference($c['record']),$prior]);
             $state['onboarding']['claims'][$id]['custody'][]=$record;LedgerState::validate($state['onboarding']);return $state['onboarding']['claims'][$id];
+            });
         });
     }
     public function finish(string $id):array {
         $store=$this->ledger->store;
         return $store->journal->changeAtHead(function(array &$state)use($id,$store):array {
+            return StrictJson::within(function()use(&$state,$id,$store):array {
             $s=$store->state($state);$c=$s['claims'][$id]??null;R::require(is_array($c),'CLAIM_ORIGINAL_MISSING');
             $cmd=LedgerState::command($s,$c['record']['body']['command_ref']);$stepKey=LedgerState::key('step',[$store->instance,$c['record']['body']['policy_ref']['digest'],$cmd['result']['step_id']]);
             if(isset($s['attempt_outcomes'][$id]) && $c['settled']!==null){return $s['attempt_outcomes'][$id];}
@@ -82,6 +86,7 @@ final readonly class CustodyCoordinator
             $completion=$this->ledger->complete($cmd['ref'],$s['steps'][$stepKey]['consumption'],$c['record']['body']['authority_source']['kind']==='access'?'AUTHORIZE_BOOTSTRAP_ACCESS':'AUTHORIZE_BOOTSTRAP_ASSESSMENT',[R::reference($last)]);
             $state['onboarding']['claims'][$id]['settled']=$envelope['metadata']['usage'];$state['onboarding']['steps'][$stepKey]['completion']=$classification==='SUCCEEDED'?$completion:null;
             unset($state['onboarding']['source_fences'][$id]);LedgerState::validate($state['onboarding']);return $completion;
+            });
         });
     }
     /** Metadata proves attribution; an external caller body can never recover a result. */

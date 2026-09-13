@@ -133,11 +133,11 @@ final readonly class FormationJournal
         $prior = ['generation' => 0, 'record_digest' => null, 'state' => []];
         $paths = glob($this->directory.'/*.json') ?: [];
         sort($paths, SORT_STRING);
+        // Pure string-encoding reuse is confined to this single chain traversal.
+        $canonical = new JournalCanonicalHash();
         foreach ($paths as $path) {
-            $frame = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
-            $digest = $frame['record_digest'] ?? null;
-            unset($frame['record_digest']);
-            if (!is_string($digest) || !hash_equals($digest, self::digest($frame))
+            [$frame, $digest, $calculated] = $canonical->read((string) file_get_contents($path));
+            if (!is_string($digest) || !hash_equals($digest, $calculated)
                 || ($frame['schema'] ?? null) !== 'imperium.citadel-formation-frame/v1'
                 || ($frame['generation'] ?? null) !== $prior['generation'] + 1
                 || ($frame['previous_digest'] ?? null) !== $prior['record_digest']

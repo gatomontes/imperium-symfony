@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Imperium\Runtime\Onboarding\AuthorityAdmission;
+namespace App\Tests\Imperium\Runtime\Support;
 
 /** Bounded admission JSON: closed objects/lists and strictly typed scalar values.
  * Invalid bytes/shapes throw InvalidArgumentException with a fixed, non-payload message.
  */
 #[\Symfony\Component\DependencyInjection\Attribute\Exclude]
-final class StrictJson
+final class EntryStrictJsonIndex
 {
     public const MAX_BYTES = 1048576;
     public const MAX_DEPTH = 32;
@@ -32,9 +32,8 @@ final class StrictJson
     {
         if(strlen($bytes)>self::MAX_BYTES){throw new \InvalidArgumentException('RESPONSE_BYTE_LIMIT');}
         if(self::$decoded===null){return self::parse($bytes);}
-        $key=$bytes;
-        // PHP string keys retain exact bytes; still compare the complete original
-        // before reuse (including numeric JSON strings converted to integer keys).
+        $key=hash('sha256',$bytes);
+        // Index by digest, but compare every original byte before reusing a parse.
         if(isset(self::$decoded[$key]) && self::$decoded[$key]['raw']===$bytes){return self::$decoded[$key]['value'];}
         $value=self::parse($bytes);$length=strlen($bytes);
         if(count(self::$decoded)<128 && self::$decodedBytes+$length<=2097152 && !isset(self::$decoded[$key])){
@@ -55,18 +54,9 @@ final class StrictJson
         if(self::$decoded!==null && is_array($value) && is_string($value['schema']??null) && is_string($value['id']??null)){
             $key=self::$recordIndex[$value['schema']."\0".$value['id']]??null;
             if($key!==null){
+                $original=self::$decoded[$key]['value'];
                 $form=array_key_exists('record_digest',$value)?'complete':'unsigned';
-                $expectedCount=count(self::$decoded[$key]['value'])-($form==='unsigned'?1:0);
-                // A reference can share schema/id with a record; it is not an
-                // encoding candidate unless the entire value can match.
-                if(count($value)!==$expectedCount){return \App\Bootstrap\CanonicalJson::encode($value);}
-                if($form==='unsigned'){
-                    if(!isset(self::$decoded[$key]['unsignedValue'])){
-                        $unsigned=self::$decoded[$key]['value'];unset($unsigned['record_digest']);
-                        self::$decoded[$key]['unsignedValue']=$unsigned;
-                    }
-                    $original=self::$decoded[$key]['unsignedValue'];
-                }else{$original=self::$decoded[$key]['value'];}
+                if($form==='unsigned'){unset($original['record_digest']);}
                 // Parsed values contain no objects/references. This private snapshot cannot
                 // be changed by a caller mutating a returned value or reusing an ID/digest.
                 if($value===$original){
