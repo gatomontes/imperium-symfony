@@ -1,3 +1,5 @@
+> Subsequent review: the dormant composition/custody subset is accepted and integrated through PR #809 after fresh complete Linux CI. Production capability remains PARTIAL_BLOCKED. See the [review and exact results](../reviews/provider-production-composition-review.md). The producer report below is preserved as historical supplied evidence.
+
 # PPC0 local implementation report
 
 Disposition: **PARTIAL_BLOCKED**. Dormant composition and bounded file custody are
