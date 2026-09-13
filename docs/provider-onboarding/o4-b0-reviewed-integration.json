@@ -1,0 +1,49 @@
+{
+  "stage": "O4-B0",
+  "status": "accepted_integrated_closed",
+  "repository": "gatomontes/imperium-symfony",
+  "pr": 804,
+  "merge_commit": "64bceee351fe8cabdd1847ed4cb938a53c2874fa",
+  "verified_merge_tree": "4fa24be49f638f34fd5111b421239f0c645b81a8",
+  "accepted_head": "8d3512a3badc9485a142bf3c844122f34d303c43",
+  "ci_checkout": "a0a7d705120e9d495faadb283ccf60be51b2a309",
+  "operator_decision": {
+    "date": "2026-09-13",
+    "response": "approved",
+    "scope": "Replace the 1800-second serial acceptance requirement with the verified complete parallel gate; merge and close O4."
+  },
+  "full_ci": {
+    "run_id": 34768429392,
+    "aggregate_job_id": 103755731856,
+    "conclusion": "success",
+    "method": "eight disjoint file partitions with exact complete-case coverage and source verification",
+    "tests": 3698,
+    "assertions": 63727,
+    "skips": 4,
+    "files": 607,
+    "guard_tests": 11,
+    "longest_partition_seconds": 958.156704,
+    "worker_timeout_minutes": 30,
+    "php": "8.4.25",
+    "phpunit": "13.3.0",
+    "source_digest": "6110641bfce6cf650527576ca81cef8c9a0fb78f397adda248b0a1cbfd44d2f0"
+  },
+  "serial_gate_passed": false,
+  "serial_requirement_superseded_by_operator": true,
+  "generated_reference_exception": "config/reference.php: comments/whitespace may regenerate; executable PHP tokens must match Git; raw hashes recorded.",
+  "superseded_pr": 798,
+  "diagnostics_closed_unmerged": [
+    803
+  ],
+  "next_batch": "O5-B0",
+  "remaining_planned_implementation_batches": 1,
+  "operational_flags": {
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "live_ready": false,
+    "activation": false,
+    "execution_authority": false
+  },
+  "actual_retry_allowlist": [],
+  "documentation_provenance": "Post-test closure; no executable or test changes."
+}

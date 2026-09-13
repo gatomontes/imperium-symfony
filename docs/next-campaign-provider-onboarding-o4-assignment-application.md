@@ -1,3 +1,11 @@
+# O4 accepted and closed — current disposition
+
+The operator approved the complete parallel acceptance gate and integration on 2026-09-13. PR #804 is merged at `64bceee351fe8cabdd1847ed4cb938a53c2874fa`; the merge tree exactly matches the source that passed fresh complete CI. [Current closure](handoffs/provider-onboarding-o4-complete.md) supersedes the approval-pending, serial-only and unimplemented statuses below. O5 remains the next implementation batch.
+
+---
+
+## Historical document (retained unchanged below)
+
 # Next campaign — O4-B0 atomic assignment application
 
 O3 is complete and integrated. PR #794 merged at `61d3f555d4bc903437687d454f05f4484ff538c4`, exactly the accepted tree `f7e10635a7d6992ea50de4a47ef2654e943e1ff7`. Its fresh full hosted CI passed 3,664 tests / 57,357 assertions / four skips. [O3 closure](handoffs/provider-onboarding-o3-complete.md).
