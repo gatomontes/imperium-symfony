@@ -105,6 +105,16 @@
       "decrement": 0,
       "evidence": "docs/provider-storage-successor-contract-v1.md",
       "reason": "Concrete A\u2013F successor awaits owner approval; R2 remains open"
+    },
+    {
+      "event": "PPC4_SUCCESSOR_CLAUSES_A_TO_F_OWNER_APPROVED",
+      "range": [
+        5,
+        7
+      ],
+      "decrement": 0,
+      "evidence": "docs/handoffs/provider-storage-successor-approval.json",
+      "reason": "Approval enables bounded local implementation; complete R2 is not yet accepted"
     }
   ],
   "operational_flags": {
@@ -117,7 +127,7 @@
   "native_enrollment_disposition": "DEFER_ENROLLMENT",
   "actual_retry_allowlist": [],
   "latest_receiving_review": "docs/reviews/provider-native-tenure-review.md",
-  "selected_campaign_status": "PREPARED_SUCCESSOR_APPROVAL_PENDING",
+  "selected_campaign_status": "OWNER_APPROVED_FOR_LOCAL_OFFLINE_IMPLEMENTATION",
   "potential_after_accepted_ppc4": {
     "minimum": 4,
     "maximum": 6,
