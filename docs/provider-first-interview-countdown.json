@@ -10,8 +10,8 @@
     "maximum": 5,
     "kind": "WORKING_ESTIMATE"
   },
-  "selected_campaign": "PPC5",
-  "selected_outcome": "R1_NATIVE_O4_MODEL_CORRESPONDENCE",
+  "selected_campaign": "PPC6",
+  "selected_outcome": "R3_DESIGNATION_AND_SHARED_ASSIGNMENT_USE",
   "outcomes": [
     {
       "id": "R1",
@@ -180,6 +180,16 @@
       "integration_merge": "65d02f0e61c5eb2ec4fa45a24aed0602b1f38b5c",
       "ci_run": 34876510955,
       "reason": "Both competent original chains and real strict consumer accepted after source review and fresh complete hosted CI; no new scope"
+    },
+    {
+      "event": "PPC6_DESIGNATION_ASSIGNMENT_PREPARED",
+      "range": [
+        3,
+        5
+      ],
+      "decrement": 0,
+      "evidence": "docs/next-campaign-provider-designation-assignment.md",
+      "reason": "Continue remaining approved PPC2 A–F scope with accepted R1/R2; full R3 remains open and known R4 establishment dependency is explicit"
     }
   ],
   "operational_flags": {
@@ -192,7 +202,7 @@
   "native_enrollment_disposition": "DEFER_ENROLLMENT",
   "actual_retry_allowlist": [],
   "latest_receiving_review": "docs/reviews/provider-model-correspondence-review.md",
-  "selected_campaign_status": "R1_ACCEPTED_OFFLINE",
+  "selected_campaign_status": "READY_WITH_EXISTING_APPROVAL",
   "potential_after_accepted_ppc4": {
     "minimum": 4,
     "maximum": 6,
@@ -206,5 +216,11 @@
     "applied": true,
     "condition": "Whole R1 accepted after source review and full fresh hosted CI, with no new scope",
     "evidence": "docs/reviews/provider-model-correspondence-review.md"
+  },
+  "potential_after_accepted_ppc6": {
+    "minimum": 2,
+    "maximum": 4,
+    "applied": false,
+    "condition": "Complete R3 accepted through actual supported designation/application/use owners, with no new scope; known R4 dependency cannot be bypassed"
   }
 }

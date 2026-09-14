@@ -1,3 +1,15 @@
+# Current campaign — PPC6 designation and assignment/use; countdown 3–5
+
+**PPC6 is ready for local implementation of R3 under the existing PPC2 A–F approval.** [Campaign](next-campaign-provider-designation-assignment.md), [implementation plan and actual caller inventory](provider-designation-assignment-implementation-plan.md), [scope/approval record](handoffs/provider-designation-assignment-scope.json), [complete prompt and PowerShell handoff](handoffs/provider-designation-assignment-ready.md). No repeat approval is needed for this bounded scope.
+
+Complete signed Laboratorium designation/revocation, event-derived current state and lifecycle attestations, then carry the live Formation owner frame through the shared native assignment/application/use verifier. PPC5 strict v2 correspondence and accepted R2 synchronization are prerequisites. Verify the complete applied pair before projecting a requested role; preserve separate appointments, mappings and all generations.
+
+The known R4 same-root FRESH/installation contradiction remains explicit. A synthetic parent root or fabricated application state cannot establish the final positive application/use path. PPC6 grants no FRESH exception; report a partial R3 result if that source dependency prevents its complete proof. R1/R2 remain accepted. R4 establishment, R5 production ports and R6 separately authorized commissioning/interview remain required/open/deferred.
+
+**Countdown: 3–5 → 3–5; decrement 0.** Complete receiving R3 acceptance with no new scope could yield **2–4**. [Outcome ledger](provider-first-interview-countdown.md), [machine record](provider-first-interview-countdown.json). Preparation and partial components earn no decrement. All five operational flags stay false, `DEFER_ENROLLMENT` and the empty actual retry allowlist remain. No live provider/account access, installed private state, enrollment, deployment, commissioning, activation or execution is authorized. Earlier history below is preserved.
+
+---
+
 # Current review — R1 accepted after PPC5; countdown 3–5
 
 **R1 competent native-to-O4 model correspondence is accepted offline.** Both permanent Seats have the approved native preparation/delegation/seal originals and real strict v2 Profile lifecycle consumer. [PR #826](https://github.com/gatomontes/imperium-symfony/pull/826), merge `65d02f0e61c5eb2ec4fa45a24aed0602b1f38b5c`, reviewed/tested tree `b76c0564345c0f35a19f8e3385b1ad95b6b43423`. [Receiving review](reviews/provider-model-correspondence-review.md), [exact integration/CI record](provider-model-correspondence-reviewed-integration.json).
