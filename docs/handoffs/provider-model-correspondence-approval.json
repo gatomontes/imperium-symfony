@@ -1,0 +1,36 @@
+{
+  "schema": "imperium.provider-model-correspondence-approval/v1",
+  "status": "PENDING_OWNER_APPROVAL",
+  "proposal_path": "docs/provider-model-correspondence-proposal-v1.md",
+  "proposal_sha256": "8c4d9992d57d1ea98ae14e4fd4abfe6971f316dd87443388e9a31a34538998e8",
+  "proposal_hash_basis": "Exact UTF-8 Git blob bytes; no newline normalization",
+  "clauses": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F"
+  ],
+  "preparation_instruction": "proceed.\n*Imperium via solitaria est*",
+  "preparation_instruction_approves_new_clauses": false,
+  "approval_conversational_reference": null,
+  "approved_proposal_sha256": null,
+  "implementation_accepted": false,
+  "baseline_commit": "a0c3042d08574da3c54a0b0e2d4ffc87ea47b3a1",
+  "baseline_tree": "31cd602f2aa3df058b8b9f09fc13eee12ebb8b7a",
+  "remaining_batches": [
+    4,
+    6
+  ],
+  "countdown_decrement": 0,
+  "operational_flags": {
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "live_ready": false,
+    "activation": false,
+    "execution_authority": false
+  },
+  "native_enrollment_disposition": "DEFER_ENROLLMENT",
+  "actual_retry_allowlist": []
+}
