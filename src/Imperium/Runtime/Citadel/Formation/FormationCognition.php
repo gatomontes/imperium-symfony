@@ -320,7 +320,8 @@ final readonly class FormationCognition
 
     public function authorizationSource(string $intakeId, string $phase): array
     {
-        return $this->source($this->journal->read()['state'], $intakeId, $phase)['authorization_source'];
+        return $this->journal->inspect(fn(array $frame, FormationOwnerFrame $owner): array =>
+            $this->source($frame['state'], $intakeId, $phase, $owner)['authorization_source']);
     }
 
     private function completeInterviews(array &$state, string $intakeId, string $sessionId, string $attemptId): void

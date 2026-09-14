@@ -23,39 +23,41 @@ final readonly class CuriaFormationService
 
     public function presentation(string $intakeId, int $version, array $appointments, int $expiresAt): array
     {
-        $state = $this->journal->read()['state'];
-        $dossier = $this->currentDossier($state, $intakeId, $version);
-        if (($state['intakes'][$intakeId]['understanding']['registry_generation'] ?? null) !== $state['registry_generation']) {
-            throw new \RuntimeException('CMF087_REGISTRY_CHANGED_REASSESS_OUTSIDE_LOCK');
-        }
-        $missionId = 'mission-'.substr(FormationJournal::digest([$state['citadel_id'], $intakeId]), 0, 32);
-        if (!FormationJournal::keys($appointments, ['curia.seneschal', 'curia.chamberlain', 'curia.secretary'])) {
-            throw new \RuntimeException('CMF080_EXACT_THREE_APPOINTMENTS_REQUIRED');
-        }
-        $manifestations = [];
-        foreach ($appointments as $seat => $candidate) {
-            $binding = $this->personnel->candidate($state, $candidate, $missionId, $seat);
-            $manifestations[] = $binding['manifestation_id'];
-        }
-        if (count(array_unique($manifestations)) !== 3) { throw new \RuntimeException('CMF081_DISTINCT_MANIFESTATIONS_REQUIRED'); }
-        if ($expiresAt <= $this->clock->now()->getTimestamp()) { throw new \RuntimeException('CMF082_FORMATION_EXPIRED'); }
-        return ['intake_id' => $intakeId, 'mission_id' => $missionId,
-            'curia_id' => 'curia-'.substr(FormationJournal::digest([$missionId, $dossier['dossier_id']]), 0, 32),
-            'citadel_id' => $state['citadel_id'], 'parent_instance_id' => $state['parent_instance_id'], 'dossier' => $dossier,
-            'registry_generation' => $state['registry_generation'],
-            'overlap' => $state['intakes'][$intakeId]['understanding']['response']['overlap'],
-            'appointments' => $appointments, 'expires_at' => $expiresAt,
-            'typed_effects' => ['APPROVE_EXACT_MISSION', 'CONSTITUTE_CHILD_CURIA', 'APPOINT_EXACT_OFFICERS'],
-            'execution_authority' => false];
+        return $this->journal->inspect(function (array $frame, FormationOwnerFrame $owner) use ($intakeId, $version, $appointments, $expiresAt): array {
+            $state = $frame['state'];
+            $dossier = $this->currentDossier($state, $intakeId, $version, $owner);
+            if (($state['intakes'][$intakeId]['understanding']['registry_generation'] ?? null) !== $state['registry_generation']) {
+                throw new \RuntimeException('CMF087_REGISTRY_CHANGED_REASSESS_OUTSIDE_LOCK');
+            }
+            $missionId = 'mission-'.substr(FormationJournal::digest([$state['citadel_id'], $intakeId]), 0, 32);
+            if (!FormationJournal::keys($appointments, ['curia.seneschal', 'curia.chamberlain', 'curia.secretary'])) {
+                throw new \RuntimeException('CMF080_EXACT_THREE_APPOINTMENTS_REQUIRED');
+            }
+            $manifestations = [];
+            foreach ($appointments as $seat => $candidate) {
+                $binding = $this->personnel->candidate($state, $candidate, $missionId, $seat);
+                $manifestations[] = $binding['manifestation_id'];
+            }
+            if (count(array_unique($manifestations)) !== 3) { throw new \RuntimeException('CMF081_DISTINCT_MANIFESTATIONS_REQUIRED'); }
+            if ($expiresAt <= $this->clock->now()->getTimestamp()) { throw new \RuntimeException('CMF082_FORMATION_EXPIRED'); }
+            return ['intake_id' => $intakeId, 'mission_id' => $missionId,
+                'curia_id' => 'curia-'.substr(FormationJournal::digest([$missionId, $dossier['dossier_id']]), 0, 32),
+                'citadel_id' => $state['citadel_id'], 'parent_instance_id' => $state['parent_instance_id'], 'dossier' => $dossier,
+                'registry_generation' => $state['registry_generation'],
+                'overlap' => $state['intakes'][$intakeId]['understanding']['response']['overlap'],
+                'appointments' => $appointments, 'expires_at' => $expiresAt,
+                'typed_effects' => ['APPROVE_EXACT_MISSION', 'CONSTITUTE_CHILD_CURIA', 'APPOINT_EXACT_OFFICERS'],
+                'execution_authority' => false];
+        });
     }
 
     public function review(array $terms, string $disposition, array $lineDigests, string $rationale, array $decision): array
     {
-        return $this->journal->change(function (array &$state) use ($terms, $disposition, $lineDigests, $rationale, $decision): array {
+        return $this->journal->change(function (array &$state, FormationOwnerFrame $owner) use ($terms, $disposition, $lineDigests, $rationale, $decision): array {
             if (!in_array($disposition, ['APPROVE', 'OBJECT', 'REFUSE', 'DEFER'], true) || '' === trim($rationale)) {
                 throw new \RuntimeException('CMF083_REVIEW_INVALID');
             }
-            $current = $this->currentDossier($state, $terms['intake_id'], $terms['dossier']['version']);
+            $current = $this->currentDossier($state, $terms['intake_id'], $terms['dossier']['version'], $owner);
             if (FormationJournal::digest($current) !== FormationJournal::digest($terms['dossier'])) { throw new \RuntimeException('CMF088_DOSSIER_SUBSTITUTION'); }
             $this->validateTerms($state, $terms);
             $effect = $disposition === 'APPROVE' ? 'APPROVE_MISSION_AND_CONSTITUTION' : 'REVIEW_MISSION_'.$disposition;
@@ -74,7 +76,7 @@ final readonly class CuriaFormationService
 
     public function reserve(string $reviewId): array
     {
-        return $this->journal->change(function (array &$state) use ($reviewId): array {
+        return $this->journal->change(function (array &$state, FormationOwnerFrame $owner) use ($reviewId): array {
             $review = $state['reviews'][$reviewId] ?? throw new \RuntimeException('CMF085_REVIEW_ABSENT');
             $terms = $review['terms'];
             $id = $terms['intake_id'];
@@ -85,7 +87,7 @@ final readonly class CuriaFormationService
                     return $prior;
                 }
             }
-            $this->validateApproval($state, $review);
+            $this->validateApproval($state, $review, $owner);
             if ($terms['registry_generation'] !== $state['registry_generation']) {
                 $reassessment = $state['intakes'][$id]['understanding'] ?? [];
                 if (($reassessment['registry_generation'] ?? null) !== $state['registry_generation']
@@ -93,7 +95,7 @@ final readonly class CuriaFormationService
                     throw new \RuntimeException('CMF087_REGISTRY_CHANGED_REASSESS_OUTSIDE_LOCK');
                 }
             }
-            $dossier = $this->currentDossier($state, $id, $terms['dossier']['version']);
+            $dossier = $this->currentDossier($state, $id, $terms['dossier']['version'], $owner);
             if (FormationJournal::digest($dossier) !== FormationJournal::digest($terms['dossier'])) { throw new \RuntimeException('CMF088_DOSSIER_SUBSTITUTION'); }
             foreach ($terms['appointments'] as $seat => $candidate) {
                 $binding = $this->personnel->candidate($state, $candidate, $terms['mission_id'], $seat);
@@ -119,13 +121,13 @@ final readonly class CuriaFormationService
         $recovered = $receipt !== null;
         $recognizedContent = $receipt;
         if ($recognizedContent !== null) { unset($recognizedContent['record_digest'], $recognizedContent['publication']); }
-        $prepared = $recognizedContent ?? $this->journal->change(function (array &$state) use ($intakeId): array {
+        $prepared = $recognizedContent ?? $this->journal->change(function (array &$state, FormationOwnerFrame $owner) use ($intakeId): array {
             if (isset($state['handoffs'][$intakeId])) { return ['complete' => $state['handoffs'][$intakeId]]; }
             $reservation = &$state['reservations'][$intakeId];
             if (!is_array($reservation)) { throw new \RuntimeException('CMF089_RESERVATION_REQUIRED'); }
             $review = $state['reviews'][$reservation['review_id']];
             if ($reservation['status'] === 'EXPIRED_UNUSED_TOMBSTONE') { throw new \RuntimeException('CMF082_FORMATION_EXPIRED'); }
-            $this->validateApproval($state, $review);
+            $this->validateApproval($state, $review, $owner);
             if (isset($reservation['prepared'])) { return $reservation['prepared']; }
             $terms = $review['terms'];
             $occupants = [];
@@ -210,22 +212,24 @@ final readonly class CuriaFormationService
         return ['mission_id' => $missionId, 'curia_id' => $entry['curia_id'], 'handoff_id' => $entry['handoff_id'], 'execution_authority' => false];
     }
 
-    private function currentDossier(array $state, string $intakeId, int $version): array
+    private function currentDossier(array $state, string $intakeId, int $version, FormationOwnerFrame $owner): array
     {
         $versions = $state['dossiers'][$intakeId] ?? [];
         if ($version !== count($versions) || $version < 1) { throw new \RuntimeException('CMF093_CURRENT_DOSSIER_REQUIRED'); }
         $dossier = $versions[$version - 1];
         FormationPlan::validate($dossier['response']);
         if ($dossier['intent_version'] !== $state['intakes'][$intakeId]['intent_version']) { throw new \RuntimeException('CMF065_DRAFTING_LINEAGE_CHANGED'); }
-        if ($dossier['holder_digest'] !== FormationJournal::digest($this->personnel->currentCourtthane($state))) { throw new \RuntimeException('CMF065_DRAFTING_LINEAGE_CHANGED'); }
+        $holder = isset($state['personnel_evidence'][$state['courtthane']['candidate']['profile'] ?? '']['payload']['schema'])
+            ? $this->personnel->currentCourtthaneInOwner($owner) : $this->personnel->currentCourtthane($state);
+        if ($dossier['holder_digest'] !== FormationJournal::digest($holder)) { throw new \RuntimeException('CMF065_DRAFTING_LINEAGE_CHANGED'); }
         return $dossier;
     }
 
-    private function validateApproval(array $state, array $review): void
+    private function validateApproval(array $state, array $review, FormationOwnerFrame $owner): void
     {
         if ($review['disposition'] !== 'APPROVE' || $review['terms']['expires_at'] <= $this->clock->now()->getTimestamp()) { throw new \RuntimeException('CMF094_EXACT_MISSION_APPROVAL_REQUIRED'); }
         $this->signatures->verify($state, $review['decision'], 'APPROVE_MISSION_AND_CONSTITUTION', ['terms' => $review['terms'], 'line_digests' => $review['line_digests'], 'rationale' => $review['rationale']]);
-        $current = $this->currentDossier($state, $review['terms']['intake_id'], $review['terms']['dossier']['version']);
+        $current = $this->currentDossier($state, $review['terms']['intake_id'], $review['terms']['dossier']['version'], $owner);
         if (FormationJournal::digest($current) !== FormationJournal::digest($review['terms']['dossier'])) { throw new \RuntimeException('CMF088_DOSSIER_SUBSTITUTION'); }
         $this->validateTerms($state, $review['terms']);
     }
@@ -264,26 +268,28 @@ final readonly class CuriaFormationService
 
     public function validateStepOne(string $intakeId): array
     {
-        $state = $this->journal->read()['state'];
-        $handoff = $state['handoffs'][$intakeId] ?? throw new \RuntimeException('CMF063_HANDOFF_REQUIRED');
-        $accepted = $handoff['acceptances'][count($handoff['acceptances']) - 1] ?? [];
-        if (($accepted['response']['disposition'] ?? null) !== 'ACCEPTED') { throw new \RuntimeException('CMF099_RECEIVING_ACCEPTANCE_REQUIRED'); }
-        $this->validateApproval($state, $handoff['packet']['review']);
-        FormationPlan::validate($handoff['packet']['dossier']['response']);
-        $child = $this->childRoot($handoff['curia_id']);
-        $receipt = (new ImmutableRecordStore($child, new AtomicTransition($child)))->read('var/imperium/curia/handoffs', $handoff['handoff_id']);
-        $assessment = (new ImmutableRecordStore($child, new AtomicTransition($child)))->read('var/imperium/curia/handoff-assessments', $accepted['claim']['claim_id']);
-        unset($assessment['record_digest']);
-        if (FormationJournal::digest($assessment) !== FormationJournal::digest($accepted)) { throw new \RuntimeException('CMF129_ATTRIBUTABLE_RECEIVING_RECORD_REQUIRED'); }
-        if ($receipt['record_digest'] !== $handoff['delivery_receipt']['digest']
-            || FormationJournal::digest($receipt['packet']) !== FormationJournal::digest($handoff['packet'])
-            || $accepted['claim']['holder'] !== $handoff['constitution']['occupants']['curia.seneschal']) { throw new \RuntimeException('CMF092_CHILD_RECEIPT_SUBSTITUTION'); }
-        return ['status' => 'STEP_1_SCHEMA_AND_FOREIGN_REFERENCES_VALIDATED_NO_EXECUTION',
-            'source_citadel_id' => $handoff['packet']['citadel_id'], 'target_curia_id' => $handoff['curia_id'],
-            'mission_id' => $handoff['mission_id'], 'handoff_id' => $handoff['handoff_id'],
-            'dossier_id' => $handoff['packet']['dossier']['dossier_id'],
-            'plan_digest' => FormationJournal::digest($handoff['packet']['dossier']['response']['mission_plan']),
-            'acceptance_claim_id' => $accepted['claim']['claim_id'], 'execution_authority' => false];
+        return $this->journal->inspect(function (array $frame, FormationOwnerFrame $owner) use ($intakeId): array {
+            $state = $frame['state'];
+            $handoff = $state['handoffs'][$intakeId] ?? throw new \RuntimeException('CMF063_HANDOFF_REQUIRED');
+            $accepted = $handoff['acceptances'][count($handoff['acceptances']) - 1] ?? [];
+            if (($accepted['response']['disposition'] ?? null) !== 'ACCEPTED') { throw new \RuntimeException('CMF099_RECEIVING_ACCEPTANCE_REQUIRED'); }
+            $this->validateApproval($state, $handoff['packet']['review'], $owner);
+            FormationPlan::validate($handoff['packet']['dossier']['response']);
+            $child = $this->childRoot($handoff['curia_id']);
+            $receipt = (new ImmutableRecordStore($child, new AtomicTransition($child)))->read('var/imperium/curia/handoffs', $handoff['handoff_id']);
+            $assessment = (new ImmutableRecordStore($child, new AtomicTransition($child)))->read('var/imperium/curia/handoff-assessments', $accepted['claim']['claim_id']);
+            unset($assessment['record_digest']);
+            if (FormationJournal::digest($assessment) !== FormationJournal::digest($accepted)) { throw new \RuntimeException('CMF129_ATTRIBUTABLE_RECEIVING_RECORD_REQUIRED'); }
+            if ($receipt['record_digest'] !== $handoff['delivery_receipt']['digest']
+                || FormationJournal::digest($receipt['packet']) !== FormationJournal::digest($handoff['packet'])
+                || $accepted['claim']['holder'] !== $handoff['constitution']['occupants']['curia.seneschal']) { throw new \RuntimeException('CMF092_CHILD_RECEIPT_SUBSTITUTION'); }
+            return ['status' => 'STEP_1_SCHEMA_AND_FOREIGN_REFERENCES_VALIDATED_NO_EXECUTION',
+                'source_citadel_id' => $handoff['packet']['citadel_id'], 'target_curia_id' => $handoff['curia_id'],
+                'mission_id' => $handoff['mission_id'], 'handoff_id' => $handoff['handoff_id'],
+                'dossier_id' => $handoff['packet']['dossier']['dossier_id'],
+                'plan_digest' => FormationJournal::digest($handoff['packet']['dossier']['response']['mission_plan']),
+                'acceptance_claim_id' => $accepted['claim']['claim_id'], 'execution_authority' => false];
+        });
     }
 
     private function childRoot(string $id): string

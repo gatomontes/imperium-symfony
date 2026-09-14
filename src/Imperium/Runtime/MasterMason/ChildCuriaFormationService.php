@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Imperium\Runtime\MasterMason;
 
-use App\Imperium\Runtime\Citadel\Formation\{FormationJournal, FormationPersonnel, FormationSignatures, FormationInstitution, FormationPublicationEvidence};
+use App\Imperium\Runtime\Citadel\Formation\{FormationJournal, FormationOwnerFrame, FormationPersonnel, FormationSignatures, FormationInstitution, FormationPublicationEvidence};
 use App\Imperium\Runtime\Clock;
 use App\Imperium\Runtime\Persistence\{AtomicTransition, ImmutableRecordStore};
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -21,7 +21,7 @@ final readonly class ChildCuriaFormationService
     {
         // Serialize the last authority check and bounded local write against revocation.
         // No provider, credential, or external transport participates in this lock.
-        return $this->journal->inspect(function (array $frame) use ($intakeId): array {
+        return $this->journal->inspect(function (array $frame, FormationOwnerFrame $owner) use ($intakeId): array {
             $state = $frame['state'];
             $reservation = $state['reservations'][$intakeId] ?? [];
             $prepared = $reservation['prepared'] ?? [];
@@ -43,9 +43,11 @@ final readonly class ChildCuriaFormationService
             }
             $this->signatures->verify($state, $constitution['decision'], 'APPROVE_MISSION_AND_CONSTITUTION', $constitution['signed_review']);
             $dossiers = $state['dossiers'][$intakeId] ?? [];
+            $holder = isset($state['personnel_evidence'][$state['courtthane']['candidate']['profile'] ?? '']['payload']['schema'])
+                ? $this->personnel->currentCourtthaneInOwner($owner) : $this->personnel->currentCourtthane($state);
             if (($dossiers[count($dossiers) - 1] ?? null) !== $constitution['terms']['dossier']
                 || $prepared['packet']['intake']['intent_version'] !== $state['intakes'][$intakeId]['intent_version']
-                || $constitution['terms']['dossier']['holder_digest'] !== FormationJournal::digest($this->personnel->currentCourtthane($state))) {
+                || $constitution['terms']['dossier']['holder_digest'] !== FormationJournal::digest($holder)) {
                 throw new \RuntimeException('CMF065_DRAFTING_LINEAGE_CHANGED');
             }
             foreach ($constitution['terms']['appointments'] as $seat => $candidate) {

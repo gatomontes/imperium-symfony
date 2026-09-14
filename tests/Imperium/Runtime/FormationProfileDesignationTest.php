@@ -8,6 +8,46 @@ use PHPUnit\Framework\TestCase;
 
 final class FormationProfileDesignationTest extends TestCase
 {
+    /** Native personnel compatibility only; no O4 application or live provider. */
+    public function testV2CourtthaneThroughActualFormationConsumers(): void
+    {
+        $f = new F('courtyard.courtthane');
+        try {
+            $native = $f->m->f;
+            $f->service->publish($f->envelope(), $f->m->candidate);
+            $scope = $f->m->context['citadel_id'];
+            $locksmith = $native->candidate($scope, 'clavium.locksmith');
+            $locksmithTerms = ['candidate' => $locksmith, 'scope' => $scope, 'seat' => 'clavium.locksmith', 'generation' => 1];
+            $native->personnel->appointLocksmith($locksmith, $native->sign('APPOINT_FORMATION_LOCKSMITH', $locksmithTerms));
+            $terms = ['candidate' => $f->m->candidate, 'scope' => $scope, 'seat' => 'courtyard.courtthane', 'generation' => 1];
+            $holder = $native->personnel->appointCourtthane($f->m->candidate, $native->sign('APPOINT_COURTTHANE', $terms));
+            $id = $native->receive()['intake_id'];
+            self::assertSame(\App\Imperium\Runtime\Citadel\Formation\FormationJournal::digest($holder), $native->cognition->authorizationSource($id, 'interview')['holder_digest']);
+            $native->understand($id);
+            $draft = $native->draft($id);
+            self::assertSame($holder, $draft['claim']['holder']);
+            $review = $native->approve($native->present($id));
+            $native->formation->reserve($review['review_id']);
+            $handoff = $native->formation->deliver($id);
+            self::assertFalse($handoff['execution_authority']);
+            self::assertSame($handoff, $native->formation->deliver($id));
+            $session = $native->grant($id, 'acceptance');
+            $native->transport->response = ['disposition' => 'ACCEPTED', 'rationale' => 'Exact synthetic mandate understood.', 'gaps' => '', 'dissent' => 'No live execution.'];
+            $native->cognition->call($session, 'v2-acceptance-0001');
+            self::assertSame('STEP_1_SCHEMA_AND_FOREIGN_REFERENCES_VALIDATED_NO_EXECUTION', $native->formation->validateStepOne($id)['status']);
+            self::assertCount(3, $native->transport->calls);
+            $nonce = $f->m->authorization['body']['decision']['payload']['nonce'];
+            $native->signatures->revoke($native->sign('REVOKE_DECISION', ['nonce' => $nonce]), $nonce);
+            $head = $f->m->head();
+            foreach ([fn() => $native->cognition->authorizationSource($id, 'drafting'), fn() => $native->formation->validateStepOne($id)] as $current) {
+                try { $current(); self::fail('Revoked native model preparation must refuse'); }
+                catch (\RuntimeException $e) { self::assertStringContainsString('CMF022', $e->getMessage()); }
+            }
+            self::assertSame($head, $f->m->head());
+            self::assertCount(3, $native->transport->calls);
+        } finally { $f->close(); }
+    }
+
     public static function histories():iterable { foreach(D::TARGETS as $seat) { foreach(['live','revoked','expired'] as $terminal) { yield [$seat,$terminal]; } } }
     #[DataProvider('histories')]
     public function testNativeHistorySuccessorAndIndependentAppointment(string $seat,string $terminal):void
