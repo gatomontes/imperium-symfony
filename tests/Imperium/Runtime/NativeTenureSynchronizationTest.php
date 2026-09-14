@@ -131,8 +131,9 @@ final class NativeTenureSynchronizationTest extends TestCase
                 (new StateStore($x->f->root))->write(['schema' => 'synthetic-unsupported-successor', 'events' => []]);
             } elseif ($form === 'successor') {
                 $atomic = new \App\Imperium\Runtime\Persistence\AtomicTransition($x->f->root);
-                (new \App\Imperium\Runtime\Persistence\ImmutableRecordStore($x->f->root, $atomic))->put('var/imperium/offices/garrison/occupancy', 'synthetic-successor',
-                    ['schema' => 'synthetic-unsupported-successor/v1', 'seat' => 'garrison.constable', 'status' => 'CURRENT_ACTIVE']);
+                $x->f->journal->inspect(fn(array $frame, FormationOwnerFrame $owner) =>
+                    (new \App\Imperium\Runtime\Persistence\ImmutableRecordStore($x->f->root, $atomic))->putInOwner($owner, 'var/imperium/offices/garrison/occupancy', 'synthetic-successor',
+                        ['schema' => 'synthetic-unsupported-successor/v1', 'seat' => 'garrison.constable', 'status' => 'CURRENT_ACTIVE']));
             } else {
                 $paths = glob($x->f->root.'/var/imperium/operator-root/packages/*.json');
                 self::assertCount(1, $paths);
@@ -143,7 +144,7 @@ final class NativeTenureSynchronizationTest extends TestCase
         } finally { $x->close(); }
     }
 
-    public function testGenericStorageRemainsAnOpenWriterPathButCompletedRetirementRefuses(): void
+    public function testGenericStorageRefusesBeforeGuardAndOwnedRetirementRefusesCurrentUse(): void
     {
         $x = new ModelBoundFormationFixture();
         try {
@@ -152,10 +153,18 @@ final class NativeTenureSynchronizationTest extends TestCase
             $path = 'var/imperium/offices/garrison/occupancy/'.$record['binding_id'].'.json';
             $next = $record; $next['status'] = 'RETIRED';
             $atomic = new \App\Imperium\Runtime\Persistence\AtomicTransition($root);
-            (new \App\Imperium\Runtime\Persistence\MutableStateStore($root, $atomic))->compareAndSwapGuarded($path, $record['record_digest'], function () use ($root): void {
-                $h = fopen($root.'/var/imperium/runtime/transition-locks/'.hash('sha256', 'citadel-formation').'.lock', 'rb');
-                self::assertTrue(flock($h, LOCK_EX | LOCK_NB), 'Pinned generic storage remains outside the native owner boundary'); fclose($h);
-            }, $next);
+            $store = new \App\Imperium\Runtime\Persistence\MutableStateStore($root, $atomic);
+            try {
+                $store->compareAndSwapGuarded($path, $record['record_digest'], static function (): void { self::fail('Bare reserved guard invoked'); }, $next);
+                self::fail('Bare reserved write accepted');
+            } catch (\RuntimeException $e) { self::assertSame('PPC401_RESERVED_STORAGE_OWNER_REQUIRED', $e->getMessage()); }
+            self::assertSame($record, $store->read($path));
+            $x->f->journal->inspect(function (array $frame, FormationOwnerFrame $owner) use ($store, $path, $record, $next, $root): void {
+                $store->compareAndSwapGuardedInOwner($owner, $path, $record['record_digest'], function () use ($root): void {
+                    $h = fopen($root.'/var/imperium/runtime/transition-locks/'.hash('sha256', 'citadel-formation').'.lock', 'rb');
+                    self::assertFalse(flock($h, LOCK_EX | LOCK_NB)); fclose($h);
+                }, $next);
+            });
             self::assertSame([1, "CMF121_INSTITUTION_UNAVAILABLE\n"], $this->finish($this->start($root, $this->current($x), 'generic-refusal')));
         } finally { $x->close(); }
     }
