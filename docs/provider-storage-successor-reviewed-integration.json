@@ -1,0 +1,185 @@
+{
+  "actual_retry_allowlist": [],
+  "approval": {
+    "proposal_sha256": "9c8a8d8e4fde15ef6aabddfab83fa4a6deb569837ca3ead457d6b9f297bbf464",
+    "record": "docs/handoffs/provider-storage-successor-approval.json",
+    "scope": "Exact approved clauses A\u2013F"
+  },
+  "countdown": {
+    "before": [
+      5,
+      7
+    ],
+    "after": [
+      4,
+      6
+    ],
+    "decrement": 1,
+    "accepted_outcome": "R2_NATIVE_TENURE_SYNCHRONIZATION",
+    "reason": "PPC3 typed boundary plus PPC4 generic successor accepted after fresh complete hosted CI; no new scope"
+  },
+  "documentation_is_post_test": true,
+  "engineering_disposition": "NATIVE_TENURE_SYNCHRONIZATION_ACCEPTED_OFFLINE",
+  "integration": {
+    "candidate_head": "5c83fbe33eacf8dc846785d9981c8b2f94440ef2",
+    "merge": "499877920e06637c109abd741b25a78f06ef7e72",
+    "pr": 822,
+    "tested_and_verified_merge_tree": "3bcabf98024795b4fb853068b93f2638766b6ae9",
+    "accepted_head": "5c83fbe33eacf8dc846785d9981c8b2f94440ef2"
+  },
+  "native_enrollment_disposition": "DEFER_ENROLLMENT",
+  "operational_flags": {
+    "activation": false,
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "execution_authority": false,
+    "live_ready": false
+  },
+  "packet": {
+    "filename": "imperium-ppc4-public-review.zip",
+    "sha256": "9e0c7986981b99787305c42b67a53dbd4d9ee33551bcae0432b5f8d806e360da",
+    "verified_evidence_files": 494,
+    "verified_payloads": 15,
+    "verified_source_files": 3569
+  },
+  "producer": {
+    "base_commit": "816f0ffd14d6cc4d2c5d2c4605ec306aecffbf44",
+    "base_tree": "0cbf06a20928ce6be664b33925a220be1e87ab50",
+    "final_commit": "9175eb7a32cb96852c243a0abd679966fb6e3010",
+    "final_tree": "3bcabf98024795b4fb853068b93f2638766b6ae9",
+    "tested_commit": "88e4c481dbf43a329565eebe1cb898b46790dbab",
+    "tested_tree": "06cdd13fe5c615ef9aaf1a9b2b815563a45895b0"
+  },
+  "r2_complete": true,
+  "remaining_outcomes": [
+    "R1_COMPETENT_NATIVE_TO_O4_CORRESPONDENCE",
+    "R3_DESIGNATION_AND_SHARED_ASSIGNMENT_USE",
+    "R4_COMBINED_FRESH_ESTABLISHMENT",
+    "R5_ACCOUNT_ACCESS_BASE_COGNITION",
+    "R6_SEPARATELY_AUTHORIZED_COMMISSIONING_INTERVIEW"
+  ],
+  "review": {
+    "blocking_findings": [],
+    "exclusions": [
+      "Arbitrary PHP execution or arbitrary rerooting",
+      "Old binaries",
+      "Administrator replacement",
+      "Concurrent external topology changes"
+    ],
+    "local_php_executed": false,
+    "local_python_guards": {
+      "passed": 9,
+      "reason": "PHP absent",
+      "skipped": 2
+    },
+    "public_fixture_integrity": {
+      "current_authority_claim": false,
+      "frames_per_target": 34,
+      "institutional_signatures_verified": 68,
+      "model_authorization": "SYNTHETIC_UNVERIFIED",
+      "targets": 2
+    },
+    "scope": "Configured canonical roots, cooperating current binaries, fixed filesystem topology",
+    "separate_agent_or_human_review_claimed": false,
+    "source_pin_successor": "Bounded approved chain; both original ledgers and AtomicTransition unchanged"
+  },
+  "schema": "imperium.provider-storage-successor-reviewed-integration/v1",
+  "windows_evidence": {
+    "assertions": 64847,
+    "authoritative_run": "resumed-20260914T131846",
+    "complete_gate_green": false,
+    "diagnostics_retained": true,
+    "files": 617,
+    "guard_error": "WinError 1314 symlink privilege unavailable",
+    "guards_errored": 1,
+    "guards_passed": 10,
+    "guards_skipped": 0,
+    "live_and_dangling_junction_probes_passed": true,
+    "longest_partition_seconds": 1993.570498,
+    "skipped": 1,
+    "source_digest": "8a808aceb99a0c557a557ae1965b7cc5cadb9e55105ccad8070df13982ef2ab9",
+    "tests": 3854
+  },
+  "linux_ci": {
+    "assertions": 64834,
+    "exact_case_coverage": true,
+    "files": 617,
+    "longest_partition_seconds": 1105.028222,
+    "partitions": [
+      {
+        "assertions": 10672,
+        "index": 0,
+        "seconds": 136.825216,
+        "skipped": 0,
+        "tests": 477
+      },
+      {
+        "assertions": 7599,
+        "index": 1,
+        "seconds": 162.320812,
+        "skipped": 0,
+        "tests": 665
+      },
+      {
+        "assertions": 4289,
+        "index": 2,
+        "seconds": 1105.028222,
+        "skipped": 0,
+        "tests": 438
+      },
+      {
+        "assertions": 18996,
+        "index": 3,
+        "seconds": 150.188054,
+        "skipped": 1,
+        "tests": 447
+      },
+      {
+        "assertions": 3773,
+        "index": 4,
+        "seconds": 61.41744,
+        "skipped": 2,
+        "tests": 361
+      },
+      {
+        "assertions": 10096,
+        "index": 5,
+        "seconds": 411.523296,
+        "skipped": 1,
+        "tests": 592
+      },
+      {
+        "assertions": 4729,
+        "index": 6,
+        "seconds": 442.191343,
+        "skipped": 0,
+        "tests": 483
+      },
+      {
+        "assertions": 4680,
+        "index": 7,
+        "seconds": 577.056555,
+        "skipped": 0,
+        "tests": 390
+      }
+    ],
+    "skipped": 4,
+    "source_digest": "8a87c1492795cbaf5f226a315384ea9ebe73382c5dd19a8f54d613cb90cfb355",
+    "summed_test_seconds": 3046.550938,
+    "tests": 3853,
+    "tree": "3bcabf98024795b4fb853068b93f2638766b6ae9",
+    "run": 34853394047,
+    "url": "https://github.com/gatomontes/imperium-symfony/actions/runs/34853394047",
+    "conclusion": "success",
+    "checkout": "d193e04f9d4113b805af559d01423e5ea4ac23c0",
+    "aggregate_job": 104013670585,
+    "guards_passed": 11,
+    "guards_skipped": 0,
+    "symlink_case_executed": true,
+    "symlink_evidence": "Unchanged complete case enumeration; ReservedInstitutionalStorageTest selected in partition 2; partition 2 passed 438 cases with zero skips",
+    "php": "8.4.25",
+    "phpunit": "13.3.0",
+    "started_at": "2026-09-14T14:06:02Z",
+    "completed_at": "2026-09-14T14:25:00Z"
+  }
+}

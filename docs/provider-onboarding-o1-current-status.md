@@ -1,3 +1,27 @@
+# Current review — R2 accepted after PPC4; countdown 4–6
+
+**R2 native tenure synchronization is accepted offline**, combining PPC3's typed native boundary with PPC4's closed generic reserved-storage entries. [PR #822](https://github.com/gatomontes/imperium-symfony/pull/822), merge `499877920e06637c109abd741b25a78f06ef7e72`, reviewed/tested tree `3bcabf98024795b4fb853068b93f2638766b6ae9`. [Receiving review](reviews/provider-storage-successor-review.md), [integration record](provider-storage-successor-reviewed-integration.json).
+
+**Countdown: 5–7 → 4–6; decrement 1 for complete R2.** [Outcome ledger](provider-first-interview-countdown.md), [machine record](provider-first-interview-countdown.json). This is the first countdown credit since the PPC2 baseline. Preparation, approval, PPC3 partial acceptance and this documentation follow-up receive no additional credit. The milestone remains one separately authorized bounded live Courtyard interview; full mission execution is later.
+
+Fresh hosted Linux CI passed **3,853 tests / 64,834 assertions / 4 explicit skips**, all 617 files and every enumerated case exactly once, all eight workers and all 11 guards. The symlink case executed. The longest JUnit partition was 1105.028222 seconds. Producer Windows skips/errors remain preserved; no missing Windows proof is relabelled a pass.
+
+The accepted boundary covers configured canonical roots, cooperating current binaries and fixed filesystem topology. Old generic reserved writes refuse before primitive locking/effects; explicit counterparts consume live same-root Formation ownership. Historical ledgers and AtomicTransition remain unchanged under the approved bounded source successor. Current authority still depends on competent intact originals, independent appointments and package completion. This grants no model or installation authority.
+
+| Remaining outcome | State |
+| --- | --- |
+| R1 native-to-O4 correspondence | Next dependency: competent original linking native authorization/seal to exact O4 binding/configuration identities and immutable generation |
+| R3 designation and assignment/use | Open; depends on R1, with the synchronized R2 seam now available |
+| R4 combined FRESH establishment | Required and unproven; vacancy/root/schema fences remain |
+| R5 account/access, base and cognition | Separate production evidence gaps |
+| R6 bounded commissioning/interview | Deferred until prerequisites and explicit live authority |
+
+Next flow: competent R1 correspondence → designation/current assignment/application/use → combined FRESH establishment plus remaining provider evidence → separately authorized commissioning and first interview. No next campaign is implicitly prepared or approved by this acceptance. MissingAssignmentEvidence remains refusing. All five operational flags remain false; DEFER_ENROLLMENT and the empty actual retry allowlist remain.
+
+---
+
+## Earlier campaign states and receiving reviews
+
 # Current campaign — PPC4 storage successor approved; countdown 5–7
 
 PPC3's typed native tenure component is integrated. **PPC4 clauses A–F are owner-approved for bounded local offline implementation to close the remaining R2 generic-storage bypass.** [Proposal](provider-storage-successor-contract-v1.md), [campaign](next-campaign-provider-storage-successor.md), [approval status/hash](handoffs/provider-storage-successor-approval.json), [PowerShell setup and complete local prompt](handoffs/provider-storage-successor-ready.md).
