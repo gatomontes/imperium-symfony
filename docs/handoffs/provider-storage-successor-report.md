@@ -1,3 +1,9 @@
+# Receiving acceptance follow-up
+
+The producer report below is retained unchanged as submitted evidence. Receiving source review and fresh hosted CI subsequently accepted **R2 native tenure synchronization offline**, integrated through [PR #822](https://github.com/gatomontes/imperium-symfony/pull/822), merge `499877920e06637c109abd741b25a78f06ef7e72`. [Receiving review](../reviews/provider-storage-successor-review.md), [integration record](../provider-storage-successor-reviewed-integration.json). Countdown: **5–7 → 4–6**, decrement 1 for the complete outcome. The Windows limitations below remain historical facts; acceptance relies on the stated combined evidence and exact scope.
+
+---
+
 # PPC4 local source review report
 
 Disposition: **PARTIAL_NATIVE_TENURE_SYNCHRONIZATION** pending the outstanding platform proof and receiving validation below. The generic reserved-target bypass is implemented closed in all three old entries; no known supported typed or generic writer path is deliberately left outside Formation. This report does not claim accepted complete R2, a fully green acceptance gate or runtime integration.

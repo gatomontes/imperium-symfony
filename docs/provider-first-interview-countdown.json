@@ -6,8 +6,8 @@
   "baseline_tree": "451140919d570d196384b5e0802ac076c67ba579",
   "owner_instruction": "proceed. remember countdown",
   "remaining_batches": {
-    "minimum": 5,
-    "maximum": 7,
+    "minimum": 4,
+    "maximum": 6,
     "kind": "WORKING_ESTIMATE"
   },
   "selected_campaign": "PPC4",
@@ -23,10 +23,13 @@
     {
       "id": "R2",
       "name": "Native tenure synchronization",
-      "status": "PARTIAL_COMPONENT_ACCEPTED_R2_OPEN",
-      "additional_batches_min": 1,
-      "additional_batches_max": 1,
-      "remaining_gap": "Generic storage reserved-target successor contract and old-entry-path synchronization/refusal"
+      "status": "ACCEPTED_OFFLINE",
+      "additional_batches_min": 0,
+      "additional_batches_max": 0,
+      "remaining_gap": null,
+      "acceptance_evidence": "docs/reviews/provider-storage-successor-review.md",
+      "integration_pr": 822,
+      "integration_merge": "499877920e06637c109abd741b25a78f06ef7e72"
     },
     {
       "id": "R3",
@@ -59,7 +62,9 @@
     }
   ],
   "counting_rule": "Decrement only after receiving acceptance of a named required outcome with exact integration/validation evidence; preparation, submission and components leaving the outcome open earn no decrement. Re-estimate explicitly for new scope.",
-  "accepted_countdown_outcomes": [],
+  "accepted_countdown_outcomes": [
+    "R2_NATIVE_TENURE_SYNCHRONIZATION"
+  ],
   "potential_after_accepted_ppc3": {
     "minimum": 4,
     "maximum": 6,
@@ -115,6 +120,24 @@
       "decrement": 0,
       "evidence": "docs/handoffs/provider-storage-successor-approval.json",
       "reason": "Approval enables bounded local implementation; complete R2 is not yet accepted"
+    },
+    {
+      "event": "R2_ACCEPTED_AFTER_PPC4",
+      "outcome": "R2_NATIVE_TENURE_SYNCHRONIZATION",
+      "previous_range": [
+        5,
+        7
+      ],
+      "range": [
+        4,
+        6
+      ],
+      "decrement": 1,
+      "evidence": "docs/reviews/provider-storage-successor-review.md",
+      "integration_pr": 822,
+      "integration_merge": "499877920e06637c109abd741b25a78f06ef7e72",
+      "ci_run": 34853394047,
+      "reason": "Reviewed PPC3/PPC4 complete the supported native and generic writer/current-consumer boundary; fresh hosted gate passed"
     }
   ],
   "operational_flags": {
@@ -126,12 +149,13 @@
   },
   "native_enrollment_disposition": "DEFER_ENROLLMENT",
   "actual_retry_allowlist": [],
-  "latest_receiving_review": "docs/reviews/provider-native-tenure-review.md",
-  "selected_campaign_status": "OWNER_APPROVED_FOR_LOCAL_OFFLINE_IMPLEMENTATION",
+  "latest_receiving_review": "docs/reviews/provider-storage-successor-review.md",
+  "selected_campaign_status": "R2_ACCEPTED_OFFLINE",
   "potential_after_accepted_ppc4": {
     "minimum": 4,
     "maximum": 6,
-    "applied": false,
-    "condition": "Whole R2 accepted after PPC4 source review and full hosted CI, with no new scope"
+    "applied": true,
+    "condition": "Whole R2 accepted after PPC4 source review and full hosted CI, with no new scope",
+    "evidence": "docs/reviews/provider-storage-successor-review.md"
   }
 }
