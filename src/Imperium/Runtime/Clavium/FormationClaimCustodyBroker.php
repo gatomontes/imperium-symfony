@@ -32,8 +32,8 @@ final readonly class FormationClaimCustodyBroker
         FormationPreparedOperation::validate($operation,$request,$terms,$claim['maximum'] ?? []);
         $sid = $claim['session_id'] ?? null; $aid = $claim['attempt_id'] ?? null;
         if (!is_string($sid) || !is_string($aid)) { throw new \RuntimeException('FC004_RETAINED_CLAIM_REQUIRED'); }
-        $this->journal->change(function (array &$state) use ($claim,$request,$terms,$operation,$sid,$aid): void {
-            $this->validate($state,$claim,$request,$terms,$operation);
+        $this->journal->change(function (array &$state,\App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner) use ($claim,$request,$terms,$operation,$sid,$aid): void {
+            $this->validate($owner,$state,$claim,$request,$terms,$operation);
             $attempt = &$state['sessions'][$sid]['attempts'][$aid];
             if (isset($attempt['custody'])) { throw new \RuntimeException('FC005_CUSTODY_ALREADY_DELIVERED_NO_RETRY'); }
             $attempt['custody'] = ['schema'=>'imperium.formation-claim-custody/v1', 'claim_digest'=>$claim['record_digest'],
@@ -97,8 +97,8 @@ final readonly class FormationClaimCustodyBroker
 
     private function advance(array $claim,array $request,array $terms,array $operation,string $from,string $to): void
     {
-        $this->journal->change(function(array &$state) use ($claim,$request,$terms,$operation,$from,$to): void {
-            $this->validate($state,$claim,$request,$terms,$operation);
+        $this->journal->change(function(array &$state,\App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner) use ($claim,$request,$terms,$operation,$from,$to): void {
+            $this->validate($owner,$state,$claim,$request,$terms,$operation);
             $custody = &$state['sessions'][$claim['session_id']]['attempts'][$claim['attempt_id']]['custody'];
             if (($custody['status'] ?? null) !== $from || $custody['claim_digest'] !== $claim['record_digest']
                 || $custody['operation_digest'] !== J::digest($operation)) { throw new \RuntimeException('FC005_CUSTODY_ALREADY_DELIVERED_NO_RETRY'); }
@@ -106,7 +106,7 @@ final readonly class FormationClaimCustodyBroker
         });
     }
 
-    private function validate(array $state,array $claim,array $request,array $terms,array $operation): void
+    private function validate(\App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner,array $state,array $claim,array $request,array $terms,array $operation): void
     {
         $session = $state['sessions'][$claim['session_id']] ?? null;
         $attempt = $session['attempts'][$claim['attempt_id']] ?? null;
@@ -115,10 +115,10 @@ final readonly class FormationClaimCustodyBroker
             || $attempt['status'] !== 'STARTED_OUTCOME_UNCERTAIN' || $attempt['request'] !== $request
             || $session['terms'] !== $terms || ($claim['prepared_operation'] ?? null) !== $operation
             || $claim['expires_at'] <= $this->clock->now()->getTimestamp()) { throw new \RuntimeException('FC004_RETAINED_CLAIM_REQUIRED'); }
-        $source = $this->authority->validateSession($state,$session);
+        $source = $this->authority->validateSession($state,$session,true,$owner);
         if (array_key_exists('model_settings',$terms)) {
             if ($this->settings===null) { throw new \RuntimeException('SETTINGS_EXECUTION_BINDING_REQUIRED'); }
-            $this->settings->verify($this->journal,$state,$request,$terms,$this->adapter,$operation);
+            $this->settings->verify($this->journal,$state,$request,$terms,$this->adapter,$operation,$owner);
         }
         $effect = match($session['phase']) { 'interview'=>'AUTHORIZE_INTERVIEW_SESSION','drafting'=>'AUTHORIZE_EXACT_DRAFTING','acceptance'=>'AUTHORIZE_RECEIVING_ASSESSMENT',default=>'' };
         if ($effect !== $session['effect'] || $session['session_id'] !== 'session-'.J::digest([$session['intake_id'],$session['phase'],$terms,$session['decision']])
@@ -133,7 +133,7 @@ final readonly class FormationClaimCustodyBroker
         $accounting = $session;
         unset($accounting['attempts'][$claim['attempt_id']]);
         SessionExposure::reserve($accounting,$claim['attempt_id'],$claim['maximum'],$attempt['fingerprint']);
-        $derivation = $this->leases->derive($state,$session,$source['holder'],$request,$claim['maximum'],$claim['expires_at'],$claim['attempt_id'],$operation);
+        $derivation = $this->leases->derive($state,$session,$source['holder'],$request,$claim['maximum'],$claim['expires_at'],$claim['attempt_id'],$operation,$owner);
         $expected = ['schema'=>'imperium.citadel-session-call-claim/v2',
             'claim_id'=>'governance-cognition-invocation-claim-'.substr(J::digest([$claim['session_id'],$claim['attempt_id'],$request]),0,20),
             'session_id'=>$session['session_id'],'attempt_id'=>$claim['attempt_id'],'source_decision_digest'=>J::digest($session['decision']),

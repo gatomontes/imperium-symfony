@@ -13,9 +13,9 @@ final readonly class FormationSessionLeaseService
 {
     public function __construct(private FormationPersonnel $personnel) {}
 
-    public function derive(array $state, array $session, array $holder, array $request, array $maximum, int $expiresAt, string $attemptId, ?array $operation = null): array
+    public function derive(array $state, array $session, array $holder, array $request, array $maximum, int $expiresAt, string $attemptId, ?array $operation = null, ?\App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner=null): array
     {
-        $issuer = $this->personnel->currentLocksmith($state);
+        $issuer = ($owner===null || !isset($state['personnel_evidence'][$state['locksmith']['candidate']['profile']??'']['payload']['schema'])?$this->personnel->currentLocksmith($state):$this->personnel->currentLocksmithInOwner($owner));
         $decision = $session['provider_resource_decision'];
         $scope = ['provider_resource_decision' => ['id' => $decision['decision_id'], 'digest' => $decision['record_digest']], 'session_id' => $session['session_id'], 'attempt_id' => $attemptId, 'source_decision_digest' => FormationJournal::digest($session['decision']),
             'holder_digest' => FormationJournal::digest($holder), 'input_digest' => FormationJournal::digest($request),

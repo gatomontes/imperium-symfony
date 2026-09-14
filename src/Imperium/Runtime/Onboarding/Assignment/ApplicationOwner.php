@@ -13,7 +13,7 @@ trait ApplicationOwner
     {
         R::require($this->sources instanceof AugurAdapter,'ASSIGNMENT_ADAPTER_REQUIRED');return $this->sources;
     }
-    private function prepareApplication(array $state,array $s,array $policy,?array $setRef=null):array
+    private function prepareApplication(\App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner,array $state,array $s,array $policy,?array $setRef=null):array
     {
         R::require($s['schema']===AssignmentMigration::SCHEMA && count($s['applications'])<256,'ASSIGNMENT_STATE');
         $originals=$this->originals($state,R::reference($policy));$retained=[];
@@ -23,7 +23,9 @@ trait ApplicationOwner
         $set=$projection['selected'];ApplicationHistory::eligible($set,$originals);AssignmentRule::profileEvidence($policy,$set,$load);
         foreach($policy['body']['candidate_bindings'] as $binding){foreach(['binding_ref','configuration_ref','adapter_ref','mapping_ref'] as $field){$load($binding[$field]);}}
         $load($policy['body']['credential_ref']);
-        $this->assignmentEvidence->verify($policy,$set['assignments'],$retained,$originals['groups']);
+        if ($this->assignmentEvidence instanceof OwnerAssignmentEvidence) {
+            $this->assignmentEvidence->verifyInOwner($this->store,$owner,$policy,$set['assignments'],$retained,$originals['groups']);
+        } else { $this->assignmentEvidence->verify($policy,$set['assignments'],$retained,$originals['groups']); }
         return $projection;
     }
     private function publishApplication(array &$s,array $policy,array $projection,array $authority,array $ak,array $commandRef,array $head,?array $previous=null,?array $changeTerms=null):array
@@ -60,7 +62,7 @@ trait ApplicationOwner
     public function replace(string $raw):array
     {
         $q=self::changeRequest($raw);R::require($q['instance_id']===$this->store->instance,'FOREIGN_RECORD');
-        return $this->store->journal->changeAtHead(function(array &$state,array $head)use($q,$raw):array{return StrictJson::within(function()use(&$state,$head,$q,$raw):array{
+        return $this->store->journal->changeAtHead(function(array &$state,array $head,\App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner)use($q,$raw):array{return StrictJson::within(function()use(&$state,$head,$q,$raw,$owner):array{
             $s=$this->store->state($state);$key=LedgerState::key('command',[$this->store->instance,$q['sequence_id'],$q['command_id']]);
             if(isset($s['commands'][$key])){R::require(R::same($s['commands'][$key]['request'],$q),'COMMAND_CONFLICT');return self::presentation($s['commands'][$key],$head,true);}
             R::require($s['schema']===AssignmentMigration::SCHEMA && count($s['commands'])<4096 && $s['source_fences']===[],'CHANGE_STATE');
@@ -71,7 +73,7 @@ trait ApplicationOwner
             $scope=ChangeAuthority::scope($policy,$facts['terms'],fn(array $ref):array=>$this->store->checkSource($s,$ref));
             R::require(R::same($scope['expected_application_ref'],R::reference($previous['receipt'])) && R::same($scope['prior_assignments'],$previous['receipt']['body']['next_assignments'])
                 && R::same($scope['assessment_view_ref'],$previous['receipt']['body']['result_ref']),'STALE_ASSIGNMENT_PREDECESSOR');
-            $projection=$this->prepareApplication($state,$s,$policy,$scope['next_set_ref']);$payload=$facts['admission']['envelope']['payload'];
+            $projection=$this->prepareApplication($owner,$state,$s,$policy,$scope['next_set_ref']);$payload=$facts['admission']['envelope']['payload'];
             $ak=[$this->store->instance,$payload['trust_fingerprint'],$payload['nonce']];foreach($s['slots'] as $slot){R::require(!R::same($slot['authority_key'],$ak),'AUTHORITY_ALREADY_CONSUMED');}
             $command=$this->command($q,$raw,$head,$policy,'ASSIGNMENTS_CHANGED');
             $this->publishApplication($s,$policy,$projection,$q['authority'],$ak,$command['ref'],$head,$previous,$q['terms_ref']);

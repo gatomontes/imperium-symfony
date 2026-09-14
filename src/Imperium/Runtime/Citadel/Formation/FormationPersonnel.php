@@ -309,7 +309,7 @@ final readonly class FormationPersonnel
             $generation = ($state[$role]['generation'] ?? 0) + 1;
             $terms = ['candidate' => $candidate, 'scope' => $state['citadel_id'], 'seat' => $seat, 'generation' => $generation];
             $this->signatures->verify($state, $decision, $effect, $terms);
-            $modelBound = ($state['personnel_evidence'][$candidate['profile']]['payload']['schema'] ?? null) === FormationModelBoundProfileContract::SCHEMA;
+            $modelBound = in_array($state['personnel_evidence'][$candidate['profile']]['payload']['schema'] ?? null, [FormationModelBoundProfileContract::SCHEMA, FormationModelPreparation::EVIDENCE], true);
             $binding = $modelBound ? $this->candidateInOwner($owner, $state, $candidate, $state['citadel_id'], $seat)
                 : $this->candidate($state, $candidate, $state['citadel_id'], $seat);
             if (isset($state['occupied_manifestations'][$binding['manifestation_id']])) {
@@ -368,6 +368,19 @@ final readonly class FormationPersonnel
     private function currentLocksmithChecked(array $state, ?FormationOwnerFrame $owner): array
     {
         $binding = $state['locksmith'] ?? throw new \RuntimeException('CMF046_QUALIFIED_APPOINTED_LOCKSMITH_REQUIRED');
+        if (($state['personnel_evidence'][$binding['candidate']['profile'] ?? '']['payload']['schema'] ?? null) === FormationModelPreparation::EVIDENCE) {
+            if ($owner === null) { throw new \RuntimeException('PPC303_CURRENT_OWNER_STATE_REQUIRED'); }
+            $terms = ['candidate' => $binding['candidate'], 'scope' => $state['citadel_id'],
+                'seat' => 'clavium.locksmith', 'generation' => $binding['generation']];
+            $this->signatures->verify($state, $binding['decision'], 'APPOINT_FORMATION_LOCKSMITH', $terms);
+            $expected = $this->authorizedModelCandidateInOwner($owner, $binding['candidate'], $state['citadel_id'], 'clavium.locksmith')
+                + ['generation' => $binding['generation'], 'decision' => $binding['decision'], 'terms' => $terms];
+            if (!is_int($binding['generation']) || $binding['generation'] < 1 || $binding !== $expected
+                || ($state['occupied_manifestations'][$binding['manifestation_id']] ?? null) !== 'clavium.locksmith') {
+                throw new \RuntimeException('PPC6_EXACT_LOCKSMITH_APPOINTMENT');
+            }
+            return $binding;
+        }
         $this->signatures->verify($state, $binding['decision'], 'APPOINT_FORMATION_LOCKSMITH', $binding['terms']);
         if ($owner === null) { $this->candidate($state, $binding['candidate'], $state['citadel_id'], 'clavium.locksmith'); }
         else { $this->candidateInOwner($owner, $state, $binding['candidate'], $state['citadel_id'], 'clavium.locksmith'); }

@@ -1,0 +1,11 @@
+# PPC6 future public-input runbook
+
+Offline review only. Retain exact signed initialization, purpose-limited delegation, actor originals, strict v2 Profile and its own complete lifecycle, PPC5 model authorization/seal/configuration/binding originals, and independently authorized appointment. Construct only the approved closed signed payload at the actual journal head. Submit through FormationProfileDesignation::publish with the exact six-field candidate chain. A changed head requires new signing; an exact historical replay supplies no currentness.
+
+For future supported assignment use, retain the admitted full formation-profile-mapping/v1 for each current appointed holder and the exact separately authorized complete O4 pair. Both native designations/model originals and the same-root owner must verify at application and actual delivery. Any unknown substantive predicate refuses. No production Composition promotion is permitted by this partial component packet.
+
+Do not use the synthetic-parent fixture to establish R3. R4 still requires a separately resolved supported same-root FRESH establishment contract. Pre-existing institutions fail vacancy, founding fences subsequent installation, and current installer onboarding v4 refuses. This campaign changes none of those boundaries.
+
+Review committed source, independent archive verifier, full manifests/diffs/bounded bundle and current local gate evidence. Require receiving review and fresh hosted CI before integration. All five operational flags false; DEFER_ENROLLMENT; actual retry allowlist empty. No credentials, real accounts/provider use, installed state access, deployment, enrollment, activation or execution.
+
+The public packet contains the committed report, source.zip, evidence.zip, exact manifests, identities.json, all three base/tested/final binary diffs, a bounded review.bundle and verify-public-review.py. Run `python verify-public-review.py imperium-ppc6-public-review.zip PREREQUISITE_REPOSITORY` beside the separate `.zip.sha256` file. This requires Python, Git and the Python cryptography package; the prerequisite repository must contain exact start commit 32198cb7bffdd98fff258bd8c73d483b71222ccb. Verification authenticates archive/source/history integrity and rechecks the unchanged exact-case aggregator; it does not grant current institutional or external authority.
