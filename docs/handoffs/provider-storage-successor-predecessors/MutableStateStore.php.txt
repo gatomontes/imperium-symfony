@@ -23,23 +23,7 @@ final readonly class MutableStateStore
 
     public function compareAndSwapGuarded(string $relativePath, ?string $expectedDigest, callable $guard, array $next): array
     {
-        return $this->swapChecked(null, $relativePath, $expectedDigest, $guard, $next);
-    }
-
-    public function compareAndSwapInOwner(\App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner, string $relativePath, ?string $expectedDigest, array $next): array
-    {
-        return $this->compareAndSwapGuardedInOwner($owner, $relativePath, $expectedDigest, static function (): void {}, $next);
-    }
-
-    public function compareAndSwapGuardedInOwner(\App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner, string $relativePath, ?string $expectedDigest, callable $guard, array $next): array
-    {
-        return $this->swapChecked($owner, $relativePath, $expectedDigest, $guard, $next);
-    }
-
-    private function swapChecked(?\App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner, string $relativePath, ?string $expectedDigest, callable $guard, array $next): array
-    {
         $path = $this->path($relativePath);
-        ReservedInstitutionalStorage::preflight($this->root, $relativePath, $owner);
 
         return $this->atomic->run('mutable:'.hash('sha256', $relativePath), function () use ($path, $expectedDigest, $guard, $next): array {
             $current = is_file($path) ? $this->readPath($path) : null;

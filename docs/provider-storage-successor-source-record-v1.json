@@ -1,0 +1,37 @@
+{
+  "schema": "imperium.documentary.provider-storage-successor-candidate/v1",
+  "status": "AUTHORIZED_IMPLEMENTATION_CANDIDATE_NOT_ACCEPTED",
+  "implementation_accepted": false,
+  "base": {
+    "commit": "816f0ffd14d6cc4d2c5d2c4605ec306aecffbf44",
+    "tree": "0cbf06a20928ce6be664b33925a220be1e87ab50"
+  },
+  "tested_identity": {
+    "commit": "88e4c481dbf43a329565eebe1cb898b46790dbab",
+    "tree": "06cdd13fe5c615ef9aaf1a9b2b815563a45895b0"
+  },
+  "proposal_path": "docs/provider-storage-successor-contract-v1.md",
+  "approved_proposal_sha256": "9c8a8d8e4fde15ef6aabddfab83fa4a6deb569837ca3ead457d6b9f297bbf464",
+  "approval_reference": {
+    "owner_reply_exact": "approved",
+    "in_response_to_exact_question": "Do you approve clauses A\u2013F for bounded offline implementation?",
+    "context": "Owner reply immediately following the PPC4 preparation merged in PR #820 and the linked successor clauses A\u2013F; same conversation.",
+    "proposal_publication_pr": 820,
+    "proposal_publication_commit": "65e8e27570a3899dec73affc70a72b2936223dde",
+    "proposal_publication_merge": "20d27ad3b216b1e3c6588279fc20d1d5444bc77f"
+  },
+  "sources": [
+    {
+      "path": "src/Imperium/Runtime/Persistence/ImmutableRecordStore.php",
+      "predecessor_copy": "docs/handoffs/provider-storage-successor-predecessors/ImmutableRecordStore.php.txt",
+      "predecessor_sha256": "51acaf101d0c14301cd2d29f19581473ff93fdc82179fa34225566282f97ae7a",
+      "normalized_sha256": "a7ecbf47e350e0a673a2aaea6a1bea6425651145f69a425723847160c013ebe9"
+    },
+    {
+      "path": "src/Imperium/Runtime/Persistence/MutableStateStore.php",
+      "predecessor_copy": "docs/handoffs/provider-storage-successor-predecessors/MutableStateStore.php.txt",
+      "predecessor_sha256": "ca5feb40101e18b0577c84b7df265f4067d13c67213a222cf9b39e4e0520d99e",
+      "normalized_sha256": "5e6d30f542df7c25bb9e26465f0986e0b7eb7b1bec7288d531e00ec495c1c1f5"
+    }
+  ]
+}

@@ -18,18 +18,7 @@ final readonly class ImmutableRecordStore
 
     public function put(string $directory, string $id, array $record): array
     {
-        return $this->putChecked(null, $directory, $id, $record);
-    }
-
-    public function putInOwner(\App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner, string $directory, string $id, array $record): array
-    {
-        return $this->putChecked($owner, $directory, $id, $record);
-    }
-
-    private function putChecked(?\App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner, string $directory, string $id, array $record): array
-    {
         $path = $this->path($directory, $id);
-        ReservedInstitutionalStorage::preflight($this->root, $directory.'/'.$id.'.json', $owner);
 
         return $this->atomic->run('immutable:'.hash('sha256', $directory), function () use ($path, $record): array {
             $sealed = $this->seal($record);
