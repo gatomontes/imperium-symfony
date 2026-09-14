@@ -1,0 +1,405 @@
+{
+  "schema": "imperium.provider-model-correspondence-reviewed-integration/v1",
+  "engineering_disposition": "NATIVE_O4_MODEL_CORRESPONDENCE_ACCEPTED_OFFLINE",
+  "r1_complete": true,
+  "documentation_is_post_test": true,
+  "approval": {
+    "record": "docs/handoffs/provider-model-correspondence-approval.json",
+    "proposal_sha256": "8c4d9992d57d1ea98ae14e4fd4abfe6971f316dd87443388e9a31a34538998e8",
+    "scope": "Exact approved PPC5 clauses A–F"
+  },
+  "packet": {
+    "filename": "imperium-ppc5-public-review.zip",
+    "sha256": "1516abf51183eb0c19c9ef2a17b4937fa8a4559244e65309ccdff3b2e396f09d",
+    "verified_payloads": 15,
+    "verified_source_files": 3588,
+    "verified_evidence_files": 567,
+    "protected_files": 26,
+    "standalone_report_sha256": "0a97ff28cc62350c46bf9f1ad7f7972ca72f0bf82763224b7ff4578587cfd756"
+  },
+  "producer": {
+    "base": {
+      "commit": "c93656f3be1766409f500909668caba89cda6ea2",
+      "tree": "0e1f81a0bca6fd0f6a2b71d920218523a9b56e1d"
+    },
+    "tested": {
+      "commit": "9168eecca25bee9caa24ecbae25f41db983ab943",
+      "tree": "8904798344c323bf57345d547d85aa7589b35a4c"
+    },
+    "final": {
+      "commit": "4b657aa86980c4d649f490d9a491bb2f6dd95c1a",
+      "tree": "b76c0564345c0f35a19f8e3385b1ad95b6b43423"
+    },
+    "baseline_main": "a0c3042d08574da3c54a0b0e2d4ffc87ea47b3a1",
+    "baseline_main_tree": "31cd602f2aa3df058b8b9f09fc13eee12ebb8b7a",
+    "bundle_prerequisites": [
+      "c93656f3be1766409f500909668caba89cda6ea2"
+    ],
+    "final_source_review_only": true,
+    "created_utc": "2026-09-14T16:52:08.602182+00:00"
+  },
+  "integration": {
+    "candidate_head": "50cdd25868294ba7728257b9a6f155ca712cf005",
+    "accepted_head": "50cdd25868294ba7728257b9a6f155ca712cf005",
+    "pr": 826,
+    "merge": "65d02f0e61c5eb2ec4fa45a24aed0602b1f38b5c",
+    "tested_and_verified_merge_tree": "b76c0564345c0f35a19f8e3385b1ad95b6b43423"
+  },
+  "linux_ci": {
+    "files": 619,
+    "tests": 3902,
+    "assertions": 65331,
+    "skipped": 4,
+    "summed_test_seconds": 3053.210944,
+    "longest_partition_seconds": 974.148322,
+    "partitions": [
+      {
+        "index": 0,
+        "tests": 461,
+        "assertions": 10280,
+        "skipped": 0,
+        "seconds": 181.039733
+      },
+      {
+        "index": 1,
+        "tests": 369,
+        "assertions": 7528,
+        "skipped": 0,
+        "seconds": 127.875817
+      },
+      {
+        "index": 2,
+        "tests": 458,
+        "assertions": 5577,
+        "skipped": 0,
+        "seconds": 974.148322
+      },
+      {
+        "index": 3,
+        "tests": 739,
+        "assertions": 20746,
+        "skipped": 0,
+        "seconds": 122.55862
+      },
+      {
+        "index": 4,
+        "tests": 377,
+        "assertions": 3630,
+        "skipped": 0,
+        "seconds": 259.053975
+      },
+      {
+        "index": 5,
+        "tests": 473,
+        "assertions": 3700,
+        "skipped": 1,
+        "seconds": 296.525162
+      },
+      {
+        "index": 6,
+        "tests": 494,
+        "assertions": 4132,
+        "skipped": 2,
+        "seconds": 390.392963
+      },
+      {
+        "index": 7,
+        "tests": 531,
+        "assertions": 9738,
+        "skipped": 1,
+        "seconds": 701.616352
+      }
+    ],
+    "tree": "b76c0564345c0f35a19f8e3385b1ad95b6b43423",
+    "source_digest": "5ce532a7ab51d952102cf75cfd6fda350d7c0446c3cf1a20f80fcebe8ecb4bb7",
+    "exact_case_coverage": true,
+    "run": 34876510955,
+    "url": "https://github.com/gatomontes/imperium-symfony/actions/runs/34876510955",
+    "conclusion": "success",
+    "checkout": "c326808d1c1db6de178a2ea93de4e68f6d88b2af",
+    "aggregate_job": 104090471010,
+    "guards_passed": 11,
+    "guards_skipped": 0,
+    "symlink_case_executed": true,
+    "symlink_evidence": {
+      "partition": 4,
+      "case": "ReservedInstitutionalStorageTest::testSymlinkAliasesAndDanglingTargetsRefuse",
+      "assertions": 5,
+      "partition_skips": 0
+    },
+    "php": "8.4.25",
+    "phpunit": "13.3.0",
+    "started_at": "2026-09-14T17:43:53Z",
+    "completed_at": "2026-09-14T18:00:44Z",
+    "longest_job_wall_seconds": 996.0,
+    "jobs": [
+      {
+        "id": 104084931215,
+        "name": "suite (2)",
+        "conclusion": "success",
+        "started_at": "2026-09-14T17:43:56Z",
+        "completed_at": "2026-09-14T18:00:32Z"
+      },
+      {
+        "id": 104084931415,
+        "name": "suite (6)",
+        "conclusion": "success",
+        "started_at": "2026-09-14T17:43:55Z",
+        "completed_at": "2026-09-14T17:51:02Z"
+      },
+      {
+        "id": 104084931436,
+        "name": "suite (7)",
+        "conclusion": "success",
+        "started_at": "2026-09-14T17:43:55Z",
+        "completed_at": "2026-09-14T17:55:53Z"
+      },
+      {
+        "id": 104084931440,
+        "name": "suite (4)",
+        "conclusion": "success",
+        "started_at": "2026-09-14T17:43:55Z",
+        "completed_at": "2026-09-14T17:48:31Z"
+      },
+      {
+        "id": 104084931531,
+        "name": "suite (5)",
+        "conclusion": "success",
+        "started_at": "2026-09-14T17:43:56Z",
+        "completed_at": "2026-09-14T17:49:17Z"
+      },
+      {
+        "id": 104084931603,
+        "name": "suite (0)",
+        "conclusion": "success",
+        "started_at": "2026-09-14T17:43:55Z",
+        "completed_at": "2026-09-14T17:47:19Z"
+      },
+      {
+        "id": 104084931643,
+        "name": "suite (1)",
+        "conclusion": "success",
+        "started_at": "2026-09-14T17:43:55Z",
+        "completed_at": "2026-09-14T17:46:25Z"
+      },
+      {
+        "id": 104084931718,
+        "name": "suite (3)",
+        "conclusion": "success",
+        "started_at": "2026-09-14T17:43:55Z",
+        "completed_at": "2026-09-14T17:46:16Z"
+      },
+      {
+        "id": 104090471010,
+        "name": "test",
+        "conclusion": "success",
+        "started_at": "2026-09-14T18:00:34Z",
+        "completed_at": "2026-09-14T18:00:43Z"
+      }
+    ],
+    "artifacts": [
+      {
+        "id": 10361631448,
+        "name": "phpunit-7",
+        "digest": "sha256:26ef047b70a165b16ab8a4af4949f8704b3402c385f0e76405c6ee0867e4b669"
+      },
+      {
+        "id": 10361461894,
+        "name": "phpunit-6",
+        "digest": "sha256:d4dad1542978cbe896eafd60922b3ce0f748c822370c70db6ed9323a3cab9dd9"
+      },
+      {
+        "id": 10361426708,
+        "name": "phpunit-4",
+        "digest": "sha256:75d2c5c2a4c3b68f18ebce4959764c928ad51d8745f38964c42a53b26cb82bd8"
+      },
+      {
+        "id": 10361204206,
+        "name": "phpunit-0",
+        "digest": "sha256:67f850ebb555b24b51a32434e16b136befd181545aa16cc9c94e28690c5d2141"
+      },
+      {
+        "id": 10361167821,
+        "name": "phpunit-3",
+        "digest": "sha256:1aad7987833026d8fbe939ae38d7066bb99aae6f8c87024f1304d864443f0757"
+      },
+      {
+        "id": 10360839859,
+        "name": "phpunit-complete-coverage",
+        "digest": "sha256:be168e72ec0b0389cf37e38087fb351931c21e3cb11445a47a793054d60d1316"
+      },
+      {
+        "id": 10360638186,
+        "name": "phpunit-1",
+        "digest": "sha256:819992a2ec3f3d1965af38d87fdf800f3dfdf42df2be91e39deccee60f931250"
+      },
+      {
+        "id": 10360584784,
+        "name": "phpunit-2",
+        "digest": "sha256:00b426a6285690517b30832760fe9feb4b6691bb0d247c5a28fae397998db982"
+      },
+      {
+        "id": 10360573395,
+        "name": "phpunit-5",
+        "digest": "sha256:850fe0848e2d275a75614400d1a472d71b5cd29b22db8d40e7f21d96804983e1"
+      }
+    ],
+    "explicit_skips": [
+      {
+        "partition": 5,
+        "class": "App\\Tests\\Imperium\\Runtime\\LocalIsolationProcessTest",
+        "name": "testWindowsModulePollutionAtBothRealLaunchBoundaries",
+        "reason": null
+      },
+      {
+        "partition": 6,
+        "class": "App\\Tests\\Imperium\\Runtime\\LocalIsolationReadinessTest",
+        "name": "testNativeHandlesAndExactStartupRefusal",
+        "reason": null
+      },
+      {
+        "partition": 6,
+        "class": "App\\Tests\\Imperium\\Runtime\\LocalIsolationReadinessTest",
+        "name": "testCompleteReadinessAndAdversarialEvidenceThroughPowerShell",
+        "reason": null
+      },
+      {
+        "partition": 7,
+        "class": "App\\Tests\\Imperium\\Runtime\\LocalIsolationScratchTest",
+        "name": "testNativeWorkspacePolicyAndCleanupFailure",
+        "reason": null
+      }
+    ],
+    "new_ppc5_cases": 49,
+    "new_ppc5_assertions": 496,
+    "partition_metadata": [
+      {
+        "index": 0,
+        "exit": 0,
+        "seconds": 181.261261292,
+        "source_before": "5ce532a7ab51d952102cf75cfd6fda350d7c0446c3cf1a20f80fcebe8ecb4bb7",
+        "source_after": "5ce532a7ab51d952102cf75cfd6fda350d7c0446c3cf1a20f80fcebe8ecb4bb7"
+      },
+      {
+        "index": 1,
+        "exit": 0,
+        "seconds": 128.04684772899998,
+        "source_before": "5ce532a7ab51d952102cf75cfd6fda350d7c0446c3cf1a20f80fcebe8ecb4bb7",
+        "source_after": "5ce532a7ab51d952102cf75cfd6fda350d7c0446c3cf1a20f80fcebe8ecb4bb7"
+      },
+      {
+        "index": 2,
+        "exit": 0,
+        "seconds": 974.402570268,
+        "source_before": "5ce532a7ab51d952102cf75cfd6fda350d7c0446c3cf1a20f80fcebe8ecb4bb7",
+        "source_after": "5ce532a7ab51d952102cf75cfd6fda350d7c0446c3cf1a20f80fcebe8ecb4bb7"
+      },
+      {
+        "index": 3,
+        "exit": 0,
+        "seconds": 122.8446179,
+        "source_before": "5ce532a7ab51d952102cf75cfd6fda350d7c0446c3cf1a20f80fcebe8ecb4bb7",
+        "source_after": "5ce532a7ab51d952102cf75cfd6fda350d7c0446c3cf1a20f80fcebe8ecb4bb7"
+      },
+      {
+        "index": 4,
+        "exit": 0,
+        "seconds": 259.272241907,
+        "source_before": "5ce532a7ab51d952102cf75cfd6fda350d7c0446c3cf1a20f80fcebe8ecb4bb7",
+        "source_after": "5ce532a7ab51d952102cf75cfd6fda350d7c0446c3cf1a20f80fcebe8ecb4bb7"
+      },
+      {
+        "index": 5,
+        "exit": 0,
+        "seconds": 296.715313172,
+        "source_before": "5ce532a7ab51d952102cf75cfd6fda350d7c0446c3cf1a20f80fcebe8ecb4bb7",
+        "source_after": "5ce532a7ab51d952102cf75cfd6fda350d7c0446c3cf1a20f80fcebe8ecb4bb7"
+      },
+      {
+        "index": 6,
+        "exit": 0,
+        "seconds": 390.57284948,
+        "source_before": "5ce532a7ab51d952102cf75cfd6fda350d7c0446c3cf1a20f80fcebe8ecb4bb7",
+        "source_after": "5ce532a7ab51d952102cf75cfd6fda350d7c0446c3cf1a20f80fcebe8ecb4bb7"
+      },
+      {
+        "index": 7,
+        "exit": 0,
+        "seconds": 702.067224829,
+        "source_before": "5ce532a7ab51d952102cf75cfd6fda350d7c0446c3cf1a20f80fcebe8ecb4bb7",
+        "source_after": "5ce532a7ab51d952102cf75cfd6fda350d7c0446c3cf1a20f80fcebe8ecb4bb7"
+      }
+    ]
+  },
+  "review": {
+    "blocking_findings": [],
+    "separate_agent_or_human_review_claimed": false,
+    "local_php_executed": false,
+    "local_python_guards": {
+      "passed": 9,
+      "skipped": 2,
+      "reason": "PHP absent"
+    },
+    "public_fixture_integrity": {
+      "targets": 2,
+      "frames_per_target": 38,
+      "institutional_signatures_per_target": 37,
+      "frames_total": 76,
+      "institutional_signatures_total": 74,
+      "exact_native_o4_chain": true,
+      "own_strict_profile_lifecycle": true,
+      "external_model_facts": "SYNTHETIC_UNVERIFIED",
+      "current_production_authority_claim": false
+    },
+    "scope": "Configured canonical roots, cooperating current binaries, fixed filesystem topology; bounded permanent-seat preparation and strict Profile lifecycle consumer"
+  },
+  "windows_evidence": {
+    "authoritative_run": "gate-20260914T161633",
+    "tests": 3903,
+    "assertions": 65342,
+    "files": 619,
+    "skipped": 1,
+    "reported_warnings": 4,
+    "aggregate_native_exit": 0,
+    "complete_gate_green": false,
+    "guards_passed": 10,
+    "guards_errored": 1,
+    "guards_skipped": 0,
+    "guard_error": "WinError 1314 symlink privilege unavailable",
+    "longest_partition_wall_seconds": 1947.306,
+    "longest_partition_junit_seconds": 1843.717888,
+    "source_digest": "9fb97c5f0279f92549a241e9a2e934b92419808334779337514fe7a5ee76d14c",
+    "interrupted_attempts_retained": [
+      "gate-20260914T154027",
+      "gate-20260914T155204"
+    ]
+  },
+  "countdown": {
+    "before": [
+      4,
+      6
+    ],
+    "after": [
+      3,
+      5
+    ],
+    "decrement": 1,
+    "accepted_outcome": "R1_NATIVE_O4_MODEL_CORRESPONDENCE",
+    "reason": "Competent originals and strict consumer for both Seats accepted after source review and fresh full hosted CI; no new scope"
+  },
+  "remaining_outcomes": [
+    "R3_DESIGNATION_AND_SHARED_ASSIGNMENT_USE",
+    "R4_COMBINED_FRESH_ESTABLISHMENT",
+    "R5_ACCOUNT_ACCESS_BASE_COGNITION",
+    "R6_SEPARATELY_AUTHORIZED_COMMISSIONING_INTERVIEW"
+  ],
+  "operational_flags": {
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "live_ready": false,
+    "activation": false,
+    "execution_authority": false
+  },
+  "native_enrollment_disposition": "DEFER_ENROLLMENT",
+  "actual_retry_allowlist": []
+}
