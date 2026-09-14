@@ -1,3 +1,17 @@
+# Current review — R1 accepted after PPC5; countdown 3–5
+
+**R1 competent native-to-O4 model correspondence is accepted offline.** Both permanent Seats have the approved native preparation/delegation/seal originals and real strict v2 Profile lifecycle consumer. [PR #826](https://github.com/gatomontes/imperium-symfony/pull/826), merge `65d02f0e61c5eb2ec4fa45a24aed0602b1f38b5c`, reviewed/tested tree `b76c0564345c0f35a19f8e3385b1ad95b6b43423`. [Receiving review](reviews/provider-model-correspondence-review.md), [exact integration/CI record](provider-model-correspondence-reviewed-integration.json).
+
+**Countdown: 4–6 → 3–5; decrement 1 for complete R1.** [Outcome ledger](provider-first-interview-countdown.md), [machine record](provider-first-interview-countdown.json). R2 stays accepted and receives no second credit. Preparation, approval, submission and this documentation earn no extra decrement. The milestone remains the first separately authorized bounded live Courtyard interview.
+
+Fresh hosted CI passed **3,902 tests / 65,331 assertions / 4 explicit skips**, all 619 files and cases exactly once, all eight workers and all 11 guards. The symlink case executed; every job stayed within the unchanged limit. Windows guard errors, timing limitations and interrupted diagnostics remain historical evidence.
+
+R3 designation/revocation/supersession and shared assignment/application/use is next. R4 combined FRESH establishment remains required; R5 account/access/base/cognition ports and R6 separately authorized commissioning/interview remain open or deferred. Strict preparation evidence does not confer appointment, designation or settings authority. MissingAssignmentEvidence remains refusing.
+
+All five operational flags stay false, `DEFER_ENROLLMENT` remains and the actual retry allowlist is empty. No live provider/account access, installed private-state access, enrollment, commissioning, deployment, activation or execution is authorized. Earlier campaign history below is preserved.
+
+---
+
 # Current campaign — PPC5 R1 approved for local implementation; countdown 4–6
 
 **PPC5 selects competent native-to-O4 model correspondence (R1).** The [exact clauses A–F](provider-model-correspondence-proposal-v1.md) authorize a separate permanent-seat model-preparation authorization and purpose-limited Conscription sealing. The existing mission route does not supply that competence. [Approval and exact proposal hash](handoffs/provider-model-correspondence-approval.json): **owner-approved** by the exact reply “approved” to the PPC5 A–F question. The original proposal bytes remain unchanged; the separate approval record governs.

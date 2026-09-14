@@ -6,8 +6,8 @@
   "baseline_tree": "451140919d570d196384b5e0802ac076c67ba579",
   "owner_instruction": "proceed. remember countdown",
   "remaining_batches": {
-    "minimum": 4,
-    "maximum": 6,
+    "minimum": 3,
+    "maximum": 5,
     "kind": "WORKING_ESTIMATE"
   },
   "selected_campaign": "PPC5",
@@ -16,9 +16,12 @@
     {
       "id": "R1",
       "name": "Competent native-to-O4 binding correspondence",
-      "status": "OPEN",
-      "additional_batches_min": 1,
-      "additional_batches_max": 1
+      "status": "ACCEPTED_OFFLINE",
+      "additional_batches_min": 0,
+      "additional_batches_max": 0,
+      "acceptance_evidence": "docs/reviews/provider-model-correspondence-review.md",
+      "integration_pr": 826,
+      "integration_merge": "65d02f0e61c5eb2ec4fa45a24aed0602b1f38b5c"
     },
     {
       "id": "R2",
@@ -63,7 +66,8 @@
   ],
   "counting_rule": "Decrement only after receiving acceptance of a named required outcome with exact integration/validation evidence; preparation, submission and components leaving the outcome open earn no decrement. Re-estimate explicitly for new scope.",
   "accepted_countdown_outcomes": [
-    "R2_NATIVE_TENURE_SYNCHRONIZATION"
+    "R2_NATIVE_TENURE_SYNCHRONIZATION",
+    "R1_NATIVE_O4_MODEL_CORRESPONDENCE"
   ],
   "potential_after_accepted_ppc3": {
     "minimum": 4,
@@ -158,6 +162,24 @@
       "decrement": 0,
       "evidence": "docs/handoffs/provider-model-correspondence-approval.json",
       "reason": "Exact proposal approved for bounded offline implementation; complete R1 receiving acceptance remains outstanding"
+    },
+    {
+      "event": "R1_ACCEPTED_AFTER_PPC5",
+      "outcome": "R1_NATIVE_O4_MODEL_CORRESPONDENCE",
+      "previous_range": [
+        4,
+        6
+      ],
+      "range": [
+        3,
+        5
+      ],
+      "decrement": 1,
+      "evidence": "docs/reviews/provider-model-correspondence-review.md",
+      "integration_pr": 826,
+      "integration_merge": "65d02f0e61c5eb2ec4fa45a24aed0602b1f38b5c",
+      "ci_run": 34876510955,
+      "reason": "Both competent original chains and real strict consumer accepted after source review and fresh complete hosted CI; no new scope"
     }
   ],
   "operational_flags": {
@@ -169,8 +191,8 @@
   },
   "native_enrollment_disposition": "DEFER_ENROLLMENT",
   "actual_retry_allowlist": [],
-  "latest_receiving_review": "docs/reviews/provider-storage-successor-review.md",
-  "selected_campaign_status": "OWNER_APPROVED_READY_FOR_LOCAL_IMPLEMENTATION",
+  "latest_receiving_review": "docs/reviews/provider-model-correspondence-review.md",
+  "selected_campaign_status": "R1_ACCEPTED_OFFLINE",
   "potential_after_accepted_ppc4": {
     "minimum": 4,
     "maximum": 6,
@@ -181,7 +203,8 @@
   "potential_after_accepted_ppc5": {
     "minimum": 3,
     "maximum": 5,
-    "applied": false,
-    "condition": "Whole R1 accepted after source review and full fresh hosted CI, with no new scope"
+    "applied": true,
+    "condition": "Whole R1 accepted after source review and full fresh hosted CI, with no new scope",
+    "evidence": "docs/reviews/provider-model-correspondence-review.md"
   }
 }
