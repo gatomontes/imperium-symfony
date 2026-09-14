@@ -1,3 +1,11 @@
+# Receiving acceptance of the PPC3 component — countdown unchanged
+
+The typed native synchronization component passed source review and complete Linux CI and is integrated through [PR #818](https://github.com/gatomontes/imperium-symfony/pull/818), merge `fe65bd91efa3eb5cc5bc07a1ac48658f12e46edf`. Linux: 3,767 tests / 64,310 assertions / four skips, 614 files with exact case coverage and all 11 guards passed. [Receiving review](../reviews/provider-native-tenure-review.md), [integration record](../provider-native-tenure-reviewed-integration.json).
+
+The original report below remains producer evidence. Its **PARTIAL_NATIVE_TENURE_SYNCHRONIZATION** disposition remains: generic storage is still outside Formation and R2 is open. Countdown **5–7 → 5–7, decrement 0**. Original Windows failures and limitations are retained.
+
+---
+
 # PPC3 local implementation report — R2 remains open
 
 Disposition: **PARTIAL_NATIVE_TENURE_SYNCHRONIZATION**. The typed native producer set and a real model-bound Formation current consumer now share the Formation owner. Direct generic storage remains an interfering path because the attempted generic primitive change conflicts with a retained source pin. This submission does not claim a whole supported synchronized deployment set.

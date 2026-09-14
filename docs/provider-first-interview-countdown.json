@@ -23,9 +23,10 @@
     {
       "id": "R2",
       "name": "Native tenure synchronization",
-      "status": "SELECTED_NOT_ACCEPTED",
+      "status": "PARTIAL_COMPONENT_ACCEPTED_R2_OPEN",
       "additional_batches_min": 1,
-      "additional_batches_max": 1
+      "additional_batches_max": 1,
+      "remaining_gap": "Generic storage reserved-target successor contract and old-entry-path synchronization/refusal"
     },
     {
       "id": "R3",
@@ -82,6 +83,18 @@
       ],
       "decrement": 0,
       "evidence": "docs/next-campaign-provider-native-tenure.md"
+    },
+    {
+      "event": "PPC3_COMPONENT_ACCEPTED_R2_OPEN",
+      "range": [
+        5,
+        7
+      ],
+      "decrement": 0,
+      "evidence": "docs/reviews/provider-native-tenure-review.md",
+      "integration_pr": 818,
+      "integration_merge": "fe65bd91efa3eb5cc5bc07a1ac48658f12e46edf",
+      "reason": "Bare generic institutional writers remain outside Formation; no complete outcome accepted"
     }
   ],
   "operational_flags": {
@@ -92,5 +105,6 @@
     "execution_authority": false
   },
   "native_enrollment_disposition": "DEFER_ENROLLMENT",
-  "actual_retry_allowlist": []
+  "actual_retry_allowlist": [],
+  "latest_receiving_review": "docs/reviews/provider-native-tenure-review.md"
 }

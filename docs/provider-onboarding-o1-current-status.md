@@ -1,3 +1,30 @@
+# Current review — PPC3 component integrated; R2 open; countdown 5–7
+
+The typed native synchronization component is accepted and integrated through [PR #818](https://github.com/gatomontes/imperium-symfony/pull/818), merge `fe65bd91efa3eb5cc5bc07a1ac48658f12e46edf`, exact reviewed/tested tree `55d7f6028c6226aa9efb64de68499e7aa6ddf875`. [Receiving review](reviews/provider-native-tenure-review.md), [integration record](provider-native-tenure-reviewed-integration.json).
+
+**Countdown: 5–7 before → 5–7 now; decrement 0.** No complete countdown outcome is accepted by this partial result. [Outcome ledger and rule](provider-first-interview-countdown.md); [machine record](provider-first-interview-countdown.json). The milestone remains the first separately authorized bounded live Courtyard interview; full mission execution comes later.
+
+Fresh complete Linux CI passed **3,767 tests / 64,310 assertions / four explicit skips**, all 614 files and every enumerated case exactly once, all eight workers and all 11 guards. The Windows symlink guard error and earlier diagnostics remain preserved. No test, CI gate or source pin was weakened.
+
+| Outcome | Current state |
+| --- | --- |
+| PPC3 typed native producer/current-consumer boundary | Accepted component: live owner capability, ordered typed paths, registry/unknown-state refusal and package completion custody |
+| R2 whole native synchronization | **Open:** bare ImmutableRecordStore and MutableStateStore writes can still race Formation current observations |
+| Required R2 follow-up | Reviewed generic-storage successor contract for reserved institutional targets, then actual old-entry-path routing/refusal and concurrency proof |
+| R1 binding correspondence | Missing competent native-to-O4 authorization/seal/binding/configuration/generation original |
+| R3 designation and shared assignment/use verification | Open; production AssignmentEvidence remains refusing |
+| R4 combined FRESH establishment | Unproven; vacancy, root publication and old schemas retained |
+| R5 account/access, base and cognition | Three independent production evidence gaps |
+| R6 bounded commissioning/interview | Separately deferred until prerequisites and explicit live authority exist |
+
+The immutable storage primitive is pinned by the retained snapshot-consistency ledger. Its attempted change was rejected by the unchanged pin test and restored. Component CI cannot approve that missing successor boundary. A wrapper that leaves old generic calls open cannot close R2. No new campaign or unseen successor contract is approved by this review.
+
+Flow: accepted typed component → reviewed generic-storage successor and R2 closure → competent binding correspondence and designation/application/use completion → combined FRESH establishment plus provider evidence → separately authorized bounded commissioning and first interview. All five operational flags remain false; DEFER_ENROLLMENT and the empty actual retry allowlist remain.
+
+---
+
+## Historical campaign states (current review and countdown above control)
+
 # Current campaign — PPC3 native tenure synchronization; countdown 5–7
 
 The owner selected continuation with an explicit countdown. **Working estimate: 5–7 more batches to the first live Courtyard interview.** [Countdown, outcome ledger and counting rule](provider-first-interview-countdown.md); [machine record](provider-first-interview-countdown.json). Full mission execution is a later milestone.

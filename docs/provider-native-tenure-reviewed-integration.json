@@ -1,0 +1,171 @@
+{
+  "actual_retry_allowlist": [],
+  "campaign_disposition": "PARTIAL_NATIVE_TENURE_SYNCHRONIZATION",
+  "countdown": {
+    "after": [
+      5,
+      7
+    ],
+    "before": [
+      5,
+      7
+    ],
+    "decrement": 0,
+    "reason": "Direct generic institutional storage remains outside Formation"
+  },
+  "documentation_is_post_test": true,
+  "engineering_disposition": "TYPED_NATIVE_TENURE_COMPONENT_ACCEPTED_AND_INTEGRATED",
+  "integration": {
+    "accepted_head": "23feb28e2e8010fdd826beee11b3df2d03fd15e5",
+    "candidate_head": "23feb28e2e8010fdd826beee11b3df2d03fd15e5",
+    "merge": "fe65bd91efa3eb5cc5bc07a1ac48658f12e46edf",
+    "pr": 818,
+    "tested_and_verified_merge_tree": "55d7f6028c6226aa9efb64de68499e7aa6ddf875"
+  },
+  "linux_ci": {
+    "conclusion": "success",
+    "run": 34831143654,
+    "url": "https://github.com/gatomontes/imperium-symfony/actions/runs/34831143654",
+    "assertions": 64310,
+    "exact_case_coverage": true,
+    "files": 614,
+    "longest_partition_seconds": 887.508029,
+    "partitions": [
+      {
+        "assertions": 8923,
+        "index": 0,
+        "seconds": 161.521376,
+        "skipped": 0,
+        "tests": 469
+      },
+      {
+        "assertions": 7534,
+        "index": 1,
+        "seconds": 161.0805,
+        "skipped": 0,
+        "tests": 655
+      },
+      {
+        "assertions": 3981,
+        "index": 2,
+        "seconds": 887.508029,
+        "skipped": 0,
+        "tests": 389
+      },
+      {
+        "assertions": 18972,
+        "index": 3,
+        "seconds": 147.748001,
+        "skipped": 1,
+        "tests": 436
+      },
+      {
+        "assertions": 5555,
+        "index": 4,
+        "seconds": 72.319043,
+        "skipped": 2,
+        "tests": 397
+      },
+      {
+        "assertions": 11826,
+        "index": 5,
+        "seconds": 426.75061,
+        "skipped": 1,
+        "tests": 603
+      },
+      {
+        "assertions": 4452,
+        "index": 6,
+        "seconds": 428.14582,
+        "skipped": 0,
+        "tests": 470
+      },
+      {
+        "assertions": 3067,
+        "index": 7,
+        "seconds": 572.16283,
+        "skipped": 0,
+        "tests": 348
+      }
+    ],
+    "skipped": 4,
+    "source_digest": "d7fbeaf73289200ff829925bb144584af63050da626f2b622139e92eeb52aad3",
+    "summed_test_seconds": 2857.236209,
+    "tests": 3767,
+    "tree": "55d7f6028c6226aa9efb64de68499e7aa6ddf875",
+    "checkout": "e7fb46ebc4cf085e23e97998818e1878f56974dc",
+    "aggregate_job": 103938777628,
+    "guards_passed": 11,
+    "guards_skipped": 0,
+    "php": "8.4.25",
+    "phpunit": "13.3.0",
+    "started_at": "2026-09-14T10:02:55Z",
+    "completed_at": "2026-09-14T10:18:16Z"
+  },
+  "native_enrollment_disposition": "DEFER_ENROLLMENT",
+  "operational_flags": {
+    "activation": false,
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "execution_authority": false,
+    "live_ready": false
+  },
+  "packet": {
+    "filename": "imperium-ppc3-public-review.zip",
+    "sha256": "b600abff2af43e7f861818202a5cf3bc227542707ed37e13d94c8c7c501ed426",
+    "verified_evidence_files": 856,
+    "verified_payloads": 13,
+    "verified_source_files": 3547
+  },
+  "producer": {
+    "base_commit": "eccd068322e06dd0449586d77703215faf18b12b",
+    "base_tree": "047aa833c54da20ca17be139e57e2de823903dc6",
+    "final_commit": "45f6787122cecbc435ef29750adf6cf9749d681c",
+    "final_tree": "55d7f6028c6226aa9efb64de68499e7aa6ddf875",
+    "tested_commit": "6ecf1e4417453a35f9781b21fbc16632965febec",
+    "tested_tree": "7cef4598673365b70e41a83af72fc4ba36851de8"
+  },
+  "r2_complete": false,
+  "remaining_r2_paths": [
+    "ImmutableRecordStore::put direct institutional targets",
+    "MutableStateStore::compareAndSwap direct institutional targets",
+    "MutableStateStore::compareAndSwapGuarded direct institutional targets"
+  ],
+  "review": {
+    "blocking_component_findings": [],
+    "local_php_executed": false,
+    "local_python_guards": {
+      "passed": 9,
+      "reason": "PHP absent",
+      "skipped": 2
+    },
+    "public_fixture_integrity": {
+      "current_authority_claim": false,
+      "frames_per_target": 34,
+      "institutional_signatures_verified": 64,
+      "targets": 2
+    },
+    "separate_agent_or_human_review_claimed": false
+  },
+  "schema": "imperium.provider-native-tenure-reviewed-integration/v1",
+  "source_pin": {
+    "normalized_sha256": "51acaf101d0c14301cd2d29f19581473ff93fdc82179fa34225566282f97ae7a",
+    "path": "src/Imperium/Runtime/Persistence/ImmutableRecordStore.php",
+    "successor_review_required": true
+  },
+  "windows_evidence": {
+    "assertions": 64326,
+    "attribution": "Producer supplied; reviewer reran unchanged aggregate verification",
+    "diagnostics_retained": true,
+    "files": 614,
+    "guard_error": "Windows symlink privilege WinError 1314",
+    "guards_errored": 1,
+    "guards_passed": 10,
+    "guards_skipped": 0,
+    "hosted_time_budget_established": false,
+    "longest_partition_seconds": 1799.737655,
+    "skipped": 0,
+    "source_digest": "ebbfeae4d1aef76f085077aa9c7bec74b04d5c9e1ac6f9c3bb282d0961b38230",
+    "tests": 3767
+  }
+}
