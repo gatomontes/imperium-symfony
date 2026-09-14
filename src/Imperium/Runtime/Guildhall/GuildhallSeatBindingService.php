@@ -14,6 +14,7 @@ final readonly class GuildhallSeatBindingService
     private string $proceedingDirectory;
     private string $deliveryDirectory;
     private string $occupancyDirectory;
+    private string $root;
 
     public function __construct(
         string $projectDir,
@@ -21,12 +22,18 @@ final readonly class GuildhallSeatBindingService
         private CanonicalGuildhallStaffRegistry $staff,
         private GenericOfficerSubstrateRegistry $substrate,
     ) {
+        $this->root = $projectDir;
         $this->proceedingDirectory = $projectDir.'/var/imperium/curia/proceedings';
         $this->deliveryDirectory = $projectDir.'/var/imperium/mastermason/qualified-manifestations';
         $this->occupancyDirectory = $projectDir.'/var/imperium/offices/guildhall/occupancy';
     }
 
     public function bind(string $summonsId): array
+    {
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::legacy($this->root, fn(): array => $this->bindOwned($summonsId));
+    }
+
+    private function bindOwned(string $summonsId): array
     {
         if (!preg_match('/^guildhall-summons-[a-f0-9]{20}$/', $summonsId)) {
             throw new \InvalidArgumentException('M30_GUILDHALL_SUMMONS_INVALID: exact Guildhall summons identity is required.');

@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace App\Imperium\Runtime\Bootstrap;
 
 use App\Imperium\Runtime\Citadel\Formation\FormationJournal;
+use App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame;
 use App\Imperium\Runtime\Onboarding\AuthorityAdmission\{AuthorityStore,Rules as R};
 
 /** Common publication fence. Locked methods never acquire another lock. */
@@ -24,15 +25,19 @@ final readonly class OperatorRootOwnership
     }
     public function native(callable $publication):mixed
     {
-        return $this->journal->inspect(function(array $frame)use($publication):mixed{
+        return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::lock($this->root,
+            fn(FormationOwnerFrame $owner):mixed => $this->nativeInOwner($owner, $publication));
+    }
+    public function nativeInOwner(FormationOwnerFrame $owner, callable $publication):mixed
+    {
+            $frame = $this->journal->readInOwner($owner);
             if(isset($frame['state']['onboarding'])){
                 $s=$frame['state']['onboarding'];
                 R::require(in_array($s['schema']??null,['imperium.onboarding-authority-state/v1','imperium.onboarding-authority-state/v2','imperium.onboarding-authority-state/v3'],true),'ROOT_STATE_VERSION');
                 if($s['schema']!=='imperium.onboarding-authority-state/v1'){\App\Imperium\Runtime\Onboarding\Ledger\LedgerState::validate($s);}
                 if(($s['bindings']??[])!==[]){throw new \RuntimeException('B225_FRESH_ROOT_OWNED');}
             }
-            return $publication();
-        });
+            return \App\Imperium\Runtime\Citadel\NativeAuthority\NativeBoundary::inOwner($this->root, $owner, $publication);
     }
     /** Called only by the FRESH producer inside its owning changeAtHead callback. */
     public function vacant(AuthorityStore $store):void
