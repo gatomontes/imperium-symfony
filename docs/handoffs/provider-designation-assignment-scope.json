@@ -1,0 +1,59 @@
+{
+  "schema": "imperium.provider-designation-assignment-scope/v1",
+  "status": "READY_WITH_EXISTING_OWNER_APPROVAL",
+  "campaign": "PPC6",
+  "outcome": "R3_DESIGNATION_AND_SHARED_ASSIGNMENT_USE",
+  "baseline_commit": "44be5c0758581d8442f5a762b27cd30b644c95eb",
+  "baseline_tree": "a89b606729d55c7e23094c92a61d812419991c2c",
+  "continuation_instruction": "proceed",
+  "continuation_context": "Immediate owner reply after PPC5 R1 acceptance, PRs #826/#827, and identification of R3 as next.",
+  "approval_basis": {
+    "proposal_path": "docs/provider-profile-designation-amendment.md",
+    "proposal_sha256": "c24939fd808cd5917c8057efe518787cc2448d3da60be089511e7abd6dee2984",
+    "record": "docs/handoffs/provider-profile-designation-approval.md",
+    "clauses": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+    ],
+    "owner_reply_exact": "approved",
+    "question_exact": "Do you approve clauses A–F for the offline implementation campaign, retaining all stated boundaries and stopping at local commits and the complete public review packet?"
+  },
+  "accepted_prerequisites": {
+    "R1": {
+      "review": "docs/reviews/provider-model-correspondence-review.md",
+      "pr": 826,
+      "merge": "65d02f0e61c5eb2ec4fa45a24aed0602b1f38b5c"
+    },
+    "R2": {
+      "review": "docs/reviews/provider-storage-successor-review.md",
+      "pr": 822,
+      "merge": "499877920e06637c109abd741b25a78f06ef7e72"
+    }
+  },
+  "scope": "Remaining approved designation/revocation/attestation mechanics and shared native assignment/application/use consumer; no new competence or FRESH exception",
+  "known_dependency": "R4 same-root FRESH establishment may prevent complete R3 application/use proof under unchanged source contracts; report that exact boundary without a synthetic parent shortcut",
+  "implementation_accepted": false,
+  "repeat_approval_required_for_existing_scope": false,
+  "remaining_batches": [
+    3,
+    5
+  ],
+  "decrement": 0,
+  "potential_after_complete_R3_acceptance": [
+    2,
+    4
+  ],
+  "operational_flags": {
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "live_ready": false,
+    "activation": false,
+    "execution_authority": false
+  },
+  "native_enrollment_disposition": "DEFER_ENROLLMENT",
+  "actual_retry_allowlist": []
+}
