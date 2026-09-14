@@ -1,6 +1,6 @@
 # Countdown to the first live Courtyard interview
 
-**Working estimate: 5–7 batches remaining. R2 remains open after PPC3 component acceptance; PPC4’s generic-storage successor proposal is prepared and awaits A–F approval.**
+**Working estimate: 5–7 batches remaining. R2 remains open after PPC3 component acceptance; PPC4’s generic-storage successor clauses A–F are owner-approved for local offline implementation.**
 
 The owner requested this countdown after PPC2 acceptance and said “proceed. remember countdown”. The estimate starts at accepted main `cd3a46ba45d0b89208c68e39225a0f8e08ca6de6`, tree `451140919d570d196384b5e0802ac076c67ba579`. Earlier O0–O5 and PPC0/PPC1/PPC2 component acceptances are already reflected in this starting estimate; they are not new countdown credits.
 
@@ -33,5 +33,6 @@ If PPC4 closes the remaining PPC3/R2 work and fully closes R2 with no new scope 
 | PPC3 preparation selected | [Local campaign](next-campaign-provider-native-tenure.md) | No decrement; 5–7 remains |
 | PPC3 component accepted; R2 open | [Receiving review](reviews/provider-native-tenure-review.md), PR #818, merge `fe65bd91efa3eb5cc5bc07a1ac48658f12e46edf` | No decrement; 5–7 remains because generic institutional writers are unfenced |
 | PPC4 successor proposal prepared; approval pending | [Clauses A–F](provider-storage-successor-contract-v1.md), [local handoff](handoffs/provider-storage-successor-ready.md) | No decrement; 5–7 remains |
+| PPC4 clauses A–F owner-approved | [Exact approval record](handoffs/provider-storage-successor-approval.json) | No decrement; implementation and complete R2 acceptance remain outstanding |
 
 No live action is authorized by this countdown. All five operational flags remain false, `DEFER_ENROLLMENT` remains, and the actual retry allowlist is empty.
