@@ -10,8 +10,8 @@
     "maximum": 6,
     "kind": "WORKING_ESTIMATE"
   },
-  "selected_campaign": "PPC4",
-  "selected_outcome": "R2_NATIVE_TENURE_SYNCHRONIZATION",
+  "selected_campaign": "PPC5",
+  "selected_outcome": "R1_NATIVE_O4_MODEL_CORRESPONDENCE",
   "outcomes": [
     {
       "id": "R1",
@@ -109,7 +109,7 @@
       ],
       "decrement": 0,
       "evidence": "docs/provider-storage-successor-contract-v1.md",
-      "reason": "Concrete A\u2013F successor awaits owner approval; R2 remains open"
+      "reason": "Concrete A–F successor awaits owner approval; R2 remains open"
     },
     {
       "event": "PPC4_SUCCESSOR_CLAUSES_A_TO_F_OWNER_APPROVED",
@@ -138,6 +138,16 @@
       "integration_merge": "499877920e06637c109abd741b25a78f06ef7e72",
       "ci_run": 34853394047,
       "reason": "Reviewed PPC3/PPC4 complete the supported native and generic writer/current-consumer boundary; fresh hosted gate passed"
+    },
+    {
+      "event": "PPC5_MODEL_CORRESPONDENCE_PROPOSAL_PREPARED",
+      "range": [
+        4,
+        6
+      ],
+      "decrement": 0,
+      "evidence": "docs/provider-model-correspondence-proposal-v1.md",
+      "reason": "Exact A–F permanent-seat preparation competence awaits owner approval; R1 remains open and R2 remains accepted"
     }
   ],
   "operational_flags": {
@@ -150,12 +160,18 @@
   "native_enrollment_disposition": "DEFER_ENROLLMENT",
   "actual_retry_allowlist": [],
   "latest_receiving_review": "docs/reviews/provider-storage-successor-review.md",
-  "selected_campaign_status": "R2_ACCEPTED_OFFLINE",
+  "selected_campaign_status": "PREPARED_APPROVAL_PENDING",
   "potential_after_accepted_ppc4": {
     "minimum": 4,
     "maximum": 6,
     "applied": true,
     "condition": "Whole R2 accepted after PPC4 source review and full hosted CI, with no new scope",
     "evidence": "docs/reviews/provider-storage-successor-review.md"
+  },
+  "potential_after_accepted_ppc5": {
+    "minimum": 3,
+    "maximum": 5,
+    "applied": false,
+    "condition": "Whole R1 accepted after source review and full fresh hosted CI, with no new scope"
   }
 }

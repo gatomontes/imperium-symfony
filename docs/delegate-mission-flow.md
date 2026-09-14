@@ -1,3 +1,17 @@
+# Current campaign — PPC5 R1 proposal prepared; countdown 4–6
+
+**PPC5 selects competent native-to-O4 model correspondence (R1).** The [exact clauses A–F](provider-model-correspondence-proposal-v1.md) propose a separate permanent-seat model-preparation authorization and purpose-limited Conscription sealing. The existing mission route does not supply that competence. [Approval and exact proposal hash](handoffs/provider-model-correspondence-approval.json): **pending**; preparation does not approve the new provision.
+
+[Campaign and required proof](next-campaign-provider-model-correspondence.md), [complete local prompt and PowerShell setup](handoffs/provider-model-correspondence-ready.md). The sequence is exact owner approval → bounded local implementation and full packet → receiving source review and fresh complete hosted CI → possible full R1 acceptance. Profile approval, designation, appointment and settings application remain separate.
+
+**Countdown: 4–6 → 4–6; decrement 0.** Full R1 acceptance with no new scope could yield **3–5**. [Countdown and outcome ledger](provider-first-interview-countdown.md), [machine record](provider-first-interview-countdown.json). R2 remains accepted through PPC3/PPC4 and earns no second credit. R3 designation/application/use, R4 combined FRESH establishment, R5 provider evidence and R6 separately authorized live commissioning/interview remain open or deferred.
+
+All five operational flags remain false, `DEFER_ENROLLMENT` remains and the actual retry allowlist is empty. This is preparation documentation; no runtime, source pin, deployment or live authority changes occur here. The earlier review and campaign history below is retained.
+
+*Imperium via solitaria est.*
+
+---
+
 # Current review — R2 accepted after PPC4; countdown 4–6
 
 **R2 native tenure synchronization is accepted offline**, combining PPC3's typed native boundary with PPC4's closed generic reserved-storage entries. [PR #822](https://github.com/gatomontes/imperium-symfony/pull/822), merge `499877920e06637c109abd741b25a78f06ef7e72`, reviewed/tested tree `3bcabf98024795b4fb853068b93f2638766b6ae9`. [Receiving review](reviews/provider-storage-successor-review.md), [integration record](provider-storage-successor-reviewed-integration.json).

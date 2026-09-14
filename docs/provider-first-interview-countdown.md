@@ -1,6 +1,8 @@
 # Countdown to the first live Courtyard interview
 
-**Working estimate: 4–6 batches remaining. R2 native tenure synchronization is accepted offline after PPC4 source review, fresh hosted CI and integration.**
+**Working estimate: 4–6 batches remaining. PPC5 selects R1; its exact A–F proposal is prepared and awaits owner approval. R2 remains accepted offline.**
+
+[Selected proposal](provider-model-correspondence-proposal-v1.md), [campaign](next-campaign-provider-model-correspondence.md), [approval/hash record](handoffs/provider-model-correspondence-approval.json), [local prompt and PowerShell handoff](handoffs/provider-model-correspondence-ready.md). Preparation earns no decrement. Complete R1 acceptance with no new scope could reduce the range to **3–5**.
 
 The owner requested this countdown after PPC2 acceptance and said “proceed. remember countdown”. The estimate starts at accepted main `cd3a46ba45d0b89208c68e39225a0f8e08ca6de6`, tree `451140919d570d196384b5e0802ac076c67ba579`. Earlier O0–O5 and PPC0/PPC1/PPC2 component acceptances are already reflected in this starting estimate; they are not new countdown credits.
 
@@ -8,7 +10,7 @@ The milestone is one separately authorized, bounded live Courtyard interview, wi
 
 | Remaining outcome | Estimated additional batches | State |
 | --- | --- | --- |
-| R1. Competent native model seal → exact O4 binding/configuration/generation correspondence | 1 | Open; needs a concrete source/competence decision |
+| R1. Competent native model seal → exact O4 binding/configuration/generation correspondence | 1 | Open; PPC5 exact competence proposal prepared, approval pending |
 | R2. Native tenure and registry synchronization, including indirect lock order | 0 | **Accepted offline through PPC3 + PPC4** |
 | R3. Designation/revocation/supersession and shared assignment/application/use verifier | 1 | Open; depends on R1 and R2 |
 | R4. Combined FRESH institutional establishment | 0–1 additional | Required outcome; may be closed within another internal batch, otherwise needs its own |
@@ -35,5 +37,6 @@ PPC4 receiving review accepted complete R2 closure with no new scope, applying t
 | PPC4 successor proposal prepared; approval pending | [Clauses A–F](provider-storage-successor-contract-v1.md), [local handoff](handoffs/provider-storage-successor-ready.md) | No decrement; 5–7 remains |
 | PPC4 clauses A–F owner-approved | [Exact approval record](handoffs/provider-storage-successor-approval.json) | No decrement; implementation and complete R2 acceptance remain outstanding |
 | R2 accepted after PPC4 | [Receiving review](reviews/provider-storage-successor-review.md); PR #822, merge `499877920e06637c109abd741b25a78f06ef7e72`, CI 34853394047 | **Decrement 1; 5–7 → 4–6** |
+| PPC5 R1 proposal prepared; approval pending | [Exact A–F proposal](provider-model-correspondence-proposal-v1.md), [approval/hash record](handoffs/provider-model-correspondence-approval.json) | No decrement; **4–6 remains** |
 
 No live action is authorized by this countdown. All five operational flags remain false, `DEFER_ENROLLMENT` remains, and the actual retry allowlist is empty.
