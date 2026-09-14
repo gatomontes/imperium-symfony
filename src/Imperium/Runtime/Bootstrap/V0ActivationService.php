@@ -23,7 +23,8 @@ final readonly class V0ActivationService
         if ("" === trim($instanceId)) {
             throw new \InvalidArgumentException("B240_INSTANCE_ID_INVALID");
         }
-        return $this->state->locked(function () use (
+        return $this->installer->withOwner(fn(\App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner): array => $this->state->locked(function () use (
+            $owner,
             $instanceId,
             $prepareUpgrades,
         ): array {
@@ -52,8 +53,8 @@ final readonly class V0ActivationService
                         : "DEFERRED_FOR_TEST_DRIVE",
                 ];
             }
-            $installation = $this->installer->install($instanceId);
-            $seal = $this->operationalization->seal($instanceId);
+            $installation = $this->installer->installInOwner($owner, $instanceId);
+            $seal = $this->operationalization->sealInOwner($owner, $instanceId);
             $occupants = [];
             foreach ($installation["installations"] as $record) {
                 if (
@@ -124,6 +125,6 @@ final readonly class V0ActivationService
                     ? "PREPARED_NOT_STARTED"
                     : "DEFERRED_FOR_TEST_DRIVE",
             ];
-        });
+        }));
     }
 }

@@ -11,6 +11,16 @@ final readonly class RequiredV0PersonnelInstallationService
 
     public function install(string $instanceId): array
     {
+        return $this->withOwner(fn(\App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner): array => $this->installInOwner($owner, $instanceId));
+    }
+
+    public function withOwner(callable $operation): mixed
+    {
+        return $this->installer->withOwner($operation);
+    }
+
+    public function installInOwner(\App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner, string $instanceId): array
+    {
         if ("" === trim($instanceId)) {
             throw new \InvalidArgumentException("B230_INSTANCE_ID_INVALID");
         }
@@ -25,7 +35,7 @@ final readonly class RequiredV0PersonnelInstallationService
                 "seat" => $seat["seat"],
             ];
         }
-        $result = $this->installer->install([
+        $result = $this->installer->installInOwner($owner, [
             "schema" => "imperium.operator-root-personnel-package/v3",
             "instance_id" => $instanceId,
             "personnel" => $personnel,

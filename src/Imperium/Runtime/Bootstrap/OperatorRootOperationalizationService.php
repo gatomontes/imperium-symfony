@@ -23,6 +23,11 @@ final readonly class OperatorRootOperationalizationService
         return $this->ownership->native(fn(): array => $this->sealOwned($instanceId));
     }
 
+    public function sealInOwner(\App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner, string $instanceId): array
+    {
+        return $this->ownership->nativeInOwner($owner, fn(): array => $this->sealOwned($instanceId));
+    }
+
     private function sealOwned(string $instanceId): array
     {
         if ("" === trim($instanceId)) {

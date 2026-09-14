@@ -16,7 +16,7 @@ try {
         (new FormationProfileDesignationInitialization($journal, $signatures))->initialize($input['head'], $input['decision']);
     } else {
         $personnel = new FormationPersonnel($journal, $signatures, $clock, new FormationInstitution($root));
-        $journal->inspect(fn(array $frame): array => $personnel->candidate($frame['state'], $input['candidate'], $frame['state']['citadel_id'], $input['seat']));
+        $journal->inspect(fn(array $frame, \App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner): array => $personnel->candidateInOwner($owner, $frame['state'], $input['candidate'], $frame['state']['citadel_id'], $input['seat']));
     }
     echo "VERIFIED_COMPONENT_ONLY\n";
 } catch (\Throwable $e) {

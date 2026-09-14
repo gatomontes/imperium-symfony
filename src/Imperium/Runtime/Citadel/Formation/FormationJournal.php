@@ -18,9 +18,11 @@ final readonly class FormationJournal
     private AtomicTransition $atomic;
     private string $owner;
     private string $observationLock;
+    private string $root;
 
     public function __construct(#[Autowire('%kernel.project_dir%')] string $root)
     {
+        $this->root = $root;
         $this->owner = str_replace('\\', '/', realpath($root) ?: $root);
         $this->directory = $root.'/var/imperium/citadel/formation';
         $this->atomic = new AtomicTransition($root);
@@ -52,7 +54,13 @@ final readonly class FormationJournal
 
     public function inspect(callable $inspection): mixed
     {
-        return $this->atomic->run('citadel-formation', fn () => $inspection($this->latest()));
+        return FormationOwnerFrame::run($this->root, fn (FormationOwnerFrame $owner) => $inspection($this->latest(), $owner));
+    }
+
+    public function readInOwner(FormationOwnerFrame $owner): array
+    {
+        $owner->assertOwner($this);
+        return $this->latest();
     }
 
     /** Pure observation under the existing writer fence; never initializes custody. */
@@ -95,8 +103,8 @@ final readonly class FormationJournal
 
     public function change(callable $transition): mixed
     {
-        return $this->changeAtHead(static function (array &$state, array $head) use ($transition): mixed {
-            return $transition($state);
+        return $this->changeAtHead(static function (array &$state, array $head, FormationOwnerFrame $owner) use ($transition): mixed {
+            return $transition($state, $owner);
         });
     }
 
@@ -105,10 +113,10 @@ final readonly class FormationJournal
      */
     public function changeAtHead(callable $transition): mixed
     {
-        return $this->atomic->run('citadel-formation', function () use ($transition): mixed {
+        return FormationOwnerFrame::run($this->root, function (FormationOwnerFrame $owner) use ($transition): mixed {
             $prior = $this->latest();
             $state = $prior['state'];
-            $result = $transition($state, ['generation' => $prior['generation'], 'digest' => $prior['record_digest']]);
+            $result = $transition($state, ['generation' => $prior['generation'], 'digest' => $prior['record_digest']], $owner);
             if (self::digest($state) === self::digest($prior['state'])) {
                 return $result;
             }

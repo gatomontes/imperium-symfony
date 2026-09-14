@@ -14,6 +14,7 @@ final readonly class OperatorRootPersonnelInstallationService
 
     public function __construct(
         #[Autowire("%kernel.project_dir%")] string $projectDir,
+        private ?\Closure $checkpoint = null,
     ) {
         $this->root = $projectDir . "/var/imperium/operator-root";
         $this->officeRoot = $projectDir . "/var/imperium/offices";
@@ -23,6 +24,16 @@ final readonly class OperatorRootPersonnelInstallationService
     public function install(array $package): array
     {
         return $this->ownership->native(fn(): array => $this->installOwned($package));
+    }
+
+    public function withOwner(callable $operation): mixed
+    {
+        return $this->ownership->native($operation);
+    }
+
+    public function installInOwner(\App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner, array $package): array
+    {
+        return $this->ownership->nativeInOwner($owner, fn(): array => $this->installOwned($package));
     }
 
     private function installOwned(array $package): array
@@ -52,7 +63,11 @@ final readonly class OperatorRootPersonnelInstallationService
         foreach ($records as $record) {
             $this->assertPlacementAvailable($record);
         }
+        $completion = \App\Imperium\Runtime\Citadel\Formation\NativeInstallationPackage::begin($this->root, $packageDigest, $records);
+        ($this->checkpoint)?->__invoke('package-intent');
         $installed = array_map($this->persist(...), $records);
+        ($this->checkpoint)?->__invoke('package-placements');
+        \App\Imperium\Runtime\Citadel\Formation\NativeInstallationPackage::complete($completion);
 
         return [
             "schema" => "imperium.operator-root-personnel-installation/v3",
@@ -560,8 +575,10 @@ final readonly class OperatorRootPersonnelInstallationService
             }
         }
         $this->write($installationPath, $record);
+        ($this->checkpoint)?->__invoke('installation-written');
         try {
             $this->write($placementPath, $placement);
+            ($this->checkpoint)?->__invoke('placement-written');
         } catch (\Throwable $e) {
             @unlink($installationPath);
             throw $e;

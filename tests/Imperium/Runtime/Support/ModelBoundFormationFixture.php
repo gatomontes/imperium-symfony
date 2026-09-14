@@ -68,7 +68,7 @@ final class ModelBoundFormationFixture
 
     public function assembly(): array
     {
-        return $this->f->journal->inspect(fn(array $frame): array => $this->f->personnel->candidate($frame['state'], $this->candidate, $frame['state']['citadel_id'], $this->seat));
+        return $this->f->journal->inspect(fn(array $frame, \App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner): array => $this->f->personnel->candidateInOwner($owner, $frame['state'], $this->candidate, $frame['state']['citadel_id'], $this->seat));
     }
 
     public function close(): void

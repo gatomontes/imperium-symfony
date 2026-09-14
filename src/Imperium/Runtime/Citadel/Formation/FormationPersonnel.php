@@ -50,13 +50,14 @@ final readonly class FormationPersonnel
 
     private function recordOwned(array $envelope, bool $modelBound): string
     {
-        return $this->journal->change(function (array &$state) use ($envelope, $modelBound): string {
+        return $this->journal->change(function (array &$state, FormationOwnerFrame $owner) use ($envelope, $modelBound): string {
             $payload = $envelope['payload'] ?? [];
             $delegation = $state['personnel_delegations'][$payload['delegation'] ?? ''] ?? null;
             if (!is_array($delegation)) { throw new \RuntimeException('CMF041_PERSONNEL_EVIDENCE_INVALID'); }
             $this->signatures->verify($state, $delegation['decision'], 'DELEGATE_PERSONNEL_EVIDENCE', $delegation['terms']);
             $terms = $delegation['terms'];
-            if ($terms['actor'] !== $this->institution->actor($terms['role'])) { throw new \RuntimeException('CMF122_INSTITUTION_CHAIN_INVALID'); }
+            $actor = $modelBound ? $this->institution->actorInOwner($owner, $terms['role']) : $this->institution->actor($terms['role']);
+            if ($terms['actor'] !== $actor) { throw new \RuntimeException('CMF122_INSTITUTION_CHAIN_INVALID'); }
             $sig = base64_decode($envelope['signature'] ?? '', true);
             if (!FormationJournal::keys($envelope, ['payload', 'signature'])
                 || !FormationJournal::keys($payload, [...($modelBound ? ['schema'] : []), 'delegation', 'scope', 'kind', 'subject', 'sources', 'content', 'expires_at'])
@@ -99,6 +100,20 @@ final readonly class FormationPersonnel
      */
     public function candidate(array $state, array $candidate, string $scope, string $seat): array
     {
+        return $this->candidateChecked($state, $candidate, $scope, $seat, null);
+    }
+
+    public function candidateInOwner(FormationOwnerFrame $owner, array $state, array $candidate, string $scope, string $seat): array
+    {
+        $frame = $this->journal->readInOwner($owner);
+        if (FormationJournal::digest($state) !== FormationJournal::digest($frame['state'])) {
+            throw new \RuntimeException('PPC303_CURRENT_OWNER_STATE_REQUIRED');
+        }
+        return $this->candidateChecked($state, $candidate, $scope, $seat, $owner);
+    }
+
+    private function candidateChecked(array $state, array $candidate, string $scope, string $seat, ?FormationOwnerFrame $owner): array
+    {
         if (!FormationJournal::keys($candidate, ['persona', 'suitability', 'profile', 'examination', 'qualification', 'profile_approval'])) {
             throw new \RuntimeException('CMF043_CANDIDATE_CHAIN_INVALID');
         }
@@ -117,7 +132,7 @@ final readonly class FormationPersonnel
                 throw new \RuntimeException('CMF043_CANDIDATE_CHAIN_INVALID');
             }
             $this->signatures->verify($state, $d['decision'], 'DELEGATE_PERSONNEL_EVIDENCE', $d['terms']);
-            if ($d['terms']['actor'] !== $this->institution->actor($d['terms']['role'])) { throw new \RuntimeException('CMF122_INSTITUTION_CHAIN_INVALID'); }
+            if ($d['terms']['actor'] !== $this->currentActor($owner, $d['terms']['role'])) { throw new \RuntimeException('CMF122_INSTITUTION_CHAIN_INVALID'); }
             $chain[$field] = $p;
         }
         $this->signatures->verify($state, $candidate['profile_approval'], 'APPROVE_FORMATION_PROFILE', ['profile' => $candidate['profile'], 'examination' => $candidate['examination'], 'scope' => $scope, 'seat' => $seat]);
@@ -140,7 +155,7 @@ final readonly class FormationPersonnel
         if ($modelBound) {
             FormationModelBoundProfileContract::validate($profile, $persona, $seat);
             foreach (['persona', 'suitability', 'profile', 'examination', 'qualification'] as $field) {
-                $this->verifyOriginal($state, $candidate[$field]);
+                $this->verifyOriginal($state, $candidate[$field], $owner);
             }
         } else {
             FormationProfileContract::validate($profile, $persona, $seat);
@@ -150,7 +165,7 @@ final readonly class FormationPersonnel
             throw new \RuntimeException('CMF125_COMPLETE_EXAMINATION_REQUIRED');
         }
         foreach ($findings as $criterion => $findingId) {
-            if ($modelBound) { $this->verifyOriginal($state, $findingId); }
+            if ($modelBound) { $this->verifyOriginal($state, $findingId, $owner); }
             $finding = $state['personnel_evidence'][$findingId]['payload'] ?? [];
             $delegation = $state['personnel_delegations'][$finding['delegation'] ?? ''] ?? [];
             if (($finding['kind'] ?? null) !== 'SENATOR_FINDING' || ($finding['scope'] ?? null) !== $scope
@@ -162,7 +177,7 @@ final readonly class FormationPersonnel
                 throw new \RuntimeException('CMF125_COMPLETE_EXAMINATION_REQUIRED');
             }
             $this->signatures->verify($state, $delegation['decision'], 'DELEGATE_PERSONNEL_EVIDENCE', $delegation['terms']);
-            if ($delegation['terms']['actor'] !== $this->institution->actor('senate-'.$criterion)) {
+            if ($delegation['terms']['actor'] !== $this->currentActor($owner, 'senate-'.$criterion)) {
                 throw new \RuntimeException('CMF122_INSTITUTION_CHAIN_INVALID');
             }
         }
@@ -194,12 +209,13 @@ final readonly class FormationPersonnel
             $prior = $attestation['attestation_id'];
             $lifecycle[] = $attestation;
         }
+        if ($modelBound && $owner === null) { throw new \RuntimeException('PPC303_CURRENT_OWNER_STATE_REQUIRED'); }
         $qualifier = $state['personnel_delegations'][$chain['qualification']['delegation']]['terms']['actor'];
         return \App\Imperium\Runtime\Conscription\FormationOfficerAssemblyService::assemble($profile, $candidate, $qualifier, $scope, $seat, $lifecycle);
     }
 
     /** Exact retained signed evidence, with current original delegation and actor. */
-    private function verifyOriginal(array $state, string $id): void
+    private function verifyOriginal(array $state, string $id, ?FormationOwnerFrame $owner): void
     {
         $envelope = $state['personnel_evidence'][$id] ?? [];
         $p = $envelope['payload'] ?? [];
@@ -228,10 +244,15 @@ final readonly class FormationPersonnel
             throw new \RuntimeException('PPC202_ORIGINAL_EVIDENCE_INVALID');
         }
         $this->signatures->verify($state, $d['decision'], 'DELEGATE_PERSONNEL_EVIDENCE', $terms);
-        if ($terms['actor'] !== $this->institution->actor($terms['role'])
+        if ($terms['actor'] !== $this->currentActor($owner, $terms['role'])
             || $terms['actor']['instance_id'] !== ($state['parent_instance_id'] ?? null)) {
             throw new \RuntimeException('CMF122_INSTITUTION_CHAIN_INVALID');
         }
+    }
+
+    private function currentActor(?FormationOwnerFrame $owner, string $role): array
+    {
+        return $owner === null ? $this->institution->actor($role) : $this->institution->actorInOwner($owner, $role);
     }
 
     public function appointCastellan(array $candidate, array $decision): array
@@ -251,7 +272,7 @@ final readonly class FormationPersonnel
 
     private function appoint(array $candidate, array $decision, string $role, string $seat, string $effect): array
     {
-        return $this->journal->change(function (array &$state) use ($candidate, $decision, $role, $seat, $effect): array {
+        return $this->journal->change(function (array &$state, FormationOwnerFrame $owner) use ($candidate, $decision, $role, $seat, $effect): array {
             if (isset($state[$role]) && FormationJournal::digest($state[$role]['decision']) === FormationJournal::digest($decision)) {
                 $this->signatures->verify($state, $decision, $effect, $state[$role]['terms']);
                 return $state[$role];
@@ -259,7 +280,9 @@ final readonly class FormationPersonnel
             $generation = ($state[$role]['generation'] ?? 0) + 1;
             $terms = ['candidate' => $candidate, 'scope' => $state['citadel_id'], 'seat' => $seat, 'generation' => $generation];
             $this->signatures->verify($state, $decision, $effect, $terms);
-            $binding = $this->candidate($state, $candidate, $state['citadel_id'], $seat);
+            $modelBound = ($state['personnel_evidence'][$candidate['profile']]['payload']['schema'] ?? null) === FormationModelBoundProfileContract::SCHEMA;
+            $binding = $modelBound ? $this->candidateInOwner($owner, $state, $candidate, $state['citadel_id'], $seat)
+                : $this->candidate($state, $candidate, $state['citadel_id'], $seat);
             if (isset($state['occupied_manifestations'][$binding['manifestation_id']])) {
                 throw new \RuntimeException('CMF044_MANIFESTATION_ALREADY_OCCUPIED');
             }
@@ -277,6 +300,16 @@ final readonly class FormationPersonnel
 
     public function currentCourtthane(array $state): array
     {
+        return $this->currentCourtthaneChecked($state, null);
+    }
+
+    public function currentCourtthaneInOwner(FormationOwnerFrame $owner): array
+    {
+        return $this->currentCourtthaneChecked($this->journal->readInOwner($owner)['state'], $owner);
+    }
+
+    private function currentCourtthaneChecked(array $state, ?FormationOwnerFrame $owner): array
+    {
         $binding = $state['courtthane'] ?? throw new \RuntimeException(isset($state['castellan'])
             ? 'CY001_LEGACY_CASTELLAN_FRESH_USE_REFUSED' : 'CY002_QUALIFIED_APPOINTED_COURTTHANE_REQUIRED');
         $terms = ['candidate' => $binding['candidate'], 'scope' => $state['citadel_id'],
@@ -285,7 +318,7 @@ final readonly class FormationPersonnel
             throw new \RuntimeException('CY003_EXACT_COURTTHANE_BINDING_REQUIRED');
         }
         $this->signatures->verify($state, $binding['decision'], 'APPOINT_COURTTHANE', $terms);
-        $expected = $this->candidate($state, $binding['candidate'], $state['citadel_id'], 'courtyard.courtthane')
+        $expected = ($owner === null ? $this->candidate($state, $binding['candidate'], $state['citadel_id'], 'courtyard.courtthane') : $this->candidateInOwner($owner, $state, $binding['candidate'], $state['citadel_id'], 'courtyard.courtthane'))
             + ['generation' => $binding['generation'], 'decision' => $binding['decision'], 'terms' => $terms];
         if ($binding !== $expected || ($state['occupied_manifestations'][$binding['manifestation_id']] ?? null) !== 'courtyard.courtthane') {
             throw new \RuntimeException('CY003_EXACT_COURTTHANE_BINDING_REQUIRED');
@@ -295,9 +328,20 @@ final readonly class FormationPersonnel
 
     public function currentLocksmith(array $state): array
     {
+        return $this->currentLocksmithChecked($state, null);
+    }
+
+    public function currentLocksmithInOwner(FormationOwnerFrame $owner): array
+    {
+        return $this->currentLocksmithChecked($this->journal->readInOwner($owner)['state'], $owner);
+    }
+
+    private function currentLocksmithChecked(array $state, ?FormationOwnerFrame $owner): array
+    {
         $binding = $state['locksmith'] ?? throw new \RuntimeException('CMF046_QUALIFIED_APPOINTED_LOCKSMITH_REQUIRED');
         $this->signatures->verify($state, $binding['decision'], 'APPOINT_FORMATION_LOCKSMITH', $binding['terms']);
-        $this->candidate($state, $binding['candidate'], $state['citadel_id'], 'clavium.locksmith');
+        if ($owner === null) { $this->candidate($state, $binding['candidate'], $state['citadel_id'], 'clavium.locksmith'); }
+        else { $this->candidateInOwner($owner, $state, $binding['candidate'], $state['citadel_id'], 'clavium.locksmith'); }
         return $binding;
     }
 }

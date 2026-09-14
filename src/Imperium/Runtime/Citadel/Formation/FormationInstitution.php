@@ -22,6 +22,36 @@ final readonly class FormationInstitution
         return $this->witness($role)['actor'];
     }
 
+    /** Current authority is consumed only during this exact live owner frame. */
+    public function actorInOwner(FormationOwnerFrame $owner, string $role): array
+    {
+        $owner->assertOwner(new FormationJournal($this->root));
+        if (file_exists($this->root.'/var/imperium/native-authority') || is_link($this->root.'/var/imperium/native-authority')) {
+            throw new \RuntimeException('CMF123_GOVERNED_SUCCESSOR_ADAPTER_REQUIRED');
+        }
+        // Bootstrap Recruiter succession is a competing authority even when the
+        // original Office occupancy files have never been rewritten.
+        $bootstrap = $this->root.'/var/imperium/bootstrap-state.json';
+        if (file_exists($bootstrap) || is_link($bootstrap)) {
+            // No bootstrap-to-artifact-backed institutional currentness adapter
+            // is admitted here. Unknown and partial forms cannot fall through.
+            throw new \RuntimeException('CMF123_GOVERNED_SUCCESSOR_ADAPTER_REQUIRED');
+        }
+        $witness = $this->witness($role);
+        $seat = self::SEATS[$role];
+        $office = explode('.', $seat)[0];
+        foreach (glob($this->root.'/var/imperium/offices/'.$office.'/occupancy/*.json') ?: [] as $path) {
+            $record = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+            if (isset($record['bindings'][$seat])) { throw new \RuntimeException('CMF123_GOVERNED_SUCCESSOR_ADAPTER_REQUIRED'); }
+            if (($record['seat'] ?? null) === $seat
+                && (($record['schema'] ?? null) !== 'imperium.operator-root-seat-occupancy/v1' || ($record['status'] ?? null) !== 'ACTIVE')) {
+                throw new \RuntimeException('CMF123_GOVERNED_SUCCESSOR_ADAPTER_REQUIRED');
+            }
+        }
+        NativeInstallationPackage::verify($this->root, $witness['installation']);
+        return $witness['actor'];
+    }
+
     /** Retain exact public provenance when publication observes current incumbency. */
     public function witness(string $role): array
     {
