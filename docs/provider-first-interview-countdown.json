@@ -148,6 +148,16 @@
       "decrement": 0,
       "evidence": "docs/provider-model-correspondence-proposal-v1.md",
       "reason": "Exact A–F permanent-seat preparation competence awaits owner approval; R1 remains open and R2 remains accepted"
+    },
+    {
+      "event": "PPC5_CLAUSES_A_TO_F_OWNER_APPROVED",
+      "range": [
+        4,
+        6
+      ],
+      "decrement": 0,
+      "evidence": "docs/handoffs/provider-model-correspondence-approval.json",
+      "reason": "Exact proposal approved for bounded offline implementation; complete R1 receiving acceptance remains outstanding"
     }
   ],
   "operational_flags": {
@@ -160,7 +170,7 @@
   "native_enrollment_disposition": "DEFER_ENROLLMENT",
   "actual_retry_allowlist": [],
   "latest_receiving_review": "docs/reviews/provider-storage-successor-review.md",
-  "selected_campaign_status": "PREPARED_APPROVAL_PENDING",
+  "selected_campaign_status": "OWNER_APPROVED_READY_FOR_LOCAL_IMPLEMENTATION",
   "potential_after_accepted_ppc4": {
     "minimum": 4,
     "maximum": 6,

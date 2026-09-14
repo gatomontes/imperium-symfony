@@ -1,12 +1,12 @@
-# Current campaign — PPC5 R1 proposal prepared; countdown 4–6
+# Current campaign — PPC5 R1 approved for local implementation; countdown 4–6
 
-**PPC5 selects competent native-to-O4 model correspondence (R1).** The [exact clauses A–F](provider-model-correspondence-proposal-v1.md) propose a separate permanent-seat model-preparation authorization and purpose-limited Conscription sealing. The existing mission route does not supply that competence. [Approval and exact proposal hash](handoffs/provider-model-correspondence-approval.json): **pending**; preparation does not approve the new provision.
+**PPC5 selects competent native-to-O4 model correspondence (R1).** The [exact clauses A–F](provider-model-correspondence-proposal-v1.md) authorize a separate permanent-seat model-preparation authorization and purpose-limited Conscription sealing. The existing mission route does not supply that competence. [Approval and exact proposal hash](handoffs/provider-model-correspondence-approval.json): **owner-approved** by the exact reply “approved” to the PPC5 A–F question. The original proposal bytes remain unchanged; the separate approval record governs.
 
-[Campaign and required proof](next-campaign-provider-model-correspondence.md), [complete local prompt and PowerShell setup](handoffs/provider-model-correspondence-ready.md). The sequence is exact owner approval → bounded local implementation and full packet → receiving source review and fresh complete hosted CI → possible full R1 acceptance. Profile approval, designation, appointment and settings application remain separate.
+[Campaign and required proof](next-campaign-provider-model-correspondence.md), [complete local prompt and PowerShell setup](handoffs/provider-model-correspondence-ready.md). Approval is recorded. The next sequence is bounded local implementation and full packet → receiving source review and fresh complete hosted CI → possible full R1 acceptance. Profile approval, designation, appointment and settings application remain separate.
 
 **Countdown: 4–6 → 4–6; decrement 0.** Full R1 acceptance with no new scope could yield **3–5**. [Countdown and outcome ledger](provider-first-interview-countdown.md), [machine record](provider-first-interview-countdown.json). R2 remains accepted through PPC3/PPC4 and earns no second credit. R3 designation/application/use, R4 combined FRESH establishment, R5 provider evidence and R6 separately authorized live commissioning/interview remain open or deferred.
 
-All five operational flags remain false, `DEFER_ENROLLMENT` remains and the actual retry allowlist is empty. This is preparation documentation; no runtime, source pin, deployment or live authority changes occur here. The earlier review and campaign history below is retained.
+All five operational flags remain false, `DEFER_ENROLLMENT` remains and the actual retry allowlist is empty. This records the approved local scope; no runtime, source pin, deployment or live authority changes occur here. The earlier review and campaign history below is retained.
 
 *Imperium via solitaria est.*
 
