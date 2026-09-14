@@ -1,0 +1,36 @@
+{
+  "schema": "imperium.documentary.provider-storage-successor-approval/v1",
+  "status": "PENDING_OWNER_APPROVAL",
+  "proposal_path": "docs/provider-storage-successor-contract-v1.md",
+  "proposal_sha256": "9c8a8d8e4fde15ef6aabddfab83fa4a6deb569837ca3ead457d6b9f297bbf464",
+  "proposal_hash_rule": "Exact committed UTF-8 bytes; no newline normalization",
+  "clauses": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F"
+  ],
+  "preparation_instruction": "proceed",
+  "preparation_instruction_approves_unseen_clauses": false,
+  "approval_conversational_reference": null,
+  "approved_proposal_sha256": null,
+  "implementation_accepted": false,
+  "baseline_commit": "96d05d839320909d140d50337ccd16fe68dc1604",
+  "baseline_tree": "707b94f58beb80d5180790a5aa58843f99fe55c0",
+  "remaining_batches": [
+    5,
+    7
+  ],
+  "decrement": 0,
+  "operational_flags": {
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "live_ready": false,
+    "activation": false,
+    "execution_authority": false
+  },
+  "native_enrollment_disposition": "DEFER_ENROLLMENT",
+  "actual_retry_allowlist": []
+}

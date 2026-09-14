@@ -1,3 +1,17 @@
+# Current campaign — PPC4 storage successor proposed; countdown 5–7
+
+PPC3's typed native tenure component is integrated. **PPC4 is prepared to close the remaining R2 generic-storage bypass; the concrete successor clauses A–F await owner approval.** [Proposal](provider-storage-successor-contract-v1.md), [campaign](next-campaign-provider-storage-successor.md), [approval status/hash](handoffs/provider-storage-successor-approval.json), [PowerShell setup and complete local prompt](handoffs/provider-storage-successor-ready.md).
+
+The proposal requires the existing generic write entries to refuse reserved institutional targets before primitive locks or effects, with explicit live Formation-owner methods for legitimate typed callers. It preserves historical source ledgers and provides a bounded successor-recognition mechanism. Preparation changes no runtime, source pin, test or CI gate. The latest “proceed” authorizes this preparation; it does not pre-approve the newly written clauses.
+
+**Countdown: 5–7 → 5–7; decrement 0.** [Ledger and rule](provider-first-interview-countdown.md), [machine record](provider-first-interview-countdown.json). Approval, implementation submission and partial acceptance do not decrement it. Complete receiving acceptance of R2 could move it to 4–6. This remains a working estimate to the first separately authorized bounded live Courtyard interview, not full mission execution.
+
+Next flow: approve the exact PPC4 successor → implement old-entry enforcement and typed migration locally → complete race/compatibility/source-successor proof → receiving source review and fresh hosted CI → accept or retain open R2. R1 competent binding correspondence, R3 designation/assignment/use, R4 combined FRESH establishment, R5 account/access/base/cognition and R6 separately authorized commissioning/interview remain open or deferred. All five operational flags remain false; DEFER_ENROLLMENT and the empty actual retry allowlist remain.
+
+---
+
+## Prior accepted review and historical campaign states
+
 # Current review — PPC3 component integrated; R2 open; countdown 5–7
 
 The typed native synchronization component is accepted and integrated through [PR #818](https://github.com/gatomontes/imperium-symfony/pull/818), merge `fe65bd91efa3eb5cc5bc07a1ac48658f12e46edf`, exact reviewed/tested tree `55d7f6028c6226aa9efb64de68499e7aa6ddf875`. [Receiving review](reviews/provider-native-tenure-review.md), [integration record](provider-native-tenure-reviewed-integration.json).

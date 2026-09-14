@@ -10,7 +10,7 @@
     "maximum": 7,
     "kind": "WORKING_ESTIMATE"
   },
-  "selected_campaign": "PPC3",
+  "selected_campaign": "PPC4",
   "selected_outcome": "R2_NATIVE_TENURE_SYNCHRONIZATION",
   "outcomes": [
     {
@@ -95,6 +95,16 @@
       "integration_pr": 818,
       "integration_merge": "fe65bd91efa3eb5cc5bc07a1ac48658f12e46edf",
       "reason": "Bare generic institutional writers remain outside Formation; no complete outcome accepted"
+    },
+    {
+      "event": "PPC4_SUCCESSOR_PROPOSAL_PREPARED",
+      "range": [
+        5,
+        7
+      ],
+      "decrement": 0,
+      "evidence": "docs/provider-storage-successor-contract-v1.md",
+      "reason": "Concrete A\u2013F successor awaits owner approval; R2 remains open"
     }
   ],
   "operational_flags": {
@@ -106,5 +116,12 @@
   },
   "native_enrollment_disposition": "DEFER_ENROLLMENT",
   "actual_retry_allowlist": [],
-  "latest_receiving_review": "docs/reviews/provider-native-tenure-review.md"
+  "latest_receiving_review": "docs/reviews/provider-native-tenure-review.md",
+  "selected_campaign_status": "PREPARED_SUCCESSOR_APPROVAL_PENDING",
+  "potential_after_accepted_ppc4": {
+    "minimum": 4,
+    "maximum": 6,
+    "applied": false,
+    "condition": "Whole R2 accepted after PPC4 source review and full hosted CI, with no new scope"
+  }
 }

@@ -1,6 +1,6 @@
 # Countdown to the first live Courtyard interview
 
-**Working estimate: 5–7 batches remaining. R2 remains open after PPC3 component acceptance; generic-storage successor review is required.**
+**Working estimate: 5–7 batches remaining. R2 remains open after PPC3 component acceptance; PPC4’s generic-storage successor proposal is prepared and awaits A–F approval.**
 
 The owner requested this countdown after PPC2 acceptance and said “proceed. remember countdown”. The estimate starts at accepted main `cd3a46ba45d0b89208c68e39225a0f8e08ca6de6`, tree `451140919d570d196384b5e0802ac076c67ba579`. Earlier O0–O5 and PPC0/PPC1/PPC2 component acceptances are already reflected in this starting estimate; they are not new countdown credits.
 
@@ -23,7 +23,7 @@ Every subsequent preparation, implementation report and receiving review must sh
 
 Preparation, code submission, a green test run by itself, and accepted components that leave the selected outcome open do **not** decrement the countdown. Source review and complete required CI must accept the named outcome; any live outcome also requires its separately authorized observed result. Record the exact integration/review reference. Do not decrement a second time for a documentation follow-up or rename.
 
-If the remaining PPC3/R2 work fully closes R2 with no new scope discovered, the provisional next estimate becomes **4–6**. That reduction is not applied now. A partial PPC3 result keeps R2 open and the estimate at 5–7 unless concrete new evidence requires an explicit revision. Do not report synchronization complete from a writer inventory, a wrapper, a constructor snapshot or a subset of races.
+If PPC4 closes the remaining PPC3/R2 work and fully closes R2 with no new scope discovered, the provisional next estimate becomes **4–6**. That reduction is not applied now. A partial PPC3 result keeps R2 open and the estimate at 5–7 unless concrete new evidence requires an explicit revision. Do not report synchronization complete from a writer inventory, a wrapper, a constructor snapshot or a subset of races.
 
 ## Ledger
 
@@ -32,5 +32,6 @@ If the remaining PPC3/R2 work fully closes R2 with no new scope discovered, the 
 | Starting estimate after PPC2 | [PPC2 receiving review](reviews/provider-profile-designation-review.md); owner estimate discussion | Set remaining range to 5–7 |
 | PPC3 preparation selected | [Local campaign](next-campaign-provider-native-tenure.md) | No decrement; 5–7 remains |
 | PPC3 component accepted; R2 open | [Receiving review](reviews/provider-native-tenure-review.md), PR #818, merge `fe65bd91efa3eb5cc5bc07a1ac48658f12e46edf` | No decrement; 5–7 remains because generic institutional writers are unfenced |
+| PPC4 successor proposal prepared; approval pending | [Clauses A–F](provider-storage-successor-contract-v1.md), [local handoff](handoffs/provider-storage-successor-ready.md) | No decrement; 5–7 remains |
 
 No live action is authorized by this countdown. All five operational flags remain false, `DEFER_ENROLLMENT` remains, and the actual retry allowlist is empty.
