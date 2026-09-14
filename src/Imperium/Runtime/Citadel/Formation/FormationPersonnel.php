@@ -48,9 +48,20 @@ final readonly class FormationPersonnel
         return $this->recordOwned($envelope, true);
     }
 
-    private function recordOwned(array $envelope, bool $modelBound): string
+    /** Strict PPC5 ingress: no request-selected verifier or structural fallback. */
+    public function recordAuthorizedModelBoundProfile(array $envelope): string
     {
-        return $this->journal->change(function (array &$state, FormationOwnerFrame $owner) use ($envelope, $modelBound): string {
+        return $this->recordOwned($envelope, true, true);
+    }
+
+    private function modelPreparation(): FormationModelPreparation
+    {
+        return new FormationModelPreparation($this->journal, $this->signatures, $this->clock, $this->institution);
+    }
+
+    private function recordOwned(array $envelope, bool $modelBound, bool $authorized = false): string
+    {
+        return $this->journal->change(function (array &$state, FormationOwnerFrame $owner) use ($envelope, $modelBound, $authorized): string {
             $payload = $envelope['payload'] ?? [];
             $delegation = $state['personnel_delegations'][$payload['delegation'] ?? ''] ?? null;
             if (!is_array($delegation)) { throw new \RuntimeException('CMF041_PERSONNEL_EVIDENCE_INVALID'); }
@@ -80,14 +91,17 @@ final readonly class FormationPersonnel
                 }
             }
             if ($modelBound) {
-                if (($payload['schema'] ?? null) !== FormationModelBoundProfileContract::SCHEMA
+                if (($payload['schema'] ?? null) !== ($authorized ? FormationModelPreparation::EVIDENCE : FormationModelBoundProfileContract::SCHEMA)
                     || $terms['role'] !== 'laboratorium' || $payload['kind'] !== 'DERIVED_PROFILE'
                     || count($payload['sources']) !== 2
-                    || !FormationJournal::keys($payload['content'], ['seat', 'artifact'])) {
+                    || !FormationJournal::keys($payload['content'], $authorized ? ['seat', 'artifact', 'correspondence'] : ['seat', 'artifact'])) {
                     throw new \RuntimeException('PPC201_MODEL_BOUND_PROFILE_INVALID');
                 }
                 $persona = $state['personnel_evidence'][$payload['sources'][0]]['payload']['content']['identity'] ?? [];
                 FormationModelBoundProfileContract::validate($payload['content']['artifact'], $persona, $payload['content']['seat']);
+                if ($authorized) {
+                    $this->modelPreparation()->verifyInOwner($owner, $payload['content']['artifact'], $payload['content']['seat'], $payload['content']['correspondence']);
+                }
             }
             $id = FormationJournal::digest($envelope);
             $state['personnel_evidence'][$id] = $envelope;
@@ -110,6 +124,16 @@ final readonly class FormationPersonnel
             throw new \RuntimeException('PPC303_CURRENT_OWNER_STATE_REQUIRED');
         }
         return $this->candidateChecked($state, $candidate, $scope, $seat, $owner);
+    }
+
+    /** Strict reusable PPC5 lifecycle seam. Historical PPC2 evidence cannot satisfy it. */
+    public function authorizedModelCandidateInOwner(FormationOwnerFrame $owner, array $candidate, string $scope, string $seat): array
+    {
+        $state = $this->journal->readInOwner($owner)['state'];
+        if (($state['personnel_evidence'][$candidate['profile'] ?? '']['payload']['schema'] ?? null) !== FormationModelPreparation::EVIDENCE) {
+            throw new \RuntimeException('PPC5_AUTHORIZED_MODEL_EVIDENCE_REQUIRED');
+        }
+        return $this->candidateInOwner($owner, $state, $candidate, $scope, $seat);
     }
 
     private function candidateChecked(array $state, array $candidate, string $scope, string $seat, ?FormationOwnerFrame $owner): array
@@ -151,9 +175,14 @@ final readonly class FormationPersonnel
         }
         $profile = $chain['profile']['content']['artifact'] ?? [];
         $persona = $chain['persona']['content']['identity'] ?? [];
-        $modelBound = ($chain['profile']['schema'] ?? null) === FormationModelBoundProfileContract::SCHEMA;
+        $authorized = ($chain['profile']['schema'] ?? null) === FormationModelPreparation::EVIDENCE;
+        $modelBound = $authorized || ($chain['profile']['schema'] ?? null) === FormationModelBoundProfileContract::SCHEMA;
         if ($modelBound) {
             FormationModelBoundProfileContract::validate($profile, $persona, $seat);
+            if ($authorized) {
+                if ($owner === null) { throw new \RuntimeException('PPC303_CURRENT_OWNER_STATE_REQUIRED'); }
+                $this->modelPreparation()->verifyInOwner($owner, $profile, $seat, $chain['profile']['content']['correspondence']);
+            }
             foreach (['persona', 'suitability', 'profile', 'examination', 'qualification'] as $field) {
                 $this->verifyOriginal($state, $candidate[$field], $owner);
             }
@@ -223,7 +252,7 @@ final readonly class FormationPersonnel
         $terms = $d['terms'] ?? [];
         $signature = base64_decode($envelope['signature'] ?? '', true);
         $key = base64_decode($terms['public_key'] ?? '', true);
-        $versioned = ($p['schema'] ?? null) === FormationModelBoundProfileContract::SCHEMA;
+        $versioned = in_array($p['schema'] ?? null, [FormationModelBoundProfileContract::SCHEMA, FormationModelPreparation::EVIDENCE], true);
         if (!FormationJournal::keys($envelope, ['payload', 'signature'])
             || !FormationJournal::keys($p, [...($versioned ? ['schema'] : []), 'delegation', 'scope', 'kind', 'subject', 'sources', 'content', 'expires_at'])
             || FormationJournal::digest($envelope) !== $id
