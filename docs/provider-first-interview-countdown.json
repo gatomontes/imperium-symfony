@@ -39,7 +39,17 @@
       "name": "Designation lifecycle and shared assignment/use verifier",
       "status": "OPEN",
       "additional_batches_min": 1,
-      "additional_batches_max": 1
+      "additional_batches_max": 1,
+      "partial_component_evidence": "docs/reviews/provider-designation-assignment-review.md",
+      "remaining_gaps": [
+        "Supported same-root FRESH establishment remains unavailable (R4): institutions first fail vacancy; founding first fences installation; installer rejects onboarding v4.",
+        "NativeAssignmentEvidence recognizes only directly verified profile.current_active, profile.exact_model_binding and profile.independent_appointment. Broader substantive predicate production and verification remain open; profile.fits refuses.",
+        "No direct NativeAssignmentEvidence invocation is covered by the committed tests. Generic owner-routing tests and native designation histories do not establish a positive native assignment consumer.",
+        "Full initial application, replacement, actual settings delivery and their mutation races remain unproven through the same supported native owner sequence.",
+        "Corruption/overflow and incumbent/appointment/competition permutations remain open beyond the specifically enumerated cases."
+      ],
+      "partial_integration_pr": 829,
+      "partial_integration_merge": "1722c3645acb6c0413ce2a7223c2f7a45503246e"
     },
     {
       "id": "R4",
@@ -190,6 +200,23 @@
       "decrement": 0,
       "evidence": "docs/next-campaign-provider-designation-assignment.md",
       "reason": "Continue remaining approved PPC2 A–F scope with accepted R1/R2; full R3 remains open and known R4 establishment dependency is explicit"
+    },
+    {
+      "event": "PPC6_COMPONENTS_ACCEPTED_R3_OPEN",
+      "previous_range": [
+        3,
+        5
+      ],
+      "range": [
+        3,
+        5
+      ],
+      "decrement": 0,
+      "evidence": "docs/reviews/provider-designation-assignment-review.md",
+      "integration_pr": 829,
+      "integration_merge": "1722c3645acb6c0413ce2a7223c2f7a45503246e",
+      "ci_run": 34911209375,
+      "reason": "Designation and owner-routing components accepted; broader substantive predicates, native application/use and full race/refusal proof remain open alongside R4"
     }
   ],
   "operational_flags": {
@@ -201,8 +228,8 @@
   },
   "native_enrollment_disposition": "DEFER_ENROLLMENT",
   "actual_retry_allowlist": [],
-  "latest_receiving_review": "docs/reviews/provider-model-correspondence-review.md",
-  "selected_campaign_status": "READY_WITH_EXISTING_APPROVAL",
+  "latest_receiving_review": "docs/reviews/provider-designation-assignment-review.md",
+  "selected_campaign_status": "PARTIAL_COMPONENTS_ACCEPTED_R3_OPEN",
   "potential_after_accepted_ppc4": {
     "minimum": 4,
     "maximum": 6,
