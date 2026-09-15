@@ -1,0 +1,86 @@
+{
+  "schema": "imperium.documentary.provider-fresh-establishment-source-inventory/v1",
+  "status": "PREPARATION_OBSERVATIONS_NOT_IMPLEMENTATION_ACCEPTANCE",
+  "baseline_commit": "ebf2c3dfebae300c8aacd084acb152bfd9915f71",
+  "baseline_tree": "69962e5f606170b2f1965db221bd30389208df0b",
+  "proposal_path": "docs/provider-fresh-establishment-proposal-v1.md",
+  "proposal_sha256": "e32bfd849a96f380505c0486702124c4bb60a9d5b26a15e7a39e7ef30eed3d4e",
+  "inventory_scope": "Inspected starting sources; implementation must enumerate every indirect writer and authority consumer",
+  "sources": [
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Augur/FreshProducer.php",
+      "bytes": 5410,
+      "sha256": "2307fb2b7aa174afeb476837e6da6d966f1f92fa8b7d8d4710e95848b9072205"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Augur/NativeConstitutionEvidence.php",
+      "bytes": 4148,
+      "sha256": "540c45ec9acfc1f5d296c9cb5a48962367a5f53a58f2ac5d33f2e53c0fbb581e"
+    },
+    {
+      "path": "src/Imperium/Runtime/Bootstrap/OperatorRootOwnership.php",
+      "bytes": 3240,
+      "sha256": "fa05b5c894f853b839aa2cf39afe207dc7e5e6ffd11a0211a0d4d7f904ca23a8"
+    },
+    {
+      "path": "src/Imperium/Runtime/Bootstrap/OperatorRootPersonnelInstallationService.php",
+      "bytes": 24619,
+      "sha256": "9c832877c23c44bd5b2e511689bba474f47ae5af3114e12c72d5ee270df92d24"
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/NativeInstallationPackage.php",
+      "bytes": 5162,
+      "sha256": "e5ef4defda651972b7ab149a7cc601af14b22a7843e7bb5dd501fb06eefe7544"
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FormationJournal.php",
+      "bytes": 8078,
+      "sha256": "792069d427424b55f9022d1408b01722d55aa57aa70c76937ee01c6d5aac68c7"
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FormationInstitution.php",
+      "bytes": 5419,
+      "sha256": "563d8a9930f0c94b3f1ab953bfa6328777524e773f71e6248a8ea08d2a1a0423"
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/NativeAuthority/NativeBoundary.php",
+      "bytes": 2190,
+      "sha256": "ed7bded7a4abf0cccb5e51c7f6e254a090a8aea0e3a46137efb5435475a78c3a"
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FormationSignatures.php",
+      "bytes": 3983,
+      "sha256": "9104b650d8c7335347e5ca3432ca8bc318f5458e822ac1caf8c14844b920123f"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/AuthorityAdmission/AuthorityStore.php",
+      "bytes": 6217,
+      "sha256": "a4e6c1434b3d2595d00d5179c7093bc2ef9e3ac705147d424ac07a790ef58921"
+    },
+    {
+      "path": "src/Imperium/Runtime/Persistence/AtomicTransition.php",
+      "bytes": 1313,
+      "sha256": "8ab78031ea4fa7c5552bf8a1e7fca50167d8fd2f265081326750c6b81fc9c0bb"
+    },
+    {
+      "path": "contracts/provider-onboarding-augur-cognition.md",
+      "bytes": 13082,
+      "sha256": "299a75821e4eba0d5d43f8b3ad8e02d77159b7fb93087532f929cc9946aed5a2"
+    },
+    {
+      "path": "docs/provider-profile-designation-amendment.md",
+      "bytes": 21385,
+      "sha256": "c24939fd808cd5917c8057efe518787cc2448d3da60be089511e7abd6dee2984"
+    },
+    {
+      "path": "docs/provider-storage-successor-contract-v1.md",
+      "bytes": 10823,
+      "sha256": "9c8a8d8e4fde15ef6aabddfab83fa4a6deb569837ca3ead457d6b9f297bbf464"
+    },
+    {
+      "path": "docs/provider-model-correspondence-proposal-v1.md",
+      "bytes": 17284,
+      "sha256": "8c4d9992d57d1ea98ae14e4fd4abfe6971f316dd87443388e9a31a34538998e8"
+    }
+  ]
+}
