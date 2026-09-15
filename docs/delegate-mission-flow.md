@@ -1,3 +1,17 @@
+# Current review — PPC6 partial components; countdown 3–5
+
+**PPC6 designation and owner-routing components, including the receiving Courtthane caller correction, are integrated offline; R3 remains open.** [PR #829](https://github.com/gatomontes/imperium-symfony/pull/829), merge `1722c3645acb6c0413ce2a7223c2f7a45503246e`, exact reviewed/tested tree `d65b8fdb44214240003f610939189fb84832a509`. [Receiving review](reviews/provider-designation-assignment-review.md), [integration/CI record](provider-designation-assignment-reviewed-integration.json). NativeAssignmentEvidence remains dormant; ASSIGNMENT_EVIDENCE_IMPLEMENTED_OFFLINE is not claimed.
+
+**Countdown: 3–5 → 3–5, decrement 0.** [Outcome ledger](provider-first-interview-countdown.md), [machine record](provider-first-interview-countdown.json). Partial implementation and green CI earn no complete-outcome credit. R1/R2 stay accepted.
+
+Fresh hosted CI passed **3,951 tests / 65,745 assertions / 4 explicit skips**, all 622 files and cases exactly once, all eight workers and all 11 guards, within the unchanged worker limit. The received packet is independently verified; the four-path receiving correction is separately identified and freshly tested. All protected pins remain unchanged.
+
+Next internal dependencies: resolve the supported same-root FRESH/native establishment contract (R4), then complete R3 substantive predicates, actual native application/replacement/settings use and their mutation/refusal proof. R4 alone does not close R3; generic routing and synthetic-parent fixtures cannot supply native acceptance. R5 production ports remain open; R6 separately authorized commissioning/interview stays deferred. Existing PPC2 approval grants no new FRESH exception.
+
+All five operational flags remain false, `DEFER_ENROLLMENT` and the empty actual retry allowlist remain. No real provider/account access, installed private state, enrollment, commissioning, deployment, activation or execution is authorized. Earlier campaign records below remain historical.
+
+---
+
 # Current campaign — PPC6 designation and assignment/use; countdown 3–5
 
 **PPC6 is ready for local implementation of R3 under the existing PPC2 A–F approval.** [Campaign](next-campaign-provider-designation-assignment.md), [implementation plan and actual caller inventory](provider-designation-assignment-implementation-plan.md), [scope/approval record](handoffs/provider-designation-assignment-scope.json), [complete prompt and PowerShell handoff](handoffs/provider-designation-assignment-ready.md). No repeat approval is needed for this bounded scope.

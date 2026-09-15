@@ -1,0 +1,910 @@
+{
+  "schema": "imperium.provider-designation-assignment-reviewed-integration/v1",
+  "engineering_disposition": "PARTIAL_DESIGNATION_ASSIGNMENT_EVIDENCE",
+  "partial_components_accepted_offline": true,
+  "r3_complete": false,
+  "assignment_evidence_implemented_offline": false,
+  "production_promotion": false,
+  "documentation_is_post_test": true,
+  "approval": {
+    "record": "docs/handoffs/provider-profile-designation-approval.md",
+    "scope_record": "docs/handoffs/provider-designation-assignment-scope.json",
+    "proposal_sha256": "c24939fd808cd5917c8057efe518787cc2448d3da60be089511e7abd6dee2984",
+    "scope": "Remaining approved PPC2 A–F bounded components; no new FRESH competence"
+  },
+  "packet": {
+    "filename": "imperium-ppc6-public-review.zip",
+    "sha256": "7c4dffe860ba5195c277001ac794018754fb3f5fbadc1127e8e2727bf9ae83a4",
+    "verified_payloads": 13,
+    "verified_source_files": 3608,
+    "verified_evidence_files": 1428,
+    "protected_files": 34,
+    "standalone_report_sha256": "75df46cc5f7a40420fca1ae170d89eedaf286872453c587cfc98ec7680daee09",
+    "standalone_verification_matches": true
+  },
+  "producer": {
+    "base": {
+      "commit": "32198cb7bffdd98fff258bd8c73d483b71222ccb",
+      "tree": "18aa63134ec5c84e8ea6927a7b498b8aa6447c2e"
+    },
+    "tested": {
+      "commit": "50fb5d32d50b515700435dd942db7cf3abc25138",
+      "tree": "ad1ed9019342cd68cd842d129bfdde874d236fdc"
+    },
+    "final": {
+      "commit": "bef00bf4f76223f95d9a64bf3ab86c97939ee453",
+      "tree": "011d2fedbbe5808979f9a89504840218200d1d51"
+    },
+    "baseline_main": "44be5c0758581d8442f5a762b27cd30b644c95eb",
+    "baseline_main_tree": "a89b606729d55c7e23094c92a61d812419991c2c",
+    "bundle_prerequisites": [
+      "32198cb7bffdd98fff258bd8c73d483b71222ccb"
+    ],
+    "final_source_review_only": true,
+    "created_utc": "2026-09-14T20:30:21.593743+00:00"
+  },
+  "submitted_tree_ci": {
+    "files": 622,
+    "tests": 3950,
+    "assertions": 65735,
+    "skipped": 4,
+    "summed_test_seconds": 3035.18441,
+    "longest_partition_seconds": 943.395599,
+    "partitions": [
+      {
+        "index": 0,
+        "tests": 506,
+        "assertions": 9765,
+        "skipped": 2,
+        "seconds": 203.809048
+      },
+      {
+        "index": 1,
+        "tests": 350,
+        "assertions": 8268,
+        "skipped": 1,
+        "seconds": 267.869889
+      },
+      {
+        "index": 2,
+        "tests": 537,
+        "assertions": 8284,
+        "skipped": 0,
+        "seconds": 943.395599
+      },
+      {
+        "index": 3,
+        "tests": 468,
+        "assertions": 20089,
+        "skipped": 0,
+        "seconds": 142.018606
+      },
+      {
+        "index": 4,
+        "tests": 354,
+        "assertions": 4667,
+        "skipped": 0,
+        "seconds": 58.272482
+      },
+      {
+        "index": 5,
+        "tests": 529,
+        "assertions": 5727,
+        "skipped": 0,
+        "seconds": 187.448569
+      },
+      {
+        "index": 6,
+        "tests": 776,
+        "assertions": 5359,
+        "skipped": 0,
+        "seconds": 422.868134
+      },
+      {
+        "index": 7,
+        "tests": 430,
+        "assertions": 3576,
+        "skipped": 1,
+        "seconds": 809.502083
+      }
+    ],
+    "tree": "011d2fedbbe5808979f9a89504840218200d1d51",
+    "source_digest": "9558295070ce8046751237602988e88efb832c52f8c18d23636f2d697817f177",
+    "exact_case_coverage": true,
+    "run": 34909615209,
+    "url": "https://github.com/gatomontes/imperium-symfony/actions/runs/34909615209",
+    "conclusion": "success",
+    "checkout": "d339391de994099b1881e12d65ece40d7bf0d123",
+    "php": "8.4.25",
+    "phpunit": "13.3.0",
+    "guards_passed": 11,
+    "guards_skipped": 0,
+    "guard_job_id": 104197542106,
+    "longest_job_wall_seconds": 964.0,
+    "started_at": "2026-09-14T23:36:22Z",
+    "completed_at": "2026-09-14T23:52:36Z",
+    "worker_jobs": [
+      {
+        "index": 0,
+        "job_id": 104193958662,
+        "started_at": "2026-09-14T23:36:23Z",
+        "completed_at": "2026-09-14T23:40:05Z",
+        "wall_seconds": 222.0,
+        "native_exit": 0,
+        "checkout": "d339391de994099b1881e12d65ece40d7bf0d123",
+        "tree": "011d2fedbbe5808979f9a89504840218200d1d51",
+        "source_before": "9558295070ce8046751237602988e88efb832c52f8c18d23636f2d697817f177",
+        "source_after": "9558295070ce8046751237602988e88efb832c52f8c18d23636f2d697817f177"
+      },
+      {
+        "index": 1,
+        "job_id": 104193958626,
+        "started_at": "2026-09-14T23:36:22Z",
+        "completed_at": "2026-09-14T23:41:07Z",
+        "wall_seconds": 285.0,
+        "native_exit": 0,
+        "checkout": "d339391de994099b1881e12d65ece40d7bf0d123",
+        "tree": "011d2fedbbe5808979f9a89504840218200d1d51",
+        "source_before": "9558295070ce8046751237602988e88efb832c52f8c18d23636f2d697817f177",
+        "source_after": "9558295070ce8046751237602988e88efb832c52f8c18d23636f2d697817f177"
+      },
+      {
+        "index": 2,
+        "job_id": 104193958451,
+        "started_at": "2026-09-14T23:36:22Z",
+        "completed_at": "2026-09-14T23:52:26Z",
+        "wall_seconds": 964.0,
+        "native_exit": 0,
+        "checkout": "d339391de994099b1881e12d65ece40d7bf0d123",
+        "tree": "011d2fedbbe5808979f9a89504840218200d1d51",
+        "source_before": "9558295070ce8046751237602988e88efb832c52f8c18d23636f2d697817f177",
+        "source_after": "9558295070ce8046751237602988e88efb832c52f8c18d23636f2d697817f177"
+      },
+      {
+        "index": 3,
+        "job_id": 104193958351,
+        "started_at": "2026-09-14T23:36:22Z",
+        "completed_at": "2026-09-14T23:39:06Z",
+        "wall_seconds": 164.0,
+        "native_exit": 0,
+        "checkout": "d339391de994099b1881e12d65ece40d7bf0d123",
+        "tree": "011d2fedbbe5808979f9a89504840218200d1d51",
+        "source_before": "9558295070ce8046751237602988e88efb832c52f8c18d23636f2d697817f177",
+        "source_after": "9558295070ce8046751237602988e88efb832c52f8c18d23636f2d697817f177"
+      },
+      {
+        "index": 4,
+        "job_id": 104193958565,
+        "started_at": "2026-09-14T23:36:23Z",
+        "completed_at": "2026-09-14T23:37:41Z",
+        "wall_seconds": 78.0,
+        "native_exit": 0,
+        "checkout": "d339391de994099b1881e12d65ece40d7bf0d123",
+        "tree": "011d2fedbbe5808979f9a89504840218200d1d51",
+        "source_before": "9558295070ce8046751237602988e88efb832c52f8c18d23636f2d697817f177",
+        "source_after": "9558295070ce8046751237602988e88efb832c52f8c18d23636f2d697817f177"
+      },
+      {
+        "index": 5,
+        "job_id": 104193958481,
+        "started_at": "2026-09-14T23:36:22Z",
+        "completed_at": "2026-09-14T23:39:48Z",
+        "wall_seconds": 206.0,
+        "native_exit": 0,
+        "checkout": "d339391de994099b1881e12d65ece40d7bf0d123",
+        "tree": "011d2fedbbe5808979f9a89504840218200d1d51",
+        "source_before": "9558295070ce8046751237602988e88efb832c52f8c18d23636f2d697817f177",
+        "source_after": "9558295070ce8046751237602988e88efb832c52f8c18d23636f2d697817f177"
+      },
+      {
+        "index": 6,
+        "job_id": 104193958499,
+        "started_at": "2026-09-14T23:36:22Z",
+        "completed_at": "2026-09-14T23:43:44Z",
+        "wall_seconds": 442.0,
+        "native_exit": 0,
+        "checkout": "d339391de994099b1881e12d65ece40d7bf0d123",
+        "tree": "011d2fedbbe5808979f9a89504840218200d1d51",
+        "source_before": "9558295070ce8046751237602988e88efb832c52f8c18d23636f2d697817f177",
+        "source_after": "9558295070ce8046751237602988e88efb832c52f8c18d23636f2d697817f177"
+      },
+      {
+        "index": 7,
+        "job_id": 104193958504,
+        "started_at": "2026-09-14T23:36:23Z",
+        "completed_at": "2026-09-14T23:50:12Z",
+        "wall_seconds": 829.0,
+        "native_exit": 0,
+        "checkout": "d339391de994099b1881e12d65ece40d7bf0d123",
+        "tree": "011d2fedbbe5808979f9a89504840218200d1d51",
+        "source_before": "9558295070ce8046751237602988e88efb832c52f8c18d23636f2d697817f177",
+        "source_after": "9558295070ce8046751237602988e88efb832c52f8c18d23636f2d697817f177"
+      }
+    ],
+    "explicit_skips": [
+      {
+        "partition": 0,
+        "test": "App\\Tests\\Imperium\\Runtime\\LocalIsolationReadinessTest::testNativeHandlesAndExactStartupRefusal",
+        "details": "<skipped />\n      "
+      },
+      {
+        "partition": 0,
+        "test": "App\\Tests\\Imperium\\Runtime\\LocalIsolationReadinessTest::testCompleteReadinessAndAdversarialEvidenceThroughPowerShell",
+        "details": "<skipped />\n      "
+      },
+      {
+        "partition": 1,
+        "test": "App\\Tests\\Imperium\\Runtime\\LocalIsolationScratchTest::testNativeWorkspacePolicyAndCleanupFailure",
+        "details": "<skipped />\n      "
+      },
+      {
+        "partition": 7,
+        "test": "App\\Tests\\Imperium\\Runtime\\LocalIsolationProcessTest::testWindowsModulePollutionAtBothRealLaunchBoundaries",
+        "details": "<skipped />\n      "
+      }
+    ],
+    "linux_symlink_case": {
+      "partition": 7,
+      "test": "App\\Tests\\Imperium\\Runtime\\ReservedInstitutionalStorageTest::testSymlinkAliasesAndDanglingTargetsRefuse",
+      "assertions": 5
+    },
+    "new_component_tests": 48,
+    "new_component_assertions": 401,
+    "artifacts": [
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10374631568/zip",
+        "created_at": "2026-09-14T23:52:24Z",
+        "digest": "sha256:a13e18058bf8101cf216d1a5f0bc4cd4688b6af6b6f068c4ec03f97d983e71d8",
+        "expired": false,
+        "expires_at": "2026-10-14T23:52:23Z",
+        "id": 10374631568,
+        "name": "phpunit-2",
+        "size_in_bytes": 170424,
+        "updated_at": "2026-09-14T23:52:24Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10374631568",
+        "workflow_run": {
+          "head_branch": "codex/ppc6-designation-assignment-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "e1c8d1586b29a1ee2cb28bf2185a18c8dfbf5cfc",
+          "id": 34909615209,
+          "repository_id": 1328224683
+        }
+      },
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10374550387/zip",
+        "created_at": "2026-09-14T23:41:05Z",
+        "digest": "sha256:b9300201009748c57fbe733771ac6f61c0008c759bfc46cea56bc069e02849f1",
+        "expired": false,
+        "expires_at": "2026-10-14T23:41:04Z",
+        "id": 10374550387,
+        "name": "phpunit-1",
+        "size_in_bytes": 166017,
+        "updated_at": "2026-09-14T23:41:05Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10374550387",
+        "workflow_run": {
+          "head_branch": "codex/ppc6-designation-assignment-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "e1c8d1586b29a1ee2cb28bf2185a18c8dfbf5cfc",
+          "id": 34909615209,
+          "repository_id": 1328224683
+        }
+      },
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10374206375/zip",
+        "created_at": "2026-09-14T23:40:02Z",
+        "digest": "sha256:52a4f4e5704e5718cafe44f9b076bc9ec75de2baa3bae02295b50f00edb13a59",
+        "expired": false,
+        "expires_at": "2026-10-14T23:40:02Z",
+        "id": 10374206375,
+        "name": "phpunit-0",
+        "size_in_bytes": 170141,
+        "updated_at": "2026-09-14T23:40:02Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10374206375",
+        "workflow_run": {
+          "head_branch": "codex/ppc6-designation-assignment-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "e1c8d1586b29a1ee2cb28bf2185a18c8dfbf5cfc",
+          "id": 34909615209,
+          "repository_id": 1328224683
+        }
+      },
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10373767481/zip",
+        "created_at": "2026-09-14T23:39:04Z",
+        "digest": "sha256:20c1b4693f1f02b1aac9e07742d7cc72d67326c981fe945024ac1e7444135cae",
+        "expired": false,
+        "expires_at": "2026-10-14T23:39:03Z",
+        "id": 10373767481,
+        "name": "phpunit-3",
+        "size_in_bytes": 169374,
+        "updated_at": "2026-09-14T23:39:04Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10373767481",
+        "workflow_run": {
+          "head_branch": "codex/ppc6-designation-assignment-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "e1c8d1586b29a1ee2cb28bf2185a18c8dfbf5cfc",
+          "id": 34909615209,
+          "repository_id": 1328224683
+        }
+      },
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10373628139/zip",
+        "created_at": "2026-09-14T23:39:46Z",
+        "digest": "sha256:34a7a68e72cd0468645cb0a91a1f79badff108eff305b475dd5cae0e3ca94998",
+        "expired": false,
+        "expires_at": "2026-10-14T23:39:44Z",
+        "id": 10373628139,
+        "name": "phpunit-5",
+        "size_in_bytes": 169499,
+        "updated_at": "2026-09-14T23:39:46Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10373628139",
+        "workflow_run": {
+          "head_branch": "codex/ppc6-designation-assignment-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "e1c8d1586b29a1ee2cb28bf2185a18c8dfbf5cfc",
+          "id": 34909615209,
+          "repository_id": 1328224683
+        }
+      },
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10373578215/zip",
+        "created_at": "2026-09-14T23:37:39Z",
+        "digest": "sha256:9b1cefa78ed68ffc4dfb1235133cd3b46f1aa6cabde21a94efce5dffacae11c9",
+        "expired": false,
+        "expires_at": "2026-10-14T23:37:39Z",
+        "id": 10373578215,
+        "name": "phpunit-4",
+        "size_in_bytes": 165331,
+        "updated_at": "2026-09-14T23:37:39Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10373578215",
+        "workflow_run": {
+          "head_branch": "codex/ppc6-designation-assignment-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "e1c8d1586b29a1ee2cb28bf2185a18c8dfbf5cfc",
+          "id": 34909615209,
+          "repository_id": 1328224683
+        }
+      },
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10373443820/zip",
+        "created_at": "2026-09-14T23:43:42Z",
+        "digest": "sha256:9222e3bf8499d6e7b77be9f1bdc1d09b0964be9810e85249231e74a639ce330d",
+        "expired": false,
+        "expires_at": "2026-10-14T23:43:41Z",
+        "id": 10373443820,
+        "name": "phpunit-6",
+        "size_in_bytes": 173375,
+        "updated_at": "2026-09-14T23:43:42Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10373443820",
+        "workflow_run": {
+          "head_branch": "codex/ppc6-designation-assignment-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "e1c8d1586b29a1ee2cb28bf2185a18c8dfbf5cfc",
+          "id": 34909615209,
+          "repository_id": 1328224683
+        }
+      },
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10373399707/zip",
+        "created_at": "2026-09-14T23:52:35Z",
+        "digest": "sha256:5dbdac41adb9edb95767445997949e5d48a42bc88255071aefa57c04605345bf",
+        "expired": false,
+        "expires_at": "2026-10-14T23:52:34Z",
+        "id": 10373399707,
+        "name": "phpunit-complete-coverage",
+        "size_in_bytes": 558,
+        "updated_at": "2026-09-14T23:52:35Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10373399707",
+        "workflow_run": {
+          "head_branch": "codex/ppc6-designation-assignment-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "e1c8d1586b29a1ee2cb28bf2185a18c8dfbf5cfc",
+          "id": 34909615209,
+          "repository_id": 1328224683
+        }
+      },
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10373384438/zip",
+        "created_at": "2026-09-14T23:50:09Z",
+        "digest": "sha256:e08588ddf82eae690f56c7b1d63963c38d32e58908f4bb93fe20d9b1f3e3d45c",
+        "expired": false,
+        "expires_at": "2026-10-14T23:50:08Z",
+        "id": 10373384438,
+        "name": "phpunit-7",
+        "size_in_bytes": 166741,
+        "updated_at": "2026-09-14T23:50:09Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10373384438",
+        "workflow_run": {
+          "head_branch": "codex/ppc6-designation-assignment-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "e1c8d1586b29a1ee2cb28bf2185a18c8dfbf5cfc",
+          "id": 34909615209,
+          "repository_id": 1328224683
+        }
+      }
+    ]
+  },
+  "receiving_correction": {
+    "commit": "c92eb0d082d334bbee99446b51ba75251f6acf80",
+    "tree": "d65b8fdb44214240003f610939189fb84832a509",
+    "local_commit": "ccca5d5091b33ba72b1ae7d31d21d3c9f3e22a5d",
+    "changed_paths": 4,
+    "diff_sha256": "b0da2a3bc7ca399874334b96d4c320be7f3669c31bba53dbbb707eeb675151d9",
+    "review_comment": "https://github.com/gatomontes/imperium-symfony/pull/829#discussion_r4010573621",
+    "finding": "V2 Courtthane consumers omitted live owner",
+    "correction": "Propagate existing owner through authorization queries, Curia dossier/review paths and child publication; native Formation compatibility and revocation regression",
+    "does_not_complete_r3": true
+  },
+  "integration": {
+    "candidate_head": "c92eb0d082d334bbee99446b51ba75251f6acf80",
+    "accepted_head": "c92eb0d082d334bbee99446b51ba75251f6acf80",
+    "submitted_candidate_head": "e1c8d1586b29a1ee2cb28bf2185a18c8dfbf5cfc",
+    "pr": 829,
+    "merge": "1722c3645acb6c0413ce2a7223c2f7a45503246e",
+    "tested_and_verified_merge_tree": "d65b8fdb44214240003f610939189fb84832a509"
+  },
+  "linux_ci": {
+    "files": 622,
+    "tests": 3951,
+    "assertions": 65745,
+    "skipped": 4,
+    "summed_test_seconds": 3078.85229,
+    "longest_partition_seconds": 806.005862,
+    "partitions": [
+      {
+        "index": 0,
+        "tests": 506,
+        "assertions": 9765,
+        "skipped": 2,
+        "seconds": 158.904545
+      },
+      {
+        "index": 1,
+        "tests": 350,
+        "assertions": 8268,
+        "skipped": 1,
+        "seconds": 279.29563
+      },
+      {
+        "index": 2,
+        "tests": 537,
+        "assertions": 8284,
+        "skipped": 0,
+        "seconds": 794.391963
+      },
+      {
+        "index": 3,
+        "tests": 469,
+        "assertions": 20099,
+        "skipped": 0,
+        "seconds": 152.728446
+      },
+      {
+        "index": 4,
+        "tests": 354,
+        "assertions": 4667,
+        "skipped": 0,
+        "seconds": 61.310935
+      },
+      {
+        "index": 5,
+        "tests": 529,
+        "assertions": 5727,
+        "skipped": 0,
+        "seconds": 290.718717
+      },
+      {
+        "index": 6,
+        "tests": 776,
+        "assertions": 5359,
+        "skipped": 0,
+        "seconds": 535.496192
+      },
+      {
+        "index": 7,
+        "tests": 430,
+        "assertions": 3576,
+        "skipped": 1,
+        "seconds": 806.005862
+      }
+    ],
+    "tree": "d65b8fdb44214240003f610939189fb84832a509",
+    "source_digest": "348469e9d5ee079b5d10452b120a974c6f56e5b038fd62a56ee49a0ad255ae06",
+    "exact_case_coverage": true,
+    "run": 34911209375,
+    "url": "https://github.com/gatomontes/imperium-symfony/actions/runs/34911209375",
+    "conclusion": "success",
+    "checkout": "119fa69680805a0ef75c63db62e5bf175f2e6b2e",
+    "php": "8.4.25",
+    "phpunit": "13.3.0",
+    "guards_passed": 11,
+    "guards_skipped": 0,
+    "guard_job_id": 104201954253,
+    "longest_job_wall_seconds": 822,
+    "started_at": "2026-09-14T23:58:40Z",
+    "completed_at": "2026-09-15T00:12:33Z",
+    "worker_jobs": [
+      {
+        "index": 0,
+        "job_id": 104198876219,
+        "started_at": "2026-09-14T23:58:41Z",
+        "completed_at": "2026-09-15T00:01:37Z",
+        "wall_seconds": 176,
+        "native_exit": 0,
+        "checkout": "119fa69680805a0ef75c63db62e5bf175f2e6b2e",
+        "tree": "d65b8fdb44214240003f610939189fb84832a509",
+        "source_before": "348469e9d5ee079b5d10452b120a974c6f56e5b038fd62a56ee49a0ad255ae06",
+        "source_after": "348469e9d5ee079b5d10452b120a974c6f56e5b038fd62a56ee49a0ad255ae06"
+      },
+      {
+        "index": 1,
+        "job_id": 104198876243,
+        "started_at": "2026-09-14T23:59:17Z",
+        "completed_at": "2026-09-15T00:04:18Z",
+        "wall_seconds": 301,
+        "native_exit": 0,
+        "checkout": "119fa69680805a0ef75c63db62e5bf175f2e6b2e",
+        "tree": "d65b8fdb44214240003f610939189fb84832a509",
+        "source_before": "348469e9d5ee079b5d10452b120a974c6f56e5b038fd62a56ee49a0ad255ae06",
+        "source_after": "348469e9d5ee079b5d10452b120a974c6f56e5b038fd62a56ee49a0ad255ae06"
+      },
+      {
+        "index": 2,
+        "job_id": 104198876298,
+        "started_at": "2026-09-14T23:58:41Z",
+        "completed_at": "2026-09-15T00:12:14Z",
+        "wall_seconds": 813,
+        "native_exit": 0,
+        "checkout": "119fa69680805a0ef75c63db62e5bf175f2e6b2e",
+        "tree": "d65b8fdb44214240003f610939189fb84832a509",
+        "source_before": "348469e9d5ee079b5d10452b120a974c6f56e5b038fd62a56ee49a0ad255ae06",
+        "source_after": "348469e9d5ee079b5d10452b120a974c6f56e5b038fd62a56ee49a0ad255ae06"
+      },
+      {
+        "index": 3,
+        "job_id": 104198876340,
+        "started_at": "2026-09-14T23:58:40Z",
+        "completed_at": "2026-09-15T00:01:29Z",
+        "wall_seconds": 169,
+        "native_exit": 0,
+        "checkout": "119fa69680805a0ef75c63db62e5bf175f2e6b2e",
+        "tree": "d65b8fdb44214240003f610939189fb84832a509",
+        "source_before": "348469e9d5ee079b5d10452b120a974c6f56e5b038fd62a56ee49a0ad255ae06",
+        "source_after": "348469e9d5ee079b5d10452b120a974c6f56e5b038fd62a56ee49a0ad255ae06"
+      },
+      {
+        "index": 4,
+        "job_id": 104198876189,
+        "started_at": "2026-09-14T23:58:41Z",
+        "completed_at": "2026-09-14T23:59:58Z",
+        "wall_seconds": 77,
+        "native_exit": 0,
+        "checkout": "119fa69680805a0ef75c63db62e5bf175f2e6b2e",
+        "tree": "d65b8fdb44214240003f610939189fb84832a509",
+        "source_before": "348469e9d5ee079b5d10452b120a974c6f56e5b038fd62a56ee49a0ad255ae06",
+        "source_after": "348469e9d5ee079b5d10452b120a974c6f56e5b038fd62a56ee49a0ad255ae06"
+      },
+      {
+        "index": 5,
+        "job_id": 104198876005,
+        "started_at": "2026-09-14T23:58:40Z",
+        "completed_at": "2026-09-15T00:03:52Z",
+        "wall_seconds": 312,
+        "native_exit": 0,
+        "checkout": "119fa69680805a0ef75c63db62e5bf175f2e6b2e",
+        "tree": "d65b8fdb44214240003f610939189fb84832a509",
+        "source_before": "348469e9d5ee079b5d10452b120a974c6f56e5b038fd62a56ee49a0ad255ae06",
+        "source_after": "348469e9d5ee079b5d10452b120a974c6f56e5b038fd62a56ee49a0ad255ae06"
+      },
+      {
+        "index": 6,
+        "job_id": 104198876278,
+        "started_at": "2026-09-14T23:58:41Z",
+        "completed_at": "2026-09-15T00:07:56Z",
+        "wall_seconds": 555,
+        "native_exit": 0,
+        "checkout": "119fa69680805a0ef75c63db62e5bf175f2e6b2e",
+        "tree": "d65b8fdb44214240003f610939189fb84832a509",
+        "source_before": "348469e9d5ee079b5d10452b120a974c6f56e5b038fd62a56ee49a0ad255ae06",
+        "source_after": "348469e9d5ee079b5d10452b120a974c6f56e5b038fd62a56ee49a0ad255ae06"
+      },
+      {
+        "index": 7,
+        "job_id": 104198876336,
+        "started_at": "2026-09-14T23:58:40Z",
+        "completed_at": "2026-09-15T00:12:22Z",
+        "wall_seconds": 822,
+        "native_exit": 0,
+        "checkout": "119fa69680805a0ef75c63db62e5bf175f2e6b2e",
+        "tree": "d65b8fdb44214240003f610939189fb84832a509",
+        "source_before": "348469e9d5ee079b5d10452b120a974c6f56e5b038fd62a56ee49a0ad255ae06",
+        "source_after": "348469e9d5ee079b5d10452b120a974c6f56e5b038fd62a56ee49a0ad255ae06"
+      }
+    ],
+    "explicit_skips": [
+      {
+        "partition": 0,
+        "test": "App\\Tests\\Imperium\\Runtime\\LocalIsolationReadinessTest::testNativeHandlesAndExactStartupRefusal",
+        "details": "<skipped />\n      "
+      },
+      {
+        "partition": 0,
+        "test": "App\\Tests\\Imperium\\Runtime\\LocalIsolationReadinessTest::testCompleteReadinessAndAdversarialEvidenceThroughPowerShell",
+        "details": "<skipped />\n      "
+      },
+      {
+        "partition": 1,
+        "test": "App\\Tests\\Imperium\\Runtime\\LocalIsolationScratchTest::testNativeWorkspacePolicyAndCleanupFailure",
+        "details": "<skipped />\n      "
+      },
+      {
+        "partition": 7,
+        "test": "App\\Tests\\Imperium\\Runtime\\LocalIsolationProcessTest::testWindowsModulePollutionAtBothRealLaunchBoundaries",
+        "details": "<skipped />\n      "
+      }
+    ],
+    "linux_symlink_case": {
+      "partition": 7,
+      "test": "App\\Tests\\Imperium\\Runtime\\ReservedInstitutionalStorageTest::testSymlinkAliasesAndDanglingTargetsRefuse",
+      "assertions": 5
+    },
+    "new_component_tests": 49,
+    "new_component_assertions": 411,
+    "receiving_regression": {
+      "partition": 3,
+      "assertions": 10,
+      "seconds": 23.84453,
+      "test": "App\\Tests\\Imperium\\Runtime\\FormationProfileDesignationTest::testV2CourtthaneThroughActualFormationConsumers"
+    },
+    "artifacts": [
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10375175928/zip",
+        "created_at": "2026-09-15T00:12:11Z",
+        "digest": "sha256:75977605bfd6de5566de8899e944a119185be45d96bbe1cbd14c95a7bbc5c89b",
+        "expired": false,
+        "expires_at": "2026-10-15T00:12:10Z",
+        "id": 10375175928,
+        "name": "phpunit-2",
+        "size_in_bytes": 170457,
+        "updated_at": "2026-09-15T00:12:11Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10375175928",
+        "workflow_run": {
+          "head_branch": "codex/ppc6-designation-assignment-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "c92eb0d082d334bbee99446b51ba75251f6acf80",
+          "id": 34911209375,
+          "repository_id": 1328224683
+        }
+      },
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10374980283/zip",
+        "created_at": "2026-09-15T00:01:28Z",
+        "digest": "sha256:626408b9f388ac259d33f25b835684c0f729ad00ec79318e67bfb1ab7b31be4f",
+        "expired": false,
+        "expires_at": "2026-10-15T00:01:27Z",
+        "id": 10374980283,
+        "name": "phpunit-3",
+        "size_in_bytes": 169463,
+        "updated_at": "2026-09-15T00:01:28Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10374980283",
+        "workflow_run": {
+          "head_branch": "codex/ppc6-designation-assignment-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "c92eb0d082d334bbee99446b51ba75251f6acf80",
+          "id": 34911209375,
+          "repository_id": 1328224683
+        }
+      },
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10374886008/zip",
+        "created_at": "2026-09-15T00:12:21Z",
+        "digest": "sha256:7afd21762d4f93bbf9170135303a0726f99cadfce6d45ca99f6452f670cb937c",
+        "expired": false,
+        "expires_at": "2026-10-15T00:12:20Z",
+        "id": 10374886008,
+        "name": "phpunit-7",
+        "size_in_bytes": 166844,
+        "updated_at": "2026-09-15T00:12:21Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10374886008",
+        "workflow_run": {
+          "head_branch": "codex/ppc6-designation-assignment-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "c92eb0d082d334bbee99446b51ba75251f6acf80",
+          "id": 34911209375,
+          "repository_id": 1328224683
+        }
+      },
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10374423554/zip",
+        "created_at": "2026-09-15T00:03:50Z",
+        "digest": "sha256:49a7791c35dd923b9a352916e47572003aa25b6d040156b9c164bf17f8d169ae",
+        "expired": false,
+        "expires_at": "2026-10-15T00:03:49Z",
+        "id": 10374423554,
+        "name": "phpunit-5",
+        "size_in_bytes": 169622,
+        "updated_at": "2026-09-15T00:03:50Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10374423554",
+        "workflow_run": {
+          "head_branch": "codex/ppc6-designation-assignment-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "c92eb0d082d334bbee99446b51ba75251f6acf80",
+          "id": 34911209375,
+          "repository_id": 1328224683
+        }
+      },
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10374383733/zip",
+        "created_at": "2026-09-15T00:04:15Z",
+        "digest": "sha256:7180e238e32d20e5a7b80e801fcb62cb3abd3b1e55260cfc989a9dbac4df564f",
+        "expired": false,
+        "expires_at": "2026-10-15T00:04:15Z",
+        "id": 10374383733,
+        "name": "phpunit-1",
+        "size_in_bytes": 166093,
+        "updated_at": "2026-09-15T00:04:15Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10374383733",
+        "workflow_run": {
+          "head_branch": "codex/ppc6-designation-assignment-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "c92eb0d082d334bbee99446b51ba75251f6acf80",
+          "id": 34911209375,
+          "repository_id": 1328224683
+        }
+      },
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10374364875/zip",
+        "created_at": "2026-09-15T00:12:31Z",
+        "digest": "sha256:e772f9de34321b017dd18c4dcb527467dc49ef7d26aca44fea2cdcace95c999b",
+        "expired": false,
+        "expires_at": "2026-10-15T00:12:30Z",
+        "id": 10374364875,
+        "name": "phpunit-complete-coverage",
+        "size_in_bytes": 558,
+        "updated_at": "2026-09-15T00:12:31Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10374364875",
+        "workflow_run": {
+          "head_branch": "codex/ppc6-designation-assignment-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "c92eb0d082d334bbee99446b51ba75251f6acf80",
+          "id": 34911209375,
+          "repository_id": 1328224683
+        }
+      },
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10374273492/zip",
+        "created_at": "2026-09-14T23:59:56Z",
+        "digest": "sha256:f92ea421829936402973bc5573206bacaeeaa28fbd05c8b222c92a7a193133ce",
+        "expired": false,
+        "expires_at": "2026-10-14T23:59:56Z",
+        "id": 10374273492,
+        "name": "phpunit-4",
+        "size_in_bytes": 165390,
+        "updated_at": "2026-09-14T23:59:56Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10374273492",
+        "workflow_run": {
+          "head_branch": "codex/ppc6-designation-assignment-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "c92eb0d082d334bbee99446b51ba75251f6acf80",
+          "id": 34911209375,
+          "repository_id": 1328224683
+        }
+      },
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10374014976/zip",
+        "created_at": "2026-09-15T00:01:34Z",
+        "digest": "sha256:e2bcb731d25858e7240c6f46a75c481e0fbfe0b6a6c17cddce2e229fd0662645",
+        "expired": false,
+        "expires_at": "2026-10-15T00:01:33Z",
+        "id": 10374014976,
+        "name": "phpunit-0",
+        "size_in_bytes": 170192,
+        "updated_at": "2026-09-15T00:01:34Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10374014976",
+        "workflow_run": {
+          "head_branch": "codex/ppc6-designation-assignment-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "c92eb0d082d334bbee99446b51ba75251f6acf80",
+          "id": 34911209375,
+          "repository_id": 1328224683
+        }
+      },
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10373984049/zip",
+        "created_at": "2026-09-15T00:07:54Z",
+        "digest": "sha256:86df9a3b28dacb847276b1ccd8733fb84c814b2c13245558c98c7ea0d475f971",
+        "expired": false,
+        "expires_at": "2026-10-15T00:07:53Z",
+        "id": 10373984049,
+        "name": "phpunit-6",
+        "size_in_bytes": 173515,
+        "updated_at": "2026-09-15T00:07:54Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10373984049",
+        "workflow_run": {
+          "head_branch": "codex/ppc6-designation-assignment-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "c92eb0d082d334bbee99446b51ba75251f6acf80",
+          "id": 34911209375,
+          "repository_id": 1328224683
+        }
+      }
+    ]
+  },
+  "review": {
+    "blocking_findings_within_partial_integration_scope": [],
+    "remaining_acceptance_gaps": [
+      "Supported same-root FRESH establishment remains unavailable (R4): institutions first fail vacancy; founding first fences installation; installer rejects onboarding v4.",
+      "NativeAssignmentEvidence recognizes only directly verified profile.current_active, profile.exact_model_binding and profile.independent_appointment. Broader substantive predicate production and verification remain open; profile.fits refuses.",
+      "No direct NativeAssignmentEvidence invocation is covered by the committed tests. Generic owner-routing tests and native designation histories do not establish a positive native assignment consumer.",
+      "Full initial application, replacement, actual settings delivery and their mutation races remain unproven through the same supported native owner sequence.",
+      "Corruption/overflow and incumbent/appointment/competition permutations remain open beyond the specifically enumerated cases."
+    ],
+    "separate_manual_reviewer_claimed": false,
+    "automated_pr_review_considered": true,
+    "local_php_executed": false,
+    "local_python_guards": {
+      "passed": 9,
+      "skipped": 2,
+      "reason": "PHP absent"
+    },
+    "public_fixture_integrity": {
+      "histories": 6,
+      "frames": 320,
+      "signature_verifications_unique_within_each_history": 320,
+      "designation_events": 14,
+      "expanded_diagnostic_checks": 54,
+      "independently_verified_signed_malformed_inputs": 52,
+      "fresh_process_expiry_checks": 2,
+      "current_or_external_authority_claim": false
+    },
+    "scope": "Configured canonical roots, cooperating current binaries, fixed filesystem topology; bounded designation components and owner routing. Native assignment production use remains unaccepted."
+  },
+  "windows_evidence": {
+    "authoritative_run": "gate-bounded",
+    "tests": 3951,
+    "assertions": 65748,
+    "skipped": 1,
+    "reported_warnings": 4,
+    "aggregate_native_exit": 0,
+    "complete_gate_green": false,
+    "guards_passed": 10,
+    "guards_errored": 1,
+    "guards_skipped": 0,
+    "guard_error": "WinError 1314 symlink privilege unavailable",
+    "longest_partition_wall_seconds": 1961.71,
+    "longest_partition_junit_seconds": 1861.135,
+    "source_digest": "4f5eaf84c3ae46b872b5fa7f251687211c58511667736b621ceb5a749ea665f2",
+    "started_at": "2026-09-14T19:55:17.851027+00:00",
+    "completed_at": "2026-09-14T20:28:33.386093+00:00",
+    "superseded_and_interrupted_attempts_retained": true
+  },
+  "countdown": {
+    "before": [
+      3,
+      5
+    ],
+    "after": [
+      3,
+      5
+    ],
+    "decrement": 0,
+    "selected_outcome": "R3_DESIGNATION_AND_SHARED_ASSIGNMENT_USE",
+    "accepted_complete_outcome": null,
+    "reason": "Partial components only; complete R3 remains open, including gaps beyond R4. No new countdown scope is introduced."
+  },
+  "remaining_outcomes": [
+    "R3_DESIGNATION_AND_SHARED_ASSIGNMENT_USE",
+    "R4_COMBINED_FRESH_ESTABLISHMENT",
+    "R5_ACCOUNT_ACCESS_BASE_COGNITION",
+    "R6_SEPARATELY_AUTHORIZED_COMMISSIONING_INTERVIEW"
+  ],
+  "operational_flags": {
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "live_ready": false,
+    "activation": false,
+    "execution_authority": false
+  },
+  "native_enrollment_disposition": "DEFER_ENROLLMENT",
+  "actual_retry_allowlist": []
+}
