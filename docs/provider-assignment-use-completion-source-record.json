@@ -1,0 +1,560 @@
+{
+  "schema": "imperium.provider-assignment-use-completion-preparation/v1",
+  "campaign": "PPC9",
+  "status": "READY_UNDER_EXISTING_PPC2_APPROVAL",
+  "outcome": "R3_DESIGNATION_AND_SHARED_ASSIGNMENT_USE",
+  "baseline_main": "23d21a3bbbf4bfa33b8097b7bbacf0f78bd1b92c",
+  "baseline_tree": "1a76d25e7f5d7fb3a54fdeba81a18a97d32abedb",
+  "preparation_branch": "codex/provider-assignment-use-completion-preparation",
+  "continuation_instruction_exact": "proceed",
+  "continuation_context": "Immediate owner reply after PPC8 R4 acceptance and integration, PRs #836/#837, with R3 named next.",
+  "approval_record": "docs/handoffs/provider-profile-designation-approval.md",
+  "proposal_path": "docs/provider-profile-designation-amendment.md",
+  "proposal_sha256": "c24939fd808cd5917c8057efe518787cc2448d3da60be089511e7abd6dee2984",
+  "approved_clauses": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F"
+  ],
+  "repeat_approval_required_for_existing_scope": false,
+  "new_competence_authorized": false,
+  "accepted_prerequisites": {
+    "R1": "docs/reviews/provider-model-correspondence-review.md",
+    "R2": "docs/reviews/provider-storage-successor-review.md",
+    "R4": "docs/reviews/provider-fresh-establishment-closure-review.md"
+  },
+  "historical_ci_run": 35011037070,
+  "historical_ci_covers_future_executable_changes": false,
+  "r3_accepted": false,
+  "implementation_complete": false,
+  "required_first_checkpoint": "Actual source/admission/policy chronology joining post-establishment mappings to immutable policy targets and permitted initial/replacement sets; no forward-reference competence is assumed.",
+  "protected_comparison_basis": "Byte-identical to the exact published PPC9 implementation start. Baseline hashes identify pre-preparation Git bytes; preparation changes the two protected countdown documents only.",
+  "protected_paths": [
+    "docs/provider-profile-designation-amendment.md",
+    "docs/handoffs/provider-profile-designation-approval.md",
+    "docs/provider-first-interview-countdown.md",
+    "docs/provider-first-interview-countdown.json",
+    "docs/native-inspection-snapshot-consistency-reading-ledger-v1.json",
+    "docs/native-inspection-snapshot-consistency-terminal-reading-ledger-v1.json",
+    "docs/provider-storage-successor-source-record-v1.json",
+    "src/Imperium/Runtime/Persistence/AtomicTransition.php",
+    "src/Imperium/Runtime/Persistence/ImmutableRecordStore.php",
+    "src/Imperium/Runtime/Persistence/MutableStateStore.php",
+    "src/Imperium/Runtime/Persistence/ReservedInstitutionalStorage.php",
+    "src/Imperium/Runtime/Citadel/Formation/FormationJournal.php",
+    "src/Imperium/Runtime/Citadel/Formation/FormationOwnerFrame.php",
+    "src/Imperium/Runtime/Citadel/Formation/FormationModelBoundProfileContract.php",
+    "src/Imperium/Runtime/Onboarding/AuthorityAdmission/Policy.php",
+    "src/Imperium/Runtime/Onboarding/AuthorityAdmission/Rules.php",
+    "src/Imperium/Runtime/Onboarding/AuthorityAdmission/SelectedPolicy.php",
+    "contracts/profile-artifact.md",
+    "contracts/profile-artifact.schema.json",
+    "composer.json",
+    "composer.lock",
+    ".github/workflows/phpunit.yml",
+    "tools/ci/phpunit_partitions.py",
+    "tools/ci/test_phpunit_partitions.py",
+    "config/services.yaml",
+    "config/reference.php",
+    "docs/provider-fresh-establishment-proposal-v1.md",
+    "docs/handoffs/provider-fresh-establishment-approval.json",
+    "src/Imperium/Runtime/Citadel/Formation/FormationModelPreparation.php",
+    "src/Imperium/Runtime/Citadel/Formation/FormationProfileDesignationInitialization.php",
+    "src/Imperium/Runtime/Onboarding/Assignment/AssignmentEvidence.php",
+    "src/Imperium/Runtime/Onboarding/Assignment/AssignmentRule.php",
+    "src/Imperium/Runtime/Onboarding/Deployment/Composition.php",
+    "contracts/profile-attestation.schema.json",
+    "docs/provider-model-correspondence-proposal-v1.md",
+    "docs/handoffs/provider-model-correspondence-approval.json",
+    "src/Imperium/Runtime/Onboarding/Augur/FreshProducer.php",
+    "src/Imperium/Runtime/Onboarding/Augur/NativeConstitutionEvidence.php",
+    "src/Imperium/Runtime/Citadel/NativeAuthority/NativeBoundary.php",
+    "src/Imperium/Runtime/Citadel/Formation/NativeInstallationPackage.php",
+    "tests/Imperium/Runtime/Support/AugurFreshFixture.php",
+    "tests/Imperium/Runtime/Support/CitadelFormationFixture.php",
+    "tests/Imperium/Runtime/Support/ModelPreparationFixture.php",
+    "tests/Imperium/Runtime/Support/DesignationFixture.php",
+    "src/Imperium/Runtime/Citadel/Formation/FormationFreshEstablishment.php",
+    "src/Imperium/Runtime/Citadel/Formation/FreshEstablishmentRevocations.php",
+    "src/Imperium/Runtime/Citadel/Formation/FreshInstitutionPackage.php",
+    "src/Imperium/Runtime/Citadel/Formation/FreshInstitutionalProfileMapping.php",
+    "docs/reviews/provider-fresh-establishment-closure-review.md",
+    "docs/provider-fresh-establishment-closure-reviewed-integration.json",
+    "docs/handoffs/provider-designation-assignment-scope.json"
+  ],
+  "source_hash_basis": "Exact accepted baseline Git blob bytes, checked against baseline tree; observational inventory is not a new acceptance pin.",
+  "baseline_sources": [
+    {
+      "path": "docs/provider-profile-designation-amendment.md",
+      "bytes": 21385,
+      "sha256": "c24939fd808cd5917c8057efe518787cc2448d3da60be089511e7abd6dee2984",
+      "git_blob": "51cac4662ed73d16bd1f68162bf3dba39e2b1574"
+    },
+    {
+      "path": "docs/handoffs/provider-profile-designation-approval.md",
+      "bytes": 1480,
+      "sha256": "30f34e016b3074a38c69232cd42a0252761d46fbd074f81d8a8423882821285c",
+      "git_blob": "8a9a4c7ac3ccec0d74d7f8bc7ce200fc2b7bdf04"
+    },
+    {
+      "path": "docs/provider-first-interview-countdown.md",
+      "bytes": 8763,
+      "sha256": "d8d0b64b882b30d6259f8d24946243fcc66d20cf4dc309bd450bfeaa85574904",
+      "git_blob": "21d16da656a4f32effe51d2f7a5681446b0d1b86"
+    },
+    {
+      "path": "docs/provider-first-interview-countdown.json",
+      "bytes": 13064,
+      "sha256": "39c1e4d22a9d93368e8e7639618d657e2269ea54e08e09e1dad99b46c7c056c9",
+      "git_blob": "feaea223e6c48e0a1797a2ce1115ce3079c69f74"
+    },
+    {
+      "path": "docs/native-inspection-snapshot-consistency-reading-ledger-v1.json",
+      "bytes": 12276,
+      "sha256": "4bbb574d60ac1a3d90ba5a86e06bf15d902ed86e105d134ba5a2ff7f0abf8836",
+      "git_blob": "be07f2022ef5f9f683e43726bad7e67fb6cc2cde"
+    },
+    {
+      "path": "docs/native-inspection-snapshot-consistency-terminal-reading-ledger-v1.json",
+      "bytes": 3277,
+      "sha256": "6521faf79b32f341fc56696420cd13ac3a638c26b0af246562124ea9ff4d25fa",
+      "git_blob": "796232deb2fc6dcec0c8fef22765f50b2653c1bc"
+    },
+    {
+      "path": "docs/provider-storage-successor-source-record-v1.json",
+      "bytes": 1931,
+      "sha256": "344f7dfd64b2bd826b071d198d37d8fa852a520db8b33057fd09304f875321e3",
+      "git_blob": "94ff335133ba2c1b0beb083f4722e8c30c805144"
+    },
+    {
+      "path": "src/Imperium/Runtime/Persistence/AtomicTransition.php",
+      "bytes": 1313,
+      "sha256": "8ab78031ea4fa7c5552bf8a1e7fca50167d8fd2f265081326750c6b81fc9c0bb",
+      "git_blob": "95411cc32d34d209ea3de7d42f3e5228e171c35c"
+    },
+    {
+      "path": "src/Imperium/Runtime/Persistence/ImmutableRecordStore.php",
+      "bytes": 3739,
+      "sha256": "a7ecbf47e350e0a673a2aaea6a1bea6425651145f69a425723847160c013ebe9",
+      "git_blob": "6181f8299028fa7ce89c0adca185e4fc22d3a377"
+    },
+    {
+      "path": "src/Imperium/Runtime/Persistence/MutableStateStore.php",
+      "bytes": 4165,
+      "sha256": "5e6d30f542df7c25bb9e26465f0986e0b7eb7b1bec7288d531e00ec495c1c1f5",
+      "git_blob": "fdab2bb2bde39f1c61894631426ac368451ef2a2"
+    },
+    {
+      "path": "src/Imperium/Runtime/Persistence/ReservedInstitutionalStorage.php",
+      "bytes": 4280,
+      "sha256": "29aaa670c7efb25982e1bc4f208ea232441bc7cc4b36b55e2d0c4daa47f1106a",
+      "git_blob": "136703b2aa380a9e141c93862113eafcb1e7710e"
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FormationJournal.php",
+      "bytes": 8078,
+      "sha256": "792069d427424b55f9022d1408b01722d55aa57aa70c76937ee01c6d5aac68c7",
+      "git_blob": "b25862d114296a544030d841d2648606466a8774"
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FormationOwnerFrame.php",
+      "bytes": 1498,
+      "sha256": "7bd018f189188bb4ae69890f66f138e8ce80df8eb929c98b3613cba5310c85b4",
+      "git_blob": "def93690764e7e95cadd680c56e5616611a73d1b"
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FormationModelBoundProfileContract.php",
+      "bytes": 2913,
+      "sha256": "42f60ea0d22882ccafadb82781c2b8a3339c1e51db9169f545bc62f72f6c0214",
+      "git_blob": "277bc764d310d706a882a576df704619e02101a1"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/AuthorityAdmission/Policy.php",
+      "bytes": 9718,
+      "sha256": "2339d9f28e9a64738ea78a81cb2e260378af35a7c6f9ca7cc102cad91e13e59a",
+      "git_blob": "ee215482c97eb14afa250f931fe669bba41a373f"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/AuthorityAdmission/Rules.php",
+      "bytes": 6649,
+      "sha256": "f6cc28250f3ad773bf3d87ec4d862995472c57b921b8bad2171b34d5f596534f",
+      "git_blob": "11b0578894dc45988b4bf54cad554772f230f8c1"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/AuthorityAdmission/SelectedPolicy.php",
+      "bytes": 13102,
+      "sha256": "d13df0c606e54323cabe9e64f55443d99c057662f85dbe390bb416f23571e353",
+      "git_blob": "dd65a494aa9d6bac5ae36cc601634f57d515e3b4"
+    },
+    {
+      "path": "contracts/profile-artifact.md",
+      "bytes": 4901,
+      "sha256": "82454c29628727e0a74eb899545ae97b8d7ce8fa07c27966fc01b017e8951d99",
+      "git_blob": "f054b683e3e339587bfa26a1e4ca1bfc8267cebb"
+    },
+    {
+      "path": "contracts/profile-artifact.schema.json",
+      "bytes": 5923,
+      "sha256": "9156bfc93065436b76a2684f061e57a7190dbc6be796be86e8b0567a12c70ba5",
+      "git_blob": "3aaac972a522d5ce2f170b1078b577c50bab87d6"
+    },
+    {
+      "path": "composer.json",
+      "bytes": 1966,
+      "sha256": "2271918b861837e954b59277de63529ef0c82c78e3c4c8ef2c0aea35f78d5ab3",
+      "git_blob": "66905df87bacccd4342c7209107bbc0ba4be2eeb"
+    },
+    {
+      "path": "composer.lock",
+      "bytes": 233810,
+      "sha256": "4ab52c72c931bcc945385cdbae48dd9ae3f192e4c207c59a7783e4cf38b8e6e9",
+      "git_blob": "d15068cd750ddf83bee6ab0ba79e04a787540016"
+    },
+    {
+      "path": ".github/workflows/phpunit.yml",
+      "bytes": 2258,
+      "sha256": "742325cc53976a2ee0c21ee9b3c48e38b9a90204c546ed5425874b4ff182dfa6",
+      "git_blob": "2bd6a7b734cc3b14f59c913dcc3ed3bae8addbe0"
+    },
+    {
+      "path": "tools/ci/phpunit_partitions.py",
+      "bytes": 9221,
+      "sha256": "3f18014af07e00309d55f48ab68b5967c38096e3e0f52d36ba63304bd73408ad",
+      "git_blob": "f6a887c040b83b2fdb897ded102a22fc62a54416"
+    },
+    {
+      "path": "tools/ci/test_phpunit_partitions.py",
+      "bytes": 6877,
+      "sha256": "322a3a810be6a403c0a820121481beebbf32a0b044f1ad24155d0432afcc824c",
+      "git_blob": "404afc267c190a955bb6ea03aa37a5aca3a2abad"
+    },
+    {
+      "path": "config/services.yaml",
+      "bytes": 13820,
+      "sha256": "ce13733ba4f5581517bcb42b0c752837616eb270981f3c95d4a89674660fe824",
+      "git_blob": "6d20434882acd67b555f91d1f238e1a825960a12"
+    },
+    {
+      "path": "config/reference.php",
+      "bytes": 75538,
+      "sha256": "1ef966259713d3beb1949ae134c1454a5a8aeed664bfce780881ff2a8a37f65b",
+      "git_blob": "e1d94203ad8362d1ba4330e5ee66798303edfbb4"
+    },
+    {
+      "path": "docs/provider-fresh-establishment-proposal-v1.md",
+      "bytes": 15734,
+      "sha256": "e32bfd849a96f380505c0486702124c4bb60a9d5b26a15e7a39e7ef30eed3d4e",
+      "git_blob": "3efc66c5a410b91569c934419893070f1ba6f59f"
+    },
+    {
+      "path": "docs/handoffs/provider-fresh-establishment-approval.json",
+      "bytes": 2538,
+      "sha256": "a648caaa4b82e06923ef83a001a47f21f81981415392de11c4a8c65f986168a3",
+      "git_blob": "d9a7902b6cc983cd74d5091568fc34b7e1094ae5"
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FormationModelPreparation.php",
+      "bytes": 30791,
+      "sha256": "8bb26df7aa7c6e52ab22d2b6c783726e053aa14d5c4c60b6d147246f01127454",
+      "git_blob": "5f3a140bd539a7975b34a418da7dd1d3bc02efd7"
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FormationProfileDesignationInitialization.php",
+      "bytes": 2266,
+      "sha256": "46c8880957c37dfcda7ca5abaa94d55d373964665e5bcdd0058c724876db67a1",
+      "git_blob": "69c8324fe71be1b911940c207c8b8dc995db7518"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Assignment/AssignmentEvidence.php",
+      "bytes": 457,
+      "sha256": "1858ada4265204befd5fb72aa9bbc070aa98ac6239110c147c2a5ddbae3c1aa1",
+      "git_blob": "3676632d38f1562223b00d8e6a630b7e46cb074f"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Assignment/AssignmentRule.php",
+      "bytes": 14096,
+      "sha256": "ac88932d1d0346dfb3bd0ddd740b5330597abce2317b39d07fd1bb7bd931803f",
+      "git_blob": "beb6024db5477e3603f3d7e638ecedb8bb000b6c"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Deployment/Composition.php",
+      "bytes": 3764,
+      "sha256": "e5b4b5f4e40c01e6a8988f1604e28bec6fa14da97c3143cc8e8ed8eed237a66c",
+      "git_blob": "c6076c34978f3a4a73df72f61cee190f76877914"
+    },
+    {
+      "path": "contracts/profile-attestation.schema.json",
+      "bytes": 2636,
+      "sha256": "46ad16a1d336d72a2653ce5ba873b368b91490bb3811f8884e9b411aaa9d53b4",
+      "git_blob": "240c66edd7735db2bc615571477b5ac5f8ea6e20"
+    },
+    {
+      "path": "docs/provider-model-correspondence-proposal-v1.md",
+      "bytes": 17284,
+      "sha256": "8c4d9992d57d1ea98ae14e4fd4abfe6971f316dd87443388e9a31a34538998e8",
+      "git_blob": "07ac57ce1dd03b4584824459d849cd468b9b5403"
+    },
+    {
+      "path": "docs/handoffs/provider-model-correspondence-approval.json",
+      "bytes": 2067,
+      "sha256": "34788479f1f1f923dcbb830519c36b58e37c9d8c5b7ffa231e7244ff30c284b6",
+      "git_blob": "1dfde299b431bd1a154ba26513e8f6c850340a56"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Augur/FreshProducer.php",
+      "bytes": 5410,
+      "sha256": "2307fb2b7aa174afeb476837e6da6d966f1f92fa8b7d8d4710e95848b9072205",
+      "git_blob": "509f0844975ceff294b752a1bd2e119ea36068d9"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Augur/NativeConstitutionEvidence.php",
+      "bytes": 4148,
+      "sha256": "540c45ec9acfc1f5d296c9cb5a48962367a5f53a58f2ac5d33f2e53c0fbb581e",
+      "git_blob": "9f6d85107535df03775c67f70023a72c5b508030"
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/NativeAuthority/NativeBoundary.php",
+      "bytes": 2190,
+      "sha256": "ed7bded7a4abf0cccb5e51c7f6e254a090a8aea0e3a46137efb5435475a78c3a",
+      "git_blob": "74d916552dd653980f7ea694412e23608e4d3fa5"
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/NativeInstallationPackage.php",
+      "bytes": 5162,
+      "sha256": "e5ef4defda651972b7ab149a7cc601af14b22a7843e7bb5dd501fb06eefe7544",
+      "git_blob": "05cecf3421d9f658dd704cd380fb4c1367bcf53c"
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/AugurFreshFixture.php",
+      "bytes": 14697,
+      "sha256": "c58e43bb80a3a4a6cf8bf7663ef9a5f7d8886c69db27c88e668ffc4ae7fc1737",
+      "git_blob": "55a941423dc9ff2eb9fb212dc12e73fc97b511e5"
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/CitadelFormationFixture.php",
+      "bytes": 21178,
+      "sha256": "b1fac60fdf38e9aec113e93c5933615db290173f609be11a12a156fd992dcba8",
+      "git_blob": "8714636e94c91b3cdedd90f72b874569dd697584"
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/ModelPreparationFixture.php",
+      "bytes": 10469,
+      "sha256": "195e601e7974bf8f16d70564ee89e3e83a99e2dc54dce00a1f3650813e4f600d",
+      "git_blob": "c6ef5d266d0d3a84b12ea20a4729104fce48dd49"
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/DesignationFixture.php",
+      "bytes": 4571,
+      "sha256": "64d86c4d72637ac9e690a36c830becf65bd0216563fd7613a0ab4be6578c83e9",
+      "git_blob": "f102fbf122dec9cbba6761dc6ce06792b5465b41"
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FormationFreshEstablishment.php",
+      "bytes": 28220,
+      "sha256": "1cc8c1417ebbbfd8b829459c16c7769dd8ddcd8d5fd1492a582302a0473fcab1",
+      "git_blob": "726be7413f0c00aaf68286791960a9e529d824d4"
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FreshEstablishmentRevocations.php",
+      "bytes": 8653,
+      "sha256": "2d4fb6f0e405fbe2e35fe7a9fcf29cafe143254cf033e705e1bc69f3cf535668",
+      "git_blob": "7fbda5a9c5962b587880bba4b65bc6393a49ff63"
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FreshInstitutionPackage.php",
+      "bytes": 9022,
+      "sha256": "50b25a0e4e881529c704338a3a7eaf9feb98c507d2cef71dafb12b874279b587",
+      "git_blob": "9f02fd6090cbbabaef3eb209922af917a286fe26"
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FreshInstitutionalProfileMapping.php",
+      "bytes": 2484,
+      "sha256": "dee4ed1f549c8be757eb2426151bcde09dbcae37251980800a2b19d429626147",
+      "git_blob": "4e291b5b586fb02aebcaee9edf52509c524a62d7"
+    },
+    {
+      "path": "docs/reviews/provider-fresh-establishment-closure-review.md",
+      "bytes": 12814,
+      "sha256": "fd3a89fc25bd2d7ac4c99ebf90f221fde40a2099e965e4c3bd9f496d9fdd8f9c",
+      "git_blob": "0da9579107a86af64371dca85b391dd5246e16c1"
+    },
+    {
+      "path": "docs/provider-fresh-establishment-closure-reviewed-integration.json",
+      "bytes": 27406,
+      "sha256": "4ef832c243c86437efaa03f636bae6d4aeb8b823df3ce010ba2c22550c09a89e",
+      "git_blob": "66fafaeaae2b6da708077f7e37e8779800238525"
+    },
+    {
+      "path": "docs/handoffs/provider-designation-assignment-scope.json",
+      "bytes": 2295,
+      "sha256": "83ec08d3aee641f87fc9a8e3a157386799473a679ace9b1a3872d037e6715db9",
+      "git_blob": "2455333b89b1280a64ce4ff9926ca87e249c4fed"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Assignment/NativeAssignmentEvidence.php",
+      "bytes": 4930,
+      "sha256": "f553c8ea575a0a98b760ace30044595307a00cd9bfd6e3f68593e988650d0be1",
+      "git_blob": "7498af73d8477eaf51acaf20323593c6b13af149"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Assignment/OwnerAssignmentEvidence.php",
+      "bytes": 540,
+      "sha256": "adcba5b1b730054773321e8aa22a3f30f63616ec6fdb5c3379ccdeaa75136c2b",
+      "git_blob": "e1c178ba08611ddb0debff94726ac0fca5e6e714"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Assignment/ApplicationOwner.php",
+      "bytes": 8094,
+      "sha256": "afc4f13b50b552835dfc678bec6cb81695ca466e4556116103bb40f68ae4d0bc",
+      "git_blob": "28455215a6300de7a4e3da758d870ff2e8b8b087"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Assignment/OriginalAssessment.php",
+      "bytes": 3193,
+      "sha256": "accc6f5334e214d9cdabb675605be7793e76a652c2636c3f877cda05615e212a",
+      "git_blob": "5fc54168acd15ce425ed249f25e2c5b193c1184e"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Assignment/PersistentSettings.php",
+      "bytes": 7874,
+      "sha256": "aa650dbad4db38067ba9cf69574659ae1f6d1b6b9bc2bbc0ead71e8eb7209eb6",
+      "git_blob": "02ac4bdc0c27661b34030a7da72bbdd35f562a65"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Assignment/FormationSettingsBinding.php",
+      "bytes": 1393,
+      "sha256": "a54e75e1d7227cdea4fcd5b105074d2fc0e3bc1c28705684d35d56cb9977ada1",
+      "git_blob": "794e20fca4ece87a866d827c1045aa4b1dee2879"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Assignment/SettingsBoundTransport.php",
+      "bytes": 2644,
+      "sha256": "8f1d554e1e422d7e44743421da2cec30567a7c860f5b3e23af649618fae1d078",
+      "git_blob": "4c394681e992d0a667108c66f8e46c515c64a037"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Assignment/ApplicationHistory.php",
+      "bytes": 10183,
+      "sha256": "59982d24d9103abb24d3bd22505cf22131b602ce3e2ca7a8b593644a79349a1f",
+      "git_blob": "96649ac3e7fa182860e59930935b0edabad2a11c"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Assignment/ChangeAuthority.php",
+      "bytes": 1857,
+      "sha256": "628d160eb424b81caaf6609c44a0d16c4227c8db704043b50eedbdcd5489b652",
+      "git_blob": "4f14eb75b0b57fc57ad8a2732f17e2fa3fc25ec6"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Assignment/AssignmentMigration.php",
+      "bytes": 3904,
+      "sha256": "53f724107939a9052b68af62f2d8c0e1ce0c13cd6cee1a8316359ba0ede77ec7",
+      "git_blob": "7e4d9e879706f77035052d2beef275bb094c8653"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Ledger/CommandLedger.php",
+      "bytes": 21346,
+      "sha256": "9c20a5c6430e45112cf461579e9e3afb8a64116b08a616669c7d3f6114f52165",
+      "git_blob": "f8fb09dec8ef54a6a8b6761110367816b319fa88"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/AuthorityAdmission/AuthorityStore.php",
+      "bytes": 6217,
+      "sha256": "a4e6c1434b3d2595d00d5179c7093bc2ef9e3ac705147d424ac07a790ef58921",
+      "git_blob": "be47f9a839f978128a9e31af6a03d3c0938caf71"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/AuthorityAdmission/Admission.php",
+      "bytes": 11631,
+      "sha256": "702801d0103085da6265e37f3759387997edbe812824a4d71d3815a674fc11f2",
+      "git_blob": "c2c262e1524434304d0212f84a2106083210d33a"
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/ResponseValidation/CandidateClaim.php",
+      "bytes": 1662,
+      "sha256": "d3a11d461fd09b1caa73807c854dd4d8f2dec8c81d9cd0b09241d31a4b4ebaa7",
+      "git_blob": "9aec70fa6e3345b6905daed1d52bf7a4853712a1"
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FormationPersonnel.php",
+      "bytes": 26377,
+      "sha256": "c361b132c49e856cd5651fa92876842fb976794455e28f03a5974435b57c2f8c",
+      "git_blob": "b4b4358489cb17ddb9c1608a66eaa64c8eada1fa"
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FormationProfileDesignation.php",
+      "bytes": 29058,
+      "sha256": "919969ec68e69491fe7a7b1786214e028b0a4ab8b7160aedcb078f38c3ff01fc",
+      "git_blob": "b0d4e24db4c37e5d018433689a8e93fc6dd4256d"
+    },
+    {
+      "path": "src/Imperium/Runtime/Clavium/FormationClaimCustodyBroker.php",
+      "bytes": 12780,
+      "sha256": "9c6436ce0bdb500667ce3a3415060a90f751da5afed633fe822aee73873d60a8",
+      "git_blob": "728ac019635aa35e200740fa2d195126d56bfab2"
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/FreshEstablishmentFixture.php",
+      "bytes": 11736,
+      "sha256": "825783a77f61480a9eb31f21b27734f0000c96d6e6da601c2e979f393f9c436f",
+      "git_blob": "d9019ef0e3a549d64dfffc05f641a5e5a1012cf4"
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/FreshDesignationFixture.php",
+      "bytes": 4737,
+      "sha256": "19d2eece11ba158ded7ebd495bdfee53cbe6152bbd96e120348c27a4617c6262",
+      "git_blob": "433b285e441b77433ddb9ab502d319807de83f49"
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/AssignmentFixture.php",
+      "bytes": 16151,
+      "sha256": "20ad7370eb6b9a83366dcfaadb0ee66643926a67711d6ed0d6b82b10c5a15164",
+      "git_blob": "afdab54395338a513ad8596d4a764df8a712fc40"
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/AssignmentFormationFixture.php",
+      "bytes": 18946,
+      "sha256": "617c1a6a35a760b7f5c62dff233cd53fd4594a2b6339f500e000260e49d8c1b5",
+      "git_blob": "be345956958b7f91b6a07f1881250c2035d07d32"
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/AssignmentConsumerFixture.php",
+      "bytes": 18510,
+      "sha256": "76d8064942eab010f956d6126605d28e3eaed3d35f71262ab274d1e0adf5bd83",
+      "git_blob": "ad8ac55677f484949c280c8ff01185640609f7eb"
+    },
+    {
+      "path": "tests/Imperium/Runtime/OwnerAssignmentEvidenceTest.php",
+      "bytes": 2830,
+      "sha256": "6c688c6a51ec1998e903de0396aa371250788bbcfd2cb0383134da8a77517ca5",
+      "git_blob": "a1a7ce27044e6b6e6b9b9a70932c61c115f51fb0"
+    },
+    {
+      "path": "tests/Imperium/Runtime/FreshInstitutionalEstablishmentTest.php",
+      "bytes": 6777,
+      "sha256": "bed921e92b9680806414bc2a979ee3ddf8707a103b5330ad22dac34ed948f9ef",
+      "git_blob": "c1e367bad5a4999902fd2761127907a2c5cb5d64"
+    }
+  ],
+  "remaining_batches": [
+    3,
+    4
+  ],
+  "decrement": 0,
+  "potential_after_complete_R3_acceptance": [
+    2,
+    3
+  ],
+  "potential_applied": false,
+  "operational_flags": {
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "live_ready": false,
+    "activation": false,
+    "execution_authority": false
+  },
+  "native_enrollment_disposition": "DEFER_ENROLLMENT",
+  "actual_retry_allowlist": []
+}
