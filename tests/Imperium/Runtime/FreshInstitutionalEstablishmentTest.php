@@ -83,6 +83,7 @@ final class FreshInstitutionalEstablishmentTest extends TestCase
                     }
                 }
             }
+            \App\Tests\Imperium\Runtime\Support\FreshConsumerClosure::prove($f, $models);
         } finally { foreach ($models as $model) { $model->close(); } $f->close(); }
     }
 }

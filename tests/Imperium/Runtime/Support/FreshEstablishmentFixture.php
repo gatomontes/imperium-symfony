@@ -29,7 +29,7 @@ final class FreshEstablishmentFixture
     private string $secret;
     private array $delegates = [];
 
-    public function __construct(bool $complete = true, int $constitutionLifetime = 1800, bool $initialize = true)
+    public function __construct(bool $complete = true, int $constitutionLifetime = 1800, bool $initialize = true, int $formationTrustLifetime = 10000)
     {
         $this->fresh = new AugurFreshFixture(constitutionLifetime: $constitutionLifetime, nativeConstitution: true);
         $d = $this->fresh->d; $a = $d->f;
@@ -42,7 +42,7 @@ final class FreshEstablishmentFixture
         $this->store = new AuthorityStore($this->journal, $this->clock, $a->store->instance, $a->store->citadel, $a->store->operator, $a->store->sourceCommit);
         $this->signatures = new FormationSignatures($this->journal, $this->clock);
         $pair = sodium_crypto_sign_keypair(); $this->secret = sodium_crypto_sign_secretkey($pair); $public = sodium_crypto_sign_publickey($pair);
-        $this->signatures->enrollPublicTrust(['public_key' => base64_encode($public), 'not_before' => $a->now - 1, 'expires_at' => $a->now + 10000], hash('sha256', $public));
+        $this->signatures->enrollPublicTrust(['public_key' => base64_encode($public), 'not_before' => $a->now - 1, 'expires_at' => $a->now + $formationTrustLifetime], hash('sha256', $public));
         $this->personnel = new FormationPersonnel($this->journal, $this->signatures, $this->clock, new FormationInstitution($this->root));
         $this->protocol = $this->service();
         $this->initial = ['schema' => Protocol::STATE, 'root_identity' => (new \App\Imperium\Runtime\Bootstrap\OperatorRootOwnership($this->root))->identity(),
@@ -86,7 +86,7 @@ final class FreshEstablishmentFixture
         $payload = ['schema' => 'imperium.citadel-owner-decision/v1', 'citadel_id' => $state['citadel_id'],
             'trust_fingerprint' => $state['trust']['fingerprint'], 'effect' => $effect,
             'object_digest' => FormationJournal::digest($object), 'issued_at' => $this->clock->at,
-            'expires_at' => $this->clock->at + 3600, 'nonce' => bin2hex(random_bytes(24))];
+            'expires_at' => min($this->clock->at + 3600, $state['trust']['expires_at']), 'nonce' => bin2hex(random_bytes(24))];
         return ['payload' => $payload, 'signature' => base64_encode(sodium_crypto_sign_detached(CanonicalJson::encode($payload), $this->secret))];
     }
 
