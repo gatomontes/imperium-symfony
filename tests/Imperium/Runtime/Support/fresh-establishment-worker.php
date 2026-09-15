@@ -13,8 +13,9 @@ $store = new AuthorityStore($journal, $clock, ...$input['identities']);
 $log = static function (string $point) use ($input): void {
     file_put_contents($input['events'], json_encode(['point' => $point, 'pid' => getmypid(), 'utc' => gmdate('Y-m-d\TH:i:s\Z')])."\n", FILE_APPEND);
 };
-$checkpoint = static function (string $point) use ($input, $log): void {
+$checkpoint = static function (string $point) use ($input, $log, $clock): void {
     $log($point);
+    if (($input['advance_at'] ?? '') === $point) { $clock->at = $input['advance_to']; $log('clock-set:'.$clock->at); }
     if (($input['pause'] ?? '') === $point) {
         file_put_contents($input['ready'], $point); $deadline = microtime(true) + 45;
         while (!is_file($input['release'])) { if (microtime(true) >= $deadline) { throw new RuntimeException('PPC7_TEST_BARRIER_TIMEOUT'); } usleep(1000); }
@@ -30,6 +31,14 @@ try {
     $result = match ($input['operation']) {
         'reserve' => $protocol->reserve($input['terms'], $input['operator'], $input['formation']),
         'complete' => $protocol->complete($input['reference']),
+        'actors' => (function () use ($input): array {
+            $result = []; $institution = new \App\Imperium\Runtime\Citadel\Formation\FormationInstitution($input['root']);
+            foreach (\App\Imperium\Runtime\Citadel\Formation\FormationInstitution::SEATS as $role => $seat) { $result[$seat] = $institution->actor($role); }
+            return $result;
+        })(),
+        'native-revoke' => $protocol->revokeAuthorization($input['native_revocation']),
+        'bootstrap-revoke' => (new \App\Imperium\Runtime\Onboarding\AuthorityAdmission\Admission($store))->retain(
+            \App\Bootstrap\CanonicalJson::encode($input['bootstrap_revocation']), \App\Bootstrap\CanonicalJson::encode($input['revocation_object'])),
         'revoke' => (function () use ($input, $journal, $clock, $checkpoint): array {
             // Pause at the real journal publication, while Formation ownership is held.
             (new FormationSignatures($journal, $clock))->revoke($input['revocation'], $input['nonce']); return ['revoked' => true];

@@ -305,6 +305,10 @@ final readonly class FormationPersonnel
         return $this->journal->change(function (array &$state, FormationOwnerFrame $owner) use ($candidate, $decision, $role, $seat, $effect): array {
             if (isset($state[$role]) && FormationJournal::digest($state[$role]['decision']) === FormationJournal::digest($decision)) {
                 $this->signatures->verify($state, $decision, $effect, $state[$role]['terms']);
+                if (array_key_exists('fresh_institutions', $state)) {
+                    // An appointment result is authority-bearing even on exact replay.
+                    $this->candidateInOwner($owner, $state, $state[$role]['candidate'], $state['citadel_id'], $seat);
+                }
                 return $state[$role];
             }
             $generation = ($state[$role]['generation'] ?? 0) + 1;

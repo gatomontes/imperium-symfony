@@ -64,6 +64,79 @@ final readonly class FormationFreshEstablishment
         });
     }
 
+    /** Public input preparation; only the subsequent authentic native act can adapt state. */
+    public function prepareRevocation(array $target, int $issuedAt, int $expiresAt, string $nonce, string $correlation, string $reason): array
+    {
+        self::bounded([$target, $issuedAt, $expiresAt, $nonce, $correlation, $reason]);
+        return $this->store->journal->inspect(function (array $frame, FormationOwnerFrame $owner) use ($target, $issuedAt, $expiresAt, $nonce, $correlation, $reason): array {
+            $head = ['generation' => $frame['generation'], 'digest' => $frame['record_digest']];
+            $this->revocationTarget($owner, $frame['state'], $head, $target);
+            $t = $target['terms'];
+            return ['schema' => FreshEstablishmentRevocations::ACT, 'domain' => FreshEstablishmentRevocations::DOMAIN,
+                'effect' => FreshEstablishmentRevocations::EFFECT, 'target' => $target,
+                'target_ref' => FreshEstablishmentRevocations::target($target, $frame['state']['onboarding']['trust']['body']),
+                'root_identity' => $t['root_identity'], 'instance_id' => $t['instance_id'], 'citadel_id' => $t['citadel_id'],
+                'operator_id' => $t['operator_id'], 'trust_fingerprint' => $t['operator_trust_fingerprint'], 'expected_head' => $head,
+                'adapter_from' => $frame['state']['fresh_institutions']['schema'], 'issued_at' => $issuedAt, 'expires_at' => $expiresAt,
+                'nonce' => $nonce, 'correlation' => $correlation, 'reason' => $reason];
+        });
+    }
+
+    public function revokeAuthorization(array $envelope): array
+    {
+        self::bounded($envelope);
+        return $this->store->journal->changeAtHead(function (array &$state, array $head, FormationOwnerFrame $owner) use ($envelope): array {
+            $owner->assertOwner(new FormationJournal($this->root)); $extension = self::history($state);
+            $history = FreshEstablishmentRevocations::history($state);
+            $payload = FreshEstablishmentRevocations::envelope($envelope, $state['onboarding']['trust']['body']);
+            if (isset($history[$payload['nonce']])) {
+                self::need(R::same($envelope, $history[$payload['nonce']]['envelope']), 'REVOCATION_NONCE_CONFLICT');
+                return $history[$payload['nonce']];
+            }
+            self::need(count($history) < FreshEstablishmentRevocations::LIMIT, 'REVOCATION_HISTORY_FULL');
+            self::need(R::same($head, $payload['expected_head']) && $payload['adapter_from'] === $extension['schema'], 'REVOCATION_HEAD');
+            $this->revocationTarget($owner, $state, $head, $payload['target']);
+            $now = $this->store->now();
+            self::need($payload['issued_at'] <= $now && $now < $payload['expires_at'], 'REVOCATION_CURRENT');
+            $receipt = self::seal(['schema' => FreshEstablishmentRevocations::RECEIPT,
+                'id' => 'fresh-revocation-'.FormationJournal::digest($envelope), 'sequence' => count($history) + 1,
+                'envelope' => $envelope, 'recorded_at' => $now]);
+            $state['fresh_institutions']['schema'] = FreshEstablishmentRevocations::STATE;
+            $state['fresh_institutions']['revocations'] = [...$history, $payload['nonce'] => $receipt];
+            self::history($state);
+            ($this->checkpoint)?->__invoke('revocation-ready');
+            return $receipt;
+        });
+    }
+
+    private function revocationTarget(FormationOwnerFrame $owner, array $state, array $head, array $target): void
+    {
+        $owner->assertOwner($this->store->journal); $owner->assertOwner(new FormationJournal($this->root));
+        $extension = self::history($state); $trust = $this->store->currentTrust($this->store->state($state));
+        FreshEstablishmentRevocations::target($target, $trust, $this->root);
+        $this->identity($state, $target['terms']);
+        self::need($target['terms']['operator_id'] === $this->store->operator, 'REVOCATION_OPERATOR');
+        self::need($target['terms']['formation_trust_fingerprint'] === ($state['trust']['fingerprint'] ?? null), 'REVOCATION_FORMATION_IDENTITY');
+        if ($extension['reservation'] === null) {
+            self::need(R::same($target['terms']['expected_head'], $head), 'REVOCATION_TARGET_HEAD');
+        } else {
+            self::need(R::same($target, ['terms' => $extension['reservation']['terms'], 'operator' => $extension['reservation']['operator']]), 'REVOCATION_TARGET_ORIGINAL');
+        }
+        if ($extension['completion'] === null) {
+            $this->quiet($state);
+            self::need(R::same($target['terms']['founding'], $this->founding($state)), 'REVOCATION_FOUNDING_ORIGINALS');
+        }
+    }
+
+    /** Historical exact native target, with no dependency on O2 admitted-act nonces. */
+    public static function nativeAuthorizationReference(array $terms, array $operator, array $trust, ?string $root = null): array
+    {
+        self::terms($terms, $root); self::operatorSignature(['terms' => $terms, 'operator' => $operator], $trust);
+        self::need($trust['not_before'] <= $terms['not_before'] && $terms['expires_at'] <= $trust['expires_at'], 'OPERATOR_HISTORY_INTERVAL');
+        $digest = FormationJournal::digest(['terms' => $terms, 'operator' => $operator]);
+        return ['schema' => self::ACT, 'id' => 'native-establishment-act-'.$digest, 'digest' => $digest];
+    }
+
     public static function operatorPayload(array $terms): array
     {
         return ['schema' => self::ACT, 'domain' => self::DOMAIN, 'effect' => self::EFFECT,
@@ -82,6 +155,7 @@ final readonly class FormationFreshEstablishment
                 self::need(R::same($record, $extension['reservation']), 'RESERVATION_CONFLICT');
                 return $extension['completion'] ?? $record;
             }
+            FreshEstablishmentRevocations::assertNotRevoked($state, ['terms' => $terms, 'operator' => $operator]);
             self::need(R::same($head, $terms['expected_head']), 'RESERVATION_HEAD');
             $this->authorize($owner, $state, $record); FreshInstitutionPackage::layout($this->root, $record);
             FreshInstitutionPackage::scan($this->root, null, false);
@@ -147,7 +221,8 @@ final readonly class FormationFreshEstablishment
         self::operatorSignature($record, $trust);
         $now = $this->store->now();
         self::need($trust['not_before'] <= $terms['not_before'] && $terms['not_before'] <= $now && $now < $terms['expires_at']
-            && $terms['expires_at'] <= $trust['expires_at'] && !isset($s['revocations']['act:'.$terms['nonce']]), 'OPERATOR_CURRENT');
+            && $terms['expires_at'] <= $trust['expires_at'], 'OPERATOR_CURRENT');
+        FreshEstablishmentRevocations::assertNotRevoked($state, ['terms' => $terms, 'operator' => $record['operator']]);
         $decision = $this->signatures()->verify($state, $record['formation'], self::EFFECT, $terms);
         self::need($terms['expires_at'] <= $decision['expires_at'], 'FORMATION_INTERVAL');
         self::need(R::same($terms['founding'], $this->founding($state)), 'FOUNDING_ORIGINALS');
@@ -188,8 +263,11 @@ final readonly class FormationFreshEstablishment
     public static function history(array $state): array
     {
         $extension = $state['fresh_institutions'] ?? [];
-        self::bounded($extension, 8388608); self::shape($extension, ['schema', 'initialization', 'reservation', 'completion', 'preparations']);
-        self::need($extension['schema'] === self::STATE, 'STATE_SCHEMA');
+        self::bounded($extension, 8388608);
+        $keys = ['schema', 'initialization', 'reservation', 'completion', 'preparations'];
+        if (($extension['schema'] ?? null) === FreshEstablishmentRevocations::STATE) { $keys[] = 'revocations'; }
+        self::shape($extension, $keys);
+        self::need(in_array($extension['schema'], [self::STATE, FreshEstablishmentRevocations::STATE], true), 'STATE_SCHEMA');
         self::need(is_array($extension['preparations']) && count($extension['preparations']) <= 2, 'PREPARATION_BOUND');
         foreach ($extension['preparations'] as $kind => $proof) {
             self::need(in_array($kind, ['model_preparation', 'profile_designations'], true) && $extension['completion'] !== null, 'PREPARATION_SCOPE');
@@ -204,6 +282,7 @@ final readonly class FormationFreshEstablishment
         self::need($initial['terms']['schema'] === self::STATE && $initial['terms']['citadel_id'] === ($state['citadel_id'] ?? null)
             && $initial['terms']['instance_id'] === ($state['parent_instance_id'] ?? null), 'INITIALIZATION_IDENTITY');
         self::formationSignature($state, $initial['decision'], 'INITIALIZE_FRESH_FORMATION_INSTITUTIONS', $initial['terms']);
+        FreshEstablishmentRevocations::history($state);
         $record = $extension['reservation'];
         if ($record === null) { self::need($extension['completion'] === null, 'COMPLETION_WITHOUT_RESERVATION'); return $extension; }
         self::shape($record, ['schema', 'id', 'terms', 'operator', 'formation', 'record_digest']); self::intact($record);
