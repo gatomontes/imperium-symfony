@@ -1,5 +1,9 @@
 # Countdown to the first live Courtyard interview
 
+**Current estimate: 3–4 batches remaining. R4 is accepted offline through PPC7/PPC8.** [Receiving review](reviews/provider-fresh-establishment-closure-review.md), [exact integration/CI record](provider-fresh-establishment-closure-reviewed-integration.json). Countdown **3–5 → 3–4**: one outcome closes, upper estimate decreases by one; minimum already allowed R4 to share R3.
+
+Remaining: R3 assignment/application/use (1), R5 production ports (1–2), R6 separately authorized commissioning/interview (1). Earlier preparation/partial notices below are historical.
+
 **Next: PPC8 closes the remaining R4 obligations under existing PPC7 approval.** [Campaign](next-campaign-provider-fresh-establishment-closure.md), [implementation/proof plan](provider-fresh-establishment-closure-plan.md), [local prompt and PowerShell handoff](handoffs/provider-fresh-establishment-closure-ready.md). Preparation earns no decrement; **3–5 remains**. Complete R4-only acceptance could leave **3–4**, still conditional.
 
 **Working estimate: 3–5 batches remaining. PPC7 same-root establishment components are accepted offline; R4 remains open. R1/R2 stay accepted; R3 remains open.**
@@ -16,12 +20,12 @@ The milestone is one separately authorized, bounded live Courtyard interview, wi
 | --- | --- | --- |
 | R1. Competent native model seal → exact O4 binding/configuration/generation correspondence | 0 | **Accepted offline through PPC5** |
 | R2. Native tenure and registry synchronization, including indirect lock order | 0 | **Accepted offline through PPC3 + PPC4** |
-| R3. Designation/revocation/supersession and shared assignment/application/use verifier | 1 | Open; PPC6 components integrated, but substantive predicates, native application/use and race/refusal proof remain incomplete alongside R4 |
-| R4. Combined FRESH institutional establishment | 0–1 additional | Required; PPC8 continuation prepared for remaining revocation and consumer/ordering/reset/original proof; PPC7 components integrated |
+| R3. Designation/revocation/supersession and shared assignment/application/use verifier | 1 | Open; R4 prerequisite accepted, substantive predicates and native application/use plus full race/refusal proof remain |
+| R4. Combined FRESH institutional establishment | 0 | **Accepted offline through PPC7 + PPC8** |
 | R5. Account/access, base-model and cognition evidence | 1–2 | Three open production ports; batching depends on compatible provider evidence and actual inputs |
 | R6. Separately authorized bounded commissioning and first live interview | 1 | Deferred until prerequisites are met and live authorization is explicit |
 
-The remaining internal outcomes R3/R4 account for 1–2 batches; provider evidence for 1–2; commissioning for one. Accepted R1 and R2 each contribute zero additional batches. These are planning estimates, not guaranteed release dates or permission to combine incompatible work. R4 remains mandatory even when its additional batch count is zero. Missing external facts or a new contract gap can raise the estimate.
+The remaining internal outcome R3 accounts for one batch; provider evidence for 1–2; commissioning for one. Accepted R1, R2 and R4 each contribute zero additional batches. These are planning estimates, not guaranteed release dates or permission to combine incompatible work. Missing external facts or a new contract gap can raise the estimate.
 
 ## Counting rule
 
@@ -50,5 +54,6 @@ PPC4 receiving review accepted complete R2 closure with no new scope, applying t
 | PPC7 clauses A–F owner-approved | [Exact approval/hash record](handoffs/provider-fresh-establishment-approval.json) | No decrement; **3–5 remains** |
 | PPC7 components accepted; R4 open | [Receiving review](reviews/provider-fresh-establishment-review.md); PR #833, merge `d4b7eb1bc57f20a01529293cf4ae8e600f7074e2`, CI 34970373131 | No decrement; **3–5 remains** |
 | PPC8 R4 closure continuation prepared | [Campaign](next-campaign-provider-fresh-establishment-closure.md); existing PPC7 A–F approval retained | No decrement; **3–5 remains** |
+| R4 accepted after PPC8 | [Receiving review](reviews/provider-fresh-establishment-closure-review.md); PR #836, merge `cb3e430501be8f0e66384ef029e3d8d7ebc5c25d`, CI 35011037070 | **One outcome closed; 3–5 → 3–4 (upper estimate −1)** |
 
 No live action is authorized by this countdown. All five operational flags remain false, `DEFER_ENROLLMENT` remains, and the actual retry allowlist is empty.

@@ -1,0 +1,726 @@
+{
+  "schema": "imperium.provider-fresh-establishment-closure-reviewed-integration/v1",
+  "disposition": "SAME_ROOT_FRESH_INSTITUTIONS_IMPLEMENTED_OFFLINE",
+  "r4_complete_accepted_offline": true,
+  "r3_complete": false,
+  "assignment_evidence_implemented_offline": false,
+  "installed_establishment_proved": false,
+  "production_promotion": false,
+  "approval_record": "docs/handoffs/provider-fresh-establishment-approval.json",
+  "proposal_sha256": "e32bfd849a96f380505c0486702124c4bb60a9d5b26a15e7a39e7ef30eed3d4e",
+  "packet_sha256": "4d07a7b2f095d69374260ab3f652e6674bfa567ef4026cf7d90111142b943b15",
+  "packet_verification": {
+    "verified": true,
+    "source_files": 3658,
+    "evidence_files": 983,
+    "identities": {
+      "base": {
+        "commit": "adab0cf1c2b5258a95764cd8ca04d9b0881f194f",
+        "tree": "de3ef2185bf429b6a3ae2953e63d6ef2a4ceb63d"
+      },
+      "tested": {
+        "commit": "7fb3e50b38aeeab7d677c13d2057e016a49a2eba",
+        "tree": "704f57e59be25ee4f0ea50c97088e5ff7ec92e84"
+      },
+      "final": {
+        "commit": "5d1a0f0650a6e2b9a96a8b1fffbd85b2728ac5f8",
+        "tree": "f22b8f1c42885edc00922665f2cd55142e2225d3"
+      },
+      "baseline_main": "2fffa8f51197dce0464b4b6ca5f0d613f1a4dc7b",
+      "baseline_main_tree": "e8d4e07af4246db3023af8e7b09cfaecafcb2725",
+      "bundle_prerequisites": [
+        "adab0cf1c2b5258a95764cd8ca04d9b0881f194f"
+      ],
+      "final_source_review_only": true,
+      "created_utc": "2026-09-15T17:52:01.939803+00:00"
+    },
+    "exact_bundle_prerequisite": [
+      "adab0cf1c2b5258a95764cd8ca04d9b0881f194f"
+    ],
+    "exact_diffs": true,
+    "protected_files": 44,
+    "disposition": "PARTIAL_FRESH_INSTITUTIONAL_ESTABLISHMENT"
+  },
+  "runtime_pr": 836,
+  "runtime_merge": "cb3e430501be8f0e66384ef029e3d8d7ebc5c25d",
+  "reviewed_tree": "7fd6c47700556a79a69b6671c29f7ff83351460b",
+  "receiving_head": "71fd932b14828cee683e6c0ecb5a3030399c6209",
+  "receiving_test_followup": {
+    "local_commit": "868d3237ad47aa4bab4c7da81688930fb4f7247c",
+    "path": "tests/Imperium/Runtime/FreshEstablishmentResetClosureTest.php",
+    "cases": 2,
+    "production_source_changed_in_this_test_followup": false,
+    "reason": "The producer reset test did not contain a symlink-root invocation; add pending exact revocation and completed consumption/replay observations through the actual aliased service.",
+    "diff_sha256": "06f5e7933e6f16feb1149478fa3274caec432a77fd3da2a54d852bcebd42625e"
+  },
+  "receiving_runtime_correction": {
+    "local_commit": "2546d7f08db2daa2918fb9e506391701227175f6",
+    "finding": "https://github.com/gatomontes/imperium-symfony/pull/836#discussion_r4019140544",
+    "reason": "Exact pending reservation replay returned before checking native withdrawal. Check the exact target on pending replay, retaining completed historical replay.",
+    "production_source": "src/Imperium/Runtime/Citadel/Formation/FormationFreshEstablishment.php",
+    "regression": "FreshEstablishmentRevocationTest::testExactPendingReservationReplayRefusesWithdrawnAuthorization",
+    "complete_receiving_diff_sha256": "ecd609bb0051d93ac9700e77be3c165328473d5938d3f6994fcc71877c721754"
+  },
+  "initial_receiving_run": 35009936267,
+  "initial_receiving_head": "b3f6c48f74cfe8ffea684b883aeb4b404dfc0a70",
+  "initial_receiving_tree": "8a115e0f522e57ac269df093a0f5742f65304c87",
+  "initial_run_used_for_corrected_acceptance": false,
+  "ci": {
+    "files": 636,
+    "tests": 4094,
+    "assertions": 69435,
+    "skipped": 4,
+    "summed_test_seconds": 5509.778233999999,
+    "longest_partition_seconds": 949.055353,
+    "partitions": [
+      {
+        "index": 0,
+        "tests": 576,
+        "assertions": 13431,
+        "skipped": 0,
+        "seconds": 313.464575
+      },
+      {
+        "index": 1,
+        "tests": 408,
+        "assertions": 8159,
+        "skipped": 0,
+        "seconds": 930.169677
+      },
+      {
+        "index": 2,
+        "tests": 445,
+        "assertions": 5921,
+        "skipped": 0,
+        "seconds": 949.055353
+      },
+      {
+        "index": 3,
+        "tests": 576,
+        "assertions": 22436,
+        "skipped": 0,
+        "seconds": 722.807691
+      },
+      {
+        "index": 4,
+        "tests": 655,
+        "assertions": 5127,
+        "skipped": 0,
+        "seconds": 311.358634
+      },
+      {
+        "index": 5,
+        "tests": 494,
+        "assertions": 4197,
+        "skipped": 1,
+        "seconds": 932.850698
+      },
+      {
+        "index": 6,
+        "tests": 535,
+        "assertions": 4255,
+        "skipped": 2,
+        "seconds": 444.314262
+      },
+      {
+        "index": 7,
+        "tests": 405,
+        "assertions": 5909,
+        "skipped": 1,
+        "seconds": 905.757344
+      }
+    ],
+    "tree": "7fd6c47700556a79a69b6671c29f7ff83351460b",
+    "source_digest": "fbba9043ddb93366885884e613351a0e68af1f6795cd4402f75f5aeebc22def3",
+    "exact_case_coverage": true,
+    "run": 35011037070,
+    "url": "https://github.com/gatomontes/imperium-symfony/actions/runs/35011037070",
+    "conclusion": "success",
+    "checkout": "33bbaf4a33dabc35c1283f9a19b8aa9b47155fe2",
+    "php": "8.4.25",
+    "phpunit": "13.3.0",
+    "guards_passed": 11,
+    "guards_skipped": 0,
+    "guard_job_id": 104528338364,
+    "longest_job_wall_seconds": 975.0,
+    "started_at": "2026-09-15T19:00:52Z",
+    "completed_at": "2026-09-15T19:17:19Z",
+    "worker_jobs": [
+      {
+        "id": 104522740595,
+        "name": "suite (1)",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-09-15T19:00:52Z",
+        "completed_at": "2026-09-15T19:16:39Z",
+        "wall_seconds": 947.0
+      },
+      {
+        "id": 104522740862,
+        "name": "suite (4)",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-09-15T19:00:53Z",
+        "completed_at": "2026-09-15T19:06:21Z",
+        "wall_seconds": 328.0
+      },
+      {
+        "id": 104522740872,
+        "name": "suite (7)",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-09-15T19:00:53Z",
+        "completed_at": "2026-09-15T19:16:14Z",
+        "wall_seconds": 921.0
+      },
+      {
+        "id": 104522740891,
+        "name": "suite (3)",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-09-15T19:00:53Z",
+        "completed_at": "2026-09-15T19:13:15Z",
+        "wall_seconds": 742.0
+      },
+      {
+        "id": 104522740911,
+        "name": "suite (6)",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-09-15T19:00:53Z",
+        "completed_at": "2026-09-15T19:08:37Z",
+        "wall_seconds": 464.0
+      },
+      {
+        "id": 104522740970,
+        "name": "suite (2)",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-09-15T19:00:53Z",
+        "completed_at": "2026-09-15T19:17:08Z",
+        "wall_seconds": 975.0
+      },
+      {
+        "id": 104522740995,
+        "name": "suite (5)",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-09-15T19:00:53Z",
+        "completed_at": "2026-09-15T19:16:42Z",
+        "wall_seconds": 949.0
+      },
+      {
+        "id": 104522741118,
+        "name": "suite (0)",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-09-15T19:00:53Z",
+        "completed_at": "2026-09-15T19:06:28Z",
+        "wall_seconds": 335.0
+      }
+    ],
+    "explicit_skips": [
+      {
+        "class": "App\\Tests\\Imperium\\Runtime\\LocalIsolationProcessTest",
+        "name": "testWindowsModulePollutionAtBothRealLaunchBoundaries",
+        "assertions": 0,
+        "reason": ""
+      },
+      {
+        "class": "App\\Tests\\Imperium\\Runtime\\LocalIsolationReadinessTest",
+        "name": "testNativeHandlesAndExactStartupRefusal",
+        "assertions": 0,
+        "reason": ""
+      },
+      {
+        "class": "App\\Tests\\Imperium\\Runtime\\LocalIsolationReadinessTest",
+        "name": "testCompleteReadinessAndAdversarialEvidenceThroughPowerShell",
+        "assertions": 0,
+        "reason": ""
+      },
+      {
+        "class": "App\\Tests\\Imperium\\Runtime\\LocalIsolationScratchTest",
+        "name": "testNativeWorkspacePolicyAndCleanupFailure",
+        "assertions": 0,
+        "reason": ""
+      }
+    ],
+    "linux_symlink_case": {
+      "class": "App\\Tests\\Imperium\\Runtime\\ReservedInstitutionalStorageTest",
+      "name": "testSymlinkAliasesAndDanglingTargetsRefuse",
+      "assertions": 5
+    },
+    "new_component_tests": 143,
+    "new_component_assertions": 3685,
+    "artifacts": [
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10414625035/zip",
+        "created_at": "2026-09-15T19:17:05Z",
+        "digest": "sha256:0b42ec1959c7b4987298762c2e70ab830daf4fdf02cc5a56101a613e7a834fe0",
+        "expired": false,
+        "expires_at": "2026-10-15T19:17:04Z",
+        "id": 10414625035,
+        "name": "phpunit-2",
+        "size_in_bytes": 172178,
+        "updated_at": "2026-09-15T19:17:05Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10414625035",
+        "workflow_run": {
+          "head_branch": "codex/ppc8-receiving-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "71fd932b14828cee683e6c0ecb5a3030399c6209",
+          "id": 35011037070,
+          "repository_id": 1328224683
+        }
+      },
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10414325245/zip",
+        "created_at": "2026-09-15T19:06:25Z",
+        "digest": "sha256:2b825a5a0674e5b771b102a16f63218940f77f702c137360fe918f13dc95d8f7",
+        "expired": false,
+        "expires_at": "2026-10-15T19:06:24Z",
+        "id": 10414325245,
+        "name": "phpunit-0",
+        "size_in_bytes": 175098,
+        "updated_at": "2026-09-15T19:06:25Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10414325245",
+        "workflow_run": {
+          "head_branch": "codex/ppc8-receiving-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "71fd932b14828cee683e6c0ecb5a3030399c6209",
+          "id": 35011037070,
+          "repository_id": 1328224683
+        }
+      },
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10414207856/zip",
+        "created_at": "2026-09-15T19:16:40Z",
+        "digest": "sha256:c9859cac14908a23754f452db1355237665ac1099d1bb5cf243885178eabb106",
+        "expired": false,
+        "expires_at": "2026-10-15T19:16:39Z",
+        "id": 10414207856,
+        "name": "phpunit-5",
+        "size_in_bytes": 172576,
+        "updated_at": "2026-09-15T19:16:40Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10414207856",
+        "workflow_run": {
+          "head_branch": "codex/ppc8-receiving-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "71fd932b14828cee683e6c0ecb5a3030399c6209",
+          "id": 35011037070,
+          "repository_id": 1328224683
+        }
+      },
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10413878668/zip",
+        "created_at": "2026-09-15T19:16:12Z",
+        "digest": "sha256:57fdd37955b0317f7268ff1faec962a94f846a8212dda01244e5f2c52286c7a3",
+        "expired": false,
+        "expires_at": "2026-10-15T19:16:12Z",
+        "id": 10413878668,
+        "name": "phpunit-7",
+        "size_in_bytes": 170601,
+        "updated_at": "2026-09-15T19:16:12Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10413878668",
+        "workflow_run": {
+          "head_branch": "codex/ppc8-receiving-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "71fd932b14828cee683e6c0ecb5a3030399c6209",
+          "id": 35011037070,
+          "repository_id": 1328224683
+        }
+      },
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10413772713/zip",
+        "created_at": "2026-09-15T19:08:35Z",
+        "digest": "sha256:defbf2e85188537073b51c080b2c64b78ff936b2a139734a65e219b16c44794b",
+        "expired": false,
+        "expires_at": "2026-10-15T19:08:34Z",
+        "id": 10413772713,
+        "name": "phpunit-6",
+        "size_in_bytes": 173783,
+        "updated_at": "2026-09-15T19:08:35Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10413772713",
+        "workflow_run": {
+          "head_branch": "codex/ppc8-receiving-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "71fd932b14828cee683e6c0ecb5a3030399c6209",
+          "id": 35011037070,
+          "repository_id": 1328224683
+        }
+      },
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10413697753/zip",
+        "created_at": "2026-09-15T19:13:13Z",
+        "digest": "sha256:e4af503db14cf0c91365fd966e347a5a8b39eaeccc410ea2cf01c219dcabd0b1",
+        "expired": false,
+        "expires_at": "2026-10-15T19:13:12Z",
+        "id": 10413697753,
+        "name": "phpunit-3",
+        "size_in_bytes": 175406,
+        "updated_at": "2026-09-15T19:13:13Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10413697753",
+        "workflow_run": {
+          "head_branch": "codex/ppc8-receiving-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "71fd932b14828cee683e6c0ecb5a3030399c6209",
+          "id": 35011037070,
+          "repository_id": 1328224683
+        }
+      },
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10413669773/zip",
+        "created_at": "2026-09-15T19:17:17Z",
+        "digest": "sha256:79f829cb05359332541f145f22a1a7afa33acf7381e066ca9e0a84b27fa58d89",
+        "expired": false,
+        "expires_at": "2026-10-15T19:17:17Z",
+        "id": 10413669773,
+        "name": "phpunit-complete-coverage",
+        "size_in_bytes": 558,
+        "updated_at": "2026-09-15T19:17:17Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10413669773",
+        "workflow_run": {
+          "head_branch": "codex/ppc8-receiving-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "71fd932b14828cee683e6c0ecb5a3030399c6209",
+          "id": 35011037070,
+          "repository_id": 1328224683
+        }
+      },
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10413448874/zip",
+        "created_at": "2026-09-15T19:16:37Z",
+        "digest": "sha256:0c87298f18f4b23aa2d900a8bc24bf63908aaa01de1cbe238aa3a201d2f2ead6",
+        "expired": false,
+        "expires_at": "2026-10-15T19:16:37Z",
+        "id": 10413448874,
+        "name": "phpunit-1",
+        "size_in_bytes": 171219,
+        "updated_at": "2026-09-15T19:16:37Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10413448874",
+        "workflow_run": {
+          "head_branch": "codex/ppc8-receiving-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "71fd932b14828cee683e6c0ecb5a3030399c6209",
+          "id": 35011037070,
+          "repository_id": 1328224683
+        }
+      },
+      {
+        "archive_download_url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10413358205/zip",
+        "created_at": "2026-09-15T19:06:20Z",
+        "digest": "sha256:ff11b8881efbfee0f13fb99977e5ca1780467b4b4a6b3214433f4d5efc0d4a75",
+        "expired": false,
+        "expires_at": "2026-10-15T19:06:19Z",
+        "id": 10413358205,
+        "name": "phpunit-4",
+        "size_in_bytes": 175161,
+        "updated_at": "2026-09-15T19:06:20Z",
+        "url": "https://api.github.com/repos/gatomontes/imperium-symfony/actions/artifacts/10413358205",
+        "workflow_run": {
+          "head_branch": "codex/ppc8-receiving-review",
+          "head_repository_id": 1328224683,
+          "head_sha": "71fd932b14828cee683e6c0ecb5a3030399c6209",
+          "id": 35011037070,
+          "repository_id": 1328224683
+        }
+      }
+    ],
+    "executable_source_changed_during_receiving": true,
+    "receiving_regressions": [
+      {
+        "class": "App\\Tests\\Imperium\\Runtime\\FreshEstablishmentResetClosureTest",
+        "name": "testSymlinkRootSharesRevocationAndCannotResetConsumption with data set \"pending-revocation\"",
+        "assertions": 9
+      },
+      {
+        "class": "App\\Tests\\Imperium\\Runtime\\FreshEstablishmentResetClosureTest",
+        "name": "testSymlinkRootSharesRevocationAndCannotResetConsumption with data set \"completed-consumption\"",
+        "assertions": 10
+      },
+      {
+        "class": "App\\Tests\\Imperium\\Runtime\\FreshEstablishmentRevocationTest",
+        "name": "testExactPendingReservationReplayRefusesWithdrawnAuthorization",
+        "assertions": 6
+      }
+    ]
+  },
+  "public_evidence": {
+    "same_root_sequence": [
+      {
+        "path": "phpunit-5/public/same-root-sequence.json",
+        "frames": 94,
+        "native_placements": 18,
+        "fresh_actors": 9,
+        "targets": [
+          "clavium.locksmith",
+          "courtyard.courtthane"
+        ]
+      }
+    ],
+    "designation_histories": {
+      "verified": true,
+      "scope": "Public cryptographic integrity and retained history only; no current or external authority",
+      "results": [
+        {
+          "path": "phpunit-5/public/originals/var/imperium/citadel/formation",
+          "frames": 94,
+          "unique_verified_signatures": 77,
+          "events": 2,
+          "targets": [
+            "clavium.locksmith",
+            "courtyard.courtthane"
+          ]
+        }
+      ]
+    },
+    "crash_operation_point_pairs": 82,
+    "signature_verified_crash_operation_point_pairs": 82,
+    "process_records": 220,
+    "publication_expiry_cases": 2,
+    "closure": {
+      "verified": true,
+      "counts": {
+        "closure-revocations": 6,
+        "closure-orders": 6,
+        "closure-trust": 4,
+        "closure-durability": 11
+      },
+      "frames": 57,
+      "receipt_originals_verified": 46,
+      "ownership_orders": 6,
+      "trust_clock_cases": 4,
+      "consumer_entries": [
+        "actor:conscription",
+        "actor:garrison",
+        "actor:guildhall",
+        "actor:laboratorium",
+        "actor:senate",
+        "actor:senate-consistency",
+        "actor:senate-governance",
+        "actor:senate-practice",
+        "actor:senate-security",
+        "actorInOwner:conscription",
+        "actorInOwner:garrison",
+        "actorInOwner:guildhall",
+        "actorInOwner:laboratorium",
+        "actorInOwner:senate",
+        "actorInOwner:senate-consistency",
+        "actorInOwner:senate-governance",
+        "actorInOwner:senate-practice",
+        "actorInOwner:senate-security",
+        "appointmentReplay:clavium.locksmith",
+        "appointmentReplay:courtyard.courtthane",
+        "authoritySource:conscription",
+        "authoritySource:garrison",
+        "authoritySource:guildhall",
+        "authoritySource:laboratorium",
+        "authoritySource:senate",
+        "authoritySource:senate-consistency",
+        "authoritySource:senate-governance",
+        "authoritySource:senate-practice",
+        "authoritySource:senate-security",
+        "authorizedModelCandidateInOwner:clavium.locksmith",
+        "authorizedModelCandidateInOwner:courtyard.courtthane",
+        "candidateInOwner:clavium.locksmith",
+        "candidateInOwner:courtyard.courtthane",
+        "currentHolder:clavium.locksmith",
+        "currentHolder:courtyard.courtthane",
+        "delegate:conscription",
+        "delegate:garrison",
+        "delegate:guildhall",
+        "delegate:laboratorium",
+        "delegate:senate",
+        "delegate:senate-consistency",
+        "delegate:senate-governance",
+        "delegate:senate-practice",
+        "delegate:senate-security",
+        "designationCurrent:clavium.locksmith",
+        "designationCurrent:courtyard.courtthane",
+        "designationDelegate:clavium.locksmith",
+        "designationDelegate:courtyard.courtthane",
+        "designationPublish:clavium.locksmith",
+        "designationPublish:courtyard.courtthane",
+        "initializeDesignations",
+        "initializeModel",
+        "mapping:clavium.locksmith",
+        "mapping:courtyard.courtthane",
+        "modelAuthorize:clavium.locksmith",
+        "modelAuthorize:courtyard.courtthane",
+        "modelDelegate:clavium.locksmith",
+        "modelDelegate:courtyard.courtthane",
+        "modelSeal:clavium.locksmith",
+        "modelSeal:courtyard.courtthane",
+        "modelVerifyInOwner:clavium.locksmith",
+        "modelVerifyInOwner:courtyard.courtthane",
+        "prepareBinding:clavium.locksmith",
+        "prepareBinding:courtyard.courtthane",
+        "record:ADMITTED_PERSONA",
+        "record:DERIVED_PROFILE",
+        "record:EXAMINED_PROFILE",
+        "record:QUALIFIED_MANIFESTATION",
+        "record:SENATOR_FINDING",
+        "record:SUITABLE_CANDIDATE",
+        "recordAuthorizedModelBoundProfile:clavium.locksmith",
+        "recordAuthorizedModelBoundProfile:courtyard.courtthane",
+        "recordModelBoundProfile",
+        "sealingPayload:clavium.locksmith",
+        "sealingPayload:courtyard.courtthane"
+      ],
+      "consumer_observations": 105
+    },
+    "mapping_admitted": false,
+    "assignment_applied": false,
+    "external_model_account_base_cognition_synthetic": true
+  },
+  "source_review": {
+    "predecessor_inventory_entries": 234,
+    "supplemental_current_files": 20,
+    "supplied_classifications": {
+      "current": 3,
+      "historical": 11,
+      "indirect": 13,
+      "unreachable": 207
+    },
+    "classification_explanation_corrections": [
+      {
+        "path": "src/Imperium/Runtime/Citadel/NativeAuthority/NativeJournal.php",
+        "supplied_claim": "NativeJournal publication acquires OperatorRootOwnership, which refuses consumed FRESH root",
+        "receiving_correction": "NativeJournal::change acquires NativeBoundary::lock, which acquires Formation then native ownership. It does not invoke OperatorRootOwnership::nativeInOwner or its consumed-root refusal. Registry publication can occur; FreshInstitutionPackage::scan rejects its presence before unfinished completion and on current actor resolution.",
+        "reviewed_sha256": "c0513cf53bdc8da51c106f3ca0b3b2f3cda6a72bf75df619d99707ce81add9e6"
+      },
+      {
+        "path": "src/Imperium/Runtime/Citadel/NativeAuthority/NativeTrust.php",
+        "supplied_claim": "NativeTrust enrollment through NativeJournal/OperatorRootOwnership refuses the consumed root",
+        "receiving_correction": "NativeTrust::enroll can publish initial native trust through NativeJournal on the FRESH root. Both real enrollment/establishment orders are exercised by the unchanged FreshEstablishmentOrderingTest. Presence of the native registry is a successor refusal for new FRESH current consumers; roster adoption is not supplied by enrollment.",
+        "reviewed_sha256": "c7f261d72babcb9e8010ee5d5b0a0a87c9d85212d69fe5043f1f2d6194b3d82e"
+      },
+      {
+        "path": "src/Imperium/Runtime/Citadel/NativeAuthority/NativeAdmission.php",
+        "supplied_claim": "NativeAdmission routes enabled state through NativeBoundary to NativeProtocol",
+        "receiving_correction": "NativeAdmission::build is a pure record constructor called by NativeProtocol::admit. NativeProtocol checks the current roster and original Garrison occupancy first; original() calls GarrisonAuthorityRequest::prepare, whose closed old occupancy schema rejects the FRESH wrapper. Recruiter adoption separately requires the existing bootstrap evidence owner. No FRESH wrapper-to-roster promotion exists.",
+        "reviewed_sha256": "7af254e9a8efe8b2fcc2e409e3c6bbd93ec81b0864e940fb49c45757475e61ca"
+      }
+    ],
+    "distinct_executed_entry_role_combinations": 75,
+    "consumer_observations": 105,
+    "freshly_signed_malformed_original_cases": 15,
+    "source_equivalence_accepted_for_shared_paths": true,
+    "full_cartesian_execution_claimed": false,
+    "formal_control_flow_proof_claimed": false,
+    "separate_independent_manual_reviewer_claimed": false,
+    "scope": "Supported cooperating binaries, canonical configured disposable roots and fixed topology; explicit successor refusal, exact forward recovery, complete native/journal authority join. No administrator rollback or installed private-state claim."
+  },
+  "producer_validation": {
+    "aggregate": {
+      "files": 636,
+      "tests": 4092,
+      "assertions": 69539,
+      "skipped": 1,
+      "summed_test_seconds": 14305.196275,
+      "longest_partition_seconds": 2665.132822,
+      "partitions": [
+        {
+          "index": 0,
+          "tests": 574,
+          "assertions": 13415,
+          "skipped": 0,
+          "seconds": 934.621605
+        },
+        {
+          "index": 1,
+          "tests": 408,
+          "assertions": 8159,
+          "skipped": 0,
+          "seconds": 2003.103639
+        },
+        {
+          "index": 2,
+          "tests": 445,
+          "assertions": 5921,
+          "skipped": 0,
+          "seconds": 2388.124557
+        },
+        {
+          "index": 3,
+          "tests": 575,
+          "assertions": 22432,
+          "skipped": 0,
+          "seconds": 2136.910416
+        },
+        {
+          "index": 4,
+          "tests": 655,
+          "assertions": 5124,
+          "skipped": 0,
+          "seconds": 731.192495
+        },
+        {
+          "index": 5,
+          "tests": 495,
+          "assertions": 4309,
+          "skipped": 1,
+          "seconds": 2665.132822
+        },
+        {
+          "index": 6,
+          "tests": 535,
+          "assertions": 4266,
+          "skipped": 0,
+          "seconds": 1459.281469
+        },
+        {
+          "index": 7,
+          "tests": 405,
+          "assertions": 5913,
+          "skipped": 0,
+          "seconds": 1986.829272
+        }
+      ],
+      "tree": "704f57e59be25ee4f0ea50c97088e5ff7ec92e84",
+      "source_digest": "492075212a16b187dbe6df91a99e028ada5ec44478c9cc9d460069dc7ddd3def",
+      "exact_case_coverage": true
+    },
+    "guard_counts": {
+      "tests": 11,
+      "passed": 10,
+      "errors": 1,
+      "failed": 0,
+      "skipped": 0
+    },
+    "complete_acceptance_gate_green": false,
+    "guard_error": "WinError 1314 at symlink creation",
+    "warnings": 4,
+    "longest_worker_wall_seconds": 2747.219,
+    "workers_over_30_minutes": [
+      1,
+      2,
+      3,
+      5,
+      7
+    ],
+    "historical_counts_not_added_to_hosted": true
+  },
+  "remaining_batches_before": [
+    3,
+    5
+  ],
+  "remaining_batches": [
+    3,
+    4
+  ],
+  "accepted_outcome_count": 1,
+  "range_delta": [
+    0,
+    -1
+  ],
+  "countdown_reason": "R4 alone accepted. Minimum already allowed R4 to share a batch with R3; remaining R3 1, R5 1–2 and R6 1 give 3–4.",
+  "operational_flags": {
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "live_ready": false,
+    "activation": false,
+    "execution_authority": false
+  },
+  "native_enrollment_disposition": "DEFER_ENROLLMENT",
+  "actual_retry_allowlist": []
+}

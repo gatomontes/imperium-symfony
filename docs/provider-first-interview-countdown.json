@@ -7,7 +7,7 @@
   "owner_instruction": "proceed. remember countdown",
   "remaining_batches": {
     "minimum": 3,
-    "maximum": 5,
+    "maximum": 4,
     "kind": "WORKING_ESTIMATE"
   },
   "selected_campaign": "PPC8",
@@ -42,7 +42,7 @@
       "additional_batches_max": 1,
       "partial_component_evidence": "docs/reviews/provider-designation-assignment-review.md",
       "remaining_gaps": [
-        "PPC7 supplies a supported same-root FRESH establishment component sequence, but complete R4 acceptance remains open for individual native Operator-act revocation and consumer/ordering/reset/original proof. Original installation paths retain their prior refusals.",
+        "R4 same-root FRESH institutional prerequisite is accepted offline through PPC7/PPC8. Complete R3 substantive predicates and actual assignment/application/use proof remain separately required.",
         "NativeAssignmentEvidence recognizes only directly verified profile.current_active, profile.exact_model_binding and profile.independent_appointment. Broader substantive predicate production and verification remain open; profile.fits refuses.",
         "No direct NativeAssignmentEvidence invocation is covered by the committed tests. Generic owner-routing tests and native designation histories do not establish a positive native assignment consumer.",
         "Full initial application, replacement, actual settings delivery and their mutation races remain unproven through the same supported native owner sequence.",
@@ -54,19 +54,16 @@
     {
       "id": "R4",
       "name": "Combined FRESH institutional establishment",
-      "status": "OPEN_REQUIRED",
+      "status": "ACCEPTED_OFFLINE",
       "additional_batches_min": 0,
-      "additional_batches_max": 1,
-      "zero_means": "Closed within another accepted internal batch, never omitted",
+      "additional_batches_max": 0,
       "partial_component_evidence": "docs/reviews/provider-fresh-establishment-review.md",
-      "remaining_gaps": [
-        "Individual native Operator-act revocation lacks a supported admission/producer; Formation decision and Operator issuer revocations are available but are different scopes.",
-        "Dedicated two-process Operator issuer/act/trust-expiry and founding-holder policy invalidation orderings remain unproved.",
-        "Indirect consumer end-to-end proof and all alias/second-policy reset variants remain incomplete.",
-        "Most malformed-original cases retain original signatures after terms are changed; they do not all establish original-specific refusal under freshly valid joint signatures."
-      ],
+      "remaining_gaps": [],
       "partial_integration_pr": 833,
-      "partial_integration_merge": "d4b7eb1bc57f20a01529293cf4ae8e600f7074e2"
+      "partial_integration_merge": "d4b7eb1bc57f20a01529293cf4ae8e600f7074e2",
+      "acceptance_evidence": "docs/reviews/provider-fresh-establishment-closure-review.md",
+      "integration_pr": 836,
+      "integration_merge": "cb3e430501be8f0e66384ef029e3d8d7ebc5c25d"
     },
     {
       "id": "R5",
@@ -86,7 +83,8 @@
   "counting_rule": "Decrement only after receiving acceptance of a named required outcome with exact integration/validation evidence; preparation, submission and components leaving the outcome open earn no decrement. Re-estimate explicitly for new scope.",
   "accepted_countdown_outcomes": [
     "R2_NATIVE_TENURE_SYNCHRONIZATION",
-    "R1_NATIVE_O4_MODEL_CORRESPONDENCE"
+    "R1_NATIVE_O4_MODEL_CORRESPONDENCE",
+    "R4_COMBINED_FRESH_INSTITUTIONAL_ESTABLISHMENT"
   ],
   "potential_after_accepted_ppc3": {
     "minimum": 4,
@@ -285,6 +283,28 @@
       "decrement": 0,
       "evidence": "docs/next-campaign-provider-fresh-establishment-closure.md",
       "reason": "Finish PPC7 approved revocation/consumer/ordering/reset/original obligations; preparation is not full R4 acceptance"
+    },
+    {
+      "event": "R4_ACCEPTED_AFTER_PPC8",
+      "outcome": "R4_COMBINED_FRESH_INSTITUTIONAL_ESTABLISHMENT",
+      "previous_range": [
+        3,
+        5
+      ],
+      "range": [
+        3,
+        4
+      ],
+      "decrement": 1,
+      "range_delta": [
+        0,
+        -1
+      ],
+      "evidence": "docs/reviews/provider-fresh-establishment-closure-review.md",
+      "integration_pr": 836,
+      "integration_merge": "cb3e430501be8f0e66384ef029e3d8d7ebc5c25d",
+      "ci_run": 35011037070,
+      "reason": "Complete R4 accepted after source review, direct receiving symlink proof and fresh full hosted CI. Minimum already allowed R4 to share R3; only upper estimate falls."
     }
   ],
   "operational_flags": {
@@ -296,8 +316,8 @@
   },
   "native_enrollment_disposition": "DEFER_ENROLLMENT",
   "actual_retry_allowlist": [],
-  "latest_receiving_review": "docs/reviews/provider-fresh-establishment-review.md",
-  "selected_campaign_status": "READY_UNDER_EXISTING_PPC7_APPROVAL",
+  "latest_receiving_review": "docs/reviews/provider-fresh-establishment-closure-review.md",
+  "selected_campaign_status": "R4_ACCEPTED_OFFLINE",
   "potential_after_accepted_ppc4": {
     "minimum": 4,
     "maximum": 6,
@@ -328,8 +348,9 @@
   "potential_after_accepted_ppc8": {
     "minimum": 3,
     "maximum": 4,
-    "applied": false,
+    "applied": true,
     "condition": "Complete R4-only receiving acceptance with no new scope; R3 1, R5 1–2, R6 1 remain",
-    "endpoint_explanation": "Minimum already allowed R4 to be combined with R3; no automatic subtraction from both endpoints"
+    "endpoint_explanation": "Minimum already allowed R4 to be combined with R3; no automatic subtraction from both endpoints",
+    "evidence": "docs/reviews/provider-fresh-establishment-closure-review.md"
   }
 }
