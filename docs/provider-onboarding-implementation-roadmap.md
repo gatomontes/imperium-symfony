@@ -1,3 +1,17 @@
+# Current review — PPC7 partial components; countdown 3–5
+
+**PPC7 same-root FRESH institutional establishment components are integrated offline; R4 remains open.** [PR #833](https://github.com/gatomontes/imperium-symfony/pull/833), merge `d4b7eb1bc57f20a01529293cf4ae8e600f7074e2`, exact reviewed/hosted-tested tree `76c53eb96501e4f571f4019d84aefa24551837b4`. [Receiving review](reviews/provider-fresh-establishment-review.md), [integration/CI record](provider-fresh-establishment-reviewed-integration.json). Full R4 and R3 implementation dispositions are not claimed.
+
+The actual same-root sequence now has separately authorized native institution publication, bounded recovery, complete current resolution and both permanent Seat Profile/designation/appointment/mapping component chains. The receiving correction prevents authentic backdated decisions from poisoning durable history and has four dedicated regressions. Mapping admission and assignment application remain false. The additive settled-custody preparation adapter requires its own existing signed decisions and preserves all completed claim bytes. No production Composition promotion.
+
+Fresh hosted CI passed **4,065 tests / 68,728 assertions / 4 explicit skips**, all 629 files/cases exactly once, all eight workers and all 11 guards within the unchanged worker limit. Packet identities, public signatures/process evidence, 44 protected sources and 234 inventory hashes were independently verified. Structural inventory and generic refusal tests are not complete indirect-consumer/original proof.
+
+Next: finish R4 individual native Operator-act revocation and required consumer/ordering/reset/original proofs under the approved scope, then finish R3 substantive predicates and actual native application/replacement/settings delivery plus races. R1/R2 stay accepted; R5 production ports remain missing and R6 separately authorized commissioning/interview stays deferred.
+
+**Countdown: 3–5 → 3–5; decrement 0.** Partial components and green CI do not earn complete-outcome credit. The conditional R4-only estimate of 3–4 is not applied. [Countdown](provider-first-interview-countdown.md), [machine ledger](provider-first-interview-countdown.json). All five flags remain false, `DEFER_ENROLLMENT` and the empty actual retry allowlist remain. No live actions, installed private state or provider/account access. Earlier campaign entries below are historical.
+
+---
+
 # Current campaign — PPC7 approved for local implementation; countdown 3–5
 
 **The owner approved PPC7 clauses A–F for bounded offline implementation of R4.** [Exact approval/hash record](handoffs/provider-fresh-establishment-approval.json), [unchanged proposal](provider-fresh-establishment-proposal-v1.md), [campaign](next-campaign-provider-fresh-establishment.md), [implementation plan](provider-fresh-establishment-implementation-plan.md), [complete local prompt and PowerShell handoff](handoffs/provider-fresh-establishment-ready.md). The reply “approved” followed preparation PR #831. The proposal SHA-256 remains `e32bfd849a96f380505c0486702124c4bb60a9d5b26a15e7a39e7ef30eed3d4e`.
