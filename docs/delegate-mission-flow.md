@@ -1,3 +1,15 @@
+# Current review — R4 accepted after PPC8; countdown 3–4
+
+**Complete same-root FRESH institutional establishment is accepted offline.** [PR #836](https://github.com/gatomontes/imperium-symfony/pull/836), merge `cb3e430501be8f0e66384ef029e3d8d7ebc5c25d`, reviewed/hosted-tested tree `7fd6c47700556a79a69b6671c29f7ff83351460b`. [Receiving review](reviews/provider-fresh-establishment-closure-review.md), [integration/CI record](provider-fresh-establishment-closure-reviewed-integration.json).
+
+The exact native Operator withdrawal producer and durable current checks, corrected appointment replay, real revocation/expiry orderings, original/refusal proofs and current consumer boundaries close R4. Receiving adds direct symlink-root revocation/consumption tests and corrects three supplied native-registry source explanations. Fresh hosted CI passed 4,094 tests / 69,435 assertions, 4 explicit Windows-specific skips, all 636 files/cases exactly once and all eleven guards within the unchanged worker limit. Receiving also fixes revoked pending reservation replay, preserving completed historical replay.
+
+Next is R3: substantive predicates, direct native assignment evidence, initial/replacement application, actual settings delivery and full race/refusal proof. R5 production ports remain missing; R6 commissioning/interview remains separately authorized and deferred. R1/R2 remain accepted without repeat credit. Mapping stays unadmitted and assignment unapplied in the R4 evidence; no production Composition promotion.
+
+**Countdown: 3–5 → 3–4.** One outcome closes; only the upper estimate falls because the minimum already allowed R4 to share R3. [Countdown](provider-first-interview-countdown.md), [machine ledger](provider-first-interview-countdown.json). All five flags false, `DEFER_ENROLLMENT`, actual retry allowlist `[]`. No installed or live authority claim. Earlier entries below are historical.
+
+---
+
 # Current campaign — PPC8 R4 closure continuation; countdown 3–5
 
 **PPC8 is ready for bounded local work under the existing PPC7 clauses A–F approval.** [Campaign](next-campaign-provider-fresh-establishment-closure.md), [implementation and proof plan](provider-fresh-establishment-closure-plan.md), [local prompt and PowerShell handoff](handoffs/provider-fresh-establishment-closure-ready.md), [source/continuation record](provider-fresh-establishment-closure-source-record.json).
