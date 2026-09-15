@@ -1,3 +1,15 @@
+# Current campaign — PPC8 R4 closure continuation; countdown 3–5
+
+**PPC8 is ready for bounded local work under the existing PPC7 clauses A–F approval.** [Campaign](next-campaign-provider-fresh-establishment-closure.md), [implementation and proof plan](provider-fresh-establishment-closure-plan.md), [local prompt and PowerShell handoff](handoffs/provider-fresh-establishment-closure-ready.md), [source/continuation record](provider-fresh-establishment-closure-source-record.json).
+
+Finish the supported exact native Operator establishment-authorization revocation producer and its current checks, then both real ownership orders, indirect authority-consumer closure, canonical alias/second-policy reset attempts and freshly signed malformed-original proof. Preserve PPC7's correction and accepted same-root components. The existing approval already requires these duties; no general revocation or new operational competence is added.
+
+Sequence: PPC8 implementation/public packet → receiving source review and fresh complete hosted gate → complete R4 acceptance if demonstrated → remaining R3 substantive predicates/native assignment/application/replacement/settings delivery → R5 production ports → separately authorized R6 commissioning/interview. R1/R2 stay accepted. No assignment or production Composition promotion in PPC8.
+
+**Countdown: 3–5 → 3–5; decrement 0.** R4-only complete acceptance could leave 3–4; the conditional revision is not applied. [Countdown](provider-first-interview-countdown.md), [machine ledger](provider-first-interview-countdown.json). All five flags false, `DEFER_ENROLLMENT`, actual retry allowlist `[]`. No live work or subagents. Earlier entries below are historical.
+
+---
+
 # Current review — PPC7 partial components; countdown 3–5
 
 **PPC7 same-root FRESH institutional establishment components are integrated offline; R4 remains open.** [PR #833](https://github.com/gatomontes/imperium-symfony/pull/833), merge `d4b7eb1bc57f20a01529293cf4ae8e600f7074e2`, exact reviewed/hosted-tested tree `76c53eb96501e4f571f4019d84aefa24551837b4`. [Receiving review](reviews/provider-fresh-establishment-review.md), [integration/CI record](provider-fresh-establishment-reviewed-integration.json). Full R4 and R3 implementation dispositions are not claimed.

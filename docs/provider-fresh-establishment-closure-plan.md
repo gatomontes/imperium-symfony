@@ -1,0 +1,64 @@
+# PPC8 implementation and proof plan
+
+[Campaign](next-campaign-provider-fresh-establishment-closure.md), [PPC7 receiving findings](reviews/provider-fresh-establishment-review.md), [existing approval](handoffs/provider-fresh-establishment-approval.json), [baseline source hashes](provider-fresh-establishment-closure-source-record.json).
+
+## 1. Exact native Operator authorization revocation
+
+`FormationFreshEstablishment::authorize` currently consults the O2 `revocations['act:'+nonce]` index. `AuthorityAdmission\Admission::retain` only accepts an act target uniquely present in its own retained O2 acts. The native PPC7 envelope is outside that collection. The current check does not provide a supported individual revocation path, and unqualified nonce equality must not confer cross-domain revocation competence.
+
+Implement the missing purpose-limited revocation through an additive native establishment owner. Authenticate the founding Operator from the independently enrolled existing Operator trust. Bind a closed, domain-separated signed revocation to the exact original native authorization and its complete terms using schema/identity/full digest, canonical root, instance, Operator and trust identity. Bind expected journal head, finite issuance/validity, replay nonce, correlation and reason. Verify actual target signatures and provenance; a caller-supplied reference, nonce or copied receipt is insufficient. Establishment still requires both original authorizations; the Operator can withdraw its own authorization without being granted any Formation-owner approval power. Existing Formation decision revocation remains a separate path.
+
+Specify the representation and retention protocol before implementation. Use an explicitly versioned additive record/state adapter where required; preserve old signed records and their historical meanings. Validate current input and prospective retained history before any durable publication, retaining the PPC7 backdated-decision correction. The original O2 admission/effect contracts and generic Formation signature contract remain unchanged. Do not fabricate an O2 admission, transplant an act, introduce a generic revocation target kind, or add another incumbent registry.
+
+Retain authentic target and revocation originals atomically under the actual Formation fence. Check the exact revocation at reservation and every unfinished completion/recovery check, including the post-native-write decision before journal completion. Resolve the same target identity across those checks. Define supported revocation before reservation and while pending; an unreserved target still requires verified original authorization, not a bare nonce. Define duplicate replay and changed-byte conflicts, finite storage bounds, unknown/foreign target refusal, and migration/absence behavior for PPC7 pending/completed records. No permissive decoding or reset of consumption is allowed.
+
+Revocation before completion prevents completion; retained partial files remain non-authoritative and consumed reservation cannot be erased. Completion winning first is historical installation authority consumption: later revocation must not retroactively remove tenure or make historical receipt replay perform writes. Distinguish that rule from continuing native-currentness and Profile/designation authority. Do not invent deletion, rollback, replacement, repair or re-enrollment routes.
+
+## 2. Required evidence matrix
+
+Each row must name the production owner, test entry point, original signatures, barrier or mutation, exact observed result and retained public evidence. A passing aggregate does not close a missing row.
+
+| Obligation | Evidence required |
+| --- | --- |
+| Individual native Operator authorization | Authentic narrow revocation before reservation and while pending; missing/wrong/expired signer and foreign/unknown/mismatched target refusal; same nonce in an O2 act cannot revoke a different native authorization; fresh-process readback of originals |
+| Revocation replay | Exact replay returns historical recognition without new effects; same scoped nonce with different bytes conflicts; revocation cannot reset reservation or reinstall completed/missing files |
+| Operator authorization competition | Two independent processes, both lock orders, actual revocation owner versus completion/recovery; durable revocation first prevents completion, completed establishment first retains its historical semantics |
+| Operator issuer competition | Actual `REVOKE_BOOTSTRAP` issuer admission versus establishment in both real orders, with current trust and signed originals; identify resulting pending/completed/current-reader state separately |
+| Founding-holder invalidation | Actual policy revocation/admission owner versus completion in both orders; native founding originals and current holder rechecked; no direct state seeding |
+| Trust expiry | Operator and Formation trust separately, finite intervals and controlled fixture clock; barrier-proven observations before expiry and expiry before final publication, including restart/recovery; no worker-speed assumptions |
+| Existing writer competitions | Preserve and attribute Formation decision revocation, native enrollment, ordinary installer and operationalization-seal competitions in both accepted lock orders |
+| Consumer completion fence | Invoke actual new-route authority entry points against pending/partial native files, complete native files without journal completion, intact completed state, corrupted placement and successor state; no authoritative subset |
+| Reset attempts | Supported canonical alias and second-policy attempts, different instance/trust labels, changed nonce and second exact package; root-wide consumption remains; platform-unavailable cases explicitly reported |
+| Authenticated malformed originals | Re-sign both outer authorizations after each targeted malformed founding/package/artifact/identity mutation, then prove the named original check refuses; avoid incidental stale-head, digest or signature failures masking the predicate |
+| Bounds and durable history | Target/revocation/schema/byte/record/time/counter bounds, unknown versions, corrupted retained originals, before/after journal publication interruption and fresh-process replay; retain all four PPC7 backdated-decision regressions |
+| Positive compatibility | Actual same-root founding and establishment, nine current institutional actors in new processes, both permanent Seat strict Profile/designation/independent appointment/mapping chains; old generic/v4/post-FRESH and successor refusals persist |
+
+For malformed originals, state which layer is intentionally invalid and keep all unrelated prerequisites valid. If a predicate cannot be reached without failing an earlier mandatory check, prove and document that ordering instead of claiming a test of the unreachable later predicate. An authentic signer cannot make an invalid native artifact valid.
+
+Use actual process barriers and native exits. Prove which real owner holds the lock and when publication occurs; absence of child output alone is insufficient. Where currentness changes through a clock rather than a lock-owning mutation, report the exact clock/observation/publication order instead of inventing a trust-expiry writer.
+
+## 3. Actual owners and consumer closure
+
+| Source | Bounded work |
+| --- | --- |
+| [FormationFreshEstablishment](../src/Imperium/Runtime/Citadel/Formation/FormationFreshEstablishment.php) | Exact revocation/currentness join, versioned history and all reservation/completion/recovery checks; preserve prospective history validation |
+| [FreshInstitutionPackage](../src/Imperium/Runtime/Citadel/Formation/FreshInstitutionPackage.php) | Preserve deterministic 18-placement package and exact forward recovery; identify native publication barriers affected by a new revocation |
+| [Admission](../src/Imperium/Runtime/Onboarding/AuthorityAdmission/Admission.php), [AuthorityStore](../src/Imperium/Runtime/Onboarding/AuthorityAdmission/AuthorityStore.php), [FormationSignatures](../src/Imperium/Runtime/Citadel/Formation/FormationSignatures.php) | Read original competence/currentness contracts; use actual issuer/policy and Formation-decision revocation owners; keep generic contracts unchanged |
+| [FormationInstitution](../src/Imperium/Runtime/Citadel/Formation/FormationInstitution.php), [FormationPersonnel](../src/Imperium/Runtime/Citadel/Formation/FormationPersonnel.php) | Prove standalone and owner-held current resolution, delegation/evidence/appointment, detached and historical refusal |
+| [PPC7 consumer ledger](handoffs/provider-fresh-establishment-source-review.md) | Reconcile every one of the 234 predecessor candidates, including raw office consumers, source/custody/mission routes and public observation; preserve original inventory and record additions/deletions |
+| [FreshEstablishmentProcesses](../tests/Imperium/Runtime/Support/FreshEstablishmentProcesses.php), [OrderingTest](../tests/Imperium/Runtime/FreshEstablishmentOrderingTest.php), [RefusalTest](../tests/Imperium/Runtime/FreshEstablishmentRefusalTest.php) | Extend actual producer operations and barriers, retain old cases, add distinct freshly signed original failures and scoped revocation collisions |
+| [FreshInstitutionalPreparation](../src/Imperium/Runtime/Citadel/Formation/FreshInstitutionalPreparation.php), [FreshInstitutionalProfileMapping](../src/Imperium/Runtime/Citadel/Formation/FreshInstitutionalProfileMapping.php) | Preserve separate exact PPC5/PPC6 decisions and settled custody validation; mapping remains factual and unadmitted |
+
+Classify each inventory entry as an actual current authority entry point, an indirect route to an identified enforced entry point, an explicitly historical observation, or unreachable for the new schema with a concrete call/selector proof. Invoke every distinct current authority entry point. Shared-path grouping requires demonstrated call-path equivalence and no bypass; a wrapper-field search is not equivalent evidence. History must neither issue nor consume current authority. Do not turn legacy observations or unsupported mission/child routes into new competence to make a positive test pass.
+
+Canonical alias tests must use the actual canonicalization/ownership path. Second-policy and trust/instance attempts must use supported enrollment/admission owners; direct accepted-state mutation cannot prove a producer refusal. Destructive corruption may be applied to disposable test roots only, with clear before/after bytes and attribution as an adversarial fixture operation.
+
+## 4. Pins, gate and delivery
+
+Preserve all independently frozen sources, original proposals/approvals, the generic Profile contract, accepted R1/R2, AtomicTransition, Formation journal/owner, generic O2/O4 rules, original initializers, production Composition, service wiring, dependencies and all CI/guard/partition scripts. Preserve the 44 PPC7 protected sources at the published PPC8 start, including the countdown during local implementation. The source record captures their current hashes without replacing any historical pin. New reviewed evidence is additive; historical reports are not rewritten to claim PPC8 behavior.
+
+Start in an unused worktree from the published PPC8 preparation branch. Record exact start commit/tree and verify the existing proposal hash. Inventory predecessor bytes before editing. Implement and run focused diagnostics, then commit the executable candidate before the final unchanged full eight-partition suite, exact-case aggregate and all 11 Python guards. Record native exits, UTC start/end, source digest before/after each partition, JUnit counts, warnings/skips/errors, guard outcomes, longest JUnit partition and whole worker wall time. The hosted worker limit remains 30 minutes. Any executable change after the final candidate requires a fresh complete gate. Documentation-only follow-up must be exactly diffed.
+
+No dependency update, source-pin relaxation, guard weakening, reduced enumeration or synthetic relabeling may make the gate appear green. Keep generated reference-file changes and platform launcher adaptations separately attributable; restore generated artifacts only after retaining their exact diff and verification. Preserve failed attempts. A symlink privilege error stays an error. Receiving source review and a fresh complete hosted gate remain required before integration.
+
+Return the [campaign packet](next-campaign-provider-fresh-establishment-closure.md) and stop at local commits. Report R4 proof separately from open R3/R5/R6. Countdown remains **3–5**, decrement **0**, until receiving acceptance; R4-only complete acceptance could revise the estimate to **3–4**. All five operational flags false, `DEFER_ENROLLMENT`, actual retry allowlist `[]`. No live work or subagents.
