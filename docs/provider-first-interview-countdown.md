@@ -1,5 +1,7 @@
 # Countdown to the first live Courtyard interview
 
+**Next: PPC8 closes the remaining R4 obligations under existing PPC7 approval.** [Campaign](next-campaign-provider-fresh-establishment-closure.md), [implementation/proof plan](provider-fresh-establishment-closure-plan.md), [local prompt and PowerShell handoff](handoffs/provider-fresh-establishment-closure-ready.md). Preparation earns no decrement; **3–5 remains**. Complete R4-only acceptance could leave **3–4**, still conditional.
+
 **Working estimate: 3–5 batches remaining. PPC7 same-root establishment components are accepted offline; R4 remains open. R1/R2 stay accepted; R3 remains open.**
 
 [PPC7 receiving review](reviews/provider-fresh-establishment-review.md), [exact integration/CI record](provider-fresh-establishment-reviewed-integration.json). Partial component acceptance earns **zero decrement**; native Operator-act revocation and required consumer/ordering/reset/original proof remain incomplete. R4-only receiving acceptance would leave an estimated **3–4**: R3 1, R5 1–2, R6 1. The minimum already allowed R4 to be combined with R3, so it must not be reduced mechanically. This conditional revision is not applied.
@@ -15,7 +17,7 @@ The milestone is one separately authorized, bounded live Courtyard interview, wi
 | R1. Competent native model seal → exact O4 binding/configuration/generation correspondence | 0 | **Accepted offline through PPC5** |
 | R2. Native tenure and registry synchronization, including indirect lock order | 0 | **Accepted offline through PPC3 + PPC4** |
 | R3. Designation/revocation/supersession and shared assignment/application/use verifier | 1 | Open; PPC6 components integrated, but substantive predicates, native application/use and race/refusal proof remain incomplete alongside R4 |
-| R4. Combined FRESH institutional establishment | 0–1 additional | Required; PPC7 components integrated, revocation and consumer/ordering/reset/original proof remain open |
+| R4. Combined FRESH institutional establishment | 0–1 additional | Required; PPC8 continuation prepared for remaining revocation and consumer/ordering/reset/original proof; PPC7 components integrated |
 | R5. Account/access, base-model and cognition evidence | 1–2 | Three open production ports; batching depends on compatible provider evidence and actual inputs |
 | R6. Separately authorized bounded commissioning and first live interview | 1 | Deferred until prerequisites are met and live authorization is explicit |
 
@@ -47,5 +49,6 @@ PPC4 receiving review accepted complete R2 closure with no new scope, applying t
 | PPC7 R4 proposal prepared; approval pending | [Exact clauses A–F](provider-fresh-establishment-proposal-v1.md), [approval/hash record](handoffs/provider-fresh-establishment-approval.json) | No decrement; **3–5 remains** |
 | PPC7 clauses A–F owner-approved | [Exact approval/hash record](handoffs/provider-fresh-establishment-approval.json) | No decrement; **3–5 remains** |
 | PPC7 components accepted; R4 open | [Receiving review](reviews/provider-fresh-establishment-review.md); PR #833, merge `d4b7eb1bc57f20a01529293cf4ae8e600f7074e2`, CI 34970373131 | No decrement; **3–5 remains** |
+| PPC8 R4 closure continuation prepared | [Campaign](next-campaign-provider-fresh-establishment-closure.md); existing PPC7 A–F approval retained | No decrement; **3–5 remains** |
 
 No live action is authorized by this countdown. All five operational flags remain false, `DEFER_ENROLLMENT` remains, and the actual retry allowlist is empty.

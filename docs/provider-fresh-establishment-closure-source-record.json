@@ -1,0 +1,490 @@
+{
+  "schema": "imperium.provider-fresh-establishment-closure-preparation/v1",
+  "campaign": "PPC8",
+  "status": "READY_UNDER_EXISTING_PPC7_APPROVAL",
+  "outcome": "R4_COMBINED_FRESH_INSTITUTIONAL_ESTABLISHMENT",
+  "baseline_main": "2fffa8f51197dce0464b4b6ca5f0d613f1a4dc7b",
+  "baseline_tree": "e8d4e07af4246db3023af8e7b09cfaecafcb2725",
+  "preparation_branch": "codex/provider-fresh-establishment-closure-preparation",
+  "source_hash_basis": "Exact baseline Git blob bytes; observational inventory, not replacement acceptance pins",
+  "protected_comparison_basis": "All 44 protected paths must remain byte-identical to the exact published PPC8 implementation start. Preparation updates the two countdown documents; their baseline hashes below identify the pre-preparation bytes, not the expected implementation-start bytes.",
+  "approval_record": "docs/handoffs/provider-fresh-establishment-approval.json",
+  "proposal_sha256": "e32bfd849a96f380505c0486702124c4bb60a9d5b26a15e7a39e7ef30eed3d4e",
+  "continuation_instruction_exact": "continue",
+  "new_owner_approval_claimed": false,
+  "approval_scope": "Existing PPC7 A–F: narrow revocation of native establishment authority and required currentness/consumer/reset/original proof; no new general authority",
+  "receiving_review": "docs/reviews/provider-fresh-establishment-review.md",
+  "runtime_pr": 833,
+  "runtime_merge": "d4b7eb1bc57f20a01529293cf4ae8e600f7074e2",
+  "receiving_documentation_pr": 834,
+  "historical_ci_run": 34970373131,
+  "historical_ci_covers_future_executable_changes": false,
+  "implementation_complete": false,
+  "r4_accepted": false,
+  "r3_accepted": false,
+  "protected_paths": [
+    "docs/provider-profile-designation-amendment.md",
+    "docs/handoffs/provider-profile-designation-approval.md",
+    "docs/provider-first-interview-countdown.md",
+    "docs/provider-first-interview-countdown.json",
+    "docs/native-inspection-snapshot-consistency-reading-ledger-v1.json",
+    "docs/native-inspection-snapshot-consistency-terminal-reading-ledger-v1.json",
+    "docs/provider-storage-successor-source-record-v1.json",
+    "src/Imperium/Runtime/Persistence/AtomicTransition.php",
+    "src/Imperium/Runtime/Persistence/ImmutableRecordStore.php",
+    "src/Imperium/Runtime/Persistence/MutableStateStore.php",
+    "src/Imperium/Runtime/Persistence/ReservedInstitutionalStorage.php",
+    "src/Imperium/Runtime/Citadel/Formation/FormationJournal.php",
+    "src/Imperium/Runtime/Citadel/Formation/FormationOwnerFrame.php",
+    "src/Imperium/Runtime/Citadel/Formation/FormationModelBoundProfileContract.php",
+    "src/Imperium/Runtime/Onboarding/AuthorityAdmission/Policy.php",
+    "src/Imperium/Runtime/Onboarding/AuthorityAdmission/Rules.php",
+    "src/Imperium/Runtime/Onboarding/AuthorityAdmission/SelectedPolicy.php",
+    "contracts/profile-artifact.md",
+    "contracts/profile-artifact.schema.json",
+    "composer.json",
+    "composer.lock",
+    ".github/workflows/phpunit.yml",
+    "tools/ci/phpunit_partitions.py",
+    "tools/ci/test_phpunit_partitions.py",
+    "config/services.yaml",
+    "config/reference.php",
+    "docs/provider-fresh-establishment-proposal-v1.md",
+    "docs/handoffs/provider-fresh-establishment-approval.json",
+    "src/Imperium/Runtime/Citadel/Formation/FormationModelPreparation.php",
+    "src/Imperium/Runtime/Citadel/Formation/FormationProfileDesignationInitialization.php",
+    "src/Imperium/Runtime/Onboarding/Assignment/AssignmentEvidence.php",
+    "src/Imperium/Runtime/Onboarding/Assignment/AssignmentRule.php",
+    "src/Imperium/Runtime/Onboarding/Deployment/Composition.php",
+    "contracts/profile-attestation.schema.json",
+    "docs/provider-model-correspondence-proposal-v1.md",
+    "docs/handoffs/provider-model-correspondence-approval.json",
+    "src/Imperium/Runtime/Onboarding/Augur/FreshProducer.php",
+    "src/Imperium/Runtime/Onboarding/Augur/NativeConstitutionEvidence.php",
+    "src/Imperium/Runtime/Citadel/NativeAuthority/NativeBoundary.php",
+    "src/Imperium/Runtime/Citadel/Formation/NativeInstallationPackage.php",
+    "tests/Imperium/Runtime/Support/AugurFreshFixture.php",
+    "tests/Imperium/Runtime/Support/CitadelFormationFixture.php",
+    "tests/Imperium/Runtime/Support/ModelPreparationFixture.php",
+    "tests/Imperium/Runtime/Support/DesignationFixture.php"
+  ],
+  "source_observations": [
+    {
+      "path": ".github/workflows/phpunit.yml",
+      "baseline_git_blob": "2bd6a7b734cc3b14f59c913dcc3ed3bae8addbe0",
+      "baseline_bytes": 2258,
+      "baseline_sha256": "742325cc53976a2ee0c21ee9b3c48e38b9a90204c546ed5425874b4ff182dfa6",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "composer.json",
+      "baseline_git_blob": "66905df87bacccd4342c7209107bbc0ba4be2eeb",
+      "baseline_bytes": 1966,
+      "baseline_sha256": "2271918b861837e954b59277de63529ef0c82c78e3c4c8ef2c0aea35f78d5ab3",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "composer.lock",
+      "baseline_git_blob": "d15068cd750ddf83bee6ab0ba79e04a787540016",
+      "baseline_bytes": 233810,
+      "baseline_sha256": "4ab52c72c931bcc945385cdbae48dd9ae3f192e4c207c59a7783e4cf38b8e6e9",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "config/reference.php",
+      "baseline_git_blob": "e1d94203ad8362d1ba4330e5ee66798303edfbb4",
+      "baseline_bytes": 75538,
+      "baseline_sha256": "1ef966259713d3beb1949ae134c1454a5a8aeed664bfce780881ff2a8a37f65b",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "config/services.yaml",
+      "baseline_git_blob": "6d20434882acd67b555f91d1f238e1a825960a12",
+      "baseline_bytes": 13820,
+      "baseline_sha256": "ce13733ba4f5581517bcb42b0c752837616eb270981f3c95d4a89674660fe824",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "contracts/profile-artifact.md",
+      "baseline_git_blob": "f054b683e3e339587bfa26a1e4ca1bfc8267cebb",
+      "baseline_bytes": 4901,
+      "baseline_sha256": "82454c29628727e0a74eb899545ae97b8d7ce8fa07c27966fc01b017e8951d99",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "contracts/profile-artifact.schema.json",
+      "baseline_git_blob": "3aaac972a522d5ce2f170b1078b577c50bab87d6",
+      "baseline_bytes": 5923,
+      "baseline_sha256": "9156bfc93065436b76a2684f061e57a7190dbc6be796be86e8b0567a12c70ba5",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "contracts/profile-attestation.schema.json",
+      "baseline_git_blob": "240c66edd7735db2bc615571477b5ac5f8ea6e20",
+      "baseline_bytes": 2636,
+      "baseline_sha256": "46ad16a1d336d72a2653ce5ba873b368b91490bb3811f8884e9b411aaa9d53b4",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "docs/handoffs/provider-fresh-establishment-approval.json",
+      "baseline_git_blob": "d9a7902b6cc983cd74d5091568fc34b7e1094ae5",
+      "baseline_bytes": 2538,
+      "baseline_sha256": "a648caaa4b82e06923ef83a001a47f21f81981415392de11c4a8c65f986168a3",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "docs/handoffs/provider-model-correspondence-approval.json",
+      "baseline_git_blob": "1dfde299b431bd1a154ba26513e8f6c850340a56",
+      "baseline_bytes": 2067,
+      "baseline_sha256": "34788479f1f1f923dcbb830519c36b58e37c9d8c5b7ffa231e7244ff30c284b6",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "docs/handoffs/provider-profile-designation-approval.md",
+      "baseline_git_blob": "8a9a4c7ac3ccec0d74d7f8bc7ce200fc2b7bdf04",
+      "baseline_bytes": 1480,
+      "baseline_sha256": "30f34e016b3074a38c69232cd42a0252761d46fbd074f81d8a8423882821285c",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "docs/native-inspection-snapshot-consistency-reading-ledger-v1.json",
+      "baseline_git_blob": "be07f2022ef5f9f683e43726bad7e67fb6cc2cde",
+      "baseline_bytes": 12276,
+      "baseline_sha256": "4bbb574d60ac1a3d90ba5a86e06bf15d902ed86e105d134ba5a2ff7f0abf8836",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "docs/native-inspection-snapshot-consistency-terminal-reading-ledger-v1.json",
+      "baseline_git_blob": "796232deb2fc6dcec0c8fef22765f50b2653c1bc",
+      "baseline_bytes": 3277,
+      "baseline_sha256": "6521faf79b32f341fc56696420cd13ac3a638c26b0af246562124ea9ff4d25fa",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "docs/provider-first-interview-countdown.json",
+      "baseline_git_blob": "7a232b66a9cc3ce7c977adbfedc5e0ace3783f4d",
+      "baseline_bytes": 12081,
+      "baseline_sha256": "ff19cf063678ff803f69dd3a5d5643eca59d941b20c8c4030fc8f8294e13ee2b",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "docs/provider-first-interview-countdown.md",
+      "baseline_git_blob": "7e3464bde7e8474b2b3b66c387ca80d6bccf41c1",
+      "baseline_bytes": 7493,
+      "baseline_sha256": "2d5dc703de0c77478978f74d02cdbc2ce0b27fda2803f9c2fa8fe5d6b1c8dbd9",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "docs/provider-fresh-establishment-proposal-v1.md",
+      "baseline_git_blob": "3efc66c5a410b91569c934419893070f1ba6f59f",
+      "baseline_bytes": 15734,
+      "baseline_sha256": "e32bfd849a96f380505c0486702124c4bb60a9d5b26a15e7a39e7ef30eed3d4e",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "docs/provider-model-correspondence-proposal-v1.md",
+      "baseline_git_blob": "07ac57ce1dd03b4584824459d849cd468b9b5403",
+      "baseline_bytes": 17284,
+      "baseline_sha256": "8c4d9992d57d1ea98ae14e4fd4abfe6971f316dd87443388e9a31a34538998e8",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "docs/provider-profile-designation-amendment.md",
+      "baseline_git_blob": "51cac4662ed73d16bd1f68162bf3dba39e2b1574",
+      "baseline_bytes": 21385,
+      "baseline_sha256": "c24939fd808cd5917c8057efe518787cc2448d3da60be089511e7abd6dee2984",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "docs/provider-storage-successor-source-record-v1.json",
+      "baseline_git_blob": "94ff335133ba2c1b0beb083f4722e8c30c805144",
+      "baseline_bytes": 1931,
+      "baseline_sha256": "344f7dfd64b2bd826b071d198d37d8fa852a520db8b33057fd09304f875321e3",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FormationFreshEstablishment.php",
+      "baseline_git_blob": "c26e3be686dec4d895dcff1b7602b48d339d7cab",
+      "baseline_bytes": 22193,
+      "baseline_sha256": "c80e71837639ee0235cd4574aeaabc86b914dceb0da814c3b0024d151954f1c3",
+      "protected_during_local_implementation": false
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FormationInstitution.php",
+      "baseline_git_blob": "43de65c69d877e1c0e98364dc31b3df9d1848960",
+      "baseline_bytes": 6458,
+      "baseline_sha256": "e88a4855147cb25b5ee3c4fa6ded5d76e863a5748d9d25d8d4f7fa282f03c5a5",
+      "protected_during_local_implementation": false
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FormationJournal.php",
+      "baseline_git_blob": "b25862d114296a544030d841d2648606466a8774",
+      "baseline_bytes": 8078,
+      "baseline_sha256": "792069d427424b55f9022d1408b01722d55aa57aa70c76937ee01c6d5aac68c7",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FormationModelBoundProfileContract.php",
+      "baseline_git_blob": "277bc764d310d706a882a576df704619e02101a1",
+      "baseline_bytes": 2913,
+      "baseline_sha256": "42f60ea0d22882ccafadb82781c2b8a3339c1e51db9169f545bc62f72f6c0214",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FormationModelPreparation.php",
+      "baseline_git_blob": "5f3a140bd539a7975b34a418da7dd1d3bc02efd7",
+      "baseline_bytes": 30791,
+      "baseline_sha256": "8bb26df7aa7c6e52ab22d2b6c783726e053aa14d5c4c60b6d147246f01127454",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FormationOwnerFrame.php",
+      "baseline_git_blob": "def93690764e7e95cadd680c56e5616611a73d1b",
+      "baseline_bytes": 1498,
+      "baseline_sha256": "7bd018f189188bb4ae69890f66f138e8ce80df8eb929c98b3613cba5310c85b4",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FormationPersonnel.php",
+      "baseline_git_blob": "fffa79966c1507cd7378a78d49c0ad7ea86526f3",
+      "baseline_bytes": 26083,
+      "baseline_sha256": "cf97e18a23f4ba948265be64c84d2a7fcde68e2f50ac54283ec5f2e7f7b60657",
+      "protected_during_local_implementation": false
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FormationProfileDesignationInitialization.php",
+      "baseline_git_blob": "69c8324fe71be1b911940c207c8b8dc995db7518",
+      "baseline_bytes": 2266,
+      "baseline_sha256": "46c8880957c37dfcda7ca5abaa94d55d373964665e5bcdd0058c724876db67a1",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FormationSignatures.php",
+      "baseline_git_blob": "42843514606ed66796199a7a6504a7990098ab00",
+      "baseline_bytes": 3983,
+      "baseline_sha256": "9104b650d8c7335347e5ca3432ca8bc318f5458e822ac1caf8c14844b920123f",
+      "protected_during_local_implementation": false
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FreshInstitutionPackage.php",
+      "baseline_git_blob": "9f02fd6090cbbabaef3eb209922af917a286fe26",
+      "baseline_bytes": 9022,
+      "baseline_sha256": "50b25a0e4e881529c704338a3a7eaf9feb98c507d2cef71dafb12b874279b587",
+      "protected_during_local_implementation": false
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FreshInstitutionalPreparation.php",
+      "baseline_git_blob": "430ddf467da2cebe9eef95b9031e9b6f448adce5",
+      "baseline_bytes": 4361,
+      "baseline_sha256": "54d78b8de87a4530ef12a64f3acfe00eed2f144573a955e287d54f0595919e13",
+      "protected_during_local_implementation": false
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FreshInstitutionalProfileMapping.php",
+      "baseline_git_blob": "4e291b5b586fb02aebcaee9edf52509c524a62d7",
+      "baseline_bytes": 2484,
+      "baseline_sha256": "dee4ed1f549c8be757eb2426151bcde09dbcae37251980800a2b19d429626147",
+      "protected_during_local_implementation": false
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/NativeInstallationPackage.php",
+      "baseline_git_blob": "05cecf3421d9f658dd704cd380fb4c1367bcf53c",
+      "baseline_bytes": 5162,
+      "baseline_sha256": "e5ef4defda651972b7ab149a7cc601af14b22a7843e7bb5dd501fb06eefe7544",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/NativeAuthority/NativeBoundary.php",
+      "baseline_git_blob": "74d916552dd653980f7ea694412e23608e4d3fa5",
+      "baseline_bytes": 2190,
+      "baseline_sha256": "ed7bded7a4abf0cccb5e51c7f6e254a090a8aea0e3a46137efb5435475a78c3a",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Assignment/AssignmentEvidence.php",
+      "baseline_git_blob": "3676632d38f1562223b00d8e6a630b7e46cb074f",
+      "baseline_bytes": 457,
+      "baseline_sha256": "1858ada4265204befd5fb72aa9bbc070aa98ac6239110c147c2a5ddbae3c1aa1",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Assignment/AssignmentRule.php",
+      "baseline_git_blob": "beb6024db5477e3603f3d7e638ecedb8bb000b6c",
+      "baseline_bytes": 14096,
+      "baseline_sha256": "ac88932d1d0346dfb3bd0ddd740b5330597abce2317b39d07fd1bb7bd931803f",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Augur/FreshProducer.php",
+      "baseline_git_blob": "509f0844975ceff294b752a1bd2e119ea36068d9",
+      "baseline_bytes": 5410,
+      "baseline_sha256": "2307fb2b7aa174afeb476837e6da6d966f1f92fa8b7d8d4710e95848b9072205",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Augur/NativeConstitutionEvidence.php",
+      "baseline_git_blob": "9f6d85107535df03775c67f70023a72c5b508030",
+      "baseline_bytes": 4148,
+      "baseline_sha256": "540c45ec9acfc1f5d296c9cb5a48962367a5f53a58f2ac5d33f2e53c0fbb581e",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/AuthorityAdmission/Admission.php",
+      "baseline_git_blob": "c2c262e1524434304d0212f84a2106083210d33a",
+      "baseline_bytes": 11631,
+      "baseline_sha256": "702801d0103085da6265e37f3759387997edbe812824a4d71d3815a674fc11f2",
+      "protected_during_local_implementation": false
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/AuthorityAdmission/AuthorityStore.php",
+      "baseline_git_blob": "be47f9a839f978128a9e31af6a03d3c0938caf71",
+      "baseline_bytes": 6217,
+      "baseline_sha256": "a4e6c1434b3d2595d00d5179c7093bc2ef9e3ac705147d424ac07a790ef58921",
+      "protected_during_local_implementation": false
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/AuthorityAdmission/Policy.php",
+      "baseline_git_blob": "ee215482c97eb14afa250f931fe669bba41a373f",
+      "baseline_bytes": 9718,
+      "baseline_sha256": "2339d9f28e9a64738ea78a81cb2e260378af35a7c6f9ca7cc102cad91e13e59a",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/AuthorityAdmission/Rules.php",
+      "baseline_git_blob": "11b0578894dc45988b4bf54cad554772f230f8c1",
+      "baseline_bytes": 6649,
+      "baseline_sha256": "f6cc28250f3ad773bf3d87ec4d862995472c57b921b8bad2171b34d5f596534f",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/AuthorityAdmission/SelectedPolicy.php",
+      "baseline_git_blob": "dd65a494aa9d6bac5ae36cc601634f57d515e3b4",
+      "baseline_bytes": 13102,
+      "baseline_sha256": "d13df0c606e54323cabe9e64f55443d99c057662f85dbe390bb416f23571e353",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Deployment/Composition.php",
+      "baseline_git_blob": "c6076c34978f3a4a73df72f61cee190f76877914",
+      "baseline_bytes": 3764,
+      "baseline_sha256": "e5b4b5f4e40c01e6a8988f1604e28bec6fa14da97c3143cc8e8ed8eed237a66c",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "src/Imperium/Runtime/Persistence/AtomicTransition.php",
+      "baseline_git_blob": "95411cc32d34d209ea3de7d42f3e5228e171c35c",
+      "baseline_bytes": 1313,
+      "baseline_sha256": "8ab78031ea4fa7c5552bf8a1e7fca50167d8fd2f265081326750c6b81fc9c0bb",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "src/Imperium/Runtime/Persistence/ImmutableRecordStore.php",
+      "baseline_git_blob": "6181f8299028fa7ce89c0adca185e4fc22d3a377",
+      "baseline_bytes": 3739,
+      "baseline_sha256": "a7ecbf47e350e0a673a2aaea6a1bea6425651145f69a425723847160c013ebe9",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "src/Imperium/Runtime/Persistence/MutableStateStore.php",
+      "baseline_git_blob": "fdab2bb2bde39f1c61894631426ac368451ef2a2",
+      "baseline_bytes": 4165,
+      "baseline_sha256": "5e6d30f542df7c25bb9e26465f0986e0b7eb7b1bec7288d531e00ec495c1c1f5",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "src/Imperium/Runtime/Persistence/ReservedInstitutionalStorage.php",
+      "baseline_git_blob": "136703b2aa380a9e141c93862113eafcb1e7710e",
+      "baseline_bytes": 4280,
+      "baseline_sha256": "29aaa670c7efb25982e1bc4f208ea232441bc7cc4b36b55e2d0c4daa47f1106a",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "tests/Imperium/Runtime/FreshEstablishmentOrderingTest.php",
+      "baseline_git_blob": "d056a3c03c0b82728917b04318db495000e43d80",
+      "baseline_bytes": 5314,
+      "baseline_sha256": "fdfcb781f2f61fb75a9cfbbb50f8c7ec46141078fbe5f749fbba8fca719591a3",
+      "protected_during_local_implementation": false
+    },
+    {
+      "path": "tests/Imperium/Runtime/FreshEstablishmentRefusalTest.php",
+      "baseline_git_blob": "bac459bd7a6a0a120b234f92ae12c2ef03b3d15d",
+      "baseline_bytes": 15483,
+      "baseline_sha256": "fe9970c34f98318df4a0a4bdd3086cf7bf4e7c48522e303e595baba65a56cd15",
+      "protected_during_local_implementation": false
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/AugurFreshFixture.php",
+      "baseline_git_blob": "55a941423dc9ff2eb9fb212dc12e73fc97b511e5",
+      "baseline_bytes": 14697,
+      "baseline_sha256": "c58e43bb80a3a4a6cf8bf7663ef9a5f7d8886c69db27c88e668ffc4ae7fc1737",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/CitadelFormationFixture.php",
+      "baseline_git_blob": "8714636e94c91b3cdedd90f72b874569dd697584",
+      "baseline_bytes": 21178,
+      "baseline_sha256": "b1fac60fdf38e9aec113e93c5933615db290173f609be11a12a156fd992dcba8",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/DesignationFixture.php",
+      "baseline_git_blob": "f102fbf122dec9cbba6761dc6ce06792b5465b41",
+      "baseline_bytes": 4571,
+      "baseline_sha256": "64d86c4d72637ac9e690a36c830becf65bd0216563fd7613a0ab4be6578c83e9",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/FreshEstablishmentFixture.php",
+      "baseline_git_blob": "fee9c3aa9a84883efa04651518e00bcd9037bf05",
+      "baseline_bytes": 11645,
+      "baseline_sha256": "c6ab442316b781fb0712c218b0daec84474d8d897d88cc5985aa91d9d1e450b7",
+      "protected_during_local_implementation": false
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/FreshEstablishmentProcesses.php",
+      "baseline_git_blob": "cf8f010955995634e37b852de0b892fc66291f49",
+      "baseline_bytes": 3946,
+      "baseline_sha256": "b5222f502a480e15f53db015ad154a7230a4398f1b28e58e86511150d87ae340",
+      "protected_during_local_implementation": false
+    },
+    {
+      "path": "tests/Imperium/Runtime/Support/ModelPreparationFixture.php",
+      "baseline_git_blob": "c6ef5d266d0d3a84b12ea20a4729104fce48dd49",
+      "baseline_bytes": 10469,
+      "baseline_sha256": "195e601e7974bf8f16d70564ee89e3e83a99e2dc54dce00a1f3650813e4f600d",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "tools/ci/phpunit_partitions.py",
+      "baseline_git_blob": "f6a887c040b83b2fdb897ded102a22fc62a54416",
+      "baseline_bytes": 9221,
+      "baseline_sha256": "3f18014af07e00309d55f48ab68b5967c38096e3e0f52d36ba63304bd73408ad",
+      "protected_during_local_implementation": true
+    },
+    {
+      "path": "tools/ci/test_phpunit_partitions.py",
+      "baseline_git_blob": "404afc267c190a955bb6ea03aa37a5aca3a2abad",
+      "baseline_bytes": 6877,
+      "baseline_sha256": "322a3a810be6a403c0a820121481beebbf32a0b044f1ad24155d0432afcc824c",
+      "protected_during_local_implementation": true
+    }
+  ],
+  "remaining_batches": [
+    3,
+    5
+  ],
+  "decrement": 0,
+  "conditional_after_R4_only_acceptance": [
+    3,
+    4
+  ],
+  "operational_flags": {
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "live_ready": false,
+    "activation": false,
+    "execution_authority": false
+  },
+  "native_enrollment_disposition": "DEFER_ENROLLMENT",
+  "actual_retry_allowlist": []
+}

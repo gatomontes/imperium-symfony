@@ -10,7 +10,7 @@
     "maximum": 5,
     "kind": "WORKING_ESTIMATE"
   },
-  "selected_campaign": "PPC7",
+  "selected_campaign": "PPC8",
   "selected_outcome": "R4_COMBINED_FRESH_INSTITUTIONAL_ESTABLISHMENT",
   "outcomes": [
     {
@@ -271,6 +271,20 @@
       "integration_merge": "d4b7eb1bc57f20a01529293cf4ae8e600f7074e2",
       "ci_run": 34970373131,
       "reason": "Same-root establishment components accepted; individual native Operator-act revocation and required consumer/ordering/reset/original proof remain open"
+    },
+    {
+      "event": "PPC8_R4_CLOSURE_CONTINUATION_PREPARED",
+      "previous_range": [
+        3,
+        5
+      ],
+      "range": [
+        3,
+        5
+      ],
+      "decrement": 0,
+      "evidence": "docs/next-campaign-provider-fresh-establishment-closure.md",
+      "reason": "Finish PPC7 approved revocation/consumer/ordering/reset/original obligations; preparation is not full R4 acceptance"
     }
   ],
   "operational_flags": {
@@ -283,7 +297,7 @@
   "native_enrollment_disposition": "DEFER_ENROLLMENT",
   "actual_retry_allowlist": [],
   "latest_receiving_review": "docs/reviews/provider-fresh-establishment-review.md",
-  "selected_campaign_status": "PARTIAL_COMPONENTS_ACCEPTED_R4_OPEN",
+  "selected_campaign_status": "READY_UNDER_EXISTING_PPC7_APPROVAL",
   "potential_after_accepted_ppc4": {
     "minimum": 4,
     "maximum": 6,
@@ -310,5 +324,12 @@
     "applied": false,
     "condition": "R4 alone fully accepted through supported same-root native establishment, actual consumer and crash/recovery proof; R3 1, R5 1–2, R6 1 remain",
     "endpoint_explanation": "Minimum already allowed R4 to be combined with R3; do not subtract one from both endpoints for R4-only acceptance"
+  },
+  "potential_after_accepted_ppc8": {
+    "minimum": 3,
+    "maximum": 4,
+    "applied": false,
+    "condition": "Complete R4-only receiving acceptance with no new scope; R3 1, R5 1–2, R6 1 remain",
+    "endpoint_explanation": "Minimum already allowed R4 to be combined with R3; no automatic subtraction from both endpoints"
   }
 }
