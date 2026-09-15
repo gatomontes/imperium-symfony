@@ -1,6 +1,6 @@
 {
   "schema": "imperium.provider-fresh-establishment-approval/v1",
-  "status": "PENDING_OWNER_APPROVAL",
+  "status": "OWNER_APPROVED_FOR_BOUNDED_OFFLINE_IMPLEMENTATION",
   "campaign": "PPC7",
   "outcome": "R4_COMBINED_FRESH_INSTITUTIONAL_ESTABLISHMENT",
   "proposal_path": "docs/provider-fresh-establishment-proposal-v1.md",
@@ -17,8 +17,16 @@
   "preparation_instruction": "proceed",
   "continuation_instruction": "continue",
   "preparation_instruction_approves_new_clauses": false,
-  "approval_conversational_reference": null,
-  "approved_proposal_sha256": null,
+  "approval_conversational_reference": {
+    "owner_reply_exact": "approved",
+    "in_response_to_exact": "Do you approve PPC7 clauses A–F for bounded offline implementation?",
+    "context": "Immediate owner reply following the PPC7 preparation merge in PR #831 and the link to the exact clauses A–F.",
+    "preparation_pr": 831,
+    "preparation_commit": "7a75044a4747a5ce392f5af2ba3495fbcdb091bf",
+    "preparation_merge": "e8f88c6a068e3a7f620063446f4a2934042f2db5",
+    "preparation_tree": "95abd2085e3a7316c9ac6dd773f9cdf892e3ee07"
+  },
+  "approved_proposal_sha256": "e32bfd849a96f380505c0486702124c4bb60a9d5b26a15e7a39e7ef30eed3d4e",
   "implementation_accepted": false,
   "baseline_commit": "ebf2c3dfebae300c8aacd084acb152bfd9915f71",
   "baseline_tree": "69962e5f606170b2f1965db221bd30389208df0b",
@@ -42,5 +50,8 @@
     "execution_authority": false
   },
   "native_enrollment_disposition": "DEFER_ENROLLMENT",
-  "actual_retry_allowlist": []
+  "actual_retry_allowlist": [],
+  "approved_scope": "Exact PPC7 clauses A–F, bounded offline implementation and validation only",
+  "approved_handoff_branch": "codex/provider-fresh-establishment-approved",
+  "implementation_start_requirement": "Use the published approved handoff branch and record its exact commit/tree before executable changes"
 }

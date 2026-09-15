@@ -231,6 +231,20 @@
       "decrement": 0,
       "evidence": "docs/provider-fresh-establishment-proposal-v1.md",
       "reason": "Exact post-founding institutional establishment successor awaits owner approval; R4 remains required and R3 remains open"
+    },
+    {
+      "event": "PPC7_CLAUSES_A_TO_F_OWNER_APPROVED",
+      "previous_range": [
+        3,
+        5
+      ],
+      "range": [
+        3,
+        5
+      ],
+      "decrement": 0,
+      "evidence": "docs/handoffs/provider-fresh-establishment-approval.json",
+      "reason": "Exact post-founding establishment proposal approved for bounded offline implementation; complete R4 acceptance is outstanding and R3 remains open"
     }
   ],
   "operational_flags": {
@@ -243,7 +257,7 @@
   "native_enrollment_disposition": "DEFER_ENROLLMENT",
   "actual_retry_allowlist": [],
   "latest_receiving_review": "docs/reviews/provider-designation-assignment-review.md",
-  "selected_campaign_status": "PREPARED_NEW_CONTRACT_AWAITS_OWNER_APPROVAL",
+  "selected_campaign_status": "OWNER_APPROVED_READY_FOR_LOCAL_IMPLEMENTATION",
   "potential_after_accepted_ppc4": {
     "minimum": 4,
     "maximum": 6,

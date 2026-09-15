@@ -1,3 +1,15 @@
+# Current campaign — PPC7 approved for local implementation; countdown 3–5
+
+**The owner approved PPC7 clauses A–F for bounded offline implementation of R4.** [Exact approval/hash record](handoffs/provider-fresh-establishment-approval.json), [unchanged proposal](provider-fresh-establishment-proposal-v1.md), [campaign](next-campaign-provider-fresh-establishment.md), [implementation plan](provider-fresh-establishment-implementation-plan.md), [complete local prompt and PowerShell handoff](handoffs/provider-fresh-establishment-ready.md). The reply “approved” followed preparation PR #831. The proposal SHA-256 remains `e32bfd849a96f380505c0486702124c4bb60a9d5b26a15e7a39e7ef30eed3d4e`.
+
+Start from `origin/codex/provider-fresh-establishment-approved` in an unused isolated worktree. Implement the exact post-founding institutional establishment purpose, durable reservation, complete native/journal publication, bounded recovery and actual consumer fences. Preserve genuine FRESH vacancy, ordinary installer refusals and accepted R1/R2 boundaries. Return local commits and the full PPC7 public source/evidence packet for receiving source review and fresh hosted validation.
+
+Steps: approved local R4 implementation and packet → receiving review/full hosted gate → possible R4 acceptance → remaining R3 substantive predicates/native application/use proof → R5 production ports → separately authorized R6 commissioning/interview. Approval is not implementation acceptance. R3 remains open and NativeAssignmentEvidence remains dormant.
+
+**Countdown: 3–5 → 3–5; decrement 0.** R4-only complete receiving acceptance would conditionally leave 3–4; no reduction is applied now. [Countdown](provider-first-interview-countdown.md), [machine ledger](provider-first-interview-countdown.json). All five operational flags remain false, `DEFER_ENROLLMENT` and the empty actual retry allowlist remain. No real provider/account/credentials, installed private state, live enrollment/founding/appointment, commissioning, deployment, activation or execution. No subagents. Earlier entries below are historical.
+
+---
+
 # Current campaign — PPC7 FRESH establishment proposal; countdown 3–5
 
 **PPC7 targets R4: a supported same-root FRESH → native institutional establishment sequence. The concrete new clauses A–F await owner approval.** [Proposal](provider-fresh-establishment-proposal-v1.md), [approval/hash record](handoffs/provider-fresh-establishment-approval.json), [campaign](next-campaign-provider-fresh-establishment.md), [source inventory and implementation plan](provider-fresh-establishment-implementation-plan.md), [complete local prompt and PowerShell handoff](handoffs/provider-fresh-establishment-ready.md).
