@@ -1,3 +1,13 @@
+# Current campaign — PPC9 native assignment/application/use
+
+**Prepare R3 completion under existing PPC2 A–F approval.** [Campaign](next-campaign-provider-assignment-use-completion.md), [implementation/proof plan](provider-assignment-use-completion-plan.md), [scope and source inventory](provider-assignment-use-completion-source-record.json), [local prompt and PowerShell handoff](handoffs/provider-assignment-use-completion-ready.md).
+
+R4 is accepted through PPC7/PPC8. PPC9 must now prove competent substantive Profile predicates, the actual source/admission/policy chronology, direct native assignment verification, initial application, separately authorized replacement and whole-pair settings delivery with complete race/refusal/interruption evidence. A prepared mapping is not an admitted mapping. Default Composition and missing production ports remain unchanged. R1/R2/R4 acceptance is preserved without repeat credit.
+
+**Countdown: 3–4 → 3–4, decrement zero.** Complete R3 receiving acceptance with no new scope could leave **2–3**; no reduction is applied in preparation. [Countdown](provider-first-interview-countdown.md), [machine ledger](provider-first-interview-countdown.json). R5 production evidence and R6 separately authorized commissioning/interview remain outstanding. All five flags false, `DEFER_ENROLLMENT`, retry allowlist `[]`; no installed or live authority. Earlier entries below are historical.
+
+---
+
 # Current review — R4 accepted after PPC8; countdown 3–4
 
 **Complete same-root FRESH institutional establishment is accepted offline.** [PR #836](https://github.com/gatomontes/imperium-symfony/pull/836), merge `cb3e430501be8f0e66384ef029e3d8d7ebc5c25d`, reviewed/hosted-tested tree `7fd6c47700556a79a69b6671c29f7ff83351460b`. [Receiving review](reviews/provider-fresh-establishment-closure-review.md), [integration/CI record](provider-fresh-establishment-closure-reviewed-integration.json).

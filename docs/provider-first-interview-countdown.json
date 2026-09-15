@@ -10,8 +10,8 @@
     "maximum": 4,
     "kind": "WORKING_ESTIMATE"
   },
-  "selected_campaign": "PPC8",
-  "selected_outcome": "R4_COMBINED_FRESH_INSTITUTIONAL_ESTABLISHMENT",
+  "selected_campaign": "PPC9",
+  "selected_outcome": "R3_DESIGNATION_AND_SHARED_ASSIGNMENT_USE",
   "outcomes": [
     {
       "id": "R1",
@@ -305,6 +305,16 @@
       "integration_merge": "cb3e430501be8f0e66384ef029e3d8d7ebc5c25d",
       "ci_run": 35011037070,
       "reason": "Complete R4 accepted after source review, direct receiving symlink proof and fresh full hosted CI. Minimum already allowed R4 to share R3; only upper estimate falls."
+    },
+    {
+      "event": "PPC9_R3_COMPLETION_PREPARED",
+      "range": [
+        3,
+        4
+      ],
+      "decrement": 0,
+      "evidence": "docs/next-campaign-provider-assignment-use-completion.md",
+      "reason": "Continue existing PPC2 A–F after accepted R4; native substantive predicates, admission/application/use and full proof remain required. Preparation is not acceptance."
     }
   ],
   "operational_flags": {
@@ -317,7 +327,7 @@
   "native_enrollment_disposition": "DEFER_ENROLLMENT",
   "actual_retry_allowlist": [],
   "latest_receiving_review": "docs/reviews/provider-fresh-establishment-closure-review.md",
-  "selected_campaign_status": "R4_ACCEPTED_OFFLINE",
+  "selected_campaign_status": "READY_UNDER_EXISTING_PPC2_APPROVAL",
   "potential_after_accepted_ppc4": {
     "minimum": 4,
     "maximum": 6,
@@ -352,5 +362,11 @@
     "condition": "Complete R4-only receiving acceptance with no new scope; R3 1, R5 1–2, R6 1 remain",
     "endpoint_explanation": "Minimum already allowed R4 to be combined with R3; no automatic subtraction from both endpoints",
     "evidence": "docs/reviews/provider-fresh-establishment-closure-review.md"
+  },
+  "potential_after_accepted_ppc9": {
+    "minimum": 2,
+    "maximum": 3,
+    "applied": false,
+    "condition": "Complete R3 receiving acceptance with no new scope; R5 1–2 and R6 1 remain"
   }
 }

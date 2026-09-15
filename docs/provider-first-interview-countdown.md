@@ -1,5 +1,7 @@
 # Countdown to the first live Courtyard interview
 
+**Next: PPC9 completes R3 native assignment/application/use under existing PPC2 approval.** [Campaign](next-campaign-provider-assignment-use-completion.md), [plan](provider-assignment-use-completion-plan.md), [local handoff](handoffs/provider-assignment-use-completion-ready.md). **3–4 remains; decrement zero.** Complete R3 receiving acceptance could leave **2–3**, conditional and not applied.
+
 **Current estimate: 3–4 batches remaining. R4 is accepted offline through PPC7/PPC8.** [Receiving review](reviews/provider-fresh-establishment-closure-review.md), [exact integration/CI record](provider-fresh-establishment-closure-reviewed-integration.json). Countdown **3–5 → 3–4**: one outcome closes, upper estimate decreases by one; minimum already allowed R4 to share R3.
 
 Remaining: R3 assignment/application/use (1), R5 production ports (1–2), R6 separately authorized commissioning/interview (1). Earlier preparation/partial notices below are historical.
@@ -55,5 +57,6 @@ PPC4 receiving review accepted complete R2 closure with no new scope, applying t
 | PPC7 components accepted; R4 open | [Receiving review](reviews/provider-fresh-establishment-review.md); PR #833, merge `d4b7eb1bc57f20a01529293cf4ae8e600f7074e2`, CI 34970373131 | No decrement; **3–5 remains** |
 | PPC8 R4 closure continuation prepared | [Campaign](next-campaign-provider-fresh-establishment-closure.md); existing PPC7 A–F approval retained | No decrement; **3–5 remains** |
 | R4 accepted after PPC8 | [Receiving review](reviews/provider-fresh-establishment-closure-review.md); PR #836, merge `cb3e430501be8f0e66384ef029e3d8d7ebc5c25d`, CI 35011037070 | **One outcome closed; 3–5 → 3–4 (upper estimate −1)** |
+| PPC9 R3 completion prepared | [Campaign](next-campaign-provider-assignment-use-completion.md); existing PPC2 A–F approval retained, R4 accepted | No decrement; **3–4 remains** |
 
 No live action is authorized by this countdown. All five operational flags remain false, `DEFER_ENROLLMENT` remains, and the actual retry allowlist is empty.
