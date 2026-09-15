@@ -1,0 +1,46 @@
+{
+  "schema": "imperium.provider-fresh-establishment-approval/v1",
+  "status": "PENDING_OWNER_APPROVAL",
+  "campaign": "PPC7",
+  "outcome": "R4_COMBINED_FRESH_INSTITUTIONAL_ESTABLISHMENT",
+  "proposal_path": "docs/provider-fresh-establishment-proposal-v1.md",
+  "proposal_sha256": "e32bfd849a96f380505c0486702124c4bb60a9d5b26a15e7a39e7ef30eed3d4e",
+  "proposal_hash_basis": "Exact UTF-8 Git blob bytes; no newline normalization",
+  "clauses": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F"
+  ],
+  "preparation_instruction": "proceed",
+  "continuation_instruction": "continue",
+  "preparation_instruction_approves_new_clauses": false,
+  "approval_conversational_reference": null,
+  "approved_proposal_sha256": null,
+  "implementation_accepted": false,
+  "baseline_commit": "ebf2c3dfebae300c8aacd084acb152bfd9915f71",
+  "baseline_tree": "69962e5f606170b2f1965db221bd30389208df0b",
+  "preparation_branch": "codex/provider-fresh-establishment-preparation",
+  "planned_approved_handoff_branch": "codex/provider-fresh-establishment-approved",
+  "approval_boundary_source": "docs/provider-designation-assignment-implementation-plan.md section 3: a new establishment contract decision is outside existing PPC2/PPC6 approval",
+  "remaining_batches": [
+    3,
+    5
+  ],
+  "countdown_decrement": 0,
+  "conditional_after_R4_only_acceptance": [
+    3,
+    4
+  ],
+  "operational_flags": {
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "live_ready": false,
+    "activation": false,
+    "execution_authority": false
+  },
+  "native_enrollment_disposition": "DEFER_ENROLLMENT",
+  "actual_retry_allowlist": []
+}

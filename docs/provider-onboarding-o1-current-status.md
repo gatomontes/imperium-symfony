@@ -1,3 +1,17 @@
+# Current campaign — PPC7 FRESH establishment proposal; countdown 3–5
+
+**PPC7 targets R4: a supported same-root FRESH → native institutional establishment sequence. The concrete new clauses A–F await owner approval.** [Proposal](provider-fresh-establishment-proposal-v1.md), [approval/hash record](handoffs/provider-fresh-establishment-approval.json), [campaign](next-campaign-provider-fresh-establishment.md), [source inventory and implementation plan](provider-fresh-establishment-implementation-plan.md), [complete local prompt and PowerShell handoff](handoffs/provider-fresh-establishment-ready.md).
+
+The selected successor preserves genuine FRESH vacancy and founding consumption, then permits one separately authorized exact nine-Seat institutional package. Durable reservation, complete native/journal publication, bounded recovery and current-consumer fences must be implemented and proved. Ordinary post-founding installation remains refusing. Existing PPC2/PPC6 approval explicitly excludes this new establishment contract; preparation is authorized and implementation approval is pending.
+
+Steps: exact A–F approval → bounded local implementation/public packet → receiving source review and fresh complete hosted CI → possible R4 acceptance → remaining R3 substantive predicates/native application/use proofs → R5 production ports → separately authorized R6 commissioning/interview. R4 alone does not close R3. R1/R2 remain accepted and PPC6 components remain integrated; NativeAssignmentEvidence stays dormant.
+
+**Countdown: 3–5 → 3–5; decrement 0.** Complete R4-only receiving acceptance would leave an estimated **3–4** because R3 (1), R5 (1–2) and R6 (1) remain. The minimum already allowed R4 to be combined with R3. No reduction is applied by preparation, approval or partial results. [Countdown](provider-first-interview-countdown.md), [machine ledger](provider-first-interview-countdown.json).
+
+All five operational flags remain false, `DEFER_ENROLLMENT` and the empty actual retry allowlist remain. No real provider/account/credential access, installed private state, live enrollment/founding/appointment, commissioning, deployment, activation or execution. Earlier campaign entries below are historical.
+
+---
+
 # Current review — PPC6 partial components; countdown 3–5
 
 **PPC6 designation and owner-routing components, including the receiving Courtthane caller correction, are integrated offline; R3 remains open.** [PR #829](https://github.com/gatomontes/imperium-symfony/pull/829), merge `1722c3645acb6c0413ce2a7223c2f7a45503246e`, exact reviewed/tested tree `d65b8fdb44214240003f610939189fb84832a509`. [Receiving review](reviews/provider-designation-assignment-review.md), [integration/CI record](provider-designation-assignment-reviewed-integration.json). NativeAssignmentEvidence remains dormant; ASSIGNMENT_EVIDENCE_IMPLEMENTED_OFFLINE is not claimed.

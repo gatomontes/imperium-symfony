@@ -1,6 +1,8 @@
 # Countdown to the first live Courtyard interview
 
-**Working estimate: 3–5 batches remaining. PPC6 partial designation and owner-routing components are accepted offline; R3 remains open. R1/R2 stay accepted.**
+**Working estimate: 3–5 batches remaining. PPC7 R4 establishment proposal is prepared and awaits owner approval. R1/R2 stay accepted; R3 remains open.**
+
+[PPC7 clauses A–F](provider-fresh-establishment-proposal-v1.md), [campaign and local handoff](next-campaign-provider-fresh-establishment.md), [approval/hash record](handoffs/provider-fresh-establishment-approval.json). Preparation earns **zero decrement**. R4-only receiving acceptance would leave an estimated **3–4**: R3 1, R5 1–2, R6 1. The minimum already allowed R4 to be combined with R3, so it must not be reduced mechanically. This conditional revision is not applied.
 
 [PPC6 receiving review](reviews/provider-designation-assignment-review.md), [exact integration/CI record](provider-designation-assignment-reviewed-integration.json). Countdown **3–5 → 3–5, decrement zero**. Supported same-root FRESH establishment (R4), broader substantive predicates and native application/use plus race/refusal proof remain unfinished. Closing R4 alone does not close R3. Complete R3 acceptance with no new scope could yield **2–4**; that reduction is not applied.
 
@@ -13,7 +15,7 @@ The milestone is one separately authorized, bounded live Courtyard interview, wi
 | R1. Competent native model seal → exact O4 binding/configuration/generation correspondence | 0 | **Accepted offline through PPC5** |
 | R2. Native tenure and registry synchronization, including indirect lock order | 0 | **Accepted offline through PPC3 + PPC4** |
 | R3. Designation/revocation/supersession and shared assignment/application/use verifier | 1 | Open; PPC6 components integrated, but substantive predicates, native application/use and race/refusal proof remain incomplete alongside R4 |
-| R4. Combined FRESH institutional establishment | 0–1 additional | Required outcome; may be closed within another internal batch, otherwise needs its own |
+| R4. Combined FRESH institutional establishment | 0–1 additional | Required; PPC7 exact post-founding successor proposal prepared, approval pending |
 | R5. Account/access, base-model and cognition evidence | 1–2 | Three open production ports; batching depends on compatible provider evidence and actual inputs |
 | R6. Separately authorized bounded commissioning and first live interview | 1 | Deferred until prerequisites are met and live authorization is explicit |
 
@@ -42,5 +44,6 @@ PPC4 receiving review accepted complete R2 closure with no new scope, applying t
 | R1 accepted after PPC5 | [Receiving review](reviews/provider-model-correspondence-review.md); PR #826, merge `65d02f0e61c5eb2ec4fa45a24aed0602b1f38b5c`, CI 34876510955 | **Decrement 1; 4–6 → 3–5** |
 | PPC6 prepared under existing approval | [Campaign](next-campaign-provider-designation-assignment.md), [scope record](handoffs/provider-designation-assignment-scope.json) | No decrement; **3–5 remains** |
 | PPC6 components accepted; R3 open | [Receiving review](reviews/provider-designation-assignment-review.md); PR #829, merge `1722c3645acb6c0413ce2a7223c2f7a45503246e`, CI 34911209375 | No decrement; **3–5 remains** |
+| PPC7 R4 proposal prepared; approval pending | [Exact clauses A–F](provider-fresh-establishment-proposal-v1.md), [approval/hash record](handoffs/provider-fresh-establishment-approval.json) | No decrement; **3–5 remains** |
 
 No live action is authorized by this countdown. All five operational flags remain false, `DEFER_ENROLLMENT` remains, and the actual retry allowlist is empty.
