@@ -153,6 +153,9 @@ final readonly class FormationFreshEstablishment
                 'terms' => $terms, 'operator' => $operator, 'formation' => $formation]);
             if ($extension['reservation'] !== null) {
                 self::need(R::same($record, $extension['reservation']), 'RESERVATION_CONFLICT');
+                if ($extension['completion'] === null) {
+                    FreshEstablishmentRevocations::assertNotRevoked($state, ['terms' => $terms, 'operator' => $operator]);
+                }
                 return $extension['completion'] ?? $record;
             }
             FreshEstablishmentRevocations::assertNotRevoked($state, ['terms' => $terms, 'operator' => $operator]);

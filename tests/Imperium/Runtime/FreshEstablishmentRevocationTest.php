@@ -10,6 +10,23 @@ use PHPUnit\Framework\TestCase;
 
 final class FreshEstablishmentRevocationTest extends TestCase
 {
+    public function testExactPendingReservationReplayRefusesWithdrawnAuthorization(): void
+    {
+        $f = new F(false);
+        try {
+            $reservation = $f->reserve(); $before = $f->journal->read();
+            self::assertSame($reservation, $f->reserve());
+            self::assertSame($before, $f->journal->read());
+            $envelope = self::revocation($f); $receipt = $f->protocol->revokeAuthorization($envelope);
+            $after = $f->journal->read();
+            self::refuses(fn() => $f->reserve(), 'PPC8_REVOCATION_TARGET_REVOKED');
+            self::assertSame($after, $f->journal->read());
+            self::assertSame($reservation, $after['state']['fresh_institutions']['reservation']);
+            self::assertNull($after['state']['fresh_institutions']['completion']);
+            self::evidence($f, 'receiving-revoked-pending-replay', compact('before', 'after', 'envelope', 'receipt'));
+        } finally { $f->close(); }
+    }
+
     public static function phases(): iterable { foreach (['unreserved', 'pending', 'completed'] as $p) { yield $p => [$p]; } }
 
     #[DataProvider('phases')]
