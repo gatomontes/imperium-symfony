@@ -36,6 +36,34 @@ final readonly class OperatorRootPersonnelInstallationService
         return $this->ownership->nativeInOwner($owner, fn(): array => $this->installOwned($package));
     }
 
+    /** Pure exact record preparation for the separately authorized PPC7 writer.
+     * This does not publish placements or relax any ordinary installer fence.
+     */
+    public function establishmentRecords(array $package): array
+    {
+        $journal = \App\Imperium\Runtime\Citadel\Formation\FormationJournal::class;
+        if (!$journal::keys($package, ['schema', 'instance_id', 'personnel'])
+            || ($package['schema'] ?? null) !== 'imperium.operator-root-personnel-package/v3'
+            || !is_array($package['personnel'] ?? null) || !array_is_list($package['personnel'])
+            || count($package['personnel']) !== 9) {
+            throw new \RuntimeException('PPC7_EXACT_PACKAGE');
+        }
+        $package = $this->normalize($package);
+        $seats = array_values(\App\Imperium\Runtime\Citadel\Formation\FormationInstitution::SEATS);
+        $seen = []; $records = []; $digest = $journal::digest($package);
+        foreach ($package['personnel'] as $member) {
+            if (!is_array($member) || !$journal::keys($member, ['personnel_type', 'office', 'role', 'seat', 'persona', 'profile', 'officer'])
+                || $member['personnel_type'] !== 'OFFICER' || !in_array($member['seat'], $seats, true)
+                || isset($seen[$member['seat']]) || $member['office'].'.'.$member['role'] !== $member['seat']) {
+                throw new \RuntimeException('PPC7_EXACT_PACKAGE');
+            }
+            $this->assertMember($member); $seen[$member['seat']] = true;
+            $record = $this->record($package['instance_id'], $digest, $member);
+            $record['record_digest'] = $journal::digest($record); $records[] = $record;
+        }
+        return $records;
+    }
+
     private function installOwned(array $package): array
     {
         if (is_file($this->root . "/operationalization-seal.json")) {

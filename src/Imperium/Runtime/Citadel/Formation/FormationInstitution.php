@@ -19,13 +19,25 @@ final readonly class FormationInstitution
 
     public function actor(string $role): array
     {
-        return $this->witness($role)['actor'];
+        return (new FormationJournal($this->root))->inspect(function (array $frame, FormationOwnerFrame $owner) use ($role): array {
+            return array_key_exists('fresh_institutions', $frame['state'])
+                ? $this->actorInOwner($owner, $role) : $this->witness($role)['actor'];
+        });
     }
 
     /** Current authority is consumed only during this exact live owner frame. */
     public function actorInOwner(FormationOwnerFrame $owner, string $role): array
     {
         $owner->assertOwner(new FormationJournal($this->root));
+        if (array_key_exists('fresh_institutions', $owner->frame()['state'])) {
+            $seat = self::SEATS[$role] ?? throw new \RuntimeException('CMF120_INSTITUTION_UNSUPPORTED');
+            $layout = FormationFreshEstablishment::completedInOwner($this->root, $owner);
+            $witness = $layout['witnesses'][$seat]; $record = $witness['occupancy']; $source = $witness['installation'];
+            return ['instance_id' => $record['instance_id'], 'seat' => $seat,
+                'manifestation_id' => $record['manifestation_id'], 'occupancy_generation' => $record['occupancy_generation'],
+                'binding_id' => $record['binding_id'], 'binding_digest' => $record['record_digest'],
+                'installation_digest' => $source['record_digest']];
+        }
         if (file_exists($this->root.'/var/imperium/native-authority') || is_link($this->root.'/var/imperium/native-authority')) {
             throw new \RuntimeException('CMF123_GOVERNED_SUCCESSOR_ADAPTER_REQUIRED');
         }
