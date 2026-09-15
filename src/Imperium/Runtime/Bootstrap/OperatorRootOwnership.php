@@ -58,4 +58,13 @@ final readonly class OperatorRootOwnership
     {
         R::require($this->journal->sameOwner($store->journal),'ROOT_OWNER_MISMATCH');
     }
+
+    /** Separate exact PPC7 competence; no callback can replace its authority checks. */
+    public function establishInOwner(FormationOwnerFrame $owner,
+        \App\Imperium\Runtime\Citadel\Formation\FormationFreshEstablishment $protocol,
+        ?\Closure $checkpoint = null): array
+    {
+        $owner->assertOwner($this->journal);
+        return \App\Imperium\Runtime\Citadel\Formation\FreshInstitutionPackage::publish($this->root, $owner, $protocol, $checkpoint);
+    }
 }
