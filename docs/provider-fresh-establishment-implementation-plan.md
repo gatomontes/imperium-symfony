@@ -1,6 +1,6 @@
 # PPC7 implementation plan and writer inventory
 
-Status: **PREPARED; NEW CLAUSES A–F AWAIT OWNER APPROVAL**. [Exact proposal](provider-fresh-establishment-proposal-v1.md), [approval/hash record](handoffs/provider-fresh-establishment-approval.json), [campaign](next-campaign-provider-fresh-establishment.md). No executable change is commissioned until the exact proposal is approved. The existing R3 approval remains valid for its own scope.
+Status: **OWNER_APPROVED_FOR_BOUNDED_OFFLINE_IMPLEMENTATION**. [Exact proposal](provider-fresh-establishment-proposal-v1.md), [approval/hash record](handoffs/provider-fresh-establishment-approval.json), [campaign](next-campaign-provider-fresh-establishment.md). The exact owner reply “approved” is recorded for the unchanged proposal. This commissions bounded local implementation and validation; receiving acceptance remains outstanding. The existing R3 approval remains valid for its own scope.
 
 ## Source inventory
 

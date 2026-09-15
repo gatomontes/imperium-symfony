@@ -1,24 +1,13 @@
-# PPC7 local handoff — prepared, approval pending
+# PPC7 local handoff — approved; countdown 3–5
 
-The [exact new clauses A–F](../provider-fresh-establishment-proposal-v1.md) and [complete implementation plan](../provider-fresh-establishment-implementation-plan.md) are reviewable. [Approval/hash record](provider-fresh-establishment-approval.json). PPC6 section 3 explicitly excludes a new establishment contract decision; the prior “proceed” authorizes preparation but does not approve these newly written terms. No implementation is accepted or started by this handoff.
+**Ready for bounded offline implementation.** The owner approved the [exact clauses A–F](../provider-fresh-establishment-proposal-v1.md) with the reply “approved” after preparation PR #831. [Exact approval/hash record](provider-fresh-establishment-approval.json), [implementation plan](../provider-fresh-establishment-implementation-plan.md), [complete local prompt](provider-fresh-establishment-local-prompt.txt). The original proposal bytes remain unchanged. No repeat approval is required for this scope; implementation acceptance remains outstanding.
 
-The [complete local prompt](provider-fresh-establishment-local-prompt.txt) is ready for use after approval. The approval follow-up must retain the proposal bytes, record the exact reply and publish `codex/provider-fresh-establishment-approved`. Do not substitute the preparation branch for an approved implementation start.
-
-For review now, from an existing checkout in PowerShell:
+From an existing repository checkout in PowerShell, use unused branch/path names and preserve previous worktrees and installed applications:
 
 ```powershell
 git fetch origin
 if ($LASTEXITCODE -ne 0) { throw "Fetch failed" }
-git show origin/codex/provider-fresh-establishment-preparation:docs/provider-fresh-establishment-proposal-v1.md
-if ($LASTEXITCODE -ne 0) { throw "Proposal read failed" }
-```
-
-After the exact approval record is published, use unused branch/path names:
-
-```powershell
-git fetch origin
-if ($LASTEXITCODE -ne 0) { throw "Fetch failed" }
-git worktree add -b codex/provider-fresh-establishment ../imperium-provider-fresh-establishment origin/codex/provider-fresh-establishment-approved
+git -c core.autocrlf=false worktree add -b codex/provider-fresh-establishment ../imperium-provider-fresh-establishment origin/codex/provider-fresh-establishment-approved
 if ($LASTEXITCODE -ne 0) { throw "Approved worktree creation failed" }
 Set-Location ../imperium-provider-fresh-establishment
 git status --short

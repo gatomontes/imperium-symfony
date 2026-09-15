@@ -1,12 +1,12 @@
 # PPC7 — supported same-root FRESH institutional establishment
 
-Status: **PREPARED_FOR_OWNER_APPROVAL**. Target: **R4**, using accepted R1/R2 and the integrated PPC6 components. [Concrete clauses A–F](provider-fresh-establishment-proposal-v1.md), [exact approval/hash record](handoffs/provider-fresh-establishment-approval.json), [implementation plan and actual source owners](provider-fresh-establishment-implementation-plan.md), [local prompt and PowerShell handoff](handoffs/provider-fresh-establishment-ready.md).
+Status: **READY_WITH_OWNER_APPROVAL**. Target: **R4**, using accepted R1/R2 and the integrated PPC6 components. [Concrete clauses A–F](provider-fresh-establishment-proposal-v1.md), [exact approval/hash record](handoffs/provider-fresh-establishment-approval.json), [implementation plan and actual source owners](provider-fresh-establishment-implementation-plan.md), [local prompt and PowerShell handoff](handoffs/provider-fresh-establishment-ready.md).
 
-Baseline main `ebf2c3dfebae300c8aacd084acb152bfd9915f71`, tree `69962e5f606170b2f1965db221bd30389208df0b`. Preparation branch: `codex/provider-fresh-establishment-preparation`. A later approved handoff must retain the exact proposal bytes and record the owner's reply before local executable work. Preparation is already authorized; the new post-founding installation competence is the outstanding decision.
+Baseline main `ebf2c3dfebae300c8aacd084acb152bfd9915f71`, tree `69962e5f606170b2f1965db221bd30389208df0b`. Preparation branch: `codex/provider-fresh-establishment-preparation`. The owner approved the exact clauses A–F with the reply “approved” after PR #831. The proposal bytes remain unchanged; the separate approval record governs. Start local execution from `origin/codex/provider-fresh-establishment-approved` and record its exact commit/tree. Approval does not establish implementation acceptance.
 
 ## Work sequence
 
-1. Approve the exact new A–F provision, then publish the approval record and approved handoff. Existing R3 approval is retained and is not requested again.
+1. Verify the recorded approval and exact proposal hash in the approved handoff. PPC7 A–F are approved; do not request the same approval again. Existing R3 approval is retained for its own scope.
 2. Locally implement separate exact Operator/Formation-owner authorization, durable reservation, bounded native package completion/recovery and actual consumer fences after genuine FRESH founding. Keep vacancy and generic post-founding installation refusals intact.
 3. Prove one canonical root through real founding and all nine institutional installations, then both permanent Seat Profile/designation/appointment/mapping chains. Synthetic external ports remain identified; institutional authority must be produced by the implemented owners.
 4. Return committed source and the complete public packet. Receiving source review and a fresh full hosted gate determine R4 acceptance. R3 substantive predicates/native application/use remain the next internal work; R5 production ports and R6 commissioning remain open/deferred.
