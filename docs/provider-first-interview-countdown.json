@@ -42,7 +42,7 @@
       "additional_batches_max": 1,
       "partial_component_evidence": "docs/reviews/provider-designation-assignment-review.md",
       "remaining_gaps": [
-        "Supported same-root FRESH establishment remains unavailable (R4): institutions first fail vacancy; founding first fences installation; installer rejects onboarding v4.",
+        "PPC7 supplies a supported same-root FRESH establishment component sequence, but complete R4 acceptance remains open for individual native Operator-act revocation and consumer/ordering/reset/original proof. Original installation paths retain their prior refusals.",
         "NativeAssignmentEvidence recognizes only directly verified profile.current_active, profile.exact_model_binding and profile.independent_appointment. Broader substantive predicate production and verification remain open; profile.fits refuses.",
         "No direct NativeAssignmentEvidence invocation is covered by the committed tests. Generic owner-routing tests and native designation histories do not establish a positive native assignment consumer.",
         "Full initial application, replacement, actual settings delivery and their mutation races remain unproven through the same supported native owner sequence.",
@@ -57,7 +57,16 @@
       "status": "OPEN_REQUIRED",
       "additional_batches_min": 0,
       "additional_batches_max": 1,
-      "zero_means": "Closed within another accepted internal batch, never omitted"
+      "zero_means": "Closed within another accepted internal batch, never omitted",
+      "partial_component_evidence": "docs/reviews/provider-fresh-establishment-review.md",
+      "remaining_gaps": [
+        "Individual native Operator-act revocation lacks a supported admission/producer; Formation decision and Operator issuer revocations are available but are different scopes.",
+        "Dedicated two-process Operator issuer/act/trust-expiry and founding-holder policy invalidation orderings remain unproved.",
+        "Indirect consumer end-to-end proof and all alias/second-policy reset variants remain incomplete.",
+        "Most malformed-original cases retain original signatures after terms are changed; they do not all establish original-specific refusal under freshly valid joint signatures."
+      ],
+      "partial_integration_pr": 833,
+      "partial_integration_merge": "d4b7eb1bc57f20a01529293cf4ae8e600f7074e2"
     },
     {
       "id": "R5",
@@ -245,6 +254,23 @@
       "decrement": 0,
       "evidence": "docs/handoffs/provider-fresh-establishment-approval.json",
       "reason": "Exact post-founding establishment proposal approved for bounded offline implementation; complete R4 acceptance is outstanding and R3 remains open"
+    },
+    {
+      "event": "PPC7_COMPONENTS_ACCEPTED_R4_OPEN",
+      "previous_range": [
+        3,
+        5
+      ],
+      "range": [
+        3,
+        5
+      ],
+      "decrement": 0,
+      "evidence": "docs/reviews/provider-fresh-establishment-review.md",
+      "integration_pr": 833,
+      "integration_merge": "d4b7eb1bc57f20a01529293cf4ae8e600f7074e2",
+      "ci_run": 34970373131,
+      "reason": "Same-root establishment components accepted; individual native Operator-act revocation and required consumer/ordering/reset/original proof remain open"
     }
   ],
   "operational_flags": {
@@ -256,8 +282,8 @@
   },
   "native_enrollment_disposition": "DEFER_ENROLLMENT",
   "actual_retry_allowlist": [],
-  "latest_receiving_review": "docs/reviews/provider-designation-assignment-review.md",
-  "selected_campaign_status": "OWNER_APPROVED_READY_FOR_LOCAL_IMPLEMENTATION",
+  "latest_receiving_review": "docs/reviews/provider-fresh-establishment-review.md",
+  "selected_campaign_status": "PARTIAL_COMPONENTS_ACCEPTED_R4_OPEN",
   "potential_after_accepted_ppc4": {
     "minimum": 4,
     "maximum": 6,
