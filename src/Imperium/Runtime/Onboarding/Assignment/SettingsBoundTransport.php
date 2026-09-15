@@ -19,17 +19,17 @@ readonly class SettingsBoundTransport implements BoundedFormationTransport
         R::require(is_array($binding) && R::same($binding,$tuple),'SETTINGS_TRANSPORT_GENERATION');
     }
     public function verifyExecution(\App\Imperium\Runtime\Citadel\Formation\FormationJournal $journal,
-        array $state,array $request,array $terms,?array $operation=null):void
+        array $state,array $request,array $terms,?array $operation=null,?\App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner=null):void
     {
-        (new FormationSettingsBinding($this->settings,$this->role))->verify($journal,$state,$request,$terms,$this->transport,$operation);
+        (new FormationSettingsBinding($this->settings,$this->role))->verify($journal,$state,$request,$terms,$this->transport,$operation,$owner);
     }
     /** Actual cognition route: recheck current options/originals at the delivery
      * fence; the external invocation happens only after this inspection unlocks. */
     public function invokeForFormation(\App\Imperium\Runtime\Citadel\Formation\FormationJournal $journal,
         array $claim,array $request,array $terms):array
     {
-        $journal->inspect(function(array $frame)use($journal,$claim,$request,$terms):void{
-            $this->verifyExecution($journal,$frame['state'],$request,$terms,$claim['prepared_operation']??null);
+        $journal->inspect(function(array $frame,\App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner)use($journal,$claim,$request,$terms):void{
+            $this->verifyExecution($journal,$frame['state'],$request,$terms,$claim['prepared_operation']??null,$owner);
         });
         return $this->transport->invoke($claim,$request,$terms);
     }

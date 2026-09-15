@@ -22,12 +22,12 @@ final readonly class PersistentSettings
     public function revalidate(array $expectedApplication):array
     {
         R::ref($expectedApplication);
-        return $this->store->journal->inspect(fn(array $frame):array=>\App\Imperium\Runtime\Onboarding\AuthorityAdmission\StrictJson::within(fn():array=>$this->current($frame['state'],$expectedApplication,null)));
+        return $this->store->journal->inspect(fn(array $frame,\App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner):array=>\App\Imperium\Runtime\Onboarding\AuthorityAdmission\StrictJson::within(fn():array=>$this->current($owner,$frame['state'],$expectedApplication,null)));
     }
     public function resolve(string $role):array
     {
         R::require(in_array($role,AssignmentRule::ROLES,true),'SETTINGS_ROLE');
-        return $this->store->journal->inspect(fn(array $frame):array=>\App\Imperium\Runtime\Onboarding\AuthorityAdmission\StrictJson::within(fn():array=>$this->current($frame['state'],null,$role)));
+        return $this->store->journal->inspect(fn(array $frame,\App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner):array=>\App\Imperium\Runtime\Onboarding\AuthorityAdmission\StrictJson::within(fn():array=>$this->current($owner,$frame['state'],null,$role)));
     }
     public function assertFormationOwner(\App\Imperium\Runtime\Citadel\Formation\FormationJournal $journal, array $state):void
     {
@@ -39,12 +39,15 @@ final readonly class PersistentSettings
      * the policy-admitted mapping explicitly joins them, including original bytes.
      */
     public function verifyFormation(\App\Imperium\Runtime\Citadel\Formation\FormationJournal $journal,
-        array $state,string $role,array $request,array $terms,array $configuration):void
+        array $state,string $role,array $request,array $terms,array $configuration,?\App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner=null):void
     {
         $this->assertFormationOwner($journal,$state);
-        \App\Imperium\Runtime\Onboarding\AuthorityAdmission\StrictJson::within(function()use($state,$role,$request,$terms,$configuration):void{
+        R::require($owner!==null,'SETTINGS_LIVE_OWNER_REQUIRED');
+        $owner->assertOwner($this->store->journal);
+        R::require($state===$owner->frame()['state'],'SETTINGS_CURRENT_OWNER_STATE');
+        \App\Imperium\Runtime\Onboarding\AuthorityAdmission\StrictJson::within(function()use($state,$role,$request,$terms,$configuration,$owner):void{
             R::require(in_array($role,AssignmentRule::ROLES,true),'SETTINGS_ROLE');
-            $tuple=$this->current($state,null,$role);
+            $tuple=$this->current($owner,$state,null,$role);
             R::require(R::same($terms['model_settings']??null,$tuple),'SETTINGS_TRANSPORT_GENERATION');
             R::require(($terms['provider']??null)===$tuple['provider'] && ($terms['model']??null)===$tuple['model_id'],'SETTINGS_TRANSPORT_IDENTITY');
             $s=$this->store->state($state);
@@ -71,7 +74,7 @@ final readonly class PersistentSettings
             R::require(R::same($configuration,\App\Imperium\Runtime\Onboarding\AuthorityAdmission\Policy::content($originalConfiguration,'request-configuration')),'SETTINGS_EFFECTIVE_CONFIGURATION');
         });
     }
-    private function current(array $state,?array $expectedApplication,?string $role):array
+    private function current(\App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner,array $state,?array $expectedApplication,?string $role):array
     {
         $s=$this->store->state($state);$a=ApplicationHistory::latest($s);R::require($a!==null,'MODEL_SETTINGS_ABSENT');$receipt=$a['receipt'];
         if($expectedApplication!==null){R::require(R::same($expectedApplication,R::reference($receipt)),'STALE_ASSIGNMENT_PREDECESSOR');}
@@ -80,8 +83,11 @@ final readonly class PersistentSettings
         $load=function(array $ref)use($s,&$retained):array{$h=$this->store->checkSource($s,$ref);$retained[R::key($ref)]=$h;return $h;};
         $sets=AssignmentRule::sets($policy,$load);$set=$sets[R::key($a['selected_set_ref'])];AssignmentRule::profileEvidence($policy,$set,$load);ApplicationHistory::eligible($set,$originals);
         foreach($policy['body']['candidate_bindings'] as $b){foreach(['binding_ref','configuration_ref','adapter_ref','mapping_ref'] as $f){$load($b[$f]);}}$load($policy['body']['credential_ref']);
-        $tuples=$set['assignments'];if($role!==null){$tuples=array_values(array_filter($tuples,static fn(array $t):bool=>$t['role']===$role));}
-        $this->evidence->verify($policy,$tuples,$retained,$originals['groups']);
+        $tuples=$set['assignments'];
+        $owner->assertOwner($this->store->journal);
+        if ($this->evidence instanceof OwnerAssignmentEvidence) {
+            $this->evidence->verifyInOwner($this->store,$owner,$policy,$tuples,$retained,$originals['groups']);
+        } else { $this->evidence->verify($policy,$tuples,$retained,$originals['groups']); }
         if($role!==null){return array_values(array_filter($receipt['body']['next_assignments'],static fn(array $t):bool=>$t['role']===$role))[0];}
         return ['application_ref'=>R::reference($receipt),'assignments'=>$receipt['body']['next_assignments'],'dispatch_authority'=>false];
     }

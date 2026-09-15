@@ -21,7 +21,7 @@ final readonly class CommandLedger
     public static function head(array $h): array {R::object($h,['generation','digest']);R::integer($h['generation']);if($h['generation']===0){R::require($h['digest']===null,'HEAD');}else{R::digest($h['digest']);$h['digest']=substr($h['digest'],7);}return R::head($h);}
     public function advance(string $raw): array {
         $q=self::request($raw);R::require($q['instance_id']===$this->store->instance,'FOREIGN_RECORD');
-        return $this->store->journal->changeAtHead(function(array &$state,array $head)use($q,$raw):array { return StrictJson::within(function()use(&$state,$head,$q,$raw):array {
+        return $this->store->journal->changeAtHead(function(array &$state,array $head,\App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner)use($q,$raw):array { return StrictJson::within(function()use(&$state,$head,$q,$raw,$owner):array {
             $s=$this->store->state($state);R::require(in_array($s['schema'],['imperium.onboarding-authority-state/v2','imperium.onboarding-authority-state/v3','imperium.onboarding-authority-state/v4'],true),'STATE_MIGRATION_REQUIRED');
             $tuple=[$this->store->instance,$q['sequence_id'],$q['command_id']];$key=LedgerState::key('command',$tuple);
             if(isset($s['commands'][$key])){R::require(R::same($s['commands'][$key]['request'],$q),'COMMAND_CONFLICT');return self::presentation($s['commands'][$key],$head,true);}
@@ -48,7 +48,7 @@ final readonly class CommandLedger
                 R::require($q['step_id']!==null,'STEP_REQUIRED');R::require($s['source_fences']===[],'OUTCOME_UNKNOWN');$step=StepReadiness::ready($this->store,$s,$policy,$q['step_id']);
                 $st=[$this->store->instance,$policy['record_digest'],$step['step_id']];$stepKey=LedgerState::key('step',$st);R::require(!isset($s['steps'][$stepKey]),'STEP_ALREADY_CONSUMED');
                 $authority=null;$ak=null;$op=null;$facts=null;$slot=null;$results=[];$assignment=null;
-                if($step['action']==='APPLY_ASSIGNMENTS'){R::require($s['applications']===[],'INITIAL_ASSIGNMENT_ALREADY_CONSUMED');$assignment=$this->prepareApplication($state,$s,$policy);}
+                if($step['action']==='APPLY_ASSIGNMENTS'){R::require($s['applications']===[],'INITIAL_ASSIGNMENT_ALREADY_CONSUMED');$assignment=$this->prepareApplication($owner,$state,$s,$policy);}
                 if($step['effect_slot_id']!==null){
                     [$authority,$slot,$facts]=$this->authority($s,$policy,$step);CompletionResolver::resolve($this->store,$s,$policy,$facts['obligations']);
                     R::require(($slot['effect']==='APPLY_BOOTSTRAP_ASSIGNMENTS' && $assignment!==null) || ($slot['effect']==='CONSTITUTE_FOUNDING_AUGUR' && in_array($s['schema'],['imperium.onboarding-authority-state/v3','imperium.onboarding-authority-state/v4'],true) && $this->founding!==null) || in_array($slot['effect'],['ADMIT_BOOTSTRAP_EVIDENCE','APPROVE_RUNTIME_BINDING_MAP','AUTHORIZE_BOOTSTRAP_ACCESS','AUTHORIZE_BOOTSTRAP_ASSESSMENT'],true),'DYNAMIC_PREREQUISITES_MISSING');

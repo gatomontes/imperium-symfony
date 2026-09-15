@@ -13,11 +13,13 @@ final readonly class FormationSettingsBinding
 {
     public function __construct(private PersistentSettings $settings, private string $role) {}
     public function verify(FormationJournal $journal, array $state, array $request, array $terms,
-        object $adapter, ?array $operation = null): void
+        object $adapter, ?array $operation = null, ?\App\Imperium\Runtime\Citadel\Formation\FormationOwnerFrame $owner = null): void
     {
+        R::require($owner!==null,'SETTINGS_LIVE_OWNER_REQUIRED');
+        $owner->assertOwner($journal);
         $this->settings->assertFormationOwner($journal,$state);
         R::require($adapter instanceof FormationEffectiveConfiguration,'SETTINGS_EFFECTIVE_CONFIGURATION_REQUIRED');
         $this->settings->verifyFormation($journal,$state,$this->role,$request,$terms,
-            $adapter->effectiveConfiguration($request,$terms,$operation));
+            $adapter->effectiveConfiguration($request,$terms,$operation),$owner);
     }
 }

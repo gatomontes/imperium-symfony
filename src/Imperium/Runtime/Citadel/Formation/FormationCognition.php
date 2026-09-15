@@ -25,7 +25,7 @@ final readonly class FormationCognition
 
     public function reply(string $intakeId, string $content, bool $changedIntent, array $decision): array
     {
-        return $this->journal->change(function (array &$state) use ($intakeId, $content, $changedIntent, $decision): array {
+        return $this->journal->change(function (array &$state, FormationOwnerFrame $owner) use ($intakeId, $content, $changedIntent, $decision): array {
             $intake = $state['intakes'][$intakeId] ?? throw new \RuntimeException('CMF012_INTAKE_ABSENT');
             if (in_array($state['reservations'][$intakeId]['status'] ?? null, ['EFFECT_UNCERTAIN_IDENTITY_FENCED', 'DELIVERED'], true)) {
                 throw new \RuntimeException('CMF069_FORMED_MISSION_REQUIRES_SEPARATE_AMENDMENT');
@@ -56,9 +56,9 @@ final readonly class FormationCognition
 
     public function draftingRequest(string $intakeId, array $charter): array
     {
-        return $this->journal->change(function (array &$state) use ($intakeId, $charter): array {
+        return $this->journal->change(function (array &$state, FormationOwnerFrame $owner) use ($intakeId, $charter): array {
             $intake = $state['intakes'][$intakeId] ?? throw new \RuntimeException('CMF012_INTAKE_ABSENT');
-            $holder = $this->personnel->currentCourtthane($state);
+            $holder = (isset($state['personnel_evidence'][$state['courtthane']['candidate']['profile']??'']['payload']['schema'])?$this->personnel->currentCourtthaneInOwner($owner):$this->personnel->currentCourtthane($state));
             $understanding = $intake['understanding'] ?? [];
             if (($understanding['holder_digest'] ?? null) !== FormationJournal::digest($holder)
                 || ($understanding['intent_version'] ?? null) !== $intake['intent_version']
@@ -91,8 +91,8 @@ final readonly class FormationCognition
 
     public function grant(string $intakeId, string $phase, array $terms, array $decision): string
     {
-        return $this->journal->change(function (array &$state) use ($intakeId, $phase, $terms, $decision): string {
-            $source = $this->source($state, $intakeId, $phase);
+        return $this->journal->change(function (array &$state, FormationOwnerFrame $owner) use ($intakeId, $phase, $terms, $decision): string {
+            $source = $this->source($state, $intakeId, $phase, $owner);
             if (!FormationJournal::keys($terms, array_merge(['source', 'provider', 'model', 'destination', 'pricing', 'per_call', 'total', 'visible_intakes', 'disclosure', 'expires_at'], array_key_exists('transport', $terms) ? ['transport'] : [], array_key_exists('model_settings', $terms) ? ['model_settings'] : []))
                 || FormationJournal::digest($terms['source']) !== FormationJournal::digest($source['authorization_source'])
                 || !is_int($terms['expires_at']) || $terms['expires_at'] <= $this->clock->now()->getTimestamp()
@@ -130,12 +130,12 @@ final readonly class FormationCognition
 
     public function control(string $sessionId, string $disposition, array $decision): void
     {
-        $this->journal->change(function (array &$state) use ($sessionId, $disposition, $decision): void {
+        $this->journal->change(function (array &$state, FormationOwnerFrame $owner) use ($sessionId, $disposition, $decision): void {
             $session = $state['sessions'][$sessionId] ?? throw new \RuntimeException('CMF054_SESSION_ABSENT');
             if (!in_array($disposition, ['REFUSED', 'DEFERRED', 'OPEN'], true)
                 || $this->wasRefused($session) || isset($session['interview_completion'])) { throw new \RuntimeException('CMF055_SESSION_CONTROL_INVALID'); }
             $this->signatures->verify($state, $decision, 'CONTROL_FORMATION_SESSION', ['session_id' => $sessionId, 'disposition' => $disposition]);
-            if ($disposition === 'OPEN') { $this->validateSession($state, $session, false); }
+            if ($disposition === 'OPEN') { $this->validateSession($state, $session, false, $owner); }
             $state['sessions'][$sessionId]['status'] = $disposition;
             $state['sessions'][$sessionId]['controls'][] = $decision;
         });
@@ -148,18 +148,20 @@ final readonly class FormationCognition
         $snapshot = $this->journal->read()['state'];
         $session = $snapshot['sessions'][$sessionId] ?? throw new \RuntimeException('CMF054_SESSION_ABSENT');
         if (isset($session['attempts'][$attemptId])) { return $this->recover($sessionId, $attemptId); }
-        $source = $this->validateSession($snapshot, $session);
+        $source = $this->journal->inspect(fn(array $frame,FormationOwnerFrame $owner):array=>$this->validateSession($frame['state'],$session,true,$owner));
         $request = $this->request($snapshot, $session, $source);
-        $this->verifyModelSettings($snapshot,$request,$session['terms']);
+        $this->journal->inspect(function(array $frame, FormationOwnerFrame $owner)use($request,$session):void {
+            $this->verifyModelSettings($frame['state'],$request,$session['terms'],null,$owner);
+        });
         // The prepared path inspects once and retains that exact operation, rather
         // than discarding its bytes and preparing a possibly different operation.
         $operation = $this->transport instanceof PreparedFormationTransport ? $this->transport->prepareOperation($request, $session['terms']) : null;
         $maximum = $operation === null ? $this->transport->inspect($request, $session['terms']) : $operation['maximum'];
         if ($operation !== null) { FormationPreparedOperation::validate($operation, $request, $session['terms'], $maximum); }
-        $claim = $this->journal->change(function (array &$state) use ($sessionId, $attemptId, $request, $maximum, $operation): array {
+        $claim = $this->journal->change(function (array &$state, FormationOwnerFrame $owner) use ($sessionId, $attemptId, $request, $maximum, $operation): array {
             $session = &$state['sessions'][$sessionId];
-            $source = $this->validateSession($state, $session);
-            $this->verifyModelSettings($state,$request,$session['terms'],$operation);
+            $source = $this->validateSession($state, $session, true, $owner);
+            $this->verifyModelSettings($state,$request,$session['terms'],$operation,$owner);
             if (FormationJournal::digest($request) !== FormationJournal::digest($this->request($state, $session, $source))) {
                 throw new \RuntimeException('CMF057_CONTEXT_CHANGED_REASSESS');
             }
@@ -167,7 +169,7 @@ final readonly class FormationCognition
             SharedExposure::formation($state, $sessionId, $maximum, null, $this->journal, $this->clock);
             SessionExposure::reserve($session, $attemptId, $maximum, FormationJournal::digest($request));
             $expiresAt = min($session['terms']['expires_at'], $this->clock->now()->getTimestamp() + (int) ceil($maximum['milliseconds'] / 1000));
-            $derivation = $this->leases->derive($state, $session, $source['holder'], $request, $maximum, $expiresAt, $attemptId, $operation);
+            $derivation = $this->leases->derive($state, $session, $source['holder'], $request, $maximum, $expiresAt, $attemptId, $operation, $owner);
             $claim = ['schema' => $operation === null ? 'imperium.citadel-session-call-claim/v1' : 'imperium.citadel-session-call-claim/v2',
                 'claim_id' => 'governance-cognition-invocation-claim-'.substr(FormationJournal::digest([$sessionId, $attemptId, $request]), 0, 20),
                 'session_id' => $sessionId, 'attempt_id' => $attemptId,
@@ -182,12 +184,12 @@ final readonly class FormationCognition
             return $claim;
         });
         // The durable start fence is the last local operation before the transport.
-        $this->journal->change(function (array &$state) use ($sessionId, $attemptId): void {
+        $this->journal->change(function (array &$state, FormationOwnerFrame $owner) use ($sessionId, $attemptId): void {
             $session = &$state['sessions'][$sessionId];
-            $this->validateSession($state, $session);
-            $this->verifyModelSettings($state,$session['attempts'][$attemptId]['request'],$session['terms'],$session['attempts'][$attemptId]['claim']['prepared_operation']??null);
+            $this->validateSession($state, $session, true, $owner);
+            $this->verifyModelSettings($state,$session['attempts'][$attemptId]['request'],$session['terms'],$session['attempts'][$attemptId]['claim']['prepared_operation']??null,$owner);
             if ($session['attempts'][$attemptId]['status'] !== 'RESERVED') { throw new \RuntimeException('CMF058_ATTEMPT_ALREADY_RESERVED'); }
-            if (FormationJournal::digest($this->personnel->currentLocksmith($state)) !== FormationJournal::digest($session['attempts'][$attemptId]['claim']['derivation']['lease']['issuer'])
+            if (FormationJournal::digest((isset($state['personnel_evidence'][$state['locksmith']['candidate']['profile']??'']['payload']['schema'])?$this->personnel->currentLocksmithInOwner($owner):$this->personnel->currentLocksmith($state))) !== FormationJournal::digest($session['attempts'][$attemptId]['claim']['derivation']['lease']['issuer'])
                 || $session['attempts'][$attemptId]['claim']['expires_at'] <= $this->clock->now()->getTimestamp()) { throw new \RuntimeException('CMF068_LEASE_CHANGED_OR_EXPIRED'); }
             $session['attempts'][$attemptId]['status'] = 'STARTED_OUTCOME_UNCERTAIN';
         });
@@ -207,7 +209,7 @@ final readonly class FormationCognition
                 throw new \RuntimeException('CMF060_RESPONSE_PROVENANCE_INVALID');
             }
             if ($this->clock->now()->getTimestamp() > $claim['expires_at']) { throw new \RuntimeException('CMF068_LEASE_CHANGED_OR_EXPIRED'); }
-            $this->journal->change(function (array &$state) use ($sessionId, $attemptId, $result, $envelope): void {
+            $this->journal->change(function (array &$state, FormationOwnerFrame $owner) use ($sessionId, $attemptId, $result, $envelope): void {
                 $attempt = &$state['sessions'][$sessionId]['attempts'][$attemptId];
                 $attempt['envelope'] = $envelope;
                 $attempt['provider_response_id'] = $result['provider_response_id'];
@@ -221,13 +223,13 @@ final readonly class FormationCognition
         return $this->recover($sessionId, $attemptId);
     }
 
-    private function verifyModelSettings(array $state,array $request,array $terms,?array $operation=null):void
+    private function verifyModelSettings(array $state,array $request,array $terms,?array $operation=null,?FormationOwnerFrame $owner=null):void
     {
         if (!array_key_exists('model_settings',$terms)) { return; }
         if (!$this->transport instanceof \App\Imperium\Runtime\Onboarding\Assignment\SettingsBoundTransport) {
             throw new \RuntimeException('SETTINGS_EXECUTION_BINDING_REQUIRED');
         }
-        $this->transport->verifyExecution($this->journal,$state,$request,$terms,$operation);
+        $this->transport->verifyExecution($this->journal,$state,$request,$terms,$operation,$owner);
     }
 
     public function recover(string $sessionId, string $attemptId): array
@@ -235,7 +237,7 @@ final readonly class FormationCognition
         $snapshot = $this->journal->read()['state'];
         $attempt = $snapshot['sessions'][$sessionId]['attempts'][$attemptId] ?? throw new \RuntimeException('CMF056_ATTEMPT_INVALID');
         $envelope = $this->responses->read($attempt['claim']['claim_id']);
-        $result = $this->journal->change(function (array &$state) use ($sessionId, $attemptId, $envelope): array {
+        $result = $this->journal->change(function (array &$state, FormationOwnerFrame $owner) use ($sessionId, $attemptId, $envelope): array {
             $session = &$state['sessions'][$sessionId];
             $attempt = &$session['attempts'][$attemptId];
             if (($envelope['claim']['digest'] ?? null) !== $attempt['claim']['record_digest']) { throw new \RuntimeException('CMF060_RESPONSE_PROVENANCE_INVALID'); }
@@ -253,7 +255,7 @@ final readonly class FormationCognition
                 }
             }
             if (isset($attempt['admitted'])) { return $attempt['admitted']; }
-            $source = $this->validateSession($state, $session);
+            $source = $this->validateSession($state, $session, true, $owner);
             if ((new \DateTimeImmutable($envelope['sealed_at']))->getTimestamp() > $attempt['claim']['expires_at']) { throw new \RuntimeException('CMF068_LEASE_CHANGED_OR_EXPIRED'); }
             if (FormationJournal::digest($this->request($state, $session, $source)) !== $attempt['fingerprint']) {
                 throw new \RuntimeException('CMF057_CONTEXT_CHANGED_REASSESS');
@@ -318,7 +320,8 @@ final readonly class FormationCognition
 
     public function authorizationSource(string $intakeId, string $phase): array
     {
-        return $this->source($this->journal->read()['state'], $intakeId, $phase)['authorization_source'];
+        return $this->journal->inspect(fn(array $frame, FormationOwnerFrame $owner): array =>
+            $this->source($frame['state'], $intakeId, $phase, $owner)['authorization_source']);
     }
 
     private function completeInterviews(array &$state, string $intakeId, string $sessionId, string $attemptId): void
@@ -331,13 +334,13 @@ final readonly class FormationCognition
         }
     }
 
-    private function source(array $state, string $intakeId, string $phase): array
+    private function source(array $state, string $intakeId, string $phase, ?FormationOwnerFrame $owner=null): array
     {
-        return (new FormationSessionAuthority($this->signatures, $this->personnel, $this->clock))->source($state, $intakeId, $phase);
+        return (new FormationSessionAuthority($this->signatures, $this->personnel, $this->clock))->source($state, $intakeId, $phase, $owner);
     }
-    private function validateSession(array $state, array $session, bool $requireOpen = true): array
+    private function validateSession(array $state, array $session, bool $requireOpen = true, ?FormationOwnerFrame $owner=null): array
     {
-        return (new FormationSessionAuthority($this->signatures, $this->personnel, $this->clock))->validateSession($state, $session, $requireOpen);
+        return (new FormationSessionAuthority($this->signatures, $this->personnel, $this->clock))->validateSession($state, $session, $requireOpen, $owner);
     }
     private function wasRefused(array $session): bool
     {

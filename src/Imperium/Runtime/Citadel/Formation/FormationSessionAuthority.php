@@ -7,7 +7,7 @@ use App\Imperium\Runtime\Clock;
 final readonly class FormationSessionAuthority
 {
     public function __construct(private FormationSignatures $signatures, private FormationPersonnel $personnel, private Clock $clock) {}
-    public function source(array $state, string $intakeId, string $phase): array
+    public function source(array $state, string $intakeId, string $phase, ?FormationOwnerFrame $owner=null): array
     {
         $intake = $state['intakes'][$intakeId] ?? throw new \RuntimeException('CMF012_INTAKE_ABSENT');
         if ($phase === 'acceptance') {
@@ -17,7 +17,7 @@ final readonly class FormationSessionAuthority
             $this->signatures->verify($state, $handoff['constitution']['decision'], 'APPROVE_MISSION_AND_CONSTITUTION', $handoff['constitution']['signed_review']);
             $authority = ['handoff_id' => $handoff['handoff_id'], 'packet_digest' => FormationJournal::digest($handoff['packet']), 'holder_digest' => FormationJournal::digest($holder)];
         } else {
-            $holder = $this->personnel->currentCourtthane($state);
+            $holder = ($owner===null || !isset($state['personnel_evidence'][$state['courtthane']['candidate']['profile']??'']['payload']['schema'])?$this->personnel->currentCourtthane($state):$this->personnel->currentCourtthaneInOwner($owner));
             if ($phase === 'interview') {
                 if (isset($intake['understanding'])) { throw new \RuntimeException('CMF067_SESSION_CLOSED_CHANGED_OR_EXPIRED'); }
                 $authority = ['intake_id' => $intakeId, 'intent_version' => $intake['intent_version'],
@@ -37,10 +37,10 @@ final readonly class FormationSessionAuthority
         return ['intake' => $intake, 'holder' => $holder, 'authorization_source' => $authority];
     }
 
-    public function validateSession(array $state, array $session, bool $requireOpen = true): array
+    public function validateSession(array $state, array $session, bool $requireOpen = true, ?FormationOwnerFrame $owner=null): array
     {
         $this->signatures->verify($state, $session['decision'], $session['effect'], $session['terms']);
-        $source = $this->source($state, $session['intake_id'], $session['phase']);
+        $source = $this->source($state, $session['intake_id'], $session['phase'], $owner);
         if ($this->wasRefused($session) || isset($session['interview_completion']) || ($requireOpen && $session['status'] !== 'OPEN')
             || $session['terms']['expires_at'] <= $this->clock->now()->getTimestamp()
             || $session['terms']['source'] !== $source['authorization_source']
