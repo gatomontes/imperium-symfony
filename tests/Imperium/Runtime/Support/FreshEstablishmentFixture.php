@@ -29,7 +29,7 @@ final class FreshEstablishmentFixture
     private string $secret;
     private array $delegates = [];
 
-    public function __construct(bool $complete = true, int $constitutionLifetime = 1800)
+    public function __construct(bool $complete = true, int $constitutionLifetime = 1800, bool $initialize = true)
     {
         $this->fresh = new AugurFreshFixture(constitutionLifetime: $constitutionLifetime, nativeConstitution: true);
         $d = $this->fresh->d; $a = $d->f;
@@ -47,6 +47,7 @@ final class FreshEstablishmentFixture
         $this->protocol = $this->service();
         $this->initial = ['schema' => Protocol::STATE, 'root_identity' => (new \App\Imperium\Runtime\Bootstrap\OperatorRootOwnership($this->root))->identity(),
             'instance_id' => $this->store->instance, 'citadel_id' => $this->store->citadel, 'holder_ref' => R::reference($this->holder), 'expected_head' => $this->head()];
+        if (!$initialize) { return; }
         $this->protocol->initialize($this->initial, $this->sign('INITIALIZE_FRESH_FORMATION_INSTITUTIONS', $this->initial));
         $members = [];
         foreach (FormationInstitution::SEATS as $seat) {

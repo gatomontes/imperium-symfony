@@ -57,6 +57,7 @@ final readonly class FreshInstitutionalPreparation
                 'custody_digest' => FormationJournal::digest($onboarding['claims']), 'expected_head' => $head];
             $proof['record_digest'] = FormationJournal::digest($proof);
             $state['fresh_institutions']['preparations'][$kind] = $proof;
+            FormationFreshEstablishment::history($state);
             return $initialization;
         });
     }

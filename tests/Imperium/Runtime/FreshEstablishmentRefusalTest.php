@@ -19,6 +19,48 @@ final class FreshEstablishmentRefusalTest extends TestCase
         $this->expectException(\PHPUnit\Framework\AssertionFailedError::class);
         $this->refuses(static fn() => null);
     }
+    public static function backdatedStages(): iterable
+    {
+        foreach (['initialize', 'reserve', 'model_preparation', 'profile_designations'] as $stage) { yield $stage => [$stage]; }
+    }
+    #[DataProvider('backdatedStages')]
+    public function testBackdatedAuthenticDecisionCannotPoisonDurableHistory(string $stage): void
+    {
+        $preparation = in_array($stage, ['model_preparation', 'profile_designations'], true);
+        $f = new F($preparation, initialize: $stage !== 'initialize');
+        try {
+            $adapter = new \App\Imperium\Runtime\Citadel\Formation\FreshInstitutionalPreparation($f->root, $f->store);
+            if ($stage === 'initialize') {
+                $terms = $f->initial; $effect = 'INITIALIZE_FRESH_FORMATION_INSTITUTIONS';
+                $operation = fn(array $decision) => $f->protocol->initialize($terms, $decision);
+            } elseif ($stage === 'reserve') {
+                $terms = $f->terms; $effect = P::EFFECT;
+                $operation = fn(array $decision) => $f->protocol->reserve($terms, $f->operator, $decision);
+            } else {
+                $model = $stage === 'model_preparation';
+                $terms = $model
+                    ? ['schema' => \App\Imperium\Runtime\Citadel\Formation\FormationModelPreparation::STATE, 'instance_id' => $f->store->instance, 'citadel_id' => $f->store->citadel, 'expected_head' => $f->head()]
+                    : ['schema' => \App\Imperium\Runtime\Citadel\Formation\FormationProfileDesignationInitialization::SCHEMA, 'citadel_id' => $f->store->citadel, 'expected_head' => $f->head()];
+                $effect = $model ? 'INITIALIZE_FORMATION_MODEL_PREPARATION' : 'INITIALIZE_FORMATION_PROFILE_DESIGNATIONS';
+                $operation = $model ? fn(array $decision) => $adapter->initializeModel($terms, $decision)
+                    : fn(array $decision) => $adapter->initializeDesignations($terms, $decision);
+            }
+            $valid = $f->sign($effect, $terms); $payload = $valid['payload'];
+            $before = $f->journal->read();
+            $payload['issued_at'] = $before['state']['trust']['not_before'] - 1;
+            $bytes = \App\Bootstrap\CanonicalJson::encode($payload);
+            $backdated = $f->signPrepared(['payload' => $payload, 'object' => $terms,
+                'signing_bytes_base64' => base64_encode($bytes), 'signing_bytes_sha256' => hash('sha256', $bytes)]);
+            // The existing current verifier accepts these authentic bytes. The
+            // new producer must still refuse them before publishing history.
+            self::assertSame($payload, $f->signatures->verify($before['state'], $backdated, $effect, $terms));
+            self::assertSame('PPC7_FORMATION_HISTORY', $this->refuses(fn() => $operation($backdated)));
+            self::assertSame($before, $f->journal->read());
+            if (!$preparation) { FreshInstitutionPackage::scan($f->root, null, false); }
+            $operation($valid);
+            self::assertIsArray(P::history($f->journal->read()['state']));
+        } finally { $f->close(); }
+    }
     public function testExactJointCompetenceAndAllMalformedPackageClassesBeforeAnyPlacement(): void
     {
         $f = new F(false);

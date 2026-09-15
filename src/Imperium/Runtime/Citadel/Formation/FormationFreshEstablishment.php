@@ -39,6 +39,9 @@ final readonly class FormationFreshEstablishment
             $state['parent_instance_id'] = $this->store->instance;
             $state['fresh_institutions'] = ['schema' => self::STATE, 'initialization' => ['terms' => $terms, 'decision' => $decision],
                 'reservation' => null, 'completion' => null, 'preparations' => []];
+            // Current signature acceptance must also satisfy retained-history
+            // invariants before this one-use state can become durable.
+            self::history($state);
             return $state['fresh_institutions'];
         });
     }
@@ -83,6 +86,7 @@ final readonly class FormationFreshEstablishment
             $this->authorize($owner, $state, $record); FreshInstitutionPackage::layout($this->root, $record);
             FreshInstitutionPackage::scan($this->root, null, false);
             $state['fresh_institutions']['reservation'] = $record;
+            self::history($state);
             ($this->checkpoint)?->__invoke('reservation-ready');
             return $record;
         });
@@ -105,6 +109,7 @@ final readonly class FormationFreshEstablishment
             $completion = self::seal(['schema' => self::COMPLETE, 'id' => 'fresh-completion-'.$extension['reservation']['id'],
                 'reservation_ref' => $reference, 'native_package' => $native, 'completed_at' => $completedAt, 'expected_head' => $head]);
             $state['fresh_institutions']['completion'] = $completion;
+            self::history($state);
             ($this->checkpoint)?->__invoke('completion-ready');
             return $completion;
         });
