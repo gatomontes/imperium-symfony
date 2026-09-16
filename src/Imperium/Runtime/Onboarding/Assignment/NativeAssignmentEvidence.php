@@ -19,6 +19,16 @@ final readonly class NativeAssignmentEvidence implements OwnerAssignmentEvidence
     public function verifyInOwner(AuthorityStore $store,FormationOwnerFrame $owner,
         array $policy,array $assignments,array $originals,array $responses):void
     {
+        // Direct native callers need the same bounded pure-parse lifetime that
+        // application/settings already establish. No authority result is cached.
+        \App\Imperium\Runtime\Onboarding\AuthorityAdmission\StrictJson::within(function()use($store,$owner,$policy,$assignments,$originals,$responses):void {
+            $this->verifyCurrentInOwner($store,$owner,$policy,$assignments,$originals,$responses);
+        });
+    }
+
+    private function verifyCurrentInOwner(AuthorityStore $store,FormationOwnerFrame $owner,
+        array $policy,array $assignments,array $originals,array $responses):void
+    {
         R::require($store===$this->store,'PPC6_FIXED_ASSIGNMENT_STORE');
         $owner->assertOwner($store->journal); $state=$owner->frame()['state'];
         R::require(($state['parent_instance_id']??null)===$store->instance && ($state['citadel_id']??null)===$store->citadel,'PPC6_ASSIGNMENT_IDENTITY');
