@@ -42,8 +42,8 @@
       "additional_batches_max": 1,
       "partial_component_evidence": "docs/reviews/provider-assignment-use-completion-review.md",
       "remaining_gaps": [
-        "Concrete PPC10 C1 now specifies staged target admission, assessment and successor replacement; exact owner approval, implementation and proof remain pending.",
-        "Concrete PPC10 C2 now specifies closed institutional profile.fits obligations and competent scoped originals; approval, implementation and full verification proof remain pending. External facts remain R5.",
+        "Exact PPC10 C1 staged target admission, assessment and successor replacement contract approved; implementation and full proof remain outstanding.",
+        "Exact PPC10 C2 closed institutional profile.fits contract approved; competent scoped originals, implementation and full verification proof remain outstanding. External facts remain R5.",
         "PPC9 directly invokes NativeAssignmentEvidence through early source/policy/owner refusals; no positive native assignment or final substantive-predicate branch is demonstrated.",
         "Full native initial application A/B, authorized complete-pair replacement, whole-pair current revalidation and actual protected settings delivery remain unproved.",
         "Both Seat race orders, integrated currentness/original/index/history/bound failures and application/replacement publication interruption/replay remain open. R4 prerequisite is accepted and is not reopened."
@@ -131,7 +131,7 @@
       ],
       "decrement": 0,
       "evidence": "docs/provider-storage-successor-contract-v1.md",
-      "reason": "Concrete A\u2013F successor awaits owner approval; R2 remains open"
+      "reason": "Concrete A–F successor awaits owner approval; R2 remains open"
     },
     {
       "event": "PPC4_SUCCESSOR_CLAUSES_A_TO_F_OWNER_APPROVED",
@@ -169,7 +169,7 @@
       ],
       "decrement": 0,
       "evidence": "docs/provider-model-correspondence-proposal-v1.md",
-      "reason": "Exact A\u2013F permanent-seat preparation competence awaits owner approval; R1 remains open and R2 remains accepted"
+      "reason": "Exact A–F permanent-seat preparation competence awaits owner approval; R1 remains open and R2 remains accepted"
     },
     {
       "event": "PPC5_CLAUSES_A_TO_F_OWNER_APPROVED",
@@ -207,7 +207,7 @@
       ],
       "decrement": 0,
       "evidence": "docs/next-campaign-provider-designation-assignment.md",
-      "reason": "Continue remaining approved PPC2 A\u2013F scope with accepted R1/R2; full R3 remains open and known R4 establishment dependency is explicit"
+      "reason": "Continue remaining approved PPC2 A–F scope with accepted R1/R2; full R3 remains open and known R4 establishment dependency is explicit"
     },
     {
       "event": "PPC6_COMPONENTS_ACCEPTED_R3_OPEN",
@@ -315,7 +315,7 @@
       ],
       "decrement": 0,
       "evidence": "docs/next-campaign-provider-assignment-use-completion.md",
-      "reason": "Continue existing PPC2 A\u2013F after accepted R4; native substantive predicates, admission/application/use and full proof remain required. Preparation is not acceptance."
+      "reason": "Continue existing PPC2 A–F after accepted R4; native substantive predicates, admission/application/use and full proof remain required. Preparation is not acceptance."
     },
     {
       "event": "PPC9_COMPONENTS_ACCEPTED_R3_OPEN",
@@ -347,6 +347,21 @@
       "decrement": 0,
       "evidence": "docs/provider-staged-assignment-proposal-v1.md",
       "reason": "Concrete successor contract prepared; no approval or R3 acceptance inferred. Retain one estimated R3 delivery outcome; explicitly re-estimate if implementation splits."
+    },
+    {
+      "event": "PPC10_C1_C2_OWNER_APPROVED_LOCAL_HANDOFF_READY",
+      "previous_range": [
+        3,
+        4
+      ],
+      "range": [
+        3,
+        4
+      ],
+      "decrement": 0,
+      "evidence": "docs/handoffs/provider-staged-assignment-approval.json",
+      "proposal_sha256": "bd817ea572c259874887375389ed3ecea0972ecf6ff0bb22b1cf72e75d06844d",
+      "reason": "Exact owner reply approved authorizes offline implementation only. Full R3 receiving acceptance remains outstanding; countdown is unchanged."
     }
   ],
   "operational_flags": {
@@ -359,7 +374,7 @@
   "native_enrollment_disposition": "DEFER_ENROLLMENT",
   "actual_retry_allowlist": [],
   "latest_receiving_review": "docs/reviews/provider-assignment-use-completion-review.md",
-  "selected_campaign_status": "CONCRETE_C1_C2_PROPOSAL_APPROVAL_PENDING",
+  "selected_campaign_status": "READY_UNDER_EXACT_C1_C2_APPROVAL",
   "potential_after_accepted_ppc4": {
     "minimum": 4,
     "maximum": 6,
@@ -384,14 +399,14 @@
     "minimum": 3,
     "maximum": 4,
     "applied": false,
-    "condition": "R4 alone fully accepted through supported same-root native establishment, actual consumer and crash/recovery proof; R3 1, R5 1\u20132, R6 1 remain",
+    "condition": "R4 alone fully accepted through supported same-root native establishment, actual consumer and crash/recovery proof; R3 1, R5 1–2, R6 1 remain",
     "endpoint_explanation": "Minimum already allowed R4 to be combined with R3; do not subtract one from both endpoints for R4-only acceptance"
   },
   "potential_after_accepted_ppc8": {
     "minimum": 3,
     "maximum": 4,
     "applied": true,
-    "condition": "Complete R4-only receiving acceptance with no new scope; R3 1, R5 1\u20132, R6 1 remain",
+    "condition": "Complete R4-only receiving acceptance with no new scope; R3 1, R5 1–2, R6 1 remain",
     "endpoint_explanation": "Minimum already allowed R4 to be combined with R3; no automatic subtraction from both endpoints",
     "evidence": "docs/reviews/provider-fresh-establishment-closure-review.md"
   },
@@ -399,7 +414,7 @@
     "minimum": 2,
     "maximum": 3,
     "applied": false,
-    "condition": "Full R3 acceptance with no new scope, still unmet; C1/C2 require concrete successor design and possible re-estimation. R5 1\u20132 and R6 1 remain."
+    "condition": "Full R3 acceptance with no new scope, still unmet; C1/C2 require concrete successor design and possible re-estimation. R5 1–2 and R6 1 remain."
   },
   "selected_proposal": "docs/provider-staged-assignment-proposal-v1.md",
   "selected_decision_record": "docs/handoffs/provider-staged-assignment-decision.json",
@@ -408,5 +423,7 @@
     "maximum": 3,
     "applied": false,
     "condition": "Exact C1/C2 approved, implemented and full R3 accepted after source review and fresh complete unchanged hosted CI; no additional delivery batch required."
-  }
+  },
+  "selected_approval_record": "docs/handoffs/provider-staged-assignment-approval.json",
+  "selected_implementation_record": "docs/provider-staged-assignment-implementation-source-record.json"
 }

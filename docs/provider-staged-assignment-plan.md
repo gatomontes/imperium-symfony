@@ -1,3 +1,13 @@
+# Current campaign — PPC10 approved; local implementation ready
+
+**C1.1–C1.6 and C2.1–C2.4 are approved for bounded offline implementation.** The owner's exact reply was “approved” following the exact proposal approval question. [Approval](handoffs/provider-staged-assignment-approval.json), [unchanged proposal](provider-staged-assignment-proposal-v1.md), [local handoff](handoffs/provider-staged-assignment-ready.md), [implementation scope/start record](provider-staged-assignment-implementation-source-record.json).
+
+Run the isolated local campaign: scoped fitness originals → authentic mapping/staged admission and explicit migration → W1/W2/W3 original custody → initial A/B application and separately signed successor replacement → whole-pair protected settings use → complete adversarial/race/interruption proof and public packet. [Proof plan](provider-staged-assignment-plan.md), [full local prompt](handoffs/provider-staged-assignment-local-prompt.txt), [PowerShell pull script](handoffs/provider-staged-assignment-pull.ps1). Original proposal/inventory pending notices are historical; the approval changes authorization status, not their bytes or boundaries.
+
+**Countdown: 3–4 → 3–4, decrement zero.** R1/R2/R4 remain accepted; R3 remains open until receiving source review and a fresh complete unchanged hosted gate accept the whole outcome. R5 production ports and separately authorized R6 remain outstanding. All five flags false; `DEFER_ENROLLMENT`; actual retry allowlist `[]`. No installed or live authority. Earlier notices below are historical.
+
+---
+
 # PPC10 implementation and proof plan
 
 **Pending exact C1/C2 approval.** [Contract](provider-staged-assignment-proposal-v1.md), [decision](handoffs/provider-staged-assignment-decision.json), [source inventory](provider-staged-assignment-source-record.json). This page authorizes no runtime implementation before that decision. Prior accepted R1/R2/R4 and PPC9 partial evidence remain intact.
