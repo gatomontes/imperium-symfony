@@ -1,3 +1,7 @@
+**Superseded authorization status:** exact C1/C2 approval is now recorded in [the approval record](provider-staged-assignment-approval.json). Use [the implementation-ready handoff](provider-staged-assignment-ready.md). The proposal and its scope remain unchanged; this original review handoff below is historical.
+
+---
+
 # PPC10 exact proposal review handoff
 
 Status: **PROPOSAL_READY_APPROVAL_PENDING**. Review [C1/C2](../provider-staged-assignment-proposal-v1.md), [proof plan](../provider-staged-assignment-plan.md) and [source inventory](../provider-staged-assignment-source-record.json). The [decision record](provider-staged-assignment-decision.json) contains the exact proposal SHA-256 and a null approval reference. The owner's latest “proceed” authorizes this proposal preparation and publication, not approval of the subsequently written contract.
