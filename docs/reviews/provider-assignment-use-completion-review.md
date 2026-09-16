@@ -1,0 +1,55 @@
+# PPC9 receiving review — partial components accepted; R3 open
+
+Disposition: **PARTIAL_DESIGNATION_ASSIGNMENT_EVIDENCE**. The bounded direct-parser scope and native chronology/original-refusal components are accepted offline through [PR #839](https://github.com/gatomontes/imperium-symfony/pull/839), merge `a98d0da5d89fed63623fb08279f8fba193364285`, exact tested tree `95170cc3bcae310db129cb707dd23d66f282398f`. **Native assignment, application, replacement and protected settings delivery remain unproved.** [Machine integration/CI record](../provider-assignment-use-completion-reviewed-integration.json), [unchanged producer report](../handoffs/provider-assignment-use-completion-report.md).
+
+**Countdown: 3–4 → 3–4, decrement zero.** R1/R2/R4 remain accepted without repeat credit. R3 remains open; R5 production ports and R6 separately authorized commissioning/interview remain outstanding. Potential 2–3 after full R3 acceptance is not applied. This range remains a working estimate; concrete successor scope may require re-estimation.
+
+## Exact source and packet
+
+| Stage | Commit | Tree |
+| --- | --- | --- |
+| Published preparation / sole prerequisite | `1ae4eb8a18b025c90295eafd7cc523b1e12d8fee` | `5d264d5db5f99d65031ae92033ae8bf87489f6da` |
+| Main before receiving integration | `fcf3d24471d6a21668769577eae0834c877d7e20` | `5d264d5db5f99d65031ae92033ae8bf87489f6da` |
+| Producer executable candidate | `cb97804aa4fcd5cc09496b551f544457a5e61a7a` | `8d39275df1b91af993807a908674e6bf9a85a80a` |
+| Producer final, report-only follow-up | `2be0b7d5de1341b1d578417776c67acf913d500a` | `95170cc3bcae310db129cb707dd23d66f282398f` |
+| Receiving candidate | `450812e5ae8ce4e312b813091eb3c6b42917adb8` | `95170cc3bcae310db129cb707dd23d66f282398f` |
+| Hosted checkout | `f13ca324b1633c155009bb99b5c7ab3fdadfd211` | `95170cc3bcae310db129cb707dd23d66f282398f` |
+| Runtime integration | `a98d0da5d89fed63623fb08279f8fba193364285` | `95170cc3bcae310db129cb707dd23d66f282398f` |
+
+The independently rerun supplied verifier exactly reproduces the uploaded verification receipt: **3,677 source files, 932 evidence files, 51 protected paths**, full path/mode/byte/SHA-256 manifests, committed Git blobs/trees, sole bounded bundle prerequisite, all three full-index binary diffs, report-only tested→final follow-up, source-bound Windows aggregate and selected public originals. Outer ZIP SHA-256: `8775392593ad7b2b056df7bae72d0b274cd57896f448d8fc9ae5d80b7829e188`. The standalone report equals committed bytes. All 75 preparation baseline observations are reproduced. Receiving separately checked the 82-path source inventory and all 315 current/start matched-line observations; this is not a complete call-graph theorem.
+
+Original PPC2 proposal SHA-256 remains `c24939fd808cd5917c8057efe518787cc2448d3da60be089511e7abd6dee2984`; separate [approval record](../handoffs/provider-profile-designation-approval.md) SHA-256 remains `30f34e016b3074a38c69232cd42a0252761d46fbd074f81d8a8423882821285c`. Existing A–F approval covers this bounded work. C1/C2 receive no approval from this review.
+
+## Runtime and test review
+
+The sole runtime delta is ten added lines in `NativeAssignmentEvidence`: direct `verifyInOwner` opens the existing `StrictJson::within` lifetime and calls a private method containing the unchanged checks. The parser context reuses only bounded pure decode/exact-value encoding results; currentness, signature and authority decisions are recomputed. Nested application/settings callers retain the existing context; `finally` clears a directly created context even on refusal. No new lock, cache bound, input limit or authority effect is introduced. No wall-clock speed guarantee is accepted. Receiving made no executable changes.
+
+Five new cases produced 70 assertions in the producer gate. They cover signed A/B missing-target admission, actual native preparation and both exact mappings, direct native source/policy/store/detached/expired-owner refusals, fresh-process reconstruction and absent settings, twelve separately signed candidate-original refusals, and both independent successor appointments/mappings. The reported 300-second child-test cap is a compound reader bound, not a change to the runtime or hosted 30-minute worker limit. Earlier failed/terminated diagnostics and the owner-requested pause remain accurately retained.
+
+The source and observations distinguish every reached boundary. A validly signed FAIL finding reaches complete-examination refusal; a true security block reaches the earlier candidate-chain refusal; false qualification reaches the criteria check. New approval signatures do not override those original findings. A successor designation does not make the previous appointment current; mapping refuses until the separate generation-2 appointment, then has a different immutable reference even with the same native binding reference. These are candidate/mapping facts, not successful O4 replacement.
+
+Public verification authenticates two A/B policy envelopes plus three separate native histories: 77 signatures/94 linked frames for chronology and 89 signatures/106 frames for each Seat's original/successor case. Those per-history counts are not globally distinct grants. Native placements, exact reference/digest links, event predecessor/generation/nonce/index reconstruction and public custody originals are checked. Integrity does not establish current or external authority. External account/access/base/tokenizer/tariff/cognition inputs remain explicitly synthetic.
+
+## Contract findings and remaining work
+
+The [chronology](../provider-assignment-use-chronology.md) is supported by the actual owner code. `Admission::retain` and `Policy::validate` resolve full target sources before retaining the initial policy. Founding retains that policy reference. `FreshInstitutionalProfileMapping::prepareInOwner` requires later R4 completion, current designation and independent appointment. `AssignmentRule::tuples` then demands equality with the earlier immutable policy target. A late generic signed evidence act cannot bypass its exact policy slot.
+
+The two-mode unresolved-source tests prove the recorded early refusal, not every possible policy. Source tracing supplies the wider join: generic admission can retain a second policy, but `AugurAdapter::resolveContext` requires the current Augur holder's policy reference to equal the assessment policy. `FreshProducer` refuses another root founding, while `ApplicationOwner::replace` retains the original policy and assessment view. Thus a second admitted policy alone does not provide the missing route. Predicting a digest or constructing a mapping-shaped source does not prove later native acts already occurred.
+
+The [predicate specification](../provider-assignment-use-predicates.md) also remains partial. `profile.current_active`, `profile.exact_model_binding` and `profile.independent_appointment` are lifecycle facts. The ten `CandidateClaim` predicates are structurally parsed cognition claims. Neither set supplies a closed substantive meaning for `profile.fits`. Actual direct native calls refuse at source kind or policy-target equality before reaching that final predicate branch. The fresh settings resolver refuses absent settings before reaching native assignment validation. No deeper check or positive use is credited.
+
+The submitted C1, C1 replacement extension and C2 identify needed design decisions; they are **unapproved outlines, not approval-ready implementation contracts**. The next design must specify closed staged target/assessment admission, exact original policy/root/holder linkage and ownership, finite allowed sets and shared consumption/exposure limits, currentness/revocation/expiry/replay/recovery, and explicit successor assessment/application scope. C2 must define exact per-Seat judgments, competent originals, external dependencies, bounded derivation and FAIL/UNKNOWN/missing-evidence behavior. Existing approval does not authorize silently changing protected O4 contracts. This receiving review requests no blanket approval of those incomplete definitions.
+
+All open rows in the [matrix](../provider-assignment-use-matrix.md) remain required: actual initial application A/B, authorized replacement, whole-pair revalidation and protected settings delivery, both Seat race orders, integrated original/currentness/history/bound failures and publication interruption/replay. The [consumer/runbook](../provider-assignment-use-consumers-runbook.md) keeps direct execution separate from source equivalence. Default Composition/MissingAssignmentEvidence and accepted R1/R2/R4 behavior remain intact.
+
+## Fresh receiving validation
+
+Producer Windows result: **4,100 cases / 69,500 assertions / three symlink skips**, all 639 files/cases exactly once, zero JUnit errors/failures. All eleven guards ran: ten passed and one errored with WinError 1314. Workers 0, 1 and 5 exceeded 30 minutes; four linked-worktree warnings remain documented. This is accurately a non-green local complete gate, not hosted acceptance. Diagnostics and reviewer-prestep counts are not added to the suite.
+
+Fresh hosted [run 35075633720](https://github.com/gatomontes/imperium-symfony/actions/runs/35075633720) passed **4,099 tests / 69,505 assertions / 4 explicit Windows-specific skips**, all **639 files and enumerated cases exactly once**, all eight workers and **all eleven guards, zero guard skips**. All five PPC9 cases ran without skips, with 70 assertions; all 143 establishment cases and all three symlink cases passed. These results accept the partial component tree, not R3 completion.
+
+All nine artifacts were downloaded and SHA-256 checked. The unchanged aggregate independently reproduced the complete-case result. Receiving independently computed source digest `ad81cc76ae08bb73ea09531e4e6fe44f9a79ac91599c4802bc16e2c1f22f3aae` from the exact Git tree; it matches every partition before/after. PHP 8.4.25, PHPUnit 13.3.0. Longest summed JUnit partition 1536.954080 seconds; longest whole worker 1553.000 seconds, within 30 minutes. Interval 2026-09-16T08:46:31Z → 2026-09-16T09:12:37Z. Exact jobs/artifacts/skips/identities are retained in the integration record. No local receiving PHP execution or separate independent manual reviewer is claimed.
+
+[Automated review](https://github.com/gatomontes/imperium-symfony/pull/839#discussion_r4024178959) flagged the three local worker overruns as a hosted-timeout risk. Receiving kept the concern open until the actual complete Ubuntu gate passed at this exact tree. Its measured whole-worker times resolve that host-specific integration risk without repartitioning, weakened limits or executable changes. The slower Windows measurements remain accurately reported and are not relabelled.
+
+This receiving review, status and countdown publication is documentation-only. All five operational flags remain false, `DEFER_ENROLLMENT`, actual retry allowlist `[]`. No installed establishment, real account/provider/credential access, live enrollment/appointments, commissioning, deployment, activation or execution follows from partial acceptance.

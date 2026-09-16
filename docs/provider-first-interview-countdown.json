@@ -40,16 +40,17 @@
       "status": "OPEN",
       "additional_batches_min": 1,
       "additional_batches_max": 1,
-      "partial_component_evidence": "docs/reviews/provider-designation-assignment-review.md",
+      "partial_component_evidence": "docs/reviews/provider-assignment-use-completion-review.md",
       "remaining_gaps": [
-        "R4 same-root FRESH institutional prerequisite is accepted offline through PPC7/PPC8. Complete R3 substantive predicates and actual assignment/application/use proof remain separately required.",
-        "NativeAssignmentEvidence recognizes only directly verified profile.current_active, profile.exact_model_binding and profile.independent_appointment. Broader substantive predicate production and verification remain open; profile.fits refuses.",
-        "No direct NativeAssignmentEvidence invocation is covered by the committed tests. Generic owner-routing tests and native designation histories do not establish a positive native assignment consumer.",
-        "Full initial application, replacement, actual settings delivery and their mutation races remain unproven through the same supported native owner sequence.",
-        "Corruption/overflow and incumbent/appointment/competition permutations remain open beyond the specifically enumerated cases."
+        "Native target mapping exists only after original-policy founding, R4 establishment, designation and independent appointment; that immutable policy already requires its exact target source. C1 staged admission/assessment and replacement semantics remain an unapproved outline.",
+        "The closed substantive profile.fits definition and competent bounded original derivation are missing (C2). The three lifecycle predicates and parsed cognition claims do not substitute.",
+        "PPC9 directly invokes NativeAssignmentEvidence through early source/policy/owner refusals; no positive native assignment or final substantive-predicate branch is demonstrated.",
+        "Full native initial application A/B, authorized complete-pair replacement, whole-pair current revalidation and actual protected settings delivery remain unproved.",
+        "Both Seat race orders, integrated currentness/original/index/history/bound failures and application/replacement publication interruption/replay remain open. R4 prerequisite is accepted and is not reopened."
       ],
-      "partial_integration_pr": 829,
-      "partial_integration_merge": "1722c3645acb6c0413ce2a7223c2f7a45503246e"
+      "partial_integration_pr": 839,
+      "partial_integration_merge": "a98d0da5d89fed63623fb08279f8fba193364285",
+      "prior_component_evidence": "docs/reviews/provider-designation-assignment-review.md"
     },
     {
       "id": "R4",
@@ -315,6 +316,23 @@
       "decrement": 0,
       "evidence": "docs/next-campaign-provider-assignment-use-completion.md",
       "reason": "Continue existing PPC2 A–F after accepted R4; native substantive predicates, admission/application/use and full proof remain required. Preparation is not acceptance."
+    },
+    {
+      "event": "PPC9_COMPONENTS_ACCEPTED_R3_OPEN",
+      "previous_range": [
+        3,
+        4
+      ],
+      "range": [
+        3,
+        4
+      ],
+      "decrement": 0,
+      "evidence": "docs/reviews/provider-assignment-use-completion-review.md",
+      "integration_pr": 839,
+      "integration_merge": "a98d0da5d89fed63623fb08279f8fba193364285",
+      "ci_run": 35075633720,
+      "reason": "Bounded direct parser and native chronology/original-refusal components accepted. C1/C2 contract definitions and full native application/use proof remain open; no outcome closes."
     }
   ],
   "operational_flags": {
@@ -326,8 +344,8 @@
   },
   "native_enrollment_disposition": "DEFER_ENROLLMENT",
   "actual_retry_allowlist": [],
-  "latest_receiving_review": "docs/reviews/provider-fresh-establishment-closure-review.md",
-  "selected_campaign_status": "READY_UNDER_EXISTING_PPC2_APPROVAL",
+  "latest_receiving_review": "docs/reviews/provider-assignment-use-completion-review.md",
+  "selected_campaign_status": "PARTIAL_COMPONENTS_ACCEPTED_R3_OPEN",
   "potential_after_accepted_ppc4": {
     "minimum": 4,
     "maximum": 6,
@@ -367,6 +385,6 @@
     "minimum": 2,
     "maximum": 3,
     "applied": false,
-    "condition": "Complete R3 receiving acceptance with no new scope; R5 1–2 and R6 1 remain"
+    "condition": "Full R3 acceptance with no new scope, still unmet; C1/C2 require concrete successor design and possible re-estimation. R5 1–2 and R6 1 remain."
   }
 }

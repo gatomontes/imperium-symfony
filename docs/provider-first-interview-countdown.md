@@ -1,5 +1,7 @@
 # Countdown to the first live Courtyard interview
 
+**Current: PPC9 partial components accepted; R3 remains open. Countdown 3–4 → 3–4, decrement zero.** [Receiving review](reviews/provider-assignment-use-completion-review.md), [integration/CI record](provider-assignment-use-completion-reviewed-integration.json). Staged target/assessment admission and substantive Profile fitness require concrete contract definitions before full native application/use can be completed. C1/C2 are unapproved design outlines. R1/R2/R4 stay accepted; potential 2–3 after full R3 remains unapplied. Earlier campaign notices below are historical.
+
 **Next: PPC9 completes R3 native assignment/application/use under existing PPC2 approval.** [Campaign](next-campaign-provider-assignment-use-completion.md), [plan](provider-assignment-use-completion-plan.md), [local handoff](handoffs/provider-assignment-use-completion-ready.md). **3–4 remains; decrement zero.** Complete R3 receiving acceptance could leave **2–3**, conditional and not applied.
 
 **Current estimate: 3–4 batches remaining. R4 is accepted offline through PPC7/PPC8.** [Receiving review](reviews/provider-fresh-establishment-closure-review.md), [exact integration/CI record](provider-fresh-establishment-closure-reviewed-integration.json). Countdown **3–5 → 3–4**: one outcome closes, upper estimate decreases by one; minimum already allowed R4 to share R3.
@@ -22,7 +24,7 @@ The milestone is one separately authorized, bounded live Courtyard interview, wi
 | --- | --- | --- |
 | R1. Competent native model seal → exact O4 binding/configuration/generation correspondence | 0 | **Accepted offline through PPC5** |
 | R2. Native tenure and registry synchronization, including indirect lock order | 0 | **Accepted offline through PPC3 + PPC4** |
-| R3. Designation/revocation/supersession and shared assignment/application/use verifier | 1 | Open; R4 prerequisite accepted, substantive predicates and native application/use plus full race/refusal proof remain |
+| R3. Designation/revocation/supersession and shared assignment/application/use verifier | 1 | Open: staged target/assessment admission and substantive fitness contracts, then full native application/use proof; estimate subject to concrete successor scope |
 | R4. Combined FRESH institutional establishment | 0 | **Accepted offline through PPC7 + PPC8** |
 | R5. Account/access, base-model and cognition evidence | 1–2 | Three open production ports; batching depends on compatible provider evidence and actual inputs |
 | R6. Separately authorized bounded commissioning and first live interview | 1 | Deferred until prerequisites are met and live authorization is explicit |
@@ -58,5 +60,6 @@ PPC4 receiving review accepted complete R2 closure with no new scope, applying t
 | PPC8 R4 closure continuation prepared | [Campaign](next-campaign-provider-fresh-establishment-closure.md); existing PPC7 A–F approval retained | No decrement; **3–5 remains** |
 | R4 accepted after PPC8 | [Receiving review](reviews/provider-fresh-establishment-closure-review.md); PR #836, merge `cb3e430501be8f0e66384ef029e3d8d7ebc5c25d`, CI 35011037070 | **One outcome closed; 3–5 → 3–4 (upper estimate −1)** |
 | PPC9 R3 completion prepared | [Campaign](next-campaign-provider-assignment-use-completion.md); existing PPC2 A–F approval retained, R4 accepted | No decrement; **3–4 remains** |
+| PPC9 components accepted; R3 open | [Receiving review](reviews/provider-assignment-use-completion-review.md); PR #839, merge `a98d0da5d89fed63623fb08279f8fba193364285`, CI 35075633720 | No decrement; **3–4 remains** |
 
 No live action is authorized by this countdown. All five operational flags remain false, `DEFER_ENROLLMENT` remains, and the actual retry allowlist is empty.
