@@ -1,3 +1,13 @@
+# PPC10 continuation — all three v5 source exceptions approved
+
+The owner approved SharedExposure dispatch and then the two additional v5 reader checks, plus publication/merge of this documentation handoff. [Combined scope and flow](provider-shared-exposure-extension.md), [reader approval](handoffs/provider-v5-reader-extension-approval.json), [isolated local handoff](handoffs/provider-v5-extension-ready.md), [complete continuation prompt](handoffs/provider-shared-exposure-continuation-prompt.txt).
+
+Continue the existing C1/C2 implementation with the three narrow exceptions. Component source stays on the separate unaccepted branch; this handoff changes documentation only. Full native v5 validation, assignment/replacement/use and all original proofs remain required.
+
+**Remaining estimate 4–5; decrement zero.** R3 remains open, all operational flags false. Historical readiness and 3–4 notices below refer to earlier preparation.
+
+---
+
 # Current campaign — PPC10 approved; local implementation ready
 
 **C1.1–C1.6 and C2.1–C2.4 are approved for bounded offline implementation.** The owner's exact reply was “approved” following the exact proposal approval question. [Approval](handoffs/provider-staged-assignment-approval.json), [unchanged proposal](provider-staged-assignment-proposal-v1.md), [local handoff](handoffs/provider-staged-assignment-ready.md), [implementation scope/start record](provider-staged-assignment-implementation-source-record.json).

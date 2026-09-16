@@ -1,0 +1,42 @@
+{
+  "schema": "imperium.ppc10-shared-exposure-extension-approval/v1",
+  "campaign": "PPC10",
+  "status": "APPROVED_FOR_BOUNDED_OFFLINE_IMPLEMENTATION",
+  "approval_date": "2026-09-16",
+  "timestamp_precision": "DATE_ONLY",
+  "owner_reply_exact": "approved",
+  "approval_question_exact": "Approve this single-file scope extension?",
+  "conversational_reference": "Owner approved after explanation of the SharedExposure v5 shared-budget dispatch extension in this conversation.",
+  "existing_proposal_sha256": "bd817ea572c259874887375389ed3ecea0972ecf6ff0bb22b1cf72e75d06844d",
+  "existing_c1_c2_approval_preserved": true,
+  "additional_protected_source": {
+    "path": "src/Imperium/Runtime/Citadel/Formation/SharedExposure.php",
+    "bytes": 5145,
+    "sha256": "7a84a04fa47226b9685777bac896aa614ecbb2816693210c3a19435fa1a1b871",
+    "git_blob": "af36c320c31a70cbe531c210d982aeae33e69b77"
+  },
+  "permitted_delta": "Append imperium.onboarding-authority-state/v5 only to SharedExposure::formation()'s supported-schema list after closed structural v5 validation exists. Preserve check(), meters, membership, own-attempt exclusion, accounting, settlement and all limits.",
+  "required_proofs": [
+    "Both real Formation reservation and Clavium custody callers on supported v5 owners, with and without model_settings",
+    "Both owner race orders and cumulative exact maximum/maximum+1 across legacy and staged exposure",
+    "Unknown/corrupt schema refuses; unchanged legacy v2-v4 behavior; complete source-bound validation"
+  ],
+  "additional_files_authorized": [],
+  "runtime_implemented": false,
+  "r3_accepted": false,
+  "institutional_signature_inferred": false,
+  "operational_flags": {
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "live_ready": false,
+    "activation": false,
+    "execution_authority": false
+  },
+  "native_enrollment_disposition": "DEFER_ENROLLMENT",
+  "actual_retry_allowlist": [],
+  "remaining_batches": [
+    4,
+    5
+  ],
+  "decrement": 0
+}

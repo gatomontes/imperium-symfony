@@ -6,8 +6,8 @@
   "baseline_tree": "451140919d570d196384b5e0802ac076c67ba579",
   "owner_instruction": "proceed. remember countdown",
   "remaining_batches": {
-    "minimum": 3,
-    "maximum": 4,
+    "minimum": 4,
+    "maximum": 5,
     "kind": "WORKING_ESTIMATE"
   },
   "selected_campaign": "PPC10",
@@ -38,15 +38,13 @@
       "id": "R3",
       "name": "Designation lifecycle and shared assignment/use verifier",
       "status": "OPEN",
-      "additional_batches_min": 1,
-      "additional_batches_max": 1,
+      "additional_batches_min": 2,
+      "additional_batches_max": 2,
       "partial_component_evidence": "docs/reviews/provider-assignment-use-completion-review.md",
       "remaining_gaps": [
-        "Exact PPC10 C1 staged target admission, assessment and successor replacement contract approved; implementation and full proof remain outstanding.",
-        "Exact PPC10 C2 closed institutional profile.fits contract approved; competent scoped originals, implementation and full verification proof remain outstanding. External facts remain R5.",
-        "PPC9 directly invokes NativeAssignmentEvidence through early source/policy/owner refusals; no positive native assignment or final substantive-predicate branch is demonstrated.",
-        "Full native initial application A/B, authorized complete-pair replacement, whole-pair current revalidation and actual protected settings delivery remain unproved.",
-        "Both Seat race orders, integrated currentness/original/index/history/bound failures and application/replacement publication interruption/replay remain open. R4 prerequisite is accepted and is not reopened."
+        "Unaccepted PPC10 components require full source/integration review; all three additional v5 source exceptions are approved.",
+        "Complete native staged admission/migration, W1/W2/W3 custody/settlement, initial A/B application, both Seat replacements and fresh-process whole-pair protected use.",
+        "Complete original fitness, history, limits, alias/reset, race and crash matrix; fresh unchanged complete hosted CI."
       ],
       "partial_integration_pr": 839,
       "partial_integration_merge": "a98d0da5d89fed63623fb08279f8fba193364285",
@@ -362,6 +360,20 @@
       "evidence": "docs/handoffs/provider-staged-assignment-approval.json",
       "proposal_sha256": "bd817ea572c259874887375389ed3ecea0972ecf6ff0bb22b1cf72e75d06844d",
       "reason": "Exact owner reply approved authorizes offline implementation only. Full R3 receiving acceptance remains outstanding; countdown is unchanged."
+    },
+    {
+      "event": "PPC10_PARTIAL_COMPONENT_SPLIT_AND_V5_SOURCE_EXTENSIONS_APPROVED",
+      "previous_range": [
+        3,
+        4
+      ],
+      "range": [
+        4,
+        5
+      ],
+      "decrement": 0,
+      "evidence": "docs/provider-shared-exposure-extension.md",
+      "reason": "The component/source review split the original R3 implementation/receiving batch. All three narrow v5 source exceptions are now approved; no R3 acceptance or runtime integration credit."
     }
   ],
   "operational_flags": {
@@ -374,7 +386,7 @@
   "native_enrollment_disposition": "DEFER_ENROLLMENT",
   "actual_retry_allowlist": [],
   "latest_receiving_review": "docs/reviews/provider-assignment-use-completion-review.md",
-  "selected_campaign_status": "READY_UNDER_EXACT_C1_C2_APPROVAL",
+  "selected_campaign_status": "READY_UNDER_C1_C2_AND_THREE_NARROW_V5_SOURCE_EXCEPTIONS",
   "potential_after_accepted_ppc4": {
     "minimum": 4,
     "maximum": 6,
@@ -424,6 +436,6 @@
     "applied": false,
     "condition": "Exact C1/C2 approved, implemented and full R3 accepted after source review and fresh complete unchanged hosted CI; no additional delivery batch required."
   },
-  "selected_approval_record": "docs/handoffs/provider-staged-assignment-approval.json",
-  "selected_implementation_record": "docs/provider-staged-assignment-implementation-source-record.json"
+  "selected_approval_record": "docs/handoffs/provider-v5-reader-extension-approval.json",
+  "selected_implementation_record": "docs/handoffs/provider-v5-extension-ready.md"
 }

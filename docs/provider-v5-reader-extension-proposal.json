@@ -1,0 +1,41 @@
+{
+  "schema": "imperium.ppc10-v5-reader-extension-proposal/v1",
+  "status": "PROPOSED_NOT_APPROVED",
+  "sources": [
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Augur/AugurMigration.php",
+      "bytes": 3807,
+      "sha256": "69f88eb46e702b15d6c0a7db06eb978ad08054caa9656415b3d24b3e2b96832e",
+      "git_blob": "f33b9b51c2d4d4366ef4fd6d992d79ceafc6ad6f",
+      "method": "validate",
+      "permitted_delta": "Append imperium.onboarding-authority-state/v5 to the existing current-state schema allowlist in this method only."
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Augur/FoundingRule.php",
+      "bytes": 2114,
+      "sha256": "851caed5d88866cc8fb65a753f1710bc6a5fda31c88b71b530fcf64c2a739a33",
+      "git_blob": "1117db06405dff61700ddc6b1b9cf18d681d406c",
+      "method": "derive",
+      "permitted_delta": "Append imperium.onboarding-authority-state/v5 to the existing current-state schema allowlist in this method only."
+    }
+  ],
+  "approval_inferred": false,
+  "excluded_changes": [
+    "AugurMigration::migrate() replay/producer behavior",
+    "Original v2-to-v3 migration receipt, prior-state validation, original preservation and all limits",
+    "Founding selection, permitted tuples, effect identities, signatures, source history, or repeat founding authority"
+  ],
+  "required_proofs": [
+    "Supported v5 full validation retains authentic v2-to-v3 and v3-to-v4 history",
+    "Altered/missing migration originals fail without mutation; unchanged legacy validation controls",
+    "Existing founding derivation is reconstructible on supported v5 state with exact original completion and permitted tuple",
+    "Changed founding inputs/tuples refuse; no additional founding effect or holder publication"
+  ],
+  "operational_flags": {
+    "deployment_approved": false,
+    "enrollment_authorized": false,
+    "live_ready": false,
+    "activation": false,
+    "execution_authority": false
+  }
+}

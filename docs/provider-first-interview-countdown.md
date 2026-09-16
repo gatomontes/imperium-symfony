@@ -1,5 +1,7 @@
 # Countdown to the first live Courtyard interview
 
+**Current: 4–5 batches, revised from 3–4; decrement zero.** PPC10 returned partial components. The owner approved all three narrow v5 source exceptions and the documentation handoff. [Current flow](provider-shared-exposure-extension.md), [local continuation](handoffs/provider-v5-extension-ready.md). R1/R2/R4 remain accepted; R3/R5 open; R6 deferred. This approval grants no live authority. Earlier notices are historical.
+
 **Current: PPC10 C1/C2 approved; local implementation ready. Countdown 3–4 → 3–4, decrement zero.** [Exact approval](handoffs/provider-staged-assignment-approval.json), [local handoff](handoffs/provider-staged-assignment-ready.md), [scope/start record](provider-staged-assignment-implementation-source-record.json). Approval closes no outcome: R3 remains open, R1/R2/R4 stay accepted, R5 open and R6 deferred. Full R3 acceptance could leave 2–3; not applied. Earlier notices below are historical.
 
 **Current: PPC10 concrete C1/C2 proposal ready; exact approval and implementation pending. Countdown 3–4 → 3–4, decrement zero.** [Contract](provider-staged-assignment-proposal-v1.md), [decision](handoffs/provider-staged-assignment-decision.json), [steps/proof](provider-staged-assignment-plan.md). R1/R2/R4 remain accepted; R3 remains open. Retain one estimated complete R3 batch, R5 one–two, R6 one; explicitly re-estimate any required implementation split. No countdown credit for proposal preparation or approval. Earlier notices below are historical.
@@ -28,12 +30,12 @@ The milestone is one separately authorized, bounded live Courtyard interview, wi
 | --- | --- | --- |
 | R1. Competent native model seal → exact O4 binding/configuration/generation correspondence | 0 | **Accepted offline through PPC5** |
 | R2. Native tenure and registry synchronization, including indirect lock order | 0 | **Accepted offline through PPC3 + PPC4** |
-| R3. Designation/revocation/supersession and shared assignment/application/use verifier | 1 | Open: staged target/assessment admission and substantive fitness contracts, then full native application/use proof; estimate subject to concrete successor scope |
+| R3. Designation/revocation/supersession and shared assignment/application/use verifier | 2 | Open: split component/source receiving and integrated implementation/receiving; three narrow v5 source exceptions approved |
 | R4. Combined FRESH institutional establishment | 0 | **Accepted offline through PPC7 + PPC8** |
 | R5. Account/access, base-model and cognition evidence | 1–2 | Three open production ports; batching depends on compatible provider evidence and actual inputs |
 | R6. Separately authorized bounded commissioning and first live interview | 1 | Deferred until prerequisites are met and live authorization is explicit |
 
-The remaining internal outcome R3 accounts for one batch; provider evidence for 1–2; commissioning for one. Accepted R1, R2 and R4 each contribute zero additional batches. These are planning estimates, not guaranteed release dates or permission to combine incompatible work. Missing external facts or a new contract gap can raise the estimate.
+The remaining internal outcome R3 accounts for two batches after the explicit PPC10 split; provider evidence for 1–2; commissioning for one. Accepted R1, R2 and R4 each contribute zero additional batches. These are planning estimates, not guaranteed release dates or permission to combine incompatible work. Missing external facts or a new contract gap can raise the estimate.
 
 ## Counting rule
 
