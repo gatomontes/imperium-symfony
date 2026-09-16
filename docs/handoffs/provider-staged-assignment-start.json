@@ -1,0 +1,19 @@
+{
+  "schema": "imperium.ppc10-local-start/v1",
+  "worktree": "E:/htdocs/imperium-ppc10",
+  "branch": "codex/provider-staged-assignment-ppc10",
+  "preparation_commit": "bc91c7d634d0c7824f8f4621e96bb96995462f0e",
+  "preparation_tree": "5a2f475b981cd58c4467a862b396d57981b35c29",
+  "clean_before_edit": true,
+  "accepted_main": "6cadc3125db6d9ccdbec9d40264033cd73a94de1",
+  "accepted_main_tree": "9999b032b54123c80b53397a472eb63a6b6713a4",
+  "inventory_git_blob_byte_sha256_matches": 82,
+  "protected_preparation_document_matches": 3,
+  "normalization": false,
+  "approval": "docs/handoffs/provider-staged-assignment-approval.json",
+  "proposal_sha256": "bd817ea572c259874887375389ed3ecea0972ecf6ff0bb22b1cf72e75d06844d",
+  "bundle_prerequisite": "bc91c7d634d0c7824f8f4621e96bb96995462f0e",
+  "operational_flags": {"deployment_approved": false, "enrollment_authorized": false, "live_ready": false, "activation": false, "execution_authority": false},
+  "native_enrollment_disposition": "DEFER_ENROLLMENT",
+  "actual_retry_allowlist": []
+}

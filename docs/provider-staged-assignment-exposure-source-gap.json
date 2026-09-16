@@ -1,0 +1,92 @@
+{
+  "schema": "imperium.ppc10-source-incompatibility/v1",
+  "preparation_commit": "bc91c7d634d0c7824f8f4621e96bb96995462f0e",
+  "facts": [
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/SharedExposure.php",
+      "git_blob": "af36c320c31a70cbe531c210d982aeae33e69b77",
+      "bytes": 5145,
+      "sha256": "7a84a04fa47226b9685777bac896aa614ecbb2816693210c3a19435fa1a1b871",
+      "matched_lines": [
+        {
+          "line": 16,
+          "text": "        if(!in_array($state['onboarding']['schema']??null,['imperium.onboarding-authority-state/v2','imperium.onboarding-authority-state/v3','imperium.onboarding-authority-state/v4'],true)){return;}"
+        }
+      ]
+    },
+    {
+      "path": "src/Imperium/Runtime/Citadel/Formation/FormationCognition.php",
+      "git_blob": "64860d6a550a5fe514039a3e5041fb67a5f23b91",
+      "bytes": 27354,
+      "sha256": "ea2280350641a93de63dda78be7cd18d6838e7a927ff79e6399dd8873b61f737",
+      "matched_lines": [
+        {
+          "line": 96,
+          "text": "            if (!FormationJournal::keys($terms, array_merge(['source', 'provider', 'model', 'destination', 'pricing', 'per_call', 'total', 'visible_intakes', 'disclosure', 'expires_at'], array_key_exists('transport', $terms) ? ['transport'] : [], array_key_exists('model_settings', $terms) ? ['model_settings'] : []))"
+        },
+        {
+          "line": 112,
+          "text": "            if (array_key_exists('model_settings', $terms)) { \\App\\Imperium\\Runtime\\Onboarding\\Assignment\\AssignmentRule::settingShape($terms['model_settings']); }"
+        },
+        {
+          "line": 169,
+          "text": "            SharedExposure::formation($state, $sessionId, $maximum, null, $this->journal, $this->clock);"
+        },
+        {
+          "line": 170,
+          "text": "            SessionExposure::reserve($session, $attemptId, $maximum, FormationJournal::digest($request));"
+        },
+        {
+          "line": 228,
+          "text": "        if (!array_key_exists('model_settings',$terms)) { return; }"
+        }
+      ]
+    },
+    {
+      "path": "src/Imperium/Runtime/Clavium/FormationClaimCustodyBroker.php",
+      "git_blob": "728ac019635aa35e200740fa2d195126d56bfab2",
+      "bytes": 12780,
+      "sha256": "9c6436ce0bdb500667ce3a3415060a90f751da5afed633fe822aee73873d60a8",
+      "matched_lines": [
+        {
+          "line": 119,
+          "text": "        if (array_key_exists('model_settings',$terms)) {"
+        },
+        {
+          "line": 132,
+          "text": "        \\App\\Imperium\\Runtime\\Citadel\\Formation\\SharedExposure::formation($state,$claim['session_id'],$claim['maximum'],$claim['attempt_id'],$this->journal,$this->clock);"
+        },
+        {
+          "line": 135,
+          "text": "        SessionExposure::reserve($accounting,$claim['attempt_id'],$claim['maximum'],$attempt['fingerprint']);"
+        }
+      ]
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Assignment/FormationSettingsBinding.php",
+      "git_blob": "794e20fca4ece87a866d827c1045aa4b1dee2879",
+      "bytes": 1393,
+      "sha256": "a54e75e1d7227cdea4fcd5b105074d2fc0e3bc1c28705684d35d56cb9977ada1",
+      "matched_lines": []
+    },
+    {
+      "path": "src/Imperium/Runtime/Onboarding/Assignment/SettingsBoundTransport.php",
+      "git_blob": "4c394681e992d0a667108c66f8e46c515c64a037",
+      "bytes": 2644,
+      "sha256": "8f1d554e1e422d7e44743421da2cec30567a7c860f5b3e23af649618fae1d078",
+      "matched_lines": [
+        {
+          "line": 18,
+          "text": "        $binding=$terms['model_settings']??null;"
+        }
+      ]
+    }
+  ],
+  "not_an_end_to_end_v5_proof": true,
+  "proposed_delta": {
+    "path": "src/Imperium/Runtime/Citadel/Formation/SharedExposure.php",
+    "change": "Add explicit v5 dispatch to formation() only after structural v5 validation is implemented; preserve existing check, original budgets, source membership and own-attempt exclusion. Add supported Formation reservation and Clavium custody proofs in both owner orders.",
+    "authorized_by_current_inventory": false
+  },
+  "activation_implemented": false
+}
