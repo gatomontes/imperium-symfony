@@ -1,3 +1,15 @@
+# Current review — PPC9 partial acceptance; countdown 3–4
+
+**R3 remains open.** [PR #839](https://github.com/gatomontes/imperium-symfony/pull/839), merge `a98d0da5d89fed63623fb08279f8fba193364285`, exact hosted-tested tree `95170cc3bcae310db129cb707dd23d66f282398f`. [Receiving review](reviews/provider-assignment-use-completion-review.md), [integration/CI record](provider-assignment-use-completion-reviewed-integration.json).
+
+Accepted components: bounded parser scope for direct native evidence calls, actual early source/policy/owner refusals, newly signed candidate-original failures and independent successor mapping proof. Fresh hosted gate: 4,099 tests / 69,505 assertions, 4 explicit Windows-specific skips, all 639 files/cases once and all eleven guards passed. No positive native assignment/application/replacement/settings delivery is claimed.
+
+The next design must resolve the post-establishment mapping versus immutable policy-target cycle and define substantive Profile fitness. Submitted C1/C2 remain unapproved outlines requiring concrete contracts; no new source-admission or policy-amendment competence is inferred. R1/R2/R4 remain accepted. R5 production ports and separately authorized R6 remain outstanding.
+
+**Countdown: 3–4 → 3–4, decrement zero.** Potential 2–3 after full R3 remains conditional; re-estimate if concrete successor scope requires additional batches. [Countdown](provider-first-interview-countdown.md), [machine ledger](provider-first-interview-countdown.json). All five flags false, `DEFER_ENROLLMENT`, retry allowlist `[]`. Earlier entries below are historical.
+
+---
+
 # Current campaign — PPC9 native assignment/application/use
 
 **Prepare R3 completion under existing PPC2 A–F approval.** [Campaign](next-campaign-provider-assignment-use-completion.md), [implementation/proof plan](provider-assignment-use-completion-plan.md), [scope and source inventory](provider-assignment-use-completion-source-record.json), [local prompt and PowerShell handoff](handoffs/provider-assignment-use-completion-ready.md).
