@@ -1,3 +1,15 @@
+# Current proposal — PPC10 C1/C2; countdown 3–4
+
+**Concrete successor contract ready for owner review; implementation is pending exact approval.** [C1/C2](provider-staged-assignment-proposal-v1.md), [decision record](handoffs/provider-staged-assignment-decision.json), [campaign/steps](next-campaign-provider-staged-assignment.md), [proof plan](provider-staged-assignment-plan.md), [source boundaries](provider-staged-assignment-source-record.json).
+
+C1 admits authentic post-establishment native mappings through a distinct signed scope, preserves original founding-policy bytes and root-wide exposure, and defines fresh assessments plus exact A/B application and separately signed successor replacement. C2 requires seven purpose-limited institutional fitness judgments and eight exact exercise checks; it does not manufacture external capability/access evidence. Earlier generic approvals do not approve this newly written contract.
+
+Next steps: exact C1/C2 owner decision → bounded offline implementation and full R3 proof → receiving source review and fresh complete unchanged hosted gate → R5 production ports → separately authorized R6 commissioning/interview. R1/R2/R4 remain accepted; R3 remains open. Default Composition and all live boundaries remain unchanged.
+
+**Countdown: 3–4 → 3–4, decrement zero.** One R3 delivery outcome remains the working estimate; an implementation split must trigger an explicit re-estimate. Potential 2–3 after full R3 is not applied. [Countdown](provider-first-interview-countdown.md), [machine ledger](provider-first-interview-countdown.json). All five flags false, `DEFER_ENROLLMENT`, actual retry allowlist `[]`. All notices below are historical.
+
+---
+
 # Current review — PPC9 partial acceptance; countdown 3–4
 
 **R3 remains open.** [PR #839](https://github.com/gatomontes/imperium-symfony/pull/839), merge `a98d0da5d89fed63623fb08279f8fba193364285`, exact hosted-tested tree `95170cc3bcae310db129cb707dd23d66f282398f`. [Receiving review](reviews/provider-assignment-use-completion-review.md), [integration/CI record](provider-assignment-use-completion-reviewed-integration.json).

@@ -1,0 +1,19 @@
+# PPC10 — staged native assignment and substantive fitness
+
+**Concrete successor proposal ready for owner review; implementation pending approval.** [C1/C2 contract](provider-staged-assignment-proposal-v1.md), [decision record](handoffs/provider-staged-assignment-decision.json), [implementation/proof plan](provider-staged-assignment-plan.md), [source boundaries](provider-staged-assignment-source-record.json), [handoff](handoffs/provider-staged-assignment-review.md).
+
+PPC9 accepted a bounded direct-parser correction and authentic native chronology/original refusals. It did not establish native assignment/application/use. C1 resolves the authentic late-mapping versus immutable founding-policy target cycle through a distinct exact signed scope and versioned assessment/application route. C2 defines substantive institutional fitness through a closed seven-obligation contract and current purpose-limited judgments. Both are new competence; neither is inferred from the old A–F approval.
+
+The proposed stages are:
+
+1. Owner reviews and approves the exact C1/C2 proposal hash; preparation is not approval.
+2. Offline implementation produces the real same-root mapping→admission→assessment→application→protected-use chain, including separately authorized successor replacement and C2 originals.
+3. Receiving review and fresh complete unchanged hosted gate decide full R3 acceptance.
+4. R5 supplies competent account/access, base and cognition production ports.
+5. R6 separately authorizes bounded commissioning and the first live Courtyard interview.
+
+**Countdown 3–4 → 3–4; decrement zero.** Retain R1/R2/R4 accepted, R3 open, R5 open and R6 deferred. Full R3 acceptance could leave 2–3; not applied. This remains a working estimate and must be revised explicitly if the concrete implementation needs separate delivery batches. [Countdown](provider-first-interview-countdown.md), [machine record](provider-first-interview-countdown.json).
+
+All five flags false; `DEFER_ENROLLMENT`; actual retry allowlist `[]`. Nothing here authorizes enrollment, installed migration, provider calls, live custody, commissioning, deployment, activation or execution.
+
+*Imperium via solitaria est.*
