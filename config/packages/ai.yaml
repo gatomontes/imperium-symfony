@@ -1,27 +1,19 @@
 ai:
     platform:
-        # Inference Platform configuration
-        # see https://github.com/symfony/ai/tree/main/src/platform#platform-bridges
-
-        # openai:
-        #    api_key: '%env(OPENAI_API_KEY)%'
+        openai:
+            api_key: '%env(OPENAI_API_KEY)%'
+            http_client: seneschal.client
 
     agent:
-        # Agent configuration
-        # see https://symfony.com/doc/current/ai/bundles/ai-bundle.html
+        seneschal:
+            platform: ai.platform.openai
+            model: '%env(IMPERIUM_OPENAI_MODEL)%'
+            prompt:
+                file: '%kernel.project_dir%/config/prompts/seneschal.txt'
+            tools: false
 
-        # default:
-        #    platform: 'ai.platform.openai'
-        #    model: 'gpt-5-mini'
-        #    prompt: |
-        #        You are a pirate and you write funny.
-        #    tools:
-        #        - 'Symfony\AI\Agent\Bridge\Clock\Clock'
-
-    store:
-        # Store configuration
-
-        # chromadb:
-        #    default:
-        #        client: 'client.service.id'
-        #        collection: 'my_collection'
+when@test:
+    ai:
+        platform:
+            openai:
+                http_client: seneschal.test_client

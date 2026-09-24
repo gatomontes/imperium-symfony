@@ -73,12 +73,12 @@ These are small delivery milestones. Each should leave an observable capability 
 
 N3 and N4 may be delivered together when persistence is needed for a usable first interview. Keep the work small rather than forcing artificial stage boundaries.
 
-### Choices needed when implementation reaches them
+### Implementation choices confirmed on 24 September
 
-- Select the first provider/model and a modest usage limit. Having both bridges installed does not select either provider.
-- Confirm the first interface. A local CLI is the proposed smallest starting point; Twig is already available if a browser interface is preferred.
-- Confirm use of the installed Doctrine ORM for interview persistence and the actual database engine/connection.
-- Decide how the operator is identified for the chosen interface. A local operator-only CLI and a remotely accessible web application have different authentication needs.
+- Operator selected OpenAI for the first Seneschal; implementation defaults to `gpt-5-mini`, with bounded attempts and output. The model is configurable. No live call has been demonstrated yet.
+- Operator selected the local CLI.
+- Operator selected PostgreSQL through the installed Doctrine ORM. Connection credentials remain local configuration.
+- The first interface is operator-only, using local operating-system access. No web authenticator is required for this CLI milestone.
 - Select a useful first mission and state its permitted effects. A draft deliverable is a simpler first target than sending messages, publishing, or altering an external system.
 
 These choices are not reasons to reconstruct the previous bootstrap pipeline. Describe the initial configured officer/model honestly; do not claim a completed institutional appointment process that has not been implemented.
@@ -112,9 +112,18 @@ The cognitive map remains the institutional design. The order in which its offic
 
 ## 7. Immediate handoff
 
-Start from the new repository baseline and its `AGENTS.md`. Read [IMPERIUM-FLOW.md](IMPERIUM-FLOW.md). Confirm the implementation choices relevant to N1–N4, then build the first working interview and its minimal persistence. Do not restore the old campaign requirements as default acceptance criteria.
+Start from the repository and its `AGENTS.md`. Read [IMPERIUM-FLOW.md](IMPERIUM-FLOW.md) and [SENESCHAL-CLI.md](SENESCHAL-CLI.md). The initial implementation is on `codex/seneschal-cli-interview`; use the setup instructions to configure the local database and API key. Do not restore the old campaign requirements as default acceptance criteria.
 
 The near-term objective is an observable Seneschal interview. The first complete product milestone is one useful mission carried from understanding through delivery with explicit authority and retained evidence.
+
+## 8. First interview implementation checkpoint
+
+- **N1:** application boots under PHP 8.4.22; Composer validation, container lint, YAML lint, and ORM mapping checks passed. Native PostgreSQL migration/schema validation is assigned to the accompanying CI job; consult its actual result.
+- **N2:** named Seneschal agent and OpenAI bridge configured. Mocked transport exercises the Responses API and structured reply conversion. Live model response remains unverified.
+- **N3/N4:** CLI interview, persisted exchanges, resume/list, explicit retry, readiness, and permission-to-draft state are implemented. Local suite: 11 tests / 91 assertions passed using an isolated SQLite test database, not a native PostgreSQL server.
+- **N5–N7:** remain future work. This version stops after recording permission to draft; it does not generate a proposal or perform a mission.
+
+The source-inspection table above remains the historical pre-feature snapshot at `e9dc3ad`; this checkpoint records the feature branch's additional work. The runbook distinguishes local checks, PostgreSQL CI, and the still-required live smoke check.
 
 ## Basis
 
