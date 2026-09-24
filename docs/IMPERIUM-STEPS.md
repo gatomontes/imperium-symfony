@@ -75,7 +75,7 @@ N3 and N4 may be delivered together when persistence is needed for a usable firs
 
 ### Implementation choices confirmed on 24 September
 
-- Operator selected OpenAI for the first Seneschal; implementation defaults to `gpt-5-mini`, with bounded attempts and output. The model is configurable. No live call has been demonstrated yet.
+- Operator initially selected OpenAI, then changed the first Seneschal to DeepSeek; implementation defaults to `deepseek-flash`, with bounded attempts and output. The model is configurable. No live call has been demonstrated yet.
 - Operator selected the local CLI.
 - Operator selected PostgreSQL through the installed Doctrine ORM. Connection credentials remain local configuration.
 - The first interface is operator-only, using local operating-system access. No web authenticator is required for this CLI milestone.
@@ -118,8 +118,8 @@ The near-term objective is an observable Seneschal interview. The first complete
 
 ## 8. First interview implementation checkpoint
 
-- **N1:** application boots under PHP 8.4.22; Composer validation, container lint, YAML lint, and ORM mapping checks passed. Native PostgreSQL migration/schema validation is assigned to the accompanying CI job; consult its actual result.
-- **N2:** named Seneschal agent and OpenAI bridge configured. Mocked transport exercises the Responses API and structured reply conversion. Live model response remains unverified.
+- **N1:** application boots under PHP 8.4.22; Composer validation, container lint, YAML lint, and ORM mapping checks passed. The initial feature passed PostgreSQL migration/schema validation and rollback/reapply in CI. Provider changes are rechecked by the same workflow; consult the current branch result.
+- **N2:** named Seneschal agent and DeepSeek bridge configured. Mocked transport exercises Chat Completions JSON output and typed reply validation. Live model response remains unverified.
 - **N3/N4:** CLI interview, persisted exchanges, resume/list, explicit retry, readiness, and permission-to-draft state are implemented. Local suite: 11 tests / 91 assertions passed using an isolated SQLite test database, not a native PostgreSQL server.
 - **N5–N7:** remain future work. This version stops after recording permission to draft; it does not generate a proposal or perform a mission.
 

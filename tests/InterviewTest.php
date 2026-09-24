@@ -49,15 +49,19 @@ class InterviewTest extends KernelTestCase
         self::assertCount(2, $requests);
         foreach ($requests as $request) {
             self::assertSame('POST', $request['method']);
-            self::assertSame('https://api.openai.com/v1/responses', $request['url']);
+            self::assertSame('https://api.deepseek.com/chat/completions', $request['url']);
             $body = $request['body'];
-            self::assertSame('gpt-5-mini', $body['model']);
-            self::assertSame(2048, $body['max_output_tokens']);
-            self::assertFalse($body['store']);
-            self::assertSame(['effort' => 'low'], $body['reasoning']);
+            self::assertSame('deepseek-flash', $body['model']);
+            self::assertSame(2048, $body['max_tokens']);
+            self::assertArrayNotHasKey('store', $body);
+            self::assertArrayNotHasKey('max_output_tokens', $body);
+            self::assertArrayNotHasKey('reasoning', $body);
+            self::assertSame(['type' => 'disabled'], $body['thinking']);
             self::assertArrayNotHasKey('tools', $body);
-            self::assertSame('json_schema', $body['text']['format']['type']);
-            self::assertStringContainsString('I understand.', $body['instructions']);
+            self::assertSame(['type' => 'json_object'], $body['response_format']);
+            self::assertSame('system', $body['messages'][0]['role']);
+            self::assertStringContainsString('I understand.', $body['messages'][0]['content']);
+            self::assertStringContainsString('JSON object', $body['messages'][0]['content']);
         }
         $id = $this->records->recent()[0]->getId();
         $this->reboot();
@@ -158,6 +162,24 @@ class InterviewTest extends KernelTestCase
         self::assertCount(1, $interview->getExchanges());
     }
 
+    public function testInvalidJsonOrReplyTypesCannotAdvanceState(): void
+    {
+        foreach (['', '{"message":', '{"message":"Ready"}', '{"message":"Ready","readyToDraft":"false"}', '{"message":42,"readyToDraft":true}'] as $content) {
+            $this->http->setResponseFactory([$this->jsonResponse($content)]);
+            $interview = $this->records->create();
+            try {
+                $this->service->submit($interview->getId(), 'A report.');
+                self::fail('Invalid JSON reply was accepted.');
+            } catch (\DomainException $exception) {
+                self::assertStringContainsString('No valid reply', $exception->getMessage());
+            }
+            $saved = $this->records->get($interview->getId());
+            self::assertSame(Interview::INTERVIEWING, $saved->getStatus());
+            self::assertTrue($saved->hasPendingReply());
+            self::assertCount(1, $saved->getExchanges());
+        }
+    }
+
     public function testBusyInterviewRejectsCompetingOperationBeforeInference(): void
     {
         $interview = $this->records->create();
@@ -220,10 +242,15 @@ class InterviewTest extends KernelTestCase
 
     private function response(string $message, bool $ready): MockResponse
     {
+        return $this->jsonResponse(json_encode(['message' => $message, 'readyToDraft' => $ready], JSON_THROW_ON_ERROR));
+    }
+
+    private function jsonResponse(string $content): MockResponse
+    {
         return new MockResponse(json_encode([
-            'id' => 'resp_test', 'status' => 'completed',
-            'output' => [['type' => 'message', 'id' => 'msg_test', 'role' => 'assistant', 'content' => [
-                ['type' => 'output_text', 'text' => json_encode(['message' => $message, 'readyToDraft' => $ready], JSON_THROW_ON_ERROR)],
+            'id' => 'chatcmpl_test', 'object' => 'chat.completion',
+            'choices' => [['index' => 0, 'finish_reason' => 'stop', 'message' => [
+                'role' => 'assistant', 'content' => $content,
             ]]],
         ], JSON_THROW_ON_ERROR), ['response_headers' => ['content-type: application/json']]);
     }

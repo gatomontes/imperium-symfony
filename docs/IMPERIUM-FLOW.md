@@ -145,7 +145,7 @@ This is a logical list, not a mandated table-per-row schema. Add records when th
 
 Start with one entry point, one configured Seneschal agent, and a small persistence service. Demonstrate clarification, permission to draft, and resumption. Add proposal, authorization, execution, and review as the next usable capabilities.
 
-The first implementation follows this shape: `imperium:interview`, a named Symfony AI Seneschal agent using OpenAI, and `Atheneum\InterviewRecords` using Doctrine ORM with PostgreSQL. The operator confirmed CLI, PostgreSQL, and OpenAI on 24 September. See [SENESCHAL-CLI.md](SENESCHAL-CLI.md) for setup, commands, limits, and validation status. Only the interview through permission-to-draft is implemented in this milestone.
+The first implementation follows this shape: `imperium:interview`, a named Symfony AI Seneschal agent using DeepSeek, and `Atheneum\InterviewRecords` using Doctrine ORM with PostgreSQL. The operator confirmed CLI and PostgreSQL on 24 September, and subsequently changed the initial provider from OpenAI to DeepSeek. See [SENESCHAL-CLI.md](SENESCHAL-CLI.md) for setup, commands, limits, and validation status. Only the interview through permission-to-draft is implemented in this milestone.
 
 Symfony components provide the mechanics; Imperium defines the meaning and enforced boundaries. A prompt can guide Seneschal's behavior, but permissions and state transitions that protect real effects must be enforced by the application.
 

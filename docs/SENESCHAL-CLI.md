@@ -5,7 +5,7 @@
 ## What this version does
 
 - Starts or resumes an interview from a UUID.
-- Uses the configured Symfony AI agent with OpenAI. Default model: `gpt-5-mini`.
+- Uses the configured Symfony AI agent with DeepSeek. Default model: `deepseek-flash`.
 - Saves exchanges and current state in PostgreSQL through an Atheneum application service and Doctrine ORM.
 - Lets Seneschal clarify intent and signal readiness. The application then asks: “I am ready to draft a proposal. Do you approve?”
 - Records drafting permission only through `/approve`, while a current readiness request is pending. `/decline` or a typed correction continues the interview.
@@ -26,12 +26,12 @@ php bin/console lint:container
 Add or update these entries in your existing **`.env.local`**. Keep actual credentials out of committed files. Do not overwrite unrelated local settings.
 
 ```dotenv
-OPENAI_API_KEY=your-openai-api-key
-IMPERIUM_OPENAI_MODEL=gpt-5-mini
+DEEPSEEK_API_KEY=your-deepseek-api-key
+IMPERIUM_DEEPSEEK_MODEL=deepseek-flash
 DATABASE_URL="postgresql://YOUR_USER:YOUR_PASSWORD@127.0.0.1:5432/imperium?serverVersion=16&charset=utf8"
 ```
 
-Use the actual PostgreSQL server version and URL-encode reserved characters in the database username/password. A model override must support the Responses API, structured output, and the configured reasoning option.
+Use the actual PostgreSQL server version and URL-encode reserved characters in the database username/password. A model override must be registered in the Symfony AI DeepSeek catalog and support Chat Completions, JSON output, and `thinking: {type: disabled}`. The current `deepseek-flash` name is registered through native `ai.model` configuration because the installed bridge catalog predates that name.
 
 If PostgreSQL is already running, use its connection settings. If using the repository's Docker Compose database instead:
 
@@ -83,13 +83,17 @@ Symfony Lock prevents overlapping operations on the same interview on one host. 
 
 The agent has no registered tools. State changes are controlled by PHP, not by claims made in model text. Model readiness is still a judgment: automated tests establish application behavior, not that a live model always understands correctly or always follows the interview prompt.
 
-Messages are retained locally and sent to OpenAI for inference. `store: false` is set on Responses requests. Development logs and database contents remain local private data; never commit them. DeepSeek is installed but inactive, with no automatic fallback.
+Messages are retained locally and sent to DeepSeek for inference. OpenAI remains installed but is inactive for Seneschal; no OpenAI key is needed and there is no automatic fallback. Development logs and database contents remain local private data; never commit them.
+
+The bridge sends Chat Completions requests with JSON mode, `max_tokens: 2048`, and thinking disabled. Symfony AI decodes the JSON, then Symfony Serializer enforces the typed reply and Validator checks its content. Invalid or empty output leaves the saved input pending for explicit retry. JSON mode does not provide server-side schema enforcement.
+
+Provider references: [model names](https://api-docs.deepseek.com/quick_start/pricing/), [JSON output](https://api-docs.deepseek.com/guides/json_mode/), and [thinking control](https://api-docs.deepseek.com/guides/thinking_mode/).
 
 If configuration or storage is unavailable, check `DATABASE_URL`, the running PostgreSQL instance, and migration status. If replies fail, check the API key, model access, and network availability. Raw provider exception text is not printed in the interview terminal.
 
 ## Validation
 
-Tests use Symfony's mock HTTP transport through the actual Agent, provider bridge, structured-output conversion, and application container. They do not call OpenAI or require a paid key. They exercise the CLI and application services, including fresh-kernel resumption, failures, permission decisions, lock contention, and attempt limits.
+Tests use Symfony's mock HTTP transport through the actual Agent, provider bridge, structured-output conversion, and application container. They do not call DeepSeek or require a paid key. They exercise the CLI and application services, including fresh-kernel resumption, failures, permission decisions, lock contention, and attempt limits.
 
 Use a dedicated test database. Symfony appends `_test` to the configured PostgreSQL database name in the test environment. The test suite clears interview rows from that test database.
 
@@ -104,4 +108,6 @@ If test credentials differ, set `DATABASE_URL` in `.env.test.local`. Keep `.env.
 
 Local implementation checks used PHP 8.4.22 with an isolated SQLite schema for behavior tests because the execution workspace had no PostgreSQL server. The GitHub `Seneschal interview` workflow runs the same tests against PostgreSQL 16, applies the migration, checks schema consistency, and verifies rollback/reapply on its disposable database. Consult the actual workflow result before treating PostgreSQL validation as passed.
 
-No live OpenAI call has been performed by the implementation agent. The first local interview using your configured key is the live smoke check.
+The DeepSeek change passed 12 local tests with 119 assertions, including malformed JSON and incorrect reply types. The PostgreSQL workflow validates the current branch separately.
+
+No live DeepSeek call has been performed by the implementation agent. The first local interview using your configured key is the live smoke check.

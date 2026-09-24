@@ -1,13 +1,20 @@
 ai:
     platform:
-        openai:
-            api_key: '%env(OPENAI_API_KEY)%'
+        deepseek:
+            api_key: '%env(DEEPSEEK_API_KEY)%'
             http_client: seneschal.client
+
+    # The installed bridge predates the current Flash model name.
+    model:
+        deepseek:
+            deepseek-flash:
+                class: Symfony\AI\Platform\Bridge\DeepSeek\DeepSeek
+                capabilities: ['input-messages', 'output-text']
 
     agent:
         seneschal:
-            platform: ai.platform.openai
-            model: '%env(IMPERIUM_OPENAI_MODEL)%'
+            platform: ai.platform.deepseek
+            model: '%env(IMPERIUM_DEEPSEEK_MODEL)%'
             prompt:
                 file: '%kernel.project_dir%/config/prompts/seneschal.txt'
             tools: false
@@ -15,5 +22,5 @@ ai:
 when@test:
     ai:
         platform:
-            openai:
+            deepseek:
                 http_client: seneschal.test_client

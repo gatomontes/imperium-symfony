@@ -7,6 +7,7 @@ use Symfony\AI\Agent\AgentInterface;
 use Symfony\AI\Platform\Message\Message;
 use Symfony\AI\Platform\Message\MessageBag;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class Seneschal
@@ -15,7 +16,8 @@ class Seneschal
         #[Autowire(service: 'ai.agent.seneschal')]
         private AgentInterface $agent,
         private ValidatorInterface $validator,
-        #[Autowire(env: 'OPENAI_API_KEY')]
+        private DenormalizerInterface $denormalizer,
+        #[Autowire(env: 'DEEPSEEK_API_KEY')]
         #[\SensitiveParameter]
         private string $apiKey,
     ) {
@@ -24,7 +26,7 @@ class Seneschal
     public function assertConfigured(): void
     {
         if ('' === trim($this->apiKey)) {
-            throw new \DomainException('Set OPENAI_API_KEY in .env.local before requesting a reply.');
+            throw new \DomainException('Set DEEPSEEK_API_KEY in .env.local before requesting a reply.');
         }
     }
 
@@ -35,11 +37,12 @@ class Seneschal
             $messages->add('assistant' === $exchange['role'] ? Message::ofAssistant($exchange['text']) : Message::ofUser($exchange['text']));
         }
         $result = $this->agent->call($messages, [
-            'response_format' => SeneschalReply::class,
-            'max_output_tokens' => 2048,
-            'reasoning' => ['effort' => 'low'],
-            'store' => false,
+            'response_format' => ['type' => 'json_object'],
+            'max_tokens' => 2048,
+            'thinking' => ['type' => 'disabled'],
         ])->getContent();
+        // The platform decodes JSON mode; Symfony enforces the typed reply contract.
+        $result = $this->denormalizer->denormalize($result, SeneschalReply::class);
         if (!$result instanceof SeneschalReply || \count($this->validator->validate($result)) > 0) {
             throw new \UnexpectedValueException('Seneschal returned an invalid interview response.');
         }

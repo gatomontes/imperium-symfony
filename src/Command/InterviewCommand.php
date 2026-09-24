@@ -50,7 +50,7 @@ class InterviewCommand extends Command
             $io->title('Imperium — Seneschal');
             $io->text('Interview: '.$id);
             $io->text('Resume: php bin/console imperium:interview '.$id);
-            $io->note('Messages are stored in PostgreSQL and sent to OpenAI when requesting a reply.');
+            $io->note('Messages are stored in PostgreSQL and sent to DeepSeek when requesting a reply.');
             $io->text('/quit saves and exits; /retry retries a pending reply; /approve or /decline answers a drafting request.');
             foreach ($interview->getExchanges() as $entry) {
                 $io->section('assistant' === $entry['role'] ? 'Seneschal' : 'Operator');

@@ -8,7 +8,7 @@ framework:
     http_client:
         scoped_clients:
             seneschal.client:
-                base_uri: 'https://api.openai.com'
+                base_uri: 'https://api.deepseek.com'
                 timeout: 60
                 max_duration: 90
                 retry_failed:
