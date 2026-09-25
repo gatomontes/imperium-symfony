@@ -1,8 +1,8 @@
-name: Seneschal interview
+name: Seneschal interview and proposal
 
 on:
     push:
-        branches: [main, codex/seneschal-cli-interview]
+        branches: [main, codex/seneschal-cli-interview, codex/seneschal-proposal]
     pull_request:
 
 permissions:
