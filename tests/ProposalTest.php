@@ -148,6 +148,27 @@ class ProposalTest extends KernelTestCase
         self::assertSame(2, $this->http->getRequestsCount());
     }
 
+    public function testInvalidRevisionGuidanceIsRejectedBeforeProviderCall(): void
+    {
+        $interview = $this->authorizedInterview();
+        $this->http->setResponseFactory([$this->proposalResponse()]);
+        $proposal = $this->service->generate($interview->getId());
+        self::assertSame(1, $this->http->getRequestsCount());
+
+        foreach (['', str_repeat('x', 6001)] as $guidance) {
+            try {
+                $this->service->revise($interview->getId(), $proposal->getVersion(), $guidance);
+                self::fail('Invalid revision guidance was accepted.');
+            } catch (\DomainException $exception) {
+                self::assertStringContainsString('between 1 and 6000 characters', $exception->getMessage());
+                self::assertStringNotContainsString('provider charges', $exception->getMessage());
+            }
+        }
+
+        self::assertSame(1, $this->http->getRequestsCount());
+        self::assertCount(1, $this->proposals->history($interview));
+    }
+
     public function testFailedRevisionDoesNotReplaceCurrentProposal(): void
     {
         $interview = $this->authorizedInterview();
