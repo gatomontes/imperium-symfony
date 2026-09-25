@@ -49,7 +49,7 @@ This campaign adds the smallest proposal decision stage:
   execution authority.
 
 Implementation CI on the campaign branch passed PostgreSQL migrations, schema
-validation, **38 tests / 334 assertions**, and migration rollback/reapply. A live
+validation, **39 tests / 341 assertions**, and migration rollback/reapply. A live
 operator review is still required before merging this campaign.
 
 ## Current source map
