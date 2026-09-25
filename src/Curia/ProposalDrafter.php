@@ -36,7 +36,8 @@ class ProposalDrafter
             throw new \DomainException('Drafting permission is required before generating a proposal.');
         }
 
-        $messages = new MessageBag(Message::ofUser(json_encode([
+        $messages = new MessageBag();
+        $messages->add(Message::ofUser(json_encode([
             'missionAlias' => $interview->getAlias(),
             'authorizedInterviewVersion' => $interview->getVersion(),
             'transcript' => $this->sourceTranscript($interview),
