@@ -124,7 +124,7 @@ The near-term objective is an observable Seneschal interview. The first complete
 - **N2:** named Seneschal agent and DeepSeek bridge configured. Mocked transport exercises Chat Completions JSON output and typed reply validation. Live model response remains unverified.
 - **N3/N4:** CLI interview, persisted exchanges, resume/list, explicit retry, readiness, and permission-to-draft state are implemented. Local suite: 11 tests / 91 assertions passed using an isolated SQLite test database, not a native PostgreSQL server.
 - **N5 proposal generation/review:** integrated on `main` at `c2faceafc18b37554ae47816d1ca16f43aa41ed2`. The operator completed live proposal review; PostgreSQL CI passed 33 tests / 311 assertions before integration.
-- **N5 proposal revision/approval:** implemented on `codex/proposal-review-approval` / PR #3. Revisions create new immutable versions; explicit approval targets the observed latest version and persists an approval timestamp. PostgreSQL CI passes 38 tests / 334 assertions and rollback/reapply. Live operator acceptance is pending.
+- **N5 proposal revision/approval:** implemented on `codex/proposal-review-approval` / PR #3. Revisions create new immutable versions; explicit approval targets the observed latest version and persists an approval timestamp. PostgreSQL CI passes 39 tests / 341 assertions and rollback/reapply. Live operator acceptance is pending.
 - **N6–N7:** remain future work. No resource/effect authorization or execution path exists yet.
 
 The source-inspection table above remains the historical pre-feature snapshot at `e9dc3ad`; this checkpoint records the feature branch's additional work. The runbook distinguishes local checks, PostgreSQL CI, and the still-required live smoke check.
@@ -215,6 +215,6 @@ version; older versions are preserved. Failed revisions do not replace the curre
 draft. Approval is a deterministic, stale-version-protected application action and
 records `approved_at`; it makes no provider call.
 
-PostgreSQL CI passes **38 tests / 334 assertions**, schema validation, and full
+PostgreSQL CI passes **39 tests / 341 assertions**, schema validation, and full
 migration rollback/reapply. Live operator acceptance remains required before merge.
 No resource/effect authorization or execution authority is introduced by this campaign.
