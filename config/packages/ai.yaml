@@ -18,6 +18,12 @@ ai:
             prompt:
                 file: '%kernel.project_dir%/config/prompts/seneschal.txt'
             tools: false
+        proposal_drafter:
+            platform: ai.platform.deepseek
+            model: '%env(IMPERIUM_DEEPSEEK_MODEL)%'
+            prompt:
+                file: '%kernel.project_dir%/config/prompts/proposal-drafter.txt'
+            tools: false
 
 when@test:
     ai:
