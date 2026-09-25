@@ -52,6 +52,72 @@ class ProposalService
         }
     }
 
+    public function revise(string $interviewId, int $observedVersion, string $guidance): Proposal
+    {
+        $lock = $this->lockFactory->createLock('imperium.interview.'.$interviewId);
+        if (!$lock->acquire()) {
+            throw new \DomainException('This interview is being updated by another process. Try again after it finishes.');
+        }
+
+        try {
+            $interview = $this->interviews->get($interviewId);
+            $current = $this->proposals->latest($interview);
+            if (null === $current) {
+                throw new \DomainException('No saved proposal exists to revise.');
+            }
+            if ($current->getVersion() !== $observedVersion) {
+                throw new \DomainException('The proposal changed. Review the latest version before requesting a revision.');
+            }
+            if (Proposal::DRAFT !== $current->getStatus()) {
+                throw new \DomainException('An approved proposal cannot be revised in place.');
+            }
+
+            $this->drafter->assertConfigured();
+            try {
+                $draft = $this->drafter->revise($interview, $current, $guidance);
+            } catch (\Throwable $error) {
+                throw new \DomainException('No revised proposal was saved. '.$this->failureHint($error).' Request the revision again explicitly; another attempt may incur provider charges.');
+            }
+
+            $proposal = new Proposal(
+                $interview,
+                $current->getVersion() + 1,
+                $interview->getVersion(),
+                $draft->toArray(),
+            );
+            $this->proposals->save($proposal);
+
+            return $proposal;
+        } finally {
+            $lock->release();
+        }
+    }
+
+    public function approve(string $interviewId, int $observedVersion): Proposal
+    {
+        $lock = $this->lockFactory->createLock('imperium.interview.'.$interviewId);
+        if (!$lock->acquire()) {
+            throw new \DomainException('This interview is being updated by another process. Try again after it finishes.');
+        }
+
+        try {
+            $interview = $this->interviews->get($interviewId);
+            $proposal = $this->proposals->latest($interview);
+            if (null === $proposal) {
+                throw new \DomainException('No saved proposal exists to approve.');
+            }
+            if ($proposal->getVersion() !== $observedVersion) {
+                throw new \DomainException('The proposal changed. Review the latest version before approving it.');
+            }
+            $proposal->approve();
+            $this->proposals->save($proposal);
+
+            return $proposal;
+        } finally {
+            $lock->release();
+        }
+    }
+
     private function failureHint(\Throwable $error): string
     {
         do {
