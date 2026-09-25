@@ -17,8 +17,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[AsCommand(name: 'imperium:interview', description: 'Browse, start, or resume a local interview with Seneschal.')]
 class InterviewCommand extends Command
 {
-    public function __construct(private InterviewRecords $records, private InterviewService $interviews)
-    {
+    public function __construct(
+        private InterviewRecords $records,
+        private InterviewService $interviews,
+        private ProposalRecords $proposalRecords,
+        private ProposalService $proposals,
+    ) {
         parent::__construct();
     }
 
@@ -107,9 +111,9 @@ class InterviewCommand extends Command
                     }
                 }
             }
-            $io->success('Permission to draft recorded. Proposal generation is the next milestone; no proposal was generated or execution authorized.');
+            $io->success('Permission to draft recorded. No proposal approval or execution authority has been granted.');
 
-            return Command::SUCCESS;
+            return $this->proposalStage($io, $interview);
         } catch (\DomainException $exception) {
             $io->error($exception->getMessage());
 
@@ -118,6 +122,64 @@ class InterviewCommand extends Command
             $io->error('Interview storage or configuration is unavailable. Check the PostgreSQL connection and run migrations. Resume using --list once resolved.');
 
             return Command::FAILURE;
+        }
+    }
+
+    private function proposalStage(SymfonyStyle $io, Interview $interview): int
+    {
+        while (true) {
+            $proposal = $this->proposalRecords->latest($interview);
+            if (null !== $proposal) {
+                $this->displayProposal($io, $proposal);
+                $io->note('Review only: this saved draft is not proposal approval, resource authority, or execution authority.');
+
+                return Command::SUCCESS;
+            }
+
+            $action = $io->choice('Proposal', [1 => 'Generate proposal', 0 => 'Back'], 0);
+            if ('Back' === $action) {
+                $io->success('Saved. Reopen this interview to generate its proposal later.');
+
+                return Command::SUCCESS;
+            }
+
+            $io->text('Waiting for Seneschal to draft...');
+            try {
+                $proposal = $this->proposals->generate($interview->getId());
+                $this->displayProposal($io, $proposal);
+                $io->note('Review only: this saved draft is not proposal approval, resource authority, or execution authority.');
+
+                return Command::SUCCESS;
+            } catch (\DomainException $exception) {
+                $io->warning($exception->getMessage());
+                $interview = $this->records->get($interview->getId());
+            }
+        }
+    }
+
+    private function displayProposal(SymfonyStyle $io, Proposal $proposal): void
+    {
+        $content = $proposal->getContent();
+        $io->title('Proposal v'.$proposal->getVersion());
+        $io->section('Objective');
+        $io->writeln($this->display($content['objective']));
+        $io->section('Deliverable');
+        $io->writeln($this->display($content['deliverable']));
+        foreach ([
+            'Steps' => 'steps',
+            'Acceptance criteria' => 'acceptanceCriteria',
+            'Resource requirements' => 'resourceRequirements',
+            'Limits' => 'limits',
+            'Unresolved assumptions' => 'unresolvedAssumptions',
+        ] as $heading => $field) {
+            $io->section($heading);
+            if ([] === $content[$field]) {
+                $io->writeln('None recorded.');
+                continue;
+            }
+            foreach ($content[$field] as $index => $item) {
+                $io->writeln(($index + 1).'. '.$this->display($item));
+            }
         }
     }
 
