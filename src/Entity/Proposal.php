@@ -12,6 +12,7 @@ use Symfony\Component\Uid\Uuid;
 class Proposal
 {
     public const DRAFT = 'draft';
+    public const APPROVED = 'approved';
 
     #[ORM\Id]
     #[ORM\Column(length: 36)]
@@ -36,6 +37,9 @@ class Proposal
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private \DateTimeImmutable $createdAt;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $approvedAt = null;
 
     /** @param array{objective:string,deliverable:string,steps:list<string>,acceptanceCriteria:list<string>,resourceRequirements:list<string>,limits:list<string>,unresolvedAssumptions:list<string>} $content */
     public function __construct(Interview $interview, int $version, int $sourceInterviewVersion, array $content)
@@ -89,5 +93,19 @@ class Proposal
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    public function getApprovedAt(): ?\DateTimeImmutable
+    {
+        return $this->approvedAt;
+    }
+
+    public function approve(): void
+    {
+        if (self::DRAFT !== $this->status) {
+            throw new \DomainException('Only a draft proposal can be approved.');
+        }
+        $this->status = self::APPROVED;
+        $this->approvedAt = new \DateTimeImmutable();
     }
 }
