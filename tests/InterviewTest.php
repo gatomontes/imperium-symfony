@@ -330,6 +330,79 @@ class InterviewTest extends KernelTestCase
         self::assertCount(0, $this->records->get($interview->getId())->getExchanges());
     }
 
+    public function testNumberedListContinuesTheSelectedInterview(): void
+    {
+        $first = $this->records->create();
+        $second = $this->records->create();
+        $second->submit('Saved mission to resume.');
+        $this->records->save($second);
+        $listed = $this->records->recent();
+        $row = array_search($second->getId(), array_map(static fn (Interview $i): string => $i->getId(), $listed), true) + 1;
+        $tester = $this->command([(string) $row, '1', '/quit'], ['--list' => true]);
+        self::assertSame(Command::SUCCESS, $tester->getStatusCode());
+        self::assertStringContainsString('Interview: '.$second->getId(), $tester->getDisplay());
+        self::assertStringContainsString('Saved mission to resume.', $tester->getDisplay());
+        self::assertStringContainsString('[1] Continue', $tester->getDisplay());
+        self::assertStringContainsString('[2] Delete permanently', $tester->getDisplay());
+        self::assertCount(2, $this->records->recent());
+        self::assertSame(0, $this->http->getRequestsCount());
+    }
+
+    public function testNumberedListDeletesOnlyTheSelectedInterview(): void
+    {
+        $this->records->create();
+        $this->records->create();
+        $listed = $this->records->recent();
+        $keep = $listed[0]->getId();
+        $delete = $listed[1]->getId();
+        $tester = $this->command(['2', '2', '/quit'], ['--list' => true]);
+        self::assertSame(Command::SUCCESS, $tester->getStatusCode());
+        self::assertStringContainsString('Interview deleted: '.$delete, $tester->getDisplay());
+        self::assertSame(0, $this->http->getRequestsCount());
+        $this->reboot();
+        self::assertSame([$keep], array_map(static fn (Interview $i): string => $i->getId(), $this->records->recent()));
+    }
+
+    public function testListRejectsInvalidRowsAndBackDoesNotChangeRecords(): void
+    {
+        $id = $this->records->create()->getId();
+        $tester = $this->command(['999', '0', 'bad', '1', '0', '/quit'], ['--list' => true]);
+        self::assertSame(Command::SUCCESS, $tester->getStatusCode());
+        self::assertSame(3, substr_count($tester->getDisplay(), 'Choose a number from the displayed list.'));
+        self::assertSame([$id], array_map(static fn (Interview $i): string => $i->getId(), $this->records->recent()));
+        self::assertSame(0, $this->http->getRequestsCount());
+    }
+
+    public function testNoninteractiveAndEmptyListsDoNotPromptOrCreateRecords(): void
+    {
+        $empty = $this->command([], ['--list' => true]);
+        self::assertStringContainsString('No saved interviews.', $empty->getDisplay());
+        self::assertCount(0, $this->records->recent());
+        $id = $this->records->create()->getId();
+        $tester = new CommandTester(self::getContainer()->get(InterviewCommand::class));
+        $tester->execute(['--list' => true], ['interactive' => false]);
+        self::assertSame(Command::SUCCESS, $tester->getStatusCode());
+        self::assertMatchesRegularExpression('/1\s+'.preg_quote($id, '/').'/', $tester->getDisplay());
+        self::assertStringNotContainsString('Select an interview', $tester->getDisplay());
+        self::assertCount(1, $this->records->recent());
+        self::assertSame(0, $this->http->getRequestsCount());
+    }
+
+    public function testBusyInterviewCannotBeDeletedFromList(): void
+    {
+        $id = $this->records->create()->getId();
+        $lock = self::getContainer()->get(LockFactory::class)->createLock('imperium.interview.'.$id);
+        self::assertTrue($lock->acquire());
+        try {
+            $tester = $this->command(['1', '2', '/quit'], ['--list' => true]);
+            self::assertStringContainsString('another process', $tester->getDisplay());
+            self::assertSame($id, $this->records->get($id)->getId());
+            self::assertSame(0, $this->http->getRequestsCount());
+        } finally {
+            $lock->release();
+        }
+    }
+
     private function response(string $message, bool $ready): MockResponse
     {
         return $this->jsonResponse(json_encode(['message' => $message, 'readyToDraft' => $ready], JSON_THROW_ON_ERROR));

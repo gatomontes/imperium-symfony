@@ -43,6 +43,11 @@ class InterviewService
         });
     }
 
+    public function delete(string $id): void
+    {
+        $this->withLock($id, $this->records->delete(...), save: false);
+    }
+
     private function requestReply(Interview $interview): void
     {
         $this->seneschal->assertConfigured();
@@ -102,7 +107,7 @@ class InterviewService
     }
 
     /** @param callable(Interview): void $operation */
-    private function withLock(string $id, callable $operation): Interview
+    private function withLock(string $id, callable $operation, bool $save = true): Interview
     {
         $lock = $this->lockFactory->createLock('imperium.interview.'.$id);
         if (!$lock->acquire()) {
@@ -111,7 +116,9 @@ class InterviewService
         try {
             $interview = $this->records->get($id);
             $operation($interview);
-            $this->records->save($interview);
+            if ($save) {
+                $this->records->save($interview);
+            }
 
             return $interview;
         } finally {

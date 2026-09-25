@@ -25,26 +25,25 @@ class InterviewCommand extends Command
     protected function configure(): void
     {
         $this->addArgument('id', InputArgument::OPTIONAL, 'Interview UUID to resume')
-            ->addOption('list', null, InputOption::VALUE_NONE, 'List the 20 most recently updated interviews');
+            ->addOption('list', null, InputOption::VALUE_NONE, 'List recent interviews; select one to continue or delete');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         try {
+            $id = $input->getArgument('id');
             if ($input->getOption('list')) {
-                $io->table(['ID', 'Status', 'Attempts', 'Updated'], array_map(static fn (Interview $i): array => [
-                    $i->getId(), $i->getStatus(), $i->getAttempts(), $i->getUpdatedAt()->format('Y-m-d H:i:s'),
-                ], $this->records->recent()));
-
-                return Command::SUCCESS;
+                $id = $this->selectInterview($io, $input->isInteractive());
+                if (null === $id) {
+                    return Command::SUCCESS;
+                }
             }
             if (!$input->isInteractive()) {
                 $io->error('The interview requires an interactive terminal. --list works non-interactively.');
 
                 return Command::INVALID;
             }
-            $id = $input->getArgument('id');
             $interview = null === $id ? $this->records->create() : $this->records->get($id);
             $id = $interview->getId();
             $io->title('Imperium — Seneschal');
@@ -113,6 +112,50 @@ class InterviewCommand extends Command
             $io->error('Interview storage or configuration is unavailable. Check the PostgreSQL connection and run migrations. Resume using --list once resolved.');
 
             return Command::FAILURE;
+        }
+    }
+
+    private function selectInterview(SymfonyStyle $io, bool $interactive): ?string
+    {
+        while (true) {
+            $interviews = $this->records->recent();
+            if ([] === $interviews) {
+                $io->text('No saved interviews.');
+
+                return null;
+            }
+            $rows = [];
+            foreach ($interviews as $index => $interview) {
+                $rows[] = [$index + 1, $interview->getId(), $interview->getStatus(), $interview->getAttempts(), $interview->getUpdatedAt()->format('Y-m-d H:i:s')];
+            }
+            $io->table(['#', 'ID', 'Status', 'Attempts', 'Updated'], $rows);
+            if (!$interactive) {
+                return null;
+            }
+            $selection = trim((string) $io->ask('Select an interview number, or /quit', '/quit'));
+            if ('/quit' === $selection) {
+                return null;
+            }
+            if (!ctype_digit($selection) || !isset($interviews[(int) $selection - 1])) {
+                $io->warning('Choose a number from the displayed list.');
+
+                continue;
+            }
+            // Resolve against the displayed snapshot, not a reordered database query.
+            $id = $interviews[(int) $selection - 1]->getId();
+            $io->text('Selected interview: '.$id);
+            $action = $io->choice('Action', [1 => 'Continue', 2 => 'Delete permanently', 0 => 'Back'], 0);
+            if ('Continue' === $action) {
+                return $id;
+            }
+            if ('Delete permanently' === $action) {
+                try {
+                    $this->interviews->delete($id);
+                    $io->success('Interview deleted: '.$id);
+                } catch (\DomainException $exception) {
+                    $io->warning($exception->getMessage());
+                }
+            }
         }
     }
 

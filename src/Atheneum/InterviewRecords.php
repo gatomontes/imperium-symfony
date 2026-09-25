@@ -45,9 +45,15 @@ class InterviewRecords
         $this->entityManager->flush();
     }
 
+    public function delete(Interview $interview): void
+    {
+        $this->entityManager->remove($interview);
+        $this->entityManager->flush();
+    }
+
     /** @return list<Interview> */
     public function recent(): array
     {
-        return $this->interviews->findBy([], ['updatedAt' => 'DESC'], 20);
+        return $this->interviews->findBy([], ['updatedAt' => 'DESC', 'id' => 'DESC'], 20);
     }
 }

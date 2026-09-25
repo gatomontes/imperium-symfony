@@ -154,3 +154,11 @@ Application-added permission text stays outside that provider history. Format er
 are now specific, and truncated output is rejected even if its JSON parses.
 The possible contribution of inconsistent history still needs a live check.
 Local tests pass (17 tests / 215 assertions); PostgreSQL CI runs on the branch.
+
+### Numbered interview management — 25 September 2026
+
+`--list` now numbers its rows and offers `1` Continue, `2` Delete permanently,
+and `0` Back after selection. The selection resolves to the displayed UUID.
+Deletion goes through Atheneum under the existing interview lock. No new schema
+or provider call is involved. Noninteractive listing remains read-only. Local tests
+pass (22 tests / 241 assertions); the feature branch also runs PostgreSQL CI.
