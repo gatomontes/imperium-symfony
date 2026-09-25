@@ -3,6 +3,7 @@
 namespace App\Curia;
 
 use App\Entity\Interview;
+use App\Entity\Proposal;
 use Symfony\AI\Agent\AgentInterface;
 use Symfony\AI\Platform\Message\Message;
 use Symfony\AI\Platform\Message\MessageBag;
@@ -36,12 +37,38 @@ class ProposalDrafter
             throw new \DomainException('Drafting permission is required before generating a proposal.');
         }
 
-        $messages = new MessageBag();
-        $messages->add(Message::ofUser(json_encode([
+        return $this->call([
             'missionAlias' => $interview->getAlias(),
             'authorizedInterviewVersion' => $interview->getVersion(),
             'transcript' => $this->sourceTranscript($interview),
-        ], \JSON_THROW_ON_ERROR | \JSON_UNESCAPED_UNICODE)));
+        ]);
+    }
+
+    public function revise(Interview $interview, Proposal $proposal, string $guidance): ProposalDraft
+    {
+        $guidance = trim($guidance);
+        if ('' === $guidance || mb_strlen($guidance) > 6000) {
+            throw new \DomainException('Enter revision guidance between 1 and 6000 characters.');
+        }
+        if (Proposal::DRAFT !== $proposal->getStatus()) {
+            throw new \DomainException('An approved proposal cannot be revised in place.');
+        }
+
+        return $this->call([
+            'missionAlias' => $interview->getAlias(),
+            'authorizedInterviewVersion' => $interview->getVersion(),
+            'transcript' => $this->sourceTranscript($interview),
+            'currentProposalVersion' => $proposal->getVersion(),
+            'currentProposal' => $proposal->getContent(),
+            'revisionGuidance' => $guidance,
+        ]);
+    }
+
+    /** @param array<string, mixed> $payload */
+    private function call(array $payload): ProposalDraft
+    {
+        $messages = new MessageBag();
+        $messages->add(Message::ofUser(json_encode($payload, \JSON_THROW_ON_ERROR | \JSON_UNESCAPED_UNICODE)));
 
         $result = $this->agent->call($messages, [
             'response_format' => ['type' => 'json_object'],

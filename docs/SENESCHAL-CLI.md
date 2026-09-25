@@ -1,6 +1,6 @@
-# Seneschal — first working CLI interview
+# Seneschal — interview and proposal CLI
 
-24 September 2026. Implements the first interview and minimal Atheneum persistence described in [IMPERIUM-STEPS.md](IMPERIUM-STEPS.md) and [IMPERIUM-FLOW.md](IMPERIUM-FLOW.md).
+Updated 25 September 2026. Implements the local interview, persisted proposals, revision history, and explicit proposal approval described in [IMPERIUM-STEPS.md](IMPERIUM-STEPS.md) and [IMPERIUM-FLOW.md](IMPERIUM-FLOW.md).
 
 ## What this version does
 
@@ -10,7 +10,11 @@
 - Prompts Seneschal to ask one focused question per turn, adapt to free-form answers, and summarize the agreed understanding before signaling readiness.
 - Lets Seneschal clarify intent and signal readiness. The application then asks: “I am ready to draft a proposal. Do you approve?”
 - Records drafting permission only through `/approve`, while a current readiness request is pending. `/decline` or a typed correction continues the interview.
-- Stops at drafting permission. Proposal generation, plan approval, resource authority, tools, external mission execution, and formal personnel commissioning are later work.
+- After drafting permission, generates and persists a structured proposal with objective, deliverable, referenceable steps, acceptance criteria, resource requirements, limits, and unresolved assumptions.
+- Reopens the saved proposal without another model call merely to review it.
+- Lets the operator request a revision; each accepted revision is saved as a new proposal version and previous versions remain retained.
+- Records explicit approval of the observed latest proposal version. Approval itself makes no model call.
+- Stops at proposal approval. Resource/effect authority, tools, and execution remain later work.
 
 This is a local operator-only CLI. Access relies on the local operating-system account and database credentials; there is no web login or independent officer authentication. The same local operator can resume all interviews in this database. Do not expose this command through an unauthenticated web or remote execution endpoint.
 
@@ -51,7 +55,7 @@ php bin/console doctrine:migrations:migrate --no-interaction
 php bin/console doctrine:schema:validate
 ```
 
-The initial migration was generated from ORM metadata for PostgreSQL. It creates the interview table and the `messenger_messages` table required by the already configured Doctrine Messenger transport. The interview itself is synchronous and uses no worker.
+The migration chain now creates interview records, aliases, versioned proposal records, and the nullable proposal approval timestamp, plus the `messenger_messages` table required by the already configured Doctrine Messenger transport. The interview/proposal path is synchronous and uses no worker.
 
 ## Use
 
@@ -100,7 +104,11 @@ Copy the actual UUID printed when starting an interview. `new` in the menu or `-
 
 While requesting a reply, the CLI prints `Waiting for Seneschal...`. Replies are displayed when complete; this version does not stream partial JSON. A ready reply is labeled for review, and the correction/approval choices also appear when resuming an interview awaiting permission. Declining invites you to explain what needs to change without making another model call.
 
-A conversational “yes” remains conversation text. It does not grant permission. After `/approve`, the application records the decision and exits without generating a proposal or authorizing execution.
+A conversational “yes” remains conversation text. It does not grant permission. After `/approve`, the application records drafting permission and enters the proposal stage. Generation is an explicit menu action.
+
+A saved draft proposal offers **Approve proposal**, **Request revision**, or **Back**. Revision guidance is bounded to 6,000 characters. A revision produces the next proposal version and never overwrites the previous version. Approval applies only to the observed latest version; a stale approval is refused. Approved proposals reopen read-only.
+
+Proposal approval records plan acceptance only. It does not authorize a resource, external effect, credential, tool, or execution.
 
 ## Failures and limits
 
@@ -122,7 +130,7 @@ If configuration or storage is unavailable, check `DATABASE_URL`, the running Po
 
 ## Validation
 
-Tests use Symfony's mock HTTP transport through the actual Agent, provider bridge, structured-output conversion, and application container. They do not call DeepSeek or require a paid key. They exercise the CLI and application services, including fresh-kernel resumption, failures, permission decisions, lock contention, and attempt limits.
+Tests use Symfony's mock HTTP transport through the actual Agent, provider bridge, structured-output conversion, and application container. They do not call DeepSeek or require a paid key. They exercise the CLI and application services, including fresh-kernel resumption, failures, permission decisions, proposal generation/revision, version preservation, stale proposal approval refusal, lock contention, and attempt limits.
 
 Use a dedicated test database. Symfony appends `_test` to the configured PostgreSQL database name in the test environment. The test suite clears interview rows from that test database.
 
@@ -137,8 +145,8 @@ If test credentials differ, set `DATABASE_URL` in `.env.test.local`. Keep `.env.
 
 Local implementation checks used PHP 8.4.22 with an isolated SQLite schema for behavior tests because the execution workspace had no PostgreSQL server. The GitHub `Seneschal interview` workflow runs the same tests against PostgreSQL 16, applies the migration, checks schema consistency, and verifies rollback/reapply on its disposable database. Consult the actual workflow result before treating PostgreSQL validation as passed.
 
-The CLI interaction improvements passed 28 local tests with 283 assertions, including the default list/new flow, alias persistence/fallback, compact IDs, numbered selection, deletion persistence and lock contention, noninteractive listing, resumed corrections, JSON history replay, truncated replies, malformed replies, and safe failure hints. Single-question pacing and summary quality are prompt instructions: mocked tests verify that these instructions reach the provider, not that a live model always follows them. The PostgreSQL workflow validates the current branch separately.
+The current proposal-review campaign passes PostgreSQL CI with 39 tests / 341 assertions, including the existing interview behaviors plus proposal generation, restart review without inference, revision history, failed-revision safety, approval persistence, stale-version refusal, and no-inference approval. Single-question pacing and drafting quality remain model behaviors: mocked tests verify the instructions and application boundaries, not general live-model reliability.
 
 A local operator screenshot showed a saved Seneschal question followed by a format-validation failure on the next turn. The failed raw reply was not available for inspection. Consistent JSON history addresses a possible contributor; it does not establish the cause of that incident. Errors now distinguish empty content, invalid JSON, a non-object result, missing fields, wrong field types, an empty/oversized message, and output-limit truncation without showing private reply content.
 
-No live DeepSeek call has been performed by the implementation agent. On 25 September 2026, the operator reported a successful local interview and supplied a terminal screenshot confirming that permission to draft was recorded. This is operator-reported live smoke evidence; the private transcript and database were not independently inspected, and it does not establish general conversation quality. The next campaign is described in [NEXT-CAMPAIGN.md](NEXT-CAMPAIGN.md).
+No live DeepSeek call has been performed by the implementation agent. On 25 September 2026, the operator reported successful live interview and proposal review milestones. The private transcript/database were not independently inspected. The proposal revision/approval campaign still requires its own live operator review before merge. See [NEXT-CAMPAIGN.md](NEXT-CAMPAIGN.md).

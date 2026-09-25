@@ -53,7 +53,7 @@ The absence of arrows is a drawing convention for a shared service. It does not 
 - Atheneum keeps each fact's authoritative home clear; it need not duplicate every record into both general and office tables.
 - Credential secrets remain under their designated custody. A historical permission recorded in Atheneum is not automatically current permission to act.
 
-Initially this can be a small service around interview records and Doctrine repositories. No separate server, universal event store, model-mediated database access, or comprehensive migration engine is required.
+Current implementation uses small Atheneum services around interview and proposal records with Doctrine ORM. No separate server, universal event store, model-mediated database access, or comprehensive migration engine is required.
 
 The former direct Atheneum–Barbican connection is removed from the map. Any future export of records is an explicit authorized operation, not an automatic consequence of shared storage access.
 
@@ -143,9 +143,9 @@ This is a logical list, not a mandated table-per-row schema. Add records when th
 
 ## 8. Smallest implementation that demonstrates the doctrine
 
-Start with one entry point, one configured Seneschal agent, and a small persistence service. Demonstrate clarification, permission to draft, and resumption. Add proposal, authorization, execution, and review as the next usable capabilities.
+Start with one entry point, one configured Seneschal agent, and a small persistence service. Demonstrate clarification, permission to draft, and resumption. Proposal generation and review are implemented; proposal revision/approval is the current campaign. Resource/effect authorization, execution, and result review follow as later usable capabilities.
 
-The first implementation follows this shape: `imperium:interview`, a named Symfony AI Seneschal agent using DeepSeek, and `Atheneum\InterviewRecords` using Doctrine ORM with PostgreSQL. The operator confirmed CLI and PostgreSQL on 24 September, and subsequently changed the initial provider from OpenAI to DeepSeek. See [SENESCHAL-CLI.md](SENESCHAL-CLI.md) for setup, commands, limits, and validation status. Only the interview through permission-to-draft is implemented in this milestone.
+The implementation now follows this shape: `imperium:interview`, a named Symfony AI Seneschal agent using DeepSeek, and small Atheneum interview/proposal services using Doctrine ORM with PostgreSQL. The live path has reached persisted proposal review. The current campaign adds proposal revision as immutable new versions and explicit approval of the observed latest version. See [SENESCHAL-CLI.md](SENESCHAL-CLI.md) for setup, commands, limits, and validation status. Resource/effect authorization and execution are not implemented.
 
 Symfony components provide the mechanics; Imperium defines the meaning and enforced boundaries. A prompt can guide Seneschal's behavior, but permissions and state transitions that protect real effects must be enforced by the application.
 
@@ -169,3 +169,27 @@ interview that is awaiting a decision.
 The CLI entrance now opens the saved-interview list. The operator chooses `new`
 for a fresh mission or a numbered row for Continue/Delete. `--new` bypasses the
 list; a full UUID resumes its existing interview directly.
+
+
+## Current implementation checkpoint — 25 September 2026
+
+The mission flow is implemented through the proposal decision gate:
+
+```text
+Interview
+  → Understanding
+  → Draft permission
+  → Proposal v1
+  → Review
+      ↳ Request revision → Proposal v2/v3/...
+      ↳ Approve latest version
+```
+
+Revisions preserve earlier proposal versions. Approval is a deterministic application
+state transition against the observed latest version and is persisted separately from
+drafting permission. Neither a proposal's listed resource requirements nor proposal
+approval grant resource/effect authority. No execution path exists yet.
+
+The proposal revision/approval campaign passes PostgreSQL CI with 39 tests / 341
+assertions and full migration rollback/reapply. Live operator acceptance remains the
+last campaign gate before merge.

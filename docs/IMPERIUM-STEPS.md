@@ -1,6 +1,6 @@
 # Imperium — Steps: Past, Present, and Future
 
-Date: 24 September 2026 (UTC)  
+Date: 25 September 2026  
 Companion: [IMPERIUM-FLOW.md](IMPERIUM-FLOW.md)  
 Repository: [gatomontes/imperium-symfony](https://github.com/gatomontes/imperium-symfony)
 
@@ -67,7 +67,7 @@ These are small delivery milestones. Each should leave an observable capability 
 | N2 — Connect one model | Configure one provider and one explicit model for Seneschal. Keep the other bridge available. Configure credentials locally. | One bounded model response and a clear handled failure for unavailable configuration. No automatic provider fallback yet. |
 | N3 — Establish the first interview | Implement one entry point and Seneschal's conversation. Clarify objective, constraints, expected output, success criteria, and material unknowns. | A usable exchange in which Seneschal seeks understanding and asks permission before drafting. |
 | N4 — Retain and resume | Persist the interview and its current state through a small Atheneum service using Doctrine repositories. | Close and resume an interview without losing or confusing its exchanges. |
-| N5 — Produce the proposal | After permission to draft, produce a versioned proposal with steps, resources, limits, and acceptance criteria. | Operator can request revisions or approve an identifiable proposal version. |
+| N5 — Produce and approve the proposal | After permission to draft, produce a versioned proposal with steps, resources, limits, and acceptance criteria; preserve revisions and approve an identifiable latest version explicitly. | Proposal generation/review is integrated on `main`; revision/approval is implemented on PR #3 and passes PostgreSQL CI, pending live operator acceptance. |
 | N6 — Authorize and perform bounded work | Record the permitted resources and effects separately from plan approval; run one narrowly defined task through code-enforced permissions and limits. | A permitted operation succeeds; an unpermitted operation is refused. Relevant retries/interruption behavior is demonstrated for that operation. |
 | N7 — Review and deliver | Compare the output to the agreed criteria; retain result, relevant evidence, usage/cost information where available, and disposition. | One real mission reaches delivery or an honest failure/partial outcome through the same ordinary user path. |
 
@@ -114,7 +114,7 @@ The cognitive map remains the institutional design. The order in which its offic
 
 For the latest campaign checkpoint and new-chat instructions, read [NEXT-CAMPAIGN.md](NEXT-CAMPAIGN.md). Earlier checkpoints below retain their historical validation status.
 
-Start from the repository and its `AGENTS.md`. Read [IMPERIUM-FLOW.md](IMPERIUM-FLOW.md) and [SENESCHAL-CLI.md](SENESCHAL-CLI.md). The initial implementation is on `codex/seneschal-cli-interview`; use the setup instructions to configure the local database and API key. Do not restore the old campaign requirements as default acceptance criteria.
+Start from the repository and its `AGENTS.md`. Read [IMPERIUM-FLOW.md](IMPERIUM-FLOW.md) and [SENESCHAL-CLI.md](SENESCHAL-CLI.md). The integrated interview/proposal baseline is on `main`; the current revision/approval campaign is on `codex/proposal-review-approval`. Use the setup instructions to configure the local database and API key. Do not restore the old campaign requirements as default acceptance criteria.
 
 The near-term objective is an observable Seneschal interview. The first complete product milestone is one useful mission carried from understanding through delivery with explicit authority and retained evidence.
 
@@ -123,7 +123,9 @@ The near-term objective is an observable Seneschal interview. The first complete
 - **N1:** application boots under PHP 8.4.22; Composer validation, container lint, YAML lint, and ORM mapping checks passed. The initial feature passed PostgreSQL migration/schema validation and rollback/reapply in CI. Provider changes are rechecked by the same workflow; consult the current branch result.
 - **N2:** named Seneschal agent and DeepSeek bridge configured. Mocked transport exercises Chat Completions JSON output and typed reply validation. Live model response remains unverified.
 - **N3/N4:** CLI interview, persisted exchanges, resume/list, explicit retry, readiness, and permission-to-draft state are implemented. Local suite: 11 tests / 91 assertions passed using an isolated SQLite test database, not a native PostgreSQL server.
-- **N5–N7:** remain future work. This version stops after recording permission to draft; it does not generate a proposal or perform a mission.
+- **N5 proposal generation/review:** integrated on `main` at `c2faceafc18b37554ae47816d1ca16f43aa41ed2`. The operator completed live proposal review; PostgreSQL CI passed 33 tests / 311 assertions before integration.
+- **N5 proposal revision/approval:** implemented on `codex/proposal-review-approval` / PR #3. Revisions create new immutable versions; explicit approval targets the observed latest version and persists an approval timestamp. PostgreSQL CI passes 39 tests / 341 assertions and rollback/reapply. Live operator acceptance is pending.
+- **N6–N7:** remain future work. No resource/effect authorization or execution path exists yet.
 
 The source-inspection table above remains the historical pre-feature snapshot at `e9dc3ad`; this checkpoint records the feature branch's additional work. The runbook distinguishes local checks, PostgreSQL CI, and the still-required live smoke check.
 
@@ -195,3 +197,24 @@ no execution authority was granted. The proposed next increment is a persisted,
 reviewable proposal from an interview with drafting permission. See
 [NEXT-CAMPAIGN.md](NEXT-CAMPAIGN.md) for scope, source map, boundaries, and a
 new-chat opening prompt.
+
+
+### Persisted proposal generation and review — 25 September 2026
+
+PR #2 merged into the interview branch, then PR #1 integrated the combined feature
+to `main` at `c2faceafc18b37554ae47816d1ca16f43aa41ed2`. The operator reported
+successful live proposal review. The proposal is stored as an identifiable version
+and reopens without another provider call merely to review it. Drafting permission,
+proposal approval, resource authority, and execution authority remain distinct.
+
+### Proposal revision and approval campaign — 25 September 2026
+
+PR #3 implements the remaining N5 decision loop. Revision requests use the authorized
+interview, current proposal, and bounded operator guidance to create the next proposal
+version; older versions are preserved. Failed revisions do not replace the current
+draft. Approval is a deterministic, stale-version-protected application action and
+records `approved_at`; it makes no provider call.
+
+PostgreSQL CI passes **39 tests / 341 assertions**, schema validation, and full
+migration rollback/reapply. Live operator acceptance remains required before merge.
+No resource/effect authorization or execution authority is introduced by this campaign.
