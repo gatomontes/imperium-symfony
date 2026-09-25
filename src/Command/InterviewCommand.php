@@ -14,7 +14,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-#[AsCommand(name: 'imperium:interview', description: 'Start or resume a local interview with Seneschal.')]
+#[AsCommand(name: 'imperium:interview', description: 'Browse, start, or resume a local interview with Seneschal.')]
 class InterviewCommand extends Command
 {
     public function __construct(private InterviewRecords $records, private InterviewService $interviews)
@@ -25,7 +25,8 @@ class InterviewCommand extends Command
     protected function configure(): void
     {
         $this->addArgument('id', InputArgument::OPTIONAL, 'Interview UUID to resume')
-            ->addOption('list', null, InputOption::VALUE_NONE, 'List recent interviews; select one to continue or delete');
+            ->addOption('list', null, InputOption::VALUE_NONE, 'Show the interview list (the default view)')
+            ->addOption('new', null, InputOption::VALUE_NONE, 'Start a new interview directly');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -33,11 +34,15 @@ class InterviewCommand extends Command
         $io = new SymfonyStyle($input, $output);
         try {
             $id = $input->getArgument('id');
-            if ($input->getOption('list')) {
-                $id = $this->selectInterview($io, $input->isInteractive());
-                if (null === $id) {
+            if ($input->getOption('new') && (null !== $id || $input->getOption('list'))) {
+                throw new \DomainException('Use --new on its own, without an interview ID or --list.');
+            }
+            if ($input->getOption('list') || (null === $id && !$input->getOption('new'))) {
+                $selection = $this->selectInterview($io, $input->isInteractive());
+                if (null === $selection) {
                     return Command::SUCCESS;
                 }
+                $id = 'new' === $selection ? null : $selection;
             }
             if (!$input->isInteractive()) {
                 $io->error('The interview requires an interactive terminal. --list works non-interactively.');
@@ -122,18 +127,22 @@ class InterviewCommand extends Command
             $interviews = $this->records->recent();
             if ([] === $interviews) {
                 $io->text('No saved interviews.');
-
-                return null;
             }
             $rows = [];
             foreach ($interviews as $index => $interview) {
                 $rows[] = [$index + 1, $interview->getShortId(), $this->display($interview->getAlias()), $interview->getStatus(), $interview->getAttempts(), $interview->getUpdatedAt()->format('Y-m-d H:i:s')];
             }
-            $io->table(['#', 'ID', 'Alias', 'Status', 'Attempts', 'Updated'], $rows);
+            if ([] !== $rows) {
+                $io->table(['#', 'ID', 'Alias', 'Status', 'Attempts', 'Updated'], $rows);
+            }
             if (!$interactive) {
                 return null;
             }
-            $selection = trim((string) $io->ask('Select an interview number, or /quit', '/quit'));
+            $io->text('new - New interview');
+            $selection = trim((string) $io->ask('Select an interview number, new, or /quit', '/quit'));
+            if ('new' === strtolower($selection)) {
+                return 'new';
+            }
             if ('/quit' === $selection) {
                 return null;
             }

@@ -171,3 +171,10 @@ nonempty alias suggestion is saved with the reply; missing or malformed naming d
 does not discard a valid interview turn. Older/pending interviews show a shortened
 first-message label. The nullable alias column has a generated Doctrine migration.
 Local tests pass (25 tests / 261 assertions); PostgreSQL CI checks migration up/down.
+
+### Default interview view — 25 September 2026
+
+The command now opens the numbered list by default. `new` in that view starts an
+interview, including when the database has none. `--new` is the direct-start option;
+`--list` and UUID resumption remain available. Noninteractive default invocation
+prints the list without creating records. Local tests pass (28 / 283 assertions).

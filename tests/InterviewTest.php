@@ -312,7 +312,7 @@ class InterviewTest extends KernelTestCase
     {
         $tester = new CommandTester(self::getContainer()->get(InterviewCommand::class));
         $tester->execute([], ['interactive' => false]);
-        self::assertSame(Command::INVALID, $tester->getStatusCode());
+        self::assertSame(Command::SUCCESS, $tester->getStatusCode());
         self::assertCount(0, $this->records->recent());
         self::assertSame(0, $this->http->getRequestsCount());
     }
@@ -453,6 +453,45 @@ class InterviewTest extends KernelTestCase
         self::assertStringContainsString('<error>leg-day</error>', $list->getDisplay());
     }
 
+    public function testDefaultViewListsWithoutCreatingAndCanContinue(): void
+    {
+        $saved = $this->records->create();
+        $tester = $this->command(['/quit'], []);
+        self::assertStringContainsString($saved->getShortId(), $tester->getDisplay());
+        self::assertStringContainsString('new - New interview', $tester->getDisplay());
+        self::assertCount(1, $this->records->recent());
+        $tester = $this->command(['1', '1', '/quit'], []);
+        self::assertStringContainsString('Interview: '.$saved->getShortId(), $tester->getDisplay());
+        self::assertCount(1, $this->records->recent());
+        self::assertSame(0, $this->http->getRequestsCount());
+    }
+
+    public function testNewMenuOptionWorksWithEmptyAndPopulatedLists(): void
+    {
+        foreach ([0, 1] as $existingCount) {
+            self::assertCount($existingCount, $this->records->recent());
+            $tester = $this->command(['new', '/quit'], []);
+            self::assertSame(Command::SUCCESS, $tester->getStatusCode());
+            self::assertStringContainsString('What would you like to accomplish?', $tester->getDisplay());
+            self::assertCount($existingCount + 1, $this->records->recent());
+        }
+        self::assertSame(0, $this->http->getRequestsCount());
+    }
+
+    public function testExplicitNewNeedsInteractionAndRejectsConflictingArguments(): void
+    {
+        $tester = new CommandTester(self::getContainer()->get(InterviewCommand::class));
+        $tester->execute(['--new' => true], ['interactive' => false]);
+        self::assertSame(Command::INVALID, $tester->getStatusCode());
+        foreach ([['--new' => true, '--list' => true], ['--new' => true, 'id' => 'invalid-id']] as $arguments) {
+            $tester = $this->command([], $arguments);
+            self::assertSame(Command::INVALID, $tester->getStatusCode());
+            self::assertStringContainsString('Use --new on its own', $tester->getDisplay());
+        }
+        self::assertCount(0, $this->records->recent());
+        self::assertSame(0, $this->http->getRequestsCount());
+    }
+
     private function response(string $message, bool $ready): MockResponse
     {
         return $this->jsonResponse(json_encode(['message' => $message, 'readyToDraft' => $ready], JSON_THROW_ON_ERROR));
@@ -469,7 +508,7 @@ class InterviewTest extends KernelTestCase
     }
 
     /** @param list<string> $inputs */
-    private function command(array $inputs, array $arguments = []): CommandTester
+    private function command(array $inputs, array $arguments = ['--new' => true]): CommandTester
     {
         $tester = new CommandTester(self::getContainer()->get(InterviewCommand::class));
         $tester->setInputs($inputs);

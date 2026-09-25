@@ -165,3 +165,7 @@ permission. The operator can correct that summary, decline, or explicitly approv
 A waiting message precedes reply requests; failures show a safe next step and retain
 the input for explicit retry. This interaction also supports resuming a saved
 interview that is awaiting a decision.
+
+The CLI entrance now opens the saved-interview list. The operator chooses `new`
+for a fresh mission or a numbered row for Continue/Delete. `--new` bypasses the
+list; a full UUID resumes its existing interview directly.
