@@ -132,27 +132,57 @@ class InterviewCommand extends Command
     {
         while (true) {
             $proposal = $this->proposalRecords->latest($interview);
-            if (null !== $proposal) {
-                $this->displayProposal($io, $proposal);
-                $io->note('Review only: this saved draft is not proposal approval, resource authority, or execution authority.');
+            if (null === $proposal) {
+                $action = $io->choice('Proposal', [1 => 'Generate proposal', 0 => 'Back'], 0);
+                if ('Back' === $action) {
+                    $io->success('Saved. Reopen this interview to generate its proposal later.');
+
+                    return Command::SUCCESS;
+                }
+
+                $io->text('Waiting for Seneschal to draft...');
+                try {
+                    $this->proposals->generate($interview->getId());
+                } catch (\DomainException $exception) {
+                    $io->warning($exception->getMessage());
+                    $interview = $this->records->get($interview->getId());
+                }
+
+                continue;
+            }
+
+            $this->displayProposal($io, $proposal);
+            if (Proposal::APPROVED === $proposal->getStatus()) {
+                $io->success('Proposal v'.$proposal->getVersion().' is approved.');
+                $io->note('Proposal approval does not authorize resources, external effects, or execution.');
 
                 return Command::SUCCESS;
             }
 
-            $action = $io->choice('Proposal', [1 => 'Generate proposal', 0 => 'Back'], 0);
+            $io->note('Draft review only: no resource authority or execution authority has been granted.');
+            $action = $io->choice('Review proposal v'.$proposal->getVersion(), [
+                1 => 'Approve proposal',
+                2 => 'Request revision',
+                0 => 'Back',
+            ], 0);
             if ('Back' === $action) {
-                $io->success('Saved. Reopen this interview to generate its proposal later.');
+                $io->success('Saved. Reopen this interview to continue proposal review.');
 
                 return Command::SUCCESS;
             }
 
-            $io->text('Waiting for Seneschal to draft...');
             try {
-                $proposal = $this->proposals->generate($interview->getId());
-                $this->displayProposal($io, $proposal);
-                $io->note('Review only: this saved draft is not proposal approval, resource authority, or execution authority.');
+                if ('Approve proposal' === $action) {
+                    $proposal = $this->proposals->approve($interview->getId(), $proposal->getVersion());
+                    $io->success('Proposal v'.$proposal->getVersion().' approved.');
+                    $io->note('This records plan approval only. Resource authority and execution authority remain ungranted.');
 
-                return Command::SUCCESS;
+                    return Command::SUCCESS;
+                }
+
+                $guidance = trim((string) $io->ask('Revision request', ''));
+                $io->text('Waiting for Seneschal to revise...');
+                $this->proposals->revise($interview->getId(), $proposal->getVersion(), $guidance);
             } catch (\DomainException $exception) {
                 $io->warning($exception->getMessage());
                 $interview = $this->records->get($interview->getId());
@@ -163,7 +193,7 @@ class InterviewCommand extends Command
     private function displayProposal(SymfonyStyle $io, Proposal $proposal): void
     {
         $content = $proposal->getContent();
-        $io->title('Proposal v'.$proposal->getVersion());
+        $io->title('Proposal v'.$proposal->getVersion().' — '.$proposal->getStatus());
         $io->section('Objective');
         $io->writeln($this->display($content['objective']));
         $io->section('Deliverable');
