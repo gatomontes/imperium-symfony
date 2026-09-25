@@ -218,3 +218,19 @@ records `approved_at`; it makes no provider call.
 PostgreSQL CI passes **39 tests / 341 assertions**, schema validation, and full
 migration rollback/reapply. Live operator acceptance remains required before merge.
 No resource/effect authorization or execution authority is introduced by this campaign.
+
+
+### Proposal approval integrated; authorization campaign — 25 September 2026
+
+Proposal revision/approval PR #3 was live-accepted and merged to `main` at
+`3c0a1f831e187cc18f104efba2a6810bf75fdcc3`.
+
+PR #4 (`codex/proposal-authorization`) adds the next N6 prerequisite without
+execution: a proposal-bound authorization request snapshots the approved proposal's
+resource requirements and limits, records explicitly declared external effects, and
+persists an explicit authorized/refused decision. Reopening alone creates no request;
+decisions use no model call and are immutable after decision.
+
+PostgreSQL CI passes **47 tests / 383 assertions**, schema validation, and complete
+migration rollback/reapply. Live operator acceptance is pending. No execution action
+exists yet.
