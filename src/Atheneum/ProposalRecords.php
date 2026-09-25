@@ -21,6 +21,15 @@ class ProposalRecords
         );
     }
 
+    /** @return list<Proposal> */
+    public function history(Interview $interview): array
+    {
+        return $this->entityManager->getRepository(Proposal::class)->findBy(
+            ['interview' => $interview],
+            ['version' => 'ASC'],
+        );
+    }
+
     public function save(Proposal $proposal): void
     {
         $this->entityManager->persist($proposal);
