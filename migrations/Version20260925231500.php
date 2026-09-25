@@ -22,7 +22,6 @@ final class Version20260925231500 extends AbstractMigration
     {
         $this->abortIf(!$this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform, 'This migration requires PostgreSQL.');
         $this->addSql('CREATE TABLE mission_authorization (id VARCHAR(36) NOT NULL, proposal_id VARCHAR(36) NOT NULL, resources JSON NOT NULL, effects JSON NOT NULL, limits JSON NOT NULL, status VARCHAR(32) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, decided_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE INDEX IDX_AB018653F4792058 ON mission_authorization (proposal_id)');
         $this->addSql('CREATE UNIQUE INDEX uniq_authorization_proposal ON mission_authorization (proposal_id)');
         $this->addSql('ALTER TABLE mission_authorization ADD CONSTRAINT FK_AB018653F4792058 FOREIGN KEY (proposal_id) REFERENCES proposal (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
