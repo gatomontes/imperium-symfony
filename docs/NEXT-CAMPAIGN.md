@@ -1,4 +1,4 @@
-# Next campaign — proposal review to execution authority
+# Next campaign — authorization to first bounded execution
 
 Prepared 25 September 2026.
 
@@ -11,112 +11,118 @@ Read `AGENTS.md`, this document, `docs/IMPERIUM-STEPS.md`,
 current branch/PR state before editing.
 
 Imperium is intentionally growing as one useful Symfony mission path. Preserve the
-doctrine distinctions; do not reconstruct the previous implementation by default.
+distinctions between understanding, proposal, approval, authorization, execution,
+review, and delivery.
 
 ## Integrated baseline
 
-`main` contains the first working mission path through saved proposal review:
+`main` now contains the working mission path through **explicit proposal approval**.
+
+Proposal revision/approval PR #3 was live-smoke accepted by the operator and merged
+to `main` at:
+
+`3c0a1f831e187cc18f104efba2a6810bf75fdcc3`
+
+The integrated path is:
 
 **Mission → Interview → Understanding → Draft permission → Proposal generation →
-PostgreSQL persistence → Proposal review**
+Proposal revision/history → Explicit proposal approval**
 
-The operator completed the live proposal review. PR #2 was merged into the interview
-branch, then PR #1 was merged into `main` at
-`c2faceafc18b37554ae47816d1ca16f43aa41ed2`.
-
-That integrated baseline passed PostgreSQL CI with 33 tests / 311 assertions,
-schema validation, and full migration rollback/reapply. Proposal review reopens the
-saved version without another model call. Drafting permission remains distinct from
-proposal approval, resource authority, and execution authority.
+Proposal approval is attached to one proposal version and does not grant resource
+authority, external-effect authority, or execution authority.
 
 ## Current campaign
 
-Branch: `codex/proposal-review-approval`  
-PR: #3 — **Add proposal revision and explicit approval**
+Branch: `codex/proposal-authorization`  
+PR: #4 — **Add explicit resource and effect authorization**
 
-This campaign adds the smallest proposal decision stage:
+This campaign implements the next deterministic authority gate:
 
-- a proposal remains an identifiable immutable version;
-- a revision request produces `vN+1` and preserves previous versions;
-- revision input is bounded operator guidance supplied to the existing DeepSeek
-  proposal drafter with the authorized interview and current proposal;
-- a failed revision does not replace or corrupt the current proposal;
-- approval is an explicit application action against the observed latest version;
-- stale-version approval is refused;
-- approval persists with an approval timestamp and requires no model call;
-- an approved proposal reopens read-only;
-- proposal approval grants no resource authority, external-effect authority, or
-  execution authority.
+- one `Authorization` record is linked to one approved proposal version;
+- an authorization request cannot exist for an unapproved proposal;
+- requested resources/capabilities are snapshotted from that approved proposal's
+  `resourceRequirements`;
+- limits are snapshotted from the approved proposal;
+- intended external effects are declared explicitly by the operator and stored;
+- merely reopening an approved proposal creates no authorization request;
+- the operator explicitly chooses **Authorize requested scope**, **Refuse requested
+  scope**, or **Back**;
+- a decided authorization record is immutable/read-only;
+- the decision requires no model call;
+- no execution action exists in this campaign.
 
-Implementation CI on the campaign branch passed PostgreSQL migrations, schema
-validation, **39 tests / 341 assertions**, and migration rollback/reapply. A live
-operator review is still required before merging this campaign.
+External effects declared at the authorization gate do not amend the approved
+proposal. They must remain consistent with that proposal and its recorded limits;
+a material plan/scope change belongs in a revised proposal rather than silently
+widening authority.
 
-## Current source map
+Implementation CI passes PostgreSQL migrations, schema validation,
+**47 tests / 383 assertions**, and full migration rollback/reapply.
+
+## Source map added by this campaign
 
 | File | Responsibility |
 |---|---|
-| `src/Entity/Interview.php` | Interview transcript and drafting-permission state. |
-| `src/Entity/Proposal.php` | Versioned proposal content and explicit approval state. |
-| `src/Atheneum/InterviewRecords.php` | Deterministic interview persistence. |
-| `src/Atheneum/ProposalRecords.php` | Latest proposal, proposal history, and persistence. |
-| `src/Curia/InterviewService.php` | Interview orchestration and safe provider failure behavior. |
-| `src/Curia/ProposalService.php` | Generate, revise, and approve proposals under the interview lock. |
-| `src/Curia/ProposalDrafter.php` | DeepSeek structured proposal generation/revision. |
-| `src/Command/InterviewCommand.php` | CLI interview and proposal review loop. |
-| `tests/InterviewTest.php` | Interview caller-path behavior. |
-| `tests/ProposalTest.php` | Proposal generation, revision, persistence, and approval boundaries. |
+| `src/Entity/Authorization.php` | Proposal-bound resource/effect scope and explicit decision. |
+| `src/Atheneum/AuthorizationRecords.php` | Deterministic authorization persistence/retrieval. |
+| `src/Curia/AuthorizationService.php` | Request/decision orchestration under the interview lock. |
+| `src/Command/InterviewCommand.php` | Explicit authorization preparation and decision UI. |
+| `tests/AuthorizationTest.php` | Authority-boundary caller tests with no execution. |
+
+The database table is `mission_authorization`; `authorization` is a PostgreSQL
+keyword and is deliberately not used as the table name.
 
 ## Live review for this campaign
 
-From the operator checkout, switch to `codex/proposal-review-approval`, apply
-migrations, then reopen an interview with a saved draft proposal.
+From the operator checkout, switch to `codex/proposal-authorization`, apply
+migrations, and reopen the mission whose proposal is already approved.
 
-The expected review loop is:
+Expected sequence:
 
-1. Display the latest proposal version and status.
-2. Choose **Request revision** and supply a small material change.
-3. Confirm the revised proposal appears as the next version.
-4. Reopen the interview and confirm the latest version persists without another
-   model call merely to review it.
-5. Choose **Approve proposal**.
-6. Reopen again and confirm the approved version is read-only and visibly records
-   that resource and execution authority remain ungranted.
+1. Approved proposal displays normally.
+2. Choose **Prepare authorization request**.
+3. Confirm resources/capabilities are copied from the approved proposal.
+4. Declare any intended external effects explicitly, or leave blank for none.
+5. Confirm the displayed limits match the approved proposal.
+6. Choose **Authorize requested scope** or **Refuse requested scope**.
+7. Reopen the mission.
+8. Confirm the decision persists and is read-only.
+9. Confirm the CLI explicitly states that execution remains unavailable and that
+   no operation was performed.
 
-Do not use a mission with real external effects for this review. This campaign
-does not authorize or execute anything.
+The live review should use a harmless/no-effect scope. This campaign creates
+authority facts only; it has no executor.
 
 ## Proposed next campaign after live acceptance
 
-Implement the smallest **resource/effect authorization** record for one approved
-proposal. Do not execute yet unless the authorization design and first bounded
-operation are both explicit.
+Introduce the **first bounded execution operation**, but only for a deliberately
+small effect whose preconditions can be enforced mechanically.
 
-The next increment should answer only:
+Before execution is implemented, choose one concrete operation and define:
 
-1. Which approved proposal version is the authority request based on?
-2. Which resources or capabilities are requested?
-3. Which external effects, if any, are requested?
-4. What limits apply?
-5. What did the operator explicitly authorize or refuse?
+1. the exact authorization fields it requires;
+2. which authorized resource/capability it consumes or uses;
+3. the allowed effect;
+4. applicable limits;
+5. the result/evidence to retain;
+6. retry/interruption behavior appropriate to that effect.
 
-Authorization must be persisted separately from proposal approval. A proposal that
-lists a resource requirement does not authorize that resource. Model text cannot
-grant authority. Scope changes require reconsideration of the affected authorization.
+The execution service must refuse when authorization is missing, refused, for a
+different proposal, or outside scope. Model text cannot grant or expand authority.
 
-Only after that fact exists should Imperium introduce its first narrowly bounded
-execution operation.
+Do not generalize into a universal execution framework before one real operation
+needs it.
 
 ## Practical notes
 
 - Interface: local CLI.
 - Persistence: PostgreSQL through Doctrine ORM/migrations.
-- Provider: DeepSeek, default `deepseek-flash`.
-- Secrets remain in local configuration; never commit API keys or private mission
-  evidence.
-- Per-interview Symfony Lock remains single-host `flock`; no distributed or
-  exactly-once inference claim exists.
-- Do not use `doctrine:schema:update` for deployment; use migrations.
-- Tests must use a disposable test database, never the operator mission database.
+- Provider: DeepSeek for interview/proposal language work; authorization itself is
+  deterministic and uses no model.
+- Secrets remain local; never commit API keys or private mission evidence.
+- Per-interview Symfony Lock remains single-host `flock`.
+- No distributed or exactly-once execution claim exists.
+- Deploy schema changes through migrations, not `doctrine:schema:update`.
+- Tests use a disposable test database, never the operator mission database.
 
 *Nullum tempus quiescendi. Ad Imperium.*
