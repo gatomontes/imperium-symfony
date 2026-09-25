@@ -112,6 +112,8 @@ The cognitive map remains the institutional design. The order in which its offic
 
 ## 7. Immediate handoff
 
+For the latest campaign checkpoint and new-chat instructions, read [NEXT-CAMPAIGN.md](NEXT-CAMPAIGN.md). Earlier checkpoints below retain their historical validation status.
+
 Start from the repository and its `AGENTS.md`. Read [IMPERIUM-FLOW.md](IMPERIUM-FLOW.md) and [SENESCHAL-CLI.md](SENESCHAL-CLI.md). The initial implementation is on `codex/seneschal-cli-interview`; use the setup instructions to configure the local database and API key. Do not restore the old campaign requirements as default acceptance criteria.
 
 The near-term objective is an observable Seneschal interview. The first complete product milestone is one useful mission carried from understanding through delivery with explicit authority and retained evidence.
@@ -178,3 +180,18 @@ The command now opens the numbered list by default. `new` in that view starts an
 interview, including when the database has none. `--new` is the direct-start option;
 `--list` and UUID resumption remain available. Noninteractive default invocation
 prints the list without creating records. Local tests pass (28 / 283 assertions).
+
+### Live interview completed and next campaign prepared — 25 September 2026
+
+The operator reported success and supplied a terminal screenshot confirming
+recorded permission to draft. This supersedes the earlier pending live-smoke status
+for that endpoint. The implementation agent did not inspect the private transcript
+or database, and this observation does not establish general model reliability.
+PostgreSQL CI passed at implementation commit
+`ecbff6a2d9ec62ba6d27e4e5bcfe76438a6c852b` (run `36158926205`).
+
+PR #1 remains open and unmerged at this checkpoint. No proposal was generated and
+no execution authority was granted. The proposed next increment is a persisted,
+reviewable proposal from an interview with drafting permission. See
+[NEXT-CAMPAIGN.md](NEXT-CAMPAIGN.md) for scope, source map, boundaries, and a
+new-chat opening prompt.
