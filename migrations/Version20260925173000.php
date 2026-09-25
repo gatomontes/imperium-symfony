@@ -24,8 +24,6 @@ final class Version20260925173000 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_C7CDC353659D1F46 ON proposal (interview_id)');
         $this->addSql('CREATE UNIQUE INDEX uniq_proposal_interview_version ON proposal (interview_id, version)');
         $this->addSql('ALTER TABLE proposal ADD CONSTRAINT FK_C7CDC353659D1F46 FOREIGN KEY (interview_id) REFERENCES interview (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('COMMENT ON COLUMN proposal.content IS \'(DC2Type:json)\'');
-        $this->addSql('COMMENT ON COLUMN proposal.created_at IS \'(DC2Type:datetime_immutable)\'');
     }
 
     public function down(Schema $schema): void
