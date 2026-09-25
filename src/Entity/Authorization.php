@@ -19,7 +19,7 @@ class Authorization
     #[ORM\Column(length: 36)]
     private string $id;
 
-    #[ORM\OneToOne(targetEntity: Proposal::class)]
+    #[ORM\ManyToOne(targetEntity: Proposal::class)]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private Proposal $proposal;
 
