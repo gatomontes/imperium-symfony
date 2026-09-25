@@ -73,12 +73,12 @@ These are small delivery milestones. Each should leave an observable capability 
 
 N3 and N4 may be delivered together when persistence is needed for a usable first interview. Keep the work small rather than forcing artificial stage boundaries.
 
-### Choices needed when implementation reaches them
+### Implementation choices confirmed on 24 September
 
-- Select the first provider/model and a modest usage limit. Having both bridges installed does not select either provider.
-- Confirm the first interface. A local CLI is the proposed smallest starting point; Twig is already available if a browser interface is preferred.
-- Confirm use of the installed Doctrine ORM for interview persistence and the actual database engine/connection.
-- Decide how the operator is identified for the chosen interface. A local operator-only CLI and a remotely accessible web application have different authentication needs.
+- Operator initially selected OpenAI, then changed the first Seneschal to DeepSeek; implementation defaults to `deepseek-flash`, with bounded attempts and output. The model is configurable. No live call has been demonstrated yet.
+- Operator selected the local CLI.
+- Operator selected PostgreSQL through the installed Doctrine ORM. Connection credentials remain local configuration.
+- The first interface is operator-only, using local operating-system access. No web authenticator is required for this CLI milestone.
 - Select a useful first mission and state its permitted effects. A draft deliverable is a simpler first target than sending messages, publishing, or altering an external system.
 
 These choices are not reasons to reconstruct the previous bootstrap pipeline. Describe the initial configured officer/model honestly; do not claim a completed institutional appointment process that has not been implemented.
@@ -112,9 +112,20 @@ The cognitive map remains the institutional design. The order in which its offic
 
 ## 7. Immediate handoff
 
-Start from the new repository baseline and its `AGENTS.md`. Read [IMPERIUM-FLOW.md](IMPERIUM-FLOW.md). Confirm the implementation choices relevant to N1–N4, then build the first working interview and its minimal persistence. Do not restore the old campaign requirements as default acceptance criteria.
+For the latest campaign checkpoint and new-chat instructions, read [NEXT-CAMPAIGN.md](NEXT-CAMPAIGN.md). Earlier checkpoints below retain their historical validation status.
+
+Start from the repository and its `AGENTS.md`. Read [IMPERIUM-FLOW.md](IMPERIUM-FLOW.md) and [SENESCHAL-CLI.md](SENESCHAL-CLI.md). The initial implementation is on `codex/seneschal-cli-interview`; use the setup instructions to configure the local database and API key. Do not restore the old campaign requirements as default acceptance criteria.
 
 The near-term objective is an observable Seneschal interview. The first complete product milestone is one useful mission carried from understanding through delivery with explicit authority and retained evidence.
+
+## 8. First interview implementation checkpoint
+
+- **N1:** application boots under PHP 8.4.22; Composer validation, container lint, YAML lint, and ORM mapping checks passed. The initial feature passed PostgreSQL migration/schema validation and rollback/reapply in CI. Provider changes are rechecked by the same workflow; consult the current branch result.
+- **N2:** named Seneschal agent and DeepSeek bridge configured. Mocked transport exercises Chat Completions JSON output and typed reply validation. Live model response remains unverified.
+- **N3/N4:** CLI interview, persisted exchanges, resume/list, explicit retry, readiness, and permission-to-draft state are implemented. Local suite: 11 tests / 91 assertions passed using an isolated SQLite test database, not a native PostgreSQL server.
+- **N5–N7:** remain future work. This version stops after recording permission to draft; it does not generate a proposal or perform a mission.
+
+The source-inspection table above remains the historical pre-feature snapshot at `e9dc3ad`; this checkpoint records the feature branch's additional work. The runbook distinguishes local checks, PostgreSQL CI, and the still-required live smoke check.
 
 ## Basis
 
@@ -124,3 +135,63 @@ The near-term objective is an observable Seneschal interview. The first complete
 - Previously reviewed Atheneum correction handoff, used only to distinguish unfinished historical work from the new baseline.
 
 *Ad Imperium.*
+
+### CLI interaction refinement — 25 September 2026
+
+The operator approved a small CLI improvement: one focused question per turn,
+a brief understanding summary before drafting permission, visible waiting feedback,
+and actionable failure messages. The prompt and CLI now implement that interaction;
+corrections and explicit approval retain the existing state transitions. No new
+schema or proposal-generation stage is introduced. Local mocked tests pass
+(16 tests / 188 assertions); consult the feature branch CI for PostgreSQL results.
+Live DeepSeek conversation quality and the operator's local connection remain to
+be confirmed.
+
+### Follow-up: reply-format failure — 25 September 2026
+
+An operator screenshot showed a saved Seneschal reply followed by a format failure.
+The failed payload was not inspected. Assistant history was being replayed as plain
+text despite JSON output requirements; it now uses the same JSON fields as replies.
+Application-added permission text stays outside that provider history. Format errors
+are now specific, and truncated output is rejected even if its JSON parses.
+The possible contribution of inconsistent history still needs a live check.
+Local tests pass (17 tests / 215 assertions); PostgreSQL CI runs on the branch.
+
+### Numbered interview management — 25 September 2026
+
+`--list` now numbers its rows and offers `1` Continue, `2` Delete permanently,
+and `0` Back after selection. The selection resolves to the displayed UUID.
+Deletion goes through Atheneum under the existing interview lock. No new schema
+or provider call is involved. Noninteractive listing remains read-only. Local tests
+pass (22 tests / 241 assertions); the feature branch also runs PostgreSQL CI.
+
+### Mission aliases and compact IDs — 25 September 2026
+
+Lists and selection messages now show six-character UUID suffixes and human-readable
+mission aliases. Full UUIDs remain the storage and resume identity. Seneschal's first
+nonempty alias suggestion is saved with the reply; missing or malformed naming data
+does not discard a valid interview turn. Older/pending interviews show a shortened
+first-message label. The nullable alias column has a generated Doctrine migration.
+Local tests pass (25 tests / 261 assertions); PostgreSQL CI checks migration up/down.
+
+### Default interview view — 25 September 2026
+
+The command now opens the numbered list by default. `new` in that view starts an
+interview, including when the database has none. `--new` is the direct-start option;
+`--list` and UUID resumption remain available. Noninteractive default invocation
+prints the list without creating records. Local tests pass (28 / 283 assertions).
+
+### Live interview completed and next campaign prepared — 25 September 2026
+
+The operator reported success and supplied a terminal screenshot confirming
+recorded permission to draft. This supersedes the earlier pending live-smoke status
+for that endpoint. The implementation agent did not inspect the private transcript
+or database, and this observation does not establish general model reliability.
+PostgreSQL CI passed at implementation commit
+`ecbff6a2d9ec62ba6d27e4e5bcfe76438a6c852b` (run `36158926205`).
+
+PR #1 remains open and unmerged at this checkpoint. No proposal was generated and
+no execution authority was granted. The proposed next increment is a persisted,
+reviewable proposal from an interview with drafting permission. See
+[NEXT-CAMPAIGN.md](NEXT-CAMPAIGN.md) for scope, source map, boundaries, and a
+new-chat opening prompt.

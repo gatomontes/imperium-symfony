@@ -145,6 +145,8 @@ This is a logical list, not a mandated table-per-row schema. Add records when th
 
 Start with one entry point, one configured Seneschal agent, and a small persistence service. Demonstrate clarification, permission to draft, and resumption. Add proposal, authorization, execution, and review as the next usable capabilities.
 
+The first implementation follows this shape: `imperium:interview`, a named Symfony AI Seneschal agent using DeepSeek, and `Atheneum\InterviewRecords` using Doctrine ORM with PostgreSQL. The operator confirmed CLI and PostgreSQL on 24 September, and subsequently changed the initial provider from OpenAI to DeepSeek. See [SENESCHAL-CLI.md](SENESCHAL-CLI.md) for setup, commands, limits, and validation status. Only the interview through permission-to-draft is implemented in this milestone.
+
 Symfony components provide the mechanics; Imperium defines the meaning and enforced boundaries. A prompt can guide Seneschal's behavior, but permissions and state transitions that protect real effects must be enforced by the application.
 
 The first complete milestone is one useful mission delivered through this flow. Additional officers, automated selection, formal proceedings, and broader autonomy follow evidence of need.
@@ -156,3 +158,14 @@ This flow uses the cognitive map supplied in the conversation, the agreed Athene
 Implementation status and repository evidence are recorded in [IMPERIUM-STEPS.md](IMPERIUM-STEPS.md).
 
 *Ad Imperium.*
+
+The CLI interview now requests one focused question at a time. Once ready,
+Seneschal summarizes its understanding and the application asks for drafting
+permission. The operator can correct that summary, decline, or explicitly approve.
+A waiting message precedes reply requests; failures show a safe next step and retain
+the input for explicit retry. This interaction also supports resuming a saved
+interview that is awaiting a decision.
+
+The CLI entrance now opens the saved-interview list. The operator chooses `new`
+for a fresh mission or a numbered row for Continue/Delete. `--new` bypasses the
+list; a full UUID resumes its existing interview directly.

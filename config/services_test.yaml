@@ -1,0 +1,5 @@
+services:
+    # All test model requests terminate in Symfony's mock transport, never on the network.
+    seneschal.test_client:
+        class: Symfony\Component\HttpClient\MockHttpClient
+        public: true

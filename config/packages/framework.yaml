@@ -5,6 +5,15 @@ framework:
     # Note that the session will be started ONLY if you read or write from it.
     session: true
 
+    http_client:
+        scoped_clients:
+            seneschal.client:
+                base_uri: 'https://api.deepseek.com'
+                timeout: 60
+                max_duration: 90
+                retry_failed:
+                    max_retries: 0
+
     #esi: true
     #fragments: true
 
