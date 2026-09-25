@@ -125,7 +125,8 @@ class ProposalTest extends KernelTestCase
         self::assertSame(Command::SUCCESS, $tester->getStatusCode());
         self::assertStringContainsString('Waiting for Seneschal to draft...', $tester->getDisplay());
         self::assertStringContainsString('Proposal v1', $tester->getDisplay());
-        self::assertStringContainsString('not proposal approval, resource authority, or execution authority', $tester->getDisplay());
+        self::assertStringContainsString('not proposal approval, resource', $tester->getDisplay());
+        self::assertStringContainsString('authority, or execution authority', $tester->getDisplay());
         self::assertNotNull($this->proposals->latest($interview));
         self::assertSame(1, $this->http->getRequestsCount());
     }
