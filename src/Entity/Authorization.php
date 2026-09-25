@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity]
-#[ORM\Table(name: 'authorization')]
+#[ORM\Table(name: 'mission_authorization')]
 #[ORM\UniqueConstraint(name: 'uniq_authorization_proposal', columns: ['proposal_id'])]
 class Authorization
 {
