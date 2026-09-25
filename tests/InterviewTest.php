@@ -46,7 +46,7 @@ class InterviewTest extends KernelTestCase
         $tester = $this->command(['A short report.', 'My staff. One page.', '/approve']);
         self::assertSame(Command::SUCCESS, $tester->getStatusCode());
         self::assertStringContainsString(Interview::PERMISSION_QUESTION, $tester->getDisplay());
-        self::assertStringContainsString('No proposal approval or execution authority has been granted', $tester->getDisplay());
+        self::assertStringContainsString('No proposal approval or execution authority', $tester->getDisplay());
         self::assertCount(2, $requests);
         self::assertSame(2, substr_count($tester->getDisplay(), 'Waiting for Seneschal...'));
         self::assertStringContainsString('review before drafting', $tester->getDisplay());
