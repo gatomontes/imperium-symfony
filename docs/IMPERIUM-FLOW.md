@@ -193,3 +193,24 @@ approval grant resource/effect authority. No execution path exists yet.
 The proposal revision/approval campaign passes PostgreSQL CI with 39 tests / 341
 assertions and full migration rollback/reapply. Live operator acceptance remains the
 last campaign gate before merge.
+
+
+## Authorization checkpoint — 25 September 2026
+
+The implemented flow now reaches a separate authorization fact after proposal
+approval:
+
+```text
+Approved proposal version
+  → Prepare authorization request
+      → snapshot proposal resource requirements
+      → snapshot proposal limits
+      → declare intended external effects
+  → Authorize / Refuse
+  → STOP (no execution action exists)
+```
+
+Authorization is deterministic application state, not model judgment. Reopening an
+approved proposal does not create authority. A decided authorization is read-only.
+External effects declared here do not amend the approved proposal; material changes
+must return to proposal revision. Recording authorization performs no external effect.
