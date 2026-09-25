@@ -3,8 +3,11 @@
 namespace App\Command;
 
 use App\Atheneum\InterviewRecords;
+use App\Atheneum\ProposalRecords;
 use App\Curia\InterviewService;
+use App\Curia\ProposalService;
 use App\Entity\Interview;
+use App\Entity\Proposal;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatter;
