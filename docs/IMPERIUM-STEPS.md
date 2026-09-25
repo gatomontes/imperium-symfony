@@ -133,3 +133,14 @@ The source-inspection table above remains the historical pre-feature snapshot at
 - Previously reviewed Atheneum correction handoff, used only to distinguish unfinished historical work from the new baseline.
 
 *Ad Imperium.*
+
+### CLI interaction refinement — 25 September 2026
+
+The operator approved a small CLI improvement: one focused question per turn,
+a brief understanding summary before drafting permission, visible waiting feedback,
+and actionable failure messages. The prompt and CLI now implement that interaction;
+corrections and explicit approval retain the existing state transitions. No new
+schema or proposal-generation stage is introduced. Local mocked tests pass
+(16 tests / 188 assertions); consult the feature branch CI for PostgreSQL results.
+Live DeepSeek conversation quality and the operator's local connection remain to
+be confirmed.

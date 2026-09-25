@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\HttpClient\Exception\TransportException;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Component\Lock\LockFactory;
@@ -47,6 +48,9 @@ class InterviewTest extends KernelTestCase
         self::assertStringContainsString(Interview::PERMISSION_QUESTION, $tester->getDisplay());
         self::assertStringContainsString('no proposal was generated or execution authorized', $tester->getDisplay());
         self::assertCount(2, $requests);
+        self::assertSame(2, substr_count($tester->getDisplay(), 'Waiting for Seneschal...'));
+        self::assertStringContainsString('review before drafting', $tester->getDisplay());
+        self::assertLessThan(strpos($tester->getDisplay(), Interview::PERMISSION_QUESTION), strpos($tester->getDisplay(), 'You need a one-page report for your staff.'));
         foreach ($requests as $request) {
             self::assertSame('POST', $request['method']);
             self::assertSame('https://api.deepseek.com/chat/completions', $request['url']);
@@ -62,6 +66,8 @@ class InterviewTest extends KernelTestCase
             self::assertSame('system', $body['messages'][0]['role']);
             self::assertStringContainsString('I understand.', $body['messages'][0]['content']);
             self::assertStringContainsString('JSON object', $body['messages'][0]['content']);
+            self::assertStringContainsString('Ask one focused question at a time', $body['messages'][0]['content']);
+            self::assertStringContainsString('brief summary of the agreed outcome', $body['messages'][0]['content']);
         }
         $id = $this->records->recent()[0]->getId();
         $this->reboot();
@@ -97,6 +103,7 @@ class InterviewTest extends KernelTestCase
         $tester = $this->command(['/approve', '/quit']);
         self::assertStringContainsString('has not requested permission', $tester->getDisplay());
         self::assertSame(0, $this->http->getRequestsCount());
+        self::assertStringNotContainsString('Waiting for Seneschal...', $tester->getDisplay());
         self::assertNull($this->records->recent()[0]->getDraftAuthorizedAt());
     }
 
@@ -149,6 +156,60 @@ class InterviewTest extends KernelTestCase
         self::assertFalse($saved->hasPendingReply());
         self::assertSame(2, $saved->getAttempts());
         self::assertCount(2, $saved->getExchanges());
+    }
+
+    public function testHttpFailuresOfferSafeActionableHints(): void
+    {
+        foreach ([400 => 'request options', 401 => 'DEEPSEEK_API_KEY', 402 => 'API balance', 403 => 'access permissions', 404 => 'model and endpoint', 422 => 'request options', 429 => 'rate-limiting', 503 => 'unavailable'] as $status => $hint) {
+            $this->http->setResponseFactory([new MockResponse('{"error":{"message":"private-detail sk-private-key"}}', ['http_code' => $status])]);
+            $interview = $this->records->create();
+            $tester = $this->command(['A report.', '/quit'], ['id' => $interview->getId()]);
+            $display = preg_replace('/\s+/', ' ', $tester->getDisplay());
+            self::assertStringContainsString('HTTP '.$status, $display);
+            self::assertStringContainsString($hint, $display);
+            self::assertStringNotContainsString('private-detail', $display);
+            self::assertStringNotContainsString('sk-private-key', $display);
+            self::assertTrue($this->records->get($interview->getId())->hasPendingReply());
+            self::assertSame(1, $this->records->get($interview->getId())->getAttempts());
+        }
+    }
+
+    public function testTransportAndJsonFailuresHaveDistinctSafeHints(): void
+    {
+        $this->http->setResponseFactory(static fn () => throw new TransportException('private-host sk-private-key'));
+        $tester = $this->command(['A report.', '/quit']);
+        self::assertStringContainsString('Could not reach DeepSeek', $tester->getDisplay());
+        self::assertStringNotContainsString('private-host', $tester->getDisplay());
+        self::assertStringNotContainsString('sk-private-key', $tester->getDisplay());
+
+        $this->http->setResponseFactory([$this->jsonResponse('private-invalid-json')]);
+        $tester = $this->command(['A report.', '/quit']);
+        self::assertStringContainsString('expected interview format', preg_replace('/\s+/', ' ', $tester->getDisplay()));
+        self::assertStringNotContainsString('private-invalid-json', $tester->getDisplay());
+    }
+
+    public function testResumeReadyInterviewAllowsCorrectionBeforeApproval(): void
+    {
+        $this->http->setResponseFactory([$this->response('A report for staff.', true)]);
+        $this->command(['A report for staff.', '/quit']);
+        $id = $this->records->recent()[0]->getId();
+        $this->reboot();
+        $this->http->setResponseFactory([$this->response('Which investors will read it?', false)]);
+        $tester = $this->command(['Actually, for investors.', '/quit'], ['id' => $id]);
+        self::assertStringContainsString('Review the summary above.', $tester->getDisplay());
+        self::assertStringContainsString('Which investors will read it?', $tester->getDisplay());
+        self::assertSame(Interview::INTERVIEWING, $this->records->get($id)->getStatus());
+        self::assertNull($this->records->get($id)->getDraftAuthorizedAt());
+    }
+
+    public function testDeclineInvitesCorrectionWithoutAnotherProviderCall(): void
+    {
+        $this->http->setResponseFactory([$this->response('A report for staff.', true)]);
+        $tester = $this->command(['A report.', '/decline', '/quit']);
+        self::assertStringContainsString('Tell Seneschal what needs to change', $tester->getDisplay());
+        self::assertSame(1, $this->http->getRequestsCount());
+        self::assertSame(1, substr_count($tester->getDisplay(), 'Waiting for Seneschal...'));
+        self::assertSame(Interview::INTERVIEWING, $this->records->recent()[0]->getStatus());
     }
 
     public function testMalformedResponseCannotAdvanceState(): void

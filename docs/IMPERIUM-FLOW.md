@@ -158,3 +158,10 @@ This flow uses the cognitive map supplied in the conversation, the agreed Athene
 Implementation status and repository evidence are recorded in [IMPERIUM-STEPS.md](IMPERIUM-STEPS.md).
 
 *Ad Imperium.*
+
+The CLI interview now requests one focused question at a time. Once ready,
+Seneschal summarizes its understanding and the application asks for drafting
+permission. The operator can correct that summary, decline, or explicitly approve.
+A waiting message precedes reply requests; failures show a safe next step and retain
+the input for explicit retry. This interaction also supports resuming a saved
+interview that is awaiting a decision.

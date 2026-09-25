@@ -64,6 +64,9 @@ class InterviewCommand extends Command
             }
 
             while (Interview::DRAFT_AUTHORIZED !== $interview->getStatus()) {
+                if (Interview::AWAITING_PERMISSION === $interview->getStatus()) {
+                    $io->text('Review the summary above. Type a correction, /approve to permit drafting, or /decline.');
+                }
                 $text = trim((string) $io->ask('You', '/quit'));
                 if ('/quit' === $text) {
                     $io->success('Saved. Resume using the interview ID above.');
@@ -71,6 +74,9 @@ class InterviewCommand extends Command
                     return Command::SUCCESS;
                 }
                 try {
+                    if ('/retry' === $text || !str_starts_with($text, '/')) {
+                        $io->text('Waiting for Seneschal...');
+                    }
                     $interview = match ($text) {
                         '/approve' => $this->interviews->decideDraftPermission($id, true, $interview->getVersion()),
                         '/decline' => $this->interviews->decideDraftPermission($id, false, $interview->getVersion()),
@@ -81,10 +87,10 @@ class InterviewCommand extends Command
                     };
                     $entries = $interview->getExchanges();
                     $entry = end($entries);
-                    $io->section('assistant' === $entry['role'] ? 'Seneschal' : 'Recorded');
+                    $io->section(Interview::AWAITING_PERMISSION === $interview->getStatus() ? 'Seneschal — review before drafting' : ('assistant' === $entry['role'] ? 'Seneschal' : 'Recorded'));
                     $io->writeln($this->display($entry['text']));
-                    if (Interview::AWAITING_PERMISSION === $interview->getStatus()) {
-                        $io->text('Use /approve to permit drafting, /decline, or type a correction.');
+                    if ('/decline' === $text) {
+                        $io->text('Tell Seneschal what needs to change, or use /quit to return later.');
                     }
                 } catch (\DomainException $exception) {
                     $io->warning($exception->getMessage());

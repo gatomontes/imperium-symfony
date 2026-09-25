@@ -7,6 +7,7 @@
 - Starts or resumes an interview from a UUID.
 - Uses the configured Symfony AI agent with DeepSeek. Default model: `deepseek-flash`.
 - Saves exchanges and current state in PostgreSQL through an Atheneum application service and Doctrine ORM.
+- Prompts Seneschal to ask one focused question per turn, adapt to free-form answers, and summarize the agreed understanding before signaling readiness.
 - Lets Seneschal clarify intent and signal readiness. The application then asks: “I am ready to draft a proposal. Do you approve?”
 - Records drafting permission only through `/approve`, while a current readiness request is pending. `/decline` or a typed correction continues the interview.
 - Stops at drafting permission. Proposal generation, plan approval, resource authority, tools, external mission execution, and formal personnel commissioning are later work.
@@ -71,6 +72,8 @@ Copy the actual UUID printed when starting an interview. A normal invocation cre
 | `/decline` | Decline drafting and return to clarification. |
 | A correction while awaiting permission | Withdraw the pending readiness state and send the correction to Seneschal. |
 
+While requesting a reply, the CLI prints `Waiting for Seneschal...`. Replies are displayed when complete; this version does not stream partial JSON. A ready reply is labeled for review, and the correction/approval choices also appear when resuming an interview awaiting permission. Declining invites you to explain what needs to change without making another model call.
+
 A conversational “yes” remains conversation text. It does not grant permission. After `/approve`, the application records the decision and exits without generating a proposal or authorizing execution.
 
 ## Failures and limits
@@ -89,7 +92,7 @@ The bridge sends Chat Completions requests with JSON mode, `max_tokens: 2048`, a
 
 Provider references: [model names](https://api-docs.deepseek.com/quick_start/pricing/), [JSON output](https://api-docs.deepseek.com/guides/json_mode/), and [thinking control](https://api-docs.deepseek.com/guides/thinking_mode/).
 
-If configuration or storage is unavailable, check `DATABASE_URL`, the running PostgreSQL instance, and migration status. If replies fail, check the API key, model access, and network availability. Raw provider exception text is not printed in the interview terminal.
+If configuration or storage is unavailable, check `DATABASE_URL`, the running PostgreSQL instance, and migration status. If replies fail, check the API key, model access, and network availability. Failures now show a useful hint for authentication, balance, access, model/request options, rate limits, server availability, connection/TLS problems, or invalid reply format. HTTP errors include their numeric status. The DeepSeek response listener preserves statuses before the installed bridge can mistake an error body for a reply. Raw provider exception text is not printed in the interview terminal. See [DeepSeek error codes](https://api-docs.deepseek.com/quick_start/error_codes/).
 
 ## Validation
 
@@ -108,6 +111,6 @@ If test credentials differ, set `DATABASE_URL` in `.env.test.local`. Keep `.env.
 
 Local implementation checks used PHP 8.4.22 with an isolated SQLite schema for behavior tests because the execution workspace had no PostgreSQL server. The GitHub `Seneschal interview` workflow runs the same tests against PostgreSQL 16, applies the migration, checks schema consistency, and verifies rollback/reapply on its disposable database. Consult the actual workflow result before treating PostgreSQL validation as passed.
 
-The DeepSeek change passed 12 local tests with 119 assertions, including malformed JSON and incorrect reply types. The PostgreSQL workflow validates the current branch separately.
+The CLI interaction improvements passed 16 local tests with 188 assertions, including resumed corrections, decline guidance, malformed replies, and safe failure hints. Single-question pacing and summary quality are prompt instructions: mocked tests verify that these instructions reach the provider, not that a live model always follows them. The PostgreSQL workflow validates the current branch separately.
 
 No live DeepSeek call has been performed by the implementation agent. The first local interview using your configured key is the live smoke check.
