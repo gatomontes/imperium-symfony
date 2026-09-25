@@ -200,6 +200,13 @@ class InterviewCommand extends Command
         while (true) {
             $authorization = $this->authorizationRecords->forProposal($proposal);
             if (null === $authorization) {
+                $action = $io->choice('Authorization', [1 => 'Prepare authorization request', 0 => 'Back'], 0);
+                if ('Back' === $action) {
+                    $io->success('Proposal remains approved. No resource/effect authorization request was created.');
+
+                    return Command::SUCCESS;
+                }
+
                 $io->section('Authorization request');
                 $io->text('Resources are copied from the approved proposal. Declare any intended external effects before deciding.');
                 $effects = (string) $io->ask('Requested external effects; separate multiple effects with semicolons (blank for none)', '');
