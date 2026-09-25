@@ -162,3 +162,12 @@ and `0` Back after selection. The selection resolves to the displayed UUID.
 Deletion goes through Atheneum under the existing interview lock. No new schema
 or provider call is involved. Noninteractive listing remains read-only. Local tests
 pass (22 tests / 241 assertions); the feature branch also runs PostgreSQL CI.
+
+### Mission aliases and compact IDs — 25 September 2026
+
+Lists and selection messages now show six-character UUID suffixes and human-readable
+mission aliases. Full UUIDs remain the storage and resume identity. Seneschal's first
+nonempty alias suggestion is saved with the reply; missing or malformed naming data
+does not discard a valid interview turn. Older/pending interviews show a shortened
+first-message label. The nullable alias column has a generated Doctrine migration.
+Local tests pass (25 tests / 261 assertions); PostgreSQL CI checks migration up/down.

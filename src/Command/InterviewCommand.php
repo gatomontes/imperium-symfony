@@ -47,7 +47,7 @@ class InterviewCommand extends Command
             $interview = null === $id ? $this->records->create() : $this->records->get($id);
             $id = $interview->getId();
             $io->title('Imperium — Seneschal');
-            $io->text('Interview: '.$id);
+            $io->text('Interview: '.$interview->getShortId().' — '.$this->display($interview->getAlias()));
             $io->text('Resume: php bin/console imperium:interview '.$id);
             $io->note('Messages are stored in PostgreSQL and sent to DeepSeek when requesting a reply.');
             $io->text('/quit saves and exits; /retry retries a pending reply; /approve or /decline answers a drafting request.');
@@ -84,6 +84,7 @@ class InterviewCommand extends Command
                             ? throw new \DomainException('Unknown command. Use /quit, /retry, /approve, or /decline.')
                             : $this->interviews->submit($id, $text),
                     };
+                    $io->text('Mission: '.$this->display($interview->getAlias()));
                     $entries = $interview->getExchanges();
                     $entry = end($entries);
                     $io->section(Interview::AWAITING_PERMISSION === $interview->getStatus() ? 'Seneschal — review before drafting' : ('assistant' === $entry['role'] ? 'Seneschal' : 'Recorded'));
@@ -126,9 +127,9 @@ class InterviewCommand extends Command
             }
             $rows = [];
             foreach ($interviews as $index => $interview) {
-                $rows[] = [$index + 1, $interview->getId(), $interview->getStatus(), $interview->getAttempts(), $interview->getUpdatedAt()->format('Y-m-d H:i:s')];
+                $rows[] = [$index + 1, $interview->getShortId(), $this->display($interview->getAlias()), $interview->getStatus(), $interview->getAttempts(), $interview->getUpdatedAt()->format('Y-m-d H:i:s')];
             }
-            $io->table(['#', 'ID', 'Status', 'Attempts', 'Updated'], $rows);
+            $io->table(['#', 'ID', 'Alias', 'Status', 'Attempts', 'Updated'], $rows);
             if (!$interactive) {
                 return null;
             }
@@ -143,7 +144,8 @@ class InterviewCommand extends Command
             }
             // Resolve against the displayed snapshot, not a reordered database query.
             $id = $interviews[(int) $selection - 1]->getId();
-            $io->text('Selected interview: '.$id);
+            $selected = $interviews[(int) $selection - 1];
+            $io->text('Selected interview: '.$selected->getShortId().' — '.$this->display($selected->getAlias()));
             $action = $io->choice('Action', [1 => 'Continue', 2 => 'Delete permanently', 0 => 'Back'], 0);
             if ('Continue' === $action) {
                 return $id;
@@ -151,7 +153,7 @@ class InterviewCommand extends Command
             if ('Delete permanently' === $action) {
                 try {
                     $this->interviews->delete($id);
-                    $io->success('Interview deleted: '.$id);
+                    $io->success('Interview deleted: '.$selected->getShortId());
                 } catch (\DomainException $exception) {
                     $io->warning($exception->getMessage());
                 }

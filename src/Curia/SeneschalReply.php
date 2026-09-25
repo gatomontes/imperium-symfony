@@ -11,6 +11,7 @@ final readonly class SeneschalReply
         #[Assert\Length(max: 12000)]
         public string $message,
         public bool $readyToDraft,
+        public ?string $alias = null,
     ) {
     }
 }

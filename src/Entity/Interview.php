@@ -22,6 +22,9 @@ class Interview
     #[ORM\Column(length: 36)]
     private string $id;
 
+    #[ORM\Column(length: 80, nullable: true)]
+    private ?string $alias = null;
+
     #[ORM\Column(length: 32)]
     private string $status = self::INTERVIEWING;
 
@@ -57,6 +60,24 @@ class Interview
     public function getId(): string
     {
         return $this->id;
+    }
+    public function getShortId(): string
+    {
+        // UUIDv7 begins with a shared timestamp; use the random suffix for display.
+        return substr($this->id, -6);
+    }
+    public function getAlias(): string
+    {
+        if (null !== $this->alias) {
+            return $this->alias;
+        }
+        foreach ($this->exchanges as $exchange) {
+            if ('user' === $exchange['role']) {
+                return $this->normalizeAlias($exchange['text']) ?? 'Untitled mission';
+            }
+        }
+
+        return 'Untitled mission';
     }
     public function getStatus(): string
     {
@@ -125,11 +146,12 @@ class Interview
         $this->updatedAt = new \DateTimeImmutable();
     }
 
-    public function receive(string $text, bool $ready): void
+    public function receive(string $text, bool $ready, ?string $alias = null): void
     {
         if (!$this->pendingReply) {
             throw new \LogicException('No reply was requested.');
         }
+        $this->alias ??= null === $alias ? null : $this->normalizeAlias($alias);
         $this->append('assistant', $text);
         $this->pendingReply = false;
         $this->status = $ready ? self::AWAITING_PERMISSION : self::INTERVIEWING;
@@ -145,6 +167,13 @@ class Interview
         if ($approve) {
             $this->draftAuthorizedAt = $this->updatedAt;
         }
+    }
+
+    private function normalizeAlias(string $text): ?string
+    {
+        $text = trim(preg_replace('/[\p{C}\s]+/u', ' ', $text) ?? '');
+
+        return '' === $text ? null : mb_substr($text, 0, 80);
     }
 
     private function append(string $role, string $text): void

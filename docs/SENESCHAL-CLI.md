@@ -61,7 +61,19 @@ php bin/console imperium:interview --list
 php bin/console imperium:interview YOUR_INTERVIEW_UUID
 ```
 
-With `--list`, each row has a number. Select that number to open the action menu:
+With `--list`, each row has a number, a six-character display ID, and a mission
+alias such as `leg-day workout`. The short ID uses the UUID's random suffix; it is
+not a unique lookup key. Row selection still resolves to the full UUID, and the
+printed resume command retains that UUID.
+
+Seneschal suggests a brief alias with its reply, without an extra model request.
+The first nonempty suggested alias is saved and stays stable on later turns. Before
+that, or for older interviews, the list uses the first mission message shortened to
+80 characters; an interview with no input displays `Untitled mission`. Alias metadata
+is optional: a missing or malformed alias does not reject an otherwise valid reply.
+Run the new alias migration when updating an existing installation.
+
+Each list row has a selection number. Select that number to open the action menu:
 `1` continues the interview, `2` permanently deletes it, and `0` returns to the list.
 Deletion removes the selected interview and its transcript, then refreshes the list;
 it makes no model call. Interviews currently locked by another operation cannot be
@@ -119,7 +131,7 @@ If test credentials differ, set `DATABASE_URL` in `.env.test.local`. Keep `.env.
 
 Local implementation checks used PHP 8.4.22 with an isolated SQLite schema for behavior tests because the execution workspace had no PostgreSQL server. The GitHub `Seneschal interview` workflow runs the same tests against PostgreSQL 16, applies the migration, checks schema consistency, and verifies rollback/reapply on its disposable database. Consult the actual workflow result before treating PostgreSQL validation as passed.
 
-The CLI interaction improvements passed 22 local tests with 241 assertions, including numbered selection, deletion persistence and lock contention, noninteractive listing, resumed corrections, JSON history replay, truncated replies, malformed replies, and safe failure hints. Single-question pacing and summary quality are prompt instructions: mocked tests verify that these instructions reach the provider, not that a live model always follows them. The PostgreSQL workflow validates the current branch separately.
+The CLI interaction improvements passed 25 local tests with 261 assertions, including alias persistence/fallback, compact IDs, numbered selection, deletion persistence and lock contention, noninteractive listing, resumed corrections, JSON history replay, truncated replies, malformed replies, and safe failure hints. Single-question pacing and summary quality are prompt instructions: mocked tests verify that these instructions reach the provider, not that a live model always follows them. The PostgreSQL workflow validates the current branch separately.
 
 A local operator screenshot showed a saved Seneschal question followed by a format-validation failure on the next turn. The failed raw reply was not available for inspection. Consistent JSON history addresses a possible contributor; it does not establish the cause of that incident. Errors now distinguish empty content, invalid JSON, a non-object result, missing fields, wrong field types, an empty/oversized message, and output-limit truncation without showing private reply content.
 

@@ -43,6 +43,7 @@ class Seneschal
                 $messages->add(Message::ofAssistant(json_encode([
                     'message' => $text,
                     'readyToDraft' => $ready,
+                    'alias' => $interview->getAlias(),
                 ], \JSON_THROW_ON_ERROR | \JSON_UNESCAPED_UNICODE)));
             } else {
                 $messages->add(Message::ofUser($exchange['text']));
@@ -68,6 +69,8 @@ class Seneschal
         if ('' === trim($result['message'])) {
             throw new InvalidSeneschalReply('Reply format: "message" is empty.');
         }
+        // Naming is optional metadata; a malformed alias must not lose a valid reply.
+        $result['alias'] = \is_string($result['alias'] ?? null) ? $result['alias'] : null;
         // The platform decodes JSON mode; Symfony enforces the typed reply contract.
         $result = $this->denormalizer->denormalize($result, SeneschalReply::class);
         if (!$result instanceof SeneschalReply || \count($this->validator->validate($result)) > 0) {

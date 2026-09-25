@@ -69,7 +69,7 @@ class InterviewTest extends KernelTestCase
             self::assertStringContainsString('Ask one focused question at a time', $body['messages'][0]['content']);
             self::assertStringContainsString('brief summary of the agreed outcome', $body['messages'][0]['content']);
         }
-        self::assertSame(['message' => 'Who will read the report?', 'readyToDraft' => false], json_decode($requests[1]['body']['messages'][2]['content'], true, flags: JSON_THROW_ON_ERROR));
+        self::assertSame(['message' => 'Who will read the report?', 'readyToDraft' => false, 'alias' => 'A short report.'], json_decode($requests[1]['body']['messages'][2]['content'], true, flags: JSON_THROW_ON_ERROR));
         $id = $this->records->recent()[0]->getId();
         $this->reboot();
         $saved = $this->records->get($id);
@@ -202,7 +202,7 @@ class InterviewTest extends KernelTestCase
             return $this->response('Which investors will read it?', false);
         });
         $tester = $this->command(['Actually, for investors.', '/quit'], ['id' => $id]);
-        self::assertSame(['message' => 'A report for staff.', 'readyToDraft' => true], json_decode($body['messages'][2]['content'], true, flags: JSON_THROW_ON_ERROR));
+        self::assertSame(['message' => 'A report for staff.', 'readyToDraft' => true, 'alias' => 'A report for staff.'], json_decode($body['messages'][2]['content'], true, flags: JSON_THROW_ON_ERROR));
         self::assertStringContainsString('Review the summary above.', $tester->getDisplay());
         self::assertStringContainsString('Which investors will read it?', $tester->getDisplay());
         self::assertSame(Interview::INTERVIEWING, $this->records->get($id)->getStatus());
@@ -340,7 +340,7 @@ class InterviewTest extends KernelTestCase
         $row = array_search($second->getId(), array_map(static fn (Interview $i): string => $i->getId(), $listed), true) + 1;
         $tester = $this->command([(string) $row, '1', '/quit'], ['--list' => true]);
         self::assertSame(Command::SUCCESS, $tester->getStatusCode());
-        self::assertStringContainsString('Interview: '.$second->getId(), $tester->getDisplay());
+        self::assertStringContainsString('Interview: '.$second->getShortId(), $tester->getDisplay());
         self::assertStringContainsString('Saved mission to resume.', $tester->getDisplay());
         self::assertStringContainsString('[1] Continue', $tester->getDisplay());
         self::assertStringContainsString('[2] Delete permanently', $tester->getDisplay());
@@ -357,7 +357,7 @@ class InterviewTest extends KernelTestCase
         $delete = $listed[1]->getId();
         $tester = $this->command(['2', '2', '/quit'], ['--list' => true]);
         self::assertSame(Command::SUCCESS, $tester->getStatusCode());
-        self::assertStringContainsString('Interview deleted: '.$delete, $tester->getDisplay());
+        self::assertStringContainsString('Interview deleted: '.substr($delete, -6), $tester->getDisplay());
         self::assertSame(0, $this->http->getRequestsCount());
         $this->reboot();
         self::assertSame([$keep], array_map(static fn (Interview $i): string => $i->getId(), $this->records->recent()));
@@ -382,7 +382,7 @@ class InterviewTest extends KernelTestCase
         $tester = new CommandTester(self::getContainer()->get(InterviewCommand::class));
         $tester->execute(['--list' => true], ['interactive' => false]);
         self::assertSame(Command::SUCCESS, $tester->getStatusCode());
-        self::assertMatchesRegularExpression('/1\s+'.preg_quote($id, '/').'/', $tester->getDisplay());
+        self::assertMatchesRegularExpression('/1\s+'.preg_quote(substr($id, -6), '/').'/', $tester->getDisplay());
         self::assertStringNotContainsString('Select an interview', $tester->getDisplay());
         self::assertCount(1, $this->records->recent());
         self::assertSame(0, $this->http->getRequestsCount());
@@ -401,6 +401,56 @@ class InterviewTest extends KernelTestCase
         } finally {
             $lock->release();
         }
+    }
+
+    public function testMissionAliasIsAssignedOnReplyAndSurvivesResume(): void
+    {
+        $this->http->setResponseFactory([
+            $this->jsonResponse('{"message":"What equipment is available?","readyToDraft":false,"alias":"leg-day workout"}'),
+        ]);
+        $tester = $this->command(['Build me a leg-day workout.', '/quit']);
+        self::assertStringContainsString('Mission: leg-day workout', $tester->getDisplay());
+        $id = $this->records->recent()[0]->getId();
+        $this->reboot();
+        self::assertSame('leg-day workout', $this->records->get($id)->getAlias());
+        $this->http->setResponseFactory([$this->jsonResponse('{"message":"How long can you train?","readyToDraft":false,"alias":"another title"}')]);
+        $this->command(['Dumbbells.', '/quit'], ['id' => $id]);
+        self::assertSame('leg-day workout', $this->records->get($id)->getAlias());
+        $list = new CommandTester(self::getContainer()->get(InterviewCommand::class));
+        $list->execute(['--list' => true], ['interactive' => false]);
+        self::assertStringContainsString('leg-day workout', $list->getDisplay());
+        self::assertStringContainsString(substr($id, -6), $list->getDisplay());
+        self::assertStringNotContainsString($id, $list->getDisplay());
+    }
+
+    public function testMissingOrMalformedAliasDoesNotDiscardValidReply(): void
+    {
+        foreach ([null, 42, ['unexpected'], ''] as $alias) {
+            $this->http->setResponseFactory([$this->jsonResponse(json_encode(['message' => 'What equipment?', 'readyToDraft' => false, 'alias' => $alias], JSON_THROW_ON_ERROR))]);
+            $interview = $this->records->create();
+            $saved = $this->service->submit($interview->getId(), 'A leg-day workout.');
+            self::assertFalse($saved->hasPendingReply());
+            self::assertSame('A leg-day workout.', $saved->getAlias());
+        }
+        $this->http->setResponseFactory([new MockResponse('{}', ['http_code' => 503])]);
+        $interview = $this->records->create();
+        self::assertSame('Untitled mission', $interview->getAlias());
+        $this->command(['A schedule for tomorrow.', '/quit'], ['id' => $interview->getId()]);
+        self::assertSame('A schedule for tomorrow.', $this->records->get($interview->getId())->getAlias());
+    }
+
+    public function testAliasesAreBoundedAndDisplayedAsPlainText(): void
+    {
+        $alias = "<error>leg-day</error>\n".str_repeat('x', 100);
+        $this->http->setResponseFactory([$this->jsonResponse(json_encode(['message' => 'What equipment?', 'readyToDraft' => false, 'alias' => $alias], JSON_THROW_ON_ERROR))]);
+        $this->command(['A workout.', '/quit']);
+        $saved = $this->records->recent()[0];
+        self::assertSame(80, mb_strlen($saved->getAlias()));
+        self::assertStringNotContainsString("\n", $saved->getAlias());
+        self::assertMatchesRegularExpression('/^[0-9a-f]{6}$/', $saved->getShortId());
+        $list = new CommandTester(self::getContainer()->get(InterviewCommand::class));
+        $list->execute(['--list' => true], ['interactive' => false]);
+        self::assertStringContainsString('<error>leg-day</error>', $list->getDisplay());
     }
 
     private function response(string $message, bool $ready): MockResponse

@@ -63,7 +63,7 @@ class InterviewService
         if ($reply->readyToDraft) {
             $text .= "\n\n".Interview::PERMISSION_QUESTION;
         }
-        $interview->receive($text, $reply->readyToDraft);
+        $interview->receive($text, $reply->readyToDraft, $reply->alias);
     }
 
     private function failureHint(\Throwable $error): string
