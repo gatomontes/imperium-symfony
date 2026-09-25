@@ -144,3 +144,13 @@ schema or proposal-generation stage is introduced. Local mocked tests pass
 (16 tests / 188 assertions); consult the feature branch CI for PostgreSQL results.
 Live DeepSeek conversation quality and the operator's local connection remain to
 be confirmed.
+
+### Follow-up: reply-format failure — 25 September 2026
+
+An operator screenshot showed a saved Seneschal reply followed by a format failure.
+The failed payload was not inspected. Assistant history was being replayed as plain
+text despite JSON output requirements; it now uses the same JSON fields as replies.
+Application-added permission text stays outside that provider history. Format errors
+are now specific, and truncated output is rejected even if its JSON parses.
+The possible contribution of inconsistent history still needs a live check.
+Local tests pass (17 tests / 215 assertions); PostgreSQL CI runs on the branch.

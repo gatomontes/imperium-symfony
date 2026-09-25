@@ -69,6 +69,7 @@ class InterviewTest extends KernelTestCase
             self::assertStringContainsString('Ask one focused question at a time', $body['messages'][0]['content']);
             self::assertStringContainsString('brief summary of the agreed outcome', $body['messages'][0]['content']);
         }
+        self::assertSame(['message' => 'Who will read the report?', 'readyToDraft' => false], json_decode($requests[1]['body']['messages'][2]['content'], true, flags: JSON_THROW_ON_ERROR));
         $id = $this->records->recent()[0]->getId();
         $this->reboot();
         $saved = $this->records->get($id);
@@ -184,7 +185,7 @@ class InterviewTest extends KernelTestCase
 
         $this->http->setResponseFactory([$this->jsonResponse('private-invalid-json')]);
         $tester = $this->command(['A report.', '/quit']);
-        self::assertStringContainsString('expected interview format', preg_replace('/\s+/', ' ', $tester->getDisplay()));
+        self::assertStringContainsString('DeepSeek returned invalid JSON', preg_replace('/\s+/', ' ', $tester->getDisplay()));
         self::assertStringNotContainsString('private-invalid-json', $tester->getDisplay());
     }
 
@@ -194,8 +195,14 @@ class InterviewTest extends KernelTestCase
         $this->command(['A report for staff.', '/quit']);
         $id = $this->records->recent()[0]->getId();
         $this->reboot();
-        $this->http->setResponseFactory([$this->response('Which investors will read it?', false)]);
+        $body = null;
+        $this->http->setResponseFactory(function (string $method, string $url, array $options) use (&$body): MockResponse {
+            $body = json_decode($options['body'], true, flags: JSON_THROW_ON_ERROR);
+
+            return $this->response('Which investors will read it?', false);
+        });
         $tester = $this->command(['Actually, for investors.', '/quit'], ['id' => $id]);
+        self::assertSame(['message' => 'A report for staff.', 'readyToDraft' => true], json_decode($body['messages'][2]['content'], true, flags: JSON_THROW_ON_ERROR));
         self::assertStringContainsString('Review the summary above.', $tester->getDisplay());
         self::assertStringContainsString('Which investors will read it?', $tester->getDisplay());
         self::assertSame(Interview::INTERVIEWING, $this->records->get($id)->getStatus());
@@ -225,7 +232,16 @@ class InterviewTest extends KernelTestCase
 
     public function testInvalidJsonOrReplyTypesCannotAdvanceState(): void
     {
-        foreach (['', '{"message":', '{"message":"Ready"}', '{"message":"Ready","readyToDraft":"false"}', '{"message":42,"readyToDraft":true}'] as $content) {
+        foreach ([
+            '' => 'returned empty content',
+            '{"message":' => 'returned invalid JSON',
+            '{"message":"Ready"}' => 'missing required field "readyToDraft"',
+            '{"readyToDraft":true}' => 'missing required field "message"',
+            '{"message":"Ready","readyToDraft":"false"}' => '"readyToDraft" must be boolean',
+            '{"message":42,"readyToDraft":true}' => '"message" must be string',
+            '{"message":"   ","readyToDraft":true}' => '"message" is empty',
+            'null' => 'expected a JSON object',
+        ] as $content => $diagnostic) {
             $this->http->setResponseFactory([$this->jsonResponse($content)]);
             $interview = $this->records->create();
             try {
@@ -233,12 +249,25 @@ class InterviewTest extends KernelTestCase
                 self::fail('Invalid JSON reply was accepted.');
             } catch (\DomainException $exception) {
                 self::assertStringContainsString('No valid reply', $exception->getMessage());
+                self::assertStringContainsString($diagnostic, $exception->getMessage());
             }
             $saved = $this->records->get($interview->getId());
             self::assertSame(Interview::INTERVIEWING, $saved->getStatus());
             self::assertTrue($saved->hasPendingReply());
             self::assertCount(1, $saved->getExchanges());
         }
+    }
+
+    public function testOutputLimitCannotAdvanceStateEvenWithParseableJson(): void
+    {
+        $this->http->setResponseFactory([$this->jsonResponse('{"message":"Ready","readyToDraft":true}', 'length')]);
+        $tester = $this->command(['A report.', '/quit']);
+        self::assertStringContainsString('reached the output limit', preg_replace('/\s+/', ' ', $tester->getDisplay()));
+        $saved = $this->records->recent()[0];
+        self::assertSame(Interview::INTERVIEWING, $saved->getStatus());
+        self::assertTrue($saved->hasPendingReply());
+        self::assertCount(1, $saved->getExchanges());
+        self::assertSame(1, $this->http->getRequestsCount());
     }
 
     public function testBusyInterviewRejectsCompetingOperationBeforeInference(): void
@@ -306,11 +335,11 @@ class InterviewTest extends KernelTestCase
         return $this->jsonResponse(json_encode(['message' => $message, 'readyToDraft' => $ready], JSON_THROW_ON_ERROR));
     }
 
-    private function jsonResponse(string $content): MockResponse
+    private function jsonResponse(string $content, string $finishReason = 'stop'): MockResponse
     {
         return new MockResponse(json_encode([
             'id' => 'chatcmpl_test', 'object' => 'chat.completion',
-            'choices' => [['index' => 0, 'finish_reason' => 'stop', 'message' => [
+            'choices' => [['index' => 0, 'finish_reason' => $finishReason, 'message' => [
                 'role' => 'assistant', 'content' => $content,
             ]]],
         ], JSON_THROW_ON_ERROR), ['response_headers' => ['content-type: application/json']]);

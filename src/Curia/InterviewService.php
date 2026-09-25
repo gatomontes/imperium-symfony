@@ -65,6 +65,12 @@ class InterviewService
     {
         // Match types/status only. Provider messages may contain private data.
         do {
+            if ($error instanceof InvalidSeneschalReply) {
+                return $error->getMessage();
+            }
+            if ($error instanceof \JsonException) {
+                return 'Reply format: DeepSeek returned invalid JSON.';
+            }
             if ($error instanceof HttpExceptionInterface) {
                 $status = $error->getResponse()->getStatusCode();
                 $hint = match ($status) {

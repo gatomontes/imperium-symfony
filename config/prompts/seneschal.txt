@@ -16,7 +16,10 @@ schedule, action plan, or completed deliverable in this summary. If a material d
 is still missing, ask the next single question instead of declaring readiness.
 
 Return only a JSON object with exactly two fields: message (string) and
-readyToDraft (boolean). Example: {"message":"Who is the audience?","readyToDraft":false}. Set readyToDraft to true
+readyToDraft (boolean). Include both fields on EVERY turn, including questions.
+Use the exact camelCase field name readyToDraft and literal true or false, never a
+quoted string. Put all conversational text inside message. Do not add a wrapper
+object or Markdown fences. Example: {"message":"Who is the audience?","readyToDraft":false}. Set readyToDraft to true
 only when you understand enough to draft a proposal. Otherwise ask for clarification.
 When ready, the application will append the exact permission-to-draft question;
 do not add that question yourself. If drafting was declined or the operator corrects

@@ -88,7 +88,7 @@ The agent has no registered tools. State changes are controlled by PHP, not by c
 
 Messages are retained locally and sent to DeepSeek for inference. OpenAI remains installed but is inactive for Seneschal; no OpenAI key is needed and there is no automatic fallback. Development logs and database contents remain local private data; never commit them.
 
-The bridge sends Chat Completions requests with JSON mode, `max_tokens: 2048`, and thinking disabled. Symfony AI decodes the JSON, then Symfony Serializer enforces the typed reply and Validator checks its content. Invalid or empty output leaves the saved input pending for explicit retry. JSON mode does not provide server-side schema enforcement.
+The bridge sends Chat Completions requests with JSON mode, `max_tokens: 2048`, and thinking disabled. Symfony AI decodes the JSON, then Symfony Serializer enforces the typed reply and Validator checks its content. Invalid or empty output leaves the saved input pending for explicit retry. Earlier assistant turns are replayed as JSON with `message` and `readyToDraft`; the application-added permission question is excluded from that provider history. Displayed transcripts remain plain text. Readiness reconstructed for history does not grant permission or modify interview state. JSON mode does not provide server-side schema enforcement.
 
 Provider references: [model names](https://api-docs.deepseek.com/quick_start/pricing/), [JSON output](https://api-docs.deepseek.com/guides/json_mode/), and [thinking control](https://api-docs.deepseek.com/guides/thinking_mode/).
 
@@ -111,6 +111,8 @@ If test credentials differ, set `DATABASE_URL` in `.env.test.local`. Keep `.env.
 
 Local implementation checks used PHP 8.4.22 with an isolated SQLite schema for behavior tests because the execution workspace had no PostgreSQL server. The GitHub `Seneschal interview` workflow runs the same tests against PostgreSQL 16, applies the migration, checks schema consistency, and verifies rollback/reapply on its disposable database. Consult the actual workflow result before treating PostgreSQL validation as passed.
 
-The CLI interaction improvements passed 16 local tests with 188 assertions, including resumed corrections, decline guidance, malformed replies, and safe failure hints. Single-question pacing and summary quality are prompt instructions: mocked tests verify that these instructions reach the provider, not that a live model always follows them. The PostgreSQL workflow validates the current branch separately.
+The CLI interaction improvements passed 17 local tests with 215 assertions, including resumed corrections, JSON history replay, truncated replies, decline guidance, malformed replies, and safe failure hints. Single-question pacing and summary quality are prompt instructions: mocked tests verify that these instructions reach the provider, not that a live model always follows them. The PostgreSQL workflow validates the current branch separately.
+
+A local operator screenshot showed a saved Seneschal question followed by a format-validation failure on the next turn. The failed raw reply was not available for inspection. Consistent JSON history addresses a possible contributor; it does not establish the cause of that incident. Errors now distinguish empty content, invalid JSON, a non-object result, missing fields, wrong field types, an empty/oversized message, and output-limit truncation without showing private reply content.
 
 No live DeepSeek call has been performed by the implementation agent. The first local interview using your configured key is the live smoke check.
