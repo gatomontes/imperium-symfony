@@ -42,7 +42,6 @@ jobs:
             - run: php bin/console lint:container
             - run: php bin/console lint:yaml config .github/workflows
             - run: php bin/console doctrine:migrations:migrate --no-interaction
-            - run: php bin/console doctrine:schema:update --dump-sql
             - run: php bin/console doctrine:schema:validate
             - run: php bin/phpunit
             - name: Check migration rollback and reapply on the disposable test database
