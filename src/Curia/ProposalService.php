@@ -54,6 +54,11 @@ class ProposalService
 
     public function revise(string $interviewId, int $observedVersion, string $guidance): Proposal
     {
+        $guidance = trim($guidance);
+        if ('' === $guidance || mb_strlen($guidance) > 6000) {
+            throw new \DomainException('Enter revision guidance between 1 and 6000 characters.');
+        }
+
         $lock = $this->lockFactory->createLock('imperium.interview.'.$interviewId);
         if (!$lock->acquire()) {
             throw new \DomainException('This interview is being updated by another process. Try again after it finishes.');
