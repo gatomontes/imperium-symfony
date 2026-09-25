@@ -190,6 +190,6 @@ state transition against the observed latest version and is persisted separately
 drafting permission. Neither a proposal's listed resource requirements nor proposal
 approval grant resource/effect authority. No execution path exists yet.
 
-The proposal revision/approval campaign passes PostgreSQL CI with 38 tests / 334
+The proposal revision/approval campaign passes PostgreSQL CI with 39 tests / 341
 assertions and full migration rollback/reapply. Live operator acceptance remains the
 last campaign gate before merge.
