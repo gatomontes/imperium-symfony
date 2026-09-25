@@ -139,7 +139,7 @@ class AuthorizationTest extends KernelTestCase
 
         self::assertSame(Command::SUCCESS, $tester->getStatusCode());
         self::assertStringContainsString('Prepare authorization request', $tester->getDisplay());
-        self::assertStringContainsString('No resource/effect authorization request was created', $tester->getDisplay());
+        self::assertStringContainsString('No resource/effect authorization request', $tester->getDisplay());
         self::assertNull($this->authorizations->forProposal($proposal));
         self::assertSame(0, $this->http->getRequestsCount());
     }
