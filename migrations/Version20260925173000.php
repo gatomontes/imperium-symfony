@@ -7,6 +7,9 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
+/**
+ * Generated from ORM metadata with Doctrine's PostgreSQL platform.
+ */
 final class Version20260925173000 extends AbstractMigration
 {
     public function getDescription(): string
@@ -16,6 +19,7 @@ final class Version20260925173000 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        $this->abortIf(!$this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform, 'This migration requires PostgreSQL.');
         $this->addSql('CREATE TABLE proposal (id VARCHAR(36) NOT NULL, interview_id VARCHAR(36) NOT NULL, version INT NOT NULL, source_interview_version INT NOT NULL, status VARCHAR(32) NOT NULL, content JSON NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_C7CDC353659D1F46 ON proposal (interview_id)');
         $this->addSql('CREATE UNIQUE INDEX uniq_proposal_interview_version ON proposal (interview_id, version)');
@@ -26,6 +30,7 @@ final class Version20260925173000 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
+        $this->abortIf(!$this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform, 'This migration requires PostgreSQL.');
         $this->addSql('DROP TABLE proposal');
     }
 }
