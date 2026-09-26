@@ -79,6 +79,72 @@ class ExecutionTest extends KernelTestCase
         self::assertSame(0, $this->http->getRequestsCount());
     }
 
+    public function testNegatedFilesystemResourceDoesNotGrantCapability(): void
+    {
+        [$interview, $authorization, $proposal] = $this->authorizedFixture();
+
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $em->remove($authorization);
+        $em->remove($proposal);
+        $em->flush();
+
+        $replacement = new Proposal($interview, 2, $interview->getVersion(), [
+            'objective' => 'Create one local test file.',
+            'deliverable' => 'One local file.',
+            'steps' => ['Create the file.'],
+            'acceptanceCriteria' => ['The file exists.'],
+            'resourceRequirements' => ['No filesystem write access.'],
+            'limits' => ['One new local file only.', 'No overwrite.'],
+            'unresolvedAssumptions' => [],
+        ]);
+        $replacement->approve();
+        $this->proposals->save($replacement);
+        $replacementAuthorization = $this->authorizationService->request($interview->getId(), 'Create one local test file');
+        $this->authorizationService->decide($interview->getId(), $replacementAuthorization->getId(), true);
+
+        try {
+            $this->executionService->execute($interview->getId(), 'imperium-exec.txt', 'test');
+            self::fail('Negated filesystem capability was treated as permission.');
+        } catch (\DomainException $exception) {
+            self::assertStringContainsString('exact supported capability', $exception->getMessage());
+        }
+
+        self::assertFileDoesNotExist($this->executionDir.'/imperium-exec.txt');
+    }
+
+    public function testUnknownProposalLimitFailsClosed(): void
+    {
+        [$interview, $authorization, $proposal] = $this->authorizedFixture();
+
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $em->remove($authorization);
+        $em->remove($proposal);
+        $em->flush();
+
+        $replacement = new Proposal($interview, 2, $interview->getVersion(), [
+            'objective' => 'Create one local test file.',
+            'deliverable' => 'One local file.',
+            'steps' => ['Create the file.'],
+            'acceptanceCriteria' => ['The file exists.'],
+            'resourceRequirements' => ['Local filesystem write access.'],
+            'limits' => ['One new local file only.', 'No overwrite.', 'Markdown files only.'],
+            'unresolvedAssumptions' => [],
+        ]);
+        $replacement->approve();
+        $this->proposals->save($replacement);
+        $replacementAuthorization = $this->authorizationService->request($interview->getId(), 'Create one local test file');
+        $this->authorizationService->decide($interview->getId(), $replacementAuthorization->getId(), true);
+
+        try {
+            $this->executionService->execute($interview->getId(), 'imperium-exec.txt', 'test');
+            self::fail('Unrecognized proposal limit was ignored.');
+        } catch (\DomainException $exception) {
+            self::assertStringContainsString('cannot enforce', $exception->getMessage());
+        }
+
+        self::assertFileDoesNotExist($this->executionDir.'/imperium-exec.txt');
+    }
+
     public function testSuccessfulExecutionCreatesOneFileAndPersistsEvidence(): void
     {
         [$interview, $authorization] = $this->authorizedFixture();
@@ -137,11 +203,31 @@ class ExecutionTest extends KernelTestCase
         $this->executionService->execute($interview->getId(), 'imperium-exec.txt', 'second try');
     }
 
-    public function testPreparedAttemptReconcilesSuccessfulFileWithoutRepeatingEffect(): void
+    public function testPreparedAttemptNeverClaimsSuccessFromMatchingPreexistingFile(): void
     {
         [$interview, $authorization] = $this->authorizedFixture();
         $content = 'recovered result';
         $attempt = new ExecutionAttempt($authorization, 'var/execution/imperium-recover.txt', hash('sha256', $content));
+        $this->executions->save($attempt);
+
+        if (!is_dir($this->executionDir)) {
+            mkdir($this->executionDir, 0775, true);
+        }
+        file_put_contents($this->executionDir.'/imperium-recover.txt', $content);
+
+        $reconciled = $this->executionService->reconcile($interview->getId());
+
+        self::assertSame(ExecutionAttempt::FAILED, $reconciled?->getStatus());
+        self::assertSame('prepared_target_exists_without_start_evidence', $reconciled?->getFailureCode());
+        self::assertSame($content, file_get_contents($this->executionDir.'/imperium-recover.txt'));
+    }
+
+    public function testStartedAttemptCanReconcileMatchingFileWithoutRepeatingEffect(): void
+    {
+        [$interview, $authorization] = $this->authorizedFixture();
+        $content = 'recovered started result';
+        $attempt = new ExecutionAttempt($authorization, 'var/execution/imperium-recover.txt', hash('sha256', $content));
+        $attempt->startEffect();
         $this->executions->save($attempt);
 
         if (!is_dir($this->executionDir)) {
@@ -156,10 +242,11 @@ class ExecutionTest extends KernelTestCase
         self::assertSame($content, file_get_contents($this->executionDir.'/imperium-recover.txt'));
     }
 
-    public function testPreparedAttemptWithMismatchedFileFailsClosed(): void
+    public function testStartedAttemptWithMismatchedFileFailsClosed(): void
     {
         [$interview, $authorization] = $this->authorizedFixture();
         $attempt = new ExecutionAttempt($authorization, 'var/execution/imperium-mismatch.txt', hash('sha256', 'expected'));
+        $attempt->startEffect();
         $this->executions->save($attempt);
 
         if (!is_dir($this->executionDir)) {
