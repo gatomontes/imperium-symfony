@@ -342,6 +342,8 @@ class InterviewCommand extends Command
             $io->writeln('Capability: '.$this->display($scope['capability']));
             $io->writeln('Effect: '.$this->display($scope['effect']));
             $io->writeln('Root: '.$this->display($scope['root']));
+            $io->writeln('Visibility: '.$this->display($scope['visibility']));
+            $io->writeln('Allowed extensions: '.implode(', ', array_map($this->display(...), $scope['allowedExtensions'])));
             $io->writeln('Max files: '.$scope['maxFiles']);
             $io->writeln('Overwrite: '.($scope['overwrite'] ? 'true' : 'false'));
             $io->writeln('Max bytes: '.$scope['maxBytes']);
