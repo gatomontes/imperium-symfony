@@ -175,6 +175,61 @@ class ExecutionTest extends KernelTestCase
         self::assertFileDoesNotExist($this->executionDir.'/imperium-exec.php');
     }
 
+    public function testPublicExecutorRefusesSymlinkedOutputRootBeforeAttempt(): void
+    {
+        [$interview, $authorization] = $this->authorizedFixture();
+
+        $backup = $this->executionDir.'.real-'.bin2hex(random_bytes(4));
+        $outside = sys_get_temp_dir().'/imperium-output-'.bin2hex(random_bytes(4));
+        $hadOriginal = is_dir($this->executionDir) && !is_link($this->executionDir);
+
+        if ($hadOriginal && !rename($this->executionDir, $backup)) {
+            self::fail('Could not move the real public/output directory for the symlink regression test.');
+        }
+        if (!mkdir($outside, 0775, true) && !is_dir($outside)) {
+            if ($hadOriginal) {
+                rename($backup, $this->executionDir);
+            }
+            self::fail('Could not create the external directory for the symlink regression test.');
+        }
+        if (!@symlink($outside, $this->executionDir)) {
+            @rmdir($outside);
+            if ($hadOriginal) {
+                rename($backup, $this->executionDir);
+            }
+            self::markTestSkipped('Directory symlinks are not available in this test environment.');
+        }
+
+        try {
+            $this->executionService->execute($interview->getId(), 'imperium-exec.txt', 'must not escape');
+
+            self::fail('A symlinked public/output root was accepted.');
+        } catch (\DomainException $exception) {
+            self::assertStringContainsString('authorized output root', $exception->getMessage());
+            self::assertNull($this->executions->forAuthorization($authorization));
+            self::assertFileDoesNotExist($outside.'/imperium-exec.txt');
+        } finally {
+            @unlink($this->executionDir);
+            @rmdir($outside);
+            if ($hadOriginal) {
+                rename($backup, $this->executionDir);
+            }
+        }
+    }
+
+    public function testPublicExecutorAcceptsNormalResolvedOutputRoot(): void
+    {
+        [$interview] = $this->authorizedFixture();
+
+        self::assertDirectoryExists($this->executionDir);
+        self::assertFalse(is_link($this->executionDir));
+
+        $attempt = $this->executionService->execute($interview->getId(), 'imperium-exec.txt', 'contained');
+
+        self::assertSame(ExecutionAttempt::SUCCEEDED, $attempt->getStatus());
+        self::assertSame('contained', file_get_contents($this->executionDir.'/imperium-exec.txt'));
+    }
+
     public function testFilenameTraversalAndOversizedContentAreRefusedBeforeAttempt(): void
     {
         [$interview, $authorization] = $this->authorizedFixture();
