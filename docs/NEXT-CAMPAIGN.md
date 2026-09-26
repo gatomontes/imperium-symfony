@@ -58,7 +58,7 @@ automatically retried. On reopen, recovery may only inspect the expected target:
 a merely PREPARED attempt never claims success from an existing file; if a target exists before persisted effect-start evidence, recovery fails closed. Only an EFFECT_STARTED attempt may be reconciled by comparing the target hash. A missing PREPARED target remains prepared and is never retried automatically.
 
 PostgreSQL CI passes migrations, schema validation,
-**63 tests / 469 assertions**, and full migration rollback/reapply.
+**64 tests / 471 assertions**, and full migration rollback/reapply.
 
 ## Current source map
 
