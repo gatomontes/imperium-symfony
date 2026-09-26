@@ -90,6 +90,7 @@ class LocalFileExecutionService
 
             $stagingName = $attempt->getId().'.tmp';
             $stagingPath = $stagingRoot.'/'.$stagingName;
+            $publishWitnessName = '.imperium-'.$attempt->getId().'.publish';
             try {
                 $stagingResult = $this->inAnchoredDirectory($stagingRoot, function () use ($stagingName, $content, $attempt): array {
                     $handle = @fopen($stagingName, 'x+');
@@ -216,23 +217,55 @@ class LocalFileExecutionService
             $this->executions->save($attempt);
 
             try {
-                $publishResult = $this->inAnchoredDirectory($root, function () use ($stagingPath, $filename, $attempt, $stagingIdentity): array {
-                    // Destination lookup is relative to the already-validated output
-                    // directory. The source is accepted only if the created target
-                    // resolves to the exact staging inode retained from verification.
-                    if (!@link($stagingPath, $filename)) {
+                $publishResult = $this->inAnchoredDirectory($root, function () use ($stagingPath, $publishWitnessName, $filename, $attempt, $stagingIdentity): array {
+                    // The staging pathname can be replaced after verification. Create
+                    // a private-named witness in the already anchored output directory,
+                    // then prove that witness is the exact still-open staging inode.
+                    // Final publication links witness -> target entirely inside this
+                    // anchored directory, so neither side can be redirected by a
+                    // pathname swap between verification and publication.
+                    @unlink($publishWitnessName);
+                    if (!@link($stagingPath, $publishWitnessName)) {
                         return [
                             'published' => false,
-                            'failure' => file_exists($filename) ? 'target_exists_or_unavailable' : 'atomic_publish_unavailable',
+                            'failure' => 'atomic_publish_unavailable',
                             'hash' => false,
                         ];
                     }
 
+                    $witnessLstat = @lstat($publishWitnessName);
+                    $witnessStat = @stat($publishWitnessName);
+                    if (false === $witnessLstat || false === $witnessStat
+                        || (($witnessLstat['mode'] ?? 0) & 0170000) !== 0100000
+                        || ($witnessStat['dev'] ?? null) !== ($stagingIdentity['dev'] ?? null)
+                        || ($witnessStat['ino'] ?? null) !== ($stagingIdentity['ino'] ?? null)) {
+                        @unlink($publishWitnessName);
+
+                        return [
+                            'published' => false,
+                            'failure' => 'staging_identity_changed_before_publish',
+                            'hash' => false,
+                        ];
+                    }
+
+                    if (!@link($publishWitnessName, $filename)) {
+                        @unlink($publishWitnessName);
+
+                        return [
+                            'published' => false,
+                            'failure' => file_exists($filename) || is_link($filename) ? 'target_exists_or_unavailable' : 'atomic_publish_unavailable',
+                            'hash' => false,
+                        ];
+                    }
+
+                    $targetLstat = @lstat($filename);
                     $targetStat = @stat($filename);
-                    if (false === $targetStat
+                    if (false === $targetLstat || false === $targetStat
+                        || (($targetLstat['mode'] ?? 0) & 0170000) !== 0100000
                         || ($targetStat['dev'] ?? null) !== ($stagingIdentity['dev'] ?? null)
                         || ($targetStat['ino'] ?? null) !== ($stagingIdentity['ino'] ?? null)) {
                         @unlink($filename);
+                        @unlink($publishWitnessName);
 
                         return [
                             'published' => false,
@@ -244,6 +277,7 @@ class LocalFileExecutionService
                     $actualHash = @hash_file('sha256', $filename);
                     if (false !== $actualHash && $actualHash !== $attempt->getContentSha256()) {
                         @unlink($filename);
+                        @unlink($publishWitnessName);
 
                         return [
                             'published' => false,
@@ -251,6 +285,8 @@ class LocalFileExecutionService
                             'hash' => $actualHash,
                         ];
                     }
+
+                    @unlink($publishWitnessName);
 
                     return [
                         'published' => true,
@@ -354,29 +390,51 @@ class LocalFileExecutionService
             $stagingName = $attempt->getId().'.tmp';
 
             $targetEvidence = $this->inAnchoredDirectory($root, static function () use ($filename): ?array {
-                if (!is_file($filename)) {
+                $lstat = @lstat($filename);
+                if (false === $lstat) {
                     return null;
+                }
+
+                if ((($lstat['mode'] ?? 0) & 0170000) === 0120000) {
+                    return ['symlink' => true, 'stat' => false, 'hash' => false];
                 }
 
                 $stat = @stat($filename);
-                if (false === $stat) {
-                    return ['stat' => false, 'hash' => false];
+                if (false === $stat || (($lstat['mode'] ?? 0) & 0170000) !== 0100000) {
+                    return ['symlink' => false, 'stat' => false, 'hash' => false];
                 }
 
-                return ['stat' => $stat, 'hash' => @hash_file('sha256', $filename)];
+                return ['symlink' => false, 'stat' => $stat, 'hash' => @hash_file('sha256', $filename)];
             });
-            $stagingStat = $this->inAnchoredDirectory($stagingRoot, static function () use ($stagingName): array|false|null {
-                if (!is_file($stagingName)) {
+            $stagingEvidence = $this->inAnchoredDirectory($stagingRoot, static function () use ($stagingName): ?array {
+                $lstat = @lstat($stagingName);
+                if (false === $lstat) {
                     return null;
                 }
 
-                return @stat($stagingName);
+                if ((($lstat['mode'] ?? 0) & 0170000) === 0120000) {
+                    return ['symlink' => true, 'stat' => false];
+                }
+
+                return ['symlink' => false, 'stat' => @stat($stagingName)];
             });
 
-            if (null === $targetEvidence || null === $stagingStat
+            if (true === ($targetEvidence['symlink'] ?? false)) {
+                $attempt->fail('recovery_target_symlink');
+                $this->executions->save($attempt);
+
+                return $attempt;
+            }
+
+            if (true === ($stagingEvidence['symlink'] ?? false)) {
+                return $attempt;
+            }
+
+            $stagingStat = $stagingEvidence['stat'] ?? null;
+            if (null === $targetEvidence || null === $stagingEvidence
                 || false === $targetEvidence['stat'] || false === $stagingStat) {
-                // Without both links we cannot prove that this attempt published
-                // the target. Preserve EFFECT_STARTED rather than guessing.
+                // Without both regular-file links we cannot prove that this attempt
+                // published the target. Preserve EFFECT_STARTED rather than guessing.
                 return $attempt;
             }
 
@@ -406,8 +464,25 @@ class LocalFileExecutionService
                 return $attempt;
             }
 
+            $removed = $this->inAnchoredDirectory($root, static function () use ($filename, $targetStat): bool {
+                $lstat = @lstat($filename);
+                $current = @stat($filename);
+                if (false === $lstat || false === $current
+                    || (($lstat['mode'] ?? 0) & 0170000) !== 0100000
+                    || ($current['dev'] ?? null) !== ($targetStat['dev'] ?? null)
+                    || ($current['ino'] ?? null) !== ($targetStat['ino'] ?? null)) {
+                    return false;
+                }
+
+                return @unlink($filename);
+            });
+            if (!$removed) {
+                return $attempt;
+            }
+
             $attempt->fail('recovery_hash_mismatch');
             $this->executions->save($attempt);
+            $this->removeStagingFile($stagingRoot, $stagingName);
 
             return $attempt;
         } finally {
