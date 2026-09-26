@@ -242,7 +242,7 @@ Authorization PR #4 was live-accepted and merged to `main` at
 `91e8707be9d2794e5e5e37af80200d4ad27ae916`.
 
 PR #5 (`codex/first-bounded-execution`) implements the first actual effect:
-creation of one new file under `var/execution/`, gated by matching approved
+creation of one new file under `public/output/`, gated by matching approved
 proposal + authorized filesystem scope. The executor refuses path traversal,
 oversized content, overwrite, missing/refused/mismatched authority, and repeat use
 of the same authorization. It persists an execution attempt before I/O and retains
