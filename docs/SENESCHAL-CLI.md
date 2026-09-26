@@ -150,3 +150,19 @@ The current proposal-review campaign passes PostgreSQL CI with 39 tests / 341 as
 A local operator screenshot showed a saved Seneschal question followed by a format-validation failure on the next turn. The failed raw reply was not available for inspection. Consistent JSON history addresses a possible contributor; it does not establish the cause of that incident. Errors now distinguish empty content, invalid JSON, a non-object result, missing fields, wrong field types, an empty/oversized message, and output-limit truncation without showing private reply content.
 
 No live DeepSeek call has been performed by the implementation agent. On 25 September 2026, the operator reported successful live interview and proposal review milestones. The private transcript/database were not independently inspected. The proposal revision/approval campaign still requires its own live operator review before merge. See [NEXT-CAMPAIGN.md](NEXT-CAMPAIGN.md).
+
+
+## Resource/effect authorization campaign — 25 September 2026
+
+After an approved proposal, the CLI now offers **Prepare authorization request**.
+Nothing is created merely by reopening the mission. Preparing the request copies the
+approved proposal's resource requirements and limits, then asks the operator to
+declare intended external effects (semicolon-separated, or blank for none).
+
+The resulting request offers **Authorize requested scope**, **Refuse requested
+scope**, or **Back**. The decision is persisted and reopens read-only. Authorization
+itself uses no DeepSeek call and performs no execution.
+
+The campaign's PostgreSQL CI passes **47 tests / 383 assertions**, schema validation,
+and migration rollback/reapply. The live operator review remains required before
+merge.

@@ -2,10 +2,13 @@
 
 namespace App\Command;
 
+use App\Atheneum\AuthorizationRecords;
 use App\Atheneum\InterviewRecords;
 use App\Atheneum\ProposalRecords;
+use App\Curia\AuthorizationService;
 use App\Curia\InterviewService;
 use App\Curia\ProposalService;
+use App\Entity\Authorization;
 use App\Entity\Interview;
 use App\Entity\Proposal;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -25,6 +28,8 @@ class InterviewCommand extends Command
         private InterviewService $interviews,
         private ProposalRecords $proposalRecords,
         private ProposalService $proposals,
+        private AuthorizationRecords $authorizationRecords,
+        private AuthorizationService $authorizations,
     ) {
         parent::__construct();
     }
@@ -156,7 +161,7 @@ class InterviewCommand extends Command
                 $io->success('Proposal v'.$proposal->getVersion().' is approved.');
                 $io->note('Proposal approval does not authorize resources, external effects, or execution.');
 
-                return Command::SUCCESS;
+                return $this->authorizationStage($io, $interview, $proposal);
             }
 
             $io->note('Draft review only: no resource authority or execution authority has been granted.');
@@ -177,7 +182,7 @@ class InterviewCommand extends Command
                     $io->success('Proposal v'.$proposal->getVersion().' approved.');
                     $io->note('This records plan approval only. Resource authority and execution authority remain ungranted.');
 
-                    return Command::SUCCESS;
+                    return $this->authorizationStage($io, $interview, $proposal);
                 }
 
                 $guidance = trim((string) $io->ask('Revision request', ''));
@@ -186,6 +191,87 @@ class InterviewCommand extends Command
             } catch (\DomainException $exception) {
                 $io->warning($exception->getMessage());
                 $interview = $this->records->get($interview->getId());
+            }
+        }
+    }
+
+    private function authorizationStage(SymfonyStyle $io, Interview $interview, Proposal $proposal): int
+    {
+        while (true) {
+            $authorization = $this->authorizationRecords->forProposal($proposal);
+            if (null === $authorization) {
+                $action = $io->choice('Authorization', [1 => 'Prepare authorization request', 0 => 'Back'], 0);
+                if ('Back' === $action) {
+                    $io->success('Proposal remains approved. No resource/effect authorization request was created.');
+
+                    return Command::SUCCESS;
+                }
+
+                $io->section('Authorization request');
+                $io->text('Resources are copied from the approved proposal. Declare any intended external effects before deciding.');
+                $effects = (string) $io->ask('Requested external effects; separate multiple effects with semicolons (blank for none)', '');
+                try {
+                    $authorization = $this->authorizations->request($interview->getId(), $effects);
+                } catch (\DomainException $exception) {
+                    $io->warning($exception->getMessage());
+
+                    continue;
+                }
+            }
+
+            $this->displayAuthorization($io, $authorization);
+            if (Authorization::PENDING !== $authorization->getStatus()) {
+                $io->success('Authorization is '.$authorization->getStatus().'.');
+                $io->note('Execution remains unavailable in this campaign. This record only establishes the permitted or refused scope.');
+
+                return Command::SUCCESS;
+            }
+
+            $action = $io->choice('Authorization decision', [
+                1 => 'Authorize requested scope',
+                2 => 'Refuse requested scope',
+                0 => 'Back',
+            ], 0);
+            if ('Back' === $action) {
+                $io->success('Authorization request saved. Reopen this mission to decide it later.');
+
+                return Command::SUCCESS;
+            }
+
+            try {
+                $authorization = $this->authorizations->decide(
+                    $interview->getId(),
+                    $authorization->getId(),
+                    'Authorize requested scope' === $action,
+                );
+            } catch (\DomainException $exception) {
+                $io->warning($exception->getMessage());
+
+                continue;
+            }
+
+            $io->success('Requested scope '.$authorization->getStatus().'.');
+            $io->note('No execution occurred. Execution remains a separate future gate.');
+
+            return Command::SUCCESS;
+        }
+    }
+
+    private function displayAuthorization(SymfonyStyle $io, Authorization $authorization): void
+    {
+        $io->title('Authorization — '.$authorization->getStatus());
+        foreach ([
+            'Resources / capabilities' => $authorization->getResources(),
+            'External effects' => $authorization->getEffects(),
+            'Limits' => $authorization->getLimits(),
+        ] as $heading => $items) {
+            $io->section($heading);
+            if ([] === $items) {
+                $io->writeln('None requested.');
+                continue;
+            }
+            foreach ($items as $index => $item) {
+                $io->writeln(($index + 1).'. '.$this->display($item));
             }
         }
     }
