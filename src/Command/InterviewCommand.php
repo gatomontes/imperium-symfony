@@ -272,8 +272,12 @@ class InterviewCommand extends Command
             $io->success('Authorization v'.$authorization->getVersion().' '.$authorization->getStatus().'.');
             if (Authorization::AUTHORIZED === $authorization->getStatus()) {
                 $io->note('No execution occurred merely by authorizing the scope.');
+                if (null !== $authorization->getExecutionScope()) {
+                    return $this->executionStage($io, $interview, $authorization);
+                }
+                $io->warning('This authorization contains no executable scope. Prepare a replacement authorization to execute.');
 
-                return $this->executionStage($io, $interview, $authorization);
+                continue;
             }
 
             return Command::SUCCESS;
