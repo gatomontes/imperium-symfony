@@ -217,6 +217,48 @@ class ExecutionTest extends KernelTestCase
         }
     }
 
+    public function testPublicExecutorRefusesSymlinkedStagingRootBeforeAttempt(): void
+    {
+        [$interview, $authorization] = $this->authorizedFixture();
+
+        $backup = $this->stagingDir.'.real-'.bin2hex(random_bytes(4));
+        $outside = sys_get_temp_dir().'/imperium-staging-'.bin2hex(random_bytes(4));
+        $hadOriginal = is_dir($this->stagingDir) && !is_link($this->stagingDir);
+
+        if ($hadOriginal && !rename($this->stagingDir, $backup)) {
+            self::fail('Could not move the real execution staging directory for the symlink regression test.');
+        }
+        if (!mkdir($outside, 0775, true) && !is_dir($outside)) {
+            if ($hadOriginal) {
+                rename($backup, $this->stagingDir);
+            }
+            self::fail('Could not create the external staging directory for the symlink regression test.');
+        }
+        if (!@symlink($outside, $this->stagingDir)) {
+            @rmdir($outside);
+            if ($hadOriginal) {
+                rename($backup, $this->stagingDir);
+            }
+            self::markTestSkipped('Directory symlinks are not available in this test environment.');
+        }
+
+        try {
+            $this->executionService->execute($interview->getId(), 'imperium-exec.txt', 'must remain private while staged');
+
+            self::fail('A symlinked execution staging root was accepted.');
+        } catch (\DomainException $exception) {
+            self::assertStringContainsString('staging root', $exception->getMessage());
+            self::assertNull($this->executions->forAuthorization($authorization));
+            self::assertSame([], glob($outside.'/*') ?: []);
+        } finally {
+            @unlink($this->stagingDir);
+            @rmdir($outside);
+            if ($hadOriginal) {
+                rename($backup, $this->stagingDir);
+            }
+        }
+    }
+
     public function testPublicExecutorAcceptsNormalResolvedOutputRoot(): void
     {
         [$interview] = $this->authorizedFixture();
