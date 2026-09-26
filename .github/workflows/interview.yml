@@ -44,10 +44,10 @@ jobs:
             - run: php bin/console doctrine:migrations:migrate --no-interaction
             - run: php bin/console doctrine:schema:validate
             - run: php bin/phpunit
-            - name: Prepare disposable rollback fixture
-              run: |
-                  php bin/console doctrine:query:sql 'DELETE FROM execution_attempt'
-                  php bin/console doctrine:query:sql 'DELETE FROM mission_authorization older USING mission_authorization newer WHERE older.proposal_id = newer.proposal_id AND older.version < newer.version'
+            - name: Clear disposable execution evidence
+              run: php bin/console doctrine:query:sql 'DELETE FROM execution_attempt'
+            - name: Consolidate disposable authorization versions
+              run: php bin/console doctrine:query:sql 'DELETE FROM mission_authorization older USING mission_authorization newer WHERE older.proposal_id = newer.proposal_id AND older.version < newer.version'
             - name: Roll back authorization versioning
               run: php bin/console doctrine:migrations:execute 'DoctrineMigrations\Version20260926020500' --down --no-interaction
             - name: Roll back execution scope
