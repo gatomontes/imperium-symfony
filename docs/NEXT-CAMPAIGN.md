@@ -58,7 +58,7 @@ automatically retried. On reopen, recovery may only inspect the expected target:
 a merely PREPARED attempt never claims success from an existing file; if a target exists before persisted effect-start evidence, recovery fails closed. Only an EFFECT_STARTED attempt may be reconciled by comparing the target hash. A missing PREPARED target remains prepared and is never retried automatically.
 
 PostgreSQL CI passes migrations, schema validation,
-**61 tests / 461 assertions**, and full migration rollback/reapply.
+**63 tests / 469 assertions**, and full migration rollback/reapply.
 
 ## Current source map
 
@@ -165,3 +165,17 @@ Executable scope: canonical structured grant
 Only the latest authorization version is eligible for execution. A pending latest
 authorization blocks another replacement. Existing v1 rows migrate as version 1;
 the migration does not populate execution_scope or alter their prior decision.
+
+
+## Public-output publication integrity — 26 September 2026
+
+Public output is no longer written in place. Imperium writes and hashes the complete
+content under `var/execution-staging/`, persists effect-start immediately before
+publication, and publishes the verified inode into `public/output/` with a hard link.
+The publish operation cannot overwrite an existing target. This prevents an empty or
+partially written public file from becoming visible while content is still being
+generated.
+
+Mission deletion is also blocked once any execution attempt exists. The public output
+and its authorization/execution evidence therefore remain in custody together rather
+than leaving an orphaned public file after cascade deletion.
