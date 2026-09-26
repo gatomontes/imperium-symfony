@@ -226,7 +226,7 @@ Authorized proposal scope
   → verify filesystem-write capability
   → verify "create one local file" effect
   → persist PREPARED execution attempt
-  → create one new file under var/execution/
+  → create one new file under public/output/
   → verify SHA-256
   → persist SUCCEEDED / FAILED evidence
 ```
