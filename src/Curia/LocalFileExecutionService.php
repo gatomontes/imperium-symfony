@@ -48,6 +48,7 @@ class LocalFileExecutionService
             }
 
             $this->assertAuthorizedOutputPathIsSafe($scope['root']);
+            $this->assertStagingPathIsSafe();
 
             $relativePath = $scope['root'].'/'.$filename;
             $attempt = new ExecutionAttempt($authorization, $relativePath, hash('sha256', $content));
@@ -73,6 +74,15 @@ class LocalFileExecutionService
             $stagingRoot = $this->projectDir.'/var/execution-staging';
             if (!is_dir($stagingRoot) && !mkdir($stagingRoot, 0775, true) && !is_dir($stagingRoot)) {
                 $attempt->fail('execution_directory_unavailable');
+                $this->executions->save($attempt);
+
+                return $attempt;
+            }
+
+            try {
+                $stagingRoot = $this->resolveStagingRoot();
+            } catch (\DomainException) {
+                $attempt->fail('staging_root_untrusted');
                 $this->executions->save($attempt);
 
                 return $attempt;
@@ -193,9 +203,10 @@ class LocalFileExecutionService
 
             $scope = $this->assertScopeAllowsLocalFile($authorization);
             $root = $this->resolveAuthorizedOutputRoot($scope['root']);
+            $stagingRoot = $this->resolveStagingRoot();
             $filename = basename($attempt->getTargetPath());
             $path = $root.'/'.$filename;
-            $stagingPath = $this->projectDir.'/var/execution-staging/'.$attempt->getId().'.tmp';
+            $stagingPath = $stagingRoot.'/'.$attempt->getId().'.tmp';
             $exists = is_file($path);
 
             if (ExecutionAttempt::PREPARED === $attempt->getStatus()) {
@@ -290,6 +301,57 @@ class LocalFileExecutionService
         return $scope;
     }
 
+
+    private function assertStagingPathIsSafe(): void
+    {
+        $projectRoot = realpath($this->projectDir);
+        if (false === $projectRoot || !is_dir($projectRoot)) {
+            throw new \DomainException('The project root cannot be resolved safely.');
+        }
+
+        $varPath = $this->projectDir.'/var';
+        $stagingPath = $varPath.'/execution-staging';
+        if (is_link($varPath) || is_link($stagingPath)) {
+            throw new \DomainException('The execution staging root cannot pass through a symlink.');
+        }
+
+        $varRoot = realpath($varPath);
+        if (false === $varRoot || !is_dir($varRoot)
+            || $varRoot !== $projectRoot.DIRECTORY_SEPARATOR.'var') {
+            throw new \DomainException('The execution staging root cannot be proven inside the project root.');
+        }
+
+        if (is_dir($stagingPath)) {
+            $this->resolveStagingRoot();
+        }
+    }
+
+    private function resolveStagingRoot(): string
+    {
+        $projectRoot = realpath($this->projectDir);
+        $varPath = $this->projectDir.'/var';
+        $stagingPath = $varPath.'/execution-staging';
+        if (false === $projectRoot || is_link($varPath) || is_link($stagingPath)) {
+            throw new \DomainException('The execution staging root cannot be resolved safely.');
+        }
+
+        $varRoot = realpath($varPath);
+        $stagingRoot = realpath($stagingPath);
+        if (false === $varRoot || false === $stagingRoot
+            || !is_dir($varRoot) || !is_dir($stagingRoot)
+            || $varRoot !== $projectRoot.DIRECTORY_SEPARATOR.'var'
+            || $stagingRoot !== $varRoot.DIRECTORY_SEPARATOR.'execution-staging'
+            || !$this->isWithinRoot($stagingRoot, $projectRoot)) {
+            throw new \DomainException('The execution staging root cannot be proven inside the project root.');
+        }
+
+        $publicRoot = realpath($this->projectDir.'/public');
+        if (false !== $publicRoot && $this->isWithinRoot($stagingRoot, $publicRoot)) {
+            throw new \DomainException('The execution staging root must remain outside the public document root.');
+        }
+
+        return $stagingRoot;
+    }
 
     private function assertAuthorizedOutputPathIsSafe(string $authorizedRoot): void
     {
