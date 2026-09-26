@@ -2,6 +2,7 @@
 
 namespace App\Atheneum;
 
+use App\Entity\ExecutionAttempt;
 use App\Entity\Interview;
 use App\Repository\InterviewRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -47,6 +48,20 @@ class InterviewRecords
 
     public function delete(Interview $interview): void
     {
+        $count = (int) $this->entityManager->createQueryBuilder()
+            ->select('COUNT(attempt.id)')
+            ->from(ExecutionAttempt::class, 'attempt')
+            ->join('attempt.authorization', 'authorization')
+            ->join('authorization.proposal', 'proposal')
+            ->where('proposal.interview = :interview')
+            ->setParameter('interview', $interview)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        if ($count > 0) {
+            throw new \DomainException('This mission has execution evidence and cannot be permanently deleted.');
+        }
+
         $this->entityManager->remove($interview);
         $this->entityManager->flush();
     }
