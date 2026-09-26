@@ -307,6 +307,27 @@ class ExecutionTest extends KernelTestCase
         self::assertFileDoesNotExist($this->stagingDir.'/'.$attempt->getId().'.tmp');
     }
 
+    public function testSucceededAttemptRetriesStagingCleanupWhenMissionReopens(): void
+    {
+        [$interview, $authorization] = $this->authorizedFixture();
+        $attempt = new ExecutionAttempt($authorization, 'public/output/imperium-recover.txt', hash('sha256', 'already completed'));
+        $attempt->startEffect();
+        $attempt->succeed(strlen('already completed'));
+        $this->executions->save($attempt);
+
+        if (!is_dir($this->stagingDir)) {
+            mkdir($this->stagingDir, 0775, true);
+        }
+        $stagingPath = $this->stagingDir.'/'.$attempt->getId().'.tmp';
+        file_put_contents($stagingPath, 'already completed');
+        self::assertFileExists($stagingPath);
+
+        $reconciled = $this->executionService->reconcile($interview->getId());
+
+        self::assertSame(ExecutionAttempt::SUCCEEDED, $reconciled?->getStatus());
+        self::assertFileDoesNotExist($stagingPath);
+    }
+
     public function testMissionWithExecutionEvidenceCannotBeDeleted(): void
     {
         [$interview, $authorization] = $this->authorizedFixture();
