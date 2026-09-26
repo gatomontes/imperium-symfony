@@ -247,7 +247,6 @@ class LocalFileExecutionService
                             'hash' => false,
                         ];
                     }
-
                     if (!@link($publishWitnessName, $filename)) {
                         @unlink($publishWitnessName);
 
@@ -260,11 +259,14 @@ class LocalFileExecutionService
 
                     $targetLstat = @lstat($filename);
                     $targetStat = @stat($filename);
-                    if (false === $targetLstat || false === $targetStat
-                        || (($targetLstat['mode'] ?? 0) & 0170000) !== 0100000
-                        || ($targetStat['dev'] ?? null) !== ($stagingIdentity['dev'] ?? null)
-                        || ($targetStat['ino'] ?? null) !== ($stagingIdentity['ino'] ?? null)) {
-                        @unlink($filename);
+                    $targetOwnedByAttempt = false !== $targetLstat && false !== $targetStat
+                        && (($targetLstat['mode'] ?? 0) & 0170000) === 0100000
+                        && ($targetStat['dev'] ?? null) === ($stagingIdentity['dev'] ?? null)
+                        && ($targetStat['ino'] ?? null) === ($stagingIdentity['ino'] ?? null);
+                    if (!$targetOwnedByAttempt) {
+                        // The pathname no longer names this attempt's inode. Never
+                        // unlink it: a concurrent actor may have installed an
+                        // unrelated replacement after publication.
                         @unlink($publishWitnessName);
 
                         return [
@@ -443,6 +445,7 @@ class LocalFileExecutionService
                 || ($targetStat['ino'] ?? null) !== ($stagingStat['ino'] ?? null)) {
                 $attempt->fail('recovery_ownership_mismatch');
                 $this->executions->save($attempt);
+                $this->removeStagingFile($stagingRoot, $stagingName);
 
                 return $attempt;
             }
@@ -497,8 +500,7 @@ class LocalFileExecutionService
         $proposal = $this->proposals->latest($interview);
         if (null === $proposal || Proposal::APPROVED !== $proposal->getStatus()) {
             throw new \DomainException('An approved proposal is required before execution.');
-        }
-        $authorization = $this->authorizations->forProposal($proposal);
+        }        $authorization = $this->authorizations->forProposal($proposal);
         if (null === $authorization || Authorization::AUTHORIZED !== $authorization->getStatus()) {
             throw new \DomainException('An authorized resource/effect scope is required before execution.');
         }
