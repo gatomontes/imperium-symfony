@@ -345,6 +345,46 @@ class ExecutionTest extends KernelTestCase
         $this->executionService->execute($interview->getId(), 'imperium-exec.txt', 'second try');
     }
 
+    public function testPreparedAttemptReopensWhenExecutionDirectoriesDoNotYetExist(): void
+    {
+        [$interview, $authorization] = $this->authorizedFixture();
+        $attempt = new ExecutionAttempt($authorization, 'public/output/imperium-recover.txt', hash('sha256', 'not written yet'));
+        $this->executions->save($attempt);
+
+        $outputBackup = $this->executionDir.'.prepared-backup-'.bin2hex(random_bytes(4));
+        $stagingBackup = $this->stagingDir.'.prepared-backup-'.bin2hex(random_bytes(4));
+        $hadOutput = is_dir($this->executionDir) && !is_link($this->executionDir);
+        $hadStaging = is_dir($this->stagingDir) && !is_link($this->stagingDir);
+
+        if ($hadOutput && !rename($this->executionDir, $outputBackup)) {
+            self::fail('Could not move public/output for the prepared recovery regression test.');
+        }
+        if ($hadStaging && !rename($this->stagingDir, $stagingBackup)) {
+            if ($hadOutput) {
+                rename($outputBackup, $this->executionDir);
+            }
+            self::fail('Could not move execution staging for the prepared recovery regression test.');
+        }
+
+        try {
+            self::assertDirectoryDoesNotExist($this->executionDir);
+            self::assertDirectoryDoesNotExist($this->stagingDir);
+
+            $reconciled = $this->executionService->reconcile($interview->getId());
+
+            self::assertSame($attempt->getId(), $reconciled?->getId());
+            self::assertSame(ExecutionAttempt::PREPARED, $reconciled?->getStatus());
+            self::assertNull($reconciled?->getFailureCode());
+        } finally {
+            if ($hadStaging) {
+                rename($stagingBackup, $this->stagingDir);
+            }
+            if ($hadOutput) {
+                rename($outputBackup, $this->executionDir);
+            }
+        }
+    }
+
     public function testPreparedAttemptNeverClaimsSuccessFromMatchingPreexistingFile(): void
     {
         [$interview, $authorization] = $this->authorizedFixture();
