@@ -41,17 +41,17 @@ class LocalFileExecutionService
                 throw new \DomainException('This authorization already has an execution attempt. Reopen the mission to review its result.');
             }
 
-            $this->assertScopeAllowsLocalFile($authorization);
+            $scope = $this->assertScopeAllowsLocalFile($authorization);
             $filename = $this->validateFilename($filename);
-            if (strlen($content) > self::MAX_CONTENT_BYTES) {
-                throw new \DomainException('Local file content must be 32768 bytes or fewer.');
+            if (strlen($content) > $scope['maxBytes']) {
+                throw new \DomainException('Local file content exceeds the authorized maxBytes limit.');
             }
 
-            $relativePath = 'public/output/'.$filename;
+            $relativePath = $scope['root'].'/'.$filename;
             $attempt = new ExecutionAttempt($authorization, $relativePath, hash('sha256', $content));
             $this->executions->save($attempt);
 
-            $root = $this->projectDir.'/public/output';
+            $root = $this->projectDir.'/'.$scope['root'];
             if (!is_dir($root) && !mkdir($root, 0775, true) && !is_dir($root)) {
                 $attempt->fail('execution_directory_unavailable');
                 $this->executions->save($attempt);
@@ -174,42 +174,28 @@ class LocalFileExecutionService
         return [$authorization, $proposal];
     }
 
-    private function assertScopeAllowsLocalFile(Authorization $authorization): void
+    /** @return array{capability:string,effect:string,root:string,maxFiles:int,overwrite:bool,maxBytes:int} */
+    private function assertScopeAllowsLocalFile(Authorization $authorization): array
     {
-        $resources = array_map($this->normalizeScopeText(...), $authorization->getResources());
-        if (!in_array('local filesystem write access', $resources, true)) {
-            throw new \DomainException('The recorded authorization lacks the exact supported capability: Local filesystem write access.');
+        $scope = $authorization->getExecutionScope();
+        if (null === $scope) {
+            throw new \DomainException('This authorization has no structured executable scope. Create a new authorization request.');
         }
 
-        $effects = array_map($this->normalizeScopeText(...), $authorization->getEffects());
-        if (!in_array('create one local file', $effects, true)
-            && !in_array('create one local test file', $effects, true)) {
-            throw new \DomainException('The recorded authorization does not permit the supported local-file creation effect.');
-        }
-
-        $recognizedLimits = [
-            'one new local file only',
-            'no overwrite',
-            'no external publication',
+        $expected = [
+            'capability' => 'filesystem.write.public_output',
+            'effect' => 'file.create',
+            'root' => 'public/output',
+            'maxFiles' => 1,
+            'overwrite' => false,
+            'maxBytes' => self::MAX_CONTENT_BYTES,
         ];
-        $limits = array_map($this->normalizeScopeText(...), $authorization->getLimits());
-        foreach ($limits as $limit) {
-            if (!in_array($limit, $recognizedLimits, true)) {
-                throw new \DomainException('Execution refused because the authorization contains a limit this executor cannot enforce: '.$limit);
-            }
-        }
-        if (!in_array('one new local file only', $limits, true)
-            || !in_array('no overwrite', $limits, true)) {
-            throw new \DomainException('Execution requires explicit limits: One new local file only; No overwrite.');
-        }
-        if (in_array('no external publication', $limits, true)) {
-            throw new \DomainException('Execution refused: public/output may be web-accessible and conflicts with the authorized limit No external publication.');
-        }
-    }
 
-    private function normalizeScopeText(string $text): string
-    {
-        return mb_strtolower(trim($text, " .\t\n\r\0\x0B"));
+        if ($scope !== $expected) {
+            throw new \DomainException('The structured authorization scope does not match the supported local-file executor.');
+        }
+
+        return $scope;
     }
 
     private function validateFilename(string $filename): string
