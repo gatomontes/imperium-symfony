@@ -224,11 +224,13 @@ class LocalFileExecutionService
                     // Final publication links witness -> target entirely inside this
                     // anchored directory, so neither side can be redirected by a
                     // pathname swap between verification and publication.
-                    @unlink($publishWitnessName);
+                    // Never remove a preexisting predictable witness name: it
+                    // may belong to another actor. Exclusive link creation is the
+                    // collision detector.
                     if (!@link($stagingPath, $publishWitnessName)) {
                         return [
                             'published' => false,
-                            'failure' => 'atomic_publish_unavailable',
+                            'failure' => 'publish_witness_exists_or_unavailable',
                             'hash' => false,
                         ];
                     }
@@ -255,62 +257,109 @@ class LocalFileExecutionService
                         ];
                     }
 
-                    $targetLstat = @lstat($filename);
-                    $targetStat = @stat($filename);
-                    $targetOwnedByAttempt = false !== $targetLstat && false !== $targetStat
-                        && (($targetLstat['mode'] ?? 0) & 0170000) === 0100000
-                        && ($targetStat['dev'] ?? null) === ($stagingIdentity['dev'] ?? null)
-                        && ($targetStat['ino'] ?? null) === ($stagingIdentity['ino'] ?? null);
-                    if (!$targetOwnedByAttempt) {
-                        // The pathname no longer names this attempt's inode. Never
-                        // unlink it: a concurrent actor may have installed an
-                        // unrelated replacement after publication.
-                        @unlink($publishWitnessName);
-
+                    $targetHandle = @fopen($filename, 'rb');
+                    if (false === $targetHandle) {
+                        // Publication may have happened, but the target cannot be
+                        // verified coherently. Retain EFFECT_STARTED plus witness
+                        // and staging identity for recovery.
                         return [
-                            'published' => false,
-                            'failure' => 'staging_identity_changed_before_publish',
+                            'published' => true,
+                            'failure' => null,
                             'hash' => false,
                         ];
                     }
 
-                    $actualHash = @hash_file('sha256', $filename);
-                    if (false !== $actualHash && $actualHash !== $attempt->getContentSha256()) {
-                        $currentLstat = @lstat($filename);
-                        $currentStat = @stat($filename);
-                        $stillOwned = false !== $currentLstat && false !== $currentStat
-                            && (($currentLstat['mode'] ?? 0) & 0170000) === 0100000
-                            && ($currentStat['dev'] ?? null) === ($stagingIdentity['dev'] ?? null)
-                            && ($currentStat['ino'] ?? null) === ($stagingIdentity['ino'] ?? null);
+                    try {
+                        $targetStat = @fstat($targetHandle);
+                        if (false === $targetStat
+                            || (($targetStat['mode'] ?? 0) & 0170000) !== 0100000
+                            || ($targetStat['dev'] ?? null) !== ($stagingIdentity['dev'] ?? null)
+                            || ($targetStat['ino'] ?? null) !== ($stagingIdentity['ino'] ?? null)) {
+                            @unlink($publishWitnessName);
 
-                        if ($stillOwned && !@unlink($filename)) {
-                            // The attempt-owned public link is still present but could
-                            // not be removed. Preserve EFFECT_STARTED so recovery can
-                            // retry without deleting an unrelated replacement later.
+                            return [
+                                'published' => false,
+                                'failure' => 'staging_identity_changed_before_publish',
+                                'hash' => false,
+                            ];
+                        }
+
+                        $hash = hash_init('sha256');
+                        if (false === hash_update_stream($hash, $targetHandle)) {
                             return [
                                 'published' => true,
                                 'failure' => null,
                                 'hash' => false,
                             ];
                         }
+                        $actualHash = hash_final($hash);
+
+                        // Ensure the pathname still names this exact opened regular
+                        // inode. A replacement or symlink must not inherit success.
+                        $currentLstat = @lstat($filename);
+                        $pathStillOwned = false !== $currentLstat
+                            && (($currentLstat['mode'] ?? 0) & 0170000) === 0100000
+                            && ($currentLstat['dev'] ?? null) === ($targetStat['dev'] ?? null)
+                            && ($currentLstat['ino'] ?? null) === ($targetStat['ino'] ?? null);
+                        if (!$pathStillOwned) {
+                            @unlink($publishWitnessName);
+
+                            return [
+                                'published' => false,
+                                'failure' => 'staging_identity_changed_before_publish',
+                                'hash' => false,
+                            ];
+                        }
+
+                        if ($actualHash !== $attempt->getContentSha256()) {
+                            // Recheck ownership immediately before any unlink. If
+                            // identity is lost, leave the replacement untouched.
+                            $removeLstat = @lstat($filename);
+                            $stillOwned = false !== $removeLstat
+                                && (($removeLstat['mode'] ?? 0) & 0170000) === 0100000
+                                && ($removeLstat['dev'] ?? null) === ($targetStat['dev'] ?? null)
+                                && ($removeLstat['ino'] ?? null) === ($targetStat['ino'] ?? null);
+                            if (!$stillOwned) {
+                                @unlink($publishWitnessName);
+
+                                return [
+                                    'published' => false,
+                                    'failure' => 'staging_identity_changed_before_publish',
+                                    'hash' => false,
+                                ];
+                            }
+
+                            if (!@unlink($filename)) {
+                                // The attempt-owned public link could not be removed.
+                                // Preserve EFFECT_STARTED so recovery can retry.
+                                return [
+                                    'published' => true,
+                                    'failure' => null,
+                                    'hash' => false,
+                                ];
+                            }
+
+                            @unlink($publishWitnessName);
+
+                            return [
+                                'published' => false,
+                                'failure' => 'verification_failed',
+                                'hash' => $actualHash,
+                            ];
+                        }
 
                         @unlink($publishWitnessName);
 
                         return [
-                            'published' => false,
-                            'failure' => 'verification_failed',
+                            'published' => true,
+                            'failure' => null,
                             'hash' => $actualHash,
                         ];
+                    } finally {
+                        fclose($targetHandle);
                     }
-
-                    @unlink($publishWitnessName);
-
-                    return [
-                        'published' => true,
-                        'failure' => null,
-                        'hash' => $actualHash,
-                    ];
                 });
+            } catch (\DomainException) {                });
             } catch (\DomainException) {
                 fclose($stagingHandle);
                 $this->removeStagingFile($stagingRoot, $stagingName);
@@ -597,8 +646,7 @@ class LocalFileExecutionService
         return [$authorization, $proposal];
     }
 
-    /** @return array{capability:string,effect:string,root:string,visibility:string,allowedExtensions:list<string>,maxFiles:int,overwrite:bool,maxBytes:int} */
-    private function assertScopeAllowsLocalFile(Authorization $authorization): array
+    /** @return array{capability:string,effect:string,root:string,visibility:string,allowedExtensions:list<string>,maxFiles:int,overwrite:bool,maxBytes:int} */    private function assertScopeAllowsLocalFile(Authorization $authorization): array
     {
         $scope = $authorization->getExecutionScope();
         if (null === $scope) {
@@ -651,27 +699,39 @@ class LocalFileExecutionService
     {
         try {
             return $this->inAnchoredDirectory($root, static function () use ($witnessName, $ownedStat): bool {
-                $lstat = @lstat($witnessName);
-                if (false === $lstat) {
+                // Successful directory enumeration is positive evidence that the
+                // witness name is absent. An lstat() failure alone is inconclusive.
+                $entries = @scandir('.');
+                if (false === $entries) {
+                    return false;
+                }
+                if (!in_array($witnessName, $entries, true)) {
                     return true;
                 }
 
+                $lstat = @lstat($witnessName);
                 $stat = @stat($witnessName);
-                if (false === $stat
+                if (false === $lstat || false === $stat
                     || (($lstat['mode'] ?? 0) & 0170000) !== 0100000
                     || ($stat['dev'] ?? null) !== ($ownedStat['dev'] ?? null)
                     || ($stat['ino'] ?? null) !== ($ownedStat['ino'] ?? null)) {
                     return false;
                 }
 
-                return @unlink($witnessName) || (!file_exists($witnessName) && !is_link($witnessName));
+                if (!@unlink($witnessName)) {
+                    return false;
+                }
+
+                $after = @scandir('.');
+
+                return false !== $after && !in_array($witnessName, $after, true);
             });
         } catch (\DomainException) {
             return false;
         }
     }
 
-    private function removeStagingFile(string $stagingRoot, string $stagingName): void
+    private function removeStagingFile(string $stagingRoot, string $stagingName): void    private function removeStagingFile(string $stagingRoot, string $stagingName): void
     {
         try {
             $this->inAnchoredDirectory($stagingRoot, static function () use ($stagingName): void {
