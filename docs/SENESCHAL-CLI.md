@@ -175,7 +175,7 @@ whose effect explicitly permits one local file, the CLI now offers
 **Create authorized local file**.
 
 The operation accepts only a filename (no directories) and file contents. Output is
-confined to `var/execution/`, content is limited to 32 KiB, and an existing target
+confined to `public/output/`, content is limited to 32 KiB, and an existing target
 is never overwritten. The execution attempt is recorded before I/O and, after
 success, displays the relative path, SHA-256, and bytes written. No DeepSeek call is
 made.
@@ -185,3 +185,9 @@ Recovery distinguishes PREPARED from EFFECT_STARTED. PREPARED plus an existing t
 
 PostgreSQL CI passes **58 tests / 429 assertions** plus migration rollback/reapply.
 Live operator acceptance remains required before merge.
+
+
+> **Public-output note:** the bounded executor now writes to `public/output/`.
+> Depending on the web-server configuration, files there may be directly reachable
+> over HTTP. For that reason an authorization containing `No external publication.`
+> is rejected rather than treated as compatible with this executor.
