@@ -33,7 +33,7 @@ PR: #5 — **Add first bounded local-file execution**
 
 This campaign adds exactly one execution operation:
 
-**Create one new local file under `var/execution/`.**
+**Create one new local file under `public/output/`.**
 
 Code-enforced boundaries:
 
@@ -42,9 +42,10 @@ Code-enforced boundaries:
 - authorization resources must include the exact canonical capability `Local filesystem write access`;
 - authorization effects must exactly permit `Create one local file` or `Create one local test file`;
 - filenames are 1–120 safe characters and contain no directory separators;
-- output is confined to `var/execution/`;
+- output is confined to `public/output/`;
 - existing targets are never overwritten;
 - authorization limits must include `One new local file only` and `No overwrite`; unknown limits fail closed because this executor cannot claim to enforce them;
+- `No external publication` conflicts with `public/output` and therefore causes execution refusal, because files in Symfony's public document root may be web-reachable;
 - content is limited to 32 KiB;
 - one authorization permits one execution attempt;
 - an `ExecutionAttempt` is persisted before filesystem I/O;
@@ -74,7 +75,9 @@ PostgreSQL CI passes migrations, schema validation,
 Use a mission whose **approved proposal and authorization explicitly include**:
 
 - resource/capability: local filesystem write access;
-- effect: `Create one local test file` or `Create one local file`.
+- effect: `Create one local test file` or `Create one local file`;
+- limits: `One new local file only.` and `No overwrite.`;
+- do **not** include `No external publication.` for this executor, because `public/output` is intentionally inside the web document root.
 
 Then reopen the mission. The authorization displays first and the CLI offers:
 
@@ -86,7 +89,7 @@ Choose it and use a harmless unique filename such as
 Expected endpoint:
 
 - `Execution attempt — succeeded`
-- target under `var/execution/`
+- target under `public/output/`
 - SHA-256 displayed
 - bytes written displayed
 - success message that the authorized effect completed and evidence was recorded.
