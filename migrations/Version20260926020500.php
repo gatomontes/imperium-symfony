@@ -27,18 +27,19 @@ final class Version20260926020500 extends AbstractMigration
     public function down(Schema $schema): void
     {
         $this->abortIf(!$this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform, 'This migration requires PostgreSQL.');
-        $multipleEvidenceVersions = (bool) $this->connection->fetchOne(
-            'SELECT EXISTS (
-                SELECT authorization.proposal_id
-                FROM mission_authorization authorization
-                JOIN execution_attempt execution
-                  ON execution.authorization_id = authorization.id
-                GROUP BY authorization.proposal_id
-                HAVING COUNT(*) > 1
-            )'
+        $multipleEvidenceVersions = (int) $this->connection->fetchOne(
+            'SELECT COUNT(*)
+             FROM (
+                 SELECT authorization.proposal_id
+                 FROM mission_authorization authorization
+                 JOIN execution_attempt execution
+                   ON execution.authorization_id = authorization.id
+                 GROUP BY authorization.proposal_id
+                 HAVING COUNT(*) > 1
+             ) evidence_conflicts'
         );
         $this->abortIf(
-            $multipleEvidenceVersions,
+            $multipleEvidenceVersions > 0,
             'Cannot downgrade authorization versioning when one proposal retains execution evidence on multiple authorization versions.'
         );
 
