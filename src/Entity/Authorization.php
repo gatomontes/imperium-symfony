@@ -35,7 +35,7 @@ class Authorization
     #[ORM\Column(type: Types::JSON)]
     private array $limits;
 
-    /** @var array{capability:string,effect:string,root:string,maxFiles:int,overwrite:bool,maxBytes:int}|null */
+    /** @var array{capability:string,effect:string,root:string,visibility:string,allowedExtensions:list<string>,maxFiles:int,overwrite:bool,maxBytes:int}|null */
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $executionScope = null;
 
@@ -50,7 +50,7 @@ class Authorization
 
     /**
      * @param list<string> $effects
-     * @param array{capability:string,effect:string,root:string,maxFiles:int,overwrite:bool,maxBytes:int}|null $executionScope
+     * @param array{capability:string,effect:string,root:string,visibility:string,allowedExtensions:list<string>,maxFiles:int,overwrite:bool,maxBytes:int}|null $executionScope
      */
     public function __construct(Proposal $proposal, array $effects, ?array $executionScope = null)
     {
@@ -96,7 +96,7 @@ class Authorization
         return $this->limits;
     }
 
-    /** @return array{capability:string,effect:string,root:string,maxFiles:int,overwrite:bool,maxBytes:int}|null */
+    /** @return array{capability:string,effect:string,root:string,visibility:string,allowedExtensions:list<string>,maxFiles:int,overwrite:bool,maxBytes:int}|null */
     public function getExecutionScope(): ?array
     {
         return $this->executionScope;
