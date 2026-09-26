@@ -30,7 +30,7 @@ class AuthorizationService
             }
 
             $effects = $this->parseEffects($effectsText);
-            $authorization = new Authorization($proposal, $effects);
+            $authorization = new Authorization($proposal, $effects, $this->executionScopeFor($effects));
             $this->authorizations->save($authorization);
 
             return $authorization;
@@ -49,6 +49,31 @@ class AuthorizationService
 
             return $authorization;
         });
+    }
+
+    /** @param list<string> $effects
+     *  @return array{capability:string,effect:string,root:string,maxFiles:int,overwrite:bool,maxBytes:int}|null
+     */
+    private function executionScopeFor(array $effects): ?array
+    {
+        $normalized = array_map(
+            static fn (string $effect): string => mb_strtolower(trim($effect, " .\t\n\r\0\x0B")),
+            $effects,
+        );
+
+        if (!in_array('create one local file', $normalized, true)
+            && !in_array('create one local test file', $normalized, true)) {
+            return null;
+        }
+
+        return [
+            'capability' => 'filesystem.write.public_output',
+            'effect' => 'file.create',
+            'root' => 'public/output',
+            'maxFiles' => 1,
+            'overwrite' => false,
+            'maxBytes' => 32768,
+        ];
     }
 
     /** @return list<string> */
