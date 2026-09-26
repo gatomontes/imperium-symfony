@@ -248,7 +248,6 @@ class LocalFileExecutionService
                         ];
                     }
                     if (!@link($publishWitnessName, $filename)) {                        @unlink($publishWitnessName);
-
                         return [
                             'published' => false,
                             'failure' => file_exists($filename) || is_link($filename) ? 'target_exists_or_unavailable' : 'atomic_publish_unavailable',
@@ -386,13 +385,17 @@ class LocalFileExecutionService
                 if (is_dir($stagingPath) && !is_link($stagingPath)) {
                     try {
                         $stagingRoot = $this->resolveStagingRoot();
-                        $stagingStat = $this->stagingFileStat($stagingRoot, $stagingName);
-                        $witnessCleared = true;
-                        if (is_array($stagingStat)) {
-                            $root = $this->resolveAuthorizedOutputRoot($scope['root']);
-                            $witnessCleared = $this->removePublishWitnessIfOwned($root, $publishWitnessName, $stagingStat);
+                        $stagingEvidence = $this->stagingFileEvidence($stagingRoot, $stagingName);
+                        if (false === $stagingEvidence['exists']) {
+                            return $attempt;
                         }
-                        if ($witnessCleared) {
+                        $stagingStat = $stagingEvidence['stat'];
+                        if (!is_array($stagingStat)) {
+                            return $attempt;
+                        }
+
+                        $root = $this->resolveAuthorizedOutputRoot($scope['root']);
+                        if ($this->removePublishWitnessIfOwned($root, $publishWitnessName, $stagingStat)) {
                             $this->removeStagingFile($stagingRoot, $stagingName);
                         }
                     } catch (\DomainException) {
@@ -441,21 +444,52 @@ class LocalFileExecutionService
             $stagingRoot = $this->resolveStagingRoot();
 
             $targetEvidence = $this->inAnchoredDirectory($root, static function () use ($filename): ?array {
-                $lstat = @lstat($filename);
-                if (false === $lstat) {
+                $initialLstat = @lstat($filename);
+                if (false === $initialLstat) {
                     return null;
                 }
 
-                if ((($lstat['mode'] ?? 0) & 0170000) === 0120000) {
+                if ((($initialLstat['mode'] ?? 0) & 0170000) === 0120000) {
                     return ['symlink' => true, 'stat' => false, 'hash' => false];
                 }
-
-                $stat = @stat($filename);
-                if (false === $stat || (($lstat['mode'] ?? 0) & 0170000) !== 0100000) {
+                if ((($initialLstat['mode'] ?? 0) & 0170000) !== 0100000) {
                     return ['symlink' => false, 'stat' => false, 'hash' => false];
                 }
 
-                return ['symlink' => false, 'stat' => $stat, 'hash' => @hash_file('sha256', $filename)];
+                $handle = @fopen($filename, 'rb');
+                if (false === $handle) {
+                    return ['symlink' => false, 'stat' => false, 'hash' => false];
+                }
+
+                try {
+                    $stat = @fstat($handle);
+                    if (false === $stat) {
+                        return ['symlink' => false, 'stat' => false, 'hash' => false];
+                    }
+
+                    $hash = hash_init('sha256');
+                    if (false === hash_update_stream($hash, $handle)) {
+                        return ['symlink' => false, 'stat' => false, 'hash' => false];
+                    }
+                    $actualHash = hash_final($hash);
+
+                    $finalLstat = @lstat($filename);
+                    if (false === $finalLstat) {
+                        return null;
+                    }
+                    if ((($finalLstat['mode'] ?? 0) & 0170000) === 0120000) {
+                        return ['symlink' => true, 'stat' => false, 'hash' => false];
+                    }
+                    if ((($finalLstat['mode'] ?? 0) & 0170000) !== 0100000
+                        || ($finalLstat['dev'] ?? null) !== ($stat['dev'] ?? null)
+                        || ($finalLstat['ino'] ?? null) !== ($stat['ino'] ?? null)) {
+                        return ['symlink' => false, 'stat' => false, 'hash' => false];
+                    }
+
+                    return ['symlink' => false, 'stat' => $stat, 'hash' => $actualHash];
+                } finally {
+                    fclose($handle);
+                }
             });
             $stagingEvidence = $this->inAnchoredDirectory($stagingRoot, static function () use ($stagingName): ?array {
                 $lstat = @lstat($stagingName);
@@ -475,8 +509,12 @@ class LocalFileExecutionService
             }
 
             $stagingStat = $stagingEvidence['stat'] ?? null;
-            if (is_array($stagingStat)) {
-                $this->removePublishWitnessIfOwned($root, $publishWitnessName, $stagingStat);
+            if (is_array($stagingStat)
+                && !$this->removePublishWitnessIfOwned($root, $publishWitnessName, $stagingStat)) {
+                // A retained witness still depends on this staging inode for safe
+                // cleanup. Keep EFFECT_STARTED and preserve staging until witness
+                // ownership/removal can be proven on a later reopen.
+                return $attempt;
             }
 
             if (true === ($targetEvidence['symlink'] ?? false)) {
@@ -497,8 +535,7 @@ class LocalFileExecutionService
             if (($targetStat['dev'] ?? null) !== ($stagingStat['dev'] ?? null)
                 || ($targetStat['ino'] ?? null) !== ($stagingStat['ino'] ?? null)) {
                 $attempt->fail('recovery_ownership_mismatch');
-                $this->executions->save($attempt);
-                $this->removeStagingFile($stagingRoot, $stagingName);
+                $this->executions->save($attempt);                $this->removeStagingFile($stagingRoot, $stagingName);
 
                 return $attempt;
             }
@@ -587,18 +624,26 @@ class LocalFileExecutionService
     }
 
 
-    /** @return array<string, int>|null */
-    private function stagingFileStat(string $stagingRoot, string $stagingName): ?array
+    /** @return array{exists:bool,stat:array<string, int>|false} */
+    private function stagingFileEvidence(string $stagingRoot, string $stagingName): array
     {
-        return $this->inAnchoredDirectory($stagingRoot, static function () use ($stagingName): ?array {
+        return $this->inAnchoredDirectory($stagingRoot, static function () use ($stagingName): array {
             $lstat = @lstat($stagingName);
-            $stat = @stat($stagingName);
-            if (false === $lstat || false === $stat
-                || (($lstat['mode'] ?? 0) & 0170000) !== 0100000) {
-                return null;
+            if (false === $lstat) {
+                return ['exists' => false, 'stat' => false];
+            }
+            if ((($lstat['mode'] ?? 0) & 0170000) !== 0100000) {
+                return ['exists' => true, 'stat' => false];
             }
 
-            return $stat;
+            $stat = @stat($stagingName);
+            if (false === $stat
+                || ($stat['dev'] ?? null) !== ($lstat['dev'] ?? null)
+                || ($stat['ino'] ?? null) !== ($lstat['ino'] ?? null)) {
+                return ['exists' => true, 'stat' => false];
+            }
+
+            return ['exists' => true, 'stat' => $stat];
         });
     }
 
