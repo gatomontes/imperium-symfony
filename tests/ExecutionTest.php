@@ -339,7 +339,7 @@ class ExecutionTest extends KernelTestCase
             'steps' => ['Create the file.', 'Verify its contents.'],
             'acceptanceCriteria' => ['The file exists with the expected content.'],
             'resourceRequirements' => ['Local filesystem write access.'],
-            'limits' => ['One new local file only.', 'No overwrite.', 'No external publication.'],
+            'limits' => ['One new local file only.', 'No overwrite.'],
             'unresolvedAssumptions' => [],
         ]);
         $proposal->approve();
