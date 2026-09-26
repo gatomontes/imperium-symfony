@@ -47,19 +47,35 @@ class LocalFileExecutionService
                 throw new \DomainException('Local file content exceeds the authorized maxBytes limit.');
             }
 
+            $this->assertAuthorizedOutputPathIsSafe($scope['root']);
+
             $relativePath = $scope['root'].'/'.$filename;
             $attempt = new ExecutionAttempt($authorization, $relativePath, hash('sha256', $content));
             $this->executions->save($attempt);
 
             $root = $this->projectDir.'/'.$scope['root'];
-            $stagingRoot = $this->projectDir.'/var/execution-staging';
-            foreach ([$root, $stagingRoot] as $directory) {
-                if (!is_dir($directory) && !mkdir($directory, 0775, true) && !is_dir($directory)) {
-                    $attempt->fail('execution_directory_unavailable');
-                    $this->executions->save($attempt);
+            if (!is_dir($root) && !mkdir($root, 0775, true) && !is_dir($root)) {
+                $attempt->fail('execution_directory_unavailable');
+                $this->executions->save($attempt);
 
-                    return $attempt;
-                }
+                return $attempt;
+            }
+
+            try {
+                $root = $this->resolveAuthorizedOutputRoot($scope['root']);
+            } catch (\DomainException) {
+                $attempt->fail('execution_root_untrusted');
+                $this->executions->save($attempt);
+
+                return $attempt;
+            }
+
+            $stagingRoot = $this->projectDir.'/var/execution-staging';
+            if (!is_dir($stagingRoot) && !mkdir($stagingRoot, 0775, true) && !is_dir($stagingRoot)) {
+                $attempt->fail('execution_directory_unavailable');
+                $this->executions->save($attempt);
+
+                return $attempt;
             }
 
             $path = $root.'/'.$filename;
@@ -114,6 +130,17 @@ class LocalFileExecutionService
                 return $attempt;
             }
 
+            try {
+                $root = $this->resolveAuthorizedOutputRoot($scope['root']);
+            } catch (\DomainException) {
+                @unlink($stagingPath);
+                $attempt->fail('execution_root_untrusted');
+                $this->executions->save($attempt);
+
+                return $attempt;
+            }
+            $path = $root.'/'.$filename;
+
             $attempt->startEffect();
             $this->executions->save($attempt);
 
@@ -164,7 +191,10 @@ class LocalFileExecutionService
                 return $attempt;
             }
 
-            $path = $this->projectDir.'/'.$attempt->getTargetPath();
+            $scope = $this->assertScopeAllowsLocalFile($authorization);
+            $root = $this->resolveAuthorizedOutputRoot($scope['root']);
+            $filename = basename($attempt->getTargetPath());
+            $path = $root.'/'.$filename;
             $stagingPath = $this->projectDir.'/var/execution-staging/'.$attempt->getId().'.tmp';
             $exists = is_file($path);
 
@@ -258,6 +288,74 @@ class LocalFileExecutionService
         }
 
         return $scope;
+    }
+
+
+    private function assertAuthorizedOutputPathIsSafe(string $authorizedRoot): void
+    {
+        if ('public/output' !== $authorizedRoot) {
+            throw new \DomainException('The authorized output root is not supported by this executor.');
+        }
+
+        $projectRoot = realpath($this->projectDir);
+        if (false === $projectRoot || !is_dir($projectRoot)) {
+            throw new \DomainException('The project root cannot be resolved safely.');
+        }
+
+        $publicPath = $this->projectDir.'/public';
+        if (is_link($publicPath)) {
+            throw new \DomainException('The authorized output root cannot pass through a symlink.');
+        }
+
+        $publicRoot = realpath($publicPath);
+        if (false === $publicRoot || !is_dir($publicRoot) || !$this->isWithinRoot($publicRoot, $projectRoot)) {
+            throw new \DomainException('The authorized output root cannot be proven inside the project root.');
+        }
+
+        $outputPath = $this->projectDir.'/'.$authorizedRoot;
+        if (is_link($outputPath)) {
+            throw new \DomainException('The authorized output root cannot be a symlink.');
+        }
+
+        if (is_dir($outputPath)) {
+            $this->resolveAuthorizedOutputRoot($authorizedRoot);
+        }
+    }
+
+    private function resolveAuthorizedOutputRoot(string $authorizedRoot): string
+    {
+        $this->assertAuthorizedOutputPathShape($authorizedRoot);
+
+        $projectRoot = realpath($this->projectDir);
+        $publicPath = $this->projectDir.'/public';
+        $outputPath = $this->projectDir.'/'.$authorizedRoot;
+        if (false === $projectRoot || is_link($publicPath) || is_link($outputPath)) {
+            throw new \DomainException('The authorized output root cannot be resolved safely.');
+        }
+
+        $publicRoot = realpath($publicPath);
+        $resolvedOutput = realpath($outputPath);
+        if (false === $publicRoot || false === $resolvedOutput
+            || !is_dir($publicRoot) || !is_dir($resolvedOutput)
+            || !$this->isWithinRoot($publicRoot, $projectRoot)
+            || !$this->isWithinRoot($resolvedOutput, $projectRoot)
+            || $resolvedOutput !== $publicRoot.DIRECTORY_SEPARATOR.'output') {
+            throw new \DomainException('The authorized output root cannot be proven inside the project root.');
+        }
+
+        return $resolvedOutput;
+    }
+
+    private function assertAuthorizedOutputPathShape(string $authorizedRoot): void
+    {
+        if ('public/output' !== $authorizedRoot) {
+            throw new \DomainException('The authorized output root is not supported by this executor.');
+        }
+    }
+
+    private function isWithinRoot(string $path, string $root): bool
+    {
+        return $path === $root || str_starts_with($path, $root.DIRECTORY_SEPARATOR);
     }
 
     private function validateFilename(string $filename): string
