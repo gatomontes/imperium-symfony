@@ -92,42 +92,60 @@ class LocalFileExecutionService
             $stagingPath = $stagingRoot.'/'.$stagingName;
             try {
                 $stagingResult = $this->inAnchoredDirectory($stagingRoot, function () use ($stagingName, $content, $attempt): array {
-                    $handle = @fopen($stagingName, 'x');
+                    $handle = @fopen($stagingName, 'x+');
                     if (false === $handle) {
-                        return ['failure' => 'staging_target_unavailable', 'written' => 0];
+                        return ['failure' => 'staging_target_unavailable', 'written' => 0, 'handle' => null, 'stat' => null];
                     }
 
                     $written = 0;
-                    $writeFailed = false;
-                    try {
-                        $length = strlen($content);
-                        while ($written < $length) {
-                            $chunk = fwrite($handle, substr($content, $written));
-                            if (false === $chunk || 0 === $chunk) {
-                                $writeFailed = true;
-                                break;
-                            }
-                            $written += $chunk;
+                    $length = strlen($content);
+                    while ($written < $length) {
+                        $chunk = fwrite($handle, substr($content, $written));
+                        if (false === $chunk || 0 === $chunk) {
+                            fclose($handle);
+                            @unlink($stagingName);
+
+                            return ['failure' => 'staging_write_failed', 'written' => $written, 'handle' => null, 'stat' => null];
                         }
-                        fflush($handle);
-                    } finally {
+                        $written += $chunk;
+                    }
+
+                    if (!fflush($handle)) {
                         fclose($handle);
-                    }
-
-                    if ($writeFailed) {
                         @unlink($stagingName);
 
-                        return ['failure' => 'staging_write_failed', 'written' => $written];
+                        return ['failure' => 'staging_write_failed', 'written' => $written, 'handle' => null, 'stat' => null];
                     }
 
-                    $stagingHash = @hash_file('sha256', $stagingName);
-                    if (false === $stagingHash || $stagingHash !== $attempt->getContentSha256()) {
+                    $stagingStat = @fstat($handle);
+                    if (false === $stagingStat || 0 !== fseek($handle, 0)) {
+                        fclose($handle);
                         @unlink($stagingName);
 
-                        return ['failure' => 'staging_verification_failed', 'written' => $written];
+                        return ['failure' => 'staging_verification_failed', 'written' => $written, 'handle' => null, 'stat' => null];
                     }
 
-                    return ['failure' => null, 'written' => $written];
+                    $hash = hash_init('sha256');
+                    if (false === hash_update_stream($hash, $handle)) {
+                        fclose($handle);
+                        @unlink($stagingName);
+
+                        return ['failure' => 'staging_verification_failed', 'written' => $written, 'handle' => null, 'stat' => null];
+                    }
+                    $stagingHash = hash_final($hash);
+                    if ($stagingHash !== $attempt->getContentSha256()) {
+                        fclose($handle);
+                        @unlink($stagingName);
+
+                        return ['failure' => 'staging_verification_failed', 'written' => $written, 'handle' => null, 'stat' => null];
+                    }
+
+                    return [
+                        'failure' => null,
+                        'written' => $written,
+                        'handle' => $handle,
+                        'stat' => $stagingStat,
+                    ];
                 });
             } catch (\DomainException) {
                 $attempt->fail('staging_root_untrusted');
@@ -144,9 +162,13 @@ class LocalFileExecutionService
                 return $attempt;
             }
 
+            $stagingHandle = $stagingResult['handle'];
+            $stagingIdentity = $stagingResult['stat'];
+
             try {
                 $targetExists = $this->inAnchoredDirectory($root, static fn (): bool => file_exists($filename));
             } catch (\DomainException) {
+                fclose($stagingHandle);
                 $this->removeStagingFile($stagingRoot, $stagingName);
                 $attempt->fail('execution_root_untrusted');
                 $this->executions->save($attempt);
@@ -155,6 +177,7 @@ class LocalFileExecutionService
             }
 
             if ($targetExists) {
+                fclose($stagingHandle);
                 $this->removeStagingFile($stagingRoot, $stagingName);
                 $attempt->fail('target_exists_or_unavailable');
                 $this->executions->save($attempt);
@@ -163,10 +186,27 @@ class LocalFileExecutionService
             }
 
             try {
+                $sourceStillMatches = $this->inAnchoredDirectory($stagingRoot, static function () use ($stagingName, $stagingIdentity): bool {
+                    $current = @stat($stagingName);
+
+                    return false !== $current
+                        && ($current['dev'] ?? null) === ($stagingIdentity['dev'] ?? null)
+                        && ($current['ino'] ?? null) === ($stagingIdentity['ino'] ?? null);
+                });
                 $root = $this->resolveAuthorizedOutputRoot($scope['root']);
             } catch (\DomainException) {
+                fclose($stagingHandle);
                 $this->removeStagingFile($stagingRoot, $stagingName);
                 $attempt->fail('execution_root_untrusted');
+                $this->executions->save($attempt);
+
+                return $attempt;
+            }
+
+            if (!$sourceStillMatches) {
+                fclose($stagingHandle);
+                $this->removeStagingFile($stagingRoot, $stagingName);
+                $attempt->fail('staging_identity_changed_before_publish');
                 $this->executions->save($attempt);
 
                 return $attempt;
@@ -176,25 +216,50 @@ class LocalFileExecutionService
             $this->executions->save($attempt);
 
             try {
-                $publishResult = $this->inAnchoredDirectory($root, function () use ($stagingPath, $filename, $attempt): array {
-                    // The destination is relative to a validated, anchored cwd.
-                    // Renaming or replacing public/output after anchoring cannot
-                    // redirect this hard-link publication outside that directory.
+                $publishResult = $this->inAnchoredDirectory($root, function () use ($stagingPath, $filename, $attempt, $stagingIdentity): array {
+                    // Destination lookup is relative to the already-validated output
+                    // directory. The source is accepted only if the created target
+                    // resolves to the exact staging inode retained from verification.
                     if (!@link($stagingPath, $filename)) {
                         return [
                             'published' => false,
-                            'targetExists' => file_exists($filename),
+                            'failure' => file_exists($filename) ? 'target_exists_or_unavailable' : 'atomic_publish_unavailable',
                             'hash' => false,
+                        ];
+                    }
+
+                    $targetStat = @stat($filename);
+                    if (false === $targetStat
+                        || ($targetStat['dev'] ?? null) !== ($stagingIdentity['dev'] ?? null)
+                        || ($targetStat['ino'] ?? null) !== ($stagingIdentity['ino'] ?? null)) {
+                        @unlink($filename);
+
+                        return [
+                            'published' => false,
+                            'failure' => 'staging_identity_changed_before_publish',
+                            'hash' => false,
+                        ];
+                    }
+
+                    $actualHash = @hash_file('sha256', $filename);
+                    if (false !== $actualHash && $actualHash !== $attempt->getContentSha256()) {
+                        @unlink($filename);
+
+                        return [
+                            'published' => false,
+                            'failure' => 'verification_failed',
+                            'hash' => $actualHash,
                         ];
                     }
 
                     return [
                         'published' => true,
-                        'targetExists' => true,
-                        'hash' => @hash_file('sha256', $filename),
+                        'failure' => null,
+                        'hash' => $actualHash,
                     ];
                 });
             } catch (\DomainException) {
+                fclose($stagingHandle);
                 $this->removeStagingFile($stagingRoot, $stagingName);
                 $attempt->fail('execution_root_untrusted');
                 $this->executions->save($attempt);
@@ -202,9 +267,11 @@ class LocalFileExecutionService
                 return $attempt;
             }
 
-            if (!$publishResult['published']) {
+            fclose($stagingHandle);
+
+            if (null !== $publishResult['failure']) {
                 $this->removeStagingFile($stagingRoot, $stagingName);
-                $attempt->fail($publishResult['targetExists'] ? 'target_exists_or_unavailable' : 'atomic_publish_unavailable');
+                $attempt->fail($publishResult['failure']);
                 $this->executions->save($attempt);
 
                 return $attempt;
@@ -214,12 +281,6 @@ class LocalFileExecutionService
             if (false === $actualHash) {
                 // The public effect happened, but evidence is temporarily unreadable.
                 // Preserve EFFECT_STARTED for later reconciliation.
-                return $attempt;
-            }
-            if ($actualHash !== $attempt->getContentSha256()) {
-                $attempt->fail('verification_failed');
-                $this->executions->save($attempt);
-
                 return $attempt;
             }
 
@@ -243,8 +304,25 @@ class LocalFileExecutionService
         try {
             [$authorization] = $this->authorizedContext($interviewId);
             $attempt = $this->executions->forAuthorization($authorization);
-            if (null === $attempt
-                || !in_array($attempt->getStatus(), [ExecutionAttempt::PREPARED, ExecutionAttempt::EFFECT_STARTED], true)) {
+            if (null === $attempt) {
+                return null;
+            }
+
+            if (ExecutionAttempt::SUCCEEDED === $attempt->getStatus()) {
+                $stagingPath = $this->projectDir.'/var/execution-staging';
+                if (is_dir($stagingPath) && !is_link($stagingPath)) {
+                    try {
+                        $stagingRoot = $this->resolveStagingRoot();
+                        $this->removeStagingFile($stagingRoot, $attempt->getId().'.tmp');
+                    } catch (\DomainException) {
+                        // Terminal evidence remains authoritative; cleanup can be retried later.
+                    }
+                }
+
+                return $attempt;
+            }
+
+            if (!in_array($attempt->getStatus(), [ExecutionAttempt::PREPARED, ExecutionAttempt::EFFECT_STARTED], true)) {
                 return $attempt;
             }
 
