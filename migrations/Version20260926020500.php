@@ -27,6 +27,7 @@ final class Version20260926020500 extends AbstractMigration
     public function down(Schema $schema): void
     {
         $this->abortIf(!$this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform, 'This migration requires PostgreSQL.');
+        $this->addSql('DELETE FROM mission_authorization older USING mission_authorization newer WHERE older.proposal_id = newer.proposal_id AND older.version < newer.version');
         $this->addSql('DROP INDEX uniq_authorization_proposal_version');
         $this->addSql('ALTER TABLE mission_authorization DROP version');
         $this->addSql('CREATE UNIQUE INDEX uniq_authorization_proposal ON mission_authorization (proposal_id)');
