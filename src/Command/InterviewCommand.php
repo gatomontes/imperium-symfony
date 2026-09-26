@@ -3,12 +3,15 @@
 namespace App\Command;
 
 use App\Atheneum\AuthorizationRecords;
+use App\Atheneum\ExecutionRecords;
 use App\Atheneum\InterviewRecords;
 use App\Atheneum\ProposalRecords;
 use App\Curia\AuthorizationService;
+use App\Curia\LocalFileExecutionService;
 use App\Curia\InterviewService;
 use App\Curia\ProposalService;
 use App\Entity\Authorization;
+use App\Entity\ExecutionAttempt;
 use App\Entity\Interview;
 use App\Entity\Proposal;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -30,6 +33,8 @@ class InterviewCommand extends Command
         private ProposalService $proposals,
         private AuthorizationRecords $authorizationRecords,
         private AuthorizationService $authorizations,
+        private ExecutionRecords $executionRecords,
+        private LocalFileExecutionService $localFileExecution,
     ) {
         parent::__construct();
     }
@@ -222,7 +227,10 @@ class InterviewCommand extends Command
             $this->displayAuthorization($io, $authorization);
             if (Authorization::PENDING !== $authorization->getStatus()) {
                 $io->success('Authorization is '.$authorization->getStatus().'.');
-                $io->note('Execution remains unavailable in this campaign. This record only establishes the permitted or refused scope.');
+                if (Authorization::AUTHORIZED === $authorization->getStatus()) {
+                    return $this->executionStage($io, $interview, $authorization);
+                }
+                $io->note('Execution is unavailable because the requested scope was refused.');
 
                 return Command::SUCCESS;
             }
@@ -251,9 +259,75 @@ class InterviewCommand extends Command
             }
 
             $io->success('Requested scope '.$authorization->getStatus().'.');
-            $io->note('No execution occurred. Execution remains a separate future gate.');
+            if (Authorization::AUTHORIZED === $authorization->getStatus()) {
+                $io->note('No execution occurred merely by authorizing the scope.');
+
+                return $this->executionStage($io, $interview, $authorization);
+            }
+            $io->note('Execution is unavailable because the requested scope was refused.');
 
             return Command::SUCCESS;
+        }
+    }
+
+    private function executionStage(SymfonyStyle $io, Interview $interview, Authorization $authorization): int
+    {
+        try {
+            $attempt = $this->localFileExecution->reconcile($interview->getId());
+        } catch (\DomainException $exception) {
+            $io->warning($exception->getMessage());
+
+            return Command::SUCCESS;
+        }
+
+        if (null !== $attempt) {
+            $this->displayExecutionAttempt($io, $attempt);
+            if (ExecutionAttempt::PREPARED === $attempt->getStatus()) {
+                $io->warning('A prepared execution attempt already exists. No automatic retry was performed.');
+            }
+
+            return Command::SUCCESS;
+        }
+
+        $action = $io->choice('Execution', [1 => 'Create authorized local file', 0 => 'Back'], 0);
+        if ('Back' === $action) {
+            $io->success('Authorization remains recorded. No execution attempt was created.');
+
+            return Command::SUCCESS;
+        }
+
+        $filename = (string) $io->ask('Filename only; no directories', 'imperium-test.txt');
+        $content = (string) $io->ask('File contents', 'Imperium bounded execution test.');
+
+        try {
+            $attempt = $this->localFileExecution->execute($interview->getId(), $filename, $content);
+        } catch (\DomainException $exception) {
+            $io->warning($exception->getMessage());
+
+            return Command::SUCCESS;
+        }
+
+        $this->displayExecutionAttempt($io, $attempt);
+        if (ExecutionAttempt::SUCCEEDED === $attempt->getStatus()) {
+            $io->success('Authorized local-file effect completed and evidence was recorded.');
+        } else {
+            $io->warning('The execution attempt did not complete successfully. No automatic retry will occur.');
+        }
+
+        return Command::SUCCESS;
+    }
+
+    private function displayExecutionAttempt(SymfonyStyle $io, ExecutionAttempt $attempt): void
+    {
+        $io->title('Execution attempt — '.$attempt->getStatus());
+        $io->text('Operation: '.$attempt->getOperation());
+        $io->text('Target: '.$this->display($attempt->getTargetPath()));
+        $io->text('SHA-256: '.$attempt->getContentSha256());
+        if (null !== $attempt->getBytesWritten()) {
+            $io->text('Bytes written: '.$attempt->getBytesWritten());
+        }
+        if (null !== $attempt->getFailureCode()) {
+            $io->text('Failure: '.$attempt->getFailureCode());
         }
     }
 
