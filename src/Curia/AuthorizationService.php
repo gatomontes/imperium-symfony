@@ -52,7 +52,7 @@ class AuthorizationService
     }
 
     /** @param list<string> $effects
-     *  @return array{capability:string,effect:string,root:string,maxFiles:int,overwrite:bool,maxBytes:int}|null
+     *  @return array{capability:string,effect:string,root:string,visibility:string,allowedExtensions:list<string>,maxFiles:int,overwrite:bool,maxBytes:int}|null
      */
     private function executionScopeFor(array $effects): ?array
     {
@@ -68,8 +68,10 @@ class AuthorizationService
 
         return [
             'capability' => 'filesystem.write.public_output',
-            'effect' => 'file.create',
+            'effect' => 'file.create.public',
             'root' => 'public/output',
+            'visibility' => 'public',
+            'allowedExtensions' => ['txt'],
             'maxFiles' => 1,
             'overwrite' => false,
             'maxBytes' => 32768,
