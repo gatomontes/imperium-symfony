@@ -35,6 +35,10 @@ class Authorization
     #[ORM\Column(type: Types::JSON)]
     private array $limits;
 
+    /** @var array{capability:string,effect:string,root:string,maxFiles:int,overwrite:bool,maxBytes:int}|null */
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $executionScope = null;
+
     #[ORM\Column(length: 32)]
     private string $status = self::PENDING;
 
@@ -44,8 +48,11 @@ class Authorization
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $decidedAt = null;
 
-    /** @param list<string> $effects */
-    public function __construct(Proposal $proposal, array $effects)
+    /**
+     * @param list<string> $effects
+     * @param array{capability:string,effect:string,root:string,maxFiles:int,overwrite:bool,maxBytes:int}|null $executionScope
+     */
+    public function __construct(Proposal $proposal, array $effects, ?array $executionScope = null)
     {
         if (Proposal::APPROVED !== $proposal->getStatus()) {
             throw new \DomainException('Proposal approval is required before requesting resource or effect authorization.');
@@ -57,6 +64,7 @@ class Authorization
         $this->resources = $content['resourceRequirements'];
         $this->effects = $effects;
         $this->limits = $content['limits'];
+        $this->executionScope = $executionScope;
         $this->createdAt = new \DateTimeImmutable();
     }
 
@@ -86,6 +94,12 @@ class Authorization
     public function getLimits(): array
     {
         return $this->limits;
+    }
+
+    /** @return array{capability:string,effect:string,root:string,maxFiles:int,overwrite:bool,maxBytes:int}|null */
+    public function getExecutionScope(): ?array
+    {
+        return $this->executionScope;
     }
 
     public function getStatus(): string
