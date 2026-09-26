@@ -27,20 +27,23 @@ final class Version20260926020500 extends AbstractMigration
     public function down(Schema $schema): void
     {
         $this->abortIf(!$this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform, 'This migration requires PostgreSQL.');
-        $evidenceBearingOlderVersion = (bool) $this->connection->fetchOne(
+        $evidenceBearingVersionedProposal = (bool) $this->connection->fetchOne(
             'SELECT EXISTS (
                 SELECT 1
-                FROM mission_authorization older
-                JOIN mission_authorization newer
-                  ON older.proposal_id = newer.proposal_id
-                 AND older.version < newer.version
+                FROM mission_authorization authorization
                 JOIN execution_attempt execution
-                  ON execution.authorization_id = older.id
+                  ON execution.authorization_id = authorization.id
+                WHERE EXISTS (
+                    SELECT 1
+                    FROM mission_authorization sibling
+                    WHERE sibling.proposal_id = authorization.proposal_id
+                      AND sibling.id <> authorization.id
+                )
             )'
         );
         $this->abortIf(
-            $evidenceBearingOlderVersion,
-            'Cannot downgrade authorization versioning while an older authorization retains execution evidence.'
+            $evidenceBearingVersionedProposal,
+            'Cannot downgrade authorization versioning while a multi-version proposal retains execution evidence.'
         );
         $this->addSql('DELETE FROM mission_authorization older USING mission_authorization newer WHERE older.proposal_id = newer.proposal_id AND older.version < newer.version');
         $this->addSql('DROP INDEX uniq_authorization_proposal_version');
