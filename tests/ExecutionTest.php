@@ -297,8 +297,7 @@ class ExecutionTest extends KernelTestCase
     }
 
     public function testSuccessfulExecutionLeavesNoStagingArtifact(): void
-    {        [$interview] = $this->authorizedFixture();
-        $attempt = $this->executionService->execute($interview->getId(), 'imperium-exec.txt', 'complete before publish');
+    {        [$interview] = $this->authorizedFixture();        $attempt = $this->executionService->execute($interview->getId(), 'imperium-exec.txt', 'complete before publish');
 
         self::assertSame(ExecutionAttempt::SUCCEEDED, $attempt->getStatus());
         self::assertFileExists($this->executionDir.'/imperium-exec.txt');
@@ -334,6 +333,36 @@ class ExecutionTest extends KernelTestCase
         self::assertSame(ExecutionAttempt::SUCCEEDED, $reconciled?->getStatus());
         self::assertFileDoesNotExist($witnessPath);
         self::assertFileDoesNotExist($stagingPath);
+    }
+
+    public function testTerminalAttemptPreservesInconclusiveStagingIdentity(): void
+    {
+        [$interview, $authorization] = $this->authorizedFixture();
+        $attempt = new ExecutionAttempt($authorization, 'public/output/imperium-recover.txt', hash('sha256', 'terminal payload'));
+        $attempt->startEffect();
+        $attempt->fail('test_terminal_failure');
+        $this->executions->save($attempt);
+
+        if (!is_dir($this->stagingDir)) {
+            mkdir($this->stagingDir, 0775, true);
+        }
+        $target = sys_get_temp_dir().'/imperium-terminal-stage-'.bin2hex(random_bytes(4));
+        file_put_contents($target, 'terminal payload');
+        $stagingPath = $this->stagingDir.'/'.$attempt->getId().'.tmp';
+        if (!@symlink($target, $stagingPath)) {
+            @unlink($target);
+            self::markTestSkipped('File symlinks are not available in this test environment.');
+        }
+
+        try {
+            $reconciled = $this->executionService->reconcile($interview->getId());
+
+            self::assertSame(ExecutionAttempt::FAILED, $reconciled?->getStatus());
+            self::assertTrue(is_link($stagingPath));
+        } finally {
+            @unlink($stagingPath);
+            @unlink($target);
+        }
     }
 
     public function testMissionWithExecutionEvidenceCannotBeDeleted(): void
@@ -476,6 +505,34 @@ class ExecutionTest extends KernelTestCase
         self::assertSame($content, file_get_contents($this->executionDir.'/imperium-recover.txt'));
     }
 
+    public function testStartedAttemptRetainsStagingWhenWitnessCleanupCannotBeProven(): void
+    {
+        [$interview, $authorization] = $this->authorizedFixture();
+        $content = 'owned staging payload';
+        $attempt = new ExecutionAttempt($authorization, 'public/output/imperium-recover.txt', hash('sha256', $content));
+        $attempt->startEffect();
+        $this->executions->save($attempt);
+
+        if (!is_dir($this->executionDir)) {
+            mkdir($this->executionDir, 0775, true);
+        }
+        if (!is_dir($this->stagingDir)) {
+            mkdir($this->stagingDir, 0775, true);
+        }
+
+        $stagingPath = $this->stagingDir.'/'.$attempt->getId().'.tmp';
+        $witnessPath = $this->executionDir.'/.imperium-'.$attempt->getId().'.publish';
+        file_put_contents($stagingPath, $content);
+        file_put_contents($witnessPath, 'unrelated witness inode');
+        file_put_contents($this->executionDir.'/imperium-recover.txt', 'unrelated target inode');
+
+        $reconciled = $this->executionService->reconcile($interview->getId());
+
+        self::assertSame(ExecutionAttempt::EFFECT_STARTED, $reconciled?->getStatus());
+        self::assertFileExists($stagingPath);
+        self::assertFileExists($witnessPath);
+    }
+
     public function testStartedAttemptCannotClaimAnotherPublishWithSameContent(): void
     {
         [$interview, $authorization] = $this->authorizedFixture();
@@ -597,8 +654,7 @@ class ExecutionTest extends KernelTestCase
         $interview->submit('Create a local test file.');
         $interview->beginAttempt();
         $interview->receive('Create one local test file.\n\n'.Interview::PERMISSION_QUESTION, true, 'local file test');
-        $this->interviews->save($interview);
-        $interview->decideDraftPermission(true);
+        $this->interviews->save($interview);        $interview->decideDraftPermission(true);
         $this->interviews->save($interview);
 
         $proposal = new Proposal($interview, 1, $interview->getVersion(), [
