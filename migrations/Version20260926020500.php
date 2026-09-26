@@ -30,11 +30,11 @@ final class Version20260926020500 extends AbstractMigration
         $multipleEvidenceVersions = (int) $this->connection->fetchOne(
             'SELECT COUNT(*)
              FROM (
-                 SELECT authorization.proposal_id
-                 FROM mission_authorization authorization
+                 SELECT auth.proposal_id
+                 FROM mission_authorization auth
                  JOIN execution_attempt execution
-                   ON execution.authorization_id = authorization.id
-                 GROUP BY authorization.proposal_id
+                   ON execution.authorization_id = auth.id
+                 GROUP BY auth.proposal_id
                  HAVING COUNT(*) > 1
              ) evidence_conflicts'
         );
