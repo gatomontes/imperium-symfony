@@ -166,7 +166,7 @@ class AuthorizationTest extends KernelTestCase
         self::assertSame(0, $this->http->getRequestsCount());
     }
 
-    public function testReopeningDecidedAuthorizationIsReadOnlyAndDoesNotExecute(): void
+    public function testReopeningDecidedAuthorizationRemainsReadOnlyAndBackDoesNotExecute(): void
     {
         [$interview, $proposal] = $this->proposalFixture();
         $authorization = $this->service->request($interview->getId(), 'Create one local Markdown file.');
@@ -178,7 +178,8 @@ class AuthorizationTest extends KernelTestCase
 
         self::assertSame(Command::SUCCESS, $tester->getStatusCode());
         self::assertStringContainsString('Authorization — authorized', $tester->getDisplay());
-        self::assertStringContainsString('Execution remains unavailable in this campaign', $tester->getDisplay());
+        self::assertStringContainsString('Create authorized local file', $tester->getDisplay());
+        self::assertStringContainsString('No execution attempt was created', $tester->getDisplay());
         self::assertStringNotContainsString('Authorization decision', $tester->getDisplay());
         self::assertSame(0, $this->http->getRequestsCount());
     }
