@@ -181,9 +181,7 @@ success, displays the relative path, SHA-256, and bytes written. No DeepSeek cal
 made.
 
 A saved execution attempt prevents another attempt under the same authorization.
-If execution was interrupted after preparation, reopening inspects the expected file
-without retrying: a matching hash closes success, a mismatched file fails closed,
-and a missing file remains prepared.
+Recovery distinguishes PREPARED from EFFECT_STARTED. PREPARED plus an existing target is ambiguous and fails closed; it is never treated as proof that Imperium created the file. Only a persisted EFFECT_STARTED attempt can be closed as success from a matching file hash. No state automatically retries the effect.
 
-PostgreSQL CI passes **55 tests / 422 assertions** plus migration rollback/reapply.
+PostgreSQL CI passes **58 tests / 429 assertions** plus migration rollback/reapply.
 Live operator acceptance remains required before merge.
