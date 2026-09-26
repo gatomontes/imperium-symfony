@@ -70,6 +70,9 @@ class LocalFileExecutionService
 
             $written = 0;
             try {
+                $attempt->startEffect();
+                $this->executions->save($attempt);
+
                 $length = strlen($content);
                 while ($written < $length) {
                     $chunk = fwrite($handle, substr($content, $written));
@@ -113,12 +116,27 @@ class LocalFileExecutionService
         try {
             [$authorization] = $this->authorizedContext($interviewId);
             $attempt = $this->executions->forAuthorization($authorization);
-            if (null === $attempt || ExecutionAttempt::PREPARED !== $attempt->getStatus()) {
+            if (null === $attempt
+                || !in_array($attempt->getStatus(), [ExecutionAttempt::PREPARED, ExecutionAttempt::EFFECT_STARTED], true)) {
                 return $attempt;
             }
 
             $path = $this->projectDir.'/'.$attempt->getTargetPath();
-            if (!is_file($path)) {
+            $exists = is_file($path);
+
+            if (ExecutionAttempt::PREPARED === $attempt->getStatus()) {
+                if ($exists) {
+                    $attempt->fail('prepared_target_exists_without_start_evidence');
+                    $this->executions->save($attempt);
+                }
+
+                return $attempt;
+            }
+
+            if (!$exists) {
+                $attempt->fail('started_target_missing');
+                $this->executions->save($attempt);
+
                 return $attempt;
             }
 
@@ -155,26 +173,37 @@ class LocalFileExecutionService
 
     private function assertScopeAllowsLocalFile(Authorization $authorization): void
     {
-        $resourceAllowed = false;
-        foreach ($authorization->getResources() as $resource) {
-            if (str_contains(mb_strtolower($resource), 'filesystem') && str_contains(mb_strtolower($resource), 'write')) {
-                $resourceAllowed = true;
-                break;
-            }
+        $resources = array_map($this->normalizeScopeText(...), $authorization->getResources());
+        if (!in_array('local filesystem write access', $resources, true)) {
+            throw new \DomainException('The recorded authorization lacks the exact supported capability: Local filesystem write access.');
         }
 
-        $effectAllowed = false;
-        foreach ($authorization->getEffects() as $effect) {
-            $normalized = mb_strtolower(trim($effect, " .\t\n\r\0\x0B"));
-            if (preg_match('/^create one local(?: test)? file$/u', $normalized)) {
-                $effectAllowed = true;
-                break;
-            }
-        }
-
-        if (!$resourceAllowed || !$effectAllowed) {
+        $effects = array_map($this->normalizeScopeText(...), $authorization->getEffects());
+        if (!in_array('create one local file', $effects, true)
+            && !in_array('create one local test file', $effects, true)) {
             throw new \DomainException('The recorded authorization does not permit the supported local-file creation effect.');
         }
+
+        $recognizedLimits = [
+            'one new local file only',
+            'no overwrite',
+            'no external publication',
+        ];
+        $limits = array_map($this->normalizeScopeText(...), $authorization->getLimits());
+        foreach ($limits as $limit) {
+            if (!in_array($limit, $recognizedLimits, true)) {
+                throw new \DomainException('Execution refused because the authorization contains a limit this executor cannot enforce: '.$limit);
+            }
+        }
+        if (!in_array('one new local file only', $limits, true)
+            || !in_array('no overwrite', $limits, true)) {
+            throw new \DomainException('Execution requires explicit limits: One new local file only; No overwrite.');
+        }
+    }
+
+    private function normalizeScopeText(string $text): string
+    {
+        return mb_strtolower(trim($text, " .\t\n\r\0\x0B"));
     }
 
     private function validateFilename(string $filename): string
