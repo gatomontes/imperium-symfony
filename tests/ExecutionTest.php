@@ -275,13 +275,41 @@ class ExecutionTest extends KernelTestCase
         if (!is_dir($this->executionDir)) {
             mkdir($this->executionDir, 0775, true);
         }
-        file_put_contents($this->executionDir.'/imperium-recover.txt', $content);
+        if (!is_dir($this->stagingDir)) {
+            mkdir($this->stagingDir, 0775, true);
+        }
+        $stagingPath = $this->stagingDir.'/'.$attempt->getId().'.tmp';
+        file_put_contents($stagingPath, $content);
+        link($stagingPath, $this->executionDir.'/imperium-recover.txt');
 
         $reconciled = $this->executionService->reconcile($interview->getId());
 
         self::assertSame(ExecutionAttempt::SUCCEEDED, $reconciled?->getStatus());
         self::assertSame(strlen($content), $reconciled?->getBytesWritten());
         self::assertSame($content, file_get_contents($this->executionDir.'/imperium-recover.txt'));
+    }
+
+    public function testStartedAttemptCannotClaimAnotherPublishWithSameContent(): void
+    {
+        [$interview, $authorization] = $this->authorizedFixture();
+        $content = 'same bytes, different inode';
+        $attempt = new ExecutionAttempt($authorization, 'public/output/imperium-recover.txt', hash('sha256', $content));
+        $attempt->startEffect();
+        $this->executions->save($attempt);
+
+        if (!is_dir($this->executionDir)) {
+            mkdir($this->executionDir, 0775, true);
+        }
+        if (!is_dir($this->stagingDir)) {
+            mkdir($this->stagingDir, 0775, true);
+        }
+        file_put_contents($this->stagingDir.'/'.$attempt->getId().'.tmp', $content);
+        file_put_contents($this->executionDir.'/imperium-recover.txt', $content);
+
+        $reconciled = $this->executionService->reconcile($interview->getId());
+
+        self::assertSame(ExecutionAttempt::FAILED, $reconciled?->getStatus());
+        self::assertSame('recovery_ownership_mismatch', $reconciled?->getFailureCode());
     }
 
     public function testStartedAttemptWithMismatchedFileFailsClosed(): void
@@ -294,7 +322,12 @@ class ExecutionTest extends KernelTestCase
         if (!is_dir($this->executionDir)) {
             mkdir($this->executionDir, 0775, true);
         }
-        file_put_contents($this->executionDir.'/imperium-mismatch.txt', 'different');
+        if (!is_dir($this->stagingDir)) {
+            mkdir($this->stagingDir, 0775, true);
+        }
+        $stagingPath = $this->stagingDir.'/'.$attempt->getId().'.tmp';
+        file_put_contents($stagingPath, 'different');
+        link($stagingPath, $this->executionDir.'/imperium-mismatch.txt');
 
         $reconciled = $this->executionService->reconcile($interview->getId());
 
