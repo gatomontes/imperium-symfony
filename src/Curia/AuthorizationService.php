@@ -25,12 +25,18 @@ class AuthorizationService
             if (Proposal::APPROVED !== $proposal->getStatus()) {
                 throw new \DomainException('Proposal approval is required before requesting resource or effect authorization.');
             }
-            if (null !== $this->authorizations->forProposal($proposal)) {
-                throw new \DomainException('An authorization request already exists for this proposal.');
+            $latest = $this->authorizations->forProposal($proposal);
+            if (null !== $latest && Authorization::PENDING === $latest->getStatus()) {
+                throw new \DomainException('A pending authorization request already exists for this proposal.');
             }
 
             $effects = $this->parseEffects($effectsText);
-            $authorization = new Authorization($proposal, $effects, $this->executionScopeFor($effects));
+            $authorization = new Authorization(
+                $proposal,
+                (null === $latest ? 1 : $latest->getVersion() + 1),
+                $effects,
+                $this->executionScopeFor($effects),
+            );
             $this->authorizations->save($authorization);
 
             return $authorization;
