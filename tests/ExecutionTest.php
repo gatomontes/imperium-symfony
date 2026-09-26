@@ -120,7 +120,7 @@ class ExecutionTest extends KernelTestCase
         $em->remove($authorization);
         $em->flush();
 
-        $legacy = new Authorization($proposal, ['Create one local test file']);
+        $legacy = new Authorization($proposal, 1, ['Create one local test file']);
         $legacy->decide(true);
         $this->authorizations->save($legacy);
 
