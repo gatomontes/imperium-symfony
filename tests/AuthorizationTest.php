@@ -201,6 +201,38 @@ class AuthorizationTest extends KernelTestCase
         self::assertSame(0, $this->http->getRequestsCount());
     }
 
+    public function testCliCanReplaceHistoricalAuthorizationWithStructuredVersion(): void
+    {
+        [$interview, $proposal] = $this->proposalFixture();
+        $legacy = new Authorization($proposal, 1, ['Create one local test file']);
+        $legacy->decide(true);
+        $this->authorizations->save($legacy);
+
+        $tester = new CommandTester(self::getContainer()->get(InterviewCommand::class));
+        $tester->setInputs([
+            '1',
+            'Create one local test file',
+            '1',
+            '0',
+        ]);
+        $tester->execute(['id' => $interview->getId()], ['interactive' => true]);
+
+        self::assertSame(Command::SUCCESS, $tester->getStatusCode());
+        self::assertStringContainsString('Authorization v1 — authorized', $tester->getDisplay());
+        self::assertStringContainsString('historical/non-executable', $tester->getDisplay());
+        self::assertStringContainsString('Prepare replacement authorization', $tester->getDisplay());
+        self::assertStringContainsString('Authorization v2 — pending', $tester->getDisplay());
+        self::assertStringContainsString('filesystem.write.public_output', $tester->getDisplay());
+        self::assertStringContainsString('Authorization v2 authorized', $tester->getDisplay());
+        self::assertStringContainsString('Create authorized local file', $tester->getDisplay());
+
+        $history = $this->authorizations->history($proposal);
+        self::assertSame([1, 2], array_map(static fn (Authorization $authorization): int => $authorization->getVersion(), $history));
+        self::assertNull($history[0]->getExecutionScope());
+        self::assertSame('filesystem.write.public_output', $history[1]->getExecutionScope()['capability'] ?? null);
+        self::assertSame(Authorization::AUTHORIZED, $history[1]->getStatus());
+    }
+
     public function testReopeningDecidedAuthorizationRemainsReadOnlyAndBackDoesNotExecute(): void
     {
         [$interview, $proposal] = $this->proposalFixture();
