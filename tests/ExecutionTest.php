@@ -297,8 +297,7 @@ class ExecutionTest extends KernelTestCase
     }
 
     public function testSuccessfulExecutionLeavesNoStagingArtifact(): void
-    {
-        [$interview] = $this->authorizedFixture();
+    {        [$interview] = $this->authorizedFixture();
 
         $attempt = $this->executionService->execute($interview->getId(), 'imperium-exec.txt', 'complete before publish');
 
@@ -465,13 +464,15 @@ class ExecutionTest extends KernelTestCase
         if (!is_dir($this->stagingDir)) {
             mkdir($this->stagingDir, 0775, true);
         }
-        file_put_contents($this->stagingDir.'/'.$attempt->getId().'.tmp', $content);
+        $stagingPath = $this->stagingDir.'/'.$attempt->getId().'.tmp';
+        file_put_contents($stagingPath, $content);
         file_put_contents($this->executionDir.'/imperium-recover.txt', $content);
 
         $reconciled = $this->executionService->reconcile($interview->getId());
 
         self::assertSame(ExecutionAttempt::FAILED, $reconciled?->getStatus());
         self::assertSame('recovery_ownership_mismatch', $reconciled?->getFailureCode());
+        self::assertFileDoesNotExist($stagingPath);
     }
 
     public function testStartedAttemptWithMismatchedFileFailsClosed(): void
@@ -597,8 +598,7 @@ class ExecutionTest extends KernelTestCase
         $this->authorizationService = self::getContainer()->get(AuthorizationService::class);
         $this->executions = self::getContainer()->get(ExecutionRecords::class);
         $this->executionService = self::getContainer()->get(LocalFileExecutionService::class);
-        $this->interviewService = self::getContainer()->get(InterviewService::class);
-        $this->interviews = self::getContainer()->get(InterviewRecords::class);
+        $this->interviewService = self::getContainer()->get(InterviewService::class);        $this->interviews = self::getContainer()->get(InterviewRecords::class);
         $this->proposals = self::getContainer()->get(ProposalRecords::class);
         $this->http = self::getContainer()->get('seneschal.test_client');
     }
