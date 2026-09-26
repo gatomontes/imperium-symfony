@@ -246,7 +246,7 @@ creation of one new file under `var/execution/`, gated by matching approved
 proposal + authorized filesystem scope. The executor refuses path traversal,
 oversized content, overwrite, missing/refused/mismatched authority, and repeat use
 of the same authorization. It persists an execution attempt before I/O and retains
-SHA-256/path/result evidence. Prepared attempts are never automatically retried.
+SHA-256/path/result evidence. Prepared attempts are never automatically retried, and only persisted effect-start evidence can support recovery to success.
 
-PostgreSQL CI passes **55 tests / 422 assertions**, schema validation, and complete
+PostgreSQL CI passes **58 tests / 429 assertions**, schema validation, and complete
 migration rollback/reapply. Live operator acceptance remains pending.
