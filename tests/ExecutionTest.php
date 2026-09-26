@@ -1,0 +1,243 @@
+<?php
+
+namespace App\Tests;
+
+use App\Atheneum\AuthorizationRecords;
+use App\Atheneum\ExecutionRecords;
+use App\Atheneum\InterviewRecords;
+use App\Atheneum\ProposalRecords;
+use App\Command\InterviewCommand;
+use App\Curia\AuthorizationService;
+use App\Curia\LocalFileExecutionService;
+use App\Entity\Authorization;
+use App\Entity\ExecutionAttempt;
+use App\Entity\Interview;
+use App\Entity\Proposal;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\HttpClient\MockHttpClient;
+
+class ExecutionTest extends KernelTestCase
+{
+    private AuthorizationRecords $authorizations;
+    private AuthorizationService $authorizationService;
+    private ExecutionRecords $executions;
+    private LocalFileExecutionService $executionService;
+    private InterviewRecords $interviews;
+    private ProposalRecords $proposals;
+    private MockHttpClient $http;
+    private string $executionDir;
+
+    protected function setUp(): void
+    {
+        self::bootKernel();
+        $this->connectServices();
+        $this->executionDir = self::getContainer()->getParameter('kernel.project_dir').'/var/execution';
+        foreach (['imperium-exec.txt', 'imperium-recover.txt', 'imperium-mismatch.txt', 'imperium-existing.txt'] as $name) {
+            @unlink($this->executionDir.'/'.$name);
+        }
+
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        foreach ($em->getRepository(ExecutionAttempt::class)->findAll() as $attempt) {
+            $em->remove($attempt);
+        }
+        foreach ($em->getRepository(Authorization::class)->findAll() as $authorization) {
+            $em->remove($authorization);
+        }
+        foreach ($em->getRepository(Proposal::class)->findAll() as $proposal) {
+            $em->remove($proposal);
+        }
+        foreach ($em->getRepository(Interview::class)->findAll() as $interview) {
+            $em->remove($interview);
+        }
+        $em->flush();
+    }
+
+    protected function tearDown(): void
+    {
+        foreach (['imperium-exec.txt', 'imperium-recover.txt', 'imperium-mismatch.txt', 'imperium-existing.txt'] as $name) {
+            @unlink($this->executionDir.'/'.$name);
+        }
+
+        parent::tearDown();
+    }
+
+    public function testExecutionRequiresAuthorizedMatchingScope(): void
+    {
+        [$interview] = $this->authorizedFixture(effect: 'Open one pull request');
+
+        try {
+            $this->executionService->execute($interview->getId(), 'imperium-exec.txt', 'test');
+            self::fail('Execution outside authorized effect was accepted.');
+        } catch (\DomainException $exception) {
+            self::assertStringContainsString('does not permit', $exception->getMessage());
+        }
+
+        self::assertFileDoesNotExist($this->executionDir.'/imperium-exec.txt');
+        self::assertSame(0, $this->http->getRequestsCount());
+    }
+
+    public function testSuccessfulExecutionCreatesOneFileAndPersistsEvidence(): void
+    {
+        [$interview, $authorization] = $this->authorizedFixture();
+        $content = 'Imperium bounded execution test.';
+
+        $attempt = $this->executionService->execute($interview->getId(), 'imperium-exec.txt', $content);
+
+        self::assertSame(ExecutionAttempt::SUCCEEDED, $attempt->getStatus());
+        self::assertSame('var/execution/imperium-exec.txt', $attempt->getTargetPath());
+        self::assertSame(hash('sha256', $content), $attempt->getContentSha256());
+        self::assertSame(strlen($content), $attempt->getBytesWritten());
+        self::assertFileExists($this->executionDir.'/imperium-exec.txt');
+        self::assertSame($content, file_get_contents($this->executionDir.'/imperium-exec.txt'));
+        self::assertSame($attempt->getId(), $this->executions->forAuthorization($authorization)?->getId());
+        self::assertSame(0, $this->http->getRequestsCount());
+    }
+
+    public function testFilenameTraversalAndOversizedContentAreRefusedBeforeAttempt(): void
+    {
+        [$interview, $authorization] = $this->authorizedFixture();
+
+        foreach ([
+            ['../escape.txt', 'test'],
+            ['subdir/file.txt', 'test'],
+            ['imperium-exec.txt', str_repeat('x', 32769)],
+        ] as [$filename, $content]) {
+            try {
+                $this->executionService->execute($interview->getId(), $filename, $content);
+                self::fail('Unsafe execution input was accepted.');
+            } catch (\DomainException $exception) {
+                self::assertNotSame('', $exception->getMessage());
+            }
+        }
+
+        self::assertNull($this->executions->forAuthorization($authorization));
+        self::assertFileDoesNotExist($this->executionDir.'/imperium-exec.txt');
+    }
+
+    public function testExistingTargetFailsWithoutOverwriteAndConsumesAttempt(): void
+    {
+        [$interview, $authorization] = $this->authorizedFixture();
+        if (!is_dir($this->executionDir)) {
+            mkdir($this->executionDir, 0775, true);
+        }
+        file_put_contents($this->executionDir.'/imperium-existing.txt', 'original');
+
+        $attempt = $this->executionService->execute($interview->getId(), 'imperium-existing.txt', 'replacement');
+
+        self::assertSame(ExecutionAttempt::FAILED, $attempt->getStatus());
+        self::assertSame('target_exists_or_unavailable', $attempt->getFailureCode());
+        self::assertSame('original', file_get_contents($this->executionDir.'/imperium-existing.txt'));
+        self::assertSame($attempt->getId(), $this->executions->forAuthorization($authorization)?->getId());
+
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage('already has an execution attempt');
+        $this->executionService->execute($interview->getId(), 'imperium-exec.txt', 'second try');
+    }
+
+    public function testPreparedAttemptReconcilesSuccessfulFileWithoutRepeatingEffect(): void
+    {
+        [$interview, $authorization] = $this->authorizedFixture();
+        $content = 'recovered result';
+        $attempt = new ExecutionAttempt($authorization, 'var/execution/imperium-recover.txt', hash('sha256', $content));
+        $this->executions->save($attempt);
+
+        if (!is_dir($this->executionDir)) {
+            mkdir($this->executionDir, 0775, true);
+        }
+        file_put_contents($this->executionDir.'/imperium-recover.txt', $content);
+
+        $reconciled = $this->executionService->reconcile($interview->getId());
+
+        self::assertSame(ExecutionAttempt::SUCCEEDED, $reconciled?->getStatus());
+        self::assertSame(strlen($content), $reconciled?->getBytesWritten());
+        self::assertSame($content, file_get_contents($this->executionDir.'/imperium-recover.txt'));
+    }
+
+    public function testPreparedAttemptWithMismatchedFileFailsClosed(): void
+    {
+        [$interview, $authorization] = $this->authorizedFixture();
+        $attempt = new ExecutionAttempt($authorization, 'var/execution/imperium-mismatch.txt', hash('sha256', 'expected'));
+        $this->executions->save($attempt);
+
+        if (!is_dir($this->executionDir)) {
+            mkdir($this->executionDir, 0775, true);
+        }
+        file_put_contents($this->executionDir.'/imperium-mismatch.txt', 'different');
+
+        $reconciled = $this->executionService->reconcile($interview->getId());
+
+        self::assertSame(ExecutionAttempt::FAILED, $reconciled?->getStatus());
+        self::assertSame('recovery_hash_mismatch', $reconciled?->getFailureCode());
+    }
+
+    public function testCliExecutesAuthorizedLocalFileAndShowsEvidence(): void
+    {
+        [$interview] = $this->authorizedFixture();
+        $tester = new CommandTester(self::getContainer()->get(InterviewCommand::class));
+        $tester->setInputs(['1', 'imperium-exec.txt', 'hello imperium']);
+        $tester->execute(['id' => $interview->getId()], ['interactive' => true]);
+
+        self::assertSame(Command::SUCCESS, $tester->getStatusCode());
+        self::assertStringContainsString('Execution attempt — succeeded', $tester->getDisplay());
+        self::assertStringContainsString('var/execution/imperium-exec.txt', $tester->getDisplay());
+        self::assertStringContainsString('Authorized local-file effect completed', $tester->getDisplay());
+        self::assertSame('hello imperium', file_get_contents($this->executionDir.'/imperium-exec.txt'));
+        self::assertSame(0, $this->http->getRequestsCount());
+    }
+
+    public function testCliBackCreatesNoExecutionAttempt(): void
+    {
+        [$interview, $authorization] = $this->authorizedFixture();
+        $tester = new CommandTester(self::getContainer()->get(InterviewCommand::class));
+        $tester->execute(['id' => $interview->getId()], ['interactive' => true]);
+
+        self::assertSame(Command::SUCCESS, $tester->getStatusCode());
+        self::assertStringContainsString('Create authorized local file', $tester->getDisplay());
+        self::assertStringContainsString('No execution attempt was created', $tester->getDisplay());
+        self::assertNull($this->executions->forAuthorization($authorization));
+        self::assertSame(0, $this->http->getRequestsCount());
+    }
+
+    /** @return array{Interview, Authorization, Proposal} */
+    private function authorizedFixture(string $effect = 'Create one local test file'): array
+    {
+        $interview = $this->interviews->create();
+        $interview->submit('Create a local test file.');
+        $interview->beginAttempt();
+        $interview->receive('Create one local test file.\n\n'.Interview::PERMISSION_QUESTION, true, 'local file test');
+        $this->interviews->save($interview);
+        $interview->decideDraftPermission(true);
+        $this->interviews->save($interview);
+
+        $proposal = new Proposal($interview, 1, $interview->getVersion(), [
+            'objective' => 'Create one local test file.',
+            'deliverable' => 'One local file.',
+            'steps' => ['Create the file.', 'Verify its contents.'],
+            'acceptanceCriteria' => ['The file exists with the expected content.'],
+            'resourceRequirements' => ['Local filesystem write access.'],
+            'limits' => ['One new local file only.', 'No overwrite.', 'No external publication.'],
+            'unresolvedAssumptions' => [],
+        ]);
+        $proposal->approve();
+        $this->proposals->save($proposal);
+
+        $authorization = $this->authorizationService->request($interview->getId(), $effect);
+        $authorization = $this->authorizationService->decide($interview->getId(), $authorization->getId(), true);
+
+        return [$interview, $authorization, $proposal];
+    }
+
+    private function connectServices(): void
+    {
+        $this->authorizations = self::getContainer()->get(AuthorizationRecords::class);
+        $this->authorizationService = self::getContainer()->get(AuthorizationService::class);
+        $this->executions = self::getContainer()->get(ExecutionRecords::class);
+        $this->executionService = self::getContainer()->get(LocalFileExecutionService::class);
+        $this->interviews = self::getContainer()->get(InterviewRecords::class);
+        $this->proposals = self::getContainer()->get(ProposalRecords::class);
+        $this->http = self::getContainer()->get('seneschal.test_client');
+    }
+}
