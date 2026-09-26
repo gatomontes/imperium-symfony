@@ -166,3 +166,24 @@ itself uses no DeepSeek call and performs no execution.
 The campaign's PostgreSQL CI passes **47 tests / 383 assertions**, schema validation,
 and migration rollback/reapply. The live operator review remains required before
 merge.
+
+
+## First bounded execution campaign — 26 September 2026
+
+For an authorization whose recorded resources include filesystem write access and
+whose effect explicitly permits one local file, the CLI now offers
+**Create authorized local file**.
+
+The operation accepts only a filename (no directories) and file contents. Output is
+confined to `var/execution/`, content is limited to 32 KiB, and an existing target
+is never overwritten. The execution attempt is recorded before I/O and, after
+success, displays the relative path, SHA-256, and bytes written. No DeepSeek call is
+made.
+
+A saved execution attempt prevents another attempt under the same authorization.
+If execution was interrupted after preparation, reopening inspects the expected file
+without retrying: a matching hash closes success, a mismatched file fails closed,
+and a missing file remains prepared.
+
+PostgreSQL CI passes **55 tests / 422 assertions** plus migration rollback/reapply.
+Live operator acceptance remains required before merge.
