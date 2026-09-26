@@ -298,7 +298,6 @@ class ExecutionTest extends KernelTestCase
 
     public function testSuccessfulExecutionLeavesNoStagingArtifact(): void
     {        [$interview] = $this->authorizedFixture();
-
         $attempt = $this->executionService->execute($interview->getId(), 'imperium-exec.txt', 'complete before publish');
 
         self::assertSame(ExecutionAttempt::SUCCEEDED, $attempt->getStatus());
@@ -307,24 +306,33 @@ class ExecutionTest extends KernelTestCase
         self::assertFileDoesNotExist($this->executionDir.'/.imperium-'.$attempt->getId().'.publish');
     }
 
-    public function testSucceededAttemptRetriesStagingCleanupWhenMissionReopens(): void
+    public function testSucceededAttemptRetriesStagingAndWitnessCleanupWhenMissionReopens(): void
     {
         [$interview, $authorization] = $this->authorizedFixture();
-        $attempt = new ExecutionAttempt($authorization, 'public/output/imperium-recover.txt', hash('sha256', 'already completed'));
+        $content = 'already completed';
+        $attempt = new ExecutionAttempt($authorization, 'public/output/imperium-recover.txt', hash('sha256', $content));
         $attempt->startEffect();
-        $attempt->succeed(strlen('already completed'));
+        $attempt->succeed(strlen($content));
         $this->executions->save($attempt);
 
         if (!is_dir($this->stagingDir)) {
             mkdir($this->stagingDir, 0775, true);
         }
+        if (!is_dir($this->executionDir)) {
+            mkdir($this->executionDir, 0775, true);
+        }
+
         $stagingPath = $this->stagingDir.'/'.$attempt->getId().'.tmp';
-        file_put_contents($stagingPath, 'already completed');
+        $witnessPath = $this->executionDir.'/.imperium-'.$attempt->getId().'.publish';
+        file_put_contents($stagingPath, $content);
+        link($stagingPath, $witnessPath);
         self::assertFileExists($stagingPath);
+        self::assertFileExists($witnessPath);
 
         $reconciled = $this->executionService->reconcile($interview->getId());
 
         self::assertSame(ExecutionAttempt::SUCCEEDED, $reconciled?->getStatus());
+        self::assertFileDoesNotExist($witnessPath);
         self::assertFileDoesNotExist($stagingPath);
     }
 
@@ -404,6 +412,24 @@ class ExecutionTest extends KernelTestCase
                 rename($outputBackup, $this->executionDir);
             }
         }
+    }
+
+    public function testPreparedAttemptCleansAbandonedStagingFile(): void
+    {
+        [$interview, $authorization] = $this->authorizedFixture();
+        $attempt = new ExecutionAttempt($authorization, 'public/output/imperium-recover.txt', hash('sha256', 'prepared payload'));
+        $this->executions->save($attempt);
+
+        if (!is_dir($this->stagingDir)) {
+            mkdir($this->stagingDir, 0775, true);
+        }
+        $stagingPath = $this->stagingDir.'/'.$attempt->getId().'.tmp';
+        file_put_contents($stagingPath, 'prepared payload');
+
+        $reconciled = $this->executionService->reconcile($interview->getId());
+
+        self::assertSame(ExecutionAttempt::PREPARED, $reconciled?->getStatus());
+        self::assertFileDoesNotExist($stagingPath);
     }
 
     public function testPreparedAttemptNeverClaimsSuccessFromMatchingPreexistingFile(): void
@@ -529,6 +555,7 @@ class ExecutionTest extends KernelTestCase
             self::assertSame(ExecutionAttempt::FAILED, $reconciled?->getStatus());
             self::assertSame('recovery_target_symlink', $reconciled?->getFailureCode());
             self::assertTrue(is_link($targetPath));
+            self::assertFileDoesNotExist($stagingPath);
         } finally {
             @unlink($targetPath);
             @unlink($stagingPath);
@@ -597,8 +624,7 @@ class ExecutionTest extends KernelTestCase
         $this->authorizations = self::getContainer()->get(AuthorizationRecords::class);
         $this->authorizationService = self::getContainer()->get(AuthorizationService::class);
         $this->executions = self::getContainer()->get(ExecutionRecords::class);
-        $this->executionService = self::getContainer()->get(LocalFileExecutionService::class);
-        $this->interviewService = self::getContainer()->get(InterviewService::class);        $this->interviews = self::getContainer()->get(InterviewRecords::class);
+        $this->executionService = self::getContainer()->get(LocalFileExecutionService::class);        $this->interviewService = self::getContainer()->get(InterviewService::class);        $this->interviews = self::getContainer()->get(InterviewRecords::class);
         $this->proposals = self::getContainer()->get(ProposalRecords::class);
         $this->http = self::getContainer()->get('seneschal.test_client');
     }
