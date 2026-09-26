@@ -8,7 +8,7 @@ use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'mission_authorization')]
-#[ORM\UniqueConstraint(name: 'uniq_authorization_proposal', columns: ['proposal_id'])]
+#[ORM\UniqueConstraint(name: 'uniq_authorization_proposal_version', columns: ['proposal_id', 'version'])]
 class Authorization
 {
     public const PENDING = 'pending';
@@ -22,6 +22,9 @@ class Authorization
     #[ORM\ManyToOne(targetEntity: Proposal::class)]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private Proposal $proposal;
+
+    #[ORM\Column]
+    private int $version;
 
     /** @var list<string> */
     #[ORM\Column(type: Types::JSON)]
@@ -52,14 +55,18 @@ class Authorization
      * @param list<string> $effects
      * @param array{capability:string,effect:string,root:string,visibility:string,allowedExtensions:list<string>,maxFiles:int,overwrite:bool,maxBytes:int}|null $executionScope
      */
-    public function __construct(Proposal $proposal, array $effects, ?array $executionScope = null)
+    public function __construct(Proposal $proposal, int $version, array $effects, ?array $executionScope = null)
     {
         if (Proposal::APPROVED !== $proposal->getStatus()) {
             throw new \DomainException('Proposal approval is required before requesting resource or effect authorization.');
         }
 
         $this->id = Uuid::v7()->toRfc4122();
+        if ($version < 1) {
+            throw new \InvalidArgumentException('Authorization version must be positive.');
+        }
         $this->proposal = $proposal;
+        $this->version = $version;
         $content = $proposal->getContent();
         $this->resources = $content['resourceRequirements'];
         $this->effects = $effects;
@@ -76,6 +83,11 @@ class Authorization
     public function getProposal(): Proposal
     {
         return $this->proposal;
+    }
+
+    public function getVersion(): int
+    {
+        return $this->version;
     }
 
     /** @return list<string> */
