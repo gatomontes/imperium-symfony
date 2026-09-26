@@ -71,8 +71,10 @@ class AuthorizationTest extends KernelTestCase
         self::assertSame(['No external publication.', 'No deletion.'], $authorization->getLimits());
         self::assertSame([
             'capability' => 'filesystem.write.public_output',
-            'effect' => 'file.create',
+            'effect' => 'file.create.public',
             'root' => 'public/output',
+            'visibility' => 'public',
+            'allowedExtensions' => ['txt'],
             'maxFiles' => 1,
             'overwrite' => false,
             'maxBytes' => 32768,
