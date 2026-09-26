@@ -34,7 +34,7 @@ class ExecutionTest extends KernelTestCase
     {
         self::bootKernel();
         $this->connectServices();
-        $this->executionDir = self::getContainer()->getParameter('kernel.project_dir').'/var/execution';
+        $this->executionDir = self::getContainer()->getParameter('kernel.project_dir').'/public/output';
         foreach (['imperium-exec.txt', 'imperium-recover.txt', 'imperium-mismatch.txt', 'imperium-existing.txt'] as $name) {
             @unlink($this->executionDir.'/'.$name);
         }
@@ -112,6 +112,40 @@ class ExecutionTest extends KernelTestCase
         self::assertFileDoesNotExist($this->executionDir.'/imperium-exec.txt');
     }
 
+    public function testNoExternalPublicationLimitRefusesPublicOutput(): void
+    {
+        [$interview, $authorization, $proposal] = $this->authorizedFixture();
+
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $em->remove($authorization);
+        $em->remove($proposal);
+        $em->flush();
+
+        $replacement = new Proposal($interview, 2, $interview->getVersion(), [
+            'objective' => 'Create one local test file.',
+            'deliverable' => 'One local file.',
+            'steps' => ['Create the file.'],
+            'acceptanceCriteria' => ['The file exists.'],
+            'resourceRequirements' => ['Local filesystem write access.'],
+            'limits' => ['One new local file only.', 'No overwrite.', 'No external publication.'],
+            'unresolvedAssumptions' => [],
+        ]);
+        $replacement->approve();
+        $this->proposals->save($replacement);
+        $replacementAuthorization = $this->authorizationService->request($interview->getId(), 'Create one local test file');
+        $this->authorizationService->decide($interview->getId(), $replacementAuthorization->getId(), true);
+
+        try {
+            $this->executionService->execute($interview->getId(), 'imperium-exec.txt', 'test');
+            self::fail('Public output was allowed despite no-publication limit.');
+        } catch (\DomainException $exception) {
+            self::assertStringContainsString('public/output', $exception->getMessage());
+            self::assertStringContainsString('No external publication', $exception->getMessage());
+        }
+
+        self::assertFileDoesNotExist($this->executionDir.'/imperium-exec.txt');
+    }
+
     public function testUnknownProposalLimitFailsClosed(): void
     {
         [$interview, $authorization, $proposal] = $this->authorizedFixture();
@@ -153,7 +187,7 @@ class ExecutionTest extends KernelTestCase
         $attempt = $this->executionService->execute($interview->getId(), 'imperium-exec.txt', $content);
 
         self::assertSame(ExecutionAttempt::SUCCEEDED, $attempt->getStatus());
-        self::assertSame('var/execution/imperium-exec.txt', $attempt->getTargetPath());
+        self::assertSame('public/output/imperium-exec.txt', $attempt->getTargetPath());
         self::assertSame(hash('sha256', $content), $attempt->getContentSha256());
         self::assertSame(strlen($content), $attempt->getBytesWritten());
         self::assertFileExists($this->executionDir.'/imperium-exec.txt');
@@ -207,7 +241,7 @@ class ExecutionTest extends KernelTestCase
     {
         [$interview, $authorization] = $this->authorizedFixture();
         $content = 'recovered result';
-        $attempt = new ExecutionAttempt($authorization, 'var/execution/imperium-recover.txt', hash('sha256', $content));
+        $attempt = new ExecutionAttempt($authorization, 'public/output/imperium-recover.txt', hash('sha256', $content));
         $this->executions->save($attempt);
 
         if (!is_dir($this->executionDir)) {
@@ -226,7 +260,7 @@ class ExecutionTest extends KernelTestCase
     {
         [$interview, $authorization] = $this->authorizedFixture();
         $content = 'recovered started result';
-        $attempt = new ExecutionAttempt($authorization, 'var/execution/imperium-recover.txt', hash('sha256', $content));
+        $attempt = new ExecutionAttempt($authorization, 'public/output/imperium-recover.txt', hash('sha256', $content));
         $attempt->startEffect();
         $this->executions->save($attempt);
 
@@ -245,7 +279,7 @@ class ExecutionTest extends KernelTestCase
     public function testStartedAttemptWithMismatchedFileFailsClosed(): void
     {
         [$interview, $authorization] = $this->authorizedFixture();
-        $attempt = new ExecutionAttempt($authorization, 'var/execution/imperium-mismatch.txt', hash('sha256', 'expected'));
+        $attempt = new ExecutionAttempt($authorization, 'public/output/imperium-mismatch.txt', hash('sha256', 'expected'));
         $attempt->startEffect();
         $this->executions->save($attempt);
 
@@ -269,7 +303,7 @@ class ExecutionTest extends KernelTestCase
 
         self::assertSame(Command::SUCCESS, $tester->getStatusCode());
         self::assertStringContainsString('Execution attempt — succeeded', $tester->getDisplay());
-        self::assertStringContainsString('var/execution/imperium-exec.txt', $tester->getDisplay());
+        self::assertStringContainsString('public/output/imperium-exec.txt', $tester->getDisplay());
         self::assertStringContainsString('Authorized local-file effect completed', $tester->getDisplay());
         self::assertSame('hello imperium', file_get_contents($this->executionDir.'/imperium-exec.txt'));
         self::assertSame(0, $this->http->getRequestsCount());
