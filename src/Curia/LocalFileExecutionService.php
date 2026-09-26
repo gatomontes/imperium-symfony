@@ -141,6 +141,9 @@ class LocalFileExecutionService
             }
 
             $actualHash = @hash_file('sha256', $path);
+            if (false === $actualHash) {
+                return $attempt;
+            }
             if ($actualHash === $attempt->getContentSha256()) {
                 $size = filesize($path);
                 $attempt->succeed(false === $size ? 0 : $size);
