@@ -8,6 +8,7 @@ use App\Atheneum\InterviewRecords;
 use App\Atheneum\ProposalRecords;
 use App\Command\InterviewCommand;
 use App\Curia\AuthorizationService;
+use App\Curia\InterviewService;
 use App\Curia\LocalFileExecutionService;
 use App\Entity\Authorization;
 use App\Entity\ExecutionAttempt;
@@ -25,16 +26,19 @@ class ExecutionTest extends KernelTestCase
     private AuthorizationService $authorizationService;
     private ExecutionRecords $executions;
     private LocalFileExecutionService $executionService;
+    private InterviewService $interviewService;
     private InterviewRecords $interviews;
     private ProposalRecords $proposals;
     private MockHttpClient $http;
     private string $executionDir;
+    private string $stagingDir;
 
     protected function setUp(): void
     {
         self::bootKernel();
         $this->connectServices();
         $this->executionDir = self::getContainer()->getParameter('kernel.project_dir').'/public/output';
+        $this->stagingDir = self::getContainer()->getParameter('kernel.project_dir').'/var/execution-staging';
         foreach (['imperium-exec.txt', 'imperium-recover.txt', 'imperium-mismatch.txt', 'imperium-existing.txt'] as $name) {
             @unlink($this->executionDir.'/'.$name);
         }
@@ -59,6 +63,11 @@ class ExecutionTest extends KernelTestCase
     {
         foreach (['imperium-exec.txt', 'imperium-recover.txt', 'imperium-mismatch.txt', 'imperium-existing.txt'] as $name) {
             @unlink($this->executionDir.'/'.$name);
+        }
+        if (is_dir($this->stagingDir)) {
+            foreach (glob($this->stagingDir.'/*.tmp') ?: [] as $path) {
+                @unlink($path);
+            }
         }
 
         parent::tearDown();
@@ -185,6 +194,35 @@ class ExecutionTest extends KernelTestCase
 
         self::assertNull($this->executions->forAuthorization($authorization));
         self::assertFileDoesNotExist($this->executionDir.'/imperium-exec.txt');
+    }
+
+    public function testSuccessfulExecutionLeavesNoStagingArtifact(): void
+    {
+        [$interview] = $this->authorizedFixture();
+
+        $attempt = $this->executionService->execute($interview->getId(), 'imperium-exec.txt', 'complete before publish');
+
+        self::assertSame(ExecutionAttempt::SUCCEEDED, $attempt->getStatus());
+        self::assertFileExists($this->executionDir.'/imperium-exec.txt');
+        self::assertFileDoesNotExist($this->stagingDir.'/'.$attempt->getId().'.tmp');
+    }
+
+    public function testMissionWithExecutionEvidenceCannotBeDeleted(): void
+    {
+        [$interview, $authorization] = $this->authorizedFixture();
+        $attempt = $this->executionService->execute($interview->getId(), 'imperium-exec.txt', 'retained evidence');
+        self::assertSame(ExecutionAttempt::SUCCEEDED, $attempt->getStatus());
+
+        try {
+            $this->interviewService->delete($interview->getId());
+            self::fail('Mission with execution evidence was deleted.');
+        } catch (\DomainException $exception) {
+            self::assertStringContainsString('execution evidence', $exception->getMessage());
+        }
+
+        self::assertSame($interview->getId(), $this->interviews->get($interview->getId())->getId());
+        self::assertSame($attempt->getId(), $this->executions->forAuthorization($authorization)?->getId());
+        self::assertFileExists($this->executionDir.'/imperium-exec.txt');
     }
 
     public function testExistingTargetFailsWithoutOverwriteAndConsumesAttempt(): void
@@ -327,6 +365,7 @@ class ExecutionTest extends KernelTestCase
         $this->authorizationService = self::getContainer()->get(AuthorizationService::class);
         $this->executions = self::getContainer()->get(ExecutionRecords::class);
         $this->executionService = self::getContainer()->get(LocalFileExecutionService::class);
+        $this->interviewService = self::getContainer()->get(InterviewService::class);
         $this->interviews = self::getContainer()->get(InterviewRecords::class);
         $this->proposals = self::getContainer()->get(ProposalRecords::class);
         $this->http = self::getContainer()->get('seneschal.test_client');
