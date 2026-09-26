@@ -46,6 +46,13 @@ jobs:
             - run: php bin/phpunit
             - name: Check migration rollback and reapply on the disposable test database
               run: |
+                  # PHPUnit may intentionally leave evidence histories that cannot be
+                  # represented by the pre-versioning schema without data loss. Test
+                  # structural rollback/reapply on a fresh disposable PostgreSQL DB
+                  # rather than weakening the migration's evidence-preservation guard.
+                  php bin/console doctrine:database:drop --force --if-exists
+                  php bin/console doctrine:database:create
+                  php bin/console doctrine:migrations:migrate --no-interaction
                   php bin/console doctrine:migrations:execute 'DoctrineMigrations\Version20260926020500' --down --no-interaction
                   php bin/console doctrine:migrations:execute 'DoctrineMigrations\Version20260926004500' --down --no-interaction
                   php bin/console doctrine:migrations:execute 'DoctrineMigrations\Version20260926003000' --down --no-interaction
