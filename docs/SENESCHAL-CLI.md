@@ -166,3 +166,47 @@ itself uses no DeepSeek call and performs no execution.
 The campaign's PostgreSQL CI passes **47 tests / 383 assertions**, schema validation,
 and migration rollback/reapply. The live operator review remains required before
 merge.
+
+
+## First bounded execution campaign — 26 September 2026
+
+For an authorization whose recorded resources include filesystem write access and
+whose effect explicitly permits one local file, the CLI now offers
+**Create authorized local file**.
+
+The operation accepts only a filename (no directories) and file contents. Output is
+confined to `public/output/`, content is limited to 32 KiB, and an existing target
+is never overwritten. The execution attempt is recorded before I/O and, after
+success, displays the relative path, SHA-256, and bytes written. No DeepSeek call is
+made.
+
+A saved execution attempt prevents another attempt under the same authorization.
+Recovery distinguishes PREPARED from EFFECT_STARTED. PREPARED plus an existing target is ambiguous and fails closed; it is never treated as proof that Imperium created the file. Only a persisted EFFECT_STARTED attempt can be closed as success from a matching file hash. No state automatically retries the effect.
+
+PostgreSQL CI passes **64 tests / 471 assertions** plus migration rollback/reapply.
+Live operator acceptance remains required before merge.
+
+
+> **Public-output note:** the bounded executor now writes to `public/output/`.
+> Depending on the web-server configuration, files there may be directly reachable
+> over HTTP. For that reason an authorization containing `No external publication.`
+> is rejected rather than treated as compatible with this executor.
+
+
+Structured executable authority is displayed separately from proposal context.
+For the current public-output executor the canonical grant is
+`filesystem.write.public_output / file.create.public`, rooted at
+`public/output`, public visibility, `.txt` only, one file, no overwrite,
+32 KiB maximum. Legacy free-form authorizations cannot execute.
+
+
+Historical authorizations that predate structured authority now offer
+**Prepare replacement authorization**. The replacement is saved as the next
+authorization version and requires a fresh explicit Authorize/Refuse decision.
+Earlier authorization versions remain unchanged and queryable as history.
+
+
+Public output is staged and verified outside the document root before atomic
+no-overwrite publication. A mission with execution evidence can no longer be deleted
+through the interview list; retained execution evidence remains the custody record for
+the public file.

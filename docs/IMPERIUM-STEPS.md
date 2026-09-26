@@ -234,3 +234,19 @@ decisions use no model call and are immutable after decision.
 PostgreSQL CI passes **47 tests / 383 assertions**, schema validation, and complete
 migration rollback/reapply. Live operator acceptance is pending. No execution action
 exists yet.
+
+
+### First bounded execution campaign — 26 September 2026
+
+Authorization PR #4 was live-accepted and merged to `main` at
+`91e8707be9d2794e5e5e37af80200d4ad27ae916`.
+
+PR #5 (`codex/first-bounded-execution`) implements the first actual effect:
+creation of one new file under `public/output/`, gated by matching approved
+proposal + authorized filesystem scope. The executor refuses path traversal,
+oversized content, overwrite, missing/refused/mismatched authority, and repeat use
+of the same authorization. It persists an execution attempt before I/O and retains
+SHA-256/path/result evidence. Prepared attempts are never automatically retried, and only persisted effect-start evidence can support recovery to success.
+
+PostgreSQL CI passes **64 tests / 471 assertions**, schema validation, and complete
+migration rollback/reapply. Live operator acceptance remains pending.

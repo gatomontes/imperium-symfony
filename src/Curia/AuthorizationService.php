@@ -25,12 +25,18 @@ class AuthorizationService
             if (Proposal::APPROVED !== $proposal->getStatus()) {
                 throw new \DomainException('Proposal approval is required before requesting resource or effect authorization.');
             }
-            if (null !== $this->authorizations->forProposal($proposal)) {
-                throw new \DomainException('An authorization request already exists for this proposal.');
+            $latest = $this->authorizations->forProposal($proposal);
+            if (null !== $latest && Authorization::PENDING === $latest->getStatus()) {
+                throw new \DomainException('A pending authorization request already exists for this proposal.');
             }
 
             $effects = $this->parseEffects($effectsText);
-            $authorization = new Authorization($proposal, $effects);
+            $authorization = new Authorization(
+                $proposal,
+                (null === $latest ? 1 : $latest->getVersion() + 1),
+                $effects,
+                $this->executionScopeFor($effects),
+            );
             $this->authorizations->save($authorization);
 
             return $authorization;
@@ -49,6 +55,33 @@ class AuthorizationService
 
             return $authorization;
         });
+    }
+
+    /** @param list<string> $effects
+     *  @return array{capability:string,effect:string,root:string,visibility:string,allowedExtensions:list<string>,maxFiles:int,overwrite:bool,maxBytes:int}|null
+     */
+    private function executionScopeFor(array $effects): ?array
+    {
+        $normalized = array_map(
+            static fn (string $effect): string => mb_strtolower(trim($effect, " .\t\n\r\0\x0B")),
+            $effects,
+        );
+
+        if (!in_array('create one local file', $normalized, true)
+            && !in_array('create one local test file', $normalized, true)) {
+            return null;
+        }
+
+        return [
+            'capability' => 'filesystem.write.public_output',
+            'effect' => 'file.create.public',
+            'root' => 'public/output',
+            'visibility' => 'public',
+            'allowedExtensions' => ['txt'],
+            'maxFiles' => 1,
+            'overwrite' => false,
+            'maxBytes' => 32768,
+        ];
     }
 
     /** @return list<string> */

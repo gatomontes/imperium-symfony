@@ -15,7 +15,19 @@ class AuthorizationRecords
 
     public function forProposal(Proposal $proposal): ?Authorization
     {
-        return $this->entityManager->getRepository(Authorization::class)->findOneBy(['proposal' => $proposal]);
+        return $this->entityManager->getRepository(Authorization::class)->findOneBy(
+            ['proposal' => $proposal],
+            ['version' => 'DESC'],
+        );
+    }
+
+    /** @return list<Authorization> */
+    public function history(Proposal $proposal): array
+    {
+        return $this->entityManager->getRepository(Authorization::class)->findBy(
+            ['proposal' => $proposal],
+            ['version' => 'ASC'],
+        );
     }
 
     public function save(Authorization $authorization): void

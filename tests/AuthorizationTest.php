@@ -62,13 +62,23 @@ class AuthorizationTest extends KernelTestCase
 
         $authorization = $this->service->request(
             $interview->getId(),
-            "Create one local Markdown file;open one pull request",
+            "Create one local test file;open one pull request",
         );
 
         self::assertSame(Authorization::PENDING, $authorization->getStatus());
         self::assertSame(['The interview record.', 'Local filesystem write access.'], $authorization->getResources());
-        self::assertSame(['Create one local Markdown file', 'open one pull request'], $authorization->getEffects());
+        self::assertSame(['Create one local test file', 'open one pull request'], $authorization->getEffects());
         self::assertSame(['No external publication.', 'No deletion.'], $authorization->getLimits());
+        self::assertSame([
+            'capability' => 'filesystem.write.public_output',
+            'effect' => 'file.create.public',
+            'root' => 'public/output',
+            'visibility' => 'public',
+            'allowedExtensions' => ['txt'],
+            'maxFiles' => 1,
+            'overwrite' => false,
+            'maxBytes' => 32768,
+        ], $authorization->getExecutionScope());
         self::assertNull($authorization->getDecidedAt());
         self::assertSame(0, $this->http->getRequestsCount());
 
@@ -78,7 +88,29 @@ class AuthorizationTest extends KernelTestCase
         $saved = $this->authorizations->forProposal($savedProposal);
         self::assertNotNull($saved);
         self::assertSame($authorization->getId(), $saved->getId());
-        self::assertSame(['Create one local Markdown file', 'open one pull request'], $saved->getEffects());
+        self::assertSame(['Create one local test file', 'open one pull request'], $saved->getEffects());
+        self::assertSame('filesystem.write.public_output', $saved->getExecutionScope()['capability'] ?? null);
+    }
+
+    public function testDecidedAuthorizationCanBeReissuedAsNextVersionWithoutMutation(): void
+    {
+        [$interview, $proposal] = $this->proposalFixture();
+        $first = $this->service->request($interview->getId(), 'Publish externally.');
+        $first = $this->service->decide($interview->getId(), $first->getId(), false);
+
+        $second = $this->service->request($interview->getId(), 'Create one local test file');
+
+        self::assertSame(1, $first->getVersion());
+        self::assertSame(Authorization::REFUSED, $first->getStatus());
+        self::assertNull($first->getExecutionScope());
+        self::assertSame(2, $second->getVersion());
+        self::assertSame(Authorization::PENDING, $second->getStatus());
+        self::assertSame('filesystem.write.public_output', $second->getExecutionScope()['capability'] ?? null);
+
+        $history = $this->authorizations->history($proposal);
+        self::assertSame([1, 2], array_map(static fn (Authorization $authorization): int => $authorization->getVersion(), $history));
+        self::assertSame(Authorization::REFUSED, $history[0]->getStatus());
+        self::assertSame($second->getId(), $this->authorizations->forProposal($proposal)?->getId());
     }
 
     public function testAuthorizationDecisionIsPersistedAndCannotBeChanged(): void
@@ -151,25 +183,60 @@ class AuthorizationTest extends KernelTestCase
         $tester = new CommandTester(self::getContainer()->get(InterviewCommand::class));
         $tester->setInputs([
             '1',
-            'Create one local Markdown file; open one pull request',
+            'Create one local test file; open one pull request',
             '1',
         ]);
         $tester->execute(['id' => $interview->getId()], ['interactive' => true]);
 
         self::assertSame(Command::SUCCESS, $tester->getStatusCode());
-        self::assertStringContainsString('Resources / capabilities', $tester->getDisplay());
+        self::assertStringContainsString('Executable scope', $tester->getDisplay());
+        self::assertStringContainsString('filesystem.write.public_output', $tester->getDisplay());
+        self::assertStringContainsString('file.create.public', $tester->getDisplay());
+        self::assertStringContainsString('Proposal resource context', $tester->getDisplay());
         self::assertStringContainsString('Local filesystem write access.', $tester->getDisplay());
-        self::assertStringContainsString('Create one local Markdown file', $tester->getDisplay());
-        self::assertStringContainsString('Requested scope authorized', $tester->getDisplay());
+        self::assertStringContainsString('Create one local test file', $tester->getDisplay());
+        self::assertStringContainsString('Authorization v1 authorized', $tester->getDisplay());
         self::assertStringContainsString('No execution occurred', $tester->getDisplay());
         self::assertSame(Authorization::AUTHORIZED, $this->authorizations->forProposal($proposal)?->getStatus());
         self::assertSame(0, $this->http->getRequestsCount());
     }
 
-    public function testReopeningDecidedAuthorizationIsReadOnlyAndDoesNotExecute(): void
+    public function testCliCanReplaceHistoricalAuthorizationWithStructuredVersion(): void
     {
         [$interview, $proposal] = $this->proposalFixture();
-        $authorization = $this->service->request($interview->getId(), 'Create one local Markdown file.');
+        $legacy = new Authorization($proposal, 1, ['Create one local test file']);
+        $legacy->decide(true);
+        $this->authorizations->save($legacy);
+
+        $tester = new CommandTester(self::getContainer()->get(InterviewCommand::class));
+        $tester->setInputs([
+            '1',
+            'Create one local test file',
+            '1',
+            '0',
+        ]);
+        $tester->execute(['id' => $interview->getId()], ['interactive' => true]);
+
+        self::assertSame(Command::SUCCESS, $tester->getStatusCode());
+        self::assertStringContainsString('Authorization v1 — authorized', $tester->getDisplay());
+        self::assertStringContainsString('historical/non-executable', $tester->getDisplay());
+        self::assertStringContainsString('Prepare replacement authorization', $tester->getDisplay());
+        self::assertStringContainsString('Authorization v2 — pending', $tester->getDisplay());
+        self::assertStringContainsString('filesystem.write.public_output', $tester->getDisplay());
+        self::assertStringContainsString('Authorization v2 authorized', $tester->getDisplay());
+        self::assertStringContainsString('Create authorized local file', $tester->getDisplay());
+
+        $history = $this->authorizations->history($proposal);
+        self::assertSame([1, 2], array_map(static fn (Authorization $authorization): int => $authorization->getVersion(), $history));
+        self::assertNull($history[0]->getExecutionScope());
+        self::assertSame('filesystem.write.public_output', $history[1]->getExecutionScope()['capability'] ?? null);
+        self::assertSame(Authorization::AUTHORIZED, $history[1]->getStatus());
+    }
+
+    public function testReopeningDecidedAuthorizationRemainsReadOnlyAndBackDoesNotExecute(): void
+    {
+        [$interview, $proposal] = $this->proposalFixture();
+        $authorization = $this->service->request($interview->getId(), 'Create one local test file.');
         $this->service->decide($interview->getId(), $authorization->getId(), true);
 
         $this->reboot();
@@ -177,8 +244,9 @@ class AuthorizationTest extends KernelTestCase
         $tester->execute(['id' => $interview->getId()], ['interactive' => true]);
 
         self::assertSame(Command::SUCCESS, $tester->getStatusCode());
-        self::assertStringContainsString('Authorization — authorized', $tester->getDisplay());
-        self::assertStringContainsString('Execution remains unavailable in this campaign', $tester->getDisplay());
+        self::assertStringContainsString('Authorization v1 — authorized', $tester->getDisplay());
+        self::assertStringContainsString('Create authorized local file', $tester->getDisplay());
+        self::assertStringContainsString('No execution attempt was created', $tester->getDisplay());
         self::assertStringNotContainsString('Authorization decision', $tester->getDisplay());
         self::assertSame(0, $this->http->getRequestsCount());
     }
