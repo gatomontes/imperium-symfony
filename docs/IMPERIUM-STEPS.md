@@ -248,5 +248,5 @@ oversized content, overwrite, missing/refused/mismatched authority, and repeat u
 of the same authorization. It persists an execution attempt before I/O and retains
 SHA-256/path/result evidence. Prepared attempts are never automatically retried, and only persisted effect-start evidence can support recovery to success.
 
-PostgreSQL CI passes **61 tests / 461 assertions**, schema validation, and complete
+PostgreSQL CI passes **63 tests / 469 assertions**, schema validation, and complete
 migration rollback/reapply. Live operator acceptance remains pending.
