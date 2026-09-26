@@ -214,3 +214,24 @@ Authorization is deterministic application state, not model judgment. Reopening 
 approved proposal does not create authority. A decided authorization is read-only.
 External effects declared here do not amend the approved proposal; material changes
 must return to proposal revision. Recording authorization performs no external effect.
+
+
+## First bounded execution checkpoint — 26 September 2026
+
+The current campaign extends the flow with one concrete, mechanically enforced
+operation:
+
+```text
+Authorized proposal scope
+  → verify filesystem-write capability
+  → verify "create one local file" effect
+  → persist PREPARED execution attempt
+  → create one new file under var/execution/
+  → verify SHA-256
+  → persist SUCCEEDED / FAILED evidence
+```
+
+There is no general execution router. One authorization is consumed by at most one
+execution attempt, existing targets are not overwritten, and no model participates
+in the authority check or filesystem effect. Interrupted prepared attempts are
+reconciled by observation only; Imperium never silently repeats the effect.
