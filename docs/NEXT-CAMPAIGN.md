@@ -58,7 +58,7 @@ automatically retried. On reopen, recovery may only inspect the expected target:
 a merely PREPARED attempt never claims success from an existing file; if a target exists before persisted effect-start evidence, recovery fails closed. Only an EFFECT_STARTED attempt may be reconciled by comparing the target hash. A missing PREPARED target remains prepared and is never retried automatically.
 
 PostgreSQL CI passes migrations, schema validation,
-**58 tests / 429 assertions**, and full migration rollback/reapply.
+**59 tests / 440 assertions**, and full migration rollback/reapply.
 
 ## Current source map
 
@@ -118,3 +118,29 @@ Do not generalize execution until one complete mission has reached review and
 delivery through the ordinary path.
 
 *Ad Imperium.*
+
+
+## Structured executable authority — 26 September 2026
+
+Execution permission no longer depends on proposal/model wording. New authorization
+requests that ask for the supported local-file effect persist this canonical scope:
+
+```text
+capability = filesystem.write.public_output
+effect = file.create.public
+root = public/output
+visibility = public
+allowed_extensions = [txt]
+max_files = 1
+overwrite = false
+max_bytes = 32768
+```
+
+The operator sees this scope before choosing Authorize/Refuse. The executor checks
+only these structured fields. Human-readable proposal resources/effects/limits remain
+context and provenance, not machine permission.
+
+Existing authorization records from before this change retain a null execution scope
+and are intentionally non-executable. They are not silently upgraded after consent.
+
+Because the target is public, this first executor accepts only `.txt` files.
