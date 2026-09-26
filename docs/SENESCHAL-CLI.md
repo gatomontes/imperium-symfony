@@ -183,7 +183,7 @@ made.
 A saved execution attempt prevents another attempt under the same authorization.
 Recovery distinguishes PREPARED from EFFECT_STARTED. PREPARED plus an existing target is ambiguous and fails closed; it is never treated as proof that Imperium created the file. Only a persisted EFFECT_STARTED attempt can be closed as success from a matching file hash. No state automatically retries the effect.
 
-PostgreSQL CI passes **61 tests / 461 assertions** plus migration rollback/reapply.
+PostgreSQL CI passes **63 tests / 469 assertions** plus migration rollback/reapply.
 Live operator acceptance remains required before merge.
 
 
@@ -204,3 +204,9 @@ Historical authorizations that predate structured authority now offer
 **Prepare replacement authorization**. The replacement is saved as the next
 authorization version and requires a fresh explicit Authorize/Refuse decision.
 Earlier authorization versions remain unchanged and queryable as history.
+
+
+Public output is staged and verified outside the document root before atomic
+no-overwrite publication. A mission with execution evidence can no longer be deleted
+through the interview list; retained execution evidence remains the custody record for
+the public file.
