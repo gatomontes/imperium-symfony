@@ -11,6 +11,7 @@ use Symfony\Component\Uid\Uuid;
 class ExecutionAttempt
 {
     public const PREPARED = 'prepared';
+    public const EFFECT_STARTED = 'effect_started';
     public const SUCCEEDED = 'succeeded';
     public const FAILED = 'failed';
     public const OPERATION_LOCAL_FILE_CREATE = 'local_file_create';
@@ -71,10 +72,18 @@ class ExecutionAttempt
     public function getCreatedAt(): \DateTimeImmutable { return $this->createdAt; }
     public function getCompletedAt(): ?\DateTimeImmutable { return $this->completedAt; }
 
-    public function succeed(int $bytesWritten): void
+    public function startEffect(): void
     {
         if (self::PREPARED !== $this->status) {
-            throw new \DomainException('Only a prepared execution attempt can succeed.');
+            throw new \DomainException('Only a prepared execution attempt can start an effect.');
+        }
+        $this->status = self::EFFECT_STARTED;
+    }
+
+    public function succeed(int $bytesWritten): void
+    {
+        if (self::EFFECT_STARTED !== $this->status) {
+            throw new \DomainException('Only a started execution effect can succeed.');
         }
         $this->status = self::SUCCEEDED;
         $this->bytesWritten = $bytesWritten;
@@ -83,8 +92,8 @@ class ExecutionAttempt
 
     public function fail(string $failureCode): void
     {
-        if (self::PREPARED !== $this->status) {
-            throw new \DomainException('Only a prepared execution attempt can fail.');
+        if (!in_array($this->status, [self::PREPARED, self::EFFECT_STARTED], true)) {
+            throw new \DomainException('Only an unfinished execution attempt can fail.');
         }
         $this->status = self::FAILED;
         $this->failureCode = $failureCode;
