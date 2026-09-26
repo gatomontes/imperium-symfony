@@ -47,11 +47,11 @@ class LocalFileExecutionService
                 throw new \DomainException('Local file content must be 32768 bytes or fewer.');
             }
 
-            $relativePath = 'var/execution/'.$filename;
+            $relativePath = 'public/output/'.$filename;
             $attempt = new ExecutionAttempt($authorization, $relativePath, hash('sha256', $content));
             $this->executions->save($attempt);
 
-            $root = $this->projectDir.'/var/execution';
+            $root = $this->projectDir.'/public/output';
             if (!is_dir($root) && !mkdir($root, 0775, true) && !is_dir($root)) {
                 $attempt->fail('execution_directory_unavailable');
                 $this->executions->save($attempt);
@@ -198,6 +198,9 @@ class LocalFileExecutionService
         if (!in_array('one new local file only', $limits, true)
             || !in_array('no overwrite', $limits, true)) {
             throw new \DomainException('Execution requires explicit limits: One new local file only; No overwrite.');
+        }
+        if (in_array('no external publication', $limits, true)) {
+            throw new \DomainException('Execution refused: public/output may be web-accessible and conflicts with the authorized limit No external publication.');
         }
     }
 
