@@ -195,7 +195,7 @@ class AuthorizationTest extends KernelTestCase
         self::assertStringContainsString('Proposal resource context', $tester->getDisplay());
         self::assertStringContainsString('Local filesystem write access.', $tester->getDisplay());
         self::assertStringContainsString('Create one local test file', $tester->getDisplay());
-        self::assertStringContainsString('Requested scope authorized', $tester->getDisplay());
+        self::assertStringContainsString('Authorization v1 authorized', $tester->getDisplay());
         self::assertStringContainsString('No execution occurred', $tester->getDisplay());
         self::assertSame(Authorization::AUTHORIZED, $this->authorizations->forProposal($proposal)?->getStatus());
         self::assertSame(0, $this->http->getRequestsCount());
