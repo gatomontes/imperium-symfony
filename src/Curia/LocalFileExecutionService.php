@@ -331,7 +331,8 @@ class LocalFileExecutionService
                             $removeLstat = @lstat($filename);
                             $stillOwned = false !== $removeLstat
                                 && (($removeLstat['mode'] ?? 0) & 0170000) === 0100000
-                                && ($removeLstat['dev'] ?? null) === ($targetStat['dev'] ?? null)                                && ($removeLstat['ino'] ?? null) === ($targetStat['ino'] ?? null);
+                                && ($removeLstat['dev'] ?? null) === ($targetStat['dev'] ?? null)
+                            && ($removeLstat['ino'] ?? null) === ($targetStat['ino'] ?? null);
                             if (!$stillOwned) {
                                 $removeOwnedWitness();
 
@@ -378,7 +379,6 @@ class LocalFileExecutionService
                         fclose($targetHandle);
                     }
                 });
-            } catch (\DomainException) {                });
             } catch (\DomainException) {
                 fclose($stagingHandle);
                 $this->removeStagingFile($stagingRoot, $stagingName);
@@ -655,8 +655,11 @@ class LocalFileExecutionService
     private function authorizedContext(string $interviewId): array
     {
         $interview = $this->interviews->get($interviewId);
-        $proposal = $this->proposals->latest($interview);        if (null === $proposal || Proposal::APPROVED !== $proposal->getStatus()) {
-            throw new \DomainException('An approved proposal is required before execution.');        }        $authorization = $this->authorizations->forProposal($proposal);
+        $proposal = $this->proposals->latest($interview);
+        if (null === $proposal || Proposal::APPROVED !== $proposal->getStatus()) {
+            throw new \DomainException('An approved proposal is required before execution.');        }
+
+        $authorization = $this->authorizations->forProposal($proposal);
         if (null === $authorization || Authorization::AUTHORIZED !== $authorization->getStatus()) {
             throw new \DomainException('An authorized resource/effect scope is required before execution.');
         }
