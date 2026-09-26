@@ -1,4 +1,4 @@
-# Next campaign — first bounded execution to result review
+# Next campaign — close first bounded execution, then review result
 
 Prepared 26 September 2026.
 
@@ -7,175 +7,150 @@ Prepared 26 September 2026.
 Repository: https://github.com/gatomontes/imperium-symfony
 
 Read `AGENTS.md`, this document, `docs/IMPERIUM-STEPS.md`,
-`docs/IMPERIUM-FLOW.md`, and `docs/SENESCHAL-CLI.md`. Inspect source and verify
-current branch/PR state before editing.
+`docs/IMPERIUM-FLOW.md`, and `docs/SENESCHAL-CLI.md`. Inspect PR #5 and the
+current branch head before editing.
+
+Imperium is intentionally growing as one useful Symfony mission path. Preserve the
+authority distinctions and the evidence chain. Do not generalize execution before
+this first operation is fully closed and reviewed.
 
 ## Integrated baseline
 
-`main` contains the working mission path through explicit resource/effect
-authorization. Authorization PR #4 was live-accepted by the operator and merged to
-`main` at:
+`main` is integrated through explicit resource/effect authorization at:
 
 `91e8707be9d2794e5e5e37af80200d4ad27ae916`
 
-The integrated path is:
+Integrated path:
 
 **Interview → Understanding → Draft permission → Proposal → Proposal approval →
 Resource/effect authorization**
-
-Authorization is proposal-version-bound, explicit, persisted, deterministic, and
-separate from execution.
 
 ## Current campaign
 
 Branch: `codex/first-bounded-execution`  
 PR: #5 — **Add first bounded local-file execution**
 
-This campaign adds exactly one execution operation:
+The live operator smoke test **succeeded**. Imperium created:
 
-**Create one new local file under `public/output/`.**
+`public/output/imperium-test.txt`
 
-Code-enforced boundaries:
+and displayed retained execution evidence including:
 
-- the latest proposal must be approved;
-- its authorization must be `authorized`;
-- authorization resources must include the exact canonical capability `Local filesystem write access`;
-- authorization effects must exactly permit `Create one local file` or `Create one local test file`;
-- filenames are 1–120 safe characters and contain no directory separators;
-- output is confined to `public/output/`;
-- existing targets are never overwritten;
-- authorization limits must include `One new local file only` and `No overwrite`; unknown limits fail closed because this executor cannot claim to enforce them;
-- `No external publication` conflicts with `public/output` and therefore causes execution refusal, because files in Symfony's public document root may be web-reachable;
-- content is limited to 32 KiB;
-- one authorization permits one execution attempt;
-- an `ExecutionAttempt` is persisted before filesystem I/O;
-- evidence stores relative target path, expected SHA-256, status, bytes written,
-  failure code, and timestamps;
-- no model call participates in execution.
+- operation: `local_file_create`
+- status: `succeeded`
+- target: `public/output/imperium-test.txt`
+- SHA-256 recorded
+- bytes written: 32
 
-Interruption behavior is deliberately conservative. A prepared attempt is never
-automatically retried. On reopen, recovery may only inspect the expected target:
-a merely PREPARED attempt never claims success from an existing file; if a target exists before persisted effect-start evidence, recovery fails closed. Only an EFFECT_STARTED attempt may be reconciled by comparing the target hash. A missing PREPARED target remains prepared and is never retried automatically.
+This confirms the ordinary path can now reach a real effect:
 
-PostgreSQL CI passes migrations, schema validation,
-**64 tests / 471 assertions**, and full migration rollback/reapply.
+**Understand → Propose → Approve → Authorize → Execute → Evidence**
 
-## Current source map
+Do not merge PR #5 yet. The latest automated review on current head
+`4a1531a1b0b0ad71d843cefde0a0ef8f9fb2c644` found one remaining blocker:
 
-| File | Responsibility |
-|---|---|
-| `src/Entity/ExecutionAttempt.php` | One authorization-bound execution attempt and retained evidence. |
-| `src/Atheneum/ExecutionRecords.php` | Deterministic execution evidence persistence. |
-| `src/Curia/LocalFileExecutionService.php` | Mechanical authorization checks, bounded file effect, verification, recovery. |
-| `src/Command/InterviewCommand.php` | Execution action and evidence display after authorization. |
-| `tests/ExecutionTest.php` | Scope refusal, path/content limits, no-overwrite, success, recovery, and CLI behavior. |
+> `public/output` may already be a symlink. The executor currently accepts it via
+> `is_dir()`, so publication could land outside the authorized project root while
+> evidence still records `public/output/...`.
 
-## Live review for this campaign
+### First task in the new chat
 
-Use a mission whose **approved proposal and authorization explicitly include**:
+Fix output-root containment before merge.
 
-- resource/capability: local filesystem write access;
-- effect: `Create one local test file` or `Create one local file`;
-- limits: `One new local file only.` and `No overwrite.`;
-- do **not** include `No external publication.` for this executor, because `public/output` is intentionally inside the web document root.
+The executor must refuse execution when `public/output` (or any relevant path
+component used for the authorized root) resolves through a symlink or otherwise
+resolves outside the intended project-root path.
 
-Then reopen the mission. The authorization displays first and the CLI offers:
+The fix should remain narrow:
 
-`Create authorized local file`
+1. preserve the canonical authorization root as `public/output`;
+2. verify the actual directory used for publication is the intended non-symlinked
+   directory beneath `kernel.project_dir`;
+3. refuse before effect-start/publication if containment cannot be proven;
+4. add caller-level tests for a symlinked `public/output` and a normal directory;
+5. rerun PostgreSQL migrations, schema validation, PHPUnit, and rollback/reapply;
+6. request fresh automated review on the exact corrected head;
+7. only then merge PR #5 to `main`.
 
-Choose it and use a harmless unique filename such as
-`imperium-live-test.txt` with simple test content.
+## Current execution design
 
-Expected endpoint:
+The first executor supports exactly one operation: publish one new public text file.
 
-- `Execution attempt — succeeded`
-- target under `public/output/`
-- SHA-256 displayed
-- bytes written displayed
-- success message that the authorized effect completed and evidence was recorded.
-
-Reopen the mission afterward. The saved execution result must display directly and
-must not repeat the effect or offer an automatic retry.
-
-If the existing live authorization does not contain the supported filesystem
-resource/effect, the execution service should refuse it. Do not weaken the check;
-create/revise a mission with the required scope instead.
-
-## Proposed next campaign after live acceptance
-
-Add **result review and disposition** for this one execution type.
-
-The smallest useful review should:
-
-1. inspect the retained execution evidence;
-2. compare the observed result with the approved proposal's acceptance criteria;
-3. record a deterministic or operator-confirmed disposition such as
-   `accepted`, `needs_correction`, or `failed`;
-4. retain the final deliverable/evidence reference;
-5. avoid repeating the external/local effect merely to review it.
-
-Do not generalize execution until one complete mission has reached review and
-delivery through the ordinary path.
-
-*Ad Imperium.*
-
-
-## Structured executable authority — 26 September 2026
-
-Execution permission no longer depends on proposal/model wording. New authorization
-requests that ask for the supported local-file effect persist this canonical scope:
+Canonical executable authorization:
 
 ```text
-capability = filesystem.write.public_output
-effect = file.create.public
-root = public/output
-visibility = public
-allowed_extensions = [txt]
-max_files = 1
-overwrite = false
-max_bytes = 32768
+capability: filesystem.write.public_output
+effect: file.create.public
+root: public/output
+visibility: public
+allowedExtensions: [txt]
+maxFiles: 1
+overwrite: false
+maxBytes: 32768
 ```
 
-The operator sees this scope before choosing Authorize/Refuse. The executor checks
-only these structured fields. Human-readable proposal resources/effects/limits remain
-context and provenance, not machine permission.
+Human-readable proposal resources/effects/limits are provenance/context only.
+Execution permission comes from the structured authorization scope.
 
-Existing authorization records from before this change retain a null execution scope
-and are intentionally non-executable. They are not silently upgraded after consent.
+Authorizations are versioned. Historical free-form authorization rows remain
+unchanged and non-executable. The operator can explicitly create a replacement
+authorization version and authorize it separately.
 
-Because the target is public, this first executor accepts only `.txt` files.
+Current publication behavior:
 
+1. create and persist an `ExecutionAttempt`;
+2. write complete content under `var/execution-staging/`;
+3. verify SHA-256 before publication;
+4. persist effect-start;
+5. atomically publish by hard-link into `public/output/` without overwrite;
+6. retain the staging inode until success is durably recorded;
+7. verify target ownership/inode + SHA-256 during recovery;
+8. remove staging witness after durable success.
 
-## Authorization replacement / re-consent — 26 September 2026
+A mission with execution evidence cannot be permanently deleted, preserving custody
+between the public file and its authorization/execution record.
 
-Authorizations are now versioned per approved proposal. A decided authorization may
-be followed by a new authorization version; the prior decision is preserved unchanged.
+Latest fully green validation before the final symlink review finding:
 
-This specifically repairs the live migration path from pre-structured authority:
+**64 tests / 471 assertions**, PostgreSQL schema synchronized, full migration
+rollback/reapply passed.
 
-```text
-Authorization v1 — authorized
-Executable scope: none (historical)
-  → Prepare replacement authorization
-Authorization v2 — pending
-Executable scope: canonical structured grant
-  → operator Authorize / Refuse
-```
+## After PR #5 merges
 
-Only the latest authorization version is eligible for execution. A pending latest
-authorization blocks another replacement. Existing v1 rows migrate as version 1;
-the migration does not populate execution_scope or alter their prior decision.
+Start the smallest **result review / disposition** campaign.
 
+Do not execute again merely to review.
 
-## Public-output publication integrity — 26 September 2026
+The review stage should:
 
-Public output is no longer written in place. Imperium writes and hashes the complete
-content under `var/execution-staging/`, persists effect-start immediately before
-publication, and publishes the verified inode into `public/output/` with a hard link.
-The publish operation cannot overwrite an existing target. This prevents an empty or
-partially written public file from becoming visible while content is still being
-generated.
+1. load the succeeded `ExecutionAttempt`;
+2. inspect retained evidence and the current public target;
+3. compare observed evidence with the approved proposal acceptance criteria;
+4. record a persisted disposition such as:
+   - `accepted`
+   - `needs_correction`
+   - `failed`
+5. record operator review time and any short review note;
+6. retain the deliverable/evidence reference;
+7. reopen read-only after disposition;
+8. never silently repeat the effect.
 
-Mission deletion is also blocked once any execution attempt exists. The public output
-and its authorization/execution evidence therefore remain in custody together rather
-than leaving an orphaned public file after cascade deletion.
+Keep the first review deterministic/operator-confirmed. Do not add another model
+unless a concrete need appears.
+
+## Practical notes
+
+- Interface: local CLI.
+- Persistence: PostgreSQL through Doctrine ORM/migrations.
+- Provider: DeepSeek only for interview/proposal language work.
+- Authorization and execution are deterministic application logic.
+- Public output root: `./public/output`.
+- Non-public staging root: `./var/execution-staging`.
+- Only `.txt` is allowed by this first public executor.
+- No overwrite.
+- One execution attempt per authorization version.
+- Per-interview Symfony Lock remains single-host `flock`; target ownership is
+  additionally proven with the retained staging inode during recovery.
+- Never commit private mission evidence or secrets.
+
+*Fortuna Eruditis Favet. Ad Imperium.*
