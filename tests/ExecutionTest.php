@@ -103,6 +103,8 @@ class ExecutionTest extends KernelTestCase
         $replacementAuthorization = $this->authorizationService->decide($interview->getId(), $replacementAuthorization->getId(), true);
 
         self::assertSame('filesystem.write.public_output', $replacementAuthorization->getExecutionScope()['capability'] ?? null);
+        self::assertSame('file.create.public', $replacementAuthorization->getExecutionScope()['effect'] ?? null);
+        self::assertSame('public', $replacementAuthorization->getExecutionScope()['visibility'] ?? null);
 
         $attempt = $this->executionService->execute($interview->getId(), 'imperium-exec.txt', 'test');
 
@@ -147,6 +149,21 @@ class ExecutionTest extends KernelTestCase
         self::assertSame($content, file_get_contents($this->executionDir.'/imperium-exec.txt'));
         self::assertSame($attempt->getId(), $this->executions->forAuthorization($authorization)?->getId());
         self::assertSame(0, $this->http->getRequestsCount());
+    }
+
+    public function testPublicExecutorRefusesNonTextExtensionBeforeAttempt(): void
+    {
+        [$interview, $authorization] = $this->authorizedFixture();
+
+        try {
+            $this->executionService->execute($interview->getId(), 'imperium-exec.php', '<?php echo "no";');
+            self::fail('Executable extension was accepted under public/output.');
+        } catch (\DomainException $exception) {
+            self::assertStringContainsString('only .txt files', $exception->getMessage());
+        }
+
+        self::assertNull($this->executions->forAuthorization($authorization));
+        self::assertFileDoesNotExist($this->executionDir.'/imperium-exec.php');
     }
 
     public function testFilenameTraversalAndOversizedContentAreRefusedBeforeAttempt(): void
