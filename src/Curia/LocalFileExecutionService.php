@@ -52,35 +52,35 @@ class LocalFileExecutionService
             $this->executions->save($attempt);
 
             $root = $this->projectDir.'/'.$scope['root'];
-            if (!is_dir($root) && !mkdir($root, 0775, true) && !is_dir($root)) {
-                $attempt->fail('execution_directory_unavailable');
-                $this->executions->save($attempt);
+            $stagingRoot = $this->projectDir.'/var/execution-staging';
+            foreach ([$root, $stagingRoot] as $directory) {
+                if (!is_dir($directory) && !mkdir($directory, 0775, true) && !is_dir($directory)) {
+                    $attempt->fail('execution_directory_unavailable');
+                    $this->executions->save($attempt);
 
-                return $attempt;
+                    return $attempt;
+                }
             }
 
             $path = $root.'/'.$filename;
-            $handle = @fopen($path, 'x');
+            $stagingPath = $stagingRoot.'/'.$attempt->getId().'.tmp';
+            $handle = @fopen($stagingPath, 'x');
             if (false === $handle) {
-                $attempt->fail('target_exists_or_unavailable');
+                $attempt->fail('staging_target_unavailable');
                 $this->executions->save($attempt);
 
                 return $attempt;
             }
 
             $written = 0;
+            $writeFailed = false;
             try {
-                $attempt->startEffect();
-                $this->executions->save($attempt);
-
                 $length = strlen($content);
                 while ($written < $length) {
                     $chunk = fwrite($handle, substr($content, $written));
                     if (false === $chunk || 0 === $chunk) {
-                        $attempt->fail('write_failed');
-                        $this->executions->save($attempt);
-
-                        return $attempt;
+                        $writeFailed = true;
+                        break;
                     }
                     $written += $chunk;
                 }
@@ -89,7 +89,51 @@ class LocalFileExecutionService
                 fclose($handle);
             }
 
+            if ($writeFailed) {
+                @unlink($stagingPath);
+                $attempt->fail('staging_write_failed');
+                $this->executions->save($attempt);
+
+                return $attempt;
+            }
+
+            $stagingHash = @hash_file('sha256', $stagingPath);
+            if (false === $stagingHash || $stagingHash !== $attempt->getContentSha256()) {
+                @unlink($stagingPath);
+                $attempt->fail('staging_verification_failed');
+                $this->executions->save($attempt);
+
+                return $attempt;
+            }
+
+            if (file_exists($path)) {
+                @unlink($stagingPath);
+                $attempt->fail('target_exists_or_unavailable');
+                $this->executions->save($attempt);
+
+                return $attempt;
+            }
+
+            $attempt->startEffect();
+            $this->executions->save($attempt);
+
+            // A hard link publishes the fully written inode atomically and fails
+            // rather than overwriting an existing target.
+            if (!@link($stagingPath, $path)) {
+                @unlink($stagingPath);
+                $attempt->fail(file_exists($path) ? 'target_exists_or_unavailable' : 'atomic_publish_unavailable');
+                $this->executions->save($attempt);
+
+                return $attempt;
+            }
+            @unlink($stagingPath);
+
             $actualHash = @hash_file('sha256', $path);
+            if (false === $actualHash) {
+                // The public effect happened, but evidence is temporarily unreadable.
+                // Preserve EFFECT_STARTED for later reconciliation.
+                return $attempt;
+            }
             if ($actualHash !== $attempt->getContentSha256()) {
                 $attempt->fail('verification_failed');
                 $this->executions->save($attempt);
