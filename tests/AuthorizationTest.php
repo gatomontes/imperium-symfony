@@ -69,6 +69,14 @@ class AuthorizationTest extends KernelTestCase
         self::assertSame(['The interview record.', 'Local filesystem write access.'], $authorization->getResources());
         self::assertSame(['Create one local Markdown file', 'open one pull request'], $authorization->getEffects());
         self::assertSame(['No external publication.', 'No deletion.'], $authorization->getLimits());
+        self::assertSame([
+            'capability' => 'filesystem.write.public_output',
+            'effect' => 'file.create',
+            'root' => 'public/output',
+            'maxFiles' => 1,
+            'overwrite' => false,
+            'maxBytes' => 32768,
+        ], $authorization->getExecutionScope());
         self::assertNull($authorization->getDecidedAt());
         self::assertSame(0, $this->http->getRequestsCount());
 
@@ -79,6 +87,7 @@ class AuthorizationTest extends KernelTestCase
         self::assertNotNull($saved);
         self::assertSame($authorization->getId(), $saved->getId());
         self::assertSame(['Create one local Markdown file', 'open one pull request'], $saved->getEffects());
+        self::assertSame('filesystem.write.public_output', $saved->getExecutionScope()['capability'] ?? null);
     }
 
     public function testAuthorizationDecisionIsPersistedAndCannotBeChanged(): void
