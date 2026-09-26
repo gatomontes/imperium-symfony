@@ -305,6 +305,7 @@ class ExecutionTest extends KernelTestCase
         self::assertSame(ExecutionAttempt::SUCCEEDED, $attempt->getStatus());
         self::assertFileExists($this->executionDir.'/imperium-exec.txt');
         self::assertFileDoesNotExist($this->stagingDir.'/'.$attempt->getId().'.tmp');
+        self::assertFileDoesNotExist($this->executionDir.'/.imperium-'.$attempt->getId().'.publish');
     }
 
     public function testSucceededAttemptRetriesStagingCleanupWhenMissionReopens(): void
@@ -494,6 +495,43 @@ class ExecutionTest extends KernelTestCase
 
         self::assertSame(ExecutionAttempt::FAILED, $reconciled?->getStatus());
         self::assertSame('recovery_hash_mismatch', $reconciled?->getFailureCode());
+        self::assertFileDoesNotExist($this->executionDir.'/imperium-mismatch.txt');
+        self::assertFileDoesNotExist($stagingPath);
+    }
+
+    public function testStartedAttemptRejectsSymlinkTargetDuringRecovery(): void
+    {
+        [$interview, $authorization] = $this->authorizedFixture();
+        $content = 'recovery symlink must not count';
+        $attempt = new ExecutionAttempt($authorization, 'public/output/imperium-symlink.txt', hash('sha256', $content));
+        $attempt->startEffect();
+        $this->executions->save($attempt);
+
+        if (!is_dir($this->executionDir)) {
+            mkdir($this->executionDir, 0775, true);
+        }
+        if (!is_dir($this->stagingDir)) {
+            mkdir($this->stagingDir, 0775, true);
+        }
+
+        $stagingPath = $this->stagingDir.'/'.$attempt->getId().'.tmp';
+        file_put_contents($stagingPath, $content);
+        $targetPath = $this->executionDir.'/imperium-symlink.txt';
+        if (!@symlink($stagingPath, $targetPath)) {
+            @unlink($stagingPath);
+            self::markTestSkipped('File symlinks are not available in this test environment.');
+        }
+
+        try {
+            $reconciled = $this->executionService->reconcile($interview->getId());
+
+            self::assertSame(ExecutionAttempt::FAILED, $reconciled?->getStatus());
+            self::assertSame('recovery_target_symlink', $reconciled?->getFailureCode());
+            self::assertTrue(is_link($targetPath));
+        } finally {
+            @unlink($targetPath);
+            @unlink($stagingPath);
+        }
     }
 
     public function testCliExecutesAuthorizedLocalFileAndShowsEvidence(): void
