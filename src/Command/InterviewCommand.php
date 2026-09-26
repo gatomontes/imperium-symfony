@@ -334,10 +334,23 @@ class InterviewCommand extends Command
     private function displayAuthorization(SymfonyStyle $io, Authorization $authorization): void
     {
         $io->title('Authorization — '.$authorization->getStatus());
+        $scope = $authorization->getExecutionScope();
+        $io->section('Executable scope');
+        if (null === $scope) {
+            $io->writeln('None. This authorization is historical/non-executable.');
+        } else {
+            $io->writeln('Capability: '.$this->display($scope['capability']));
+            $io->writeln('Effect: '.$this->display($scope['effect']));
+            $io->writeln('Root: '.$this->display($scope['root']));
+            $io->writeln('Max files: '.$scope['maxFiles']);
+            $io->writeln('Overwrite: '.($scope['overwrite'] ? 'true' : 'false'));
+            $io->writeln('Max bytes: '.$scope['maxBytes']);
+        }
+
         foreach ([
-            'Resources / capabilities' => $authorization->getResources(),
-            'External effects' => $authorization->getEffects(),
-            'Limits' => $authorization->getLimits(),
+            'Proposal resource context' => $authorization->getResources(),
+            'Operator effect context' => $authorization->getEffects(),
+            'Proposal limit context' => $authorization->getLimits(),
         ] as $heading => $items) {
             $io->section($heading);
             if ([] === $items) {
