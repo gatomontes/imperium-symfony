@@ -221,11 +221,14 @@ class ExecutionTest extends KernelTestCase
     {
         [$interview] = $this->authorizedFixture();
 
-        self::assertDirectoryExists($this->executionDir);
-        self::assertFalse(is_link($this->executionDir));
+        if (file_exists($this->executionDir) || is_link($this->executionDir)) {
+            self::assertFalse(is_link($this->executionDir));
+        }
 
         $attempt = $this->executionService->execute($interview->getId(), 'imperium-exec.txt', 'contained');
 
+        self::assertDirectoryExists($this->executionDir);
+        self::assertFalse(is_link($this->executionDir));
         self::assertSame(ExecutionAttempt::SUCCEEDED, $attempt->getStatus());
         self::assertSame('contained', file_get_contents($this->executionDir.'/imperium-exec.txt'));
     }
