@@ -183,7 +183,7 @@ made.
 A saved execution attempt prevents another attempt under the same authorization.
 Recovery distinguishes PREPARED from EFFECT_STARTED. PREPARED plus an existing target is ambiguous and fails closed; it is never treated as proof that Imperium created the file. Only a persisted EFFECT_STARTED attempt can be closed as success from a matching file hash. No state automatically retries the effect.
 
-PostgreSQL CI passes **58 tests / 429 assertions** plus migration rollback/reapply.
+PostgreSQL CI passes **59 tests / 440 assertions** plus migration rollback/reapply.
 Live operator acceptance remains required before merge.
 
 
@@ -191,3 +191,10 @@ Live operator acceptance remains required before merge.
 > Depending on the web-server configuration, files there may be directly reachable
 > over HTTP. For that reason an authorization containing `No external publication.`
 > is rejected rather than treated as compatible with this executor.
+
+
+Structured executable authority is displayed separately from proposal context.
+For the current public-output executor the canonical grant is
+`filesystem.write.public_output / file.create.public`, rooted at
+`public/output`, public visibility, `.txt` only, one file, no overwrite,
+32 KiB maximum. Legacy free-form authorizations cannot execute.
