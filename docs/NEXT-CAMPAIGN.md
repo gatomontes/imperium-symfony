@@ -1,6 +1,6 @@
-# Next campaign — authorization to first bounded execution
+# Next campaign — first bounded execution to result review
 
-Prepared 25 September 2026.
+Prepared 26 September 2026.
 
 ## Start here
 
@@ -10,119 +10,109 @@ Read `AGENTS.md`, this document, `docs/IMPERIUM-STEPS.md`,
 `docs/IMPERIUM-FLOW.md`, and `docs/SENESCHAL-CLI.md`. Inspect source and verify
 current branch/PR state before editing.
 
-Imperium is intentionally growing as one useful Symfony mission path. Preserve the
-distinctions between understanding, proposal, approval, authorization, execution,
-review, and delivery.
-
 ## Integrated baseline
 
-`main` now contains the working mission path through **explicit proposal approval**.
+`main` contains the working mission path through explicit resource/effect
+authorization. Authorization PR #4 was live-accepted by the operator and merged to
+`main` at:
 
-Proposal revision/approval PR #3 was live-smoke accepted by the operator and merged
-to `main` at:
-
-`3c0a1f831e187cc18f104efba2a6810bf75fdcc3`
+`91e8707be9d2794e5e5e37af80200d4ad27ae916`
 
 The integrated path is:
 
-**Mission → Interview → Understanding → Draft permission → Proposal generation →
-Proposal revision/history → Explicit proposal approval**
+**Interview → Understanding → Draft permission → Proposal → Proposal approval →
+Resource/effect authorization**
 
-Proposal approval is attached to one proposal version and does not grant resource
-authority, external-effect authority, or execution authority.
+Authorization is proposal-version-bound, explicit, persisted, deterministic, and
+separate from execution.
 
 ## Current campaign
 
-Branch: `codex/proposal-authorization`  
-PR: #4 — **Add explicit resource and effect authorization**
+Branch: `codex/first-bounded-execution`  
+PR: #5 — **Add first bounded local-file execution**
 
-This campaign implements the next deterministic authority gate:
+This campaign adds exactly one execution operation:
 
-- one `Authorization` record is linked to one approved proposal version;
-- an authorization request cannot exist for an unapproved proposal;
-- requested resources/capabilities are snapshotted from that approved proposal's
-  `resourceRequirements`;
-- limits are snapshotted from the approved proposal;
-- intended external effects are declared explicitly by the operator and stored;
-- merely reopening an approved proposal creates no authorization request;
-- the operator explicitly chooses **Authorize requested scope**, **Refuse requested
-  scope**, or **Back**;
-- a decided authorization record is immutable/read-only;
-- the decision requires no model call;
-- no execution action exists in this campaign.
+**Create one new local file under `var/execution/`.**
 
-External effects declared at the authorization gate do not amend the approved
-proposal. They must remain consistent with that proposal and its recorded limits;
-a material plan/scope change belongs in a revised proposal rather than silently
-widening authority.
+Code-enforced boundaries:
 
-Implementation CI passes PostgreSQL migrations, schema validation,
-**47 tests / 383 assertions**, and full migration rollback/reapply.
+- the latest proposal must be approved;
+- its authorization must be `authorized`;
+- authorization resources must include filesystem write capability;
+- authorization effects must explicitly permit one local file (including the
+  bounded smoke-test wording “Create one local test file”);
+- filenames are 1–120 safe characters and contain no directory separators;
+- output is confined to `var/execution/`;
+- existing targets are never overwritten;
+- content is limited to 32 KiB;
+- one authorization permits one execution attempt;
+- an `ExecutionAttempt` is persisted before filesystem I/O;
+- evidence stores relative target path, expected SHA-256, status, bytes written,
+  failure code, and timestamps;
+- no model call participates in execution.
 
-## Source map added by this campaign
+Interruption behavior is deliberately conservative. A prepared attempt is never
+automatically retried. On reopen, recovery may only inspect the expected target:
+matching content/hash closes the attempt as succeeded; a mismatched existing file
+fails closed; an absent file leaves the attempt prepared.
+
+PostgreSQL CI passes migrations, schema validation,
+**55 tests / 422 assertions**, and full migration rollback/reapply.
+
+## Current source map
 
 | File | Responsibility |
 |---|---|
-| `src/Entity/Authorization.php` | Proposal-bound resource/effect scope and explicit decision. |
-| `src/Atheneum/AuthorizationRecords.php` | Deterministic authorization persistence/retrieval. |
-| `src/Curia/AuthorizationService.php` | Request/decision orchestration under the interview lock. |
-| `src/Command/InterviewCommand.php` | Explicit authorization preparation and decision UI. |
-| `tests/AuthorizationTest.php` | Authority-boundary caller tests with no execution. |
-
-The database table is `mission_authorization`; `authorization` is a PostgreSQL
-keyword and is deliberately not used as the table name.
+| `src/Entity/ExecutionAttempt.php` | One authorization-bound execution attempt and retained evidence. |
+| `src/Atheneum/ExecutionRecords.php` | Deterministic execution evidence persistence. |
+| `src/Curia/LocalFileExecutionService.php` | Mechanical authorization checks, bounded file effect, verification, recovery. |
+| `src/Command/InterviewCommand.php` | Execution action and evidence display after authorization. |
+| `tests/ExecutionTest.php` | Scope refusal, path/content limits, no-overwrite, success, recovery, and CLI behavior. |
 
 ## Live review for this campaign
 
-From the operator checkout, switch to `codex/proposal-authorization`, apply
-migrations, and reopen the mission whose proposal is already approved.
+Use a mission whose **approved proposal and authorization explicitly include**:
 
-Expected sequence:
+- resource/capability: local filesystem write access;
+- effect: `Create one local test file` or `Create one local file`.
 
-1. Approved proposal displays normally.
-2. Choose **Prepare authorization request**.
-3. Confirm resources/capabilities are copied from the approved proposal.
-4. Declare any intended external effects explicitly, or leave blank for none.
-5. Confirm the displayed limits match the approved proposal.
-6. Choose **Authorize requested scope** or **Refuse requested scope**.
-7. Reopen the mission.
-8. Confirm the decision persists and is read-only.
-9. Confirm the CLI explicitly states that execution remains unavailable and that
-   no operation was performed.
+Then reopen the mission. The authorization displays first and the CLI offers:
 
-The live review should use a harmless/no-effect scope. This campaign creates
-authority facts only; it has no executor.
+`Create authorized local file`
+
+Choose it and use a harmless unique filename such as
+`imperium-live-test.txt` with simple test content.
+
+Expected endpoint:
+
+- `Execution attempt — succeeded`
+- target under `var/execution/`
+- SHA-256 displayed
+- bytes written displayed
+- success message that the authorized effect completed and evidence was recorded.
+
+Reopen the mission afterward. The saved execution result must display directly and
+must not repeat the effect or offer an automatic retry.
+
+If the existing live authorization does not contain the supported filesystem
+resource/effect, the execution service should refuse it. Do not weaken the check;
+create/revise a mission with the required scope instead.
 
 ## Proposed next campaign after live acceptance
 
-Introduce the **first bounded execution operation**, but only for a deliberately
-small effect whose preconditions can be enforced mechanically.
+Add **result review and disposition** for this one execution type.
 
-Before execution is implemented, choose one concrete operation and define:
+The smallest useful review should:
 
-1. the exact authorization fields it requires;
-2. which authorized resource/capability it consumes or uses;
-3. the allowed effect;
-4. applicable limits;
-5. the result/evidence to retain;
-6. retry/interruption behavior appropriate to that effect.
+1. inspect the retained execution evidence;
+2. compare the observed result with the approved proposal's acceptance criteria;
+3. record a deterministic or operator-confirmed disposition such as
+   `accepted`, `needs_correction`, or `failed`;
+4. retain the final deliverable/evidence reference;
+5. avoid repeating the external/local effect merely to review it.
 
-The execution service must refuse when authorization is missing, refused, for a
-different proposal, or outside scope. Model text cannot grant or expand authority.
+Do not generalize execution until one complete mission has reached review and
+delivery through the ordinary path.
 
-Do not generalize into a universal execution framework before one real operation
-needs it.
-
-## Practical notes
-
-- Interface: local CLI.
-- Persistence: PostgreSQL through Doctrine ORM/migrations.
-- Provider: DeepSeek for interview/proposal language work; authorization itself is
-  deterministic and uses no model.
-- Secrets remain local; never commit API keys or private mission evidence.
-- Per-interview Symfony Lock remains single-host `flock`.
-- No distributed or exactly-once execution claim exists.
-- Deploy schema changes through migrations, not `doctrine:schema:update`.
-- Tests use a disposable test database, never the operator mission database.
-
-*Nullum tempus quiescendi. Ad Imperium.*
+*Ad Imperium.*
