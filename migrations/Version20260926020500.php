@@ -27,25 +27,53 @@ final class Version20260926020500 extends AbstractMigration
     public function down(Schema $schema): void
     {
         $this->abortIf(!$this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform, 'This migration requires PostgreSQL.');
-        $evidenceBearingVersionedProposal = (bool) $this->connection->fetchOne(
+        $multipleEvidenceVersions = (bool) $this->connection->fetchOne(
             'SELECT EXISTS (
-                SELECT 1
+                SELECT authorization.proposal_id
                 FROM mission_authorization authorization
                 JOIN execution_attempt execution
                   ON execution.authorization_id = authorization.id
-                WHERE EXISTS (
-                    SELECT 1
-                    FROM mission_authorization sibling
-                    WHERE sibling.proposal_id = authorization.proposal_id
-                      AND sibling.id <> authorization.id
-                )
+                GROUP BY authorization.proposal_id
+                HAVING COUNT(*) > 1
             )'
         );
         $this->abortIf(
-            $evidenceBearingVersionedProposal,
-            'Cannot downgrade authorization versioning while a multi-version proposal retains execution evidence.'
+            $multipleEvidenceVersions,
+            'Cannot downgrade authorization versioning when one proposal retains execution evidence on multiple authorization versions.'
         );
-        $this->addSql('DELETE FROM mission_authorization older USING mission_authorization newer WHERE older.proposal_id = newer.proposal_id AND older.version < newer.version');
+
+        // The old schema can retain only one authorization row per proposal.
+        // When exactly one version owns execution evidence, preserve that row and
+        // discard only its non-evidence siblings. For proposals without execution
+        // evidence, keep the newest version.
+        $this->addSql(
+            'DELETE FROM mission_authorization sibling
+             USING mission_authorization keeper
+             WHERE sibling.proposal_id = keeper.proposal_id
+               AND sibling.id <> keeper.id
+               AND EXISTS (
+                   SELECT 1 FROM execution_attempt execution
+                   WHERE execution.authorization_id = keeper.id
+               )
+               AND NOT EXISTS (
+                   SELECT 1 FROM execution_attempt execution
+                   WHERE execution.authorization_id = sibling.id
+               )'
+        );
+        $this->addSql(
+            'DELETE FROM mission_authorization older
+             USING mission_authorization newer
+             WHERE older.proposal_id = newer.proposal_id
+               AND older.version < newer.version
+               AND NOT EXISTS (
+                   SELECT 1 FROM execution_attempt execution
+                   WHERE execution.authorization_id = older.id
+               )
+               AND NOT EXISTS (
+                   SELECT 1 FROM execution_attempt execution
+                   WHERE execution.authorization_id = newer.id
+               )'
+        );
         $this->addSql('DROP INDEX uniq_authorization_proposal_version');
         $this->addSql('ALTER TABLE mission_authorization DROP version');
         $this->addSql('CREATE UNIQUE INDEX uniq_authorization_proposal ON mission_authorization (proposal_id)');
