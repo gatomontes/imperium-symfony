@@ -126,8 +126,6 @@ class LocalFileExecutionService
 
                 return $attempt;
             }
-            @unlink($stagingPath);
-
             $actualHash = @hash_file('sha256', $path);
             if (false === $actualHash) {
                 // The public effect happened, but evidence is temporarily unreadable.
@@ -143,6 +141,7 @@ class LocalFileExecutionService
 
             $attempt->succeed($written);
             $this->executions->save($attempt);
+            @unlink($stagingPath);
 
             return $attempt;
         } finally {
@@ -166,6 +165,7 @@ class LocalFileExecutionService
             }
 
             $path = $this->projectDir.'/'.$attempt->getTargetPath();
+            $stagingPath = $this->projectDir.'/var/execution-staging/'.$attempt->getId().'.tmp';
             $exists = is_file($path);
 
             if (ExecutionAttempt::PREPARED === $attempt->getStatus()) {
@@ -177,9 +177,22 @@ class LocalFileExecutionService
                 return $attempt;
             }
 
-            if (!$exists) {
-                // Absence and an inconclusive/unreadable stat are not distinguishable
-                // portably here. Preserve EFFECT_STARTED rather than corrupt evidence.
+            if (!$exists || !is_file($stagingPath)) {
+                // Without both links we cannot prove that this attempt published
+                // the target. Preserve EFFECT_STARTED rather than guessing.
+                return $attempt;
+            }
+
+            $targetStat = @stat($path);
+            $stagingStat = @stat($stagingPath);
+            if (false === $targetStat || false === $stagingStat) {
+                return $attempt;
+            }
+            if (($targetStat['dev'] ?? null) !== ($stagingStat['dev'] ?? null)
+                || ($targetStat['ino'] ?? null) !== ($stagingStat['ino'] ?? null)) {
+                $attempt->fail('recovery_ownership_mismatch');
+                $this->executions->save($attempt);
+
                 return $attempt;
             }
 
@@ -190,9 +203,13 @@ class LocalFileExecutionService
             if ($actualHash === $attempt->getContentSha256()) {
                 $size = filesize($path);
                 $attempt->succeed(false === $size ? 0 : $size);
-            } else {
-                $attempt->fail('recovery_hash_mismatch');
+                $this->executions->save($attempt);
+                @unlink($stagingPath);
+
+                return $attempt;
             }
+
+            $attempt->fail('recovery_hash_mismatch');
             $this->executions->save($attempt);
 
             return $attempt;
