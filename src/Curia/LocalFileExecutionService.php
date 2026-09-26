@@ -247,8 +247,7 @@ class LocalFileExecutionService
                             'hash' => false,
                         ];
                     }
-                    if (!@link($publishWitnessName, $filename)) {
-                        @unlink($publishWitnessName);
+                    if (!@link($publishWitnessName, $filename)) {                        @unlink($publishWitnessName);
 
                         return [
                             'published' => false,
@@ -278,7 +277,24 @@ class LocalFileExecutionService
 
                     $actualHash = @hash_file('sha256', $filename);
                     if (false !== $actualHash && $actualHash !== $attempt->getContentSha256()) {
-                        @unlink($filename);
+                        $currentLstat = @lstat($filename);
+                        $currentStat = @stat($filename);
+                        $stillOwned = false !== $currentLstat && false !== $currentStat
+                            && (($currentLstat['mode'] ?? 0) & 0170000) === 0100000
+                            && ($currentStat['dev'] ?? null) === ($stagingIdentity['dev'] ?? null)
+                            && ($currentStat['ino'] ?? null) === ($stagingIdentity['ino'] ?? null);
+
+                        if ($stillOwned && !@unlink($filename)) {
+                            // The attempt-owned public link is still present but could
+                            // not be removed. Preserve EFFECT_STARTED so recovery can
+                            // retry without deleting an unrelated replacement later.
+                            return [
+                                'published' => true,
+                                'failure' => null,
+                                'hash' => false,
+                            ];
+                        }
+
                         @unlink($publishWitnessName);
 
                         return [
@@ -307,8 +323,19 @@ class LocalFileExecutionService
 
             fclose($stagingHandle);
 
+            try {
+                $witnessRetained = $this->inAnchoredDirectory(
+                    $root,
+                    static fn (): bool => file_exists($publishWitnessName) || is_link($publishWitnessName),
+                );
+            } catch (\DomainException) {
+                $witnessRetained = true;
+            }
+
             if (null !== $publishResult['failure']) {
-                $this->removeStagingFile($stagingRoot, $stagingName);
+                if (!$witnessRetained) {
+                    $this->removeStagingFile($stagingRoot, $stagingName);
+                }
                 $attempt->fail($publishResult['failure']);
                 $this->executions->save($attempt);
 
@@ -317,14 +344,17 @@ class LocalFileExecutionService
 
             $actualHash = $publishResult['hash'];
             if (false === $actualHash) {
-                // The public effect happened, but evidence is temporarily unreadable.
+                // The public effect happened, but evidence is temporarily unreadable
+                // or cleanup of an attempt-owned mismatched target could not be proven.
                 // Preserve EFFECT_STARTED for later reconciliation.
                 return $attempt;
             }
 
             $attempt->succeed($written);
             $this->executions->save($attempt);
-            $this->removeStagingFile($stagingRoot, $stagingName);
+            if (!$witnessRetained) {
+                $this->removeStagingFile($stagingRoot, $stagingName);
+            }
 
             return $attempt;
         } finally {
@@ -346,12 +376,25 @@ class LocalFileExecutionService
                 return null;
             }
 
-            if (ExecutionAttempt::SUCCEEDED === $attempt->getStatus()) {
+            $scope = $this->assertScopeAllowsLocalFile($authorization);
+            $filename = basename($attempt->getTargetPath());
+            $stagingName = $attempt->getId().'.tmp';
+            $publishWitnessName = '.imperium-'.$attempt->getId().'.publish';
+
+            if (in_array($attempt->getStatus(), [ExecutionAttempt::SUCCEEDED, ExecutionAttempt::FAILED], true)) {
                 $stagingPath = $this->projectDir.'/var/execution-staging';
                 if (is_dir($stagingPath) && !is_link($stagingPath)) {
                     try {
                         $stagingRoot = $this->resolveStagingRoot();
-                        $this->removeStagingFile($stagingRoot, $attempt->getId().'.tmp');
+                        $stagingStat = $this->stagingFileStat($stagingRoot, $stagingName);
+                        $witnessCleared = true;
+                        if (is_array($stagingStat)) {
+                            $root = $this->resolveAuthorizedOutputRoot($scope['root']);
+                            $witnessCleared = $this->removePublishWitnessIfOwned($root, $publishWitnessName, $stagingStat);
+                        }
+                        if ($witnessCleared) {
+                            $this->removeStagingFile($stagingRoot, $stagingName);
+                        }
                     } catch (\DomainException) {
                         // Terminal evidence remains authoritative; cleanup can be retried later.
                     }
@@ -364,10 +407,17 @@ class LocalFileExecutionService
                 return $attempt;
             }
 
-            $scope = $this->assertScopeAllowsLocalFile($authorization);
-            $filename = basename($attempt->getTargetPath());
-
             if (ExecutionAttempt::PREPARED === $attempt->getStatus()) {
+                $stagingPath = $this->projectDir.'/var/execution-staging';
+                if (is_dir($stagingPath) && !is_link($stagingPath)) {
+                    try {
+                        $stagingRoot = $this->resolveStagingRoot();
+                        $this->removeStagingFile($stagingRoot, $stagingName);
+                    } catch (\DomainException) {
+                        // PREPARED has no effect-start evidence; cleanup is best-effort.
+                    }
+                }
+
                 $outputPath = $this->projectDir.'/'.$scope['root'];
                 if (!is_dir($outputPath)) {
                     if (is_link($outputPath)) {
@@ -389,7 +439,6 @@ class LocalFileExecutionService
 
             $root = $this->resolveAuthorizedOutputRoot($scope['root']);
             $stagingRoot = $this->resolveStagingRoot();
-            $stagingName = $attempt->getId().'.tmp';
 
             $targetEvidence = $this->inAnchoredDirectory($root, static function () use ($filename): ?array {
                 $lstat = @lstat($filename);
@@ -421,18 +470,22 @@ class LocalFileExecutionService
                 return ['symlink' => false, 'stat' => @stat($stagingName)];
             });
 
-            if (true === ($targetEvidence['symlink'] ?? false)) {
-                $attempt->fail('recovery_target_symlink');
-                $this->executions->save($attempt);
-
-                return $attempt;
-            }
-
             if (true === ($stagingEvidence['symlink'] ?? false)) {
                 return $attempt;
             }
 
             $stagingStat = $stagingEvidence['stat'] ?? null;
+            if (is_array($stagingStat)) {
+                $this->removePublishWitnessIfOwned($root, $publishWitnessName, $stagingStat);
+            }
+
+            if (true === ($targetEvidence['symlink'] ?? false)) {
+                $attempt->fail('recovery_target_symlink');
+                $this->executions->save($attempt);
+                $this->removeStagingFile($stagingRoot, $stagingName);
+
+                return $attempt;
+            }
             if (null === $targetEvidence || null === $stagingEvidence
                 || false === $targetEvidence['stat'] || false === $stagingStat) {
                 // Without both regular-file links we cannot prove that this attempt
@@ -497,8 +550,7 @@ class LocalFileExecutionService
     private function authorizedContext(string $interviewId): array
     {
         $interview = $this->interviews->get($interviewId);
-        $proposal = $this->proposals->latest($interview);
-        if (null === $proposal || Proposal::APPROVED !== $proposal->getStatus()) {
+        $proposal = $this->proposals->latest($interview);        if (null === $proposal || Proposal::APPROVED !== $proposal->getStatus()) {
             throw new \DomainException('An approved proposal is required before execution.');
         }        $authorization = $this->authorizations->forProposal($proposal);
         if (null === $authorization || Authorization::AUTHORIZED !== $authorization->getStatus()) {
@@ -534,6 +586,45 @@ class LocalFileExecutionService
         return $scope;
     }
 
+
+    /** @return array<string, int>|null */
+    private function stagingFileStat(string $stagingRoot, string $stagingName): ?array
+    {
+        return $this->inAnchoredDirectory($stagingRoot, static function () use ($stagingName): ?array {
+            $lstat = @lstat($stagingName);
+            $stat = @stat($stagingName);
+            if (false === $lstat || false === $stat
+                || (($lstat['mode'] ?? 0) & 0170000) !== 0100000) {
+                return null;
+            }
+
+            return $stat;
+        });
+    }
+
+    private function removePublishWitnessIfOwned(string $root, string $witnessName, array $ownedStat): bool
+    {
+        try {
+            return $this->inAnchoredDirectory($root, static function () use ($witnessName, $ownedStat): bool {
+                $lstat = @lstat($witnessName);
+                if (false === $lstat) {
+                    return true;
+                }
+
+                $stat = @stat($witnessName);
+                if (false === $stat
+                    || (($lstat['mode'] ?? 0) & 0170000) !== 0100000
+                    || ($stat['dev'] ?? null) !== ($ownedStat['dev'] ?? null)
+                    || ($stat['ino'] ?? null) !== ($ownedStat['ino'] ?? null)) {
+                    return false;
+                }
+
+                return @unlink($witnessName) || (!file_exists($witnessName) && !is_link($witnessName));
+            });
+        } catch (\DomainException) {
+            return false;
+        }
+    }
 
     private function removeStagingFile(string $stagingRoot, string $stagingName): void
     {
