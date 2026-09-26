@@ -58,7 +58,7 @@ automatically retried. On reopen, recovery may only inspect the expected target:
 a merely PREPARED attempt never claims success from an existing file; if a target exists before persisted effect-start evidence, recovery fails closed. Only an EFFECT_STARTED attempt may be reconciled by comparing the target hash. A missing PREPARED target remains prepared and is never retried automatically.
 
 PostgreSQL CI passes migrations, schema validation,
-**59 tests / 440 assertions**, and full migration rollback/reapply.
+**61 tests / 461 assertions**, and full migration rollback/reapply.
 
 ## Current source map
 
@@ -144,3 +144,24 @@ Existing authorization records from before this change retain a null execution s
 and are intentionally non-executable. They are not silently upgraded after consent.
 
 Because the target is public, this first executor accepts only `.txt` files.
+
+
+## Authorization replacement / re-consent — 26 September 2026
+
+Authorizations are now versioned per approved proposal. A decided authorization may
+be followed by a new authorization version; the prior decision is preserved unchanged.
+
+This specifically repairs the live migration path from pre-structured authority:
+
+```text
+Authorization v1 — authorized
+Executable scope: none (historical)
+  → Prepare replacement authorization
+Authorization v2 — pending
+Executable scope: canonical structured grant
+  → operator Authorize / Refuse
+```
+
+Only the latest authorization version is eligible for execution. A pending latest
+authorization blocks another replacement. Existing v1 rows migrate as version 1;
+the migration does not populate execution_scope or alter their prior decision.
