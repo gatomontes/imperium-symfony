@@ -134,9 +134,8 @@ class LocalFileExecutionService
             }
 
             if (!$exists) {
-                $attempt->fail('started_target_missing');
-                $this->executions->save($attempt);
-
+                // Absence and an inconclusive/unreadable stat are not distinguishable
+                // portably here. Preserve EFFECT_STARTED rather than corrupt evidence.
                 return $attempt;
             }
 
@@ -174,7 +173,7 @@ class LocalFileExecutionService
         return [$authorization, $proposal];
     }
 
-    /** @return array{capability:string,effect:string,root:string,maxFiles:int,overwrite:bool,maxBytes:int} */
+    /** @return array{capability:string,effect:string,root:string,visibility:string,allowedExtensions:list<string>,maxFiles:int,overwrite:bool,maxBytes:int} */
     private function assertScopeAllowsLocalFile(Authorization $authorization): array
     {
         $scope = $authorization->getExecutionScope();
@@ -184,8 +183,10 @@ class LocalFileExecutionService
 
         $expected = [
             'capability' => 'filesystem.write.public_output',
-            'effect' => 'file.create',
+            'effect' => 'file.create.public',
             'root' => 'public/output',
+            'visibility' => 'public',
+            'allowedExtensions' => ['txt'],
             'maxFiles' => 1,
             'overwrite' => false,
             'maxBytes' => self::MAX_CONTENT_BYTES,
@@ -204,6 +205,10 @@ class LocalFileExecutionService
         if (!preg_match('/\A[a-zA-Z0-9][a-zA-Z0-9._-]{0,119}\z/', $filename)
             || in_array($filename, ['.', '..'], true)) {
             throw new \DomainException('Filename must be 1-120 safe characters with no path separators.');
+        }
+
+        if ('txt' !== strtolower((string) pathinfo($filename, PATHINFO_EXTENSION))) {
+            throw new \DomainException('This executor permits only .txt files in public/output.');
         }
 
         return $filename;
