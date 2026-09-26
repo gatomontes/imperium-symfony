@@ -218,6 +218,19 @@ class LocalFileExecutionService
 
             try {
                 $publishResult = $this->inAnchoredDirectory($root, function () use ($stagingPath, $publishWitnessName, $filename, $attempt, $stagingIdentity): array {
+                    $removeOwnedWitness = static function () use ($publishWitnessName, $stagingIdentity): bool {
+                        $lstat = @lstat($publishWitnessName);
+                        $stat = @stat($publishWitnessName);
+                        if (false === $lstat || false === $stat
+                            || (($lstat['mode'] ?? 0) & 0170000) !== 0100000
+                            || ($stat['dev'] ?? null) !== ($stagingIdentity['dev'] ?? null)
+                            || ($stat['ino'] ?? null) !== ($stagingIdentity['ino'] ?? null)) {
+                            return false;
+                        }
+
+                        return $removeOwnedWitness();
+                    };
+
                     // The staging pathname can be replaced after verification. Create
                     // a private-named witness in the already anchored output directory,
                     // then prove that witness is the exact still-open staging inode.
@@ -241,7 +254,7 @@ class LocalFileExecutionService
                         || (($witnessLstat['mode'] ?? 0) & 0170000) !== 0100000
                         || ($witnessStat['dev'] ?? null) !== ($stagingIdentity['dev'] ?? null)
                         || ($witnessStat['ino'] ?? null) !== ($stagingIdentity['ino'] ?? null)) {
-                        @unlink($publishWitnessName);
+                        $removeOwnedWitness();
 
                         return [
                             'published' => false,
@@ -249,7 +262,8 @@ class LocalFileExecutionService
                             'hash' => false,
                         ];
                     }
-                    if (!@link($publishWitnessName, $filename)) {                        @unlink($publishWitnessName);
+                    if (!@link($publishWitnessName, $filename)) {
+                        $removeOwnedWitness();
                         return [
                             'published' => false,
                             'failure' => file_exists($filename) || is_link($filename) ? 'target_exists_or_unavailable' : 'atomic_publish_unavailable',
@@ -275,7 +289,7 @@ class LocalFileExecutionService
                             || (($targetStat['mode'] ?? 0) & 0170000) !== 0100000
                             || ($targetStat['dev'] ?? null) !== ($stagingIdentity['dev'] ?? null)
                             || ($targetStat['ino'] ?? null) !== ($stagingIdentity['ino'] ?? null)) {
-                            @unlink($publishWitnessName);
+                            $removeOwnedWitness();
 
                             return [
                                 'published' => false,
@@ -302,7 +316,7 @@ class LocalFileExecutionService
                             && ($currentLstat['dev'] ?? null) === ($targetStat['dev'] ?? null)
                             && ($currentLstat['ino'] ?? null) === ($targetStat['ino'] ?? null);
                         if (!$pathStillOwned) {
-                            @unlink($publishWitnessName);
+                            $removeOwnedWitness();
 
                             return [
                                 'published' => false,
@@ -317,10 +331,9 @@ class LocalFileExecutionService
                             $removeLstat = @lstat($filename);
                             $stillOwned = false !== $removeLstat
                                 && (($removeLstat['mode'] ?? 0) & 0170000) === 0100000
-                                && ($removeLstat['dev'] ?? null) === ($targetStat['dev'] ?? null)
-                                && ($removeLstat['ino'] ?? null) === ($targetStat['ino'] ?? null);
+                                && ($removeLstat['dev'] ?? null) === ($targetStat['dev'] ?? null)                                && ($removeLstat['ino'] ?? null) === ($targetStat['ino'] ?? null);
                             if (!$stillOwned) {
-                                @unlink($publishWitnessName);
+                                $removeOwnedWitness();
 
                                 return [
                                     'published' => false,
@@ -339,7 +352,7 @@ class LocalFileExecutionService
                                 ];
                             }
 
-                            @unlink($publishWitnessName);
+                            $removeOwnedWitness();
 
                             return [
                                 'published' => false,
@@ -348,7 +361,13 @@ class LocalFileExecutionService
                             ];
                         }
 
-                        @unlink($publishWitnessName);
+                        if (!$removeOwnedWitness()) {
+                            return [
+                                'published' => true,
+                                'failure' => null,
+                                'hash' => false,
+                            ];
+                        }
 
                         return [
                             'published' => true,
@@ -637,8 +656,7 @@ class LocalFileExecutionService
     {
         $interview = $this->interviews->get($interviewId);
         $proposal = $this->proposals->latest($interview);        if (null === $proposal || Proposal::APPROVED !== $proposal->getStatus()) {
-            throw new \DomainException('An approved proposal is required before execution.');
-        }        $authorization = $this->authorizations->forProposal($proposal);
+            throw new \DomainException('An approved proposal is required before execution.');        }        $authorization = $this->authorizations->forProposal($proposal);
         if (null === $authorization || Authorization::AUTHORIZED !== $authorization->getStatus()) {
             throw new \DomainException('An authorized resource/effect scope is required before execution.');
         }
