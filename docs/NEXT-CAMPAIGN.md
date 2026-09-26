@@ -39,12 +39,12 @@ Code-enforced boundaries:
 
 - the latest proposal must be approved;
 - its authorization must be `authorized`;
-- authorization resources must include filesystem write capability;
-- authorization effects must explicitly permit one local file (including the
-  bounded smoke-test wording “Create one local test file”);
+- authorization resources must include the exact canonical capability `Local filesystem write access`;
+- authorization effects must exactly permit `Create one local file` or `Create one local test file`;
 - filenames are 1–120 safe characters and contain no directory separators;
 - output is confined to `var/execution/`;
 - existing targets are never overwritten;
+- authorization limits must include `One new local file only` and `No overwrite`; unknown limits fail closed because this executor cannot claim to enforce them;
 - content is limited to 32 KiB;
 - one authorization permits one execution attempt;
 - an `ExecutionAttempt` is persisted before filesystem I/O;
@@ -54,11 +54,10 @@ Code-enforced boundaries:
 
 Interruption behavior is deliberately conservative. A prepared attempt is never
 automatically retried. On reopen, recovery may only inspect the expected target:
-matching content/hash closes the attempt as succeeded; a mismatched existing file
-fails closed; an absent file leaves the attempt prepared.
+a merely PREPARED attempt never claims success from an existing file; if a target exists before persisted effect-start evidence, recovery fails closed. Only an EFFECT_STARTED attempt may be reconciled by comparing the target hash. A missing PREPARED target remains prepared and is never retried automatically.
 
 PostgreSQL CI passes migrations, schema validation,
-**55 tests / 422 assertions**, and full migration rollback/reapply.
+**58 tests / 429 assertions**, and full migration rollback/reapply.
 
 ## Current source map
 
