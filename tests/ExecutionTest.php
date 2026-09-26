@@ -72,14 +72,14 @@ class ExecutionTest extends KernelTestCase
             $this->executionService->execute($interview->getId(), 'imperium-exec.txt', 'test');
             self::fail('Execution outside authorized effect was accepted.');
         } catch (\DomainException $exception) {
-            self::assertStringContainsString('does not permit', $exception->getMessage());
+            self::assertStringContainsString('no structured executable scope', $exception->getMessage());
         }
 
         self::assertFileDoesNotExist($this->executionDir.'/imperium-exec.txt');
         self::assertSame(0, $this->http->getRequestsCount());
     }
 
-    public function testNegatedFilesystemResourceDoesNotGrantCapability(): void
+    public function testStructuredScopeDoesNotDependOnProposalResourceWording(): void
     {
         [$interview, $authorization, $proposal] = $this->authorizedFixture();
 
@@ -93,87 +93,40 @@ class ExecutionTest extends KernelTestCase
             'deliverable' => 'One local file.',
             'steps' => ['Create the file.'],
             'acceptanceCriteria' => ['The file exists.'],
-            'resourceRequirements' => ['No filesystem write access.'],
-            'limits' => ['One new local file only.', 'No overwrite.'],
+            'resourceRequirements' => ['Human-readable resource wording can vary.'],
+            'limits' => ['Human-readable plan limit context.'],
             'unresolvedAssumptions' => [],
         ]);
         $replacement->approve();
         $this->proposals->save($replacement);
         $replacementAuthorization = $this->authorizationService->request($interview->getId(), 'Create one local test file');
-        $this->authorizationService->decide($interview->getId(), $replacementAuthorization->getId(), true);
+        $replacementAuthorization = $this->authorizationService->decide($interview->getId(), $replacementAuthorization->getId(), true);
 
-        try {
-            $this->executionService->execute($interview->getId(), 'imperium-exec.txt', 'test');
-            self::fail('Negated filesystem capability was treated as permission.');
-        } catch (\DomainException $exception) {
-            self::assertStringContainsString('exact supported capability', $exception->getMessage());
-        }
+        self::assertSame('filesystem.write.public_output', $replacementAuthorization->getExecutionScope()['capability'] ?? null);
 
-        self::assertFileDoesNotExist($this->executionDir.'/imperium-exec.txt');
+        $attempt = $this->executionService->execute($interview->getId(), 'imperium-exec.txt', 'test');
+
+        self::assertSame(ExecutionAttempt::SUCCEEDED, $attempt->getStatus());
+        self::assertSame('test', file_get_contents($this->executionDir.'/imperium-exec.txt'));
     }
 
-    public function testNoExternalPublicationLimitRefusesPublicOutput(): void
+    public function testLegacyAuthorizationWithoutStructuredScopeCannotExecute(): void
     {
         [$interview, $authorization, $proposal] = $this->authorizedFixture();
 
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $em->remove($authorization);
-        $em->remove($proposal);
         $em->flush();
 
-        $replacement = new Proposal($interview, 2, $interview->getVersion(), [
-            'objective' => 'Create one local test file.',
-            'deliverable' => 'One local file.',
-            'steps' => ['Create the file.'],
-            'acceptanceCriteria' => ['The file exists.'],
-            'resourceRequirements' => ['Local filesystem write access.'],
-            'limits' => ['One new local file only.', 'No overwrite.', 'No external publication.'],
-            'unresolvedAssumptions' => [],
-        ]);
-        $replacement->approve();
-        $this->proposals->save($replacement);
-        $replacementAuthorization = $this->authorizationService->request($interview->getId(), 'Create one local test file');
-        $this->authorizationService->decide($interview->getId(), $replacementAuthorization->getId(), true);
+        $legacy = new Authorization($proposal, ['Create one local test file']);
+        $legacy->decide(true);
+        $this->authorizations->save($legacy);
 
         try {
             $this->executionService->execute($interview->getId(), 'imperium-exec.txt', 'test');
-            self::fail('Public output was allowed despite no-publication limit.');
+            self::fail('Legacy free-form authorization executed without structured scope.');
         } catch (\DomainException $exception) {
-            self::assertStringContainsString('public/output', $exception->getMessage());
-            self::assertStringContainsString('No external publication', $exception->getMessage());
-        }
-
-        self::assertFileDoesNotExist($this->executionDir.'/imperium-exec.txt');
-    }
-
-    public function testUnknownProposalLimitFailsClosed(): void
-    {
-        [$interview, $authorization, $proposal] = $this->authorizedFixture();
-
-        $em = self::getContainer()->get(EntityManagerInterface::class);
-        $em->remove($authorization);
-        $em->remove($proposal);
-        $em->flush();
-
-        $replacement = new Proposal($interview, 2, $interview->getVersion(), [
-            'objective' => 'Create one local test file.',
-            'deliverable' => 'One local file.',
-            'steps' => ['Create the file.'],
-            'acceptanceCriteria' => ['The file exists.'],
-            'resourceRequirements' => ['Local filesystem write access.'],
-            'limits' => ['One new local file only.', 'No overwrite.', 'Markdown files only.'],
-            'unresolvedAssumptions' => [],
-        ]);
-        $replacement->approve();
-        $this->proposals->save($replacement);
-        $replacementAuthorization = $this->authorizationService->request($interview->getId(), 'Create one local test file');
-        $this->authorizationService->decide($interview->getId(), $replacementAuthorization->getId(), true);
-
-        try {
-            $this->executionService->execute($interview->getId(), 'imperium-exec.txt', 'test');
-            self::fail('Unrecognized proposal limit was ignored.');
-        } catch (\DomainException $exception) {
-            self::assertStringContainsString('cannot enforce', $exception->getMessage());
+            self::assertStringContainsString('no structured executable scope', $exception->getMessage());
         }
 
         self::assertFileDoesNotExist($this->executionDir.'/imperium-exec.txt');
