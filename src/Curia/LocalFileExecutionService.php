@@ -105,25 +105,36 @@ class LocalFileExecutionService
 
     public function reconcile(string $interviewId): ?ExecutionAttempt
     {
-        [$authorization] = $this->authorizedContext($interviewId);
-        $attempt = $this->executions->forAuthorization($authorization);
-        if (null === $attempt || ExecutionAttempt::PREPARED !== $attempt->getStatus()) {
-            return $attempt;
+        $lock = $this->lockFactory->createLock('imperium.interview.'.$interviewId);
+        if (!$lock->acquire()) {
+            throw new \DomainException('This interview is being updated by another process. Try again after it finishes.');
         }
 
-        $path = $this->projectDir.'/'.$attempt->getTargetPath();
-        if (!is_file($path)) {
-            return $attempt;
-        }
+        try {
+            [$authorization] = $this->authorizedContext($interviewId);
+            $attempt = $this->executions->forAuthorization($authorization);
+            if (null === $attempt || ExecutionAttempt::PREPARED !== $attempt->getStatus()) {
+                return $attempt;
+            }
 
-        $actualHash = @hash_file('sha256', $path);
-        if ($actualHash === $attempt->getContentSha256()) {
-            $size = filesize($path);
-            $attempt->succeed(false === $size ? 0 : $size);
+            $path = $this->projectDir.'/'.$attempt->getTargetPath();
+            if (!is_file($path)) {
+                return $attempt;
+            }
+
+            $actualHash = @hash_file('sha256', $path);
+            if ($actualHash === $attempt->getContentSha256()) {
+                $size = filesize($path);
+                $attempt->succeed(false === $size ? 0 : $size);
+            } else {
+                $attempt->fail('recovery_hash_mismatch');
+            }
             $this->executions->save($attempt);
-        }
 
-        return $attempt;
+            return $attempt;
+        } finally {
+            $lock->release();
+        }
     }
 
     /** @return array{Authorization, Proposal} */
