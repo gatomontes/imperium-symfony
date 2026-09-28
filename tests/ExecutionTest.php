@@ -19,6 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\HttpClient\MockHttpClient;
+use Symfony\Component\Lock\LockFactory;
 
 class ExecutionTest extends KernelTestCase
 {
@@ -214,6 +215,42 @@ class ExecutionTest extends KernelTestCase
             if ($hadOriginal) {
                 rename($backup, $this->executionDir);
             }
+        }
+    }
+
+    public function testPublicExecutorRefusesSymlinkedPublicDirectoryBeforeAttempt(): void
+    {
+        [$interview, $authorization] = $this->authorizedFixture();
+
+        $project = sys_get_temp_dir().'/imperium-project-'.bin2hex(random_bytes(4));
+        $outside = sys_get_temp_dir().'/imperium-public-'.bin2hex(random_bytes(4));
+        mkdir($project);
+        mkdir($outside);
+        if (!@symlink($outside, $project.'/public')) {
+            rmdir($outside);
+            rmdir($project);
+            self::markTestSkipped('Directory symlinks are not available in this test environment.');
+        }
+
+        try {
+            $service = new LocalFileExecutionService(
+                $this->interviews,
+                $this->proposals,
+                $this->authorizations,
+                $this->executions,
+                self::getContainer()->get(LockFactory::class),
+                $project,
+            );
+
+            $this->expectException(\DomainException::class);
+            $this->expectExceptionMessage('authorized output root');
+            $service->execute($interview->getId(), 'imperium-exec.txt', 'must not escape');
+        } finally {
+            self::assertNull($this->executions->forAuthorization($authorization));
+            self::assertFileDoesNotExist($outside.'/output/imperium-exec.txt');
+            unlink($project.'/public');
+            rmdir($outside);
+            rmdir($project);
         }
     }
 

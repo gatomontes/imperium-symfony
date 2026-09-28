@@ -657,7 +657,8 @@ class LocalFileExecutionService
         $interview = $this->interviews->get($interviewId);
         $proposal = $this->proposals->latest($interview);
         if (null === $proposal || Proposal::APPROVED !== $proposal->getStatus()) {
-            throw new \DomainException('An approved proposal is required before execution.');        }
+            throw new \DomainException('An approved proposal is required before execution.');
+        }
 
         $authorization = $this->authorizations->forProposal($proposal);
         if (null === $authorization || Authorization::AUTHORIZED !== $authorization->getStatus()) {
@@ -667,7 +668,8 @@ class LocalFileExecutionService
         return [$authorization, $proposal];
     }
 
-    /** @return array{capability:string,effect:string,root:string,visibility:string,allowedExtensions:list<string>,maxFiles:int,overwrite:bool,maxBytes:int} */    private function assertScopeAllowsLocalFile(Authorization $authorization): array
+    /** @return array{capability:string,effect:string,root:string,visibility:string,allowedExtensions:list<string>,maxFiles:int,overwrite:bool,maxBytes:int} */
+    private function assertScopeAllowsLocalFile(Authorization $authorization): array
     {
         $scope = $authorization->getExecutionScope();
         if (null === $scope) {
@@ -752,7 +754,7 @@ class LocalFileExecutionService
         }
     }
 
-    private function removeStagingFile(string $stagingRoot, string $stagingName): void    private function removeStagingFile(string $stagingRoot, string $stagingName): void
+    private function removeStagingFile(string $stagingRoot, string $stagingName): void
     {
         try {
             $this->inAnchoredDirectory($stagingRoot, static function () use ($stagingName): void {
@@ -852,7 +854,8 @@ class LocalFileExecutionService
         }
 
         $publicRoot = realpath($publicPath);
-        if (false === $publicRoot || !is_dir($publicRoot) || !$this->isWithinRoot($publicRoot, $projectRoot)) {
+        if (false === $publicRoot || !is_dir($publicRoot)
+            || $publicRoot !== $projectRoot.DIRECTORY_SEPARATOR.'public') {
             throw new \DomainException('The authorized output root cannot be proven inside the project root.');
         }
 
@@ -881,7 +884,7 @@ class LocalFileExecutionService
         $resolvedOutput = realpath($outputPath);
         if (false === $publicRoot || false === $resolvedOutput
             || !is_dir($publicRoot) || !is_dir($resolvedOutput)
-            || !$this->isWithinRoot($publicRoot, $projectRoot)
+            || $publicRoot !== $projectRoot.DIRECTORY_SEPARATOR.'public'
             || !$this->isWithinRoot($resolvedOutput, $projectRoot)
             || $resolvedOutput !== $publicRoot.DIRECTORY_SEPARATOR.'output') {
             throw new \DomainException('The authorized output root cannot be proven inside the project root.');
