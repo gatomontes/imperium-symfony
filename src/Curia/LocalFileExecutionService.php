@@ -228,7 +228,7 @@ class LocalFileExecutionService
                             return false;
                         }
 
-                        return $removeOwnedWitness();
+                        return @unlink($publishWitnessName);
                     };
 
                     // The staging pathname can be replaced after verification. Create
@@ -332,7 +332,7 @@ class LocalFileExecutionService
                             $stillOwned = false !== $removeLstat
                                 && (($removeLstat['mode'] ?? 0) & 0170000) === 0100000
                                 && ($removeLstat['dev'] ?? null) === ($targetStat['dev'] ?? null)
-                            && ($removeLstat['ino'] ?? null) === ($targetStat['ino'] ?? null);
+                                && ($removeLstat['ino'] ?? null) === ($targetStat['ino'] ?? null);
                             if (!$stillOwned) {
                                 $removeOwnedWitness();
 
