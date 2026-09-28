@@ -372,6 +372,69 @@ class ExecutionTest extends KernelTestCase
         }
     }
 
+    public function testPublishedTargetLosesSuccessEvidenceWhenOutputRootMoves(): void
+    {
+        $project = sys_get_temp_dir().'/imperium-anchor-project-'.bin2hex(random_bytes(4));
+        $moved = sys_get_temp_dir().'/imperium-anchor-moved-'.bin2hex(random_bytes(4));
+        mkdir($project.'/public/output', 0775, true);
+        $root = realpath($project.'/public/output');
+        $target = $root.'/result.txt';
+        file_put_contents($target, 'complete');
+        $identity = stat($target);
+
+        $service = new LocalFileExecutionService(
+            $this->interviews,
+            $this->proposals,
+            $this->authorizations,
+            $this->executions,
+            self::getContainer()->get(LockFactory::class),
+            $project,
+        );
+        $method = new \ReflectionMethod(LocalFileExecutionService::class, 'publishedTargetMatches');
+
+        try {
+            self::assertTrue($method->invoke($service, $root, 'result.txt', $identity, hash('sha256', 'complete')));
+            rename($root, $moved);
+            mkdir($root);
+
+            self::assertFalse($method->invoke($service, $root, 'result.txt', $identity, hash('sha256', 'complete')));
+            self::assertSame('complete', file_get_contents($moved.'/result.txt'));
+        } finally {
+            @unlink($moved.'/result.txt');
+            if (is_dir($moved)) {
+                rmdir($moved);
+            }
+            if (is_dir($root)) {
+                rmdir($root);
+            }
+            rmdir($project.'/public');
+            rmdir($project);
+        }
+    }
+
+    public function testMountIdentityDistinguishesSeparateMountsWithEqualDeviceNumbers(): void
+    {
+        if ('Linux' !== PHP_OS_FAMILY) {
+            self::markTestSkipped('Mount identity is read from Linux mountinfo.');
+        }
+
+        $project = realpath(self::getContainer()->getParameter('kernel.project_dir'));
+        $output = realpath($this->executionDir);
+        if (false === $output) {
+            mkdir($this->executionDir, 0775, true);
+            $output = realpath($this->executionDir);
+        }
+        $mounts = [
+            '1 0 8:1 / / rw - ext4 /dev/sda rw',
+            '2 1 8:1 / '.$project.' rw - ext4 /dev/sda rw',
+            '3 2 8:1 / '.$output.' rw - ext4 /dev/sda rw',
+        ];
+        $method = new \ReflectionMethod(LocalFileExecutionService::class, 'mountIdForPath');
+
+        self::assertSame('2', $method->invoke($this->executionService, $project, $mounts));
+        self::assertSame('3', $method->invoke($this->executionService, $output, $mounts));
+    }
+
     public function testConfiguredPrivateStagingRootPublishesOnOutputFilesystem(): void
     {
         [$interview] = $this->authorizedFixture();
@@ -394,6 +457,45 @@ class ExecutionTest extends KernelTestCase
             self::assertSame(ExecutionAttempt::SUCCEEDED, $attempt->getStatus());
             self::assertSame('configured staging', file_get_contents($this->executionDir.'/imperium-exec.txt'));
             self::assertFileDoesNotExist($staging.'/'.$attempt->getId().'.tmp');
+        } finally {
+            rmdir($staging);
+        }
+    }
+
+    public function testConfiguredStagingOnAnotherMountIsRefusedBeforeWriting(): void
+    {
+        if ('Linux' !== PHP_OS_FAMILY || !is_dir('/dev/shm') || !is_writable('/dev/shm')) {
+            self::markTestSkipped('A separate private mount is required.');
+        }
+
+        if (!is_dir($this->executionDir)) {
+            mkdir($this->executionDir, 0775, true);
+        }
+        $mountMethod = new \ReflectionMethod(LocalFileExecutionService::class, 'sameMount');
+        if ($mountMethod->invoke($this->executionService, '/dev/shm', realpath($this->executionDir))) {
+            self::markTestSkipped('/dev/shm shares the output mount.');
+        }
+
+        [$interview] = $this->authorizedFixture();
+        $staging = '/dev/shm/imperium-staging-'.bin2hex(random_bytes(4));
+        mkdir($staging);
+
+        try {
+            $service = new LocalFileExecutionService(
+                $this->interviews,
+                $this->proposals,
+                $this->authorizations,
+                $this->executions,
+                self::getContainer()->get(LockFactory::class),
+                self::getContainer()->getParameter('kernel.project_dir'),
+                $staging,
+            );
+            $attempt = $service->execute($interview->getId(), 'imperium-exec.txt', 'must stay private');
+
+            self::assertSame(ExecutionAttempt::FAILED, $attempt->getStatus());
+            self::assertSame('staging_root_untrusted', $attempt->getFailureCode());
+            self::assertSame(['.', '..'], scandir($staging));
+            self::assertFileDoesNotExist($this->executionDir.'/imperium-exec.txt');
         } finally {
             rmdir($staging);
         }

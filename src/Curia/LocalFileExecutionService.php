@@ -429,6 +429,12 @@ class LocalFileExecutionService
                 return $attempt;
             }
 
+            if (!$this->publishedTargetMatches($root, $filename, $stagingIdentity, $attempt->getContentSha256())) {
+                // The output path or target changed after publication. Retain the
+                // staging inode and effect-start evidence for later reconciliation.
+                return $attempt;
+            }
+
             $attempt->succeed($written);
             $this->executions->save($attempt);
             if (!$witnessRetained) {
@@ -855,8 +861,7 @@ class LocalFileExecutionService
     private function stagingPathFor(string $outputRoot): string
     {
         $projectRoot = realpath($this->projectDir);
-        $outputStat = @stat($outputRoot);
-        if (false === $projectRoot || false === $outputStat) {
+        if (false === $projectRoot || !is_dir($outputRoot)) {
             throw new \DomainException('The execution staging filesystem cannot be determined.');
         }
 
@@ -865,13 +870,11 @@ class LocalFileExecutionService
         }
 
         $varRoot = realpath($projectRoot.'/var');
-        $varStat = false === $varRoot ? false : @stat($varRoot);
-        if (false !== $varStat && $varStat['dev'] === $outputStat['dev']) {
+        if (false !== $varRoot && $this->sameMount($varRoot, $outputRoot)) {
             return $projectRoot.'/var/execution-staging';
         }
 
-        $projectStat = @stat($projectRoot);
-        if (false !== $projectStat && $projectStat['dev'] === $outputStat['dev']) {
+        if ($this->sameMount($projectRoot, $outputRoot)) {
             return $projectRoot.'/.imperium-execution-staging';
         }
 
@@ -883,13 +886,11 @@ class LocalFileExecutionService
         $parent = dirname($stagingPath);
         $resolvedParent = realpath($parent);
         $publicRoot = realpath($this->projectDir.'/public');
-        $outputStat = @stat($outputRoot);
-        $parentStat = false === $resolvedParent ? false : @stat($resolvedParent);
-        if (false === $resolvedParent || false === $publicRoot || false === $outputStat
-            || false === $parentStat || !$this->samePath($resolvedParent, $parent)
+        if (false === $resolvedParent || false === $publicRoot
+            || !$this->samePath($resolvedParent, $parent)
             || is_link($stagingPath)
             || $this->isWithinRoot($resolvedParent, $publicRoot)
-            || $parentStat['dev'] !== $outputStat['dev']) {
+            || !$this->sameMount($resolvedParent, $outputRoot)) {
             throw new \DomainException('The execution staging root must be private and on the output filesystem.');
         }
 
@@ -904,13 +905,11 @@ class LocalFileExecutionService
         $stagingPath = $this->stagingPathFor($outputRoot);
         $resolved = realpath($stagingPath);
         $publicRoot = realpath($this->projectDir.'/public');
-        $outputStat = @stat($outputRoot);
-        $stagingStat = false === $resolved ? false : @stat($resolved);
-        if (false === $resolved || false === $publicRoot || false === $outputStat
-            || false === $stagingStat || !is_dir($resolved) || is_link($stagingPath)
+        if (false === $resolved || false === $publicRoot
+            || !is_dir($resolved) || is_link($stagingPath)
             || !$this->samePath($resolved, $stagingPath)
             || $this->isWithinRoot($resolved, $publicRoot)
-            || $stagingStat['dev'] !== $outputStat['dev']) {
+            || !$this->sameMount($resolved, $outputRoot)) {
             throw new \DomainException('The execution staging root cannot be resolved safely.');
         }
 
@@ -991,6 +990,109 @@ class LocalFileExecutionService
         $second = str_replace('\\', '/', $second);
 
         return DIRECTORY_SEPARATOR === '\\' ? strcasecmp($first, $second) === 0 : $first === $second;
+    }
+
+    private function sameMount(string $first, string $second): bool
+    {
+        if ('Linux' === PHP_OS_FAMILY) {
+            $mounts = @file('/proc/self/mountinfo', FILE_IGNORE_NEW_LINES);
+            if (false === $mounts) {
+                return false;
+            }
+
+            $firstId = $this->mountIdForPath($first, $mounts);
+            $secondId = $this->mountIdForPath($second, $mounts);
+
+            return null !== $firstId && $firstId === $secondId;
+        }
+
+        $firstStat = @stat($first);
+        $secondStat = @stat($second);
+
+        return false !== $firstStat && false !== $secondStat
+            && $firstStat['dev'] === $secondStat['dev'];
+    }
+
+    private function publishedTargetMatches(string $root, string $filename, array $ownedStat, string $expectedHash): bool
+    {
+        try {
+            if ($this->resolveAuthorizedOutputRoot('public/output') !== $root) {
+                return false;
+            }
+
+            return $this->inAnchoredDirectory($root, static function () use ($filename, $ownedStat, $expectedHash): bool {
+                clearstatcache(true, $filename);
+                $initial = @lstat($filename);
+                if (false === $initial || (($initial['mode'] ?? 0) & 0170000) !== 0100000
+                    || ($initial['dev'] ?? null) !== ($ownedStat['dev'] ?? null)
+                    || ($initial['ino'] ?? null) !== ($ownedStat['ino'] ?? null)) {
+                    return false;
+                }
+
+                $handle = @fopen($filename, 'rb');
+                if (false === $handle) {
+                    return false;
+                }
+
+                try {
+                    $opened = @fstat($handle);
+                    $hash = hash_init('sha256');
+                    if (false === $opened || false === hash_update_stream($hash, $handle)) {
+                        return false;
+                    }
+
+                    clearstatcache(true, $filename);
+                    $final = @lstat($filename);
+
+                    return false !== $final
+                        && (($final['mode'] ?? 0) & 0170000) === 0100000
+                        && ($opened['dev'] ?? null) === ($ownedStat['dev'] ?? null)
+                        && ($opened['ino'] ?? null) === ($ownedStat['ino'] ?? null)
+                        && ($final['dev'] ?? null) === ($ownedStat['dev'] ?? null)
+                        && ($final['ino'] ?? null) === ($ownedStat['ino'] ?? null)
+                        && hash_final($hash) === $expectedHash;
+                } finally {
+                    fclose($handle);
+                }
+            });
+        } catch (\DomainException) {
+            return false;
+        }
+    }
+
+    /** @param list<string> $mounts */
+    private function mountIdForPath(string $path, array $mounts): ?string
+    {
+        $resolved = realpath($path);
+        if (false === $resolved) {
+            return null;
+        }
+
+        $selectedId = null;
+        $selectedLength = -1;
+        foreach ($mounts as $line) {
+            $fields = explode(' ', $line);
+            if (count($fields) < 5) {
+                continue;
+            }
+
+            $mountPoint = preg_replace_callback(
+                '/\\\\([0-7]{3})/',
+                static fn (array $match): string => chr(octdec($match[1])),
+                $fields[4],
+            );
+            if (null === $mountPoint || ($resolved !== $mountPoint
+                && !str_starts_with($resolved, rtrim($mountPoint, '/').'/'))) {
+                continue;
+            }
+
+            if (strlen($mountPoint) > $selectedLength) {
+                $selectedId = $fields[0];
+                $selectedLength = strlen($mountPoint);
+            }
+        }
+
+        return $selectedId;
     }
 
     private function validateFilename(string $filename): string
