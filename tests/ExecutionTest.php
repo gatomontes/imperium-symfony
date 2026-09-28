@@ -644,6 +644,37 @@ class ExecutionTest extends KernelTestCase
         self::assertFileDoesNotExist($stagingPath);
     }
 
+    public function testStartedAttemptDoesNotAcceptSymlinkedStagingEvidence(): void
+    {
+        [$interview, $authorization] = $this->authorizedFixture();
+        $content = 'matching target without owned staging';
+        $attempt = new ExecutionAttempt($authorization, 'public/output/imperium-recover.txt', hash('sha256', $content));
+        $attempt->startEffect();
+        $this->executions->save($attempt);
+
+        if (!is_dir($this->executionDir)) {
+            mkdir($this->executionDir, 0775, true);
+        }
+        if (!is_dir($this->stagingDir)) {
+            mkdir($this->stagingDir, 0775, true);
+        }
+        $target = $this->executionDir.'/imperium-recover.txt';
+        $staging = $this->stagingDir.'/'.$attempt->getId().'.tmp';
+        file_put_contents($target, $content);
+        if (!@symlink($target, $staging)) {
+            self::markTestSkipped('File symlinks are not available in this test environment.');
+        }
+
+        try {
+            $reconciled = $this->executionService->reconcile($interview->getId());
+
+            self::assertSame(ExecutionAttempt::EFFECT_STARTED, $reconciled?->getStatus());
+            self::assertTrue(is_link($staging));
+        } finally {
+            unlink($staging);
+        }
+    }
+
     public function testStartedAttemptWithMismatchedFileFailsClosed(): void
     {
         [$interview, $authorization] = $this->authorizedFixture();

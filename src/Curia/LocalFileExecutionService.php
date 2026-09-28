@@ -560,16 +560,39 @@ class LocalFileExecutionService
                 }
             });
             $stagingEvidence = $this->inAnchoredDirectory($stagingRoot, static function () use ($stagingName): ?array {
-                $lstat = @lstat($stagingName);
-                if (false === $lstat) {
+                $initialLstat = @lstat($stagingName);
+                if (false === $initialLstat) {
                     return null;
                 }
 
-                if ((($lstat['mode'] ?? 0) & 0170000) === 0120000) {
+                if ((($initialLstat['mode'] ?? 0) & 0170000) === 0120000) {
                     return ['symlink' => true, 'stat' => false];
                 }
+                if ((($initialLstat['mode'] ?? 0) & 0170000) !== 0100000) {
+                    return ['symlink' => false, 'stat' => false];
+                }
 
-                return ['symlink' => false, 'stat' => @stat($stagingName)];
+                $handle = @fopen($stagingName, 'rb');
+                if (false === $handle) {
+                    return ['symlink' => false, 'stat' => false];
+                }
+
+                try {
+                    $stat = @fstat($handle);
+                    $finalLstat = @lstat($stagingName);
+                    if (false === $stat || false === $finalLstat
+                        || (($finalLstat['mode'] ?? 0) & 0170000) !== 0100000
+                        || ($initialLstat['dev'] ?? null) !== ($stat['dev'] ?? null)
+                        || ($initialLstat['ino'] ?? null) !== ($stat['ino'] ?? null)
+                        || ($finalLstat['dev'] ?? null) !== ($stat['dev'] ?? null)
+                        || ($finalLstat['ino'] ?? null) !== ($stat['ino'] ?? null)) {
+                        return ['symlink' => false, 'stat' => false];
+                    }
+
+                    return ['symlink' => false, 'stat' => $stat];
+                } finally {
+                    fclose($handle);
+                }
             });
 
             if (true === ($stagingEvidence['symlink'] ?? false)) {
