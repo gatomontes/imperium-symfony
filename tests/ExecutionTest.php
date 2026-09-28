@@ -342,6 +342,63 @@ class ExecutionTest extends KernelTestCase
         self::assertFileDoesNotExist($this->executionDir.'/.imperium-'.$attempt->getId().'.publish');
     }
 
+    public function testDirectoryAnchorDetectsReplacementDuringOperation(): void
+    {
+        $project = self::getContainer()->getParameter('kernel.project_dir');
+        $directory = $project.'/var/imperium-anchor-'.bin2hex(random_bytes(4));
+        $moved = $directory.'.moved';
+        mkdir($directory);
+
+        try {
+            $method = new \ReflectionMethod(LocalFileExecutionService::class, 'inAnchoredDirectory');
+            try {
+                $method->invoke($this->executionService, realpath($directory), static function () use ($directory, $moved): void {
+                    if (!@rename($directory, $moved)) {
+                        self::markTestSkipped('The test environment cannot rename an active directory.');
+                    }
+                    mkdir($directory);
+                });
+                self::fail('A replaced execution directory remained trusted.');
+            } catch (\DomainException $exception) {
+                self::assertStringContainsString('moved during', $exception->getMessage());
+            }
+        } finally {
+            if (is_dir($directory)) {
+                rmdir($directory);
+            }
+            if (is_dir($moved)) {
+                rmdir($moved);
+            }
+        }
+    }
+
+    public function testConfiguredPrivateStagingRootPublishesOnOutputFilesystem(): void
+    {
+        [$interview] = $this->authorizedFixture();
+        $project = self::getContainer()->getParameter('kernel.project_dir');
+        $staging = realpath($project).'/imperium-staging-'.bin2hex(random_bytes(4));
+        mkdir($staging);
+
+        try {
+            $service = new LocalFileExecutionService(
+                $this->interviews,
+                $this->proposals,
+                $this->authorizations,
+                $this->executions,
+                self::getContainer()->get(LockFactory::class),
+                $project,
+                $staging,
+            );
+            $attempt = $service->execute($interview->getId(), 'imperium-exec.txt', 'configured staging');
+
+            self::assertSame(ExecutionAttempt::SUCCEEDED, $attempt->getStatus());
+            self::assertSame('configured staging', file_get_contents($this->executionDir.'/imperium-exec.txt'));
+            self::assertFileDoesNotExist($staging.'/'.$attempt->getId().'.tmp');
+        } finally {
+            rmdir($staging);
+        }
+    }
+
     public function testStagingCleanupLeavesAReplacementInodeUntouched(): void
     {
         if (!is_dir($this->stagingDir)) {
@@ -642,6 +699,37 @@ class ExecutionTest extends KernelTestCase
         self::assertSame(ExecutionAttempt::FAILED, $reconciled?->getStatus());
         self::assertSame('recovery_ownership_mismatch', $reconciled?->getFailureCode());
         self::assertFileDoesNotExist($stagingPath);
+    }
+
+    public function testStartedAttemptFailsWhenTargetIsANonregularEntry(): void
+    {
+        [$interview, $authorization] = $this->authorizedFixture();
+        $attempt = new ExecutionAttempt($authorization, 'public/output/imperium-nonregular.txt', hash('sha256', 'payload'));
+        $attempt->startEffect();
+        $this->executions->save($attempt);
+
+        if (!is_dir($this->executionDir)) {
+            mkdir($this->executionDir, 0775, true);
+        }
+        if (!is_dir($this->stagingDir)) {
+            mkdir($this->stagingDir, 0775, true);
+        }
+        $target = $this->executionDir.'/imperium-nonregular.txt';
+        $staging = $this->stagingDir.'/'.$attempt->getId().'.tmp';
+        mkdir($target);
+        file_put_contents($staging, 'payload');
+
+        try {
+            $reconciled = $this->executionService->reconcile($interview->getId());
+
+            self::assertSame(ExecutionAttempt::FAILED, $reconciled?->getStatus());
+            self::assertSame('recovery_ownership_mismatch', $reconciled?->getFailureCode());
+            self::assertDirectoryExists($target);
+            self::assertFileDoesNotExist($staging);
+        } finally {
+            rmdir($target);
+            @unlink($staging);
+        }
     }
 
     public function testStartedAttemptDoesNotAcceptSymlinkedStagingEvidence(): void

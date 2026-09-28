@@ -24,6 +24,8 @@ class LocalFileExecutionService
         private LockFactory $lockFactory,
         #[Autowire(param: 'kernel.project_dir')]
         private string $projectDir,
+        #[Autowire('%env(default::IMPERIUM_EXECUTION_STAGING_DIR)%')]
+        private ?string $configuredStagingRoot = null,
     ) {
     }
 
@@ -48,7 +50,6 @@ class LocalFileExecutionService
             }
 
             $this->assertAuthorizedOutputPathIsSafe($scope['root']);
-            $this->assertStagingPathIsSafe();
 
             $relativePath = $scope['root'].'/'.$filename;
             $attempt = new ExecutionAttempt($authorization, $relativePath, hash('sha256', $content));
@@ -71,7 +72,15 @@ class LocalFileExecutionService
                 return $attempt;
             }
 
-            $stagingRoot = $this->projectDir.'/var/execution-staging';
+            try {
+                $stagingRoot = $this->stagingPathFor($root);
+                $this->assertStagingPathIsSafe($stagingRoot, $root);
+            } catch (\DomainException) {
+                $attempt->fail('staging_root_untrusted');
+                $this->executions->save($attempt);
+
+                return $attempt;
+            }
             if (!is_dir($stagingRoot) && !mkdir($stagingRoot, 0775, true) && !is_dir($stagingRoot)) {
                 $attempt->fail('execution_directory_unavailable');
                 $this->executions->save($attempt);
@@ -381,10 +390,8 @@ class LocalFileExecutionService
                 });
             } catch (\DomainException) {
                 fclose($stagingHandle);
-                $this->removeStagingFile($stagingRoot, $stagingName, $stagingIdentity);
-                $attempt->fail('execution_root_untrusted');
-                $this->executions->save($attempt);
-
+                // Publication may have occurred before the directory moved.
+                // Retain effect-start evidence and its staging inode for review.
                 return $attempt;
             }
 
@@ -449,9 +456,9 @@ class LocalFileExecutionService
             $publishWitnessName = '.imperium-'.$attempt->getId().'.publish';
 
             if (in_array($attempt->getStatus(), [ExecutionAttempt::SUCCEEDED, ExecutionAttempt::FAILED], true)) {
-                $stagingPath = $this->projectDir.'/var/execution-staging';
-                if (is_dir($stagingPath) && !is_link($stagingPath)) {
-                    try {
+                try {
+                    $stagingPath = $this->stagingPathFor($this->resolveAuthorizedOutputRoot($scope['root']));
+                    if (is_dir($stagingPath) && !is_link($stagingPath)) {
                         $stagingRoot = $this->resolveStagingRoot();
                         $stagingEvidence = $this->stagingFileEvidence($stagingRoot, $stagingName);
                         if (false === $stagingEvidence['exists']) {
@@ -466,9 +473,9 @@ class LocalFileExecutionService
                         if ($this->removePublishWitnessIfOwned($root, $publishWitnessName, $stagingStat)) {
                             $this->removeStagingFile($stagingRoot, $stagingName, $stagingStat);
                         }
-                    } catch (\DomainException) {
-                        // Terminal evidence remains authoritative; cleanup can be retried later.
                     }
+                } catch (\DomainException) {
+                    // Terminal evidence remains authoritative; cleanup can be retried later.
                 }
 
                 return $attempt;
@@ -479,14 +486,14 @@ class LocalFileExecutionService
             }
 
             if (ExecutionAttempt::PREPARED === $attempt->getStatus()) {
-                $stagingPath = $this->projectDir.'/var/execution-staging';
-                if (is_dir($stagingPath) && !is_link($stagingPath)) {
-                    try {
+                try {
+                    $stagingPath = $this->stagingPathFor($this->resolveAuthorizedOutputRoot($scope['root']));
+                    if (is_dir($stagingPath) && !is_link($stagingPath)) {
                         $stagingRoot = $this->resolveStagingRoot();
                         $this->removeStagingFile($stagingRoot, $stagingName);
-                    } catch (\DomainException) {
-                        // PREPARED has no effect-start evidence; cleanup is best-effort.
                     }
+                } catch (\DomainException) {
+                    // PREPARED has no effect-start evidence; cleanup is best-effort.
                 }
 
                 $outputPath = $this->projectDir.'/'.$scope['root'];
@@ -521,7 +528,7 @@ class LocalFileExecutionService
                     return ['symlink' => true, 'stat' => false, 'hash' => false];
                 }
                 if ((($initialLstat['mode'] ?? 0) & 0170000) !== 0100000) {
-                    return ['symlink' => false, 'stat' => false, 'hash' => false];
+                    return ['symlink' => false, 'nonregular' => true, 'stat' => false, 'hash' => false];
                 }
 
                 $handle = @fopen($filename, 'rb');
@@ -610,6 +617,15 @@ class LocalFileExecutionService
 
             if (true === ($targetEvidence['symlink'] ?? false)) {
                 $attempt->fail('recovery_target_symlink');
+                $this->executions->save($attempt);
+                if (is_array($stagingStat)) {
+                    $this->removeStagingFile($stagingRoot, $stagingName, $stagingStat);
+                }
+
+                return $attempt;
+            }
+            if (true === ($targetEvidence['nonregular'] ?? false)) {
+                $attempt->fail('recovery_ownership_mismatch');
                 $this->executions->save($attempt);
                 if (is_array($stagingStat)) {
                     $this->removeStagingFile($stagingRoot, $stagingName, $stagingStat);
@@ -814,7 +830,16 @@ class LocalFileExecutionService
                 throw new \DomainException('The execution directory changed before the filesystem operation.');
             }
 
-            return $operation();
+            $result = $operation();
+            clearstatcache(true);
+            $currentDirectory = realpath('.');
+            $namedDirectory = realpath($expectedDirectory);
+            if (false === $currentDirectory || $currentDirectory !== $expectedDirectory
+                || $namedDirectory !== $expectedDirectory) {
+                throw new \DomainException('The execution directory moved during the filesystem operation.');
+            }
+
+            return $result;
         } finally {
             if (!@chdir($previousDirectory)) {
                 throw new \RuntimeException('Could not restore the process working directory after execution.');
@@ -822,23 +847,45 @@ class LocalFileExecutionService
         }
     }
 
-    private function assertStagingPathIsSafe(): void
+    private function stagingPathFor(string $outputRoot): string
     {
         $projectRoot = realpath($this->projectDir);
-        if (false === $projectRoot || !is_dir($projectRoot)) {
-            throw new \DomainException('The project root cannot be resolved safely.');
+        $outputStat = @stat($outputRoot);
+        if (false === $projectRoot || false === $outputStat) {
+            throw new \DomainException('The execution staging filesystem cannot be determined.');
         }
 
-        $varPath = $this->projectDir.'/var';
-        $stagingPath = $varPath.'/execution-staging';
-        if (is_link($varPath) || is_link($stagingPath)) {
-            throw new \DomainException('The execution staging root cannot pass through a symlink.');
+        if (null !== $this->configuredStagingRoot && '' !== $this->configuredStagingRoot) {
+            return rtrim($this->configuredStagingRoot, '/\\');
         }
 
-        $varRoot = realpath($varPath);
-        if (false === $varRoot || !is_dir($varRoot)
-            || $varRoot !== $projectRoot.DIRECTORY_SEPARATOR.'var') {
-            throw new \DomainException('The execution staging root cannot be proven inside the project root.');
+        $varRoot = realpath($projectRoot.'/var');
+        $varStat = false === $varRoot ? false : @stat($varRoot);
+        if (false !== $varStat && $varStat['dev'] === $outputStat['dev']) {
+            return $projectRoot.'/var/execution-staging';
+        }
+
+        $projectStat = @stat($projectRoot);
+        if (false !== $projectStat && $projectStat['dev'] === $outputStat['dev']) {
+            return $projectRoot.'/.imperium-execution-staging';
+        }
+
+        throw new \DomainException('A private staging directory on the output filesystem is required.');
+    }
+
+    private function assertStagingPathIsSafe(string $stagingPath, string $outputRoot): void
+    {
+        $parent = dirname($stagingPath);
+        $resolvedParent = realpath($parent);
+        $publicRoot = realpath($this->projectDir.'/public');
+        $outputStat = @stat($outputRoot);
+        $parentStat = false === $resolvedParent ? false : @stat($resolvedParent);
+        if (false === $resolvedParent || false === $publicRoot || false === $outputStat
+            || false === $parentStat || !$this->samePath($resolvedParent, $parent)
+            || is_link($stagingPath)
+            || $this->isWithinRoot($resolvedParent, $publicRoot)
+            || $parentStat['dev'] !== $outputStat['dev']) {
+            throw new \DomainException('The execution staging root must be private and on the output filesystem.');
         }
 
         if (is_dir($stagingPath)) {
@@ -848,29 +895,21 @@ class LocalFileExecutionService
 
     private function resolveStagingRoot(): string
     {
-        $projectRoot = realpath($this->projectDir);
-        $varPath = $this->projectDir.'/var';
-        $stagingPath = $varPath.'/execution-staging';
-        if (false === $projectRoot || is_link($varPath) || is_link($stagingPath)) {
+        $outputRoot = $this->resolveAuthorizedOutputRoot('public/output');
+        $stagingPath = $this->stagingPathFor($outputRoot);
+        $resolved = realpath($stagingPath);
+        $publicRoot = realpath($this->projectDir.'/public');
+        $outputStat = @stat($outputRoot);
+        $stagingStat = false === $resolved ? false : @stat($resolved);
+        if (false === $resolved || false === $publicRoot || false === $outputStat
+            || false === $stagingStat || !is_dir($resolved) || is_link($stagingPath)
+            || !$this->samePath($resolved, $stagingPath)
+            || $this->isWithinRoot($resolved, $publicRoot)
+            || $stagingStat['dev'] !== $outputStat['dev']) {
             throw new \DomainException('The execution staging root cannot be resolved safely.');
         }
 
-        $varRoot = realpath($varPath);
-        $stagingRoot = realpath($stagingPath);
-        if (false === $varRoot || false === $stagingRoot
-            || !is_dir($varRoot) || !is_dir($stagingRoot)
-            || $varRoot !== $projectRoot.DIRECTORY_SEPARATOR.'var'
-            || $stagingRoot !== $varRoot.DIRECTORY_SEPARATOR.'execution-staging'
-            || !$this->isWithinRoot($stagingRoot, $projectRoot)) {
-            throw new \DomainException('The execution staging root cannot be proven inside the project root.');
-        }
-
-        $publicRoot = realpath($this->projectDir.'/public');
-        if (false !== $publicRoot && $this->isWithinRoot($stagingRoot, $publicRoot)) {
-            throw new \DomainException('The execution staging root must remain outside the public document root.');
-        }
-
-        return $stagingRoot;
+        return $resolved;
     }
 
     private function assertAuthorizedOutputPathIsSafe(string $authorizedRoot): void
@@ -939,6 +978,14 @@ class LocalFileExecutionService
     private function isWithinRoot(string $path, string $root): bool
     {
         return $path === $root || str_starts_with($path, $root.DIRECTORY_SEPARATOR);
+    }
+
+    private function samePath(string $first, string $second): bool
+    {
+        $first = str_replace('\\', '/', $first);
+        $second = str_replace('\\', '/', $second);
+
+        return DIRECTORY_SEPARATOR === '\\' ? strcasecmp($first, $second) === 0 : $first === $second;
     }
 
     private function validateFilename(string $filename): string

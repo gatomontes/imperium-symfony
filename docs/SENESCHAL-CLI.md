@@ -213,3 +213,11 @@ Public output is staged and verified outside the document root before atomic
 no-overwrite publication. A mission with execution evidence can no longer be deleted
 through the interview list; retained execution evidence remains the custody record for
 the public file.
+
+The private staging directory must be on the same filesystem as `public/output`
+because publication uses a hard link. Imperium uses `var/execution-staging` when
+it shares that filesystem, otherwise a private project-root directory. If the
+public directory is on a separate mount, set `IMPERIUM_EXECUTION_STAGING_DIR` to
+an existing, canonical private directory on that mount, outside the public
+document root. An untrusted or cross-filesystem staging path is refused before
+content is written.
