@@ -342,6 +342,32 @@ class ExecutionTest extends KernelTestCase
         self::assertFileDoesNotExist($this->executionDir.'/.imperium-'.$attempt->getId().'.publish');
     }
 
+    public function testStagingCleanupLeavesAReplacementInodeUntouched(): void
+    {
+        if (!is_dir($this->stagingDir)) {
+            mkdir($this->stagingDir, 0775, true);
+        }
+
+        $name = 'imperium-cleanup-'.bin2hex(random_bytes(4)).'.tmp';
+        $path = $this->stagingDir.'/'.$name;
+        $replacement = $path.'.replacement';
+        file_put_contents($path, 'owned');
+        $ownedStat = stat($path);
+        file_put_contents($replacement, 'replacement');
+
+        try {
+            unlink($path);
+            rename($replacement, $path);
+            $method = new \ReflectionMethod(LocalFileExecutionService::class, 'removeStagingFile');
+            $method->invoke($this->executionService, realpath($this->stagingDir), $name, $ownedStat);
+
+            self::assertSame('replacement', file_get_contents($path));
+        } finally {
+            @unlink($path);
+            @unlink($replacement);
+        }
+    }
+
     public function testSucceededAttemptRetriesStagingAndWitnessCleanupWhenMissionReopens(): void
     {
         [$interview, $authorization] = $this->authorizedFixture();

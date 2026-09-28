@@ -170,7 +170,7 @@ class LocalFileExecutionService
                 $targetExists = $this->inAnchoredDirectory($root, static fn (): bool => file_exists($filename));
             } catch (\DomainException) {
                 fclose($stagingHandle);
-                $this->removeStagingFile($stagingRoot, $stagingName);
+                $this->removeStagingFile($stagingRoot, $stagingName, $stagingIdentity);
                 $attempt->fail('execution_root_untrusted');
                 $this->executions->save($attempt);
 
@@ -179,7 +179,7 @@ class LocalFileExecutionService
 
             if ($targetExists) {
                 fclose($stagingHandle);
-                $this->removeStagingFile($stagingRoot, $stagingName);
+                $this->removeStagingFile($stagingRoot, $stagingName, $stagingIdentity);
                 $attempt->fail('target_exists_or_unavailable');
                 $this->executions->save($attempt);
 
@@ -197,7 +197,7 @@ class LocalFileExecutionService
                 $root = $this->resolveAuthorizedOutputRoot($scope['root']);
             } catch (\DomainException) {
                 fclose($stagingHandle);
-                $this->removeStagingFile($stagingRoot, $stagingName);
+                $this->removeStagingFile($stagingRoot, $stagingName, $stagingIdentity);
                 $attempt->fail('execution_root_untrusted');
                 $this->executions->save($attempt);
 
@@ -206,7 +206,7 @@ class LocalFileExecutionService
 
             if (!$sourceStillMatches) {
                 fclose($stagingHandle);
-                $this->removeStagingFile($stagingRoot, $stagingName);
+                $this->removeStagingFile($stagingRoot, $stagingName, $stagingIdentity);
                 $attempt->fail('staging_identity_changed_before_publish');
                 $this->executions->save($attempt);
 
@@ -381,7 +381,7 @@ class LocalFileExecutionService
                 });
             } catch (\DomainException) {
                 fclose($stagingHandle);
-                $this->removeStagingFile($stagingRoot, $stagingName);
+                $this->removeStagingFile($stagingRoot, $stagingName, $stagingIdentity);
                 $attempt->fail('execution_root_untrusted');
                 $this->executions->save($attempt);
 
@@ -401,7 +401,7 @@ class LocalFileExecutionService
 
             if (null !== $publishResult['failure']) {
                 if (!$witnessRetained) {
-                    $this->removeStagingFile($stagingRoot, $stagingName);
+                    $this->removeStagingFile($stagingRoot, $stagingName, $stagingIdentity);
                 }
                 $attempt->fail($publishResult['failure']);
                 $this->executions->save($attempt);
@@ -420,7 +420,7 @@ class LocalFileExecutionService
             $attempt->succeed($written);
             $this->executions->save($attempt);
             if (!$witnessRetained) {
-                $this->removeStagingFile($stagingRoot, $stagingName);
+                $this->removeStagingFile($stagingRoot, $stagingName, $stagingIdentity);
             }
 
             return $attempt;
@@ -754,10 +754,20 @@ class LocalFileExecutionService
         }
     }
 
-    private function removeStagingFile(string $stagingRoot, string $stagingName): void
+    private function removeStagingFile(string $stagingRoot, string $stagingName, ?array $ownedStat = null): void
     {
         try {
-            $this->inAnchoredDirectory($stagingRoot, static function () use ($stagingName): void {
+            $this->inAnchoredDirectory($stagingRoot, static function () use ($stagingName, $ownedStat): void {
+                clearstatcache(true, $stagingName);
+                $current = @lstat($stagingName);
+                if (false === $current || (($current['mode'] ?? 0) & 0170000) !== 0100000) {
+                    return;
+                }
+                if (null !== $ownedStat && (($current['dev'] ?? null) !== ($ownedStat['dev'] ?? null)
+                    || ($current['ino'] ?? null) !== ($ownedStat['ino'] ?? null))) {
+                    return;
+                }
+
                 @unlink($stagingName);
             });
         } catch (\DomainException) {

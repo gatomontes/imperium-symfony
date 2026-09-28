@@ -170,9 +170,12 @@ merge.
 
 ## First bounded execution campaign — 26 September 2026
 
-For an authorization whose recorded resources include filesystem write access and
-whose effect explicitly permits one local file, the CLI now offers
+For an authorization with the canonical structured `filesystem.write.public_output`
+scope, the CLI now offers
 **Create authorized local file**.
+
+The operator's effect selection creates that scope. Proposal resource wording is
+retained as context and is not an executable permission check.
 
 The operation accepts only a filename (no directories) and file contents. Output is
 confined to `public/output/`, content is limited to 32 KiB, and an existing target
