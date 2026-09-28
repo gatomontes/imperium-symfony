@@ -464,7 +464,7 @@ class LocalFileExecutionService
 
                         $root = $this->resolveAuthorizedOutputRoot($scope['root']);
                         if ($this->removePublishWitnessIfOwned($root, $publishWitnessName, $stagingStat)) {
-                            $this->removeStagingFile($stagingRoot, $stagingName);
+                            $this->removeStagingFile($stagingRoot, $stagingName, $stagingStat);
                         }
                     } catch (\DomainException) {
                         // Terminal evidence remains authoritative; cleanup can be retried later.
@@ -499,7 +499,7 @@ class LocalFileExecutionService
                 }
 
                 $root = $this->resolveAuthorizedOutputRoot($scope['root']);
-                $exists = $this->inAnchoredDirectory($root, static fn (): bool => is_file($filename));
+                $exists = $this->inAnchoredDirectory($root, static fn (): bool => false !== @lstat($filename));
                 if ($exists) {
                     $attempt->fail('prepared_target_exists_without_start_evidence');
                     $this->executions->save($attempt);
@@ -588,7 +588,9 @@ class LocalFileExecutionService
             if (true === ($targetEvidence['symlink'] ?? false)) {
                 $attempt->fail('recovery_target_symlink');
                 $this->executions->save($attempt);
-                $this->removeStagingFile($stagingRoot, $stagingName);
+                if (is_array($stagingStat)) {
+                    $this->removeStagingFile($stagingRoot, $stagingName, $stagingStat);
+                }
 
                 return $attempt;
             }
@@ -603,7 +605,8 @@ class LocalFileExecutionService
             if (($targetStat['dev'] ?? null) !== ($stagingStat['dev'] ?? null)
                 || ($targetStat['ino'] ?? null) !== ($stagingStat['ino'] ?? null)) {
                 $attempt->fail('recovery_ownership_mismatch');
-                $this->executions->save($attempt);                $this->removeStagingFile($stagingRoot, $stagingName);
+                $this->executions->save($attempt);
+                $this->removeStagingFile($stagingRoot, $stagingName, $stagingStat);
 
                 return $attempt;
             }
@@ -620,7 +623,7 @@ class LocalFileExecutionService
 
                 $attempt->succeed($size);
                 $this->executions->save($attempt);
-                $this->removeStagingFile($stagingRoot, $stagingName);
+                $this->removeStagingFile($stagingRoot, $stagingName, $stagingStat);
 
                 return $attempt;
             }
@@ -643,7 +646,7 @@ class LocalFileExecutionService
 
             $attempt->fail('recovery_hash_mismatch');
             $this->executions->save($attempt);
-            $this->removeStagingFile($stagingRoot, $stagingName);
+            $this->removeStagingFile($stagingRoot, $stagingName, $stagingStat);
 
             return $attempt;
         } finally {

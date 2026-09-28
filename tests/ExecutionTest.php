@@ -543,6 +543,29 @@ class ExecutionTest extends KernelTestCase
         self::assertSame($content, file_get_contents($this->executionDir.'/imperium-recover.txt'));
     }
 
+    public function testPreparedAttemptFailsWhenTargetNameIsOccupiedByDirectory(): void
+    {
+        [$interview, $authorization] = $this->authorizedFixture();
+        $attempt = new ExecutionAttempt($authorization, 'public/output/imperium-occupied.txt', hash('sha256', 'payload'));
+        $this->executions->save($attempt);
+
+        if (!is_dir($this->executionDir)) {
+            mkdir($this->executionDir, 0775, true);
+        }
+        $occupied = $this->executionDir.'/imperium-occupied.txt';
+        mkdir($occupied);
+
+        try {
+            $reconciled = $this->executionService->reconcile($interview->getId());
+
+            self::assertSame(ExecutionAttempt::FAILED, $reconciled?->getStatus());
+            self::assertSame('prepared_target_exists_without_start_evidence', $reconciled?->getFailureCode());
+            self::assertDirectoryExists($occupied);
+        } finally {
+            rmdir($occupied);
+        }
+    }
+
     public function testStartedAttemptCanReconcileMatchingFileWithoutRepeatingEffect(): void
     {
         [$interview, $authorization] = $this->authorizedFixture();
