@@ -113,6 +113,20 @@ class AuthorizationTest extends KernelTestCase
         self::assertSame($second->getId(), $this->authorizations->forProposal($proposal)?->getId());
     }
 
+    public function testPublicFileEffectConflictingWithNoPublicationIsRejected(): void
+    {
+        [$interview, $proposal] = $this->proposalFixture();
+
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage('conflicts with No external publication');
+
+        try {
+            $this->service->request($interview->getId(), 'Create one local file; No external publication.');
+        } finally {
+            self::assertNull($this->authorizations->forProposal($proposal));
+        }
+    }
+
     public function testAuthorizationDecisionIsPersistedAndCannotBeChanged(): void
     {
         [$interview, $proposal] = $this->proposalFixture();

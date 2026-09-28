@@ -67,6 +67,12 @@ class AuthorizationService
             $effects,
         );
 
+        if (in_array('no external publication', $normalized, true)
+            && (in_array('create one local file', $normalized, true)
+                || in_array('create one local test file', $normalized, true))) {
+            throw new \DomainException('Public file creation conflicts with No external publication.');
+        }
+
         if (!in_array('create one local file', $normalized, true)
             && !in_array('create one local test file', $normalized, true)) {
             return null;
