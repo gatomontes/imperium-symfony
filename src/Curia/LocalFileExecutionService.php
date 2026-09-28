@@ -50,6 +50,11 @@ class LocalFileExecutionService
             }
 
             $this->assertAuthorizedOutputPathIsSafe($scope['root']);
+            if (is_link($this->projectDir.'/var')
+                || is_link($this->projectDir.'/var/execution-staging')
+                || (null !== $this->configuredStagingRoot && is_link($this->configuredStagingRoot))) {
+                throw new \DomainException('The execution staging root cannot pass through a symlink.');
+            }
 
             $relativePath = $scope['root'].'/'.$filename;
             $attempt = new ExecutionAttempt($authorization, $relativePath, hash('sha256', $content));
